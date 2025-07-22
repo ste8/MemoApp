@@ -84,9 +84,18 @@ dotnet build
 # Run tests
 dotnet test
 
-# Try the console demo
-# (Add a console app project and call GameEngine.RunConsoleDemo())
+# Run the console training app
+cd MemoApp.UI.ConsoleApp
+dotnet run
 ```
+
+### Using the Console App
+
+The console interface provides:
+- **Quick Training**: Practice with numbers 00-09
+- **Custom Range**: Choose any range like "25" to "60" or "08" to "15"
+- **Major System Help**: Built-in reference for the consonant sound mappings
+- **Detailed Statistics**: See your response times and identify numbers that need more practice
 
 ---
 

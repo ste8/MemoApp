@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoApp.Core", "MemoApp.Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoApp.Core.Tests", "MemoApp.Core.Tests\MemoApp.Core.Tests.csproj", "{34381FBC-FC2A-407A-8C6E-5D2369E75032}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoApp.UI.ConsoleApp", "MemoApp.UI.ConsoleApp\MemoApp.UI.ConsoleApp.csproj", "{050F8555-5B41-4491-A215-F1D2F39C4412}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{34381FBC-FC2A-407A-8C6E-5D2369E75032}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34381FBC-FC2A-407A-8C6E-5D2369E75032}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34381FBC-FC2A-407A-8C6E-5D2369E75032}.Release|Any CPU.Build.0 = Release|Any CPU
+		{050F8555-5B41-4491-A215-F1D2F39C4412}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{050F8555-5B41-4491-A215-F1D2F39C4412}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{050F8555-5B41-4491-A215-F1D2F39C4412}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{050F8555-5B41-4491-A215-F1D2F39C4412}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
