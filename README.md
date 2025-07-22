@@ -1,21 +1,23 @@
+**_Created as an experiment for Vibe Coding_**
+
 # MemoApp - Mnemonic Major System Training
 
 A progressive training game for the **Mnemonic Major System** - a powerful memory technique that associates numbers (0-99) with memorable words or images.
 
-*Created as an experiment for Vibe Coding*
+
 
 ## What is the Major System?
 
 The Major System is a mnemonic technique for memorizing numbers by converting them into consonant sounds, which then form words or images. Each digit (0-9) corresponds to specific consonant sounds:
 
-- **0** → S, Z sounds
+- **0** → S, soft C, Z sounds
 - **1** → T, D sounds  
 - **2** → N sound
 - **3** → M sound
 - **4** → R sound
 - **5** → L sound
-- **6** → J, SH, CH sounds
-- **7** → K, G sounds
+- **6** → J, SH, CH, soft G sounds
+- **7** → K, hard C, hard G sounds
 - **8** → F, V sounds
 - **9** → P, B sounds
 
