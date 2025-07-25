@@ -34,6 +34,9 @@ public partial class TrainingSessionViewModel : BaseViewModel
     private int remainingNumbers;
 
     [ObservableProperty]
+    private double progressValue;
+
+    [ObservableProperty]
     private bool isSessionActive;
 
     [ObservableProperty]
@@ -125,6 +128,7 @@ public partial class TrainingSessionViewModel : BaseViewModel
         CurrentNumber = _gameSession.CurrentNumber?.Display ?? "";
         CompletedNumbers = _gameSession.CompletedNumbers;
         RemainingNumbers = _gameSession.RemainingNumbers;
+        ProgressValue = TotalNumbers > 0 ? (double)CompletedNumbers / TotalNumbers : 0.0;
         
         // Update performances collection for real-time display
         Performances.Clear();

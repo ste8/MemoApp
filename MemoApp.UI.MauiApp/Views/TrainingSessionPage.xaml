@@ -50,7 +50,7 @@
 
                             <!-- Progress bar with responsive sizing -->
                             <ProgressBar Grid.Row="1"
-                                        Progress="{Binding CompletedNumbers, Converter={StaticResource DivisionConverter}, ConverterParameter={Binding TotalNumbers}}"
+                                        Progress="{Binding ProgressValue}"
                                         ProgressColor="{StaticResource Primary}"
                                         HeightRequest="{OnIdiom Phone=8, Tablet=10, Desktop=12}"
                                         Margin="0,0,0,10" />
