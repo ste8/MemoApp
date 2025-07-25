@@ -9,7 +9,6 @@ namespace MemoApp.UI.MauiApp.ViewModels;
 /// ViewModel for displaying detailed session statistics.
 /// Shows performance data with responsive CollectionView layouts.
 /// </summary>
-[QueryProperty(nameof(Statistics), "statistics")]
 public partial class StatisticsViewModel : BaseViewModel
 {
     [ObservableProperty]
@@ -33,9 +32,23 @@ public partial class StatisticsViewModel : BaseViewModel
     [ObservableProperty]
     private string slowestNumberText = "";
 
+    private static SessionStatistics? _pendingStatistics;
+    
     public StatisticsViewModel()
     {
         Title = "Session Statistics";
+        
+        // Check if there are pending statistics to load
+        if (_pendingStatistics.HasValue)
+        {
+            Statistics = _pendingStatistics;
+            _pendingStatistics = null;
+        }
+    }
+    
+    public static void SetPendingStatistics(SessionStatistics statistics)
+    {
+        _pendingStatistics = statistics;
     }
 
     partial void OnStatisticsChanged(SessionStatistics? value)
@@ -68,16 +81,16 @@ public partial class StatisticsViewModel : BaseViewModel
         FastestNumberText = $"{Statistics.Value.FastestResponse.Number} ({Statistics.Value.FastestResponse.ResponseTime:ss\\.ff}s)";
         SlowestNumberText = $"{Statistics.Value.SlowestResponse.Number} ({Statistics.Value.SlowestResponse.ResponseTime:ss\\.ff}s)";
 
-        // Load all performances for detailed view (use slowest responses as a subset)
+        // Load all performances for detailed view
         AllPerformances.Clear();
-        foreach (var performance in Statistics.Value.SlowestResponses)
+        foreach (var performance in Statistics.Value.AllPerformances)
         {
             AllPerformances.Add(performance);
         }
 
         // Load slowest performances for focus areas
         SlowestPerformances.Clear();
-        foreach (var performance in Statistics.Value.SlowestResponses.Take(10))
+        foreach (var performance in Statistics.Value.SlowestResponses)
         {
             SlowestPerformances.Add(performance);
         }

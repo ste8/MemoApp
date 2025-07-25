@@ -106,12 +106,10 @@ public partial class TrainingSessionViewModel : BaseViewModel
     {
         if (SessionStatistics == null) return;
 
-        var parameters = new Dictionary<string, object>
-        {
-            { "statistics", SessionStatistics }
-        };
+        // Set the statistics data in the StatisticsViewModel
+        StatisticsViewModel.SetPendingStatistics(SessionStatistics.Value);
         
-        await Shell.Current.GoToAsync("statistics", parameters);
+        await Shell.Current.GoToAsync("statistics");
     }
 
     [RelayCommand]

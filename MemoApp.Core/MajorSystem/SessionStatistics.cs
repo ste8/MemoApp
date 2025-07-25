@@ -8,6 +8,7 @@ public readonly record struct SessionStatistics
     public NumberPerformance FastestResponse { get; }
     public NumberPerformance SlowestResponse { get; }
     public IReadOnlyList<NumberPerformance> SlowestResponses { get; }
+    public IReadOnlyList<NumberPerformance> AllPerformances { get; }
     public DateTime StartTime { get; }
     public DateTime EndTime { get; }
 
@@ -35,6 +36,11 @@ public readonly record struct SessionStatistics
         SlowestResponses = performanceList
             .OrderByDescending(p => p.ResponseTime)
             .Take(Math.Min(10, performanceList.Count))
+            .ToList()
+            .AsReadOnly();
+        
+        AllPerformances = performanceList
+            .OrderBy(p => p.Number)
             .ToList()
             .AsReadOnly();
     }
