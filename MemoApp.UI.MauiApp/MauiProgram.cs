@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using MemoApp.UI.MauiApp.ViewModels;
 using MemoApp.UI.MauiApp.Views;
+using MemoApp.Localization.Extensions;
 
 namespace MemoApp.UI.MauiApp;
 
@@ -16,6 +17,9 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
+
+		// Register localization services
+		builder.Services.AddLocalization();
 
 		// Register ViewModels and Views for dependency injection
 		builder.Services.AddSingleton<Views.TestPage>();

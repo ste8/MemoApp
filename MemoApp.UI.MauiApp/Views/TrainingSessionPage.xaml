@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              x:Class="MemoApp.UI.MauiApp.Views.TrainingSessionPage"
              x:DataType="viewmodels:TrainingSessionViewModel"
              Title="{Binding Title}">
@@ -43,7 +44,7 @@
                             </Grid.RowDefinitions>
 
                             <Label Grid.Row="0"
-                                   Text="Progress"
+                                   Text="{localization:Localize TrainingSession_Progress}"
                                    Style="{StaticResource SubHeadline}"
                                    HorizontalOptions="Center"
                                    Margin="0,0,0,15" />
@@ -88,7 +89,7 @@
                            HasShadow="True">
                         
                         <StackLayout Spacing="20">
-                            <Label Text="Current Number"
+                            <Label Text="{localization:Localize TrainingSession_CurrentNumber}"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
                                    HorizontalOptions="Center"
@@ -104,7 +105,7 @@
                                    HorizontalTextAlignment="Center"
                                    MinimumHeightRequest="{OnIdiom Phone=120, Tablet=160, Desktop=200}" />
 
-                            <Label Text="Think of your word/image association"
+                            <Label Text="{localization:Localize TrainingSession_ThinkInstruction}"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    HorizontalOptions="Center"
@@ -115,7 +116,7 @@
                     </Frame>
 
                     <!-- Action button with responsive sizing -->
-                    <Button Text="Next Number"
+                    <Button Text="{localization:Localize TrainingSession_NextNumber}"
                             Command="{Binding AdvanceToNextCommand}"
                             BackgroundColor="{StaticResource Secondary}"
                             TextColor="White"
@@ -131,7 +132,7 @@
                            CornerRadius="10"
                            HasShadow="False">
                         
-                        <Label Text="💡 Take your time to recall your Major System word or image for this number, then tap 'Next Number' to continue."
+                        <Label Text="{localization:Localize TrainingSession_HelpTip}"
                                TextColor="White"
                                FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                HorizontalTextAlignment="Center" />
@@ -149,17 +150,17 @@
                            HasShadow="True">
                         
                         <StackLayout Spacing="15">
-                            <Label Text="🎉"
+                            <Label Text="{localization:Localize TrainingSession_Celebration}"
                                    FontSize="{OnIdiom Phone=60, Tablet=80, Desktop=100}"
                                    HorizontalOptions="Center" />
 
-                            <Label Text="Session Complete!"
+                            <Label Text="{localization:Localize TrainingSession_Complete}"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
                                    FontAttributes="Bold"
                                    HorizontalOptions="Center" />
 
-                            <Label Text="Great job! You've completed all numbers in this range."
+                            <Label Text="{localization:Localize TrainingSession_CompletionMessage}"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    HorizontalOptions="Center"
@@ -186,7 +187,7 @@
                             </Grid.RowDefinitions>
 
                             <Label Grid.Row="0" Grid.ColumnSpan="2"
-                                   Text="Session Summary"
+                                   Text="{localization:Localize TrainingSession_SessionSummary}"
                                    Style="{StaticResource SubHeadline}"
                                    HorizontalOptions="Center"
                                    Margin="0,0,0,15" />
@@ -216,7 +217,7 @@
                     <!-- Action buttons with responsive layout -->
                     <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
                         <Button Grid.Column="0"
-                                Text="View Details"
+                                Text="{localization:Localize TrainingSession_ViewDetails}"
                                 Command="{Binding ShowStatisticsCommand}"
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="White"
@@ -224,7 +225,7 @@
                                 HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}" />
 
                         <Button Grid.Column="1"
-                                Text="New Session"
+                                Text="{localization:Localize TrainingSession_NewSession}"
                                 Command="{Binding StartNewSessionCommand}"
                                 BackgroundColor="{StaticResource Secondary}"
                                 TextColor="White"

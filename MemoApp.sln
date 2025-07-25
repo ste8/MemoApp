@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoApp.UI.ConsoleApp", "Me
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoApp.UI.MauiApp", "MemoApp.UI.MauiApp\MemoApp.UI.MauiApp.csproj", "{32E39D29-8DA5-4ACE-BDF3-97923560BB3E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoApp.Localization", "MemoApp.Localization\MemoApp.Localization.csproj", "{0EFC49B3-0C67-4593-B6D0-95875EFC2B1C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,18 @@ Global
 		{32E39D29-8DA5-4ACE-BDF3-97923560BB3E}.Release|x64.Build.0 = Release|Any CPU
 		{32E39D29-8DA5-4ACE-BDF3-97923560BB3E}.Release|x86.ActiveCfg = Release|Any CPU
 		{32E39D29-8DA5-4ACE-BDF3-97923560BB3E}.Release|x86.Build.0 = Release|Any CPU
+		{0EFC49B3-0C67-4593-B6D0-95875EFC2B1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EFC49B3-0C67-4593-B6D0-95875EFC2B1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EFC49B3-0C67-4593-B6D0-95875EFC2B1C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0EFC49B3-0C67-4593-B6D0-95875EFC2B1C}.Debug|x64.Build.0 = Debug|Any CPU
+		{0EFC49B3-0C67-4593-B6D0-95875EFC2B1C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0EFC49B3-0C67-4593-B6D0-95875EFC2B1C}.Debug|x86.Build.0 = Debug|Any CPU
+		{0EFC49B3-0C67-4593-B6D0-95875EFC2B1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EFC49B3-0C67-4593-B6D0-95875EFC2B1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EFC49B3-0C67-4593-B6D0-95875EFC2B1C}.Release|x64.ActiveCfg = Release|Any CPU
+		{0EFC49B3-0C67-4593-B6D0-95875EFC2B1C}.Release|x64.Build.0 = Release|Any CPU
+		{0EFC49B3-0C67-4593-B6D0-95875EFC2B1C}.Release|x86.ActiveCfg = Release|Any CPU
+		{0EFC49B3-0C67-4593-B6D0-95875EFC2B1C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              x:Class="MemoApp.UI.MauiApp.Views.MainPage"
              x:DataType="viewmodels:MainViewModel"
              Title="{Binding Title}">
@@ -28,12 +29,12 @@
                          Spacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
                 
                 <!-- App Header -->
-                <Label Text="Major System Training" 
+                <Label Text="{localization:Localize MainPage_Title}" 
                        Style="{StaticResource Headline}"
                        HorizontalOptions="Center"
                        Margin="0,0,0,10" />
                 
-                <Label Text="Master the art of number memorization" 
+                <Label Text="{localization:Localize MainPage_Subtitle}" 
                        Style="{StaticResource SubHeadline}"
                        HorizontalOptions="Center"
                        HorizontalTextAlignment="Center"
@@ -46,19 +47,19 @@
                        HasShadow="True">
                     
                     <StackLayout Spacing="15">
-                        <Label Text="Quick Start" 
+                        <Label Text="{localization:Localize MainPage_QuickStart}" 
                                Style="{StaticResource SubHeadline}"
                                TextColor="White"
                                HorizontalOptions="Center" />
                         
-                        <Button Text="Begin Training (00-09)"
+                        <Button Text="{localization:Localize MainPage_BeginTraining}"
                                 Command="{Binding StartQuickTrainingCommand}"
                                 BackgroundColor="White"
                                 TextColor="{StaticResource Primary}"
                                 CornerRadius="8"
                                 HeightRequest="{OnIdiom Phone=50, Tablet=55, Desktop=60}" />
                         
-                        <Button Text="Major System Guide"
+                        <Button Text="{localization:Localize MainPage_MajorSystemGuide}"
                                 Command="{Binding ShowHelpCommand}"
                                 BackgroundColor="Transparent"
                                 TextColor="White"
@@ -76,7 +77,7 @@
                        HasShadow="True">
                     
                     <StackLayout Spacing="15">
-                        <Label Text="Custom Range" 
+                        <Label Text="{localization:Localize MainPage_CustomRange}" 
                                Style="{StaticResource SubHeadline}"
                                HorizontalOptions="Center" />
                         
@@ -96,11 +97,11 @@
                             <Picker Grid.Column="0" Grid.Row="0"
                                     ItemsSource="{Binding NumberOptions}"
                                     SelectedIndex="{Binding SelectedStartIndex}"
-                                    Title="Start number"
+                                    Title="{localization:Localize MainPage_StartNumber}"
                                     HorizontalOptions="FillAndExpand" />
                             
                             <Label Grid.Column="1" Grid.Row="0"
-                                   Text="to"
+                                   Text="{localization:Localize Common_To}"
                                    VerticalOptions="Center"
                                    HorizontalOptions="Center"
                                    Margin="{OnIdiom Phone='0', Tablet='10,0', Desktop='15,0'}"
@@ -110,7 +111,7 @@
                                     Grid.Row="{OnIdiom Phone=2, Tablet=0, Desktop=0}"
                                     ItemsSource="{Binding NumberOptions}"
                                     SelectedIndex="{Binding SelectedEndIndex}"
-                                    Title="End number"
+                                    Title="{localization:Localize MainPage_EndNumber}"
                                     HorizontalOptions="FillAndExpand" />
                         </Grid>
                         
@@ -123,7 +124,7 @@
                                IsVisible="{Binding HasValidationError}"
                                Margin="0,5,0,0" />
                         
-                        <Button Text="Start Custom Training"
+                        <Button Text="{localization:Localize MainPage_StartCustomTraining}"
                                 Command="{Binding StartCustomTrainingCommand}"
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="White"
@@ -139,7 +140,7 @@
                          Margin="20,0,0,0"
                          IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}">
                 
-                <Label Text="Preset Training" 
+                <Label Text="{localization:Localize MainPage_PresetTraining}" 
                        Style="{StaticResource SubHeadline}"
                        HorizontalOptions="Center"
                        Margin="0,0,0,10" />
@@ -178,7 +179,7 @@
                                            TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
                                     
                                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                                        <Label Text="Range: " 
+                                        <Label Text="{localization:Localize Common_Range}" 
                                                FontSize="{OnIdiom Phone=11, Tablet=13, Desktop=15}"
                                                FontAttributes="Italic"
                                                TextColor="{StaticResource Primary}" />
@@ -186,7 +187,7 @@
                                                FontSize="{OnIdiom Phone=11, Tablet=13, Desktop=15}"
                                                FontAttributes="Italic"
                                                TextColor="{StaticResource Primary}" />
-                                        <Label Text=" - " 
+                                        <Label Text=" {localization:Localize Common_To} " 
                                                FontSize="{OnIdiom Phone=11, Tablet=13, Desktop=15}"
                                                FontAttributes="Italic"
                                                TextColor="{StaticResource Primary}" />

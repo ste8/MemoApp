@@ -67,6 +67,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\MemoApp.Core\MemoApp.Core.csproj" />
+		<ProjectReference Include="..\MemoApp.Localization\MemoApp.Localization.csproj" />
 	</ItemGroup>
 
 </Project>

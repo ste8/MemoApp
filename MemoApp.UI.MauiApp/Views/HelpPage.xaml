@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              x:Class="MemoApp.UI.MauiApp.Views.HelpPage"
              x:DataType="viewmodels:HelpViewModel"
              Title="{Binding Title}">
@@ -23,7 +24,7 @@
                    HasShadow="True">
                 
                 <StackLayout Spacing="15">
-                    <Label Text="🧠 What is the Major System?"
+                    <Label Text="{localization:Localize Help_WhatIsTitle}"
                            TextColor="White"
                            FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
                            FontAttributes="Bold"
@@ -40,7 +41,7 @@
                         </Label.Text>
                     </Label>
 
-                    <Button Text="Try Quick Training"
+                    <Button Text="{localization:Localize Help_TryQuickTraining}"
                             Command="{Binding StartQuickTrainingCommand}"
                             BackgroundColor="White"
                             TextColor="{StaticResource Primary}"
@@ -57,12 +58,12 @@
                    HasShadow="True">
                 
                 <StackLayout Spacing="15">
-                    <Label Text="🔢 Digit to Sound Mappings"
+                    <Label Text="{localization:Localize Help_DigitMappingsTitle}"
                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                            FontAttributes="Bold"
                            HorizontalOptions="Center" />
 
-                    <Label Text="Each digit corresponds to specific consonant sounds:"
+                    <Label Text="{localization:Localize Help_DigitMappingsDesc}"
                            FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
@@ -139,13 +140,13 @@
                    HasShadow="True">
                 
                 <StackLayout Spacing="15">
-                    <Label Text="💡 Example Words"
+                    <Label Text="{localization:Localize Help_ExampleWordsTitle}"
                            TextColor="White"
                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                            FontAttributes="Bold"
                            HorizontalOptions="Center" />
 
-                    <Label Text="Here are some examples of how numbers become words:"
+                    <Label Text="{localization:Localize Help_ExampleWordsDesc}"
                            TextColor="White"
                            FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                            Opacity="0.9"
@@ -223,7 +224,7 @@
                    HasShadow="True">
                 
                 <StackLayout Spacing="15">
-                    <Label Text="📝 Important Rules &amp; Tips"
+                    <Label Text="{localization:Localize Help_RulesTitle}"
                            TextColor="White"
                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                            FontAttributes="Bold"
@@ -291,7 +292,7 @@
             </Frame>
 
             <!-- Action Button -->
-            <Button Text="Start Training Now"
+            <Button Text="{localization:Localize Help_StartTrainingNow}"
                     Command="{Binding GoToMainPageCommand}"
                     BackgroundColor="{StaticResource Primary}"
                     TextColor="White"

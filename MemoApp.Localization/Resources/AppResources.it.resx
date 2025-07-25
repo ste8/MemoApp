@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  
+  <!-- App Title -->
+  <data name="AppTitle" xml:space="preserve">
+    <value>Allenamento Sistema Maggiore</value>
+    <comment>Main application title</comment>
+  </data>
+  
+  <!-- Main Page -->
+  <data name="MainPage_Title" xml:space="preserve">
+    <value>Allenamento Sistema Maggiore</value>
+    <comment>Main page title</comment>
+  </data>
+  <data name="MainPage_Subtitle" xml:space="preserve">
+    <value>Padroneggia l'arte della memorizzazione dei numeri</value>
+    <comment>Main page subtitle</comment>
+  </data>
+  <data name="MainPage_QuickStart" xml:space="preserve">
+    <value>Avvio Rapido</value>
+    <comment>Quick start section title</comment>
+  </data>
+  <data name="MainPage_BeginTraining" xml:space="preserve">
+    <value>Inizia Allenamento (00-09)</value>
+    <comment>Quick start training button</comment>
+  </data>
+  <data name="MainPage_MajorSystemGuide" xml:space="preserve">
+    <value>Guida Sistema Maggiore</value>
+    <comment>Help button text</comment>
+  </data>
+  <data name="MainPage_CustomRange" xml:space="preserve">
+    <value>Intervallo Personalizzato</value>
+    <comment>Custom range section title</comment>
+  </data>
+  <data name="MainPage_StartNumber" xml:space="preserve">
+    <value>Numero iniziale</value>
+    <comment>Start number picker title</comment>
+  </data>
+  <data name="MainPage_EndNumber" xml:space="preserve">
+    <value>Numero finale</value>
+    <comment>End number picker title</comment>
+  </data>
+  <data name="MainPage_StartCustomTraining" xml:space="preserve">
+    <value>Inizia Allenamento Personalizzato</value>
+    <comment>Custom training button</comment>
+  </data>
+  <data name="MainPage_PresetTraining" xml:space="preserve">
+    <value>Allenamenti Predefiniti</value>
+    <comment>Preset training section title</comment>
+  </data>
+  
+  <!-- Training Options -->
+  <data name="TrainingOption_Beginner" xml:space="preserve">
+    <value>Principiante</value>
+    <comment>Beginner training option name</comment>
+  </data>
+  <data name="TrainingOption_BeginnerDesc" xml:space="preserve">
+    <value>Numeri con zero iniziale (00-09)</value>
+    <comment>Beginner training option description</comment>
+  </data>
+  <data name="TrainingOption_SingleDigits" xml:space="preserve">
+    <value>Cifre Singole</value>
+    <comment>Single digits training option name</comment>
+  </data>
+  <data name="TrainingOption_SingleDigitsDesc" xml:space="preserve">
+    <value>Cifre singole di base (0-9)</value>
+    <comment>Single digits training option description</comment>
+  </data>
+  <data name="TrainingOption_Teens" xml:space="preserve">
+    <value>Adolescenti</value>
+    <comment>Teens training option name</comment>
+  </data>
+  <data name="TrainingOption_TeensDesc" xml:space="preserve">
+    <value>Numeri dell'adolescenza (10-19)</value>
+    <comment>Teens training option description</comment>
+  </data>
+  <data name="TrainingOption_Twenties" xml:space="preserve">
+    <value>Ventine</value>
+    <comment>Twenties training option name</comment>
+  </data>
+  <data name="TrainingOption_TwentiesDesc" xml:space="preserve">
+    <value>Intervallo dei venti (20-29)</value>
+    <comment>Twenties training option description</comment>
+  </data>
+  <data name="TrainingOption_First50" xml:space="preserve">
+    <value>Primi 50</value>
+    <comment>First 50 training option name</comment>
+  </data>
+  <data name="TrainingOption_First50Desc" xml:space="preserve">
+    <value>Pratica estesa (00-49)</value>
+    <comment>First 50 training option description</comment>
+  </data>
+  <data name="TrainingOption_FullRange" xml:space="preserve">
+    <value>Intervallo Completo</value>
+    <comment>Full range training option name</comment>
+  </data>
+  <data name="TrainingOption_FullRangeDesc" xml:space="preserve">
+    <value>Sistema Maggiore completo (00-99)</value>
+    <comment>Full range training option description</comment>
+  </data>
+  
+  <!-- Training Session -->
+  <data name="TrainingSession_Title" xml:space="preserve">
+    <value>Sessione di Allenamento</value>
+    <comment>Training session page title</comment>
+  </data>
+  <data name="TrainingSession_Progress" xml:space="preserve">
+    <value>Progresso</value>
+    <comment>Progress section title</comment>
+  </data>
+  <data name="TrainingSession_Completed" xml:space="preserve">
+    <value>Completati: {0}</value>
+    <comment>Completed count label</comment>
+  </data>
+  <data name="TrainingSession_Total" xml:space="preserve">
+    <value>Totale: {0}</value>
+    <comment>Total count label</comment>
+  </data>
+  <data name="TrainingSession_Remaining" xml:space="preserve">
+    <value>Rimanenti: {0}</value>
+    <comment>Remaining count label</comment>
+  </data>
+  <data name="TrainingSession_CurrentNumber" xml:space="preserve">
+    <value>Numero Corrente</value>
+    <comment>Current number display title</comment>
+  </data>
+  <data name="TrainingSession_YourAnswer" xml:space="preserve">
+    <value>La Tua Risposta</value>
+    <comment>Answer input title</comment>
+  </data>
+  <data name="TrainingSession_EnterYourAnswer" xml:space="preserve">
+    <value>Inserisci la tua risposta...</value>
+    <comment>Answer input placeholder</comment>
+  </data>
+  <data name="TrainingSession_Submit" xml:space="preserve">
+    <value>Invia</value>
+    <comment>Submit answer button</comment>
+  </data>
+  <data name="TrainingSession_NextNumber" xml:space="preserve">
+    <value>Numero Successivo</value>
+    <comment>Next number button</comment>
+  </data>
+  <data name="TrainingSession_Complete" xml:space="preserve">
+    <value>Sessione Completata!</value>
+    <comment>Session completion title</comment>
+  </data>
+  <data name="TrainingSession_Statistics" xml:space="preserve">
+    <value>Statistiche della Sessione</value>
+    <comment>Statistics section title</comment>
+  </data>
+  <data name="TrainingSession_TotalDuration" xml:space="preserve">
+    <value>Durata Totale:</value>
+    <comment>Total duration label</comment>
+  </data>
+  <data name="TrainingSession_AverageTime" xml:space="preserve">
+    <value>Tempo Medio:</value>
+    <comment>Average response time label</comment>
+  </data>
+  <data name="TrainingSession_FastestTime" xml:space="preserve">
+    <value>Tempo più Veloce:</value>
+    <comment>Fastest response time label</comment>
+  </data>
+  <data name="TrainingSession_SlowestTime" xml:space="preserve">
+    <value>Tempo più Lento:</value>
+    <comment>Slowest response time label</comment>
+  </data>
+  <data name="TrainingSession_ViewDetails" xml:space="preserve">
+    <value>Visualizza Dettagli</value>
+    <comment>View details button</comment>
+  </data>
+  <data name="TrainingSession_BackToHome" xml:space="preserve">
+    <value>Torna alla Home</value>
+    <comment>Back to home button</comment>
+  </data>
+  
+  <!-- Statistics Page -->
+  <data name="Statistics_Title" xml:space="preserve">
+    <value>Dettagli della Sessione</value>
+    <comment>Statistics page title</comment>
+  </data>
+  <data name="Statistics_NumbersToPracticeMore" xml:space="preserve">
+    <value>Numeri da Praticare di Più</value>
+    <comment>Numbers to practice more section title</comment>
+  </data>
+  <data name="Statistics_AllNumbers" xml:space="preserve">
+    <value>Tutti i Numeri</value>
+    <comment>All numbers section title</comment>
+  </data>
+  
+  <!-- Help Page -->
+  <data name="Help_Title" xml:space="preserve">
+    <value>Guida Sistema Maggiore</value>
+    <comment>Help page title</comment>
+  </data>
+  
+  <!-- Validation Messages -->
+  <data name="Validation_RangeError" xml:space="preserve">
+    <value>Il numero iniziale deve essere minore o uguale al numero finale.</value>
+    <comment>Range validation error message</comment>
+  </data>
+  
+  <!-- Common -->
+  <data name="Common_Range" xml:space="preserve">
+    <value>Intervallo:</value>
+    <comment>Range label</comment>
+  </data>
+  <data name="Common_To" xml:space="preserve">
+    <value>a</value>
+    <comment>Range separator</comment>
+  </data>
+  
+  <!-- Help Page -->
+  <data name="Help_WhatIsTitle" xml:space="preserve">
+    <value>🧠 Cos'è il Sistema Maggiore?</value>
+    <comment>Help page - what is section title</comment>
+  </data>
+  <data name="Help_TryQuickTraining" xml:space="preserve">
+    <value>Prova Allenamento Veloce</value>
+    <comment>Help page - try training button</comment>
+  </data>
+  <data name="Help_DigitMappingsTitle" xml:space="preserve">
+    <value>🔢 Mappatura Cifre-Suoni</value>
+    <comment>Help page - digit mappings section title</comment>
+  </data>
+  <data name="Help_DigitMappingsDesc" xml:space="preserve">
+    <value>Ogni cifra corrisponde a specifici suoni consonantici:</value>
+    <comment>Help page - digit mappings description</comment>
+  </data>
+  <data name="Help_ExampleWordsTitle" xml:space="preserve">
+    <value>💡 Parole di Esempio</value>
+    <comment>Help page - example words section title</comment>
+  </data>
+  <data name="Help_ExampleWordsDesc" xml:space="preserve">
+    <value>Ecco alcuni esempi di come i numeri diventano parole:</value>
+    <comment>Help page - example words description</comment>
+  </data>
+  <data name="Help_RulesTitle" xml:space="preserve">
+    <value>📝 Regole Importanti &amp; Consigli</value>
+    <comment>Help page - rules section title</comment>
+  </data>
+  <data name="Help_StartTrainingNow" xml:space="preserve">
+    <value>Inizia Allenamento</value>
+    <comment>Help page - start training button</comment>
+  </data>
+  
+  <!-- Training Session Additional -->
+  <data name="TrainingSession_ThinkInstruction" xml:space="preserve">
+    <value>Pensa alla tua associazione parola/immagine</value>
+    <comment>Training session instruction</comment>
+  </data>
+  <data name="TrainingSession_HelpTip" xml:space="preserve">
+    <value>💡 Prenditi il tempo per ricordare la tua parola o immagine del Sistema Maggiore per questo numero, poi tocca 'Numero Successivo' per continuare.</value>
+    <comment>Training session help tip</comment>
+  </data>
+  <data name="TrainingSession_Celebration" xml:space="preserve">
+    <value>🎉</value>
+    <comment>Celebration emoji</comment>
+  </data>
+  <data name="TrainingSession_CompletionMessage" xml:space="preserve">
+    <value>Ottimo lavoro! Hai completato tutti i numeri in questo intervallo.</value>
+    <comment>Session completion message</comment>
+  </data>
+  <data name="TrainingSession_SessionSummary" xml:space="preserve">
+    <value>Riepilogo Sessione</value>
+    <comment>Session summary title</comment>
+  </data>
+  <data name="TrainingSession_NewSession" xml:space="preserve">
+    <value>Nuova Sessione</value>
+    <comment>New session button</comment>
+  </data>
+  
+  <!-- Statistics Page -->
+  <data name="Statistics_SessionSummary" xml:space="preserve">
+    <value>Riepilogo Sessione</value>
+    <comment>Statistics page summary title</comment>
+  </data>
+  <data name="Statistics_TotalDuration" xml:space="preserve">
+    <value>Durata Totale</value>
+    <comment>Statistics total duration label</comment>
+  </data>
+  <data name="Statistics_FastestNumber" xml:space="preserve">
+    <value>Numero Più Veloce</value>
+    <comment>Statistics fastest number label</comment>
+  </data>
+  <data name="Statistics_AverageTime" xml:space="preserve">
+    <value>Tempo Medio</value>
+    <comment>Statistics average time label</comment>
+  </data>
+  <data name="Statistics_SlowestNumber" xml:space="preserve">
+    <value>Numero Più Lento</value>
+    <comment>Statistics slowest number label</comment>
+  </data>
+  <data name="Statistics_NumbersToPracticeMoreIcon" xml:space="preserve">
+    <value>📚 Numeri da Praticare di Più</value>
+    <comment>Statistics numbers to practice section title</comment>
+  </data>
+  <data name="Statistics_AllNumbersTitle" xml:space="preserve">
+    <value>📊 Tutti i Numeri (Dal Più Veloce al Più Lento)</value>
+    <comment>Statistics all numbers section title</comment>
+  </data>
+  <data name="Statistics_Back" xml:space="preserve">
+    <value>Indietro</value>
+    <comment>Back button</comment>
+  </data>
+  
+  <!-- Common buttons -->
+  <data name="Common_NewSession" xml:space="preserve">
+    <value>Nuova Sessione</value>
+    <comment>New session button</comment>
+  </data>
+</root>
