@@ -1,6 +1,6 @@
 namespace MemoApp.Core.MajorSystem;
 
-public readonly record struct MajorNumber
+public readonly record struct MajorNumber : IComparable<MajorNumber>, IComparable
 {
     public int Value { get; }
     public bool IsZeroPrefixed { get; }
@@ -16,6 +16,18 @@ public readonly record struct MajorNumber
 
         Value = value;
         IsZeroPrefixed = isZeroPrefixed;
+    }
+
+    public int CompareTo(MajorNumber other)
+    {
+        return Value.CompareTo(other.Value);
+    }
+
+    public int CompareTo(object? obj)
+    {
+        if (obj is null) return 1;
+        if (obj is MajorNumber other) return CompareTo(other);
+        throw new ArgumentException($"Object must be of type {nameof(MajorNumber)}");
     }
 
     public override string ToString() => Display;
