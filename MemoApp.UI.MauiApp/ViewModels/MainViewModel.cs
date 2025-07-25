@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MemoApp.Core.MajorSystem;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
 
@@ -14,16 +15,29 @@ public partial class MainViewModel : BaseViewModel
     {
         Title = "Major System Training";
         LoadTrainingOptions();
+        LoadNumberOptions();
     }
 
     [ObservableProperty]
     private ObservableCollection<TrainingOption> trainingOptions = new();
 
     [ObservableProperty]
+    private ObservableCollection<string> numberOptions = new();
+
+    [ObservableProperty]
+    private List<MajorNumber> majorNumbers = new();
+
+    [ObservableProperty]
     private string customRangeStart = "00";
 
     [ObservableProperty]
     private string customRangeEnd = "09";
+
+    [ObservableProperty]
+    private int selectedStartIndex = 0; // "00"
+
+    [ObservableProperty]
+    private int selectedEndIndex = 9; // "09"
 
     [RelayCommand]
     private async Task StartQuickTraining()
@@ -81,6 +95,44 @@ public partial class MainViewModel : BaseViewModel
             new("First 50", "00", "49", "Extended practice (00-49)"),
             new("Full Range", "00", "99", "Complete Major System (00-99)")
         };
+    }
+
+    private void LoadNumberOptions()
+    {
+        NumberOptions.Clear();
+        MajorNumbers.Clear();
+
+        // Add zero-prefixed numbers (00-09)
+        for (int i = 0; i <= 9; i++)
+        {
+            var majorNumber = new MajorNumber(i, true);
+            MajorNumbers.Add(majorNumber);
+            NumberOptions.Add(majorNumber.Display);
+        }
+
+        // Add regular numbers (0-99)
+        for (int i = 0; i <= 99; i++)
+        {
+            var majorNumber = new MajorNumber(i, false);
+            MajorNumbers.Add(majorNumber);
+            NumberOptions.Add(majorNumber.Display);
+        }
+    }
+
+    partial void OnSelectedStartIndexChanged(int value)
+    {
+        if (value >= 0 && value < MajorNumbers.Count)
+        {
+            CustomRangeStart = MajorNumbers[value].Display;
+        }
+    }
+
+    partial void OnSelectedEndIndexChanged(int value)
+    {
+        if (value >= 0 && value < MajorNumbers.Count)
+        {
+            CustomRangeEnd = MajorNumbers[value].Display;
+        }
     }
 
     private bool ValidateRange(string start, string end)
