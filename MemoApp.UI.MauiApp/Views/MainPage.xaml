@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
+             x:Class="MemoApp.UI.MauiApp.Views.MainPage"
+             x:DataType="viewmodels:MainViewModel"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <!-- 
+        Main responsive grid layout:
+        - Single column on mobile (phones)
+        - Two columns on tablets and desktop
+        - Uses star sizing (*) for flexible column widths
+        -->
+        <Grid x:Name="MainGrid" 
+              Padding="{OnPlatform iOS='20,40,20,20', Default='20'}">
+            
+            <!-- Define responsive column definitions -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <!-- Second column only visible on larger screens -->
+                <ColumnDefinition Width="{OnIdiom Phone=0, Tablet='*', Desktop='*'}" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Left Column: Main content -->
+            <StackLayout Grid.Column="0" 
+                         Spacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
+                
+                <!-- App Header -->
+                <Label Text="Major System Training" 
+                       Style="{StaticResource Headline}"
+                       HorizontalOptions="Center"
+                       Margin="0,0,0,10" />
+                
+                <Label Text="Master the art of number memorization" 
+                       Style="{StaticResource SubHeadline}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       Margin="0,0,0,30" />
+
+                <!-- Quick Start Buttons -->
+                <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                       Padding="15"
+                       CornerRadius="10"
+                       HasShadow="True">
+                    
+                    <StackLayout Spacing="15">
+                        <Label Text="Quick Start" 
+                               Style="{StaticResource SubHeadline}"
+                               TextColor="White"
+                               HorizontalOptions="Center" />
+                        
+                        <Button Text="Begin Training (00-09)"
+                                Command="{Binding StartQuickTrainingCommand}"
+                                BackgroundColor="White"
+                                TextColor="{StaticResource Primary}"
+                                CornerRadius="8"
+                                HeightRequest="{OnIdiom Phone=50, Tablet=55, Desktop=60}" />
+                        
+                        <Button Text="Major System Guide"
+                                Command="{Binding ShowHelpCommand}"
+                                BackgroundColor="Transparent"
+                                TextColor="White"
+                                BorderColor="White"
+                                BorderWidth="2"
+                                CornerRadius="8"
+                                HeightRequest="{OnIdiom Phone=45, Tablet=50, Desktop=55}" />
+                    </StackLayout>
+                </Frame>
+
+                <!-- Custom Range Section -->
+                <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                       Padding="15"
+                       CornerRadius="10"
+                       HasShadow="True">
+                    
+                    <StackLayout Spacing="15">
+                        <Label Text="Custom Range" 
+                               Style="{StaticResource SubHeadline}"
+                               HorizontalOptions="Center" />
+                        
+                        <!-- Responsive input layout: Stack on phone, horizontal on tablet/desktop -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{OnIdiom Phone='*', Tablet='*', Desktop='*'}" />
+                                <ColumnDefinition Width="{OnIdiom Phone='0', Tablet='Auto', Desktop='Auto'}" />
+                                <ColumnDefinition Width="{OnIdiom Phone='*', Tablet='*', Desktop='*'}" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="{OnIdiom Phone='Auto', Tablet='0', Desktop='0'}" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Entry Grid.Column="0" Grid.Row="0"
+                                   Text="{Binding CustomRangeStart}"
+                                   Placeholder="Start (e.g., 00)"
+                                   Keyboard="Numeric"
+                                   HorizontalTextAlignment="Center" />
+                            
+                            <Label Grid.Column="1" Grid.Row="0"
+                                   Text="to"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"
+                                   Margin="{OnIdiom Phone='0', Tablet='10,0', Desktop='15,0'}"
+                                   IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}" />
+
+                            <Entry Grid.Column="{OnIdiom Phone=0, Tablet=2, Desktop=2}" 
+                                   Grid.Row="{OnIdiom Phone=2, Tablet=0, Desktop=0}"
+                                   Text="{Binding CustomRangeEnd}"
+                                   Placeholder="End (e.g., 20)"
+                                   Keyboard="Numeric"
+                                   HorizontalTextAlignment="Center" />
+                        </Grid>
+                        
+                        <Button Text="Start Custom Training"
+                                Command="{Binding StartCustomTrainingCommand}"
+                                BackgroundColor="{StaticResource Primary}"
+                                TextColor="White"
+                                CornerRadius="8"
+                                HeightRequest="{OnIdiom Phone=50, Tablet=55, Desktop=60}" />
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+
+            <!-- Right Column: Preset training options (only visible on tablet/desktop) -->
+            <StackLayout Grid.Column="1" 
+                         Spacing="15"
+                         Margin="20,0,0,0"
+                         IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}">
+                
+                <Label Text="Preset Training" 
+                       Style="{StaticResource SubHeadline}"
+                       HorizontalOptions="Center"
+                       Margin="0,0,0,10" />
+
+                <!-- CollectionView with adaptive layout -->
+                <CollectionView ItemsSource="{Binding TrainingOptions}"
+                                SelectionMode="None">
+                    
+                    <CollectionView.ItemsLayout>
+                        <!-- Responsive ItemsLayout: 
+                             Single column on phone, multiple columns on larger screens -->
+                        <LinearItemsLayout Orientation="Vertical" 
+                                         ItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                                   Padding="15"
+                                   CornerRadius="8"
+                                   HasShadow="False"
+                                   Margin="0,5">
+                                
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainViewModel}}, Path=StartPresetTrainingCommand}"
+                                                          CommandParameter="{Binding .}" />
+                                </Frame.GestureRecognizers>
+
+                                <StackLayout Spacing="5">
+                                    <Label Text="{Binding Name}" 
+                                           FontAttributes="Bold"
+                                           FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}" />
+                                    
+                                    <Label Text="{Binding Description}" 
+                                           FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                    
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                                        <Label Text="Range: " 
+                                               FontSize="{OnIdiom Phone=11, Tablet=13, Desktop=15}"
+                                               FontAttributes="Italic"
+                                               TextColor="{StaticResource Primary}" />
+                                        <Label Text="{Binding RangeStart}" 
+                                               FontSize="{OnIdiom Phone=11, Tablet=13, Desktop=15}"
+                                               FontAttributes="Italic"
+                                               TextColor="{StaticResource Primary}" />
+                                        <Label Text=" - " 
+                                               FontSize="{OnIdiom Phone=11, Tablet=13, Desktop=15}"
+                                               FontAttributes="Italic"
+                                               TextColor="{StaticResource Primary}" />
+                                        <Label Text="{Binding RangeEnd}" 
+                                               FontSize="{OnIdiom Phone=11, Tablet=13, Desktop=15}"
+                                               FontAttributes="Italic"
+                                               TextColor="{StaticResource Primary}" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

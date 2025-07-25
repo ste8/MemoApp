@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="MemoApp.UI.MauiApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:MemoApp.UI.MauiApp.Views"
+    Title="Major System Training">
+
+    <TabBar>
+        <ShellContent
+            Title="Training"
+            Icon="house"
+            Route="main">
+            <views:MainPage />
+        </ShellContent>
+
+        <ShellContent
+            Title="Help"
+            Icon="question"
+            Route="help">
+            <views:HelpPage />
+        </ShellContent>
+    </TabBar>
+
+</Shell>

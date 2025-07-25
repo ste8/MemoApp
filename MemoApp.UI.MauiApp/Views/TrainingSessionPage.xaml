@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
+             x:Class="MemoApp.UI.MauiApp.Views.TrainingSessionPage"
+             x:DataType="viewmodels:TrainingSessionViewModel"
+             Title="{Binding Title}">
+
+    <Grid>
+        <!-- Loading indicator -->
+        <ActivityIndicator IsVisible="{Binding IsBusy}"
+                          IsRunning="{Binding IsBusy}"
+                          VerticalOptions="Center"
+                          HorizontalOptions="Center"
+                          Color="{StaticResource Primary}" />
+
+        <!-- Main content -->
+        <ScrollView IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}">
+            
+            <!-- 
+            Responsive training session layout:
+            - Single column for active training
+            - Adaptive spacing and font sizes for different screen sizes
+            - Card-based design with clear visual hierarchy
+            -->
+            <Grid Padding="{OnPlatform iOS='20,40,20,20', Default='20'}">
+                
+                <!-- Session Active View -->
+                <StackLayout IsVisible="{Binding IsSessionActive}"
+                            Spacing="{OnIdiom Phone=25, Tablet=30, Desktop=35}">
+                    
+                    <!-- Progress indicator with responsive design -->
+                    <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                           Padding="20"
+                           CornerRadius="15"
+                           HasShadow="True">
+                        
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0"
+                                   Text="Progress"
+                                   Style="{StaticResource SubHeadline}"
+                                   HorizontalOptions="Center"
+                                   Margin="0,0,0,15" />
+
+                            <!-- Progress bar with responsive sizing -->
+                            <ProgressBar Grid.Row="1"
+                                        Progress="{Binding CompletedNumbers, Converter={StaticResource DivisionConverter}, ConverterParameter={Binding TotalNumbers}}"
+                                        ProgressColor="{StaticResource Primary}"
+                                        HeightRequest="{OnIdiom Phone=8, Tablet=10, Desktop=12}"
+                                        Margin="0,0,0,10" />
+
+                            <!-- Progress text with adaptive layout -->
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Column="0"
+                                       Text="{Binding CompletedNumbers, StringFormat='Completed: {0}'}"
+                                       FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                       HorizontalOptions="Start" />
+
+                                <Label Grid.Column="1"
+                                       Text="{Binding TotalNumbers, StringFormat='Total: {0}'}"
+                                       FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                       HorizontalOptions="Center" />
+
+                                <Label Grid.Column="2"
+                                       Text="{Binding RemainingNumbers, StringFormat='Remaining: {0}'}"
+                                       FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                       HorizontalOptions="End" />
+                            </Grid>
+                        </Grid>
+                    </Frame>
+
+                    <!-- Current number display with large, responsive typography -->
+                    <Frame BackgroundColor="{StaticResource Primary}"
+                           Padding="{OnIdiom Phone=30, Tablet=40, Desktop=50}"
+                           CornerRadius="20"
+                           HasShadow="True">
+                        
+                        <StackLayout Spacing="20">
+                            <Label Text="Current Number"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
+                                   HorizontalOptions="Center"
+                                   FontAttributes="Bold" />
+
+                            <!-- Large number display with responsive sizing -->
+                            <Label Text="{Binding CurrentNumber}"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=80, Tablet=120, Desktop=160}"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   HorizontalTextAlignment="Center"
+                                   MinimumHeightRequest="{OnIdiom Phone=120, Tablet=160, Desktop=200}" />
+
+                            <Label Text="Think of your word/image association"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center"
+                                   FontAttributes="Italic"
+                                   Opacity="0.9" />
+                        </StackLayout>
+                    </Frame>
+
+                    <!-- Action button with responsive sizing -->
+                    <Button Text="Next Number"
+                            Command="{Binding AdvanceToNextCommand}"
+                            BackgroundColor="{StaticResource Secondary}"
+                            TextColor="White"
+                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                            FontAttributes="Bold"
+                            CornerRadius="15"
+                            HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
+                            Margin="20,0" />
+
+                    <!-- Instructions card -->
+                    <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Warning}, Dark={StaticResource WarningDark}}"
+                           Padding="15"
+                           CornerRadius="10"
+                           HasShadow="False">
+                        
+                        <Label Text="💡 Take your time to recall your Major System word or image for this number, then tap 'Next Number' to continue."
+                               TextColor="White"
+                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                               HorizontalTextAlignment="Center" />
+                    </Frame>
+                </StackLayout>
+
+                <!-- Session Completed View -->
+                <StackLayout IsVisible="{Binding IsSessionCompleted}"
+                            Spacing="{OnIdiom Phone=25, Tablet=30, Desktop=35}">
+                    
+                    <!-- Completion celebration -->
+                    <Frame BackgroundColor="{StaticResource Success}"
+                           Padding="30"
+                           CornerRadius="20"
+                           HasShadow="True">
+                        
+                        <StackLayout Spacing="15">
+                            <Label Text="🎉"
+                                   FontSize="{OnIdiom Phone=60, Tablet=80, Desktop=100}"
+                                   HorizontalOptions="Center" />
+
+                            <Label Text="Session Complete!"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center" />
+
+                            <Label Text="Great job! You've completed all numbers in this range."
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center" />
+                        </StackLayout>
+                    </Frame>
+
+                    <!-- Quick stats preview -->
+                    <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                           Padding="20"
+                           CornerRadius="15"
+                           HasShadow="True"
+                           IsVisible="{Binding SessionStatistics, Converter={StaticResource IsNotNullConverter}}">
+                        
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" Grid.ColumnSpan="2"
+                                   Text="Session Summary"
+                                   Style="{StaticResource SubHeadline}"
+                                   HorizontalOptions="Center"
+                                   Margin="0,0,0,15" />
+
+                            <Label Grid.Row="1" Grid.Column="0"
+                                   Text="{Binding SessionStatistics.TotalDuration, StringFormat='Duration: {0:mm\\:ss}'}"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}" />
+
+                            <Label Grid.Row="1" Grid.Column="1"
+                                   Text="{Binding SessionStatistics.AverageResponseTime, StringFormat='Avg: {0:ss\\.ff}s'}"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   HorizontalOptions="End" />
+
+                            <Label Grid.Row="2" Grid.Column="0"
+                                   Text="{Binding SessionStatistics.FastestResponse.Number, StringFormat='Fastest: {0}'}"
+                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                   TextColor="{StaticResource Success}" />
+
+                            <Label Grid.Row="2" Grid.Column="1"
+                                   Text="{Binding SessionStatistics.SlowestResponse.Number, StringFormat='Slowest: {0}'}"
+                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                   TextColor="{StaticResource Warning}"
+                                   HorizontalOptions="End" />
+                        </Grid>
+                    </Frame>
+
+                    <!-- Action buttons with responsive layout -->
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                        <Button Grid.Column="0"
+                                Text="View Details"
+                                Command="{Binding ShowStatisticsCommand}"
+                                BackgroundColor="{StaticResource Primary}"
+                                TextColor="White"
+                                CornerRadius="10"
+                                HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}" />
+
+                        <Button Grid.Column="1"
+                                Text="New Session"
+                                Command="{Binding StartNewSessionCommand}"
+                                BackgroundColor="{StaticResource Secondary}"
+                                TextColor="White"
+                                CornerRadius="10"
+                                HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}" />
+                    </Grid>
+                </StackLayout>
+            </Grid>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MemoApp.UI.MauiApp.Views.TestPage"
+             Title="Test Page">
+
+    <StackLayout Padding="30" Spacing="25">
+        <Label Text="Hello, MAUI World!" 
+               FontSize="18" 
+               HorizontalOptions="Center" />
+        
+        <Label Text="This is a test page to verify the app is loading correctly." 
+               FontSize="14" 
+               HorizontalOptions="Center" />
+               
+        <Button Text="Test Button" 
+                BackgroundColor="Blue" 
+                TextColor="White"
+                HorizontalOptions="Center" />
+    </StackLayout>
+
+</ContentPage>
