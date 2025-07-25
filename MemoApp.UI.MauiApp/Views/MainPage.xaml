@@ -114,6 +114,15 @@
                                     HorizontalOptions="FillAndExpand" />
                         </Grid>
                         
+                        <!-- Validation Message -->
+                        <Label Text="{Binding ValidationMessage}"
+                               TextColor="Red"
+                               FontSize="14"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               IsVisible="{Binding HasValidationError}"
+                               Margin="0,5,0,0" />
+                        
                         <Button Text="Start Custom Training"
                                 Command="{Binding StartCustomTrainingCommand}"
                                 BackgroundColor="{StaticResource Primary}"

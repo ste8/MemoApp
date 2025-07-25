@@ -11,6 +11,8 @@ namespace MemoApp.UI.MauiApp.ViewModels;
 /// </summary>
 public partial class MainViewModel : BaseViewModel
 {
+    private const string RangeValidationErrorMessage = "Start number must be less than or equal to end number.";
+    
     public MainViewModel()
     {
         Title = "Major System Training";
@@ -39,6 +41,12 @@ public partial class MainViewModel : BaseViewModel
     [ObservableProperty]
     private int selectedEndIndex = 9; // "09"
 
+    [ObservableProperty]
+    private string validationMessage = string.Empty;
+
+    [ObservableProperty]
+    private bool hasValidationError = false;
+
     [RelayCommand]
     private async Task StartQuickTraining()
     {
@@ -54,7 +62,7 @@ public partial class MainViewModel : BaseViewModel
     [RelayCommand]
     private async Task StartCustomTraining()
     {
-        if (ValidateRange(CustomRangeStart, CustomRangeEnd))
+        if (IsRangeValid())
         {
             var parameters = new Dictionary<string, object>
             {
@@ -63,6 +71,11 @@ public partial class MainViewModel : BaseViewModel
             };
             
             await Shell.Current.GoToAsync("training", parameters);
+        }
+        else
+        {
+            ValidationMessage = RangeValidationErrorMessage;
+            HasValidationError = true;
         }
     }
 
@@ -124,6 +137,7 @@ public partial class MainViewModel : BaseViewModel
         if (value >= 0 && value < MajorNumbers.Count)
         {
             CustomRangeStart = MajorNumbers[value].Display;
+            UpdateValidation();
         }
     }
 
@@ -132,21 +146,35 @@ public partial class MainViewModel : BaseViewModel
         if (value >= 0 && value < MajorNumbers.Count)
         {
             CustomRangeEnd = MajorNumbers[value].Display;
+            UpdateValidation();
         }
     }
 
-    private bool ValidateRange(string start, string end)
+    private void UpdateValidation()
     {
-        try
+        if (IsRangeValid())
         {
-            var startNum = int.Parse(start);
-            var endNum = int.Parse(end);
-            return startNum >= 0 && endNum <= 99 && startNum <= endNum;
+            ClearValidationError();
         }
-        catch
+        else
         {
-            return false;
+            ValidationMessage = RangeValidationErrorMessage;
+            HasValidationError = true;
         }
+    }
+
+    private bool IsRangeValid()
+    {
+        // Check if indexes are within bounds and start <= end
+        return SelectedStartIndex >= 0 && SelectedEndIndex >= 0 && 
+               SelectedStartIndex < MajorNumbers.Count && SelectedEndIndex < MajorNumbers.Count &&
+               SelectedStartIndex <= SelectedEndIndex;
+    }
+
+    private void ClearValidationError()
+    {
+        HasValidationError = false;
+        ValidationMessage = string.Empty;
     }
 }
 
