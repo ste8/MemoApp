@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
+             xmlns:core="clr-namespace:MemoApp.Core.MajorSystem;assembly=MemoApp.Core"
              x:Class="MemoApp.UI.MauiApp.Views.StatisticsPage"
              x:DataType="viewmodels:StatisticsViewModel"
              Title="{Binding Title}">
@@ -124,7 +125,7 @@
                         </CollectionView.ItemsLayout>
 
                         <CollectionView.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate x:DataType="core:NumberPerformance">
                                 <Frame BackgroundColor="White"
                                        Padding="10"
                                        CornerRadius="8"
@@ -185,7 +186,7 @@
                         </CollectionView.ItemsLayout>
 
                         <CollectionView.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate x:DataType="core:NumberPerformance">
                                 <!-- Responsive performance item with adaptive layout -->
                                 <Grid Padding="{OnIdiom Phone=10, Tablet=15, Desktop=20}"
                                       BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray800}}"
