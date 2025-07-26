@@ -38,7 +38,37 @@
                        Style="{StaticResource SubHeadline}"
                        HorizontalOptions="Center"
                        HorizontalTextAlignment="Center"
-                       Margin="0,0,0,30" />
+                       Margin="0,0,0,20" />
+
+                <!-- Language Selection -->
+                <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                       Padding="15"
+                       CornerRadius="10"
+                       HasShadow="True"
+                       Margin="0,0,0,10">
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <Label Grid.Column="0"
+                               Text="{localization:Localize Language_Title}"
+                               VerticalOptions="Center"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               Margin="0,0,15,0" />
+                        
+                        <Button Grid.Column="1"
+                                Text="{Binding SelectedLanguageDisplayName}"
+                                Command="{Binding SelectLanguageCommand}"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                TextColor="White"
+                                CornerRadius="8"
+                                HorizontalOptions="FillAndExpand" />
+                    </Grid>
+                </Frame>
 
                 <!-- Quick Start Buttons -->
                 <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"

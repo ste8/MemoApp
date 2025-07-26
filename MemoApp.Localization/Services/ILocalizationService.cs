@@ -47,6 +47,16 @@ public interface ILocalizationService
     IEnumerable<CultureInfo> GetAvailableCultures();
 
     /// <summary>
+    /// Loads the saved language preference and applies it.
+    /// </summary>
+    Task LoadSavedLanguageAsync();
+
+    /// <summary>
+    /// Saves the current language preference for future sessions.
+    /// </summary>
+    Task SaveLanguagePreferenceAsync();
+
+    /// <summary>
     /// Event raised when the culture changes.
     /// </summary>
     event EventHandler<CultureInfo>? CultureChanged;

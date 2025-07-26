@@ -10,16 +10,14 @@
         <ShellContent
             Title="Training"
             Icon="house"
-            Route="main">
-            <views:MainPage />
-        </ShellContent>
+            Route="main"
+            ContentTemplate="{DataTemplate views:MainPage}" />
 
         <ShellContent
             Title="Help"
             Icon="question"
-            Route="help">
-            <views:HelpPage />
-        </ShellContent>
+            Route="help"
+            ContentTemplate="{DataTemplate views:HelpPage}" />
     </TabBar>
 
 </Shell>

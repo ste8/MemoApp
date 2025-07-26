@@ -111,4 +111,64 @@ public class LocalizationService : ILocalizationService
     {
         return SupportedCultures.AsEnumerable();
     }
+
+    private const string LanguagePreferenceKey = "app_language_preference";
+
+    public async Task LoadSavedLanguageAsync()
+    {
+        await Task.Run(() =>
+        {
+            try
+            {
+                // Try to get saved language preference
+                // For now, we'll use a simple approach that works across platforms
+                // In a real MAUI app, you'd use Microsoft.Maui.Essentials.Preferences
+                var savedLanguage = GetStoredLanguagePreference();
+                
+                if (!string.IsNullOrEmpty(savedLanguage))
+                {
+                    SetCulture(savedLanguage);
+                }
+            }
+            catch
+            {
+                // If loading fails, use the current culture (already set in constructor)
+            }
+        });
+    }
+
+    public async Task SaveLanguagePreferenceAsync()
+    {
+        await Task.Run(() =>
+        {
+            try
+            {
+                // Save current culture preference
+                SetStoredLanguagePreference(_currentCulture.TwoLetterISOLanguageName);
+            }
+            catch
+            {
+                // Ignore save errors - not critical
+            }
+        });
+    }
+
+    /// <summary>
+    /// Gets the stored language preference. Override this method in platform-specific implementations.
+    /// </summary>
+    protected virtual string? GetStoredLanguagePreference()
+    {
+        // Default implementation - can be overridden by platform-specific services
+        // For MAUI, this would use Microsoft.Maui.Essentials.Preferences
+        return null;
+    }
+
+    /// <summary>
+    /// Sets the stored language preference. Override this method in platform-specific implementations.
+    /// </summary>
+    protected virtual void SetStoredLanguagePreference(string languageCode)
+    {
+        // Default implementation - can be overridden by platform-specific services
+        // For MAUI, this would use Microsoft.Maui.Essentials.Preferences
+    }
 }

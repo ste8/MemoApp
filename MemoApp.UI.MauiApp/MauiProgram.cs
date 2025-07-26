@@ -2,6 +2,8 @@
 using MemoApp.UI.MauiApp.ViewModels;
 using MemoApp.UI.MauiApp.Views;
 using MemoApp.Localization.Extensions;
+using MemoApp.UI.MauiApp.Services;
+using MemoApp.Localization.Services;
 
 namespace MemoApp.UI.MauiApp;
 
@@ -18,8 +20,8 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-		// Register localization services
-		builder.Services.AddLocalization();
+		// Register localization services with MAUI-specific implementation
+		builder.Services.AddLocalization<MauiLocalizationService>();
 
 		// Register ViewModels and Views for dependency injection
 		builder.Services.AddSingleton<Views.TestPage>();
@@ -40,6 +42,11 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
-		return builder.Build();
+		var app = builder.Build();
+
+		// Initialize the LocalizationResourceManager with the DI service
+		app.Services.InitializeLocalization();
+
+		return app;
 	}
 }

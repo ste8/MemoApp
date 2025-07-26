@@ -366,4 +366,26 @@
     <value>Nuova Sessione</value>
     <comment>New session button</comment>
   </data>
+  
+  <!-- Language Selection -->
+  <data name="Language_Title" xml:space="preserve">
+    <value>Lingua</value>
+    <comment>Language selection title</comment>
+  </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>English</value>
+    <comment>English language option</comment>
+  </data>
+  <data name="Language_Italian" xml:space="preserve">
+    <value>Italiano</value>
+    <comment>Italian language option</comment>
+  </data>
+  <data name="Language_SelectPrompt" xml:space="preserve">
+    <value>Seleziona Lingua</value>
+    <comment>Language selection prompt</comment>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Annulla</value>
+    <comment>Cancel button text</comment>
+  </data>
 </root>
