@@ -152,6 +152,52 @@ public partial class MainViewModel : BaseViewModel
         await Shell.Current.GoToAsync("training", parameters);
     }
 
+    [RelayCommand]
+    private async Task SelectStartNumber()
+    {
+        await ShowNumberSelectionDialog(true);
+    }
+
+    [RelayCommand]
+    private async Task SelectEndNumber()
+    {
+        await ShowNumberSelectionDialog(false);
+    }
+
+    private async Task ShowNumberSelectionDialog(bool isStartNumber)
+    {
+        try
+        {
+            var options = NumberOptions.ToArray();
+            var title = isStartNumber ? 
+                _localizationService.GetString("MainPage_StartNumber") : 
+                _localizationService.GetString("MainPage_EndNumber");
+            var cancel = _localizationService.GetString("Common_Cancel");
+            
+            var result = await Shell.Current.DisplayActionSheet(title, cancel, null, options);
+
+            if (result != null && result != cancel)
+            {
+                var selectedIndex = NumberOptions.IndexOf(result);
+                if (selectedIndex >= 0)
+                {
+                    if (isStartNumber)
+                    {
+                        SelectedStartIndex = selectedIndex;
+                    }
+                    else
+                    {
+                        SelectedEndIndex = selectedIndex;
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Number selection error: {ex.Message}");
+        }
+    }
+
     private void LoadTrainingOptions()
     {
         TrainingOptions = new ObservableCollection<TrainingOption>

@@ -124,11 +124,38 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <Picker Grid.Column="0" Grid.Row="0"
-                                    ItemsSource="{Binding NumberOptions}"
-                                    SelectedIndex="{Binding SelectedStartIndex}"
-                                    Title="{localization:Localize MainPage_StartNumber}"
-                                    HorizontalOptions="FillAndExpand" />
+                            <!-- Start Number Selector -->
+                            <ContentView Grid.Column="0" Grid.Row="0">
+                                <ContentView.Content>
+                                    <!-- Use Picker on mobile platforms -->
+                                    <Picker x:Name="StartPicker"
+                                            ItemsSource="{Binding NumberOptions}"
+                                            SelectedIndex="{Binding SelectedStartIndex}"
+                                            Title="{localization:Localize MainPage_StartNumber}"
+                                            HorizontalOptions="FillAndExpand"
+                                            IsVisible="{OnPlatform Android=True, iOS=True, Default=False}" />
+                                </ContentView.Content>
+                            </ContentView>
+                            
+                            <!-- Desktop alternative for Start Number -->
+                            <StackLayout Grid.Column="0" Grid.Row="0" 
+                                         IsVisible="{OnPlatform WinUI=True, MacCatalyst=True, Default=False}"
+                                         HorizontalOptions="FillAndExpand">
+                                <Label Text="{localization:Localize MainPage_StartNumber}"
+                                       FontSize="14"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                                       Margin="0,0,0,5" />
+                                <Button x:Name="StartNumberButton"
+                                        Text="{Binding CustomRangeStart}"
+                                        Command="{Binding SelectStartNumberCommand}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                                        TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                                        BorderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                        BorderWidth="1"
+                                        CornerRadius="8"
+                                        HorizontalOptions="FillAndExpand"
+                                        HeightRequest="40" />
+                            </StackLayout>
                             
                             <Label Grid.Column="1" Grid.Row="0"
                                    Text="{localization:Localize Common_To}"
@@ -137,12 +164,40 @@
                                    Margin="{OnIdiom Phone='0', Tablet='10,0', Desktop='15,0'}"
                                    IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}" />
 
-                            <Picker Grid.Column="{OnIdiom Phone=0, Tablet=2, Desktop=2}" 
-                                    Grid.Row="{OnIdiom Phone=2, Tablet=0, Desktop=0}"
-                                    ItemsSource="{Binding NumberOptions}"
-                                    SelectedIndex="{Binding SelectedEndIndex}"
-                                    Title="{localization:Localize MainPage_EndNumber}"
-                                    HorizontalOptions="FillAndExpand" />
+                            <!-- End Number Selector -->
+                            <ContentView Grid.Column="{OnIdiom Phone=0, Tablet=2, Desktop=2}" 
+                                         Grid.Row="{OnIdiom Phone=2, Tablet=0, Desktop=0}">
+                                <ContentView.Content>
+                                    <!-- Use Picker on mobile platforms -->
+                                    <Picker x:Name="EndPicker"
+                                            ItemsSource="{Binding NumberOptions}"
+                                            SelectedIndex="{Binding SelectedEndIndex}"
+                                            Title="{localization:Localize MainPage_EndNumber}"
+                                            HorizontalOptions="FillAndExpand"
+                                            IsVisible="{OnPlatform Android=True, iOS=True, Default=False}" />
+                                </ContentView.Content>
+                            </ContentView>
+                            
+                            <!-- Desktop alternative for End Number -->
+                            <StackLayout Grid.Column="{OnIdiom Phone=0, Tablet=2, Desktop=2}" 
+                                         Grid.Row="{OnIdiom Phone=2, Tablet=0, Desktop=0}"
+                                         IsVisible="{OnPlatform WinUI=True, MacCatalyst=True, Default=False}"
+                                         HorizontalOptions="FillAndExpand">
+                                <Label Text="{localization:Localize MainPage_EndNumber}"
+                                       FontSize="14"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                                       Margin="0,0,0,5" />
+                                <Button x:Name="EndNumberButton"
+                                        Text="{Binding CustomRangeEnd}"
+                                        Command="{Binding SelectEndNumberCommand}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                                        TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                                        BorderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                        BorderWidth="1"
+                                        CornerRadius="8"
+                                        HorizontalOptions="FillAndExpand"
+                                        HeightRequest="40" />
+                            </StackLayout>
                         </Grid>
                         
                         <!-- Validation Message -->
