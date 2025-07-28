@@ -8,24 +8,20 @@
              Title="{Binding Title}">
 
     <Grid>
-        <!-- Keyboard input handler - positioned off-screen but focusable -->
+        <!-- Keyboard input handler - hidden from accessibility tree -->
         <Entry x:Name="KeyboardInputHandler"
                Text=""
-               WidthRequest="1"
-               HeightRequest="1"
-               BackgroundColor="Transparent"
-               TextColor="Transparent"
-               Margin="-1000,-1000,0,0"
-               TextChanged="OnKeyboardTextChanged"
-               VerticalOptions="Start"
-               HorizontalOptions="Start" />
+               IsVisible="False"
+               AutomationProperties.IsInAccessibleTree="False"
+               TextChanged="OnKeyboardTextChanged" />
         
         <!-- Loading indicator -->
         <ActivityIndicator IsVisible="{Binding IsBusy}"
                           IsRunning="{Binding IsBusy}"
                           VerticalOptions="Center"
                           HorizontalOptions="Center"
-                          Color="{StaticResource Primary}" />
+                          Color="{StaticResource Primary}"
+                          AutomationProperties.Name="{localization:Localize Accessibility_LoadingIndicator}" />
 
         <!-- Main content -->
         <ScrollView IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}">
@@ -66,7 +62,9 @@
                                         Progress="{Binding ProgressValue}"
                                         ProgressColor="{StaticResource Primary}"
                                         HeightRequest="{OnIdiom Phone=8, Tablet=10, Desktop=12}"
-                                        Margin="0,0,0,10" />
+                                        Margin="0,0,0,10"
+                                        AutomationProperties.Name="{localization:Localize Accessibility_ProgressBar}"
+                                        AutomationProperties.HelpText="{Binding CompletedNumbers, StringFormat='Progress: {0} of {1} numbers completed'}" />
 
                             <!-- Progress text with adaptive layout -->
                             <Grid Grid.Row="2">
@@ -115,7 +113,9 @@
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center"
                                    HorizontalTextAlignment="Center"
-                                   MinimumHeightRequest="{OnIdiom Phone=120, Tablet=160, Desktop=200}" />
+                                   MinimumHeightRequest="{OnIdiom Phone=120, Tablet=160, Desktop=200}"
+                                   AutomationProperties.Name="{localization:Localize Accessibility_CurrentNumber}"
+                                   AutomationProperties.HelpText="{Binding CurrentNumber, StringFormat='Current number to practice: {0}'}" />
 
                             <Label Text="{localization:Localize TrainingSession_ThinkInstruction}"
                                    TextColor="White"
@@ -123,7 +123,7 @@
                                    HorizontalOptions="Center"
                                    HorizontalTextAlignment="Center"
                                    FontAttributes="Italic"
-                                   Opacity="0.9" />
+                                   Opacity="0.95" />
                         </StackLayout>
                     </Frame>
 
@@ -138,19 +138,21 @@
                                 FontAttributes="Bold"
                                 CornerRadius="15"
                                 HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
-                                Margin="20,0" />
+                                Margin="20,0"
+                                AutomationProperties.Name="{localization:Localize Accessibility_NextButton}"
+                                AutomationProperties.HelpText="{localization:Localize Accessibility_NextButtonHelp}" />
                         
                         <!-- Keyboard shortcut hint for desktop platforms only -->
                         <Label Text="{localization:Localize TrainingSession_KeyboardShortcutHint}"
                                IsVisible="{OnPlatform MacCatalyst=True, WinUI=True, Default=False}"
                                FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                               TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
                                HorizontalOptions="Center"
                                FontAttributes="Italic" />
                     </StackLayout>
 
                     <!-- Instructions card -->
-                    <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Warning}, Dark={StaticResource WarningDark}}"
+                    <Frame BackgroundColor="{AppThemeBinding Light={StaticResource WarningTextSafe}, Dark={StaticResource WarningDark}}"
                            Padding="15"
                            CornerRadius="10"
                            HasShadow="False">
@@ -227,12 +229,12 @@
                             <Label Grid.Row="2" Grid.Column="0"
                                    Text="{Binding SessionStatistics.FastestResponse.Number, StringFormat='Fastest: {0}'}"
                                    FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                                   TextColor="{StaticResource Success}" />
+                                   TextColor="{StaticResource SuccessText}" />
 
                             <Label Grid.Row="2" Grid.Column="1"
                                    Text="{Binding SessionStatistics.SlowestResponse.Number, StringFormat='Slowest: {0}'}"
                                    FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                                   TextColor="{StaticResource Warning}"
+                                   TextColor="{StaticResource WarningText}"
                                    HorizontalOptions="End" />
                         </Grid>
                     </Frame>
@@ -245,7 +247,9 @@
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="White"
                                 CornerRadius="10"
-                                HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}" />
+                                HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
+                                AutomationProperties.Name="{localization:Localize Accessibility_StatisticsButton}"
+                                AutomationProperties.HelpText="{localization:Localize TrainingSession_ViewDetails}" />
 
                         <Button Grid.Column="1"
                                 Text="{localization:Localize TrainingSession_NewSession}"
@@ -253,7 +257,9 @@
                                 BackgroundColor="{StaticResource Secondary}"
                                 TextColor="White"
                                 CornerRadius="10"
-                                HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}" />
+                                HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
+                                AutomationProperties.Name="{localization:Localize Accessibility_NewSessionButton}"
+                                AutomationProperties.HelpText="{localization:Localize TrainingSession_NewSession}" />
                     </Grid>
                 </StackLayout>
             </Grid>

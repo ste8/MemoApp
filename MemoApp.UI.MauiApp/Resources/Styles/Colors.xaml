@@ -18,7 +18,8 @@
     <Color x:Key="Success">#28A745</Color>
     <Color x:Key="SuccessDark">#1E7E34</Color>
     <Color x:Key="Warning">#FFC107</Color>
-    <Color x:Key="WarningDark">#E0A800</Color>
+    <Color x:Key="WarningDark">#B8860B</Color>  <!-- Darker for better contrast with white text -->
+    <Color x:Key="WarningTextSafe">#B8860B</Color>  <!-- Safe for white text on warning backgrounds -->
     <Color x:Key="Danger">#DC3545</Color>
     <Color x:Key="DangerDark">#C82333</Color>
     <Color x:Key="Info">#17A2B8</Color>
@@ -34,12 +35,19 @@
     <Color x:Key="Gray100">#E1E1E1</Color>
     <Color x:Key="Gray200">#C8C8C8</Color>
     <Color x:Key="Gray300">#ACACAC</Color>
-    <Color x:Key="Gray400">#919191</Color>
-    <Color x:Key="Gray500">#6E6E6E</Color>
-    <Color x:Key="Gray600">#404040</Color>
+    <Color x:Key="Gray400">#919191</Color>  <!-- ⚠️ Low contrast - avoid for text -->
+    <Color x:Key="Gray500">#6E6E6E</Color>  <!-- Minimum for accessibility -->
+    <Color x:Key="Gray600">#404040</Color>  <!-- Good contrast choice -->
     <Color x:Key="Gray800">#2D2D2D</Color>
     <Color x:Key="Gray900">#212121</Color>
     <Color x:Key="Gray950">#141414</Color>
+    
+    <!-- Accessibility-focused colors -->
+    <Color x:Key="TextSubtle">#404040</Color>      <!-- Replaces Gray400 for better contrast -->
+    <Color x:Key="TextDisabled">#6E6E6E</Color>    <!-- Minimum for disabled text -->
+    <Color x:Key="BorderSubtle">#919191</Color>    <!-- OK for borders, not text -->
+    <Color x:Key="WarningText">#B8860B</Color>     <!-- Warning color safe for text on light backgrounds -->
+    <Color x:Key="SuccessText">#1E7E34</Color>     <!-- Success color safe for text on light backgrounds -->
 
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>

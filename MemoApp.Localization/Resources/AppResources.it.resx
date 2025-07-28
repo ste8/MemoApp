@@ -392,4 +392,90 @@
     <value>Premi N per andare al numero successivo</value>
     <comment>Keyboard shortcut hint for Next button</comment>
   </data>
+  
+  <!-- Accessibility Labels -->
+  <data name="Accessibility_NextButton" xml:space="preserve">
+    <value>Pulsante numero successivo</value>
+    <comment>Accessibility label for next number button</comment>
+  </data>
+  <data name="Accessibility_NextButtonHelp" xml:space="preserve">
+    <value>Procedi al numero successivo nella sequenza di allenamento</value>
+    <comment>Accessibility help text for next number button</comment>
+  </data>
+  <data name="Accessibility_ProgressBar" xml:space="preserve">
+    <value>Progresso dell'allenamento</value>
+    <comment>Accessibility label for progress bar</comment>
+  </data>
+  <data name="Accessibility_CurrentNumber" xml:space="preserve">
+    <value>Numero corrente dell'allenamento</value>
+    <comment>Accessibility label for current number display</comment>
+  </data>
+  <data name="Accessibility_LanguageButton" xml:space="preserve">
+    <value>Cambia lingua</value>
+    <comment>Accessibility label for language selection button</comment>
+  </data>
+  <data name="Accessibility_LanguageButtonHelp" xml:space="preserve">
+    <value>Seleziona la lingua dell'applicazione</value>
+    <comment>Accessibility help text for language button</comment>
+  </data>
+  <data name="Accessibility_StartTrainingButton" xml:space="preserve">
+    <value>Inizia sessione di allenamento</value>
+    <comment>Accessibility label for start training button</comment>
+  </data>
+  <data name="Accessibility_StatisticsButton" xml:space="preserve">
+    <value>Visualizza statistiche dettagliate</value>
+    <comment>Accessibility label for statistics button</comment>
+  </data>
+  <data name="Accessibility_NewSessionButton" xml:space="preserve">
+    <value>Inizia nuova sessione di allenamento</value>
+    <comment>Accessibility label for new session button</comment>
+  </data>
+  <data name="Accessibility_BackButton" xml:space="preserve">
+    <value>Torna indietro</value>
+    <comment>Accessibility label for back button</comment>
+  </data>
+  <data name="Accessibility_LoadingIndicator" xml:space="preserve">
+    <value>Caricamento</value>
+    <comment>Accessibility label for loading indicator</comment>
+  </data>
+  <data name="Accessibility_BeginTrainingButton" xml:space="preserve">
+    <value>Pulsante inizia addestramento</value>
+    <comment>Accessibility label for begin training button</comment>
+  </data>
+  <data name="Accessibility_BeginTrainingButtonHelp" xml:space="preserve">
+    <value>Inizia una sessione di addestramento rapido con numeri 0-9</value>
+    <comment>Accessibility help text for begin training button</comment>
+  </data>
+  <data name="Accessibility_HelpButton" xml:space="preserve">
+    <value>Pulsante guida Major System</value>
+    <comment>Accessibility label for help/guide button</comment>
+  </data>
+  <data name="Accessibility_HelpButtonHelp" xml:space="preserve">
+    <value>Visualizza la guida e le istruzioni del Major System</value>
+    <comment>Accessibility help text for help/guide button</comment>
+  </data>
+  <data name="Accessibility_StartNumberPicker" xml:space="preserve">
+    <value>Selettore numero iniziale</value>
+    <comment>Accessibility label for start number picker</comment>
+  </data>
+  <data name="Accessibility_StartNumberPickerHelp" xml:space="preserve">
+    <value>Seleziona il numero iniziale per l'intervallo di addestramento personalizzato</value>
+    <comment>Accessibility help text for start number picker</comment>
+  </data>
+  <data name="Accessibility_EndNumberPicker" xml:space="preserve">
+    <value>Selettore numero finale</value>
+    <comment>Accessibility label for end number picker</comment>
+  </data>
+  <data name="Accessibility_EndNumberPickerHelp" xml:space="preserve">
+    <value>Seleziona il numero finale per l'intervallo di addestramento personalizzato</value>
+    <comment>Accessibility help text for end number picker</comment>
+  </data>
+  <data name="Accessibility_StartCustomTrainingButton" xml:space="preserve">
+    <value>Pulsante inizia addestramento personalizzato</value>
+    <comment>Accessibility label for start custom training button</comment>
+  </data>
+  <data name="Accessibility_StartCustomTrainingButtonHelp" xml:space="preserve">
+    <value>Inizia sessione di addestramento con l'intervallo di numeri selezionato</value>
+    <comment>Accessibility help text for start custom training button</comment>
+  </data>
 </root>

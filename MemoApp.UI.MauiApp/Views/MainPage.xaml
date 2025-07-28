@@ -66,7 +66,9 @@
                                 BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
                                 TextColor="White"
                                 CornerRadius="8"
-                                HorizontalOptions="FillAndExpand" />
+                                HorizontalOptions="FillAndExpand"
+                                AutomationProperties.Name="{localization:Localize Accessibility_LanguageButton}"
+                                AutomationProperties.HelpText="{localization:Localize Accessibility_LanguageButtonHelp}" />
                     </Grid>
                 </Frame>
 
@@ -87,7 +89,9 @@
                                 BackgroundColor="White"
                                 TextColor="{StaticResource Primary}"
                                 CornerRadius="8"
-                                HeightRequest="{OnIdiom Phone=50, Tablet=55, Desktop=60}" />
+                                HeightRequest="{OnIdiom Phone=50, Tablet=55, Desktop=60}"
+                                AutomationProperties.Name="{localization:Localize Accessibility_BeginTrainingButton}"
+                                AutomationProperties.HelpText="{localization:Localize Accessibility_BeginTrainingButtonHelp}" />
                         
                         <Button Text="{localization:Localize MainPage_MajorSystemGuide}"
                                 Command="{Binding ShowHelpCommand}"
@@ -96,7 +100,9 @@
                                 BorderColor="White"
                                 BorderWidth="2"
                                 CornerRadius="8"
-                                HeightRequest="{OnIdiom Phone=45, Tablet=50, Desktop=55}" />
+                                HeightRequest="{OnIdiom Phone=45, Tablet=50, Desktop=55}"
+                                AutomationProperties.Name="{localization:Localize Accessibility_HelpButton}"
+                                AutomationProperties.HelpText="{localization:Localize Accessibility_HelpButtonHelp}" />
                     </StackLayout>
                 </Frame>
 
@@ -133,7 +139,9 @@
                                             SelectedIndex="{Binding SelectedStartIndex}"
                                             Title="{localization:Localize MainPage_StartNumber}"
                                             HorizontalOptions="FillAndExpand"
-                                            IsVisible="{OnPlatform Android=True, iOS=True, Default=False}" />
+                                            IsVisible="{OnPlatform Android=True, iOS=True, Default=False}"
+                                            AutomationProperties.Name="{localization:Localize Accessibility_StartNumberPicker}"
+                                            AutomationProperties.HelpText="{localization:Localize Accessibility_StartNumberPickerHelp}" />
                                 </ContentView.Content>
                             </ContentView>
                             
@@ -143,7 +151,7 @@
                                          HorizontalOptions="FillAndExpand">
                                 <Label Text="{localization:Localize MainPage_StartNumber}"
                                        FontSize="14"
-                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
                                        Margin="0,0,0,5" />
                                 <Grid>
                                     <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
@@ -165,7 +173,7 @@
                                                    Margin="10,0,0,0" />
                                             <Label Text="{Binding IsStartDropdownVisible, Converter={StaticResource BoolToDropdownArrowConverter}}"
                                                    FontSize="14"
-                                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                                                   TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
                                                    VerticalOptions="Center"
                                                    HorizontalOptions="End"
                                                    Margin="0,0,10,0" />
@@ -242,7 +250,9 @@
                                             SelectedIndex="{Binding SelectedEndIndex}"
                                             Title="{localization:Localize MainPage_EndNumber}"
                                             HorizontalOptions="FillAndExpand"
-                                            IsVisible="{OnPlatform Android=True, iOS=True, Default=False}" />
+                                            IsVisible="{OnPlatform Android=True, iOS=True, Default=False}"
+                                            AutomationProperties.Name="{localization:Localize Accessibility_EndNumberPicker}"
+                                            AutomationProperties.HelpText="{localization:Localize Accessibility_EndNumberPickerHelp}" />
                                 </ContentView.Content>
                             </ContentView>
                             
@@ -253,7 +263,7 @@
                                          HorizontalOptions="FillAndExpand">
                                 <Label Text="{localization:Localize MainPage_EndNumber}"
                                        FontSize="14"
-                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
                                        Margin="0,0,0,5" />
                                 <Grid>
                                     <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
@@ -275,7 +285,7 @@
                                                    Margin="10,0,0,0" />
                                             <Label Text="{Binding IsEndDropdownVisible, Converter={StaticResource BoolToDropdownArrowConverter}}"
                                                    FontSize="14"
-                                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                                                   TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
                                                    VerticalOptions="Center"
                                                    HorizontalOptions="End"
                                                    Margin="0,0,10,0" />
@@ -350,7 +360,9 @@
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="White"
                                 CornerRadius="8"
-                                HeightRequest="{OnIdiom Phone=50, Tablet=55, Desktop=60}" />
+                                HeightRequest="{OnIdiom Phone=50, Tablet=55, Desktop=60}"
+                                AutomationProperties.Name="{localization:Localize Accessibility_StartCustomTrainingButton}"
+                                AutomationProperties.HelpText="{localization:Localize Accessibility_StartCustomTrainingButtonHelp}" />
                     </StackLayout>
                 </Frame>
             </StackLayout>
@@ -397,7 +409,7 @@
                                     
                                     <Label Text="{Binding Description}" 
                                            FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                           TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
                                     
                                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                                         <Label Text="{localization:Localize Common_Range}" 

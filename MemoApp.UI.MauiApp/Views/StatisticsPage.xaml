@@ -99,7 +99,7 @@
 
             <!-- Numbers to Focus On -->
             <Frame Grid.Row="1"
-                   BackgroundColor="{AppThemeBinding Light={StaticResource Warning}, Dark={StaticResource WarningDark}}"
+                   BackgroundColor="{AppThemeBinding Light={StaticResource WarningTextSafe}, Dark={StaticResource WarningDark}}"
                    Padding="15"
                    CornerRadius="10"
                    HasShadow="True"
@@ -149,7 +149,7 @@
                                         <Label Grid.Column="1"
                                                Text="{Binding ResponseTime, StringFormat='{0:ss\\.ff}s'}"
                                                FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                               TextColor="{StaticResource Warning}"
+                                               TextColor="{StaticResource WarningText}"
                                                HorizontalOptions="Center"
                                                VerticalOptions="Center" />
                                     </Grid>
@@ -244,7 +244,9 @@
                         TextColor="White"
                         CornerRadius="10"
                         HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
-                        FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}" />
+                        FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                        AutomationProperties.Name="{localization:Localize Accessibility_BackButton}"
+                        AutomationProperties.HelpText="{localization:Localize Statistics_Back}" />
 
                 <Button Grid.Column="1"
                         Text="{localization:Localize Common_NewSession}"
@@ -253,7 +255,9 @@
                         TextColor="White"
                         CornerRadius="10"
                         HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
-                        FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}" />
+                        FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                        AutomationProperties.Name="{localization:Localize Accessibility_NewSessionButton}"
+                        AutomationProperties.HelpText="{localization:Localize Common_NewSession}" />
             </Grid>
         </Grid>
     </ScrollView>

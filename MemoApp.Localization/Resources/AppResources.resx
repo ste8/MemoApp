@@ -392,4 +392,90 @@
     <value>Press N to go to next number</value>
     <comment>Keyboard shortcut hint for Next button</comment>
   </data>
+  
+  <!-- Accessibility Labels -->
+  <data name="Accessibility_NextButton" xml:space="preserve">
+    <value>Next number button</value>
+    <comment>Accessibility label for next number button</comment>
+  </data>
+  <data name="Accessibility_NextButtonHelp" xml:space="preserve">
+    <value>Proceed to the next number in the training sequence</value>
+    <comment>Accessibility help text for next number button</comment>
+  </data>
+  <data name="Accessibility_ProgressBar" xml:space="preserve">
+    <value>Training progress</value>
+    <comment>Accessibility label for progress bar</comment>
+  </data>
+  <data name="Accessibility_CurrentNumber" xml:space="preserve">
+    <value>Current training number</value>
+    <comment>Accessibility label for current number display</comment>
+  </data>
+  <data name="Accessibility_LanguageButton" xml:space="preserve">
+    <value>Change language</value>
+    <comment>Accessibility label for language selection button</comment>
+  </data>
+  <data name="Accessibility_LanguageButtonHelp" xml:space="preserve">
+    <value>Select the application language</value>
+    <comment>Accessibility help text for language button</comment>
+  </data>
+  <data name="Accessibility_StartTrainingButton" xml:space="preserve">
+    <value>Start training session</value>
+    <comment>Accessibility label for start training button</comment>
+  </data>
+  <data name="Accessibility_StatisticsButton" xml:space="preserve">
+    <value>View detailed statistics</value>
+    <comment>Accessibility label for statistics button</comment>
+  </data>
+  <data name="Accessibility_NewSessionButton" xml:space="preserve">
+    <value>Start new training session</value>
+    <comment>Accessibility label for new session button</comment>
+  </data>
+  <data name="Accessibility_BackButton" xml:space="preserve">
+    <value>Go back</value>
+    <comment>Accessibility label for back button</comment>
+  </data>
+  <data name="Accessibility_LoadingIndicator" xml:space="preserve">
+    <value>Loading</value>
+    <comment>Accessibility label for loading indicator</comment>
+  </data>
+  <data name="Accessibility_BeginTrainingButton" xml:space="preserve">
+    <value>Begin training button</value>
+    <comment>Accessibility label for begin training button</comment>
+  </data>
+  <data name="Accessibility_BeginTrainingButtonHelp" xml:space="preserve">
+    <value>Start a quick training session with numbers 0-9</value>
+    <comment>Accessibility help text for begin training button</comment>
+  </data>
+  <data name="Accessibility_HelpButton" xml:space="preserve">
+    <value>Major System guide button</value>
+    <comment>Accessibility label for help/guide button</comment>
+  </data>
+  <data name="Accessibility_HelpButtonHelp" xml:space="preserve">
+    <value>View the Major System guide and instructions</value>
+    <comment>Accessibility help text for help/guide button</comment>
+  </data>
+  <data name="Accessibility_StartNumberPicker" xml:space="preserve">
+    <value>Start number picker</value>
+    <comment>Accessibility label for start number picker</comment>
+  </data>
+  <data name="Accessibility_StartNumberPickerHelp" xml:space="preserve">
+    <value>Select the starting number for custom training range</value>
+    <comment>Accessibility help text for start number picker</comment>
+  </data>
+  <data name="Accessibility_EndNumberPicker" xml:space="preserve">
+    <value>End number picker</value>
+    <comment>Accessibility label for end number picker</comment>
+  </data>
+  <data name="Accessibility_EndNumberPickerHelp" xml:space="preserve">
+    <value>Select the ending number for custom training range</value>
+    <comment>Accessibility help text for end number picker</comment>
+  </data>
+  <data name="Accessibility_StartCustomTrainingButton" xml:space="preserve">
+    <value>Start custom training button</value>
+    <comment>Accessibility label for start custom training button</comment>
+  </data>
+  <data name="Accessibility_StartCustomTrainingButtonHelp" xml:space="preserve">
+    <value>Start training session with your selected number range</value>
+    <comment>Accessibility help text for start custom training button</comment>
+  </data>
 </root>
