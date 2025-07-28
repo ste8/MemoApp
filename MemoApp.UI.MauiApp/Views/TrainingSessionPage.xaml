@@ -8,6 +8,15 @@
              Title="{Binding Title}">
 
     <Grid>
+        <!-- Invisible Entry for keyboard input handling -->
+        <Entry x:Name="KeyboardHandler"
+               Text=""
+               IsVisible="False"
+               Opacity="0"
+               TextChanged="OnKeyboardInput"
+               Focused="OnKeyboardHandlerFocused"
+               Unfocused="OnKeyboardHandlerUnfocused" />
+        
         <!-- Loading indicator -->
         <ActivityIndicator IsVisible="{Binding IsBusy}"
                           IsRunning="{Binding IsBusy}"
@@ -116,7 +125,8 @@
                     </Frame>
 
                     <!-- Action button with responsive sizing -->
-                    <Button Text="{localization:Localize TrainingSession_NextNumber}"
+                    <Button x:Name="NextButton"
+                            Text="{localization:Localize TrainingSession_NextNumber}"
                             Command="{Binding AdvanceToNextCommand}"
                             BackgroundColor="{StaticResource Secondary}"
                             TextColor="White"

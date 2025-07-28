@@ -307,7 +307,7 @@
     <comment>Training session instruction</comment>
   </data>
   <data name="TrainingSession_HelpTip" xml:space="preserve">
-    <value>💡 Take your time to recall your Major System word or image for this number, then tap 'Next Number' to continue.</value>
+    <value>💡 Take your time to recall your Major System word or image for this number, then tap 'Next Number' to continue. Press 'N' for quick access.</value>
     <comment>Training session help tip</comment>
   </data>
   <data name="TrainingSession_Celebration" xml:space="preserve">

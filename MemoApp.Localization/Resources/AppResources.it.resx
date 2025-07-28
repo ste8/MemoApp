@@ -307,7 +307,7 @@
     <comment>Training session instruction</comment>
   </data>
   <data name="TrainingSession_HelpTip" xml:space="preserve">
-    <value>💡 Prenditi il tempo per ricordare la tua parola o immagine del Sistema Maggiore per questo numero, poi tocca 'Numero Successivo' per continuare.</value>
+    <value>💡 Prenditi il tempo per ricordare la tua parola o immagine del Sistema Maggiore per questo numero, poi tocca 'Numero Successivo' per continuare. Premi 'N' per l'accesso rapido.</value>
     <comment>Training session help tip</comment>
   </data>
   <data name="TrainingSession_Celebration" xml:space="preserve">
