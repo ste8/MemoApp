@@ -128,16 +128,26 @@
                     </Frame>
 
                     <!-- Action button with responsive sizing -->
-                    <Button x:Name="NextButton"
-                            Text="{localization:Localize TrainingSession_NextNumber}"
-                            Command="{Binding AdvanceToNextCommand}"
-                            BackgroundColor="{StaticResource Secondary}"
-                            TextColor="White"
-                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
-                            FontAttributes="Bold"
-                            CornerRadius="15"
-                            HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
-                            Margin="20,0" />
+                    <StackLayout Spacing="8">
+                        <Button x:Name="NextButton"
+                                Text="{localization:Localize TrainingSession_NextNumber}"
+                                Command="{Binding AdvanceToNextCommand}"
+                                BackgroundColor="{StaticResource Secondary}"
+                                TextColor="White"
+                                FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                FontAttributes="Bold"
+                                CornerRadius="15"
+                                HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
+                                Margin="20,0" />
+                        
+                        <!-- Keyboard shortcut hint for desktop platforms only -->
+                        <Label Text="{localization:Localize TrainingSession_KeyboardShortcutHint}"
+                               IsVisible="{OnPlatform MacCatalyst=True, WinUI=True, Default=False}"
+                               FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                               HorizontalOptions="Center"
+                               FontAttributes="Italic" />
+                    </StackLayout>
 
                     <!-- Instructions card -->
                     <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Warning}, Dark={StaticResource WarningDark}}"

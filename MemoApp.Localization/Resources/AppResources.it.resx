@@ -388,4 +388,8 @@
     <value>Annulla</value>
     <comment>Cancel button text</comment>
   </data>
+  <data name="TrainingSession_KeyboardShortcutHint" xml:space="preserve">
+    <value>Premi N per andare al numero successivo</value>
+    <comment>Keyboard shortcut hint for Next button</comment>
+  </data>
 </root>

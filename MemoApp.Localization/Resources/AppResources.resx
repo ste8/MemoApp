@@ -388,4 +388,8 @@
     <value>Cancel</value>
     <comment>Cancel button text</comment>
   </data>
+  <data name="TrainingSession_KeyboardShortcutHint" xml:space="preserve">
+    <value>Press N to go to next number</value>
+    <comment>Keyboard shortcut hint for Next button</comment>
+  </data>
 </root>
