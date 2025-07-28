@@ -18,8 +18,8 @@
     <Color x:Key="Success">#28A745</Color>
     <Color x:Key="SuccessDark">#1E7E34</Color>
     <Color x:Key="Warning">#FFC107</Color>
-    <Color x:Key="WarningDark">#B8860B</Color>  <!-- Darker for better contrast with white text -->
-    <Color x:Key="WarningTextSafe">#B8860B</Color>  <!-- Safe for white text on warning backgrounds -->
+    <Color x:Key="WarningDark">#FF8C00</Color>  <!-- Amber/Gold for better contrast with white text -->
+    <Color x:Key="WarningTextSafe">#FF8C00</Color>  <!-- Safe for white text on warning backgrounds -->
     <Color x:Key="Danger">#DC3545</Color>
     <Color x:Key="DangerDark">#C82333</Color>
     <Color x:Key="Info">#17A2B8</Color>
@@ -46,7 +46,7 @@
     <Color x:Key="TextSubtle">#404040</Color>      <!-- Replaces Gray400 for better contrast -->
     <Color x:Key="TextDisabled">#6E6E6E</Color>    <!-- Minimum for disabled text -->
     <Color x:Key="BorderSubtle">#919191</Color>    <!-- OK for borders, not text -->
-    <Color x:Key="WarningText">#B8860B</Color>     <!-- Warning color safe for text on light backgrounds -->
+    <Color x:Key="WarningText">#FF8C00</Color>     <!-- Warning color safe for text on light backgrounds -->
     <Color x:Key="SuccessText">#1E7E34</Color>     <!-- Success color safe for text on light backgrounds -->
 
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
