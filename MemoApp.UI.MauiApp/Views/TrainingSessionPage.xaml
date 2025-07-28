@@ -8,14 +8,17 @@
              Title="{Binding Title}">
 
     <Grid>
-        <!-- Invisible Entry for keyboard input handling -->
-        <Entry x:Name="KeyboardHandler"
+        <!-- Keyboard input handler - positioned off-screen but focusable -->
+        <Entry x:Name="KeyboardInputHandler"
                Text=""
-               IsVisible="False"
-               Opacity="0"
-               TextChanged="OnKeyboardInput"
-               Focused="OnKeyboardHandlerFocused"
-               Unfocused="OnKeyboardHandlerUnfocused" />
+               WidthRequest="1"
+               HeightRequest="1"
+               BackgroundColor="Transparent"
+               TextColor="Transparent"
+               Margin="-1000,-1000,0,0"
+               TextChanged="OnKeyboardTextChanged"
+               VerticalOptions="Start"
+               HorizontalOptions="Start" />
         
         <!-- Loading indicator -->
         <ActivityIndicator IsVisible="{Binding IsBusy}"
