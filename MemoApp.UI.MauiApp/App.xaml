@@ -16,6 +16,7 @@
             <converters:IsNotNullConverter x:Key="IsNotNullConverter" />
             <converters:DivisionConverter x:Key="DivisionConverter" />
             <converters:ResponseTimeToColorConverter x:Key="ResponseTimeToColorConverter" />
+            <converters:BoolToDropdownArrowConverter x:Key="BoolToDropdownArrowConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

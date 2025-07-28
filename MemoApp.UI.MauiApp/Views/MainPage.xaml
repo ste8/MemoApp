@@ -145,16 +145,84 @@
                                        FontSize="14"
                                        TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
                                        Margin="0,0,0,5" />
-                                <Button x:Name="StartNumberButton"
-                                        Text="{Binding CustomRangeStart}"
-                                        Command="{Binding SelectStartNumberCommand}"
-                                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
-                                        TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
-                                        BorderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
-                                        BorderWidth="1"
-                                        CornerRadius="8"
-                                        HorizontalOptions="FillAndExpand"
-                                        HeightRequest="40" />
+                                <Grid>
+                                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                                            Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                            StrokeThickness="1"
+                                            HeightRequest="40">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="4" />
+                                        </Border.StrokeShape>
+                                        <Grid>
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding ToggleStartDropdownCommand}" />
+                                            </Grid.GestureRecognizers>
+                                            <Label Text="{Binding CustomRangeStart}"
+                                                   FontSize="14"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="Start"
+                                                   Margin="10,0,0,0" />
+                                            <Label Text="{Binding IsStartDropdownVisible, Converter={StaticResource BoolToDropdownArrowConverter}}"
+                                                   FontSize="14"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="End"
+                                                   Margin="0,0,10,0" />
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                                <!-- Dropdown for Start Number -->
+                                <Frame IsVisible="{Binding IsStartDropdownVisible}"
+                                       BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray900}}"
+                                       BorderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                       CornerRadius="8"
+                                       Padding="0"
+                                       HasShadow="True"
+                                       ZIndex="1000"
+                                       MaximumHeightRequest="200">
+                                    <CollectionView ItemsSource="{Binding NumberOptions}"
+                                                    BackgroundColor="Transparent"
+                                                    SelectionMode="None"
+                                                    MaximumHeightRequest="180">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate x:DataType="x:String">
+                                                <Border BackgroundColor="Transparent"
+                                                        Padding="0">
+                                                    <Grid Padding="10,8">
+                                                        <Grid.GestureRecognizers>
+                                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainViewModel}}, Path=SelectStartNumberOptionCommand}"
+                                                                                  CommandParameter="{Binding .}" />
+                                                        </Grid.GestureRecognizers>
+                                                        <VisualStateManager.VisualStateGroups>
+                                                            <VisualStateGroup Name="CommonStates">
+                                                                <VisualState Name="Normal">
+                                                                    <VisualState.Setters>
+                                                                        <Setter Property="BackgroundColor" Value="Transparent" />
+                                                                    </VisualState.Setters>
+                                                                </VisualState>
+                                                                <VisualState Name="PointerOver">
+                                                                    <VisualState.Setters>
+                                                                        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}" />
+                                                                    </VisualState.Setters>
+                                                                </VisualState>
+                                                                <VisualState Name="Pressed">
+                                                                    <VisualState.Setters>
+                                                                        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                                                                    </VisualState.Setters>
+                                                                </VisualState>
+                                                            </VisualStateGroup>
+                                                        </VisualStateManager.VisualStateGroups>
+                                                        <Label Text="{Binding .}"
+                                                               FontSize="14"
+                                                               TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                                                               VerticalOptions="Center" />
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </Frame>
                             </StackLayout>
                             
                             <Label Grid.Column="1" Grid.Row="0"
@@ -187,16 +255,84 @@
                                        FontSize="14"
                                        TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
                                        Margin="0,0,0,5" />
-                                <Button x:Name="EndNumberButton"
-                                        Text="{Binding CustomRangeEnd}"
-                                        Command="{Binding SelectEndNumberCommand}"
-                                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
-                                        TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
-                                        BorderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
-                                        BorderWidth="1"
-                                        CornerRadius="8"
-                                        HorizontalOptions="FillAndExpand"
-                                        HeightRequest="40" />
+                                <Grid>
+                                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                                            Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                            StrokeThickness="1"
+                                            HeightRequest="40">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="4" />
+                                        </Border.StrokeShape>
+                                        <Grid>
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding ToggleEndDropdownCommand}" />
+                                            </Grid.GestureRecognizers>
+                                            <Label Text="{Binding CustomRangeEnd}"
+                                                   FontSize="14"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="Start"
+                                                   Margin="10,0,0,0" />
+                                            <Label Text="{Binding IsEndDropdownVisible, Converter={StaticResource BoolToDropdownArrowConverter}}"
+                                                   FontSize="14"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="End"
+                                                   Margin="0,0,10,0" />
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                                <!-- Dropdown for End Number -->
+                                <Frame IsVisible="{Binding IsEndDropdownVisible}"
+                                       BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray900}}"
+                                       BorderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                       CornerRadius="8"
+                                       Padding="0"
+                                       HasShadow="True"
+                                       ZIndex="1000"
+                                       MaximumHeightRequest="200">
+                                    <CollectionView ItemsSource="{Binding NumberOptions}"
+                                                    BackgroundColor="Transparent"
+                                                    SelectionMode="None"
+                                                    MaximumHeightRequest="180">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate x:DataType="x:String">
+                                                <Border BackgroundColor="Transparent"
+                                                        Padding="0">
+                                                    <Grid Padding="10,8">
+                                                        <Grid.GestureRecognizers>
+                                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainViewModel}}, Path=SelectEndNumberOptionCommand}"
+                                                                                  CommandParameter="{Binding .}" />
+                                                        </Grid.GestureRecognizers>
+                                                        <VisualStateManager.VisualStateGroups>
+                                                            <VisualStateGroup Name="CommonStates">
+                                                                <VisualState Name="Normal">
+                                                                    <VisualState.Setters>
+                                                                        <Setter Property="BackgroundColor" Value="Transparent" />
+                                                                    </VisualState.Setters>
+                                                                </VisualState>
+                                                                <VisualState Name="PointerOver">
+                                                                    <VisualState.Setters>
+                                                                        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}" />
+                                                                    </VisualState.Setters>
+                                                                </VisualState>
+                                                                <VisualState Name="Pressed">
+                                                                    <VisualState.Setters>
+                                                                        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                                                                    </VisualState.Setters>
+                                                                </VisualState>
+                                                            </VisualStateGroup>
+                                                        </VisualStateManager.VisualStateGroups>
+                                                        <Label Text="{Binding .}"
+                                                               FontSize="14"
+                                                               TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                                                               VerticalOptions="Center" />
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </Frame>
                             </StackLayout>
                         </Grid>
                         

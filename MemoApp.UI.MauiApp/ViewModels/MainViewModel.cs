@@ -29,6 +29,18 @@ public partial class MainViewModel : BaseViewModel
         
         // Load saved language preference asynchronously
         LoadSavedLanguageAsync();
+        
+        // Initialize dropdown selected values
+        InitializeDropdownValues();
+    }
+    
+    private void InitializeDropdownValues()
+    {
+        if (NumberOptions.Count > 0)
+        {
+            SelectedStartNumberOption = NumberOptions.ElementAtOrDefault(SelectedStartIndex);
+            SelectedEndNumberOption = NumberOptions.ElementAtOrDefault(SelectedEndIndex);
+        }
     }
 
     [ObservableProperty]
@@ -66,6 +78,18 @@ public partial class MainViewModel : BaseViewModel
 
     [ObservableProperty]
     private string selectedLanguageDisplayName = string.Empty;
+
+    [ObservableProperty]
+    private bool isStartDropdownVisible = false;
+
+    [ObservableProperty]
+    private bool isEndDropdownVisible = false;
+
+    [ObservableProperty]
+    private string? selectedStartNumberOption;
+
+    [ObservableProperty]
+    private string? selectedEndNumberOption;
 
     private bool _isUpdatingLanguage = false;
 
@@ -150,6 +174,68 @@ public partial class MainViewModel : BaseViewModel
         };
         
         await Shell.Current.GoToAsync("training", parameters);
+    }
+
+    [RelayCommand]
+    private void ToggleStartDropdown()
+    {
+        System.Diagnostics.Debug.WriteLine($"ToggleStartDropdown called, current state: {IsStartDropdownVisible}");
+        
+        IsEndDropdownVisible = false; // Close end dropdown if open
+        IsStartDropdownVisible = !IsStartDropdownVisible;
+        
+        System.Diagnostics.Debug.WriteLine($"Start dropdown now: {IsStartDropdownVisible}");
+    }
+
+    [RelayCommand]
+    private void ToggleEndDropdown()
+    {
+        System.Diagnostics.Debug.WriteLine($"ToggleEndDropdown called, current state: {IsEndDropdownVisible}");
+        
+        IsStartDropdownVisible = false; // Close start dropdown if open
+        IsEndDropdownVisible = !IsEndDropdownVisible;
+        
+        System.Diagnostics.Debug.WriteLine($"End dropdown now: {IsEndDropdownVisible}");
+    }
+
+    [RelayCommand]
+    private void SelectStartNumberOption(string option)
+    {
+        System.Diagnostics.Debug.WriteLine($"SelectStartNumberOption called with: {option}");
+        
+        if (!string.IsNullOrEmpty(option))
+        {
+            var selectedIndex = NumberOptions.IndexOf(option);
+            System.Diagnostics.Debug.WriteLine($"Found index: {selectedIndex} for option: {option}");
+            
+            if (selectedIndex >= 0)
+            {
+                SelectedStartIndex = selectedIndex;
+                SelectedStartNumberOption = option;
+                System.Diagnostics.Debug.WriteLine($"Updated SelectedStartIndex to: {selectedIndex}, CustomRangeStart: {CustomRangeStart}");
+            }
+        }
+        IsStartDropdownVisible = false;
+    }
+
+    [RelayCommand]
+    private void SelectEndNumberOption(string option)
+    {
+        System.Diagnostics.Debug.WriteLine($"SelectEndNumberOption called with: {option}");
+        
+        if (!string.IsNullOrEmpty(option))
+        {
+            var selectedIndex = NumberOptions.IndexOf(option);
+            System.Diagnostics.Debug.WriteLine($"Found index: {selectedIndex} for option: {option}");
+            
+            if (selectedIndex >= 0)
+            {
+                SelectedEndIndex = selectedIndex;
+                SelectedEndNumberOption = option;
+                System.Diagnostics.Debug.WriteLine($"Updated SelectedEndIndex to: {selectedIndex}, CustomRangeEnd: {CustomRangeEnd}");
+            }
+        }
+        IsEndDropdownVisible = false;
     }
 
     [RelayCommand]
