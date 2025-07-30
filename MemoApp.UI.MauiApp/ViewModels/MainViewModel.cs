@@ -22,13 +22,9 @@ public partial class MainViewModel : BaseViewModel
         Title = "Major System Training";
         LoadTrainingOptions();
         LoadNumberOptions();
-        LoadLanguageOptions();
         
         // Subscribe to culture changes to update validation message
         _localizationService.CultureChanged += OnCultureChanged;
-        
-        // Load saved language preference asynchronously
-        LoadSavedLanguageAsync();
         
         // Initialize dropdown selected values
         InitializeDropdownValues();
@@ -70,14 +66,6 @@ public partial class MainViewModel : BaseViewModel
     [ObservableProperty]
     private bool hasValidationError = false;
 
-    [ObservableProperty]
-    private ObservableCollection<LanguageOption> availableLanguages = new();
-
-    [ObservableProperty]
-    private LanguageOption? selectedLanguage;
-
-    [ObservableProperty]
-    private string selectedLanguageDisplayName = string.Empty;
 
     [ObservableProperty]
     private bool isStartDropdownVisible = false;
@@ -91,7 +79,6 @@ public partial class MainViewModel : BaseViewModel
     [ObservableProperty]
     private string? selectedEndNumberOption;
 
-    private bool _isUpdatingLanguage = false;
 
     [RelayCommand]
     private async Task StartQuickTraining()
@@ -131,38 +118,6 @@ public partial class MainViewModel : BaseViewModel
         await Shell.Current.GoToAsync("//help");
     }
 
-    [RelayCommand]
-    private async Task SelectLanguage()
-    {
-        if (AvailableLanguages.Count <= 1) return;
-
-        try
-        {
-            var options = AvailableLanguages.Select(l => l.DisplayName).ToArray();
-            var cancel = _localizationService.GetString("Common_Cancel");
-            
-            var result = await Shell.Current.DisplayActionSheet(
-                _localizationService.GetString("Language_SelectPrompt"), 
-                cancel, 
-                null, 
-                options);
-
-            if (result != null && result != cancel)
-            {
-                var selectedOption = AvailableLanguages.FirstOrDefault(l => l.DisplayName == result);
-                if (selectedOption != null && selectedOption.Culture.TwoLetterISOLanguageName != _localizationService.CurrentCulture.TwoLetterISOLanguageName)
-                {
-                    _localizationService.SetCulture(selectedOption.Culture);
-                    await _localizationService.SaveLanguagePreferenceAsync();
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            // Log error but don't crash the app
-            System.Diagnostics.Debug.WriteLine($"Language selection error: {ex.Message}");
-        }
-    }
 
     [RelayCommand]
     private async Task StartPresetTraining(TrainingOption option)
@@ -364,76 +319,19 @@ public partial class MainViewModel : BaseViewModel
         ValidationMessage = string.Empty;
     }
 
-    private void LoadLanguageOptions()
-    {
-        AvailableLanguages.Clear();
-        
-        // Add available languages based on supported cultures
-        foreach (var culture in _localizationService.GetAvailableCultures())
-        {
-            var displayName = culture.TwoLetterISOLanguageName switch
-            {
-                "en" => _localizationService.GetString("Language_English"),
-                "it" => _localizationService.GetString("Language_Italian"),
-                _ => culture.DisplayName
-            };
-            
-            AvailableLanguages.Add(new LanguageOption(culture.TwoLetterISOLanguageName, displayName, culture));
-        }
-        
-        // Set current language as selected
-        var currentCulture = _localizationService.CurrentCulture;
-        SelectedLanguage = AvailableLanguages.FirstOrDefault(l => 
-            l.Culture.TwoLetterISOLanguageName == currentCulture.TwoLetterISOLanguageName);
-        
-        // Update display name for button
-        SelectedLanguageDisplayName = SelectedLanguage?.DisplayName ?? string.Empty;
-    }
-
-    partial void OnSelectedLanguageChanged(LanguageOption? value)
-    {
-        // Update display name for button when language changes
-        SelectedLanguageDisplayName = value?.DisplayName ?? string.Empty;
-    }
-
     private void OnCultureChanged(object? sender, CultureInfo culture)
     {
         // Update UI when culture changes
         MainThread.BeginInvokeOnMainThread(() =>
         {
-            // Set flag to prevent issues
-            _isUpdatingLanguage = true;
-            
-            try
+            // Update validation message if there's an error
+            if (HasValidationError)
             {
-                // Reload language options to update display names
-                LoadLanguageOptions();
-                
-                // Update validation message if there's an error
-                if (HasValidationError)
-                {
-                    ValidationMessage = _localizationService.GetString("Validation_RangeError");
-                }
-            }
-            finally
-            {
-                // Always reset the flag
-                _isUpdatingLanguage = false;
+                ValidationMessage = _localizationService.GetString("Validation_RangeError");
             }
         });
     }
 
-    private async void LoadSavedLanguageAsync()
-    {
-        try
-        {
-            await _localizationService.LoadSavedLanguageAsync();
-        }
-        catch
-        {
-            // Ignore errors during loading - app will use default language
-        }
-    }
 }
 
 /// <summary>
@@ -441,10 +339,3 @@ public partial class MainViewModel : BaseViewModel
 /// </summary>
 public record TrainingOption(string Name, string RangeStart, string RangeEnd, string Description);
 
-/// <summary>
-/// Represents a language option for the language picker.
-/// </summary>
-public record LanguageOption(string Code, string DisplayName, CultureInfo Culture)
-{
-    public override string ToString() => DisplayName;
-};

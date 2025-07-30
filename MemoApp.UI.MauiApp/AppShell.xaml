@@ -18,6 +18,12 @@
             Icon="question"
             Route="help"
             ContentTemplate="{DataTemplate views:HelpPage}" />
+
+        <ShellContent
+            Title="Settings"
+            Icon="gear"
+            Route="settings"
+            ContentTemplate="{DataTemplate views:SettingsPage}" />
     </TabBar>
 
 </Shell>

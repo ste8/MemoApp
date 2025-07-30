@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="MemoApp.UI.MauiApp.Views.SettingsPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             Title="Settings">
+    
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="20">
+            
+            <!-- Page Title -->
+            <Label Text="Settings"
+                   FontSize="32"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,20" />
+
+            <!-- General Settings Section -->
+            <Frame BackgroundColor="LightGray"
+                   CornerRadius="10"
+                   HasShadow="True"
+                   Padding="15">
+                
+                <StackLayout Spacing="15">
+                    
+                    <!-- Section Title -->
+                    <Label Text="General"
+                           FontSize="18"
+                           FontAttributes="Bold" />
+                    
+                    <!-- Language Selection -->
+                    <StackLayout Spacing="10">
+                        <Label Text="Language"
+                               FontSize="16"
+                               FontAttributes="Bold" />
+                        
+                        <Button Text="{Binding CurrentLanguageName, TargetNullValue='Select Language'}"
+                                Command="{Binding SelectLanguageCommand}"
+                                BackgroundColor="White"
+                                TextColor="Black"
+                                BorderColor="Gray"
+                                BorderWidth="1"
+                                CornerRadius="8"
+                                FontSize="14"
+                                Padding="15,10"
+                                HorizontalOptions="FillAndExpand" />
+                        
+                        <Label Text="Select your preferred language for the app interface"
+                               FontSize="12"
+                               TextColor="Gray"
+                               LineBreakMode="WordWrap" />
+                    </StackLayout>
+                    
+                </StackLayout>
+            </Frame>
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
