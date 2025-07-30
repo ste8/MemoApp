@@ -500,4 +500,18 @@
     <value>Annulla</value>
     <comment>Cancel button text</comment>
   </data>
+  
+  <!-- Tab Labels -->
+  <data name="Tab_Training" xml:space="preserve">
+    <value>Allenamento</value>
+    <comment>Training tab label</comment>
+  </data>
+  <data name="Tab_Help" xml:space="preserve">
+    <value>Aiuto</value>
+    <comment>Help tab label</comment>
+  </data>
+  <data name="Tab_Settings" xml:space="preserve">
+    <value>Impostazioni</value>
+    <comment>Settings tab label</comment>
+  </data>
 </root>

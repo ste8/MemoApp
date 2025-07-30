@@ -500,4 +500,18 @@
     <value>Cancel</value>
     <comment>Cancel button text</comment>
   </data>
+  
+  <!-- Tab Labels -->
+  <data name="Tab_Training" xml:space="preserve">
+    <value>Training</value>
+    <comment>Training tab label</comment>
+  </data>
+  <data name="Tab_Help" xml:space="preserve">
+    <value>Help</value>
+    <comment>Help tab label</comment>
+  </data>
+  <data name="Tab_Settings" xml:space="preserve">
+    <value>Settings</value>
+    <comment>Settings tab label</comment>
+  </data>
 </root>
