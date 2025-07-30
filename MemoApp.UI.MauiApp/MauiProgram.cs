@@ -50,6 +50,20 @@ public static class MauiProgram
 		// Initialize the LocalizationResourceManager with the DI service
 		app.Services.InitializeLocalization();
 
+		// Load saved language preference before the app starts
+		var localizationService = app.Services.GetRequiredService<ILocalizationService>();
+		Task.Run(async () =>
+		{
+			try
+			{
+				await localizationService.LoadSavedLanguageAsync();
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Failed to load saved language at startup: {ex.Message}");
+			}
+		}).Wait();
+
 		return app;
 	}
 }
