@@ -4,13 +4,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
-             Title="Settings">
+             Title="{localization:Localize Settings_Title}">
     
     <ScrollView>
         <StackLayout Padding="20" Spacing="20">
             
             <!-- Page Title -->
-            <Label Text="Settings"
+            <Label Text="{localization:Localize Settings_Title}"
                    FontSize="32"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"
@@ -25,17 +25,17 @@
                 <StackLayout Spacing="15">
                     
                     <!-- Section Title -->
-                    <Label Text="General"
+                    <Label Text="{localization:Localize Settings_General}"
                            FontSize="18"
                            FontAttributes="Bold" />
                     
                     <!-- Language Selection -->
                     <StackLayout Spacing="10">
-                        <Label Text="Language"
+                        <Label Text="{localization:Localize Language_Title}"
                                FontSize="16"
                                FontAttributes="Bold" />
                         
-                        <Button Text="{Binding CurrentLanguageName, TargetNullValue='Select Language'}"
+                        <Button Text="{Binding CurrentLanguageName, TargetNullValue={localization:Localize Language_SelectPrompt}}"
                                 Command="{Binding SelectLanguageCommand}"
                                 BackgroundColor="White"
                                 TextColor="Black"
@@ -46,7 +46,7 @@
                                 Padding="15,10"
                                 HorizontalOptions="FillAndExpand" />
                         
-                        <Label Text="Select your preferred language for the app interface"
+                        <Label Text="{localization:Localize Language_Description}"
                                FontSize="12"
                                TextColor="Gray"
                                LineBreakMode="WordWrap" />

@@ -22,11 +22,11 @@ public partial class SettingsViewModel : BaseViewModel
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-        Title = "Settings"; // Will be localized in the view
+        Title = _localizationService.GetString("Settings_Title");
         AvailableLanguages = new ObservableCollection<string>();
         
         // Initialize with a fallback language to ensure UI never shows empty
-        CurrentLanguageName = "English";
+        CurrentLanguageName = _localizationService.GetString("Language_English");
         
         _logger.LogInformation("SettingsViewModel constructor completed");
     }
@@ -88,11 +88,11 @@ public partial class SettingsViewModel : BaseViewModel
             // Ensure we have a fallback language even if initialization fails
             if (string.IsNullOrEmpty(CurrentLanguageName))
             {
-                CurrentLanguageName = "English";
+                CurrentLanguageName = _localizationService.GetString("Language_English");
                 if (AvailableLanguages.Count == 0)
                 {
-                    AvailableLanguages.Add("English");
-                    AvailableLanguages.Add("Italiano");
+                    AvailableLanguages.Add(_localizationService.GetString("Language_English"));
+                    AvailableLanguages.Add(_localizationService.GetString("Language_Italian"));
                 }
             }
         }
@@ -118,9 +118,9 @@ public partial class SettingsViewModel : BaseViewModel
         {
             _logger.LogError(ex, "Error loading language options");
             // Add fallback options
-            AvailableLanguages.Add("English");
-            AvailableLanguages.Add("Italiano");
-            CurrentLanguageName = "English";
+            AvailableLanguages.Add(_localizationService.GetString("Language_English"));
+            AvailableLanguages.Add(_localizationService.GetString("Language_Italian"));
+            CurrentLanguageName = _localizationService.GetString("Language_English");
         }
     }
 
@@ -141,8 +141,8 @@ public partial class SettingsViewModel : BaseViewModel
             // Return fallback name
             return culture?.TwoLetterISOLanguageName switch
             {
-                "en" => "English",
-                "it" => "Italiano",
+                "en" => _localizationService.GetString("Language_English"),
+                "it" => _localizationService.GetString("Language_Italian"),
                 _ => culture?.DisplayName ?? "Unknown"
             };
         }
