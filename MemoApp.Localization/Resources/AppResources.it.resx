@@ -82,6 +82,10 @@
     <value>Inizia Allenamento (00-09)</value>
     <comment>Quick start training button</comment>
   </data>
+  <data name="MainPage_BeginTrainingBase" xml:space="preserve">
+    <value>Inizia Allenamento</value>
+    <comment>Quick start training button base text (without range)</comment>
+  </data>
   <data name="MainPage_MajorSystemGuide" xml:space="preserve">
     <value>Guida Sistema Maggiore</value>
     <comment>Help button text</comment>

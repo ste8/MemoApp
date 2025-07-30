@@ -30,6 +30,9 @@ public partial class MainViewModel : BaseViewModel
         
         // Initialize dropdown selected values
         InitializeDropdownValues();
+        
+        // Initialize quick training button text
+        UpdateQuickTrainingButtonText();
     }
     
     private void InitializeDropdownValues()
@@ -80,6 +83,9 @@ public partial class MainViewModel : BaseViewModel
 
     [ObservableProperty]
     private string? selectedEndNumberOption;
+
+    [ObservableProperty]
+    private string quickTrainingButtonText = string.Empty;
 
 
     [RelayCommand]
@@ -340,6 +346,9 @@ public partial class MainViewModel : BaseViewModel
             {
                 ValidationMessage = _localizationService.GetString("Validation_RangeError");
             }
+            
+            // Update quick training button text for new language
+            UpdateQuickTrainingButtonText();
         });
     }
 
@@ -357,7 +366,20 @@ public partial class MainViewModel : BaseViewModel
             
             // Update training options to reflect new format
             LoadTrainingOptions();
+            
+            // Update quick training button text
+            UpdateQuickTrainingButtonText();
         });
+    }
+
+    private void UpdateQuickTrainingButtonText()
+    {
+        var numberFormat = _localizationService.CurrentNumberFormat;
+        var rangeText = numberFormat == NumberFormat.Padded ? "00-09" : "0-9";
+        
+        // Get the base localized text without the hardcoded range
+        var baseText = _localizationService.GetString("MainPage_BeginTrainingBase");
+        QuickTrainingButtonText = $"{baseText} ({rangeText})";
     }
 
 }

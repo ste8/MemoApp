@@ -52,7 +52,7 @@
                                TextColor="White"
                                HorizontalOptions="Center" />
                         
-                        <Button Text="{localization:Localize MainPage_BeginTraining}"
+                        <Button Text="{Binding QuickTrainingButtonText}"
                                 Command="{Binding StartQuickTrainingCommand}"
                                 BackgroundColor="White"
                                 TextColor="{StaticResource Primary}"
