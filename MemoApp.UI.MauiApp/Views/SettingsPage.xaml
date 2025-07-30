@@ -52,6 +52,29 @@
                                LineBreakMode="WordWrap" />
                     </StackLayout>
                     
+                    <!-- Number Format Selection -->
+                    <StackLayout Spacing="10">
+                        <Label Text="{localization:Localize NumberFormat_Title}"
+                               FontSize="16"
+                               FontAttributes="Bold" />
+                        
+                        <Button Text="{Binding CurrentNumberFormatName, TargetNullValue={localization:Localize NumberFormat_SelectPrompt}}"
+                                Command="{Binding SelectNumberFormatCommand}"
+                                BackgroundColor="White"
+                                TextColor="Black"
+                                BorderColor="Gray"
+                                BorderWidth="1"
+                                CornerRadius="8"
+                                FontSize="14"
+                                Padding="15,10"
+                                HorizontalOptions="FillAndExpand" />
+                        
+                        <Label Text="{localization:Localize NumberFormat_Description}"
+                               FontSize="12"
+                               TextColor="Gray"
+                               LineBreakMode="WordWrap" />
+                    </StackLayout>
+                    
                 </StackLayout>
             </Frame>
 

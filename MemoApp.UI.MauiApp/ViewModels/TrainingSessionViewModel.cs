@@ -2,6 +2,8 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.MajorSystem;
+using MemoApp.Localization.Services;
+using MemoApp.UI.MauiApp.Utilities;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
 
@@ -13,6 +15,7 @@ namespace MemoApp.UI.MauiApp.ViewModels;
 [QueryProperty(nameof(RangeEnd), "rangeEnd")]
 public partial class TrainingSessionViewModel : BaseViewModel
 {
+    private readonly ILocalizationService _localizationService;
     private GameSession? _gameSession;
 
     [ObservableProperty]
@@ -48,8 +51,9 @@ public partial class TrainingSessionViewModel : BaseViewModel
     [ObservableProperty]
     private ObservableCollection<NumberPerformance> performances = new();
 
-    public TrainingSessionViewModel()
+    public TrainingSessionViewModel(ILocalizationService localizationService)
     {
+        _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
         Title = "Training Session";
     }
 
@@ -125,7 +129,9 @@ public partial class TrainingSessionViewModel : BaseViewModel
     {
         if (_gameSession == null) return;
 
-        CurrentNumber = _gameSession.CurrentNumber?.Display ?? "";
+        CurrentNumber = _gameSession.CurrentNumber.HasValue 
+            ? NumberFormatHelper.FormatNumber(_gameSession.CurrentNumber.Value, _localizationService) 
+            : "";
         CompletedNumbers = _gameSession.CompletedNumbers;
         RemainingNumbers = _gameSession.RemainingNumbers;
         ProgressValue = TotalNumbers > 0 ? (double)CompletedNumbers / TotalNumbers : 0.0;

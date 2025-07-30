@@ -126,7 +126,7 @@
                         </CollectionView.ItemsLayout>
 
                         <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="core:NumberPerformance">
+                            <DataTemplate x:DataType="viewmodels:NumberPerformanceDisplay">
                                 <Frame BackgroundColor="White"
                                        Padding="10"
                                        CornerRadius="8"
@@ -187,7 +187,7 @@
                         </CollectionView.ItemsLayout>
 
                         <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="core:NumberPerformance">
+                            <DataTemplate x:DataType="viewmodels:NumberPerformanceDisplay">
                                 <!-- Responsive performance item with adaptive layout -->
                                 <Grid Padding="{OnIdiom Phone=10, Tablet=15, Desktop=20}"
                                       BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray800}}"

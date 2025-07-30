@@ -60,4 +60,30 @@ public interface ILocalizationService
     /// Event raised when the culture changes.
     /// </summary>
     event EventHandler<CultureInfo>? CultureChanged;
+
+    /// <summary>
+    /// Gets the current number format preference.
+    /// </summary>
+    NumberFormat CurrentNumberFormat { get; }
+
+    /// <summary>
+    /// Sets the number format preference.
+    /// </summary>
+    /// <param name="numberFormat">The number format to set</param>
+    void SetNumberFormat(NumberFormat numberFormat);
+
+    /// <summary>
+    /// Loads the saved number format preference and applies it.
+    /// </summary>
+    Task LoadSavedNumberFormatAsync();
+
+    /// <summary>
+    /// Saves the current number format preference for future sessions.
+    /// </summary>
+    Task SaveNumberFormatPreferenceAsync();
+
+    /// <summary>
+    /// Event raised when the number format changes.
+    /// </summary>
+    event EventHandler<NumberFormat>? NumberFormatChanged;
 }

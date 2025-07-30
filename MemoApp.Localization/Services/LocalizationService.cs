@@ -12,6 +12,7 @@ public class LocalizationService : ILocalizationService
 {
     private readonly ResourceManager _resourceManager;
     private CultureInfo _currentCulture;
+    private NumberFormat _currentNumberFormat;
 
     /// <summary>
     /// Supported cultures by the application.
@@ -26,6 +27,7 @@ public class LocalizationService : ILocalizationService
     {
         _resourceManager = AppResources.ResourceManager;
         _currentCulture = CultureInfo.CurrentUICulture;
+        _currentNumberFormat = NumberFormat.Padded; // Default to padded format
         
         // Ensure the current culture is supported, fallback to English
         if (!SupportedCultures.Any(c => c.TwoLetterISOLanguageName == _currentCulture.TwoLetterISOLanguageName))
@@ -35,8 +37,10 @@ public class LocalizationService : ILocalizationService
     }
 
     public CultureInfo CurrentCulture => _currentCulture;
+    public NumberFormat CurrentNumberFormat => _currentNumberFormat;
 
     public event EventHandler<CultureInfo>? CultureChanged;
+    public event EventHandler<NumberFormat>? NumberFormatChanged;
 
     public string GetString(string key)
     {
@@ -113,6 +117,7 @@ public class LocalizationService : ILocalizationService
     }
 
     private const string LanguagePreferenceKey = "app_language_preference";
+    private const string NumberFormatPreferenceKey = "app_number_format_preference";
 
     public async Task LoadSavedLanguageAsync()
     {
@@ -170,5 +175,65 @@ public class LocalizationService : ILocalizationService
     {
         // Default implementation - can be overridden by platform-specific services
         // For MAUI, this would use Microsoft.Maui.Essentials.Preferences
+    }
+
+    public void SetNumberFormat(NumberFormat numberFormat)
+    {
+        if (_currentNumberFormat != numberFormat)
+        {
+            _currentNumberFormat = numberFormat;
+            NumberFormatChanged?.Invoke(this, _currentNumberFormat);
+        }
+    }
+
+    public async Task LoadSavedNumberFormatAsync()
+    {
+        await Task.Run(() =>
+        {
+            try
+            {
+                var savedNumberFormat = GetStoredNumberFormatPreference();
+                if (savedNumberFormat.HasValue)
+                {
+                    _currentNumberFormat = savedNumberFormat.Value;
+                }
+            }
+            catch
+            {
+                // If loading fails, use the default format (already set in constructor)
+            }
+        });
+    }
+
+    public async Task SaveNumberFormatPreferenceAsync()
+    {
+        await Task.Run(() =>
+        {
+            try
+            {
+                SetStoredNumberFormatPreference(_currentNumberFormat);
+            }
+            catch
+            {
+                // Ignore save errors - not critical
+            }
+        });
+    }
+
+    /// <summary>
+    /// Gets the stored number format preference. Override this method in platform-specific implementations.
+    /// </summary>
+    protected virtual NumberFormat? GetStoredNumberFormatPreference()
+    {
+        // Default implementation - can be overridden by platform-specific services
+        return null;
+    }
+
+    /// <summary>
+    /// Sets the stored number format preference. Override this method in platform-specific implementations.
+    /// </summary>
+    protected virtual void SetStoredNumberFormatPreference(NumberFormat numberFormat)
+    {
+        // Default implementation - can be overridden by platform-specific services
     }
 }

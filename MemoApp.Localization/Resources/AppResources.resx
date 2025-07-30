@@ -496,6 +496,29 @@
     <value>Select your preferred language for the app interface</value>
     <comment>Language setting description</comment>
   </data>
+  
+  <!-- Number Format Selection -->
+  <data name="NumberFormat_Title" xml:space="preserve">
+    <value>Number Format</value>
+    <comment>Number format selection title</comment>
+  </data>
+  <data name="NumberFormat_Description" xml:space="preserve">
+    <value>Choose how numbers are displayed in the Major System</value>
+    <comment>Number format setting description</comment>
+  </data>
+  <data name="NumberFormat_Padded" xml:space="preserve">
+    <value>00-99 (Padded)</value>
+    <comment>Padded number format option</comment>
+  </data>
+  <data name="NumberFormat_Natural" xml:space="preserve">
+    <value>0-99 (Natural)</value>
+    <comment>Natural number format option</comment>
+  </data>
+  <data name="NumberFormat_SelectPrompt" xml:space="preserve">
+    <value>Select Number Format</value>
+    <comment>Number format selection prompt</comment>
+  </data>
+  
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
     <comment>Cancel button text</comment>

@@ -15,7 +15,11 @@ public partial class SettingsViewModel : BaseViewModel
     [ObservableProperty]
     private string currentLanguageName = string.Empty;
 
+    [ObservableProperty]
+    private string currentNumberFormatName = string.Empty;
+
     public ObservableCollection<string> AvailableLanguages { get; }
+    public ObservableCollection<string> AvailableNumberFormats { get; }
 
     public SettingsViewModel(ILocalizationService localizationService, ILogger<SettingsViewModel> logger)
     {
@@ -24,9 +28,11 @@ public partial class SettingsViewModel : BaseViewModel
 
         Title = _localizationService.GetString("Settings_Title");
         AvailableLanguages = new ObservableCollection<string>();
+        AvailableNumberFormats = new ObservableCollection<string>();
         
-        // Initialize with a fallback language to ensure UI never shows empty
+        // Initialize with fallback values to ensure UI never shows empty
         CurrentLanguageName = _localizationService.GetString("Language_English");
+        CurrentNumberFormatName = _localizationService.GetString("NumberFormat_Padded");
         
         _logger.LogInformation("SettingsViewModel constructor completed");
     }
@@ -68,24 +74,62 @@ public partial class SettingsViewModel : BaseViewModel
         }
     }
 
+    [RelayCommand]
+    private async Task SelectNumberFormatAsync()
+    {
+        try
+        {
+            var formatNames = AvailableNumberFormats.ToArray();
+            var selectedFormat = await Shell.Current.DisplayActionSheet(
+                _localizationService.GetString("NumberFormat_Title"),
+                _localizationService.GetString("Common_Cancel"),
+                null,
+                formatNames);
+
+            if (!string.IsNullOrEmpty(selectedFormat) && selectedFormat != _localizationService.GetString("Common_Cancel"))
+            {
+                _logger.LogInformation("User selected number format: {Format}", selectedFormat);
+                
+                // Convert display name to NumberFormat enum
+                var numberFormat = GetNumberFormatFromDisplayName(selectedFormat);
+                
+                if (numberFormat.HasValue)
+                {
+                    _localizationService.SetNumberFormat(numberFormat.Value);
+                    await _localizationService.SaveNumberFormatPreferenceAsync();
+                    
+                    CurrentNumberFormatName = selectedFormat;
+                    
+                    _logger.LogInformation("Number format changed successfully to: {Format}", selectedFormat);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error selecting number format");
+        }
+    }
+
     public async Task InitializeAsync()
     {
         try
         {
             _logger.LogInformation("Starting SettingsViewModel initialization");
             
-            // Load saved language preference first
+            // Load saved preferences first
             await _localizationService.LoadSavedLanguageAsync();
+            await _localizationService.LoadSavedNumberFormatAsync();
             
-            // Load language options and set current language
+            // Load options and set current values
             LoadLanguageOptions();
+            LoadNumberFormatOptions();
             
             _logger.LogInformation("Settings initialized successfully with language: {Language}", CurrentLanguageName);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error initializing settings");
-            // Ensure we have a fallback language even if initialization fails
+            // Ensure we have fallback values even if initialization fails
             if (string.IsNullOrEmpty(CurrentLanguageName))
             {
                 CurrentLanguageName = _localizationService.GetString("Language_English");
@@ -93,6 +137,15 @@ public partial class SettingsViewModel : BaseViewModel
                 {
                     AvailableLanguages.Add(_localizationService.GetString("Language_English"));
                     AvailableLanguages.Add(_localizationService.GetString("Language_Italian"));
+                }
+            }
+            if (string.IsNullOrEmpty(CurrentNumberFormatName))
+            {
+                CurrentNumberFormatName = _localizationService.GetString("NumberFormat_Padded");
+                if (AvailableNumberFormats.Count == 0)
+                {
+                    AvailableNumberFormats.Add(_localizationService.GetString("NumberFormat_Padded"));
+                    AvailableNumberFormats.Add(_localizationService.GetString("NumberFormat_Natural"));
                 }
             }
         }
@@ -145,6 +198,65 @@ public partial class SettingsViewModel : BaseViewModel
                 "it" => _localizationService.GetString("Language_Italian"),
                 _ => culture?.DisplayName ?? "Unknown"
             };
+        }
+    }
+
+    private void LoadNumberFormatOptions()
+    {
+        try
+        {
+            AvailableNumberFormats.Clear();
+            
+            // Add available number format options
+            AvailableNumberFormats.Add(_localizationService.GetString("NumberFormat_Padded"));
+            AvailableNumberFormats.Add(_localizationService.GetString("NumberFormat_Natural"));
+            
+            // Set current number format display name
+            CurrentNumberFormatName = GetNumberFormatDisplayName(_localizationService.CurrentNumberFormat);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error loading number format options");
+            // Add fallback options
+            AvailableNumberFormats.Add(_localizationService.GetString("NumberFormat_Padded"));
+            AvailableNumberFormats.Add(_localizationService.GetString("NumberFormat_Natural"));
+            CurrentNumberFormatName = _localizationService.GetString("NumberFormat_Padded");
+        }
+    }
+
+    private string GetNumberFormatDisplayName(NumberFormat numberFormat)
+    {
+        try
+        {
+            return numberFormat switch
+            {
+                NumberFormat.Padded => _localizationService.GetString("NumberFormat_Padded"),
+                NumberFormat.Natural => _localizationService.GetString("NumberFormat_Natural"),
+                _ => _localizationService.GetString("NumberFormat_Padded")
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting number format display name for format: {Format}", numberFormat);
+            return _localizationService.GetString("NumberFormat_Padded");
+        }
+    }
+
+    private NumberFormat? GetNumberFormatFromDisplayName(string displayName)
+    {
+        try
+        {
+            if (displayName == _localizationService.GetString("NumberFormat_Padded"))
+                return NumberFormat.Padded;
+            if (displayName == _localizationService.GetString("NumberFormat_Natural"))
+                return NumberFormat.Natural;
+            
+            return null;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting number format from display name: {DisplayName}", displayName);
+            return null;
         }
     }
 }

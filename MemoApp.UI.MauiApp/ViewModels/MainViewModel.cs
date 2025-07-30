@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.MajorSystem;
 using MemoApp.Localization.Services;
+using MemoApp.UI.MauiApp.Utilities;
 using System.Globalization;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
@@ -23,8 +24,9 @@ public partial class MainViewModel : BaseViewModel
         LoadTrainingOptions();
         LoadNumberOptions();
         
-        // Subscribe to culture changes to update validation message
+        // Subscribe to culture and number format changes
         _localizationService.CultureChanged += OnCultureChanged;
+        _localizationService.NumberFormatChanged += OnNumberFormatChanged;
         
         // Initialize dropdown selected values
         InitializeDropdownValues();
@@ -83,10 +85,14 @@ public partial class MainViewModel : BaseViewModel
     [RelayCommand]
     private async Task StartQuickTraining()
     {
+        var numberFormat = _localizationService.CurrentNumberFormat;
+        
         var parameters = new Dictionary<string, object>
         {
-            { "rangeStart", "00" },
-            { "rangeEnd", "09" }
+            // In padded mode, use "00-09" (zero-prefixed numbers only)
+            // In natural mode, use "0-9" (regular numbers)
+            { "rangeStart", numberFormat == NumberFormat.Padded ? "00" : "0" },
+            { "rangeEnd", numberFormat == NumberFormat.Padded ? "09" : "9" }
         };
         
         await Shell.Current.GoToAsync("training", parameters);
@@ -241,15 +247,27 @@ public partial class MainViewModel : BaseViewModel
 
     private void LoadTrainingOptions()
     {
-        TrainingOptions = new ObservableCollection<TrainingOption>
+        var numberFormat = _localizationService.CurrentNumberFormat;
+        
+        TrainingOptions = new ObservableCollection<TrainingOption>();
+        
+        if (numberFormat == NumberFormat.Padded)
         {
-            new("Beginner", "00", "09", "Zero-prefixed numbers (00-09)"),
-            new("Single Digits", "0", "9", "Basic single digits (0-9)"),
-            new("Teens", "10", "19", "Teen numbers (10-19)"),
-            new("Twenties", "20", "29", "Twenty range (20-29)"),
-            new("First 50", "00", "49", "Extended practice (00-49)"),
-            new("Full Range", "00", "99", "Complete Major System (00-99)")
-        };
+            TrainingOptions.Add(new("Beginner", "00", "09", "Zero-prefixed numbers (00-09)"));
+            TrainingOptions.Add(new("Single Digits", "0", "9", "Basic single digits (0-9)"));
+            TrainingOptions.Add(new("Teens", "10", "19", "Teen numbers (10-19)"));
+            TrainingOptions.Add(new("Twenties", "20", "29", "Twenty range (20-29)"));
+            TrainingOptions.Add(new("First 50", "00", "49", "Extended practice (00-49)"));
+            TrainingOptions.Add(new("Full Range", "00", "99", "Complete Major System (00-99)"));
+        }
+        else // Natural format
+        {
+            TrainingOptions.Add(new("Beginner", "0", "9", "Basic single digits (0-9)"));
+            TrainingOptions.Add(new("Teens", "10", "19", "Teen numbers (10-19)"));
+            TrainingOptions.Add(new("Twenties", "20", "29", "Twenty range (20-29)"));
+            TrainingOptions.Add(new("First 50", "0", "49", "Extended practice (0-49)"));
+            TrainingOptions.Add(new("Full Range", "0", "99", "Complete Major System (0-99)"));
+        }
     }
 
     private void LoadNumberOptions()
@@ -257,20 +275,13 @@ public partial class MainViewModel : BaseViewModel
         NumberOptions.Clear();
         MajorNumbers.Clear();
 
-        // Add zero-prefixed numbers (00-09)
-        for (int i = 0; i <= 9; i++)
+        // Get numbers based on current format setting
+        var allNumbers = NumberFormatHelper.GetAllNumbersInOrder(_localizationService).ToList();
+        
+        foreach (var majorNumber in allNumbers)
         {
-            var majorNumber = new MajorNumber(i, true);
             MajorNumbers.Add(majorNumber);
-            NumberOptions.Add(majorNumber.Display);
-        }
-
-        // Add regular numbers (0-99)
-        for (int i = 0; i <= 99; i++)
-        {
-            var majorNumber = new MajorNumber(i, false);
-            MajorNumbers.Add(majorNumber);
-            NumberOptions.Add(majorNumber.Display);
+            NumberOptions.Add(NumberFormatHelper.FormatNumber(majorNumber, _localizationService));
         }
     }
 
@@ -329,6 +340,23 @@ public partial class MainViewModel : BaseViewModel
             {
                 ValidationMessage = _localizationService.GetString("Validation_RangeError");
             }
+        });
+    }
+
+    private void OnNumberFormatChanged(object? sender, NumberFormat numberFormat)
+    {
+        // Update UI when number format changes
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            // Reload number options with new format
+            LoadNumberOptions();
+            
+            // Reset selected indexes to default (first items)
+            SelectedStartIndex = 0;
+            SelectedEndIndex = Math.Min(9, NumberOptions.Count - 1);
+            
+            // Update training options to reflect new format
+            LoadTrainingOptions();
         });
     }
 

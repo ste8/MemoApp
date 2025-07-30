@@ -2,6 +2,8 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.MajorSystem;
+using MemoApp.Localization.Services;
+using MemoApp.UI.MauiApp.Utilities;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
 
@@ -11,14 +13,15 @@ namespace MemoApp.UI.MauiApp.ViewModels;
 /// </summary>
 public partial class StatisticsViewModel : BaseViewModel
 {
+    private readonly ILocalizationService _localizationService;
     [ObservableProperty]
     private SessionStatistics? statistics;
 
     [ObservableProperty]
-    private ObservableCollection<NumberPerformance> allPerformances = new();
+    private ObservableCollection<NumberPerformanceDisplay> allPerformances = new();
 
     [ObservableProperty]
-    private ObservableCollection<NumberPerformance> slowestPerformances = new();
+    private ObservableCollection<NumberPerformanceDisplay> slowestPerformances = new();
 
     [ObservableProperty]
     private string totalDurationText = "";
@@ -34,8 +37,9 @@ public partial class StatisticsViewModel : BaseViewModel
 
     private static SessionStatistics? _pendingStatistics;
     
-    public StatisticsViewModel()
+    public StatisticsViewModel(ILocalizationService localizationService)
     {
+        _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
         Title = "Session Statistics";
         
         // Check if there are pending statistics to load
@@ -78,21 +82,21 @@ public partial class StatisticsViewModel : BaseViewModel
         // Format summary statistics
         TotalDurationText = $"{Statistics.Value.TotalDuration:mm\\:ss}";
         AverageTimeText = $"{Statistics.Value.AverageResponseTime:ss\\.ff}s";
-        FastestNumberText = $"{Statistics.Value.FastestResponse.Number} ({Statistics.Value.FastestResponse.ResponseTime:ss\\.ff}s)";
-        SlowestNumberText = $"{Statistics.Value.SlowestResponse.Number} ({Statistics.Value.SlowestResponse.ResponseTime:ss\\.ff}s)";
+        FastestNumberText = $"{NumberFormatHelper.FormatNumber(Statistics.Value.FastestResponse.Number, _localizationService)} ({Statistics.Value.FastestResponse.ResponseTime:ss\\.ff}s)";
+        SlowestNumberText = $"{NumberFormatHelper.FormatNumber(Statistics.Value.SlowestResponse.Number, _localizationService)} ({Statistics.Value.SlowestResponse.ResponseTime:ss\\.ff}s)";
 
         // Load all performances for detailed view
         AllPerformances.Clear();
         foreach (var performance in Statistics.Value.AllPerformances)
         {
-            AllPerformances.Add(performance);
+            AllPerformances.Add(new NumberPerformanceDisplay(performance, _localizationService));
         }
 
         // Load slowest performances for focus areas
         SlowestPerformances.Clear();
         foreach (var performance in Statistics.Value.SlowestResponses)
         {
-            SlowestPerformances.Add(performance);
+            SlowestPerformances.Add(new NumberPerformanceDisplay(performance, _localizationService));
         }
     }
 }
