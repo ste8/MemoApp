@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.NumberMemorization;
 using MemoApp.Localization.Services;
+using MemoApp.UI.MauiApp.Services;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
 
@@ -10,6 +11,8 @@ public partial class NumberMemorizationViewModel : BaseViewModel
     private readonly INumberMemorizationService _gameService;
     private readonly INumberMemorizationSettingsService _settingsService;
     private readonly ILocalizationService _localizationService;
+    private readonly ITextMeasurementService _textMeasurementService;
+    private readonly IContainerSizeService _containerSizeService;
     private IDispatcherTimer? _timer;
     private NumberMemorizationGame _currentGame = new();
 
@@ -67,11 +70,15 @@ public partial class NumberMemorizationViewModel : BaseViewModel
     public NumberMemorizationViewModel(
         INumberMemorizationService gameService,
         INumberMemorizationSettingsService settingsService,
-        ILocalizationService localizationService)
+        ILocalizationService localizationService,
+        ITextMeasurementService textMeasurementService,
+        IContainerSizeService containerSizeService)
     {
         _gameService = gameService ?? throw new ArgumentNullException(nameof(gameService));
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
+        _textMeasurementService = textMeasurementService ?? throw new ArgumentNullException(nameof(textMeasurementService));
+        _containerSizeService = containerSizeService ?? throw new ArgumentNullException(nameof(containerSizeService));
         
         Title = _localizationService.GetString("NumberMemorization_Title");
         
@@ -133,7 +140,15 @@ public partial class NumberMemorizationViewModel : BaseViewModel
 
     partial void OnFontSizePreferenceChanged(FontSizePreference value)
     {
-        UpdateNumberFontSize();
+        // If we have a number displayed, adjust font size for even digits per line
+        if (!string.IsNullOrEmpty(DisplayedNumber))
+        {
+            AdjustFontSizeForEvenLineBreaks();
+        }
+        else
+        {
+            UpdateNumberFontSize();
+        }
         _ = SaveSettingsAsync();
     }
 
@@ -158,6 +173,15 @@ public partial class NumberMemorizationViewModel : BaseViewModel
     partial void OnCurrentPhaseChanged(GamePhase value)
     {
         UpdateUIState();
+    }
+
+    /// <summary>
+    /// Sets the container element reference for accurate size measurement
+    /// </summary>
+    /// <param name="containerElement">The container element (Frame or Label)</param>
+    public void SetContainerElement(VisualElement containerElement)
+    {
+        _containerSizeService.SetContainerElement(containerElement);
     }
 
     [RelayCommand]
@@ -233,16 +257,14 @@ public partial class NumberMemorizationViewModel : BaseViewModel
         }
         else
         {
-            DisplayedNumber = _gameService.FormatNumber(_currentGame.GeneratedNumber, ShowSeparated);
+            var formattedNumber = _gameService.FormatNumber(_currentGame.GeneratedNumber, ShowSeparated);
+            DisplayedNumber = formattedNumber;
+            
+            // Always adjust font size to ensure even digits per line
+            AdjustFontSizeForEvenLineBreaks();
         }
         
         IsNumberVisible = !string.IsNullOrEmpty(DisplayedNumber);
-        
-        // Update font size if in auto mode
-        if (FontSizePreference == FontSizePreference.Auto)
-        {
-            UpdateNumberFontSize();
-        }
     }
 
     private void OnTimerTick(object? sender, EventArgs e)
@@ -261,6 +283,8 @@ public partial class NumberMemorizationViewModel : BaseViewModel
 
     private void UpdateNumberFontSize()
     {
+        // This method now just sets the base font size
+        // The adjustment for even digits per line is handled in AdjustFontSizeForEvenLineBreaks
         if (FontSizePreference == FontSizePreference.Auto)
         {
             NumberFontSize = CalculateAutoFontSize();
@@ -282,6 +306,142 @@ public partial class NumberMemorizationViewModel : BaseViewModel
         }
     }
 
+    private void AdjustFontSizeForEvenLineBreaks()
+    {
+        if (string.IsNullOrEmpty(DisplayedNumber))
+        {
+            // Set default font size when no number is displayed
+            UpdateNumberFontSize();
+            return;
+        }
+
+        // Get the base font size first
+        UpdateNumberFontSize();
+        double baseFontSize = NumberFontSize;
+
+        // Get actual container width from the UI
+        double containerWidth = _containerSizeService.GetNumberDisplayContainerWidth();
+
+        double minFontSize = DeviceInfo.Idiom == DeviceIdiom.Phone ? 12 :
+                            DeviceInfo.Idiom == DeviceIdiom.Tablet ? 16 : 20;
+        double maxFontSize = DeviceInfo.Idiom == DeviceIdiom.Phone ? 60 :
+                            DeviceInfo.Idiom == DeviceIdiom.Tablet ? 80 : 100;
+
+        // Check if base size already works
+        if (HasEvenDigitsPerLine(baseFontSize, containerWidth))
+        {
+            NumberFontSize = baseFontSize;
+            return;
+        }
+
+        double? adjustedSize = null;
+
+        if (FontSizePreference == FontSizePreference.Auto)
+        {
+            // For Auto: decrease by 1 until we get even digits per line
+            adjustedSize = FindFontSizeWithEvenDigits(baseFontSize, containerWidth, -1, minFontSize, maxFontSize);
+        }
+        else
+        {
+            // For fixed sizes: try increasing first, then decreasing
+            adjustedSize = FindFontSizeWithEvenDigits(baseFontSize, containerWidth, 1, minFontSize, maxFontSize)
+                          ?? FindFontSizeWithEvenDigits(baseFontSize, containerWidth, -1, minFontSize, maxFontSize);
+        }
+
+        // Apply the adjusted size or fallback
+        NumberFontSize = adjustedSize ?? (FontSizePreference == FontSizePreference.Auto ? minFontSize : baseFontSize);
+    }
+
+    private double? FindFontSizeWithEvenDigits(double startSize, double containerWidth, int increment, double minSize, double maxSize)
+    {
+        double currentSize = startSize + increment; // Skip the starting size since we already checked it
+        
+        while (currentSize >= minSize && currentSize <= maxSize)
+        {
+            if (HasEvenDigitsPerLine(currentSize, containerWidth))
+            {
+                return currentSize;
+            }
+            
+            currentSize += increment;
+        }
+        
+        return null; // No suitable size found
+    }
+    
+    private bool HasEvenDigitsPerLine(double fontSize, double containerWidth)
+    {
+        // Use actual text measurement for accurate calculation
+        var textSize = _textMeasurementService.MeasureText(DisplayedNumber, "Courier", (float)fontSize);
+        
+        // Check if the text fits in one line
+        if (textSize.Width <= containerWidth)
+        {
+            // Fits on one line - acceptable regardless of even/odd
+            return true;
+        }
+        
+        // Calculate character width using actual measurement
+        float charWidth = _textMeasurementService.GetCharacterWidth('0', "Courier", (float)fontSize);
+        int maxCharsPerLine = (int)(containerWidth / charWidth);
+        
+        // For separated format, account for spaces
+        if (ShowSeparated)
+        {
+            // Count actual digits (excluding spaces)
+            string digitsOnly = DisplayedNumber.Replace(" ", "");
+            int totalDigits = digitsOnly.Length;
+            
+            // Calculate how digits would be distributed
+            return WouldHaveEvenDigitsPerLineSeparated(totalDigits, maxCharsPerLine);
+        }
+        else
+        {
+            // For continuous format, simple calculation
+            int totalDigits = DisplayedNumber.Length;
+            return WouldHaveEvenDigitsPerLineContinuous(totalDigits, maxCharsPerLine);
+        }
+    }
+    
+    private bool WouldHaveEvenDigitsPerLineContinuous(int totalDigits, int maxCharsPerLine)
+    {
+        if (totalDigits <= maxCharsPerLine)
+        {
+            // Fits on one line - acceptable regardless of even/odd
+            return true;
+        }
+        
+        // Check if all lines except the last would have even digits
+        int fullLines = totalDigits / maxCharsPerLine;
+        int remainder = totalDigits % maxCharsPerLine;
+        
+        // If maxCharsPerLine is odd, all full lines would have odd digits - not acceptable
+        if (maxCharsPerLine % 2 != 0)
+            return false;
+            
+        // All full lines would have even digits, which is good
+        return true;
+    }
+    
+    private bool WouldHaveEvenDigitsPerLineSeparated(int totalDigits, int maxCharsPerLine)
+    {
+        if (totalDigits <= maxCharsPerLine)
+        {
+            // Fits on one line - acceptable
+            return true;
+        }
+        
+        // For separated format, each pair takes 3 characters (e.g., "12 ")
+        // except the last pair on each line doesn't need trailing space
+        int pairsPerLine = maxCharsPerLine / 3;
+        if (pairsPerLine == 0) return false; // Too narrow
+        
+        int digitsPerLine = pairsPerLine * 2; // Each pair = 2 digits
+        
+        // Check if digits per line is even (it should be since each pair = 2 digits)
+        return digitsPerLine % 2 == 0;
+    }
+
     private double CalculateAutoFontSize()
     {
         if (string.IsNullOrEmpty(DisplayedNumber))
@@ -291,13 +451,8 @@ public partial class NumberMemorizationViewModel : BaseViewModel
                    DeviceInfo.Idiom == DeviceIdiom.Tablet ? 48 : 64;
         }
 
-        // Estimate text width based on number of characters
-        int characterCount = DisplayedNumber.Length;
-        
-        // Define platform-specific container dimensions (approximate)
-        double containerWidth = DeviceInfo.Idiom == DeviceIdiom.Phone ? 300 :    // Phone container width
-                               DeviceInfo.Idiom == DeviceIdiom.Tablet ? 450 :    // Tablet container width
-                               600;                                               // Desktop container width
+        // Get actual container width
+        double containerWidth = _containerSizeService.GetNumberDisplayContainerWidth();
 
         // Define font size limits
         double minFontSize = DeviceInfo.Idiom == DeviceIdiom.Phone ? 16 :
@@ -305,11 +460,28 @@ public partial class NumberMemorizationViewModel : BaseViewModel
         double maxFontSize = DeviceInfo.Idiom == DeviceIdiom.Phone ? 48 :
                             DeviceInfo.Idiom == DeviceIdiom.Tablet ? 64 : 80;
 
-        // Rough calculation: assume each character takes 0.6 * fontSize in width for Courier font
-        double targetFontSize = containerWidth / (characterCount * 0.6);
+        // Binary search for the optimal font size that fits the container
+        double low = minFontSize;
+        double high = maxFontSize;
+        double bestSize = minFontSize;
+
+        while (high - low > 1)
+        {
+            double mid = (low + high) / 2;
+            var textSize = _textMeasurementService.MeasureText(DisplayedNumber, "Courier", (float)mid);
+            
+            if (textSize.Width <= containerWidth)
+            {
+                bestSize = mid;
+                low = mid;
+            }
+            else
+            {
+                high = mid;
+            }
+        }
         
-        // Clamp to min/max limits
-        return Math.Max(minFontSize, Math.Min(maxFontSize, targetFontSize));
+        return bestSize;
     }
 
     [RelayCommand]

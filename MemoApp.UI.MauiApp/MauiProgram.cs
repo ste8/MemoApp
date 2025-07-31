@@ -23,6 +23,10 @@ public static class MauiProgram
 
 		// Register localization services with MAUI-specific implementation
 		builder.Services.AddLocalization<MauiLocalizationService>();
+		
+		// Register text measurement and container size services
+		builder.Services.AddSingleton<ITextMeasurementService, TextMeasurementService>();
+		builder.Services.AddSingleton<IContainerSizeService, ContainerSizeService>();
 
 
 		// Register ViewModels and Views for dependency injection

@@ -150,7 +150,8 @@
                 </Frame>
 
                 <!-- Number Display Area -->
-                <Frame BackgroundColor="{StaticResource Primary}"
+                <Frame x:Name="NumberDisplayFrame"
+                       BackgroundColor="{StaticResource Primary}"
                        Padding="{OnIdiom Phone=20, Tablet=30, Desktop=40}"
                        CornerRadius="20"
                        HasShadow="True"
@@ -163,8 +164,7 @@
                            FontFamily="Courier"
                            HorizontalOptions="Center"
                            VerticalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                           LineBreakMode="WordWrap" />
+                           HorizontalTextAlignment="Center" />
                 </Frame>
 
                 <!-- Font Size Controls -->

@@ -16,6 +16,9 @@ public partial class NumberMemorizationPage : ContentPage
         
         if (BindingContext is NumberMemorizationViewModel viewModel)
         {
+            // Set the container element reference for accurate size measurement
+            viewModel.SetContainerElement(NumberDisplayFrame);
+            
             await viewModel.InitializeAsync();
         }
     }
