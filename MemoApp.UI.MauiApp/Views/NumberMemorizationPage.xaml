@@ -135,10 +135,18 @@
                        CornerRadius="10"
                        HasShadow="True">
                     
-                    <Label Text="{Binding TimerText}"
-                           FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center" />
+                    <StackLayout Spacing="5">
+                        <Label Text="{localization:Localize NumberMemorization_Time}"
+                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
+                        
+                        <Label Text="{Binding TimerText}"
+                               FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center" />
+                    </StackLayout>
                 </Frame>
 
                 <!-- Number Display Area -->

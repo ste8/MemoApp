@@ -599,4 +599,8 @@
     <value>Valore massimo per coppie di cifre (10-99)</value>
     <comment>Help text for max pair value</comment>
   </data>
+  <data name="NumberMemorization_Time" xml:space="preserve">
+    <value>Tempo</value>
+    <comment>Label for the timer display</comment>
+  </data>
 </root>
