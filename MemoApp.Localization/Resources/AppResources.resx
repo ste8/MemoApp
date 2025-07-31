@@ -645,4 +645,8 @@
     <value>Increase maximum pair value</value>
     <comment>Accessibility label for increment max pair button</comment>
   </data>
+  <data name="NumberMemorization_ExampleLabel" xml:space="preserve">
+    <value>Example:</value>
+    <comment>Label for format example display</comment>
+  </data>
 </root>

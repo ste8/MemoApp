@@ -67,6 +67,8 @@ public partial class NumberMemorizationViewModel : BaseViewModel
     [ObservableProperty]
     private double numberFontSize = 32;
 
+    public string CurrentFormatExample => GenerateExampleNumber(ShowSeparated);
+
     public NumberMemorizationViewModel(
         INumberMemorizationService gameService,
         INumberMemorizationSettingsService settingsService,
@@ -117,6 +119,9 @@ public partial class NumberMemorizationViewModel : BaseViewModel
         DecrementNumberOfDigitsCommand.NotifyCanExecuteChanged();
         IncrementNumberOfDigitsCommand.NotifyCanExecuteChanged();
         
+        // Update examples
+        UpdateExamples();
+        
         _ = SaveSettingsAsync();
     }
 
@@ -130,6 +135,9 @@ public partial class NumberMemorizationViewModel : BaseViewModel
         DecrementMaxPairValueCommand.NotifyCanExecuteChanged();
         IncrementMaxPairValueCommand.NotifyCanExecuteChanged();
         
+        // Update examples
+        UpdateExamples();
+        
         _ = SaveSettingsAsync();
     }
 
@@ -137,6 +145,9 @@ public partial class NumberMemorizationViewModel : BaseViewModel
     {
         _ = SaveSettingsAsync();
         UpdateDisplayedNumber();
+        
+        // Update example when format changes
+        OnPropertyChanged(nameof(CurrentFormatExample));
     }
 
     partial void OnShowTimerChanged(bool value)
@@ -530,6 +541,37 @@ public partial class NumberMemorizationViewModel : BaseViewModel
 
     private bool CanDecrementMaxPairValue() => MaxPairValue > 10;
     private bool CanIncrementMaxPairValue() => MaxPairValue < 99;
+
+    private string GenerateExampleNumber(bool separated)
+    {
+        // Generate a sample number based on current settings for display format examples
+        var random = new Random(12345); // Fixed seed for consistent examples
+        var exampleLength = Math.Min(NumberOfDigits, 12); // Limit example length for display
+        var numbers = new List<int>();
+        
+        for (int i = 0; i < exampleLength; i += 2)
+        {
+            // Generate pairs within the max pair value constraint
+            int pair = random.Next(0, Math.Min(MaxPairValue + 1, 100));
+            numbers.Add(pair);
+        }
+        
+        // Convert to string format
+        var numberString = string.Join("", numbers.Select(n => n.ToString().PadLeft(2, '0')));
+        
+        // Truncate to exact length if needed
+        if (numberString.Length > exampleLength)
+        {
+            numberString = numberString.Substring(0, exampleLength);
+        }
+        
+        return _gameService.FormatNumber(numberString, separated);
+    }
+
+    private void UpdateExamples()
+    {
+        OnPropertyChanged(nameof(CurrentFormatExample));
+    }
 
     private async Task SaveSettingsAsync()
     {
