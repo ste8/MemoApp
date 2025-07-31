@@ -11,7 +11,7 @@
     <TabBar>
         <ShellContent
             Title="{localization:Localize Tab_Training}"
-            Icon="house"
+            Icon="fitness_center"
             Route="main"
             ContentTemplate="{DataTemplate views:MainPage}" />
 
@@ -29,7 +29,7 @@
 
         <ShellContent
             Title="{localization:Localize Tab_NumberMemory}"
-            Icon="number"
+            Icon="psychology"
             Route="numbermemorization"
             ContentTemplate="{DataTemplate views:NumberMemorizationPage}" />
     </TabBar>
