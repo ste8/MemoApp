@@ -627,4 +627,22 @@
     <value>XL</value>
     <comment>Extra large font size button</comment>
   </data>
+  
+  <!-- Number Memorization Accessibility -->
+  <data name="Accessibility_DecrementNumberOfDigits" xml:space="preserve">
+    <value>Diminuisci numero di cifre</value>
+    <comment>Accessibility label for decrement digits button</comment>
+  </data>
+  <data name="Accessibility_IncrementNumberOfDigits" xml:space="preserve">
+    <value>Aumenta numero di cifre</value>
+    <comment>Accessibility label for increment digits button</comment>
+  </data>
+  <data name="Accessibility_DecrementMaxPairValue" xml:space="preserve">
+    <value>Diminuisci valore massimo coppia</value>
+    <comment>Accessibility label for decrement max pair button</comment>
+  </data>
+  <data name="Accessibility_IncrementMaxPairValue" xml:space="preserve">
+    <value>Aumenta valore massimo coppia</value>
+    <comment>Accessibility label for increment max pair button</comment>
+  </data>
 </root>

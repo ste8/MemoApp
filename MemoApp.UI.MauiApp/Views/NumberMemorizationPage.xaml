@@ -27,8 +27,20 @@
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    FontAttributes="Bold" />
                             
-                            <Grid ColumnDefinitions="*,Auto">
-                                <Slider Grid.Column="0"
+                            <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8">
+                                <Button Grid.Column="0"
+                                        Text="−"
+                                        Command="{Binding DecrementNumberOfDigitsCommand}"
+                                        BackgroundColor="Transparent"
+                                        TextColor="{StaticResource Primary}"
+                                        BorderWidth="0"
+                                        FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                                        FontAttributes="Bold"
+                                        Padding="8,0"
+                                        MinimumWidthRequest="40"
+                                        SemanticProperties.Description="{localization:Localize Accessibility_DecrementNumberOfDigits}" />
+                                
+                                <Slider Grid.Column="1"
                                         Value="{Binding NumberOfDigits}"
                                         Minimum="1"
                                         Maximum="500"
@@ -36,13 +48,25 @@
                                         MaximumTrackColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
                                         ThumbColor="{StaticResource Primary}" />
                                 
-                                <Label Grid.Column="1"
+                                <Label Grid.Column="2"
                                        Text="{Binding NumberOfDigits}"
                                        FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                                        FontAttributes="Bold"
                                        WidthRequest="60"
                                        HorizontalTextAlignment="Center"
                                        VerticalOptions="Center" />
+                                       
+                                <Button Grid.Column="3"
+                                        Text="+"
+                                        Command="{Binding IncrementNumberOfDigitsCommand}"
+                                        BackgroundColor="Transparent"
+                                        TextColor="{StaticResource Primary}"
+                                        BorderWidth="0"
+                                        FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                                        FontAttributes="Bold"
+                                        Padding="8,0"
+                                        MinimumWidthRequest="40"
+                                        SemanticProperties.Description="{localization:Localize Accessibility_IncrementNumberOfDigits}" />
                             </Grid>
                             
                             <Label Text="{localization:Localize NumberMemorization_DigitsHelp}"
@@ -56,8 +80,20 @@
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    FontAttributes="Bold" />
                             
-                            <Grid ColumnDefinitions="*,Auto">
-                                <Slider Grid.Column="0"
+                            <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8">
+                                <Button Grid.Column="0"
+                                        Text="−"
+                                        Command="{Binding DecrementMaxPairValueCommand}"
+                                        BackgroundColor="Transparent"
+                                        TextColor="{StaticResource Primary}"
+                                        BorderWidth="0"
+                                        FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                                        FontAttributes="Bold"
+                                        Padding="8,0"
+                                        MinimumWidthRequest="40"
+                                        SemanticProperties.Description="{localization:Localize Accessibility_DecrementMaxPairValue}" />
+                                        
+                                <Slider Grid.Column="1"
                                         Value="{Binding MaxPairValue}"
                                         Minimum="10"
                                         Maximum="99"
@@ -65,13 +101,25 @@
                                         MaximumTrackColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
                                         ThumbColor="{StaticResource Primary}" />
                                 
-                                <Label Grid.Column="1"
+                                <Label Grid.Column="2"
                                        Text="{Binding MaxPairValue}"
                                        FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                                        FontAttributes="Bold"
                                        WidthRequest="60"
                                        HorizontalTextAlignment="Center"
                                        VerticalOptions="Center" />
+                                       
+                                <Button Grid.Column="3"
+                                        Text="+"
+                                        Command="{Binding IncrementMaxPairValueCommand}"
+                                        BackgroundColor="Transparent"
+                                        TextColor="{StaticResource Primary}"
+                                        BorderWidth="0"
+                                        FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                                        FontAttributes="Bold"
+                                        Padding="8,0"
+                                        MinimumWidthRequest="40"
+                                        SemanticProperties.Description="{localization:Localize Accessibility_IncrementMaxPairValue}" />
                             </Grid>
                             
                             <Label Text="{localization:Localize NumberMemorization_MaxPairHelp}"

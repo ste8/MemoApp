@@ -113,6 +113,10 @@ public partial class NumberMemorizationViewModel : BaseViewModel
         if (value < 1) NumberOfDigits = 1;
         else if (value > 500) NumberOfDigits = 500;
         
+        // Update command states
+        DecrementNumberOfDigitsCommand.NotifyCanExecuteChanged();
+        IncrementNumberOfDigitsCommand.NotifyCanExecuteChanged();
+        
         _ = SaveSettingsAsync();
     }
 
@@ -121,6 +125,10 @@ public partial class NumberMemorizationViewModel : BaseViewModel
         // Clamp value
         if (value < 10) MaxPairValue = 10;
         else if (value > 99) MaxPairValue = 99;
+        
+        // Update command states
+        DecrementMaxPairValueCommand.NotifyCanExecuteChanged();
+        IncrementMaxPairValueCommand.NotifyCanExecuteChanged();
         
         _ = SaveSettingsAsync();
     }
@@ -492,6 +500,36 @@ public partial class NumberMemorizationViewModel : BaseViewModel
             FontSizePreference = fontSize;
         }
     }
+
+    [RelayCommand(CanExecute = nameof(CanDecrementNumberOfDigits))]
+    private void DecrementNumberOfDigits()
+    {
+        NumberOfDigits--;
+    }
+
+    [RelayCommand(CanExecute = nameof(CanIncrementNumberOfDigits))]
+    private void IncrementNumberOfDigits()
+    {
+        NumberOfDigits++;
+    }
+
+    private bool CanDecrementNumberOfDigits() => NumberOfDigits > 1;
+    private bool CanIncrementNumberOfDigits() => NumberOfDigits < 500;
+
+    [RelayCommand(CanExecute = nameof(CanDecrementMaxPairValue))]
+    private void DecrementMaxPairValue()
+    {
+        MaxPairValue--;
+    }
+
+    [RelayCommand(CanExecute = nameof(CanIncrementMaxPairValue))]
+    private void IncrementMaxPairValue()
+    {
+        MaxPairValue++;
+    }
+
+    private bool CanDecrementMaxPairValue() => MaxPairValue > 10;
+    private bool CanIncrementMaxPairValue() => MaxPairValue < 99;
 
     private async Task SaveSettingsAsync()
     {
