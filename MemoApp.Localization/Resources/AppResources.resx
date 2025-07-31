@@ -603,4 +603,28 @@
     <value>Time</value>
     <comment>Label for the timer display</comment>
   </data>
+  <data name="NumberMemorization_FontSize" xml:space="preserve">
+    <value>Font Size</value>
+    <comment>Label for font size controls</comment>
+  </data>
+  <data name="FontSize_Auto" xml:space="preserve">
+    <value>Auto</value>
+    <comment>Auto font size button</comment>
+  </data>
+  <data name="FontSize_Small" xml:space="preserve">
+    <value>S</value>
+    <comment>Small font size button</comment>
+  </data>
+  <data name="FontSize_Medium" xml:space="preserve">
+    <value>M</value>
+    <comment>Medium font size button</comment>
+  </data>
+  <data name="FontSize_Large" xml:space="preserve">
+    <value>L</value>
+    <comment>Large font size button</comment>
+  </data>
+  <data name="FontSize_ExtraLarge" xml:space="preserve">
+    <value>XL</value>
+    <comment>Extra large font size button</comment>
+  </data>
 </root>

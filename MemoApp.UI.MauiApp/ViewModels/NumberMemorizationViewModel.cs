@@ -26,6 +26,9 @@ public partial class NumberMemorizationViewModel : BaseViewModel
     private bool showTimer = false;
 
     [ObservableProperty]
+    private FontSizePreference fontSizePreference = FontSizePreference.Auto;
+
+    [ObservableProperty]
     private bool isContinuousSelected = true;
 
     [ObservableProperty]
@@ -58,6 +61,9 @@ public partial class NumberMemorizationViewModel : BaseViewModel
     [ObservableProperty]
     private bool isRecallButtonVisible = false;
 
+    [ObservableProperty]
+    private double numberFontSize = 32;
+
     public NumberMemorizationViewModel(
         INumberMemorizationService gameService,
         INumberMemorizationSettingsService settingsService,
@@ -86,9 +92,12 @@ public partial class NumberMemorizationViewModel : BaseViewModel
         MaxPairValue = settings.MaxPairValue;
         ShowSeparated = settings.ShowSeparated;
         ShowTimer = settings.ShowTimer;
+        FontSizePreference = settings.FontSize;
         
         IsContinuousSelected = !settings.ShowSeparated;
         IsSeparatedSelected = settings.ShowSeparated;
+        
+        UpdateNumberFontSize();
     }
 
     partial void OnNumberOfDigitsChanged(int value)
@@ -120,6 +129,12 @@ public partial class NumberMemorizationViewModel : BaseViewModel
         _ = SaveSettingsAsync();
         // Update timer visibility: during memorizing respect setting, when stopped always show
         IsTimerVisible = (value && CurrentPhase == GamePhase.Memorizing) || CurrentPhase == GamePhase.Stopped;
+    }
+
+    partial void OnFontSizePreferenceChanged(FontSizePreference value)
+    {
+        UpdateNumberFontSize();
+        _ = SaveSettingsAsync();
     }
 
     partial void OnIsContinuousSelectedChanged(bool value)
@@ -154,7 +169,8 @@ public partial class NumberMemorizationViewModel : BaseViewModel
             NumberOfDigits = NumberOfDigits,
             MaxPairValue = MaxPairValue,
             ShowSeparated = ShowSeparated,
-            ShowTimer = ShowTimer
+            ShowTimer = ShowTimer,
+            FontSize = FontSizePreference
         };
 
         _currentGame = _gameService.CreateNewGame(settings);
@@ -221,6 +237,12 @@ public partial class NumberMemorizationViewModel : BaseViewModel
         }
         
         IsNumberVisible = !string.IsNullOrEmpty(DisplayedNumber);
+        
+        // Update font size if in auto mode
+        if (FontSizePreference == FontSizePreference.Auto)
+        {
+            UpdateNumberFontSize();
+        }
     }
 
     private void OnTimerTick(object? sender, EventArgs e)
@@ -237,6 +259,68 @@ public partial class NumberMemorizationViewModel : BaseViewModel
         TimerText = _gameService.FormatTime(_currentGame.ElapsedTime);
     }
 
+    private void UpdateNumberFontSize()
+    {
+        if (FontSizePreference == FontSizePreference.Auto)
+        {
+            NumberFontSize = CalculateAutoFontSize();
+        }
+        else
+        {
+            double baseFontSize = FontSizePreference switch
+            {
+                FontSizePreference.Small => 24,
+                FontSizePreference.Medium => 32,
+                FontSizePreference.Large => 42,
+                FontSizePreference.ExtraLarge => 52,
+                _ => 32
+            };
+
+            NumberFontSize = DeviceInfo.Idiom == DeviceIdiom.Phone ? baseFontSize :
+                            DeviceInfo.Idiom == DeviceIdiom.Tablet ? baseFontSize * 1.5 :
+                            baseFontSize * 2.0;
+        }
+    }
+
+    private double CalculateAutoFontSize()
+    {
+        if (string.IsNullOrEmpty(DisplayedNumber))
+        {
+            // Default size when no number is displayed
+            return DeviceInfo.Idiom == DeviceIdiom.Phone ? 32 :
+                   DeviceInfo.Idiom == DeviceIdiom.Tablet ? 48 : 64;
+        }
+
+        // Estimate text width based on number of characters
+        int characterCount = DisplayedNumber.Length;
+        
+        // Define platform-specific container dimensions (approximate)
+        double containerWidth = DeviceInfo.Idiom == DeviceIdiom.Phone ? 300 :    // Phone container width
+                               DeviceInfo.Idiom == DeviceIdiom.Tablet ? 450 :    // Tablet container width
+                               600;                                               // Desktop container width
+
+        // Define font size limits
+        double minFontSize = DeviceInfo.Idiom == DeviceIdiom.Phone ? 16 :
+                            DeviceInfo.Idiom == DeviceIdiom.Tablet ? 20 : 24;
+        double maxFontSize = DeviceInfo.Idiom == DeviceIdiom.Phone ? 48 :
+                            DeviceInfo.Idiom == DeviceIdiom.Tablet ? 64 : 80;
+
+        // Rough calculation: assume each character takes 0.6 * fontSize in width for Courier font
+        double targetFontSize = containerWidth / (characterCount * 0.6);
+        
+        // Clamp to min/max limits
+        return Math.Max(minFontSize, Math.Min(maxFontSize, targetFontSize));
+    }
+
+    [RelayCommand]
+    private void SetFontSize(string sizeString)
+    {
+        if (Enum.TryParse<FontSizePreference>(sizeString, out var fontSize))
+        {
+            FontSizePreference = fontSize;
+        }
+    }
+
     private async Task SaveSettingsAsync()
     {
         var settings = new NumberMemorizationSettings
@@ -244,7 +328,8 @@ public partial class NumberMemorizationViewModel : BaseViewModel
             NumberOfDigits = NumberOfDigits,
             MaxPairValue = MaxPairValue,
             ShowSeparated = ShowSeparated,
-            ShowTimer = ShowTimer
+            ShowTimer = ShowTimer,
+            FontSize = FontSizePreference
         };
 
         await _settingsService.SaveSettingsAsync(settings);

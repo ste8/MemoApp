@@ -159,12 +159,87 @@
                     <Label Text="{Binding DisplayedNumber}"
                            IsVisible="{Binding IsNumberVisible}"
                            TextColor="White"
-                           FontSize="{OnIdiom Phone=32, Tablet=48, Desktop=64}"
+                           FontSize="{Binding NumberFontSize}"
                            FontFamily="Courier"
                            HorizontalOptions="Center"
                            VerticalOptions="Center"
                            HorizontalTextAlignment="Center"
                            LineBreakMode="WordWrap" />
+                </Frame>
+
+                <!-- Font Size Controls -->
+                <Frame IsVisible="{Binding IsGameSectionVisible}"
+                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                       Padding="10"
+                       CornerRadius="8"
+                       HasShadow="False">
+                    
+                    <StackLayout Spacing="8">
+                        <!-- Font Size Label - Only show on larger screens -->
+                        <Label Text="{localization:Localize NumberMemorization_FontSize}"
+                               FontSize="{OnIdiom Phone=11, Tablet=13, Desktop=15}"
+                               HorizontalOptions="Center"
+                               TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                               IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}" />
+                        
+                        <!-- Font Size Buttons -->
+                        <StackLayout Orientation="Horizontal" Spacing="{OnIdiom Phone=4, Tablet=6, Desktop=8}" HorizontalOptions="Center">
+                            <Button Text="{localization:Localize FontSize_Auto}"
+                                    Command="{Binding SetFontSizeCommand}"
+                                    CommandParameter="Auto"
+                                    BackgroundColor="{StaticResource Primary}"
+                                    TextColor="White"
+                                    WidthRequest="{OnIdiom Phone=34, Tablet=38, Desktop=42}"
+                                    HeightRequest="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
+                                    CornerRadius="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                    FontSize="{OnIdiom Phone=8, Tablet=9, Desktop=10}"
+                                    Padding="0" />
+                            
+                            <Button Text="{localization:Localize FontSize_Small}"
+                                    Command="{Binding SetFontSizeCommand}"
+                                    CommandParameter="Small"
+                                    BackgroundColor="{StaticResource Primary}"
+                                    TextColor="White"
+                                    WidthRequest="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
+                                    HeightRequest="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
+                                    CornerRadius="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                    FontSize="{OnIdiom Phone=9, Tablet=10, Desktop=11}"
+                                    Padding="0" />
+                            
+                            <Button Text="{localization:Localize FontSize_Medium}"
+                                    Command="{Binding SetFontSizeCommand}"
+                                    CommandParameter="Medium"
+                                    BackgroundColor="{StaticResource Primary}"
+                                    TextColor="White"
+                                    WidthRequest="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
+                                    HeightRequest="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
+                                    CornerRadius="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                    FontSize="{OnIdiom Phone=9, Tablet=10, Desktop=11}"
+                                    Padding="0" />
+                            
+                            <Button Text="{localization:Localize FontSize_Large}"
+                                    Command="{Binding SetFontSizeCommand}"
+                                    CommandParameter="Large"
+                                    BackgroundColor="{StaticResource Primary}"
+                                    TextColor="White"
+                                    WidthRequest="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
+                                    HeightRequest="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
+                                    CornerRadius="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                    FontSize="{OnIdiom Phone=9, Tablet=10, Desktop=11}"
+                                    Padding="0" />
+                            
+                            <Button Text="{localization:Localize FontSize_ExtraLarge}"
+                                    Command="{Binding SetFontSizeCommand}"
+                                    CommandParameter="ExtraLarge"
+                                    BackgroundColor="{StaticResource Primary}"
+                                    TextColor="White"
+                                    WidthRequest="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
+                                    HeightRequest="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
+                                    CornerRadius="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                    FontSize="{OnIdiom Phone=9, Tablet=10, Desktop=11}"
+                                    Padding="0" />
+                        </StackLayout>
+                    </StackLayout>
                 </Frame>
 
                 <!-- Action Buttons -->
