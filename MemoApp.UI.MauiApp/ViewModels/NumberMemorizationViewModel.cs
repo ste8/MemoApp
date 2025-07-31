@@ -542,6 +542,12 @@ public partial class NumberMemorizationViewModel : BaseViewModel
     private bool CanDecrementMaxPairValue() => MaxPairValue > 10;
     private bool CanIncrementMaxPairValue() => MaxPairValue < 99;
 
+    [RelayCommand]
+    private void ToggleShowTimer()
+    {
+        ShowTimer = !ShowTimer;
+    }
+
     private string GenerateExampleNumber(bool separated)
     {
         // Generate a sample number based on current settings for display format examples

@@ -161,15 +161,38 @@
                         </StackLayout>
 
                         <!-- Show Timer -->
-                        <Grid ColumnDefinitions="*,Auto">
-                            <Label Grid.Column="0"
+                        <Grid ColumnDefinitions="Auto,*" 
+                              Padding="{OnIdiom Phone='0,8', Tablet='0,10', Desktop='0,6'}">
+                            
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ToggleShowTimerCommand}" />
+                            </Grid.GestureRecognizers>
+                            
+                            <!-- iOS: Platform-native Switch -->
+                            <Switch Grid.Column="0"
+                                    IsToggled="{Binding ShowTimer}"
+                                    OnColor="{StaticResource Primary}"
+                                    VerticalOptions="Center"
+                                    IsVisible="{OnPlatform iOS=True, Default=False}"
+                                    InputTransparent="True" />
+                            
+                            <!-- Android/Windows/macOS: Properly sized CheckBox -->
+                            <CheckBox Grid.Column="0"
+                                      IsChecked="{Binding ShowTimer}"
+                                      Color="{StaticResource Primary}"
+                                      VerticalOptions="Center"
+                                      MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
+                                      MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
+                                      IsVisible="{OnPlatform iOS=False, Default=True}"
+                                      InputTransparent="True" />
+                            
+                            <!-- Optimally spaced label -->
+                            <Label Grid.Column="1"
                                    Text="{localization:Localize NumberMemorization_ShowTimer}"
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                   VerticalOptions="Center" />
-                            
-                            <CheckBox Grid.Column="1"
-                                      IsChecked="{Binding ShowTimer}"
-                                      Color="{StaticResource Primary}" />
+                                   VerticalOptions="Center"
+                                   Margin="{OnIdiom Phone='12,0,0,0', Tablet='16,0,0,0', Desktop='8,0,0,0'}"
+                                   InputTransparent="True" />
                         </Grid>
                     </StackLayout>
                 </Frame>
