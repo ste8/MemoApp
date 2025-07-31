@@ -43,8 +43,11 @@
                                 BorderWidth="1"
                                 CornerRadius="8"
                                 FontSize="14"
-                                Padding="15,10"
-                                HorizontalOptions="FillAndExpand" />
+                                Padding="15,12"
+                                HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
+                                HorizontalOptions="FillAndExpand"
+                                AutomationProperties.Name="{localization:Localize Accessibility_LanguageButton}"
+                                AutomationProperties.HelpText="{localization:Localize Accessibility_LanguageButtonHelp}" />
                         
                         <Label Text="{localization:Localize Language_Description}"
                                FontSize="12"
@@ -66,7 +69,8 @@
                                 BorderWidth="1"
                                 CornerRadius="8"
                                 FontSize="14"
-                                Padding="15,10"
+                                Padding="15,12"
+                                HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
                                 HorizontalOptions="FillAndExpand" />
                         
                         <Label Text="{localization:Localize NumberFormat_Description}"

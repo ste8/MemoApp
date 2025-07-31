@@ -68,7 +68,7 @@
                                 BorderColor="White"
                                 BorderWidth="2"
                                 CornerRadius="8"
-                                HeightRequest="{OnIdiom Phone=45, Tablet=50, Desktop=55}"
+                                HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
                                 AutomationProperties.Name="{localization:Localize Accessibility_HelpButton}"
                                 AutomationProperties.HelpText="{localization:Localize Accessibility_HelpButtonHelp}" />
                     </StackLayout>
@@ -125,7 +125,7 @@
                                     <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
                                             Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
                                             StrokeThickness="1"
-                                            HeightRequest="40">
+                                            HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}">
                                         <Border.StrokeShape>
                                             <RoundRectangle CornerRadius="4" />
                                         </Border.StrokeShape>
@@ -165,7 +165,7 @@
                                             <DataTemplate x:DataType="x:String">
                                                 <Border BackgroundColor="Transparent"
                                                         Padding="0">
-                                                    <Grid Padding="10,8">
+                                                    <Grid Padding="12,14">
                                                         <Grid.GestureRecognizers>
                                                             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainViewModel}}, Path=SelectStartNumberOptionCommand}"
                                                                                   CommandParameter="{Binding .}" />
@@ -237,7 +237,7 @@
                                     <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
                                             Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
                                             StrokeThickness="1"
-                                            HeightRequest="40">
+                                            HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}">
                                         <Border.StrokeShape>
                                             <RoundRectangle CornerRadius="4" />
                                         </Border.StrokeShape>
@@ -277,7 +277,7 @@
                                             <DataTemplate x:DataType="x:String">
                                                 <Border BackgroundColor="Transparent"
                                                         Padding="0">
-                                                    <Grid Padding="10,8">
+                                                    <Grid Padding="12,14">
                                                         <Grid.GestureRecognizers>
                                                             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainViewModel}}, Path=SelectEndNumberOptionCommand}"
                                                                                   CommandParameter="{Binding .}" />
