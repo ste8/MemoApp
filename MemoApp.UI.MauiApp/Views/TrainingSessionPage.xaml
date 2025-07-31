@@ -5,7 +5,8 @@
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              x:Class="MemoApp.UI.MauiApp.Views.TrainingSessionPage"
              x:DataType="viewmodels:TrainingSessionViewModel"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             Shell.TabBarIsVisible="{Binding IsSessionCompleted}">
 
     <Grid>
         <!-- Keyboard input handler - hidden from accessibility tree -->

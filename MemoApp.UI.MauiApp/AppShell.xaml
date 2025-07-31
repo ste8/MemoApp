@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:MemoApp.UI.MauiApp.Views"
+    xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
     xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
     Title="Major System Training">
 

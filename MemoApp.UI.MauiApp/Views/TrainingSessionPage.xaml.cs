@@ -29,6 +29,7 @@ public partial class TrainingSessionPage : ContentPage
         }
     }
 
+
     private void OnKeyboardTextChanged(object sender, TextChangedEventArgs e)
     {
         if (string.IsNullOrEmpty(e.NewTextValue) || !_viewModel.IsSessionActive)

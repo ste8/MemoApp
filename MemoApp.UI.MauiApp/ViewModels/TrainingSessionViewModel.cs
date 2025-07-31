@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.MajorSystem;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Utilities;
+using MemoApp.UI.MauiApp.Services;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
 
@@ -67,6 +68,7 @@ public partial class TrainingSessionViewModel : BaseViewModel
             IsBusy = true;
             Title = $"Training: {RangeStart}-{RangeEnd}";
             
+            
             _gameSession = new GameSession(RangeStart, RangeEnd);
             TotalNumbers = _gameSession.TotalNumbers;
             
@@ -113,6 +115,7 @@ public partial class TrainingSessionViewModel : BaseViewModel
     {
         if (SessionStatistics == null) return;
 
+
         // Set the statistics data in the StatisticsViewModel
         StatisticsViewModel.SetPendingStatistics(SessionStatistics.Value);
         
@@ -152,5 +155,7 @@ public partial class TrainingSessionViewModel : BaseViewModel
         IsSessionCompleted = true;
         SessionStatistics = _gameSession.GetStatistics();
         Title = "Session Complete!";
+        
     }
+
 }

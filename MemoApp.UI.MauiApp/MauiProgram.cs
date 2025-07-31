@@ -23,6 +23,7 @@ public static class MauiProgram
 		// Register localization services with MAUI-specific implementation
 		builder.Services.AddLocalization<MauiLocalizationService>();
 
+
 		// Register ViewModels and Views for dependency injection
 		builder.Services.AddSingleton<Views.TestPage>();
 		
