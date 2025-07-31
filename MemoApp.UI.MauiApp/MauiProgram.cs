@@ -4,6 +4,7 @@ using MemoApp.UI.MauiApp.Views;
 using MemoApp.Localization.Extensions;
 using MemoApp.UI.MauiApp.Services;
 using MemoApp.Localization.Services;
+using MemoApp.Core.NumberMemorization;
 
 namespace MemoApp.UI.MauiApp;
 
@@ -41,6 +42,12 @@ public static class MauiProgram
 		
 		builder.Services.AddTransient<SettingsViewModel>();
 		builder.Services.AddTransient<Views.SettingsPage>();
+		
+		// Register Number Memorization services
+		builder.Services.AddSingleton<INumberMemorizationService, NumberMemorizationService>();
+		builder.Services.AddSingleton<INumberMemorizationSettingsService, NumberMemorizationSettingsService>();
+		builder.Services.AddTransient<NumberMemorizationViewModel>();
+		builder.Services.AddTransient<Views.NumberMemorizationPage>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

@@ -26,6 +26,12 @@
             Icon="gear"
             Route="settings"
             ContentTemplate="{DataTemplate views:SettingsPage}" />
+
+        <ShellContent
+            Title="{localization:Localize Tab_NumberMemory}"
+            Icon="number"
+            Route="numbermemorization"
+            ContentTemplate="{DataTemplate views:NumberMemorizationPage}" />
     </TabBar>
 
 </Shell>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             x:Class="MemoApp.UI.MauiApp.Views.NumberMemorizationPage"
+             x:DataType="viewmodels:NumberMemorizationViewModel"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <Grid Padding="{OnPlatform iOS='20,40,20,20', Default='20'}">
+            
+            <!-- Setup Section -->
+            <StackLayout IsVisible="{Binding IsSetupSectionVisible}"
+                         Spacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
+                
+                <!-- Settings Card -->
+                <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                       Padding="20"
+                       CornerRadius="15"
+                       HasShadow="True">
+                    
+                    <StackLayout Spacing="20">
+                        <!-- Number of Digits -->
+                        <StackLayout Spacing="8">
+                            <Label Text="{localization:Localize NumberMemorization_NumberOfDigits}"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   FontAttributes="Bold" />
+                            
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Slider Grid.Column="0"
+                                        Value="{Binding NumberOfDigits}"
+                                        Minimum="1"
+                                        Maximum="500"
+                                        MinimumTrackColor="{StaticResource Primary}"
+                                        MaximumTrackColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                        ThumbColor="{StaticResource Primary}" />
+                                
+                                <Label Grid.Column="1"
+                                       Text="{Binding NumberOfDigits}"
+                                       FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                       FontAttributes="Bold"
+                                       WidthRequest="60"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalOptions="Center" />
+                            </Grid>
+                            
+                            <Label Text="{localization:Localize NumberMemorization_DigitsHelp}"
+                                   FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
+                        </StackLayout>
+
+                        <!-- Max Pair Value -->
+                        <StackLayout Spacing="8">
+                            <Label Text="{localization:Localize NumberMemorization_MaxPairValue}"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   FontAttributes="Bold" />
+                            
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Slider Grid.Column="0"
+                                        Value="{Binding MaxPairValue}"
+                                        Minimum="10"
+                                        Maximum="99"
+                                        MinimumTrackColor="{StaticResource Primary}"
+                                        MaximumTrackColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                        ThumbColor="{StaticResource Primary}" />
+                                
+                                <Label Grid.Column="1"
+                                       Text="{Binding MaxPairValue}"
+                                       FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                       FontAttributes="Bold"
+                                       WidthRequest="60"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalOptions="Center" />
+                            </Grid>
+                            
+                            <Label Text="{localization:Localize NumberMemorization_MaxPairHelp}"
+                                   FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
+                        </StackLayout>
+
+                        <!-- Display Format -->
+                        <StackLayout Spacing="8">
+                            <Label Text="{localization:Localize NumberMemorization_DisplayFormat}"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   FontAttributes="Bold" />
+                            
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                <RadioButton Grid.Column="0"
+                                             Content="{localization:Localize NumberMemorization_Continuous}"
+                                             IsChecked="{Binding IsContinuousSelected}"
+                                             GroupName="DisplayFormat" />
+                                
+                                <RadioButton Grid.Column="1"
+                                             Content="{localization:Localize NumberMemorization_Separated}"
+                                             IsChecked="{Binding IsSeparatedSelected}"
+                                             GroupName="DisplayFormat" />
+                            </Grid>
+                        </StackLayout>
+
+                        <!-- Show Timer -->
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0"
+                                   Text="{localization:Localize NumberMemorization_ShowTimer}"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   VerticalOptions="Center" />
+                            
+                            <CheckBox Grid.Column="1"
+                                      IsChecked="{Binding ShowTimer}"
+                                      Color="{StaticResource Primary}" />
+                        </Grid>
+                    </StackLayout>
+                </Frame>
+
+                <!-- Start Button -->
+                <Button Text="{localization:Localize NumberMemorization_StartMemorizing}"
+                        Command="{Binding StartMemorizingCommand}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                        FontAttributes="Bold"
+                        CornerRadius="15"
+                        HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
+                        Margin="20,10" />
+            </StackLayout>
+
+            <!-- Game Section -->
+            <StackLayout IsVisible="{Binding IsGameSectionVisible}"
+                         Spacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
+                
+                <!-- Timer Display -->
+                <Frame IsVisible="{Binding IsTimerVisible}"
+                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                       Padding="15"
+                       CornerRadius="10"
+                       HasShadow="True">
+                    
+                    <Label Text="{Binding TimerText}"
+                           FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center" />
+                </Frame>
+
+                <!-- Number Display Area -->
+                <Frame BackgroundColor="{StaticResource Primary}"
+                       Padding="{OnIdiom Phone=20, Tablet=30, Desktop=40}"
+                       CornerRadius="20"
+                       HasShadow="True"
+                       MinimumHeightRequest="{OnIdiom Phone=200, Tablet=300, Desktop=400}">
+                    
+                    <Label Text="{Binding DisplayedNumber}"
+                           IsVisible="{Binding IsNumberVisible}"
+                           TextColor="White"
+                           FontSize="{OnIdiom Phone=32, Tablet=48, Desktop=64}"
+                           FontFamily="Courier"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           LineBreakMode="WordWrap" />
+                </Frame>
+
+                <!-- Action Buttons -->
+                <StackLayout Spacing="15">
+                    <!-- Stop & Hide Button -->
+                    <Button Text="{localization:Localize NumberMemorization_StopHide}"
+                            Command="{Binding StopAndHideCommand}"
+                            IsVisible="{Binding IsStopButtonVisible}"
+                            BackgroundColor="{StaticResource Secondary}"
+                            TextColor="White"
+                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                            FontAttributes="Bold"
+                            CornerRadius="15"
+                            HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}" />
+
+                    <!-- Recall Button -->
+                    <Button Text="{localization:Localize NumberMemorization_Recall}"
+                            Command="{Binding ToggleRecallCommand}"
+                            IsVisible="{Binding IsRecallButtonVisible}"
+                            BackgroundColor="{StaticResource Success}"
+                            TextColor="White"
+                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                            FontAttributes="Bold"
+                            CornerRadius="15"
+                            HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}" />
+
+                    <!-- New Game Button -->
+                    <Button Text="{localization:Localize NumberMemorization_NewGame}"
+                            Command="{Binding StartNewGameCommand}"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                            TextColor="White"
+                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                            CornerRadius="15"
+                            HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
+                            Margin="20,10" />
+                </StackLayout>
+            </StackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

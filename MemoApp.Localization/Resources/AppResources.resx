@@ -541,4 +541,62 @@
     <value>Settings</value>
     <comment>Settings tab label</comment>
   </data>
+  <data name="Tab_NumberMemory" xml:space="preserve">
+    <value>Number Memory</value>
+    <comment>Number Memory tab label</comment>
+  </data>
+  
+  <!-- Number Memorization -->
+  <data name="NumberMemorization_Title" xml:space="preserve">
+    <value>Number Memorization</value>
+    <comment>Number memorization page title</comment>
+  </data>
+  <data name="NumberMemorization_NumberOfDigits" xml:space="preserve">
+    <value>Number of Digits</value>
+    <comment>Label for number of digits setting</comment>
+  </data>
+  <data name="NumberMemorization_MaxPairValue" xml:space="preserve">
+    <value>Maximum Pair Value</value>
+    <comment>Label for maximum pair value setting</comment>
+  </data>
+  <data name="NumberMemorization_DisplayFormat" xml:space="preserve">
+    <value>Display Format</value>
+    <comment>Label for display format setting</comment>
+  </data>
+  <data name="NumberMemorization_Continuous" xml:space="preserve">
+    <value>Continuous</value>
+    <comment>Continuous display format option</comment>
+  </data>
+  <data name="NumberMemorization_Separated" xml:space="preserve">
+    <value>Separated</value>
+    <comment>Separated display format option</comment>
+  </data>
+  <data name="NumberMemorization_ShowTimer" xml:space="preserve">
+    <value>Show Timer</value>
+    <comment>Show timer checkbox label</comment>
+  </data>
+  <data name="NumberMemorization_StartMemorizing" xml:space="preserve">
+    <value>Start Memorizing</value>
+    <comment>Start memorizing button text</comment>
+  </data>
+  <data name="NumberMemorization_StopHide" xml:space="preserve">
+    <value>Stop &amp; Hide</value>
+    <comment>Stop and hide button text</comment>
+  </data>
+  <data name="NumberMemorization_Recall" xml:space="preserve">
+    <value>Recall</value>
+    <comment>Recall button text</comment>
+  </data>
+  <data name="NumberMemorization_NewGame" xml:space="preserve">
+    <value>New Game</value>
+    <comment>New game button text</comment>
+  </data>
+  <data name="NumberMemorization_DigitsHelp" xml:space="preserve">
+    <value>Choose between 1 and 500 digits</value>
+    <comment>Help text for number of digits</comment>
+  </data>
+  <data name="NumberMemorization_MaxPairHelp" xml:space="preserve">
+    <value>Maximum value for digit pairs (10-99)</value>
+    <comment>Help text for max pair value</comment>
+  </data>
 </root>
