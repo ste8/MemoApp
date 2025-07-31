@@ -172,7 +172,9 @@
                     <Label Text="{localization:Localize Statistics_AllNumbersTitle}"
                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                            FontAttributes="Bold"
-                           HorizontalOptions="Center" />
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           LineBreakMode="WordWrap" />
 
                     <!-- Responsive CollectionView for all performances -->
                     <CollectionView ItemsSource="{Binding AllPerformances}"

@@ -139,6 +139,8 @@
                                 FontAttributes="Bold"
                                 CornerRadius="15"
                                 HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
+                                LineBreakMode="WordWrap"
+                                Padding="20,10"
                                 Margin="20,0"
                                 AutomationProperties.Name="{localization:Localize Accessibility_NextButton}"
                                 AutomationProperties.HelpText="{localization:Localize Accessibility_NextButtonHelp}" />
@@ -149,6 +151,8 @@
                                FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
                                TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
                                HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               LineBreakMode="WordWrap"
                                FontAttributes="Italic" />
                     </StackLayout>
 
@@ -161,7 +165,9 @@
                         <Label Text="{localization:Localize TrainingSession_HelpTip}"
                                TextColor="White"
                                FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                               HorizontalTextAlignment="Center" />
+                               HorizontalTextAlignment="Center"
+                               LineBreakMode="WordWrap"
+                               Margin="5,0" />
                     </Frame>
                 </StackLayout>
 
@@ -190,7 +196,9 @@
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    HorizontalOptions="Center"
-                                   HorizontalTextAlignment="Center" />
+                                   HorizontalTextAlignment="Center"
+                                   LineBreakMode="WordWrap"
+                                   Margin="10,0" />
                         </StackLayout>
                     </Frame>
 

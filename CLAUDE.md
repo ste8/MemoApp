@@ -96,3 +96,15 @@ When adding any new UI feature:
 Remember: **Every user-visible string must be localized in both English and Italian!**
 
 **NEVER** commit code with hardcoded user-facing strings, even temporarily.
+
+## Git Commit Policy
+
+**CRITICAL**: Never initiate git commits or suggest committing. Focus only on development work.
+
+### Commit Rules:
+1. **NEVER commit or suggest committing** - Only commit when the user explicitly asks you to commit
+2. **Focus on development only** - Complete the requested work and stop
+3. **User controls git workflow** - The user will decide when and what to commit
+4. **No commit-related suggestions** - Don't mention committing, branching, or git operations unless specifically asked
+
+This ensures the user maintains complete control over their repository workflow.

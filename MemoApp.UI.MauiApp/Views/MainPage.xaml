@@ -69,6 +69,8 @@
                                 BorderWidth="2"
                                 CornerRadius="8"
                                 HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
+                                LineBreakMode="WordWrap"
+                                Padding="10,8"
                                 AutomationProperties.Name="{localization:Localize Accessibility_HelpButton}"
                                 AutomationProperties.HelpText="{localization:Localize Accessibility_HelpButtonHelp}" />
                     </StackLayout>
@@ -320,15 +322,18 @@
                                FontSize="14"
                                HorizontalOptions="Center"
                                HorizontalTextAlignment="Center"
+                               LineBreakMode="WordWrap"
                                IsVisible="{Binding HasValidationError}"
-                               Margin="0,5,0,0" />
+                               Margin="10,5,10,0" />
                         
                         <Button Text="{localization:Localize MainPage_StartCustomTraining}"
                                 Command="{Binding StartCustomTrainingCommand}"
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="White"
                                 CornerRadius="8"
-                                HeightRequest="{OnIdiom Phone=50, Tablet=55, Desktop=60}"
+                                HeightRequest="{OnIdiom Phone=60, Tablet=65, Desktop=70}"
+                                LineBreakMode="WordWrap"
+                                Padding="15,10"
                                 AutomationProperties.Name="{localization:Localize Accessibility_StartCustomTrainingButton}"
                                 AutomationProperties.HelpText="{localization:Localize Accessibility_StartCustomTrainingButtonHelp}" />
                     </StackLayout>
@@ -377,7 +382,8 @@
                                     
                                     <Label Text="{Binding Description}" 
                                            FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                           TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
+                                           TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                           LineBreakMode="WordWrap" />
                                     
                                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                                         <Label Text="{localization:Localize Common_Range}" 
