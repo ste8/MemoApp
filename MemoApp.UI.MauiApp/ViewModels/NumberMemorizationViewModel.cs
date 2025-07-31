@@ -162,8 +162,9 @@ public partial class NumberMemorizationViewModel : BaseViewModel
         
         CurrentPhase = _currentGame.Phase;
         
-        // Start timer
+        // Start timer and immediately update display to show 00:00
         _timer?.Start();
+        UpdateTimerDisplay();
     }
 
     [RelayCommand]
