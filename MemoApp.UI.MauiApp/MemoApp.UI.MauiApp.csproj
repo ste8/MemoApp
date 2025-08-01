@@ -21,7 +21,7 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>MemoApp - Major System Training</ApplicationTitle>
+		<ApplicationTitle>MemoRaise</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.stefanoottaviani.memoapp</ApplicationId>
