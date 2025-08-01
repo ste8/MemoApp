@@ -16,6 +16,12 @@
             ContentTemplate="{DataTemplate views:MainPage}" />
 
         <ShellContent
+            Title="{localization:Localize Tab_NumberMemory}"
+            Icon="memory"
+            Route="numbermemorization"
+            ContentTemplate="{DataTemplate views:NumberMemorizationPage}" />
+
+        <ShellContent
             Title="{localization:Localize Tab_Help}"
             Icon="help"
             Route="help"
@@ -26,12 +32,6 @@
             Icon="settings"
             Route="settings"
             ContentTemplate="{DataTemplate views:SettingsPage}" />
-
-        <ShellContent
-            Title="{localization:Localize Tab_NumberMemory}"
-            Icon="memory"
-            Route="numbermemorization"
-            ContentTemplate="{DataTemplate views:NumberMemorizationPage}" />
     </TabBar>
 
 </Shell>
