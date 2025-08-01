@@ -24,7 +24,7 @@
 		<ApplicationTitle>MemoApp - Major System Training</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.memoapp.majorsystem</ApplicationId>
+		<ApplicationId>com.stefanoottaviani.memoapp</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
