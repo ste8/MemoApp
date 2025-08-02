@@ -259,20 +259,29 @@ public partial class MainViewModel : BaseViewModel
         
         if (numberFormat == NumberFormat.Padded)
         {
-            TrainingOptions.Add(new("Beginner", "00", "09", "Zero-prefixed numbers (00-09)"));
-            TrainingOptions.Add(new("Single Digits", "0", "9", "Basic single digits (0-9)"));
-            TrainingOptions.Add(new("Teens", "10", "19", "Teen numbers (10-19)"));
-            TrainingOptions.Add(new("Twenties", "20", "29", "Twenty range (20-29)"));
-            TrainingOptions.Add(new("First 50", "00", "49", "Extended practice (00-49)"));
-            TrainingOptions.Add(new("Full Range", "00", "99", "Complete Major System (00-99)"));
+            // Preset ranges starting from 00
+            TrainingOptions.Add(new("00-19", "00", "19", "Numbers 00 to 19"));
+            TrainingOptions.Add(new("00-29", "00", "29", "Numbers 00 to 29"));
+            TrainingOptions.Add(new("00-39", "00", "39", "Numbers 00 to 39"));
+            TrainingOptions.Add(new("00-49", "00", "49", "Numbers 00 to 49"));
+            TrainingOptions.Add(new("00-59", "00", "59", "Numbers 00 to 59"));
+            TrainingOptions.Add(new("00-69", "00", "69", "Numbers 00 to 69"));
+            TrainingOptions.Add(new("00-79", "00", "79", "Numbers 00 to 79"));
+            TrainingOptions.Add(new("00-89", "00", "89", "Numbers 00 to 89"));
+            TrainingOptions.Add(new("00-99", "00", "99", "Complete Major System 00 to 99"));
         }
         else // Natural format
         {
-            TrainingOptions.Add(new("Beginner", "0", "9", "Basic single digits (0-9)"));
-            TrainingOptions.Add(new("Teens", "10", "19", "Teen numbers (10-19)"));
-            TrainingOptions.Add(new("Twenties", "20", "29", "Twenty range (20-29)"));
-            TrainingOptions.Add(new("First 50", "0", "49", "Extended practice (0-49)"));
-            TrainingOptions.Add(new("Full Range", "0", "99", "Complete Major System (0-99)"));
+            // Preset ranges starting from 0
+            TrainingOptions.Add(new("0-19", "0", "19", "Numbers 0 to 19"));
+            TrainingOptions.Add(new("0-29", "0", "29", "Numbers 0 to 29"));
+            TrainingOptions.Add(new("0-39", "0", "39", "Numbers 0 to 39"));
+            TrainingOptions.Add(new("0-49", "0", "49", "Numbers 0 to 49"));
+            TrainingOptions.Add(new("0-59", "0", "59", "Numbers 0 to 59"));
+            TrainingOptions.Add(new("0-69", "0", "69", "Numbers 0 to 69"));
+            TrainingOptions.Add(new("0-79", "0", "79", "Numbers 0 to 79"));
+            TrainingOptions.Add(new("0-89", "0", "89", "Numbers 0 to 89"));
+            TrainingOptions.Add(new("0-99", "0", "99", "Complete Major System 0 to 99"));
         }
     }
 

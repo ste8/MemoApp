@@ -363,47 +363,23 @@
                     </CollectionView.ItemsLayout>
 
                     <CollectionView.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="{x:Type viewmodels:TrainingOption}">
                             <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
-                                   Padding="15"
+                                   Padding="10,12"
                                    CornerRadius="8"
                                    HasShadow="False"
-                                   Margin="0,5">
+                                   Margin="0,3">
                                 
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainViewModel}}, Path=StartPresetTrainingCommand}"
                                                           CommandParameter="{Binding .}" />
                                 </Frame.GestureRecognizers>
 
-                                <StackLayout Spacing="5">
-                                    <Label Text="{Binding Name}" 
-                                           FontAttributes="Bold"
-                                           FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}" />
-                                    
-                                    <Label Text="{Binding Description}" 
-                                           FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                           TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
-                                           LineBreakMode="WordWrap" />
-                                    
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                                        <Label Text="{localization:Localize Common_Range}" 
-                                               FontSize="{OnIdiom Phone=11, Tablet=13, Desktop=15}"
-                                               FontAttributes="Italic"
-                                               TextColor="{StaticResource Primary}" />
-                                        <Label Text="{Binding RangeStart}" 
-                                               FontSize="{OnIdiom Phone=11, Tablet=13, Desktop=15}"
-                                               FontAttributes="Italic"
-                                               TextColor="{StaticResource Primary}" />
-                                        <Label Text=" {localization:Localize Common_To} " 
-                                               FontSize="{OnIdiom Phone=11, Tablet=13, Desktop=15}"
-                                               FontAttributes="Italic"
-                                               TextColor="{StaticResource Primary}" />
-                                        <Label Text="{Binding RangeEnd}" 
-                                               FontSize="{OnIdiom Phone=11, Tablet=13, Desktop=15}"
-                                               FontAttributes="Italic"
-                                               TextColor="{StaticResource Primary}" />
-                                    </StackLayout>
-                                </StackLayout>
+                                <Label Text="{Binding Name}" 
+                                       FontAttributes="Bold"
+                                       FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
                             </Frame>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
