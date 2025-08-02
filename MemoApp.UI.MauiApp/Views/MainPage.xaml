@@ -76,6 +76,57 @@
                     </StackLayout>
                 </Frame>
 
+                <!-- Mobile Preset Training Section (only visible on phones) -->
+                <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                       Padding="15"
+                       CornerRadius="10"
+                       HasShadow="True"
+                       IsVisible="{OnIdiom Phone=True, Tablet=False, Desktop=False}">
+                    
+                    <StackLayout Spacing="15">
+                        <Label Text="{localization:Localize MainPage_PresetTraining}" 
+                               Style="{StaticResource SubHeadline}"
+                               HorizontalOptions="Center"
+                               Margin="0,0,0,10" />
+
+                        <!-- Mobile CollectionView with compact grid layout -->
+                        <CollectionView ItemsSource="{Binding TrainingOptions}"
+                                        SelectionMode="None">
+                            
+                            <CollectionView.ItemsLayout>
+                                <!-- 3-column grid layout for mobile -->
+                                <GridItemsLayout Orientation="Vertical" 
+                                               Span="3"
+                                               HorizontalItemSpacing="8"
+                                               VerticalItemSpacing="8" />
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="{x:Type viewmodels:TrainingOption}">
+                                    <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                                           Padding="8,10"
+                                           CornerRadius="6"
+                                           HasShadow="False"
+                                           Margin="0">
+                                        
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainViewModel}}, Path=StartPresetTrainingCommand}"
+                                                                  CommandParameter="{Binding .}" />
+                                        </Frame.GestureRecognizers>
+
+                                        <Label Text="{Binding Name}" 
+                                               FontAttributes="Bold"
+                                               FontSize="14"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               HorizontalTextAlignment="Center" />
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+                </Frame>
+
                 <!-- Custom Range Section -->
                 <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
                        Padding="15"
