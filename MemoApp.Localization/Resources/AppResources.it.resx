@@ -649,4 +649,134 @@
     <value>Esempio:</value>
     <comment>Label for format example display</comment>
   </data>
+  
+  <!-- Pack Management -->
+  <data name="PackDownload_Title" xml:space="preserve">
+    <value>Scarica Pacchetti</value>
+    <comment>Pack download page title</comment>
+  </data>
+  <data name="PackDownload_NoPacksMessage" xml:space="preserve">
+    <value>Nessun pacchetto disponibile per il download</value>
+    <comment>Message when no packs are available</comment>
+  </data>
+  <data name="PackDownload_DownloadButton" xml:space="preserve">
+    <value>Scarica</value>
+    <comment>Download button text</comment>
+  </data>
+  <data name="PackDownload_UpdateButton" xml:space="preserve">
+    <value>Aggiorna</value>
+    <comment>Update button text for packs with updates</comment>
+  </data>
+  <data name="PackDownload_DownloadedLabel" xml:space="preserve">
+    <value>Scaricato</value>
+    <comment>Label for downloaded packs</comment>
+  </data>
+  <data name="PackDownload_ProgressLabel" xml:space="preserve">
+    <value>Download in corso...</value>
+    <comment>Progress label during download</comment>
+  </data>
+  <data name="PackDownload_ExtractingLabel" xml:space="preserve">
+    <value>Estrazione file...</value>
+    <comment>Label shown during extraction</comment>
+  </data>
+  <data name="PackDownload_GeneratingThumbnailsLabel" xml:space="preserve">
+    <value>Generazione miniature...</value>
+    <comment>Label shown during thumbnail generation</comment>
+  </data>
+  <data name="PackDownload_SuccessMessage" xml:space="preserve">
+    <value>Pacchetto scaricato con successo!</value>
+    <comment>Success message after download</comment>
+  </data>
+  <data name="PackDownload_ErrorMessage" xml:space="preserve">
+    <value>Download del pacchetto fallito. Riprova.</value>
+    <comment>Error message on download failure</comment>
+  </data>
+  <data name="PackDownload_NetworkErrorMessage" xml:space="preserve">
+    <value>Errore di rete. Controlla la connessione.</value>
+    <comment>Network error message</comment>
+  </data>
+  <data name="PackDownload_InsufficientStorageMessage" xml:space="preserve">
+    <value>Spazio di archiviazione insufficiente</value>
+    <comment>Message when not enough storage</comment>
+  </data>
+  <data name="PackDownload_UpdateAvailable" xml:space="preserve">
+    <value>Aggiornamento disponibile</value>
+    <comment>Label for packs with updates</comment>
+  </data>
+  <data name="PackDownload_Version" xml:space="preserve">
+    <value>Versione: {0}</value>
+    <comment>Version display format</comment>
+  </data>
+  <data name="PackDownload_Size" xml:space="preserve">
+    <value>Dimensione: {0}</value>
+    <comment>File size display format</comment>
+  </data>
+  <data name="PackDownload_Author" xml:space="preserve">
+    <value>Autore: {0}</value>
+    <comment>Author display format</comment>
+  </data>
+  <data name="PackDownload_RefreshButton" xml:space="preserve">
+    <value>Aggiorna</value>
+    <comment>Refresh packs list button</comment>
+  </data>
+  <data name="PackDownload_CancelButton" xml:space="preserve">
+    <value>Annulla Download</value>
+    <comment>Cancel download button</comment>
+  </data>
+  <data name="Settings_CurrentPack" xml:space="preserve">
+    <value>Pacchetto Corrente</value>
+    <comment>Current pack label in settings</comment>
+  </data>
+  <data name="Settings_DownloadNewPacks" xml:space="preserve">
+    <value>Scarica Nuovi Pacchetti</value>
+    <comment>Download new packs button in settings</comment>
+  </data>
+  <data name="Settings_ManagePacks" xml:space="preserve">
+    <value>Gestisci Pacchetti</value>
+    <comment>Manage packs button in settings</comment>
+  </data>
+  <data name="Settings_SelectPack" xml:space="preserve">
+    <value>Seleziona Pacchetto</value>
+    <comment>Select pack prompt</comment>
+  </data>
+  <data name="Settings_DeletePack" xml:space="preserve">
+    <value>Elimina Pacchetto</value>
+    <comment>Delete pack button</comment>
+  </data>
+  <data name="Settings_DeletePackConfirmation" xml:space="preserve">
+    <value>Sei sicuro di voler eliminare questo pacchetto?</value>
+    <comment>Delete pack confirmation message</comment>
+  </data>
+  <data name="Settings_NoPacksDownloaded" xml:space="preserve">
+    <value>Nessun pacchetto scaricato</value>
+    <comment>Message when no packs are downloaded</comment>
+  </data>
+  <data name="Settings_PackManagement" xml:space="preserve">
+    <value>Gestione Pacchetti</value>
+    <comment>Pack management section title</comment>
+  </data>
+  <data name="FirstLaunch_WelcomeTitle" xml:space="preserve">
+    <value>Benvenuto in MemoApp!</value>
+    <comment>First launch welcome title</comment>
+  </data>
+  <data name="FirstLaunch_DownloadPackMessage" xml:space="preserve">
+    <value>Per iniziare, scarica un pacchetto lingua.</value>
+    <comment>First launch download pack message</comment>
+  </data>
+  <data name="FirstLaunch_GetStartedButton" xml:space="preserve">
+    <value>Inizia</value>
+    <comment>Get started button on first launch</comment>
+  </data>
+  <data name="Common_Delete" xml:space="preserve">
+    <value>Elimina</value>
+    <comment>Delete button text</comment>
+  </data>
+  <data name="Common_Confirm" xml:space="preserve">
+    <value>Conferma</value>
+    <comment>Confirm button text</comment>
+  </data>
+  <data name="Common_OK" xml:space="preserve">
+    <value>OK</value>
+    <comment>OK button text</comment>
+  </data>
 </root>

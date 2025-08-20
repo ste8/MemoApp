@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             xmlns:vm="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
+             x:Class="MemoApp.UI.MauiApp.Views.PackDownloadPage"
+             x:DataType="vm:PackDownloadViewModel"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        
+        <!-- Header with Refresh Button -->
+        <Grid Grid.Row="0" Padding="16,8" ColumnDefinitions="*,Auto">
+            <Label Grid.Column="0" 
+                   Text="{localization:Localize PackDownload_Title}"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   VerticalOptions="Center"/>
+            
+            <Button Grid.Column="1"
+                    Text="{localization:Localize PackDownload_RefreshButton}"
+                    Command="{Binding RefreshCommand}"
+                    IsEnabled="{Binding IsRefreshing, Converter={StaticResource InverseBoolConverter}}"
+                    HorizontalOptions="End"/>
+        </Grid>
+
+        <!-- Pack List -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="16" Spacing="12">
+                
+                <!-- Loading Indicator -->
+                <ActivityIndicator IsRunning="{Binding IsRefreshing}"
+                                   IsVisible="{Binding IsRefreshing}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                
+                <!-- No Packs Message -->
+                <Label Text="{Binding StatusMessage}"
+                       IsVisible="{Binding HasNoPacks}"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       Margin="20"
+                       FontSize="16"
+                       TextColor="Gray"/>
+                
+                <!-- Pack Items -->
+                <CollectionView ItemsSource="{Binding Packs}"
+                                SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:PackItemViewModel">
+                            <Frame Padding="16" 
+                                   Margin="0,4"
+                                   BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#2A2A2A}"
+                                   BorderColor="Transparent"
+                                   HasShadow="True">
+                                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" 
+                                      ColumnDefinitions="*,Auto"
+                                      RowSpacing="8">
+                                    
+                                    <!-- Pack Name and Update Badge -->
+                                    <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="8">
+                                        <Label Text="{Binding DisplayName}"
+                                               FontSize="18"
+                                               FontAttributes="Bold"/>
+                                        <Frame IsVisible="{Binding ShowUpdateBadge}"
+                                               BackgroundColor="Orange"
+                                               Padding="4,2"
+                                               CornerRadius="4"
+                                               BorderColor="Transparent">
+                                            <Label Text="{localization:Localize PackDownload_UpdateAvailable}"
+                                                   FontSize="12"
+                                                   TextColor="White"/>
+                                        </Frame>
+                                    </HorizontalStackLayout>
+
+                                    <!-- Download/Update Button -->
+                                    <Button Grid.Row="0" Grid.Column="1" 
+                                            Grid.RowSpan="2"
+                                            Text="{Binding ButtonText}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PackDownloadViewModel}}, Path=DownloadPackCommand}"
+                                            CommandParameter="{Binding .}"
+                                            IsEnabled="{Binding CanDownload}"
+                                            VerticalOptions="Center"
+                                            WidthRequest="120"/>
+
+                                    <!-- Description -->
+                                    <Label Grid.Row="1" Grid.Column="0"
+                                           Text="{Binding DisplayDescription}"
+                                           FontSize="14"
+                                           TextColor="Gray"
+                                           LineBreakMode="WordWrap"/>
+
+                                    <!-- Pack Info -->
+                                    <HorizontalStackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Spacing="16">
+                                        <Label Text="{Binding VersionText}"
+                                               FontSize="12"
+                                               TextColor="Gray"/>
+                                        <Label Text="{Binding SizeText}"
+                                               FontSize="12"
+                                               TextColor="Gray"/>
+                                        <Label Text="{Binding AuthorText}"
+                                               FontSize="12"
+                                               TextColor="Gray"/>
+                                    </HorizontalStackLayout>
+
+                                    <!-- Progress Bar -->
+                                    <ProgressBar Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                                                 Progress="{Binding DownloadProgress, Converter={StaticResource PercentageConverter}}"
+                                                 IsVisible="{Binding IsDownloading}"
+                                                 Margin="0,8,0,0"/>
+                                    
+                                    <!-- Progress Text -->
+                                    <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                                           Text="{Binding ProgressText}"
+                                           IsVisible="{Binding IsDownloading}"
+                                           FontSize="12"
+                                           HorizontalOptions="Center"/>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Cancel Download Button (shown during download) -->
+        <Button Grid.Row="2"
+                Text="{localization:Localize PackDownload_CancelButton}"
+                Command="{Binding CancelDownloadCommand}"
+                IsVisible="{Binding IsDownloading}"
+                Margin="16"
+                BackgroundColor="Red"
+                TextColor="White"/>
+    </Grid>
+</ContentPage>

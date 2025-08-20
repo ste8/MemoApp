@@ -5,6 +5,8 @@ using MemoApp.Localization.Extensions;
 using MemoApp.UI.MauiApp.Services;
 using MemoApp.Localization.Services;
 using MemoApp.Core.NumberMemorization;
+using MemoApp.Core.Services.Packs;
+using MemoApp.UI.MauiApp.Converters;
 
 namespace MemoApp.UI.MauiApp;
 
@@ -21,12 +23,36 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
+		// Load configuration
+		var configuration = builder.Configuration;
+		var packsIndexUrl = configuration["PackManagement:PacksIndexUrl"] ?? "https://github.com/ste8/MemoApp-Packs/releases/download/packs-manifest/packs.json";
+		var cacheMinutes = int.Parse(configuration["PackManagement:CacheDurationMinutes"] ?? "30");
+
+		// Register HTTP client for pack downloads
+		builder.Services.AddHttpClient();
+		
 		// Register localization services with MAUI-specific implementation
 		builder.Services.AddLocalization<MauiLocalizationService>();
 		
 		// Register text measurement and container size services
 		builder.Services.AddSingleton<ITextMeasurementService, TextMeasurementService>();
 		builder.Services.AddSingleton<IContainerSizeService, ContainerSizeService>();
+		
+		// Register pack management services
+		builder.Services.AddSingleton<IThumbnailService, ThumbnailService>();
+		builder.Services.AddSingleton<IPackManagerService>(serviceProvider =>
+		{
+			var logger = serviceProvider.GetRequiredService<ILogger<PackManagerService>>();
+			return new PackManagerService(logger, FileSystem.Current.AppDataDirectory);
+		});
+		builder.Services.AddSingleton<MauiPackService>();
+		builder.Services.AddSingleton<IPackDownloadService>(serviceProvider =>
+		{
+			var httpClient = serviceProvider.GetRequiredService<HttpClient>();
+			var packManager = serviceProvider.GetRequiredService<IPackManagerService>();
+			var logger = serviceProvider.GetRequiredService<ILogger<PackDownloadService>>();
+			return new PackDownloadService(httpClient, packManager, logger, packsIndexUrl, FileSystem.Current.AppDataDirectory, cacheMinutes);
+		});
 
 
 		// Register ViewModels and Views for dependency injection
@@ -52,6 +78,10 @@ public static class MauiProgram
 		builder.Services.AddSingleton<INumberMemorizationSettingsService, NumberMemorizationSettingsService>();
 		builder.Services.AddTransient<NumberMemorizationViewModel>();
 		builder.Services.AddTransient<Views.NumberMemorizationPage>();
+		
+		// Register Pack Management ViewModels and Views
+		builder.Services.AddTransient<PackDownloadViewModel>();
+		builder.Services.AddTransient<Views.PackDownloadPage>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

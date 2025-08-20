@@ -29,6 +29,11 @@ public interface ILocalizationService
     CultureInfo CurrentCulture { get; }
 
     /// <summary>
+    /// Gets the current language code (e.g., "en", "it").
+    /// </summary>
+    string GetCurrentLanguage();
+
+    /// <summary>
     /// Sets the application culture.
     /// </summary>
     /// <param name="culture">The culture to set</param>

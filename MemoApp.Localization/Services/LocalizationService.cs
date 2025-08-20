@@ -42,6 +42,11 @@ public class LocalizationService : ILocalizationService
     public event EventHandler<CultureInfo>? CultureChanged;
     public event EventHandler<NumberFormat>? NumberFormatChanged;
 
+    public string GetCurrentLanguage()
+    {
+        return _currentCulture.TwoLetterISOLanguageName;
+    }
+
     public string GetString(string key)
     {
         try

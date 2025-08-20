@@ -82,6 +82,63 @@
                 </StackLayout>
             </Frame>
 
+            <!-- Pack Management Section -->
+            <Frame BackgroundColor="LightGray"
+                   CornerRadius="10"
+                   HasShadow="True"
+                   Padding="15">
+                
+                <StackLayout Spacing="15">
+                    
+                    <!-- Section Title -->
+                    <Label Text="{localization:Localize Settings_PackManagement}"
+                           FontSize="18"
+                           FontAttributes="Bold" />
+                    
+                    <!-- Current Pack -->
+                    <StackLayout Spacing="10">
+                        <Label Text="{localization:Localize Settings_CurrentPack}"
+                               FontSize="16"
+                               FontAttributes="Bold" />
+                        
+                        <Button Text="{Binding CurrentPackName}"
+                                Command="{Binding SelectPackCommand}"
+                                BackgroundColor="White"
+                                TextColor="Black"
+                                BorderColor="Gray"
+                                BorderWidth="1"
+                                CornerRadius="8"
+                                FontSize="14"
+                                Padding="15,12"
+                                HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
+                                HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
+                    
+                    <!-- Pack Management Buttons -->
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Button Grid.Column="0"
+                                Text="{localization:Localize Settings_DownloadNewPacks}"
+                                Command="{Binding DownloadPacksCommand}"
+                                BackgroundColor="#007AFF"
+                                TextColor="White"
+                                CornerRadius="8"
+                                FontSize="14"
+                                HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}" />
+                        
+                        <Button Grid.Column="1"
+                                Text="{localization:Localize Settings_ManagePacks}"
+                                Command="{Binding ManagePacksCommand}"
+                                BackgroundColor="#FF9500"
+                                TextColor="White"
+                                CornerRadius="8"
+                                FontSize="14"
+                                HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}"
+                                IsEnabled="{Binding HasPacksDownloaded}" />
+                    </Grid>
+                    
+                </StackLayout>
+            </Frame>
+
         </StackLayout>
     </ScrollView>
 </ContentPage>

@@ -2,7 +2,10 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MemoApp.Core.Packs;
+using MemoApp.Core.Services.Packs;
 using MemoApp.Localization.Services;
+using MemoApp.UI.MauiApp.Views;
 using Microsoft.Extensions.Logging;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
@@ -10,6 +13,8 @@ namespace MemoApp.UI.MauiApp.ViewModels;
 public partial class SettingsViewModel : BaseViewModel
 {
     private readonly ILocalizationService _localizationService;
+    private readonly IPackManagerService _packManager;
+    private readonly IPackDownloadService _downloadService;
     private readonly ILogger<SettingsViewModel> _logger;
 
     [ObservableProperty]
@@ -18,12 +23,27 @@ public partial class SettingsViewModel : BaseViewModel
     [ObservableProperty]
     private string currentNumberFormatName = string.Empty;
 
+    [ObservableProperty]
+    private string currentPackName = string.Empty;
+
+    [ObservableProperty]
+    private bool hasPacksDownloaded;
+
+    [ObservableProperty]
+    private ObservableCollection<Pack> downloadedPacks = new();
+
     public ObservableCollection<string> AvailableLanguages { get; }
     public ObservableCollection<string> AvailableNumberFormats { get; }
 
-    public SettingsViewModel(ILocalizationService localizationService, ILogger<SettingsViewModel> logger)
+    public SettingsViewModel(
+        ILocalizationService localizationService, 
+        IPackManagerService packManager,
+        IPackDownloadService downloadService,
+        ILogger<SettingsViewModel> logger)
     {
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
+        _packManager = packManager ?? throw new ArgumentNullException(nameof(packManager));
+        _downloadService = downloadService ?? throw new ArgumentNullException(nameof(downloadService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         Title = _localizationService.GetString("Settings_Title");
@@ -33,6 +53,7 @@ public partial class SettingsViewModel : BaseViewModel
         // Initialize with fallback values to ensure UI never shows empty
         CurrentLanguageName = _localizationService.GetString("Language_English");
         CurrentNumberFormatName = _localizationService.GetString("NumberFormat_Padded");
+        CurrentPackName = _localizationService.GetString("Settings_NoPacksDownloaded");
         
         _logger.LogInformation("SettingsViewModel constructor completed");
     }
@@ -110,6 +131,103 @@ public partial class SettingsViewModel : BaseViewModel
         }
     }
 
+    [RelayCommand]
+    private async Task SelectPackAsync()
+    {
+        try
+        {
+            if (DownloadedPacks.Count == 0)
+            {
+                await Shell.Current.DisplayAlert(
+                    _localizationService.GetString("Settings_SelectPack"),
+                    _localizationService.GetString("Settings_NoPacksDownloaded"),
+                    _localizationService.GetString("Common_OK"));
+                return;
+            }
+
+            var packNames = DownloadedPacks.Select(p => GetPackDisplayName(p)).ToArray();
+            var selectedPack = await Shell.Current.DisplayActionSheet(
+                _localizationService.GetString("Settings_SelectPack"),
+                _localizationService.GetString("Common_Cancel"),
+                null,
+                packNames);
+
+            if (!string.IsNullOrEmpty(selectedPack) && selectedPack != _localizationService.GetString("Common_Cancel"))
+            {
+                var pack = DownloadedPacks.FirstOrDefault(p => GetPackDisplayName(p) == selectedPack);
+                if (pack != null)
+                {
+                    await _packManager.SetCurrentPackAsync(pack.Id);
+                    CurrentPackName = GetPackDisplayName(pack);
+                    _logger.LogInformation("Pack changed to: {PackId}", pack.Id);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error selecting pack");
+        }
+    }
+
+    [RelayCommand]
+    private async Task DownloadPacksAsync()
+    {
+        try
+        {
+            await Shell.Current.GoToAsync(nameof(PackDownloadPage));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error navigating to pack download page");
+        }
+    }
+
+    [RelayCommand]
+    private async Task ManagePacksAsync()
+    {
+        try
+        {
+            if (DownloadedPacks.Count == 0)
+            {
+                await Shell.Current.DisplayAlert(
+                    _localizationService.GetString("Settings_ManagePacks"),
+                    _localizationService.GetString("Settings_NoPacksDownloaded"),
+                    _localizationService.GetString("Common_OK"));
+                return;
+            }
+
+            var packNames = DownloadedPacks.Select(p => GetPackDisplayName(p)).ToArray();
+            var selectedPack = await Shell.Current.DisplayActionSheet(
+                _localizationService.GetString("Settings_DeletePack"),
+                _localizationService.GetString("Common_Cancel"),
+                null,
+                packNames);
+
+            if (!string.IsNullOrEmpty(selectedPack) && selectedPack != _localizationService.GetString("Common_Cancel"))
+            {
+                var pack = DownloadedPacks.FirstOrDefault(p => GetPackDisplayName(p) == selectedPack);
+                if (pack != null)
+                {
+                    var confirm = await Shell.Current.DisplayAlert(
+                        _localizationService.GetString("Settings_DeletePack"),
+                        _localizationService.GetString("Settings_DeletePackConfirmation"),
+                        _localizationService.GetString("Common_Delete"),
+                        _localizationService.GetString("Common_Cancel"));
+
+                    if (confirm)
+                    {
+                        await _downloadService.DeletePackAsync(pack.Id);
+                        await LoadPacksAsync();
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error managing packs");
+        }
+    }
+
     public async Task InitializeAsync()
     {
         try
@@ -123,6 +241,7 @@ public partial class SettingsViewModel : BaseViewModel
             // Load options and set current values
             LoadLanguageOptions();
             LoadNumberFormatOptions();
+            await LoadPacksAsync();
             
             _logger.LogInformation("Settings initialized successfully with language: {Language}", CurrentLanguageName);
         }
@@ -258,5 +377,43 @@ public partial class SettingsViewModel : BaseViewModel
             _logger.LogError(ex, "Error getting number format from display name: {DisplayName}", displayName);
             return null;
         }
+    }
+
+    private async Task LoadPacksAsync()
+    {
+        try
+        {
+            DownloadedPacks.Clear();
+            
+            var packs = await _packManager.GetDownloadedPacksAsync();
+            foreach (var pack in packs)
+            {
+                DownloadedPacks.Add(pack);
+            }
+
+            HasPacksDownloaded = DownloadedPacks.Count > 0;
+            
+            var currentPack = await _packManager.GetCurrentPackAsync();
+            if (currentPack != null)
+            {
+                CurrentPackName = GetPackDisplayName(currentPack);
+            }
+            else
+            {
+                CurrentPackName = _localizationService.GetString("Settings_NoPacksDownloaded");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error loading packs");
+            CurrentPackName = _localizationService.GetString("Settings_NoPacksDownloaded");
+        }
+    }
+
+    private string GetPackDisplayName(Pack pack)
+    {
+        var currentLanguage = _localizationService.GetCurrentLanguage();
+        var useNative = currentLanguage == "it" && pack.LanguageCode == "it";
+        return pack.GetDisplayName(useNative);
     }
 }

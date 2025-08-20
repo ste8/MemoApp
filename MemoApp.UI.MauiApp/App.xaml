@@ -13,10 +13,12 @@
             
             <!-- Global Converters -->
             <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+            <converters:InvertedBoolConverter x:Key="InverseBoolConverter" />
             <converters:IsNotNullConverter x:Key="IsNotNullConverter" />
             <converters:DivisionConverter x:Key="DivisionConverter" />
             <converters:ResponseTimeToColorConverter x:Key="ResponseTimeToColorConverter" />
             <converters:BoolToDropdownArrowConverter x:Key="BoolToDropdownArrowConverter" />
+            <converters:PercentageConverter x:Key="PercentageConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
