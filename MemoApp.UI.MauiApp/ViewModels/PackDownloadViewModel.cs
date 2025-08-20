@@ -76,7 +76,8 @@ public partial class PackDownloadViewModel : BaseViewModel
             StatusMessage = null;
             HasNoPacks = false;
 
-            // Network call should be properly async - no need for Task.Run
+            // Clear cache and get fresh data
+            _downloadService.ClearCache();
             var index = await _downloadService.GetAvailablePacksAsync(forceRefresh: true);
             
             if (index == null)

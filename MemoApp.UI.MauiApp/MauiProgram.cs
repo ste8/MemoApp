@@ -53,6 +53,9 @@ public static class MauiProgram
 			var logger = serviceProvider.GetRequiredService<ILogger<PackDownloadService>>();
 			return new PackDownloadService(httpClient, packManager, logger, packsIndexUrl, FileSystem.Current.AppDataDirectory, cacheMinutes);
 		});
+		
+		// Register background update service
+		builder.Services.AddSingleton<IPackUpdateBackgroundService, PackUpdateBackgroundService>();
 
 
 		// Register ViewModels and Views for dependency injection
@@ -70,7 +73,15 @@ public static class MauiProgram
 		builder.Services.AddTransient<HelpViewModel>();
 		builder.Services.AddTransient<Views.HelpPage>();
 		
-		builder.Services.AddTransient<SettingsViewModel>();
+		builder.Services.AddTransient<SettingsViewModel>(serviceProvider => 
+		{
+			var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+			var packManager = serviceProvider.GetRequiredService<IPackManagerService>();
+			var downloadService = serviceProvider.GetRequiredService<IPackDownloadService>();
+			var updateService = serviceProvider.GetService<IPackUpdateBackgroundService>(); // Optional
+			var logger = serviceProvider.GetRequiredService<ILogger<SettingsViewModel>>();
+			return new SettingsViewModel(localizationService, packManager, downloadService, updateService, logger);
+		});
 		builder.Services.AddTransient<Views.SettingsPage>();
 		
 		// Register Number Memorization services

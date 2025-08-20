@@ -3,11 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             xmlns:views="clr-namespace:MemoApp.UI.MauiApp.Views"
              x:Class="MemoApp.UI.MauiApp.Views.MainPage"
              x:DataType="viewmodels:MainViewModel"
              Title="{Binding Title}">
 
-    <ScrollView>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <!-- Update Notification Banner at the top -->
+        <views:UpdateNotificationBanner Grid.Row="0" />
+        
+        <ScrollView Grid.Row="1">
         <!-- 
         Main responsive grid layout:
         - Single column on mobile (phones)
@@ -436,4 +446,5 @@
             </StackLayout>
         </Grid>
     </ScrollView>
+    </Grid>
 </ContentPage>

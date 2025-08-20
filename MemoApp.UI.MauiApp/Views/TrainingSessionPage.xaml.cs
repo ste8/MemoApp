@@ -1,3 +1,4 @@
+using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.ViewModels;
 
 namespace MemoApp.UI.MauiApp.Views;
@@ -5,17 +6,26 @@ namespace MemoApp.UI.MauiApp.Views;
 public partial class TrainingSessionPage : ContentPage
 {
     private readonly TrainingSessionViewModel _viewModel;
+    private readonly IPackUpdateBackgroundService? _updateService;
 
     public TrainingSessionPage(TrainingSessionViewModel viewModel)
     {
         InitializeComponent();
         _viewModel = viewModel;
         BindingContext = _viewModel;
+        
+        // Get update service if available
+        _updateService = Application.Current?.Handler?.MauiContext?.Services
+            .GetService<IPackUpdateBackgroundService>();
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        
+        // Notify update service that user is in an activity
+        _updateService?.SetUserActivityState(true);
+        
         await _viewModel.InitializeAsync();
         
         // Focus the keyboard handler for desktop platforms
@@ -27,6 +37,14 @@ public partial class TrainingSessionPage : ContentPage
                 KeyboardInputHandler.Focus();
             });
         }
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        
+        // Notify update service that user is no longer in an activity
+        _updateService?.SetUserActivityState(false);
     }
 
 

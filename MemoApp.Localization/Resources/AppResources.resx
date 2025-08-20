@@ -779,4 +779,78 @@
     <value>OK</value>
     <comment>OK button text</comment>
   </data>
+  <data name="Common_View" xml:space="preserve">
+    <value>View</value>
+    <comment>View button text</comment>
+  </data>
+  
+  <!-- Update Notifications -->
+  <data name="Update_SinglePackAvailable" xml:space="preserve">
+    <value>1 pack update available</value>
+    <comment>Single pack update notification</comment>
+  </data>
+  <data name="Update_MultiplePacksAvailable" xml:space="preserve">
+    <value>{0} pack updates available</value>
+    <comment>Multiple pack updates notification</comment>
+  </data>
+  <data name="Update_LastChecked" xml:space="preserve">
+    <value>Last checked: {0}</value>
+    <comment>Last update check time</comment>
+  </data>
+  <data name="Time_JustNow" xml:space="preserve">
+    <value>just now</value>
+    <comment>Time indicator for just now</comment>
+  </data>
+  <data name="Time_MinutesAgo" xml:space="preserve">
+    <value>{0} minutes ago</value>
+    <comment>Time indicator for minutes ago</comment>
+  </data>
+  <data name="Time_HoursAgo" xml:space="preserve">
+    <value>{0} hours ago</value>
+    <comment>Time indicator for hours ago</comment>
+  </data>
+  <data name="Time_DaysAgo" xml:space="preserve">
+    <value>{0} days ago</value>
+    <comment>Time indicator for days ago</comment>
+  </data>
+  <data name="Settings_UpdateCheck" xml:space="preserve">
+    <value>Update Check</value>
+    <comment>Update check settings section</comment>
+  </data>
+  <data name="Settings_EnableBackgroundChecks" xml:space="preserve">
+    <value>Check for updates automatically</value>
+    <comment>Enable background update checks setting</comment>
+  </data>
+  <data name="Settings_UpdateCheckInterval" xml:space="preserve">
+    <value>Check interval (hours)</value>
+    <comment>Update check interval setting</comment>
+  </data>
+  <data name="Settings_NotificationLevel" xml:space="preserve">
+    <value>Notification level</value>
+    <comment>Update notification level setting</comment>
+  </data>
+  <data name="Settings_CheckNow" xml:space="preserve">
+    <value>Check Now</value>
+    <comment>Check for updates now button</comment>
+  </data>
+  <data name="Settings_LastUpdateCheck" xml:space="preserve">
+    <value>Last checked: {0}</value>
+    <comment>Last update check time in settings</comment>
+  </data>
+  <data name="Settings_CheckingForUpdates" xml:space="preserve">
+    <value>Checking for updates...</value>
+    <comment>Status message while checking for updates</comment>
+  </data>
+  <data name="Settings_GoToDownloadPage" xml:space="preserve">
+    <value>Would you like to view available updates?</value>
+    <comment>Prompt to go to download page</comment>
+  </data>
+  <data name="Settings_NoUpdatesAvailable" xml:space="preserve">
+    <value>All packs are up to date</value>
+    <comment>Message when no updates are available</comment>
+  </data>
+  <data name="Settings_UpdateCheckError" xml:space="preserve">
+    <value>Failed to check for updates</value>
+    <comment>Error message for update check failure</comment>
+  </data>
 </root>

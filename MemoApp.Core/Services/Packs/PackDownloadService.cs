@@ -55,6 +55,13 @@ public class PackDownloadService : IPackDownloadService
                 
                 // Mark downloaded packs and check for updates
                 var downloadedPacks = await _packManager.GetDownloadedPacksAsync();
+                _logger.LogDebug("Found {DownloadedCount} downloaded packs", downloadedPacks.Count);
+                
+                foreach (var downloadedPack in downloadedPacks)
+                {
+                    _logger.LogDebug("Downloaded pack: {PackId} v{Version}", downloadedPack.Id, downloadedPack.Version);
+                }
+                
                 foreach (var pack in index.Packs)
                 {
                     var downloaded = downloadedPacks.FirstOrDefault(d => d.Id == pack.Id);
@@ -66,12 +73,21 @@ public class PackDownloadService : IPackDownloadService
                         pack.ThumbnailsGenerated = downloaded.ThumbnailsGenerated;
                         
                         // Check if update is available
-                        if (IsNewerVersion(pack.Version, downloaded.Version))
+                        var hasUpdate = IsNewerVersion(pack.Version, downloaded.Version);
+                        pack.HasUpdate = hasUpdate;
+                        
+                        _logger.LogDebug("Pack {PackId}: Remote v{RemoteVersion} vs Local v{LocalVersion} = HasUpdate: {HasUpdate}",
+                            pack.Id, pack.Version, downloaded.Version, hasUpdate);
+                        
+                        if (hasUpdate)
                         {
-                            pack.HasUpdate = true;
                             _logger.LogInformation("Update available for pack {PackId}: {OldVersion} -> {NewVersion}",
                                 pack.Id, downloaded.Version, pack.Version);
                         }
+                    }
+                    else
+                    {
+                        _logger.LogDebug("Pack {PackId} v{Version} is not downloaded", pack.Id, pack.Version);
                     }
                 }
             }
@@ -458,6 +474,8 @@ public class PackDownloadService : IPackDownloadService
     {
         try
         {
+            _logger.LogDebug("Comparing versions: new='{NewVersion}' vs current='{CurrentVersion}'", newVersion, currentVersion);
+            
             var newParts = newVersion.Split('.').Select(int.Parse).ToArray();
             var currentParts = currentVersion.Split('.').Select(int.Parse).ToArray();
 
@@ -466,15 +484,33 @@ public class PackDownloadService : IPackDownloadService
                 var newPart = i < newParts.Length ? newParts[i] : 0;
                 var currentPart = i < currentParts.Length ? currentParts[i] : 0;
 
-                if (newPart > currentPart) return true;
-                if (newPart < currentPart) return false;
+                if (newPart > currentPart) 
+                {
+                    _logger.LogDebug("Version comparison result: {NewVersion} > {CurrentVersion} = true", newVersion, currentVersion);
+                    return true;
+                }
+                if (newPart < currentPart) 
+                {
+                    _logger.LogDebug("Version comparison result: {NewVersion} < {CurrentVersion} = false", newVersion, currentVersion);
+                    return false;
+                }
             }
 
+            _logger.LogDebug("Version comparison result: {NewVersion} == {CurrentVersion} = false", newVersion, currentVersion);
             return false;
         }
-        catch
+        catch (Exception ex)
         {
-            return string.Compare(newVersion, currentVersion, StringComparison.Ordinal) > 0;
+            _logger.LogWarning(ex, "Failed to parse versions, falling back to string comparison: {NewVersion} vs {CurrentVersion}", newVersion, currentVersion);
+            var result = string.Compare(newVersion, currentVersion, StringComparison.Ordinal) > 0;
+            _logger.LogDebug("String comparison result: {NewVersion} vs {CurrentVersion} = {Result}", newVersion, currentVersion, result);
+            return result;
         }
+    }
+
+    public void ClearCache()
+    {
+        _cachedIndex = null;
+        _logger.LogDebug("Pack index cache cleared");
     }
 }

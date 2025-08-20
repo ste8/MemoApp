@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.Packs;
 using MemoApp.Core.Services.Packs;
 using MemoApp.Localization.Services;
+using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Views;
 using Microsoft.Extensions.Logging;
 
@@ -15,6 +16,7 @@ public partial class SettingsViewModel : BaseViewModel
     private readonly ILocalizationService _localizationService;
     private readonly IPackManagerService _packManager;
     private readonly IPackDownloadService _downloadService;
+    private readonly IPackUpdateBackgroundService? _updateService;
     private readonly ILogger<SettingsViewModel> _logger;
 
     [ObservableProperty]
@@ -32,6 +34,15 @@ public partial class SettingsViewModel : BaseViewModel
     [ObservableProperty]
     private ObservableCollection<Pack> downloadedPacks = new();
 
+    [ObservableProperty]
+    private bool isCheckingForUpdates;
+
+    [ObservableProperty]
+    private string updateCheckStatus = string.Empty;
+
+    [ObservableProperty]
+    private int availableUpdatesCount;
+
     public ObservableCollection<string> AvailableLanguages { get; }
     public ObservableCollection<string> AvailableNumberFormats { get; }
 
@@ -39,11 +50,13 @@ public partial class SettingsViewModel : BaseViewModel
         ILocalizationService localizationService, 
         IPackManagerService packManager,
         IPackDownloadService downloadService,
+        IPackUpdateBackgroundService? updateService,
         ILogger<SettingsViewModel> logger)
     {
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
         _packManager = packManager ?? throw new ArgumentNullException(nameof(packManager));
         _downloadService = downloadService ?? throw new ArgumentNullException(nameof(downloadService));
+        _updateService = updateService;
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         Title = _localizationService.GetString("Settings_Title");
@@ -179,6 +192,63 @@ public partial class SettingsViewModel : BaseViewModel
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error navigating to pack download page");
+        }
+    }
+
+    [RelayCommand]
+    private async Task CheckForUpdatesAsync()
+    {
+        if (_updateService == null || IsCheckingForUpdates)
+            return;
+
+        try
+        {
+            IsCheckingForUpdates = true;
+            UpdateCheckStatus = _localizationService.GetString("Settings_CheckingForUpdates");
+            
+            _logger.LogInformation("Manually checking for pack updates");
+            
+            // Clear cache to ensure fresh data
+            _downloadService.ClearCache();
+            
+            var updateCount = await _updateService.CheckForUpdatesAsync(silent: false);
+            AvailableUpdatesCount = updateCount;
+            
+            if (updateCount > 0)
+            {
+                UpdateCheckStatus = updateCount == 1 
+                    ? _localizationService.GetString("Update_SinglePackAvailable")
+                    : _localizationService.GetString("Update_MultiplePacksAvailable").Replace("{0}", updateCount.ToString());
+                    
+                // Ask if user wants to go to download page
+                var goToDownload = await Shell.Current.DisplayAlert(
+                    _localizationService.GetString("Settings_UpdateCheck"),
+                    UpdateCheckStatus + "\n" + _localizationService.GetString("Settings_GoToDownloadPage"),
+                    _localizationService.GetString("Common_View"),
+                    _localizationService.GetString("Common_Cancel"));
+                    
+                if (goToDownload)
+                {
+                    await Shell.Current.GoToAsync(nameof(PackDownloadPage));
+                }
+            }
+            else
+            {
+                UpdateCheckStatus = _localizationService.GetString("Settings_NoUpdatesAvailable");
+                await Shell.Current.DisplayAlert(
+                    _localizationService.GetString("Settings_UpdateCheck"),
+                    UpdateCheckStatus,
+                    _localizationService.GetString("Common_OK"));
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error checking for updates");
+            UpdateCheckStatus = _localizationService.GetString("Settings_UpdateCheckError");
+        }
+        finally
+        {
+            IsCheckingForUpdates = false;
         }
     }
 

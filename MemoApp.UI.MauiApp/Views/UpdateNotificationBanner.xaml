@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             x:Class="MemoApp.UI.MauiApp.Views.UpdateNotificationBanner"
+             x:Name="ThisBanner">
+    
+    <Frame x:Name="NotificationFrame"
+           BackgroundColor="#E3F2FD"
+           BorderColor="#1976D2"
+           CornerRadius="8"
+           Padding="10,8"
+           Margin="10,5"
+           HasShadow="True"
+           IsVisible="False">
+        
+        <Grid ColumnDefinitions="Auto,*,Auto">
+            <!-- Icon -->
+            <Label Grid.Column="0"
+                   Text="🔄"
+                   FontSize="20"
+                   VerticalOptions="Center"
+                   Margin="0,0,10,0" />
+            
+            <!-- Message -->
+            <StackLayout Grid.Column="1" 
+                         VerticalOptions="Center"
+                         Spacing="2">
+                <Label x:Name="MessageLabel"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#1976D2" />
+                <Label x:Name="DetailsLabel"
+                       FontSize="12"
+                       TextColor="#616161"
+                       IsVisible="False" />
+            </StackLayout>
+            
+            <!-- Action Button -->
+            <Button Grid.Column="2"
+                    x:Name="ActionButton"
+                    Text="{localization:Localize Common_View}"
+                    BackgroundColor="#1976D2"
+                    TextColor="White"
+                    CornerRadius="6"
+                    Padding="8,4"
+                    FontSize="12"
+                    HeightRequest="32"
+                    VerticalOptions="Center" />
+        </Grid>
+    </Frame>
+    
+</ContentView>

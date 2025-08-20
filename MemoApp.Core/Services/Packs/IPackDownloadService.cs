@@ -12,4 +12,5 @@ public interface IPackDownloadService
     Task<bool> UpdatePackAsync(Pack pack, IProgress<DownloadProgress>? progress = null, CancellationToken cancellationToken = default);
     Task<long> GetAvailableStorageSpaceAsync();
     Task<bool> HasSufficientStorageAsync(long requiredBytes);
+    void ClearCache();
 }
