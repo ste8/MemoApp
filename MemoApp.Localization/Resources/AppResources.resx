@@ -929,6 +929,14 @@
     <value>Set as Default</value>
     <comment>Set association as default button</comment>
   </data>
+  <data name="TokenDetail_SetAsDefaultConfirmTitle" xml:space="preserve">
+    <value>Set as Default</value>
+    <comment>Confirmation dialog title for setting default association</comment>
+  </data>
+  <data name="TokenDetail_SetAsDefaultConfirmMessage" xml:space="preserve">
+    <value>Do you want to set "{0}" as the default association for token {1}?</value>
+    <comment>Confirmation dialog message for setting default association</comment>
+  </data>
   <data name="TokenDetail_ViewFullImage" xml:space="preserve">
     <value>View Full Image</value>
     <comment>View full image button</comment>

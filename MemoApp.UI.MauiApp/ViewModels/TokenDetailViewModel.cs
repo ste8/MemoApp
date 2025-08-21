@@ -119,6 +119,27 @@ public partial class TokenDetailViewModel : ObservableObject
         if (association == null || _packAssociationsService.CurrentPack == null)
             return;
 
+        // Show confirmation dialog
+        var confirmTitle = _localizationService.GetString("TokenDetail_SetAsDefaultConfirmTitle");
+        var confirmMessage = string.Format(
+            _localizationService.GetString("TokenDetail_SetAsDefaultConfirmMessage"), 
+            association.Word, 
+            association.Token);
+        var confirmButton = _localizationService.GetString("Common_Confirm");
+        var cancelButton = _localizationService.GetString("Common_Cancel");
+
+        var result = await Application.Current.MainPage.DisplayAlert(
+            confirmTitle,
+            confirmMessage,
+            confirmButton,
+            cancelButton);
+
+        if (!result)
+        {
+            _logger.LogInformation("User cancelled setting {Token} -> {Word} as default", association.Token, association.Word);
+            return;
+        }
+
         try
         {
             _logger.LogInformation("Setting {Token} -> {Word} as default", association.Token, association.Word);

@@ -13,6 +13,7 @@ public class PackAssociationsService : IPackAssociationsService
 {
     private readonly IPackManagerService _packManager;
     private readonly IMajorSystemCategoryService _categoryService;
+    private readonly ITokenDefaultsService _tokenDefaultsService;
     private readonly ILogger<PackAssociationsService> _logger;
     private readonly string _appDataDirectory;
     
@@ -26,11 +27,13 @@ public class PackAssociationsService : IPackAssociationsService
     public PackAssociationsService(
         IPackManagerService packManager,
         IMajorSystemCategoryService categoryService,
+        ITokenDefaultsService tokenDefaultsService,
         ILogger<PackAssociationsService> logger,
         string appDataDirectory)
     {
         _packManager = packManager;
         _categoryService = categoryService;
+        _tokenDefaultsService = tokenDefaultsService;
         _logger = logger;
         _appDataDirectory = appDataDirectory;
         
@@ -236,10 +239,12 @@ public class PackAssociationsService : IPackAssociationsService
                 _packDefaults = await LoadPackDefaultsAsync();
             }
             
+            // Get effective default (user custom or pack default)
             string? defaultFilename = null;
-            if (_packDefaults?.TryGetValue(categoryKey, out var categoryDefaults) == true)
+            if (_currentPack != null)
             {
-                categoryDefaults.TryGetValue(token, out defaultFilename);
+                defaultFilename = await _tokenDefaultsService.GetEffectiveDefaultAsync(
+                    _currentPack.Id, categoryKey, token, _packDefaults);
             }
             
             foreach (var thumbnailFile in thumbnailFiles)

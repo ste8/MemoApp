@@ -68,17 +68,18 @@ public static class MauiProgram
 		
 		// Register Major System services
 		builder.Services.AddSingleton<IMajorSystemCategoryService, MajorSystemCategoryService>();
-		builder.Services.AddSingleton<IPackAssociationsService>(serviceProvider =>
-		{
-			var packManager = serviceProvider.GetRequiredService<IPackManagerService>();
-			var categoryService = serviceProvider.GetRequiredService<IMajorSystemCategoryService>();
-			var logger = serviceProvider.GetRequiredService<ILogger<PackAssociationsService>>();
-			return new PackAssociationsService(packManager, categoryService, logger, FileSystem.Current.AppDataDirectory);
-		});
 		builder.Services.AddSingleton<ITokenDefaultsService>(serviceProvider =>
 		{
 			var logger = serviceProvider.GetRequiredService<ILogger<TokenDefaultsService>>();
 			return new TokenDefaultsService(logger, FileSystem.Current.AppDataDirectory);
+		});
+		builder.Services.AddSingleton<IPackAssociationsService>(serviceProvider =>
+		{
+			var packManager = serviceProvider.GetRequiredService<IPackManagerService>();
+			var categoryService = serviceProvider.GetRequiredService<IMajorSystemCategoryService>();
+			var tokenDefaultsService = serviceProvider.GetRequiredService<ITokenDefaultsService>();
+			var logger = serviceProvider.GetRequiredService<ILogger<PackAssociationsService>>();
+			return new PackAssociationsService(packManager, categoryService, tokenDefaultsService, logger, FileSystem.Current.AppDataDirectory);
 		});
 
 
