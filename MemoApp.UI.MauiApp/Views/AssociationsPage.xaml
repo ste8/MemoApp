@@ -111,31 +111,27 @@
                                     BackgroundColor="{DynamicResource CardBackgroundColor}"
                                     Stroke="{DynamicResource CardStrokeColor}"
                                     StrokeThickness="1">
-                                <Grid ColumnDefinitions="60,*,Auto" ColumnSpacing="12">
+                                <Grid ColumnDefinitions="100,*" ColumnSpacing="12">
                                     <!-- Thumbnail or Token placeholder -->
-                                    <Border Grid.Column="0" 
-                                            WidthRequest="48" 
-                                            HeightRequest="48" 
-                                            BackgroundColor="{DynamicResource Gray100}" 
-                                            Stroke="{DynamicResource Gray300}"
-                                            StrokeThickness="1"
-                                            VerticalOptions="Center">
-                                        <Grid>
-                                            <!-- Show image if thumbnail path exists -->
-                                            <Image Source="{Binding ThumbnailPath}"
-                                                   Aspect="AspectFill"
-                                                   IsVisible="{Binding ThumbnailPath, Converter={StaticResource IsNotNullOrEmptyConverter}}" />
-                                            <!-- Show token as fallback if no image -->
-                                            <Label Text="{Binding Token}"
-                                                   FontSize="18"
-                                                   FontAttributes="Bold"
-                                                   HorizontalOptions="Center"
-                                                   VerticalOptions="Center"
-                                                   BackgroundColor="Transparent"
-                                                   TextColor="{DynamicResource OnSurfaceTextColor}"
-                                                   IsVisible="{Binding ThumbnailPath, Converter={StaticResource IsNullOrEmptyConverter}}" />
-                                        </Grid>
-                                    </Border>
+                                    <Grid Grid.Column="0" 
+                                          WidthRequest="88" 
+                                          HeightRequest="88"
+                                          BackgroundColor="{DynamicResource Gray100}" 
+                                          VerticalOptions="Center">
+                                        <!-- Show image if thumbnail path exists -->
+                                        <Image Source="{Binding ThumbnailPath}"
+                                               Aspect="AspectFill"
+                                               IsVisible="{Binding ThumbnailPath, Converter={StaticResource IsNotNullOrEmptyConverter}}" />
+                                        <!-- Show token as fallback if no image -->
+                                        <Label Text="{Binding Token}"
+                                               FontSize="20"
+                                               FontAttributes="Bold"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               BackgroundColor="Transparent"
+                                               TextColor="{DynamicResource OnSurfaceTextColor}"
+                                               IsVisible="{Binding ThumbnailPath, Converter={StaticResource IsNullOrEmptyConverter}}" />
+                                    </Grid>
                                     
                                     <!-- Content area -->
                                     <StackLayout Grid.Column="1" 
@@ -151,14 +147,6 @@
                                                FontSize="14"
                                                TextColor="{DynamicResource Primary}" />
                                     </StackLayout>
-                                    
-                                    <!-- Default indicator -->
-                                    <Label Grid.Column="2" 
-                                           Text="★"
-                                           FontSize="16"
-                                           TextColor="{DynamicResource Primary}"
-                                           VerticalOptions="Center"
-                                           IsVisible="{Binding IsDefault}" />
                                 </Grid>
                                 
                                 <Border.GestureRecognizers>
