@@ -76,6 +76,7 @@ public class PackUpdateBackgroundService : IPackUpdateBackgroundService, IDispos
         try
         {
             _logger.LogInformation("Starting pack update background service");
+            System.Diagnostics.Debug.WriteLine("PackUpdateBackgroundService: StartAsync called");
             
             // Load last check time
             var lastCheckStr = Preferences.Get(LastCheckKey, string.Empty);
@@ -83,10 +84,12 @@ public class PackUpdateBackgroundService : IPackUpdateBackgroundService, IDispos
             {
                 _lastCheckTime = lastCheck;
                 _logger.LogInformation("Last update check was at: {LastCheck}", lastCheck);
+                System.Diagnostics.Debug.WriteLine($"PackUpdateBackgroundService: Last check was at {lastCheck}");
             }
             else
             {
                 _logger.LogInformation("No previous update check found");
+                System.Diagnostics.Debug.WriteLine("PackUpdateBackgroundService: No previous update check found");
             }
             
             // Check if background checks are enabled
@@ -94,24 +97,33 @@ public class PackUpdateBackgroundService : IPackUpdateBackgroundService, IDispos
             if (!enabled)
             {
                 _logger.LogInformation("Background update checks are disabled");
+                System.Diagnostics.Debug.WriteLine("PackUpdateBackgroundService: Background checks disabled");
                 return;
             }
             
             // Get check interval
             var intervalHours = Preferences.Get(UpdateCheckIntervalKey, DefaultCheckIntervalHours);
+            System.Diagnostics.Debug.WriteLine($"PackUpdateBackgroundService: Check interval: {intervalHours} hours");
             
             // Perform initial check if needed
             var shouldCheck = await ShouldCheckForUpdatesAsync();
             _logger.LogInformation("Should check for updates: {ShouldCheck}", shouldCheck);
+            System.Diagnostics.Debug.WriteLine($"PackUpdateBackgroundService: Should check for updates: {shouldCheck}");
             
             if (shouldCheck)
             {
                 _logger.LogInformation("Performing initial update check");
+                System.Diagnostics.Debug.WriteLine("PackUpdateBackgroundService: Starting initial update check task");
                 _ = Task.Run(async () => 
                 {
                     await Task.Delay(2000); // Give app time to fully initialize
+                    System.Diagnostics.Debug.WriteLine("PackUpdateBackgroundService: About to call CheckForUpdatesAsync");
                     await CheckForUpdatesAsync(silent: false); // Not silent for initial check
                 });
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("PackUpdateBackgroundService: Skipping initial update check");
             }
             
             // Set up timer for periodic checks
@@ -146,17 +158,21 @@ public class PackUpdateBackgroundService : IPackUpdateBackgroundService, IDispos
     
     public async Task<int> CheckForUpdatesAsync(bool silent = true)
     {
+        System.Diagnostics.Debug.WriteLine($"PackUpdateBackgroundService: CheckForUpdatesAsync called (silent: {silent})");
+        
         await _checkLock.WaitAsync();
         try
         {
             if (_isCheckingForUpdates)
             {
                 _logger.LogDebug("Update check already in progress");
+                System.Diagnostics.Debug.WriteLine("PackUpdateBackgroundService: Update check already in progress");
                 return _availableUpdatesCount;
             }
             
             _isCheckingForUpdates = true;
             _logger.LogInformation("Checking for pack updates (silent: {Silent})", silent);
+            System.Diagnostics.Debug.WriteLine($"PackUpdateBackgroundService: Checking for pack updates (silent: {silent})");
             
             // Check network connectivity
             var connectivity = Connectivity.Current;

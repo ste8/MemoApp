@@ -61,6 +61,7 @@ public partial class UpdateNotificationBanner : ContentView
             // Check initial state after a short delay to ensure service has initialized
             Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(500), () =>
             {
+                System.Diagnostics.Debug.WriteLine($"UpdateNotificationBanner: Initial UpdateVisibility check");
                 UpdateVisibility();
             });
         }
@@ -86,11 +87,16 @@ public partial class UpdateNotificationBanner : ContentView
     
     private void UpdateVisibility()
     {
+        System.Diagnostics.Debug.WriteLine($"UpdateNotificationBanner.UpdateVisibility called");
+        
         if (_updateService == null || _localizationService == null)
         {
+            System.Diagnostics.Debug.WriteLine($"UpdateNotificationBanner: Services not available - UpdateService: {_updateService != null}, LocalizationService: {_localizationService != null}");
             NotificationFrame.IsVisible = false;
             return;
         }
+        
+        System.Diagnostics.Debug.WriteLine($"UpdateNotificationBanner: HasAvailableUpdates: {_updateService.HasAvailableUpdates}, Count: {_updateService.AvailableUpdatesCount}");
         
         if (_updateService.HasAvailableUpdates)
         {
@@ -116,10 +122,12 @@ public partial class UpdateNotificationBanner : ContentView
                 DetailsLabel.IsVisible = true;
             }
             
+            System.Diagnostics.Debug.WriteLine($"UpdateNotificationBanner: Showing banner with message: {MessageLabel.Text}");
             NotificationFrame.IsVisible = true;
         }
         else
         {
+            System.Diagnostics.Debug.WriteLine($"UpdateNotificationBanner: Hiding banner - no updates available");
             NotificationFrame.IsVisible = false;
         }
     }
