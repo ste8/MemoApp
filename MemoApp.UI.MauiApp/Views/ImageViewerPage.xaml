@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
+             x:Class="MemoApp.UI.MauiApp.Views.ImageViewerPage"
+             x:DataType="viewmodels:ImageViewerViewModel"
+             Title=""
+             BackgroundColor="Black"
+             Shell.NavBarIsVisible="False">
+    
+    <Grid>
+        <!-- Main image with pinch-to-zoom -->
+        <Grid x:Name="ImageContainer"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand">
+            <Image x:Name="MainImage"
+                   Source="{Binding ImagePath}"
+                   Aspect="AspectFit"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="FillAndExpand">
+                <Image.GestureRecognizers>
+                    <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
+                    <TapGestureRecognizer NumberOfTapsRequired="2" 
+                                          Tapped="OnDoubleTapped" />
+                    <PanGestureRecognizer PanUpdated="OnPanUpdated" />
+                </Image.GestureRecognizers>
+            </Image>
+        </Grid>
+        
+        <!-- Top overlay with close button and title -->
+        <Grid VerticalOptions="Start"
+              BackgroundColor="#80000000"
+              Padding="16,50,16,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            
+            <!-- Close button -->
+            <Button Grid.Column="0"
+                    Text="✕"
+                    FontSize="24"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    WidthRequest="44"
+                    HeightRequest="44"
+                    Padding="0"
+                    Command="{Binding CloseCommand}" />
+            
+            <!-- Title -->
+            <Label Grid.Column="1"
+                   Text="{Binding Title}"
+                   FontSize="18"
+                   TextColor="White"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   HorizontalTextAlignment="Center" />
+            
+            <!-- Info label -->
+            <Label Grid.Column="2"
+                   Text="{Binding InfoText}"
+                   FontSize="14"
+                   TextColor="White"
+                   HorizontalOptions="End"
+                   VerticalOptions="Center" />
+        </Grid>
+        
+        <!-- Bottom overlay with association info -->
+        <Grid VerticalOptions="End"
+              BackgroundColor="#80000000"
+              Padding="16"
+              IsVisible="{Binding ShowInfo}">
+            <StackLayout Spacing="8">
+                <Label Text="{Binding Token, StringFormat='Token: {0}'}"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="White" />
+                <Label Text="{Binding Word}"
+                       FontSize="16"
+                       TextColor="White" />
+            </StackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

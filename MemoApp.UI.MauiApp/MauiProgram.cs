@@ -122,6 +122,10 @@ public static class MauiProgram
 		builder.Services.AddTransient<TokenDetailViewModel>();
 		builder.Services.AddTransient<Views.TokenDetailPage>();
 		
+		// Register Image Viewer ViewModels and Views
+		builder.Services.AddTransient<ImageViewerViewModel>();
+		builder.Services.AddTransient<Views.ImageViewerPage>();
+		
 		// Register Pack Management ViewModels and Views
 		builder.Services.AddTransient<PackDownloadViewModel>();
 		builder.Services.AddTransient<Views.PackDownloadPage>();

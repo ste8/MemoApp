@@ -149,18 +149,11 @@ public partial class TokenDetailViewModel : ObservableObject
         try
         {
             SelectedAssociation = association;
-            _logger.LogInformation("Viewing full image for {Token} -> {Word}", association.Token, association.Word);
+            _logger.LogInformation("Navigating to full image viewer for {Token} -> {Word}", association.Token, association.Word);
             
-            // For now, we'll use a simple display alert to show the image info
-            // In a future enhancement, this could navigate to a full-screen image viewer
-            var mainPage = Application.Current?.MainPage;
-            if (mainPage != null)
-            {
-                await mainPage.DisplayAlert(
-                    _localizationService.GetString("TokenDetail_ViewFullImage"),
-                    $"{association.Word}\n{association.FileName}",
-                    "OK");
-            }
+            // Navigate to the full-screen image viewer
+            var navigationParameter = $"ImageViewerPage?imagePath={Uri.EscapeDataString(association.ImagePath)}&token={association.Token}&word={Uri.EscapeDataString(association.Word)}";
+            await Shell.Current.GoToAsync(navigationParameter);
         }
         catch (Exception ex)
         {
