@@ -18,16 +18,17 @@
                    VerticalOptions="Center"/>
             
             <Button Grid.Column="1"
-                    Text="{localization:Localize PackDownload_CheckForUpdatesButton}"
+                    Text="{OnIdiom Phone='&#xf021;', Tablet='&#xf021; Update', Desktop='&#xf021; Update'}"
+                    FontFamily="{OnIdiom Phone='FontAwesomeSolid', Tablet='FontAwesomeSolid', Desktop='FontAwesomeSolid'}"
                     Command="{Binding RefreshCommand}"
                     IsEnabled="{Binding IsRefreshing, Converter={StaticResource InverseBoolConverter}}"
                     BackgroundColor="#34C759"
                     TextColor="White"
                     CornerRadius="8"
                     HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}"
-                    MinimumWidthRequest="{OnIdiom Phone=120, Tablet=140, Desktop=160}"
+                    MinimumWidthRequest="{OnIdiom Phone=44, Tablet=140, Desktop=160}"
                     HorizontalOptions="End"
-                    FontSize="{OnIdiom Phone=14, Tablet=15, Desktop=16}"/>
+                    FontSize="{OnIdiom Phone=16, Tablet=15, Desktop=16}"/>
         </Grid>
         
         <!-- Update Status Message -->
@@ -100,7 +101,8 @@
                                                  VerticalOptions="Center">
                                         
                                         <!-- Download/Update Button -->
-                                        <Button Text="{Binding ButtonText}"
+                                        <Button Text="{OnIdiom Phone='&#xf019;', Tablet='&#xf019;', Desktop='&#xf019;'}"
+                                                FontFamily="FontAwesomeSolid"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PackDownloadViewModel}}, Path=DownloadPackCommand}"
                                                 CommandParameter="{Binding .}"
                                                 IsEnabled="{Binding CanDownload}"
@@ -108,11 +110,12 @@
                                                 TextColor="White"
                                                 FontSize="13"
                                                 HeightRequest="36"
-                                                MinimumWidthRequest="100"
+                                                MinimumWidthRequest="{OnIdiom Phone=36, Tablet=100, Desktop=100}"
                                                 CornerRadius="6"/>
                                         
                                         <!-- Delete Button (only for downloaded packs) -->
-                                        <Button Text="{localization:Localize Common_Delete}"
+                                        <Button Text="&#xf2ed;"
+                                                FontFamily="FontAwesomeSolid"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PackDownloadViewModel}}, Path=DeletePackCommand}"
                                                 CommandParameter="{Binding .}"
                                                 IsVisible="{Binding Pack.IsDownloaded}"
@@ -120,7 +123,7 @@
                                                 TextColor="White"
                                                 FontSize="13"
                                                 HeightRequest="36"
-                                                MinimumWidthRequest="100"
+                                                MinimumWidthRequest="{OnIdiom Phone=36, Tablet=100, Desktop=100}"
                                                 CornerRadius="6"/>
                                     </StackLayout>
 
