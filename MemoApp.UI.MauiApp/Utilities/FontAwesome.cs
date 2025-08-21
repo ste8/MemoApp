@@ -26,6 +26,8 @@ public static class FontAwesome
         public const string CircleCheck = "\uf058";             // Success circle
         public const string CircleXmark = "\uf057";             // Error circle
         public const string Spinner = "\uf110";                 // Loading spinner
+        public const string Star = "\uf005";                    // Filled star
+        public const string StarEmpty = "\uf006";               // Empty star
     }
     
     /// <summary>

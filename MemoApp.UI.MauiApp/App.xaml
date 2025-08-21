@@ -19,6 +19,8 @@
             <converters:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter" />
             <converters:IsZeroConverter x:Key="IsZeroConverter" />
             <converters:IsNotZeroConverter x:Key="IsNotZeroConverter" />
+            <converters:BoolToStarConverter x:Key="BoolToStarConverter" />
+            <converters:BoolToStarColorConverter x:Key="BoolToStarColorConverter" />
             <converters:DivisionConverter x:Key="DivisionConverter" />
             <converters:ResponseTimeToColorConverter x:Key="ResponseTimeToColorConverter" />
             <converters:BoolToDropdownArrowConverter x:Key="BoolToDropdownArrowConverter" />

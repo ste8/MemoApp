@@ -4,6 +4,7 @@
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
              xmlns:models="clr-namespace:MemoApp.Core.MajorSystem.Models;assembly=MemoApp.Core"
+             xmlns:utilities="clr-namespace:MemoApp.UI.MauiApp.Utilities"
              x:Class="MemoApp.UI.MauiApp.Views.TokenDetailPage"
              x:DataType="viewmodels:TokenDetailViewModel"
              Title="{Binding PageTitle}">
@@ -61,14 +62,14 @@
                                     BackgroundColor="{DynamicResource CardBackgroundColor}"
                                     Stroke="{DynamicResource CardStrokeColor}"
                                     StrokeThickness="1">
-                                <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="120,*,Auto" RowSpacing="8" ColumnSpacing="16">
+                                <Grid ColumnDefinitions="120,*,Auto" ColumnSpacing="16">
                                     
                                     <!-- Large thumbnail/token display -->
-                                    <Grid Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" 
+                                    <Grid Grid.Column="0" 
                                           WidthRequest="100" 
                                           HeightRequest="100"
                                           BackgroundColor="{DynamicResource Gray100}" 
-                                          VerticalOptions="Start">
+                                          VerticalOptions="Center">
                                         <!-- Show image if thumbnail path exists -->
                                         <Image Source="{Binding ImagePath}"
                                                Aspect="AspectFill"
@@ -90,49 +91,26 @@
                                         </Grid.GestureRecognizers>
                                     </Grid>
                                     
-                                    <!-- Association details -->
-                                    <StackLayout Grid.Row="0" Grid.Column="1" Spacing="4">
-                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
-                                            <Label Grid.Column="0"
-                                                   Text="{Binding Word}"
-                                                   FontSize="18"
-                                                   FontAttributes="Bold" />
-                                            <Border Grid.Column="1"
-                                                    BackgroundColor="{DynamicResource Primary}"
-                                                    Padding="8,4"
-                                                    IsVisible="{Binding IsDefault}">
-                                                <Label Text="{localization:Localize TokenDetail_DefaultIndicator}"
-                                                       FontSize="12"
-                                                       TextColor="{DynamicResource OnPrimary}"
-                                                       FontAttributes="Bold" />
-                                            </Border>
-                                        </Grid>
-                                        <Label Text="{Binding FileName}"
-                                               FontSize="12"
-                                               TextColor="{DynamicResource Gray600}" />
-                                    </StackLayout>
+                                    <!-- Association word -->
+                                    <Label Grid.Column="1"
+                                           Text="{Binding Word}"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           VerticalOptions="Center" />
                                     
-                                    <!-- Action buttons -->
-                                    <StackLayout Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" 
-                                               Orientation="Horizontal" 
-                                               Spacing="8">
-                                        <Button Text="{localization:Localize TokenDetail_SetAsDefault}"
-                                                Command="{Binding SetAsDefaultCommand, Source={RelativeSource AncestorType={x:Type viewmodels:TokenDetailViewModel}}}"
-                                                CommandParameter="{Binding}"
-                                                FontSize="12"
-                                                Padding="12,6"
-                                                BackgroundColor="{DynamicResource Secondary}"
-                                                TextColor="{DynamicResource OnSecondary}"
-                                                IsVisible="{Binding IsDefault, Converter={StaticResource InvertedBoolConverter}}" />
-                                        <Button Text="{localization:Localize TokenDetail_ViewFullImage}"
-                                                Command="{Binding ViewFullImageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:TokenDetailViewModel}}}"
-                                                CommandParameter="{Binding}"
-                                                FontSize="12"
-                                                Padding="12,6"
-                                                BackgroundColor="{DynamicResource Primary}"
-                                                TextColor="{DynamicResource OnPrimary}"
-                                                IsVisible="{Binding ImagePath, Converter={StaticResource IsNotNullOrEmptyConverter}}" />
-                                    </StackLayout>
+                                    <!-- Star button for default state -->
+                                    <Button Grid.Column="2"
+                                            Text="{Binding IsDefault, Converter={StaticResource BoolToStarConverter}}"
+                                            FontFamily="{x:Static utilities:FontAwesome+FontFamilies.Solid}"
+                                            FontSize="20"
+                                            BackgroundColor="Transparent"
+                                            TextColor="{Binding IsDefault, Converter={StaticResource BoolToStarColorConverter}}"
+                                            Command="{Binding SetAsDefaultCommand, Source={RelativeSource AncestorType={x:Type viewmodels:TokenDetailViewModel}}}"
+                                            CommandParameter="{Binding}"
+                                            WidthRequest="44" 
+                                            HeightRequest="44"
+                                            Padding="0"
+                                            VerticalOptions="Center" />
                                 </Grid>
                             </Border>
                         </DataTemplate>

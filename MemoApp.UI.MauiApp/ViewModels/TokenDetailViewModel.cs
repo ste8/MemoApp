@@ -151,8 +151,16 @@ public partial class TokenDetailViewModel : ObservableObject
             SelectedAssociation = association;
             _logger.LogInformation("Viewing full image for {Token} -> {Word}", association.Token, association.Word);
             
-            // TODO: Navigate to full image viewer or show in modal
-            // For now, just log the action
+            // For now, we'll use a simple display alert to show the image info
+            // In a future enhancement, this could navigate to a full-screen image viewer
+            var mainPage = Application.Current?.MainPage;
+            if (mainPage != null)
+            {
+                await mainPage.DisplayAlert(
+                    _localizationService.GetString("TokenDetail_ViewFullImage"),
+                    $"{association.Word}\n{association.FileName}",
+                    "OK");
+            }
         }
         catch (Exception ex)
         {

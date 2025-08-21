@@ -117,3 +117,48 @@ public class IsNotZeroConverter : IValueConverter
         throw new NotImplementedException();
     }
 }
+
+/// <summary>
+/// Converts boolean to FontAwesome star icon (filled for true, empty for false).
+/// </summary>
+public class BoolToStarConverter : IValueConverter
+{
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is bool boolValue)
+            return boolValue ? Utilities.FontAwesome.Solid.Star : Utilities.FontAwesome.Solid.StarEmpty;
+        
+        return Utilities.FontAwesome.Solid.StarEmpty;
+    }
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+/// <summary>
+/// Converts boolean to star color (primary for true, gray for false).
+/// </summary>
+public class BoolToStarColorConverter : IValueConverter
+{
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is bool boolValue)
+        {
+            if (Application.Current?.Resources != null)
+            {
+                var resourceKey = boolValue ? "Primary" : "Gray600";
+                if (Application.Current.Resources.TryGetValue(resourceKey, out var color))
+                    return color;
+            }
+        }
+        
+        return Colors.Gray;
+    }
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
