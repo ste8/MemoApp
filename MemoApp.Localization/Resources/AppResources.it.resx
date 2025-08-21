@@ -917,6 +917,30 @@
     <value>Nessuna associazione trovata</value>
     <comment>Message when no associations exist for selected category</comment>
   </data>
+  <data name="TokenDetail_Title" xml:space="preserve">
+    <value>Associazioni Token {0}</value>
+    <comment>Token detail page title with token placeholder</comment>
+  </data>
+  <data name="TokenDetail_Title_Generic" xml:space="preserve">
+    <value>Associazioni Token</value>
+    <comment>Generic token detail page title</comment>
+  </data>
+  <data name="TokenDetail_SetAsDefault" xml:space="preserve">
+    <value>Imposta come Predefinita</value>
+    <comment>Set association as default button</comment>
+  </data>
+  <data name="TokenDetail_ViewFullImage" xml:space="preserve">
+    <value>Vedi Immagine Completa</value>
+    <comment>View full image button</comment>
+  </data>
+  <data name="TokenDetail_DefaultIndicator" xml:space="preserve">
+    <value>Predefinita</value>
+    <comment>Default association indicator text</comment>
+  </data>
+  <data name="TokenDetail_NoAssociations" xml:space="preserve">
+    <value>Nessuna associazione trovata per questo token</value>
+    <comment>Empty state message when no associations are found</comment>
+  </data>
   <data name="Associations_Default" xml:space="preserve">
     <value>Predefinito</value>
     <comment>Label for default association</comment>

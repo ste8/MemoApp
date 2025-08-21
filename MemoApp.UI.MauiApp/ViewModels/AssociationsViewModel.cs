@@ -235,19 +235,16 @@ public partial class AssociationsViewModel : ObservableObject
         try
         {
             SelectedAssociation = association;
-            
-            // Load all available associations for this token
-            var tokenAssociations = await _packAssociationsService.GetTokenAssociationsAsync(
-                association.Category, association.Token);
-            
-            // Navigate to token details page (implementation depends on navigation service)
-            // For now, just log the action
-            _logger.LogInformation("Viewing details for token {Token} in category {Category}", 
+            _logger.LogInformation("Navigating to details for token {Token} in category {Category}", 
                 association.Token, association.Category);
+            
+            // Navigate to token details page with parameters
+            var navigationParameter = $"TokenDetailPage?token={association.Token}&category={association.Category}";
+            await Shell.Current.GoToAsync(navigationParameter);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error viewing token details for {Token}", association.Token);
+            _logger.LogError(ex, "Error navigating to token details for {Token}", association.Token);
         }
     }
     
