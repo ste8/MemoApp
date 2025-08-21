@@ -31,8 +31,20 @@ public partial class AssociationsViewModel : ObservableObject
     [ObservableProperty]
     private string _emptyStateMessage = string.Empty;
     
-    [ObservableProperty]
     private CategoryTokens? _selectedCategory;
+    
+    public CategoryTokens? SelectedCategory 
+    { 
+        get => _selectedCategory;
+        set
+        {
+            if (SetProperty(ref _selectedCategory, value) && value != null)
+            {
+                // Automatically load associations when category is selected
+                _ = Task.Run(async () => await SelectCategoryAsync(value));
+            }
+        }
+    }
     
     [ObservableProperty]
     private ObservableCollection<CategoryTokens> _categories = new();
@@ -208,7 +220,8 @@ public partial class AssociationsViewModel : ObservableObject
             foreach (var association in associations)
             {
                 Associations.Add(association);
-                _logger.LogInformation("Added association to UI: {Token} -> {Word}", association.Token, association.Word);
+                _logger.LogInformation("Added association to UI: {Token} -> {Word}, ThumbnailPath: {ThumbnailPath}", 
+                    association.Token, association.Word, association.ThumbnailPath ?? "NULL");
             }
             _logger.LogInformation("Finished loading {Count} associations for category {CategoryKey}. UI collection now has {UICount} items.", associations.Count, categoryKey, Associations.Count);
         }

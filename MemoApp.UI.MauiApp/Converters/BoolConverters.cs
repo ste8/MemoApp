@@ -39,3 +39,35 @@ public class IsNotNullConverter : IValueConverter
         throw new NotImplementedException();
     }
 }
+
+/// <summary>
+/// Checks if a string is not null or empty. Useful for conditional visibility of images.
+/// </summary>
+public class IsNotNullOrEmptyConverter : IValueConverter
+{
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        return !string.IsNullOrEmpty(value as string);
+    }
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+/// <summary>
+/// Checks if a string is null or empty. Useful for conditional visibility of fallback elements.
+/// </summary>
+public class IsNullOrEmptyConverter : IValueConverter
+{
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        return string.IsNullOrEmpty(value as string);
+    }
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}

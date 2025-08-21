@@ -131,6 +131,17 @@ public class PackAssociationsService : IPackAssociationsService
                 return CreateTestAssociations(categoryKey);
             }
             
+            // Debug: List all files in the category directory
+            var filesInCategory = Directory.GetFiles(categoryThumbnailsPath, "*.png");
+            _logger.LogInformation("Found {FileCount} PNG files in {CategoryKey} directory: {Files}", 
+                filesInCategory.Length, categoryKey, string.Join(", ", filesInCategory.Take(10)));
+            
+            if (filesInCategory.Length == 0)
+            {
+                _logger.LogWarning("No PNG files found in {CategoryKey} thumbnails directory, using test data", categoryKey);
+                return CreateTestAssociations(categoryKey);
+            }
+            
             // Get tokens for the category
             var tokens = _categoryService.GetCategoryTokens(categoryKey);
             _logger.LogInformation("Got {TokenCount} tokens for category {CategoryKey}: {Tokens}", 
@@ -157,7 +168,16 @@ public class PackAssociationsService : IPackAssociationsService
                 if (association != null)
                 {
                     associations.Add(association);
-                    _logger.LogDebug("Added association for token {Token}: {Word}", token, association.Word);
+                    _logger.LogInformation("Added association for token {Token}: {Word}, Thumbnail: {Thumbnail}", 
+                        token, association.Word, association.ThumbnailPath);
+                        
+                    // Verify thumbnail file exists
+                    if (!string.IsNullOrEmpty(association.ThumbnailPath))
+                    {
+                        var thumbnailExists = File.Exists(association.ThumbnailPath);
+                        _logger.LogInformation("Thumbnail file exists for {Token}: {Exists} at {Path}", 
+                            token, thumbnailExists, association.ThumbnailPath);
+                    }
                 }
                 else
                 {
