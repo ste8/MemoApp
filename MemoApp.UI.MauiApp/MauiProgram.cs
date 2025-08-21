@@ -6,6 +6,7 @@ using MemoApp.UI.MauiApp.Services;
 using MemoApp.Localization.Services;
 using MemoApp.Core.NumberMemorization;
 using MemoApp.Core.Services.Packs;
+using MemoApp.Core.MajorSystem.Services;
 using MemoApp.UI.MauiApp.Converters;
 
 namespace MemoApp.UI.MauiApp;
@@ -64,6 +65,21 @@ public static class MauiProgram
 		
 		// Register background update service
 		builder.Services.AddSingleton<IPackUpdateBackgroundService, PackUpdateBackgroundService>();
+		
+		// Register Major System services
+		builder.Services.AddSingleton<IMajorSystemCategoryService, MajorSystemCategoryService>();
+		builder.Services.AddSingleton<IPackAssociationsService>(serviceProvider =>
+		{
+			var packManager = serviceProvider.GetRequiredService<IPackManagerService>();
+			var categoryService = serviceProvider.GetRequiredService<IMajorSystemCategoryService>();
+			var logger = serviceProvider.GetRequiredService<ILogger<PackAssociationsService>>();
+			return new PackAssociationsService(packManager, categoryService, logger, FileSystem.Current.AppDataDirectory);
+		});
+		builder.Services.AddSingleton<ITokenDefaultsService>(serviceProvider =>
+		{
+			var logger = serviceProvider.GetRequiredService<ILogger<TokenDefaultsService>>();
+			return new TokenDefaultsService(logger, FileSystem.Current.AppDataDirectory);
+		});
 
 
 		// Register ViewModels and Views for dependency injection
@@ -97,6 +113,10 @@ public static class MauiProgram
 		builder.Services.AddSingleton<INumberMemorizationSettingsService, NumberMemorizationSettingsService>();
 		builder.Services.AddTransient<NumberMemorizationViewModel>();
 		builder.Services.AddTransient<Views.NumberMemorizationPage>();
+		
+		// Register Associations ViewModels and Views
+		builder.Services.AddTransient<AssociationsViewModel>();
+		builder.Services.AddTransient<Views.AssociationsPage>();
 		
 		// Register Pack Management ViewModels and Views
 		builder.Services.AddTransient<PackDownloadViewModel>();

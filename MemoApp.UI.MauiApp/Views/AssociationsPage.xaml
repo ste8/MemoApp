@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
+             xmlns:models="clr-namespace:MemoApp.Core.MajorSystem.Models;assembly=MemoApp.Core"
+             x:Class="MemoApp.UI.MauiApp.Views.AssociationsPage"
+             x:DataType="viewmodels:AssociationsViewModel"
+             Title="{localization:Localize Associations_Title}">
+    
+    
+    <Grid>
+        <!-- Loading state -->
+        <StackLayout IsVisible="{Binding IsLoading}" Spacing="20" HorizontalOptions="Center" VerticalOptions="Center" Padding="40">
+            <ActivityIndicator IsRunning="True" Color="{DynamicResource Primary}" />
+            <Label Text="{localization:Localize Common_Loading}" 
+                   HorizontalOptions="Center" 
+                   HorizontalTextAlignment="Center" />
+        </StackLayout>
+        
+        <!-- Empty state -->
+        <StackLayout IsVisible="{Binding HasPackAvailable, Converter={StaticResource InvertedBoolConverter}}" 
+                     Spacing="20" HorizontalOptions="Center" VerticalOptions="Center" Padding="40">
+            <Label Text="{Binding EmptyStateTitle}" 
+                   FontSize="Title" 
+                   HorizontalOptions="Center" 
+                   HorizontalTextAlignment="Center" />
+            <Label Text="{Binding EmptyStateMessage}" 
+                   FontSize="Body" 
+                   HorizontalOptions="Center" 
+                   HorizontalTextAlignment="Center" />
+            <Button Text="{localization:Localize Associations_DownloadPack}" 
+                    Command="{Binding DownloadPackCommand}"
+                    HorizontalOptions="Center" 
+                    Margin="0,20,0,0" />
+        </StackLayout>
+        
+        <!-- Main content -->
+        <Grid IsVisible="{Binding HasPackAvailable}" 
+              RowDefinitions="Auto,Auto,*" 
+              Padding="16">
+            
+            <!-- Categories horizontal list -->
+            <ScrollView Grid.Row="0" 
+                       Orientation="Horizontal" 
+                       HeightRequest="50"
+                       Margin="0,0,0,16">
+                <StackLayout Orientation="Horizontal" Spacing="8">
+                    <Label Text="Categories:" FontAttributes="Bold" VerticalOptions="Center" />
+                    <StackLayout Orientation="Horizontal" Spacing="8" BindableLayout.ItemsSource="{Binding Categories}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:CategoryTokens">
+                                <Button Text="{Binding DisplayName}" 
+                                        Command="{Binding SelectCategoryCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AssociationsViewModel}}}"
+                                        CommandParameter="{Binding}"
+                                        FontSize="Small"
+                                        Padding="16,8"
+                                        BackgroundColor="{DynamicResource SecondaryButtonBackgroundColor}"
+                                        TextColor="{DynamicResource OnSecondaryButtonTextColor}" />
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+            
+            <!-- Debug info -->
+            <Label Grid.Row="1" 
+                   Text="{Binding Associations.Count, StringFormat='Associations loaded: {0}'}"
+                   FontSize="Small"
+                   TextColor="{DynamicResource Primary}"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Start"
+                   Margin="0,0,0,8" />
+            
+            <!-- Associations grid -->
+            <CollectionView Grid.Row="2" 
+                          ItemsSource="{Binding Associations}"
+                          SelectionMode="None"
+                          RemainingItemsThreshold="10"
+                          RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
+                          BackgroundColor="Transparent">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" 
+                                   Span="{OnPlatform Default=2, WinUI=3, MacCatalyst=3}" 
+                                   HorizontalItemSpacing="8" 
+                                   VerticalItemSpacing="8" />
+                </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:TokenAssociation">
+                            <Border Padding="16" 
+                                    Margin="8"
+                                    BackgroundColor="{DynamicResource CardBackgroundColor}"
+                                    Stroke="{DynamicResource CardStrokeColor}"
+                                    StrokeThickness="1">
+                                <StackLayout Spacing="8">
+                                    <!-- Token -->
+                                    <Label Text="{Binding Token}"
+                                           FontSize="Large"
+                                           FontAttributes="Bold"
+                                           HorizontalOptions="Center" />
+                                    
+                                    <!-- Word -->
+                                    <Label Text="{Binding Word}"
+                                           FontSize="Medium"
+                                           HorizontalOptions="Center"
+                                           TextColor="{DynamicResource Primary}" />
+                                    
+                                    <!-- Default indicator -->
+                                    <Label Text="★ Default"
+                                           FontSize="Small"
+                                           TextColor="{DynamicResource Primary}"
+                                           FontAttributes="Bold"
+                                           HorizontalOptions="Center"
+                                           IsVisible="{Binding IsDefault}" />
+                                </StackLayout>
+                                
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ViewTokenDetailsCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AssociationsViewModel}}}"
+                                                        CommandParameter="{Binding}" />
+                                </Border.GestureRecognizers>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+        </Grid>
+        
+        <!-- Refresh button -->
+        <Button Text="{localization:Localize Common_Refresh}"
+                Command="{Binding RefreshCommand}"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="16"
+                BackgroundColor="{DynamicResource Primary}"
+                TextColor="{DynamicResource OnPrimary}"
+                IsVisible="{Binding HasPackAvailable}" />
+    </Grid>
+</ContentPage>

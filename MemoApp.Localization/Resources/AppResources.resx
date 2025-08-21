@@ -792,6 +792,16 @@
     <comment>View button text</comment>
   </data>
   
+  <data name="Common_Loading" xml:space="preserve">
+    <value>Loading...</value>
+    <comment>Loading indicator text</comment>
+  </data>
+  
+  <data name="Common_Refresh" xml:space="preserve">
+    <value>Refresh</value>
+    <comment>Refresh button text</comment>
+  </data>
+  
   <!-- Update Notifications -->
   <data name="Update_SinglePackAvailable" xml:space="preserve">
     <value>1 pack update available</value>
@@ -860,5 +870,71 @@
   <data name="Settings_UpdateCheckError" xml:space="preserve">
     <value>Failed to check for updates</value>
     <comment>Error message for update check failure</comment>
+  </data>
+  
+  <!-- Associations Tab -->
+  <data name="Associations_Title" xml:space="preserve">
+    <value>Associations</value>
+    <comment>Title for the associations tab</comment>
+  </data>
+  <data name="Associations_SelectCategory" xml:space="preserve">
+    <value>Select Category</value>
+    <comment>Placeholder text for category picker</comment>
+  </data>
+  <data name="Associations_Category_Numbers" xml:space="preserve">
+    <value>Numbers</value>
+    <comment>Category name for numbers</comment>
+  </data>
+  <data name="Associations_Category_LettersUpper" xml:space="preserve">
+    <value>Letters Upper</value>
+    <comment>Category name for uppercase letters</comment>
+  </data>
+  <data name="Associations_Category_LettersLower" xml:space="preserve">
+    <value>Letters Lower</value>
+    <comment>Category name for lowercase letters</comment>
+  </data>
+  <data name="Associations_Category_Symbols" xml:space="preserve">
+    <value>Symbols</value>
+    <comment>Category name for symbols</comment>
+  </data>
+  <data name="Associations_Category_Months" xml:space="preserve">
+    <value>Months</value>
+    <comment>Category name for months</comment>
+  </data>
+  <data name="Associations_NoPackDownloaded" xml:space="preserve">
+    <value>No Major System Pack Downloaded</value>
+    <comment>Empty state title when no pack is downloaded</comment>
+  </data>
+  <data name="Associations_DownloadPackMessage" xml:space="preserve">
+    <value>Download a pack to view associations</value>
+    <comment>Empty state message to prompt pack download</comment>
+  </data>
+  <data name="Associations_DownloadPacks" xml:space="preserve">
+    <value>Download Packs</value>
+    <comment>Button text to navigate to pack download</comment>
+  </data>
+  <data name="Associations_NoAssociationsFound" xml:space="preserve">
+    <value>No associations found</value>
+    <comment>Message when no associations exist for selected category</comment>
+  </data>
+  <data name="Associations_Default" xml:space="preserve">
+    <value>Default</value>
+    <comment>Label for default association</comment>
+  </data>
+  <data name="Associations_SetAsDefault" xml:space="preserve">
+    <value>Set as Default</value>
+    <comment>Button text to set association as default</comment>
+  </data>
+  <data name="Associations_LoadingPack" xml:space="preserve">
+    <value>Loading pack data...</value>
+    <comment>Loading message while reading pack data</comment>
+  </data>
+  <data name="Associations_ErrorLoadingPack" xml:space="preserve">
+    <value>Error loading pack data</value>
+    <comment>Error message when pack data cannot be loaded</comment>
+  </data>
+  <data name="Associations_DefaultUpdated" xml:space="preserve">
+    <value>Default association updated</value>
+    <comment>Toast message when default is changed</comment>
   </data>
 </root>

@@ -16,6 +16,12 @@
             ContentTemplate="{DataTemplate views:MainPage}" />
 
         <ShellContent
+            Title="{localization:Localize Associations_Title}"
+            Icon="associations"
+            Route="associations"
+            ContentTemplate="{DataTemplate views:AssociationsPage}" />
+
+        <ShellContent
             Title="{localization:Localize Tab_NumberMemory}"
             Icon="memory"
             Route="numbermemorization"

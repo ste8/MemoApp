@@ -1,0 +1,466 @@
+using System.Text.Json;
+using MemoApp.Core.MajorSystem.Models;
+using MemoApp.Core.Packs;
+using MemoApp.Core.Services.Packs;
+using Microsoft.Extensions.Logging;
+
+namespace MemoApp.Core.MajorSystem.Services;
+
+/// <summary>
+/// Implementation of the pack associations service
+/// </summary>
+public class PackAssociationsService : IPackAssociationsService
+{
+    private readonly IPackManagerService _packManager;
+    private readonly IMajorSystemCategoryService _categoryService;
+    private readonly ILogger<PackAssociationsService> _logger;
+    private readonly string _appDataDirectory;
+    
+    private Pack? _currentPack;
+    private Dictionary<string, Dictionary<string, string>>? _packDefaults;
+    
+    public event EventHandler? PackChanged;
+    
+    public Pack? CurrentPack => _currentPack;
+    
+    public PackAssociationsService(
+        IPackManagerService packManager,
+        IMajorSystemCategoryService categoryService,
+        ILogger<PackAssociationsService> logger,
+        string appDataDirectory)
+    {
+        _packManager = packManager;
+        _categoryService = categoryService;
+        _logger = logger;
+        _appDataDirectory = appDataDirectory;
+        
+        // Load initial pack
+        _ = Task.Run(async () => await RefreshPackDataAsync());
+    }
+    
+    public async Task<bool> HasPackAvailableAsync()
+    {
+        _currentPack = await _packManager.GetCurrentPackAsync();
+        _logger.LogInformation("Current pack: {Pack}", _currentPack?.Id ?? "NULL");
+        if (_currentPack != null)
+        {
+            var packPath = GetCurrentPackPath();
+            _logger.LogInformation("Pack path would be: {PackPath}", packPath);
+            if (!string.IsNullOrEmpty(packPath) && Directory.Exists(packPath))
+            {
+                _logger.LogInformation("Pack directory exists, checking for major system structure...");
+                var thumbnailsPath = Path.Combine(packPath, "thumbnails");
+                var imagesPath = Path.Combine(packPath, "images");
+                _logger.LogInformation("Thumbnails path exists: {Exists1}, Images path exists: {Exists2}", 
+                    Directory.Exists(thumbnailsPath), Directory.Exists(imagesPath));
+            }
+            else
+            {
+                _logger.LogWarning("Pack directory does not exist: {PackPath}", packPath);
+            }
+        }
+        return _currentPack != null; // Return actual pack availability
+    }
+    
+    public string? GetCurrentPackPath()
+    {
+        if (_currentPack == null) return null;
+        
+        // Use the pack manager to get the correct pack path, then add major_system subdirectory
+        try
+        {
+            var packPath = _packManager.GetPackDirectoryAsync(_currentPack.Id).Result;
+            return Path.Combine(packPath, "major_system");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting pack directory for {PackId}", _currentPack.Id);
+            return null;
+        }
+    }
+    
+    public async Task RefreshPackDataAsync()
+    {
+        try
+        {
+            _currentPack = await _packManager.GetCurrentPackAsync();
+            _packDefaults = null; // Clear cached defaults
+            
+            if (_currentPack != null)
+            {
+                _packDefaults = await LoadPackDefaultsAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error refreshing pack data");
+        }
+    }
+    
+    public async Task<List<TokenAssociation>> LoadCategoryAssociationsAsync(string categoryKey)
+    {
+        var associations = new List<TokenAssociation>();
+        
+        try
+        {
+            _logger.LogInformation("Loading associations for category: {CategoryKey}", categoryKey);
+            
+            var packPath = GetCurrentPackPath();
+            _logger.LogInformation("Pack path: {PackPath}", packPath ?? "NULL");
+            
+            if (string.IsNullOrEmpty(packPath))
+            {
+                _logger.LogWarning("Pack path is empty, returning test data for debugging");
+                return CreateTestAssociations(categoryKey);
+            }
+            
+            // Check if pack has major system structure
+            var thumbnailsPath = Path.Combine(packPath, "thumbnails");
+            var imagesPath = Path.Combine(packPath, "images");
+            
+            if (!Directory.Exists(thumbnailsPath) || !Directory.Exists(imagesPath))
+            {
+                _logger.LogWarning("Pack {PackPath} doesn't have major system structure (thumbnails/images dirs missing), using test data", packPath);
+                return CreateTestAssociations(categoryKey);
+            }
+            
+            var categoryThumbnailsPath = Path.Combine(thumbnailsPath, categoryKey);
+            if (!Directory.Exists(categoryThumbnailsPath))
+            {
+                _logger.LogWarning("Category {CategoryKey} thumbnails directory doesn't exist at {Path}, using test data", categoryKey, categoryThumbnailsPath);
+                return CreateTestAssociations(categoryKey);
+            }
+            
+            // Get tokens for the category
+            var tokens = _categoryService.GetCategoryTokens(categoryKey);
+            _logger.LogInformation("Got {TokenCount} tokens for category {CategoryKey}: {Tokens}", 
+                tokens.Count, categoryKey, string.Join(", ", tokens.Take(10)));
+            
+            // For symbols, discover dynamic tokens
+            if (categoryKey == MajorSystemCategoryService.CategorySymbols)
+            {
+                tokens = await _categoryService.DiscoverDynamicTokensAsync(packPath, categoryKey);
+                _logger.LogInformation("Discovered {TokenCount} dynamic tokens for symbols", tokens.Count);
+            }
+            
+            // Load defaults if not already loaded
+            if (_packDefaults == null)
+            {
+                _packDefaults = await LoadPackDefaultsAsync();
+                _logger.LogInformation("Loaded pack defaults with {CategoryCount} categories", _packDefaults.Count);
+            }
+            
+            // For each token, find the default association
+            foreach (var token in tokens)
+            {
+                var association = await GetDefaultAssociationForTokenAsync(packPath, categoryKey, token);
+                if (association != null)
+                {
+                    associations.Add(association);
+                    _logger.LogDebug("Added association for token {Token}: {Word}", token, association.Word);
+                }
+                else
+                {
+                    // Add placeholder for tokens without associations
+                    associations.Add(new TokenAssociation
+                    {
+                        Token = token,
+                        Category = categoryKey,
+                        Word = "No association",
+                        ImagePath = string.Empty,
+                        ThumbnailPath = string.Empty,
+                        IsDefault = false
+                    });
+                    _logger.LogDebug("Added placeholder for token {Token}", token);
+                }
+            }
+            
+            _logger.LogInformation("Returning {AssociationCount} associations for category {CategoryKey}", 
+                associations.Count, categoryKey);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error loading category associations for {Category}", categoryKey);
+        }
+        
+        return associations;
+    }
+    
+    public async Task<List<TokenAssociation>> GetTokenAssociationsAsync(string categoryKey, string token)
+    {
+        var associations = new List<TokenAssociation>();
+        
+        try
+        {
+            var packPath = GetCurrentPackPath();
+            if (string.IsNullOrEmpty(packPath))
+            {
+                return associations;
+            }
+            
+            var thumbnailPath = Path.Combine(packPath, "thumbnails", categoryKey);
+            var imagePath = Path.Combine(packPath, "images", categoryKey);
+            
+            if (!Directory.Exists(thumbnailPath))
+            {
+                return associations;
+            }
+            
+            // Find all files for this token
+            var pattern = $"{token}_*.png";
+            var thumbnailFiles = Directory.GetFiles(thumbnailPath, pattern);
+            
+            // Load defaults to determine which is default
+            if (_packDefaults == null)
+            {
+                _packDefaults = await LoadPackDefaultsAsync();
+            }
+            
+            string? defaultFilename = null;
+            if (_packDefaults?.TryGetValue(categoryKey, out var categoryDefaults) == true)
+            {
+                categoryDefaults.TryGetValue(token, out defaultFilename);
+            }
+            
+            foreach (var thumbnailFile in thumbnailFiles)
+            {
+                var filename = Path.GetFileName(thumbnailFile);
+                var word = ExtractWordFromFilename(filename);
+                var imageFile = Path.Combine(imagePath, filename);
+                
+                associations.Add(new TokenAssociation
+                {
+                    Token = token,
+                    Category = categoryKey,
+                    Word = word,
+                    ThumbnailPath = thumbnailFile,
+                    ImagePath = File.Exists(imageFile) ? imageFile : string.Empty,
+                    IsDefault = filename == defaultFilename
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting token associations for {Category}/{Token}", categoryKey, token);
+        }
+        
+        return associations;
+    }
+    
+    public async Task<Dictionary<string, Dictionary<string, string>>> LoadPackDefaultsAsync()
+    {
+        var defaults = new Dictionary<string, Dictionary<string, string>>();
+        
+        try
+        {
+            var packPath = GetCurrentPackPath();
+            if (string.IsNullOrEmpty(packPath))
+            {
+                return defaults;
+            }
+            
+            var defaultsFile = Path.Combine(packPath, "defaults.json");
+            
+            if (File.Exists(defaultsFile))
+            {
+                var json = await File.ReadAllTextAsync(defaultsFile);
+                var jsonDefaults = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(json);
+                
+                if (jsonDefaults != null)
+                {
+                    defaults = jsonDefaults;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error loading pack defaults");
+        }
+        
+        return defaults;
+    }
+    
+    private Task<TokenAssociation?> GetDefaultAssociationForTokenAsync(string packPath, string categoryKey, string token)
+    {
+        try
+        {
+            var thumbnailPath = Path.Combine(packPath, "thumbnails", categoryKey);
+            var imagePath = Path.Combine(packPath, "images", categoryKey);
+            
+            if (!Directory.Exists(thumbnailPath))
+            {
+                return Task.FromResult<TokenAssociation?>(null);
+            }
+            
+            // Check if there's a default specified in defaults.json
+            string? defaultFilename = null;
+            if (_packDefaults?.TryGetValue(categoryKey, out var categoryDefaults) == true)
+            {
+                categoryDefaults.TryGetValue(token, out defaultFilename);
+            }
+            
+            // If there's a default, try to find it
+            if (!string.IsNullOrEmpty(defaultFilename))
+            {
+                var thumbnailFile = Path.Combine(thumbnailPath, defaultFilename);
+                if (File.Exists(thumbnailFile))
+                {
+                    var imageFile = Path.Combine(imagePath, defaultFilename);
+                    var word = ExtractWordFromFilename(defaultFilename);
+                    
+                    return Task.FromResult<TokenAssociation?>(new TokenAssociation
+                    {
+                        Token = token,
+                        Category = categoryKey,
+                        Word = word,
+                        ThumbnailPath = thumbnailFile,
+                        ImagePath = File.Exists(imageFile) ? imageFile : string.Empty,
+                        IsDefault = true
+                    });
+                }
+            }
+            
+            // Otherwise, find the first available file for this token
+            var pattern = $"{token}_*.png";
+            var files = Directory.GetFiles(thumbnailPath, pattern);
+            
+            if (files.Length > 0)
+            {
+                var filename = Path.GetFileName(files[0]);
+                var imageFile = Path.Combine(imagePath, filename);
+                var word = ExtractWordFromFilename(filename);
+                
+                return Task.FromResult<TokenAssociation?>(new TokenAssociation
+                {
+                    Token = token,
+                    Category = categoryKey,
+                    Word = word,
+                    ThumbnailPath = files[0],
+                    ImagePath = File.Exists(imageFile) ? imageFile : string.Empty,
+                    IsDefault = false
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting default association for {Category}/{Token}", categoryKey, token);
+        }
+        
+        return Task.FromResult<TokenAssociation?>(null);
+    }
+    
+    private string ExtractWordFromFilename(string filename)
+    {
+        try
+        {
+            // Remove extension
+            var nameWithoutExt = Path.GetFileNameWithoutExtension(filename);
+            
+            // Split by underscore and take everything after the first part (token)
+            var parts = nameWithoutExt.Split('_');
+            if (parts.Length > 1)
+            {
+                return string.Join("_", parts.Skip(1));
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error extracting word from filename: {Filename}", filename);
+        }
+        
+        return string.Empty;
+    }
+    
+    private List<TokenAssociation> CreateTestAssociations(string categoryKey)
+    {
+        _logger.LogInformation("Creating test data for category: {CategoryKey}", categoryKey);
+        
+        var associations = new List<TokenAssociation>();
+        
+        // Create limited test data for each category
+        switch (categoryKey)
+        {
+            case MajorSystemCategoryService.CategoryNumbers:
+                for (int i = 0; i < 10; i++) // Just first 10 numbers for testing
+                {
+                    associations.Add(new TokenAssociation
+                    {
+                        Token = i.ToString("00"),
+                        Category = categoryKey,
+                        Word = $"Number {i:00}",
+                        ImagePath = string.Empty,
+                        ThumbnailPath = string.Empty,
+                        IsDefault = i == 0
+                    });
+                }
+                break;
+                
+            case MajorSystemCategoryService.CategoryLettersUpper:
+                var upperLetters = new[] { "A", "B", "C", "D", "E" };
+                foreach (var letter in upperLetters)
+                {
+                    associations.Add(new TokenAssociation
+                    {
+                        Token = letter,
+                        Category = categoryKey,
+                        Word = $"Letter {letter}",
+                        ImagePath = string.Empty,
+                        ThumbnailPath = string.Empty,
+                        IsDefault = letter == "A"
+                    });
+                }
+                break;
+                
+            case MajorSystemCategoryService.CategoryLettersLower:
+                var lowerLetters = new[] { "a", "b", "c", "d", "e" };
+                foreach (var letter in lowerLetters)
+                {
+                    associations.Add(new TokenAssociation
+                    {
+                        Token = letter,
+                        Category = categoryKey,
+                        Word = $"Letter {letter}",
+                        ImagePath = string.Empty,
+                        ThumbnailPath = string.Empty,
+                        IsDefault = letter == "a"
+                    });
+                }
+                break;
+                
+            case MajorSystemCategoryService.CategorySymbols:
+                var symbols = new[] { "@", "#", "$", "&", "%" };
+                foreach (var symbol in symbols)
+                {
+                    associations.Add(new TokenAssociation
+                    {
+                        Token = symbol,
+                        Category = categoryKey,
+                        Word = $"Symbol {symbol}",
+                        ImagePath = string.Empty,
+                        ThumbnailPath = string.Empty,
+                        IsDefault = symbol == "@"
+                    });
+                }
+                break;
+                
+            case MajorSystemCategoryService.CategoryMonths:
+                var months = new[] { "January", "February", "March", "April", "May" };
+                for (int i = 0; i < months.Length; i++)
+                {
+                    associations.Add(new TokenAssociation
+                    {
+                        Token = (i + 1).ToString(),
+                        Category = categoryKey,
+                        Word = months[i],
+                        ImagePath = string.Empty,
+                        ThumbnailPath = string.Empty,
+                        IsDefault = i == 0
+                    });
+                }
+                break;
+        }
+        
+        _logger.LogInformation("Created {Count} test associations for category {CategoryKey}", associations.Count, categoryKey);
+        return associations;
+    }
+}
