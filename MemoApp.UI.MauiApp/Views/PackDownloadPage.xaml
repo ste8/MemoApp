@@ -24,11 +24,14 @@
                     IsEnabled="{Binding IsRefreshing, Converter={StaticResource InverseBoolConverter}}"
                     BackgroundColor="#34C759"
                     TextColor="White"
-                    CornerRadius="8"
+                    CornerRadius="{OnIdiom Phone=6, Tablet=8, Desktop=8}"
                     HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}"
+                    WidthRequest="{OnIdiom Phone=44, Tablet=-1, Desktop=-1}"
                     MinimumWidthRequest="{OnIdiom Phone=44, Tablet=140, Desktop=160}"
                     HorizontalOptions="End"
-                    FontSize="{OnIdiom Phone=16, Tablet=15, Desktop=16}"/>
+                    FontSize="{OnIdiom Phone=16, Tablet=15, Desktop=16}"
+                    SemanticProperties.Description="{localization:Localize PackDownload_CheckForUpdatesButton}"
+                    AutomationProperties.Name="{localization:Localize PackDownload_CheckForUpdatesButton}"/>
         </Grid>
         
         <!-- Update Status Message -->
@@ -108,10 +111,13 @@
                                                 IsEnabled="{Binding CanDownload}"
                                                 BackgroundColor="{StaticResource Primary}"
                                                 TextColor="White"
-                                                FontSize="13"
-                                                HeightRequest="36"
-                                                MinimumWidthRequest="{OnIdiom Phone=36, Tablet=100, Desktop=100}"
-                                                CornerRadius="6"/>
+                                                FontSize="{OnIdiom Phone=16, Tablet=13, Desktop=13}"
+                                                HeightRequest="{OnIdiom Phone=40, Tablet=36, Desktop=36}"
+                                                WidthRequest="{OnIdiom Phone=40, Tablet=-1, Desktop=-1}"
+                                                MinimumWidthRequest="{OnIdiom Phone=40, Tablet=100, Desktop=100}"
+                                                CornerRadius="5"
+                                                SemanticProperties.Description="{Binding ButtonText}"
+                                                AutomationProperties.Name="{Binding ButtonText}"/>
                                         
                                         <!-- Delete Button (only for downloaded packs) -->
                                         <Button Text="&#xf2ed;"
@@ -121,10 +127,13 @@
                                                 IsVisible="{Binding Pack.IsDownloaded}"
                                                 BackgroundColor="#FF3B30"
                                                 TextColor="White"
-                                                FontSize="13"
-                                                HeightRequest="36"
-                                                MinimumWidthRequest="{OnIdiom Phone=36, Tablet=100, Desktop=100}"
-                                                CornerRadius="6"/>
+                                                FontSize="{OnIdiom Phone=16, Tablet=13, Desktop=13}"
+                                                HeightRequest="{OnIdiom Phone=40, Tablet=36, Desktop=36}"
+                                                WidthRequest="{OnIdiom Phone=40, Tablet=-1, Desktop=-1}"
+                                                MinimumWidthRequest="{OnIdiom Phone=40, Tablet=100, Desktop=100}"
+                                                CornerRadius="5"
+                                                SemanticProperties.Description="{localization:Localize Common_Delete}"
+                                                AutomationProperties.Name="{localization:Localize Common_Delete}"/>
                                     </StackLayout>
 
                                     <!-- Description -->
