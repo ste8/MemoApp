@@ -305,7 +305,7 @@ public class PackAssociationsService : IPackAssociationsService
         return defaults;
     }
     
-    private Task<TokenAssociation?> GetDefaultAssociationForTokenAsync(string packPath, string categoryKey, string token)
+    private async Task<TokenAssociation?> GetDefaultAssociationForTokenAsync(string packPath, string categoryKey, string token)
     {
         try
         {
@@ -314,14 +314,15 @@ public class PackAssociationsService : IPackAssociationsService
             
             if (!Directory.Exists(thumbnailPath))
             {
-                return Task.FromResult<TokenAssociation?>(null);
+                return null;
             }
             
-            // Check if there's a default specified in defaults.json
+            // Get effective default (user custom or pack default)
             string? defaultFilename = null;
-            if (_packDefaults?.TryGetValue(categoryKey, out var categoryDefaults) == true)
+            if (_currentPack != null)
             {
-                categoryDefaults.TryGetValue(token, out defaultFilename);
+                defaultFilename = await _tokenDefaultsService.GetEffectiveDefaultAsync(
+                    _currentPack.Id, categoryKey, token, _packDefaults);
             }
             
             // If there's a default, try to find it
@@ -333,7 +334,7 @@ public class PackAssociationsService : IPackAssociationsService
                     var imageFile = Path.Combine(imagePath, defaultFilename);
                     var word = ExtractWordFromFilename(defaultFilename);
                     
-                    return Task.FromResult<TokenAssociation?>(new TokenAssociation
+                    return new TokenAssociation
                     {
                         Token = token,
                         Category = categoryKey,
@@ -341,7 +342,7 @@ public class PackAssociationsService : IPackAssociationsService
                         ThumbnailPath = thumbnailFile,
                         ImagePath = File.Exists(imageFile) ? imageFile : string.Empty,
                         IsDefault = true
-                    });
+                    };
                 }
             }
             
@@ -355,7 +356,7 @@ public class PackAssociationsService : IPackAssociationsService
                 var imageFile = Path.Combine(imagePath, filename);
                 var word = ExtractWordFromFilename(filename);
                 
-                return Task.FromResult<TokenAssociation?>(new TokenAssociation
+                return new TokenAssociation
                 {
                     Token = token,
                     Category = categoryKey,
@@ -363,7 +364,7 @@ public class PackAssociationsService : IPackAssociationsService
                     ThumbnailPath = files[0],
                     ImagePath = File.Exists(imageFile) ? imageFile : string.Empty,
                     IsDefault = false
-                });
+                };
             }
         }
         catch (Exception ex)
@@ -371,7 +372,7 @@ public class PackAssociationsService : IPackAssociationsService
             _logger.LogError(ex, "Error getting default association for {Category}/{Token}", categoryKey, token);
         }
         
-        return Task.FromResult<TokenAssociation?>(null);
+        return null;
     }
     
     private string ExtractWordFromFilename(string filename)
