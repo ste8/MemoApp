@@ -68,6 +68,9 @@ public partial class AssociationsViewModel : ObservableObject
         // Subscribe to pack changes
         _packAssociationsService.PackChanged += OnPackChanged;
         
+        // Subscribe to token default changes for smart refresh
+        _tokenDefaultsService.TokenDefaultChanged += OnTokenDefaultChanged;
+        
         // Initialize localized strings
         UpdateLocalizedStrings();
         
@@ -78,6 +81,21 @@ public partial class AssociationsViewModel : ObservableObject
     private void OnPackChanged(object? sender, EventArgs e)
     {
         _ = Task.Run(async () => await LoadDataAsync());
+    }
+    
+    private void OnTokenDefaultChanged(object? sender, Core.MajorSystem.Models.TokenDefaultChangedEventArgs e)
+    {
+        // Only refresh if the changed token is in the currently selected category
+        if (SelectedCategory != null && SelectedCategory.CategoryKey == e.Category)
+        {
+            _logger.LogInformation("Token default changed for {Category}/{Token}, refreshing current category", e.Category, e.Token);
+            _ = Task.Run(async () => await RefreshCurrentCategoryAsync());
+        }
+        else
+        {
+            _logger.LogDebug("Token default changed for {Category}/{Token}, but not current category {CurrentCategory}", 
+                e.Category, e.Token, SelectedCategory?.CategoryKey ?? "none");
+        }
     }
     
     private void UpdateLocalizedStrings()
@@ -292,6 +310,17 @@ public partial class AssociationsViewModel : ObservableObject
         await LoadDataAsync();
     }
     
+    /// <summary>
+    /// Refreshes the currently selected category's associations
+    /// </summary>
+    public async Task RefreshCurrentCategoryAsync()
+    {
+        if (SelectedCategory != null)
+        {
+            await LoadCategoryAssociationsAsync(SelectedCategory.CategoryKey);
+        }
+    }
+    
     [RelayCommand]
     private Task LoadMoreAsync()
     {
@@ -305,6 +334,7 @@ public partial class AssociationsViewModel : ObservableObject
         if (disposing)
         {
             _packAssociationsService.PackChanged -= OnPackChanged;
+            _tokenDefaultsService.TokenDefaultChanged -= OnTokenDefaultChanged;
         }
     }
 }

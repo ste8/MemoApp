@@ -12,4 +12,5 @@ public partial class AssociationsPage : ContentPage
         InitializeComponent();
         BindingContext = viewModel;
     }
+
 }

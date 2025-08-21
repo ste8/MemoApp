@@ -8,6 +8,11 @@ namespace MemoApp.Core.MajorSystem.Services;
 public interface ITokenDefaultsService
 {
     /// <summary>
+    /// Event fired when a token default is changed
+    /// </summary>
+    event EventHandler<TokenDefaultChangedEventArgs>? TokenDefaultChanged;
+    
+    /// <summary>
     /// Gets the user's custom defaults for the current pack
     /// </summary>
     Task<UserDefaultPreferences> GetUserDefaultsAsync(string packId);

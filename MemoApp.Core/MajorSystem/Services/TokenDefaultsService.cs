@@ -14,6 +14,11 @@ public class TokenDefaultsService : ITokenDefaultsService
     
     private const string UserDefaultsFileName = "user_defaults.json";
     
+    /// <summary>
+    /// Event fired when a token default is changed
+    /// </summary>
+    public event EventHandler<TokenDefaultChangedEventArgs>? TokenDefaultChanged;
+    
     public TokenDefaultsService(
         ILogger<TokenDefaultsService> logger,
         string appDataDirectory)
@@ -85,6 +90,17 @@ public class TokenDefaultsService : ITokenDefaultsService
             var preferences = await GetUserDefaultsAsync(packId);
             preferences.SetDefault(category, token, filename);
             await SaveUserDefaultsAsync(preferences);
+            
+            // Fire event to notify listeners that a default has changed
+            TokenDefaultChanged?.Invoke(this, new TokenDefaultChangedEventArgs
+            {
+                PackId = packId,
+                Category = category,
+                Token = token,
+                NewDefault = filename
+            });
+            
+            _logger.LogInformation("Token default changed and event fired for {PackId}/{Category}/{Token}", packId, category, token);
         }
         catch (Exception ex)
         {
