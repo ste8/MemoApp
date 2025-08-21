@@ -34,6 +34,12 @@ public partial class PackDownloadViewModel : BaseViewModel
     [ObservableProperty]
     private bool hasNoPacks;
 
+    [ObservableProperty]
+    private string updateCheckMessage = string.Empty;
+
+    [ObservableProperty]
+    private bool showUpdateMessage;
+
     public ICommand RefreshCommand { get; }
     public ICommand DownloadPackCommand { get; }
     public ICommand CancelDownloadCommand { get; }
@@ -75,6 +81,7 @@ public partial class PackDownloadViewModel : BaseViewModel
             IsRefreshing = true;
             StatusMessage = null;
             HasNoPacks = false;
+            ShowUpdateMessage = false;
 
             // Clear cache and get fresh data
             _downloadService.ClearCache();
@@ -88,11 +95,17 @@ public partial class PackDownloadViewModel : BaseViewModel
             }
 
             Packs.Clear();
+            int updateCount = 0;
 
             foreach (var pack in index.Packs)
             {
                 var packItem = new PackItemViewModel(pack, _localizationService);
                 Packs.Add(packItem);
+                
+                if (pack.HasUpdate)
+                {
+                    updateCount++;
+                }
             }
 
             HasNoPacks = Packs.Count == 0;
@@ -100,6 +113,29 @@ public partial class PackDownloadViewModel : BaseViewModel
             if (HasNoPacks)
             {
                 StatusMessage = _localizationService.GetString("PackDownload_NoPacksMessage");
+            }
+            else
+            {
+                // Show update status message
+                if (updateCount > 0)
+                {
+                    UpdateCheckMessage = updateCount == 1 
+                        ? _localizationService.GetString("Update_SinglePackAvailable")
+                        : _localizationService.GetString("Update_MultiplePacksAvailable").Replace("{0}", updateCount.ToString());
+                }
+                else
+                {
+                    UpdateCheckMessage = _localizationService.GetString("PackDownload_AllPacksUpToDate");
+                }
+                
+                ShowUpdateMessage = true;
+                
+                // Hide message after 5 seconds
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(5000);
+                    await MainThread.InvokeOnMainThreadAsync(() => ShowUpdateMessage = false);
+                });
             }
         }
         catch (Exception ex)

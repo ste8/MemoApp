@@ -7,9 +7,9 @@
              x:DataType="vm:PackDownloadViewModel"
              Title="{Binding Title}">
 
-    <Grid RowDefinitions="Auto,*,Auto">
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
         
-        <!-- Header with Refresh Button -->
+        <!-- Header with Enhanced Refresh Button -->
         <Grid Grid.Row="0" Padding="16,8" ColumnDefinitions="*,Auto">
             <Label Grid.Column="0" 
                    Text="{localization:Localize PackDownload_Title}"
@@ -18,21 +18,39 @@
                    VerticalOptions="Center"/>
             
             <Button Grid.Column="1"
-                    Text="{localization:Localize PackDownload_RefreshButton}"
+                    Text="{localization:Localize PackDownload_CheckForUpdatesButton}"
                     Command="{Binding RefreshCommand}"
                     IsEnabled="{Binding IsRefreshing, Converter={StaticResource InverseBoolConverter}}"
-                    HorizontalOptions="End"/>
+                    BackgroundColor="#34C759"
+                    TextColor="White"
+                    CornerRadius="8"
+                    HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}"
+                    MinimumWidthRequest="{OnIdiom Phone=120, Tablet=140, Desktop=160}"
+                    HorizontalOptions="End"
+                    FontSize="{OnIdiom Phone=14, Tablet=15, Desktop=16}"/>
         </Grid>
+        
+        <!-- Update Status Message -->
+        <Frame Grid.Row="1" 
+               IsVisible="{Binding ShowUpdateMessage}"
+               BackgroundColor="#E8F5E8"
+               BorderColor="#4CAF50"
+               CornerRadius="6"
+               Padding="12,8"
+               Margin="16,0,16,8"
+               HasShadow="False">
+            <Label Text="{Binding UpdateCheckMessage}"
+                   TextColor="#2E7D32"
+                   HorizontalTextAlignment="Center"
+                   FontSize="14"/>
+        </Frame>
 
-        <!-- Pack List -->
-        <ScrollView Grid.Row="1">
-            <VerticalStackLayout Padding="16" Spacing="12">
-                
-                <!-- Loading Indicator -->
-                <ActivityIndicator IsRunning="{Binding IsRefreshing}"
-                                   IsVisible="{Binding IsRefreshing}"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"/>
+        <!-- Pack List with Pull-to-Refresh -->
+        <RefreshView Grid.Row="2" 
+                     Command="{Binding RefreshCommand}"
+                     IsRefreshing="{Binding IsRefreshing}">
+            <ScrollView>
+                <VerticalStackLayout Padding="16" Spacing="12">
                 
                 <!-- No Packs Message -->
                 <Label Text="{Binding StatusMessage}"
@@ -143,11 +161,12 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-            </VerticalStackLayout>
-        </ScrollView>
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
 
         <!-- Cancel Download Button (shown during download) -->
-        <Button Grid.Row="2"
+        <Button Grid.Row="3"
                 Text="{localization:Localize PackDownload_CancelButton}"
                 Command="{Binding CancelDownloadCommand}"
                 IsVisible="{Binding IsDownloading}"

@@ -719,6 +719,14 @@
     <value>Aggiorna</value>
     <comment>Refresh packs list button</comment>
   </data>
+  <data name="PackDownload_CheckForUpdatesButton" xml:space="preserve">
+    <value>Controlla Aggiornamenti</value>
+    <comment>Check for updates button text</comment>
+  </data>
+  <data name="PackDownload_AllPacksUpToDate" xml:space="preserve">
+    <value>Tutti i pacchetti sono aggiornati</value>
+    <comment>Message when all packs are current</comment>
+  </data>
   <data name="PackDownload_CancelButton" xml:space="preserve">
     <value>Annulla Download</value>
     <comment>Cancel download button</comment>

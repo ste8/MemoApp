@@ -34,15 +34,6 @@ public partial class SettingsViewModel : BaseViewModel
     [ObservableProperty]
     private ObservableCollection<Pack> downloadedPacks = new();
 
-    [ObservableProperty]
-    private bool isCheckingForUpdates;
-
-    [ObservableProperty]
-    private string updateCheckStatus = string.Empty;
-
-    [ObservableProperty]
-    private int availableUpdatesCount;
-
     public ObservableCollection<string> AvailableLanguages { get; }
     public ObservableCollection<string> AvailableNumberFormats { get; }
 
@@ -195,62 +186,6 @@ public partial class SettingsViewModel : BaseViewModel
         }
     }
 
-    [RelayCommand]
-    private async Task CheckForUpdatesAsync()
-    {
-        if (_updateService == null || IsCheckingForUpdates)
-            return;
-
-        try
-        {
-            IsCheckingForUpdates = true;
-            UpdateCheckStatus = _localizationService.GetString("Settings_CheckingForUpdates");
-            
-            _logger.LogInformation("Manually checking for pack updates");
-            
-            // Clear cache to ensure fresh data
-            _downloadService.ClearCache();
-            
-            var updateCount = await _updateService.CheckForUpdatesAsync(silent: false);
-            AvailableUpdatesCount = updateCount;
-            
-            if (updateCount > 0)
-            {
-                UpdateCheckStatus = updateCount == 1 
-                    ? _localizationService.GetString("Update_SinglePackAvailable")
-                    : _localizationService.GetString("Update_MultiplePacksAvailable").Replace("{0}", updateCount.ToString());
-                    
-                // Ask if user wants to go to download page
-                var goToDownload = await Shell.Current.DisplayAlert(
-                    _localizationService.GetString("Settings_UpdateCheck"),
-                    UpdateCheckStatus + "\n" + _localizationService.GetString("Settings_GoToDownloadPage"),
-                    _localizationService.GetString("Common_View"),
-                    _localizationService.GetString("Common_Cancel"));
-                    
-                if (goToDownload)
-                {
-                    await Shell.Current.GoToAsync(nameof(PackDownloadPage));
-                }
-            }
-            else
-            {
-                UpdateCheckStatus = _localizationService.GetString("Settings_NoUpdatesAvailable");
-                await Shell.Current.DisplayAlert(
-                    _localizationService.GetString("Settings_UpdateCheck"),
-                    UpdateCheckStatus,
-                    _localizationService.GetString("Common_OK"));
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error checking for updates");
-            UpdateCheckStatus = _localizationService.GetString("Settings_UpdateCheckError");
-        }
-        finally
-        {
-            IsCheckingForUpdates = false;
-        }
-    }
 
 
     public async Task InitializeAsync()
