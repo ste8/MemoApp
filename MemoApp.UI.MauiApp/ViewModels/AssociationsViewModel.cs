@@ -31,18 +31,15 @@ public partial class AssociationsViewModel : ObservableObject
     [ObservableProperty]
     private string _emptyStateMessage = string.Empty;
     
+    [ObservableProperty]
     private CategoryTokens? _selectedCategory;
     
-    public CategoryTokens? SelectedCategory 
-    { 
-        get => _selectedCategory;
-        set
+    partial void OnSelectedCategoryChanged(CategoryTokens? value)
+    {
+        if (value != null)
         {
-            if (SetProperty(ref _selectedCategory, value) && value != null)
-            {
-                // Automatically load associations when category is selected
-                _ = Task.Run(async () => await SelectCategoryAsync(value));
-            }
+            // Load associations when category changes
+            _ = LoadCategoryAssociationsAsync(value.CategoryKey);
         }
     }
     
@@ -181,25 +178,19 @@ public partial class AssociationsViewModel : ObservableObject
     }
     
     [RelayCommand]
-    private async Task SelectCategoryAsync(CategoryTokens category)
+    private void SelectCategory(CategoryTokens category)
     {
-        if (category == null || category == SelectedCategory) 
+        if (category == null) 
             return;
         
         try
         {
-            IsLoading = true;
-            SelectedCategory = category;
             _logger.LogInformation("User selected category: {CategoryKey}", category.CategoryKey);
-            await LoadCategoryAssociationsAsync(category.CategoryKey);
+            SelectedCategory = category; // This will trigger OnSelectedCategoryChanged
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error selecting category {CategoryKey}", category?.CategoryKey ?? "NULL");
-        }
-        finally
-        {
-            IsLoading = false;
         }
     }
     
@@ -207,6 +198,7 @@ public partial class AssociationsViewModel : ObservableObject
     {
         try
         {
+            IsLoading = true;
             _logger.LogInformation("Loading associations for category: {CategoryKey}", categoryKey);
             
             // Run the heavy data loading on background thread
@@ -228,6 +220,10 @@ public partial class AssociationsViewModel : ObservableObject
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error loading category associations for {CategoryKey}", categoryKey);
+        }
+        finally
+        {
+            IsLoading = false;
         }
     }
     
