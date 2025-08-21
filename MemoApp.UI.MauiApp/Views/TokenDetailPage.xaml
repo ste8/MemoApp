@@ -35,30 +35,14 @@
             <StackLayout Spacing="16">
                 
                 <!-- Token header -->
-                <Border BackgroundColor="{DynamicResource CardBackgroundColor}"
-                        Stroke="{DynamicResource CardStrokeColor}"
-                        StrokeThickness="1"
-                        Padding="16">
-                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                        <Label Grid.Column="0" 
-                               Text="{Binding Token}"
-                               FontSize="32"
-                               FontAttributes="Bold"
-                               VerticalOptions="Center" />
-                        <StackLayout Grid.Column="1" 
-                                   VerticalOptions="Center">
-                            <Label Text="{Binding Token, StringFormat='Token: {0}'}"
-                                   FontSize="16"
-                                   FontAttributes="Bold" />
-                            <Label Text="{Binding Category, StringFormat='Category: {0}'}"
-                                   FontSize="14"
-                                   TextColor="{DynamicResource Gray600}" />
-                            <Label Text="{Binding Associations.Count, StringFormat='Associations: {0}'}"
-                                   FontSize="14"
-                                   TextColor="{DynamicResource Gray600}" />
-                        </StackLayout>
-                    </Grid>
-                </Border>
+                <Grid Padding="16,24" BackgroundColor="{DynamicResource CardBackgroundColor}">
+                    <Label Text="{Binding Token}"
+                           FontSize="{OnPlatform iOS=48, Android=48, Default=40}"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           VerticalOptions="Center" />
+                </Grid>
                 
                 <!-- Associations list -->
                 <Label Text="Available Associations" 

@@ -941,6 +941,10 @@
     <value>Nessuna associazione trovata per questo token</value>
     <comment>Empty state message when no associations are found</comment>
   </data>
+  <data name="TokenDetail_AssociationCount" xml:space="preserve">
+    <value>{0} associazioni</value>
+    <comment>Association count display in token header</comment>
+  </data>
   <data name="Associations_Default" xml:space="preserve">
     <value>Predefinito</value>
     <comment>Label for default association</comment>
