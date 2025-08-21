@@ -89,7 +89,8 @@ public partial class AssociationsViewModel : ObservableObject
         if (SelectedCategory != null && SelectedCategory.CategoryKey == e.Category)
         {
             _logger.LogInformation("Token default changed for {Category}/{Token}, refreshing current category", e.Category, e.Token);
-            _ = Task.Run(async () => await RefreshCurrentCategoryAsync());
+            // Run on main thread to ensure IsLoading updates are visible
+            MainThread.BeginInvokeOnMainThread(async () => await RefreshCurrentCategoryAsync());
         }
         else
         {
@@ -219,20 +220,19 @@ public partial class AssociationsViewModel : ObservableObject
             IsLoading = true;
             _logger.LogInformation("Loading associations for category: {CategoryKey}", categoryKey);
             
-            // Run the heavy data loading on background thread
-            var associations = await Task.Run(async () => 
+            // Start loading task and minimum display time task concurrently
+            var loadingTask = Task.Run(async () => 
                 await _packAssociationsService.LoadCategoryAssociationsAsync(categoryKey));
+            var minDisplayTask = Task.Delay(500); // Minimum 500ms display time
+            
+            // Wait for both data loading and minimum display time
+            var associations = await loadingTask;
+            await minDisplayTask;
             
             _logger.LogInformation("Found {Count} associations for category {CategoryKey}", associations.Count, categoryKey);
             
-            // Update UI on main thread
-            Associations.Clear();
-            foreach (var association in associations)
-            {
-                Associations.Add(association);
-                _logger.LogInformation("Added association to UI: {Token} -> {Word}, ThumbnailPath: {ThumbnailPath}", 
-                    association.Token, association.Word, association.ThumbnailPath ?? "NULL");
-            }
+            // Update UI on main thread, preserving scroll position
+            await UpdateAssociationsPreservingScrollAsync(associations);
             _logger.LogInformation("Finished loading {Count} associations for category {CategoryKey}. UI collection now has {UICount} items.", associations.Count, categoryKey, Associations.Count);
         }
         catch (Exception ex)
@@ -243,6 +243,62 @@ public partial class AssociationsViewModel : ObservableObject
         {
             IsLoading = false;
         }
+    }
+    
+    /// <summary>
+    /// Updates the associations collection while preserving scroll position
+    /// </summary>
+    private async Task UpdateAssociationsPreservingScrollAsync(List<TokenAssociation> newAssociations)
+    {
+        await Task.Run(() =>
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                // If collection is empty, just add all items
+                if (Associations.Count == 0)
+                {
+                    foreach (var association in newAssociations)
+                    {
+                        Associations.Add(association);
+                    }
+                    return;
+                }
+                
+                // Create lookup for new associations by token
+                var newAssociationsLookup = newAssociations.ToDictionary(a => a.Token, a => a);
+                
+                // Replace existing items or remove if not found (in reverse order to avoid index issues)
+                for (int i = Associations.Count - 1; i >= 0; i--)
+                {
+                    var existing = Associations[i];
+                    if (newAssociationsLookup.TryGetValue(existing.Token, out var updated))
+                    {
+                        // Replace the item at the same index to preserve position
+                        Associations[i] = updated;
+                        
+                        // Remove from lookup so we know it's been processed
+                        newAssociationsLookup.Remove(existing.Token);
+                        
+                        _logger.LogInformation("Updated association: {Token} -> {Word}, IsDefault: {IsDefault}", 
+                            updated.Token, updated.Word, updated.IsDefault);
+                    }
+                    else
+                    {
+                        // Remove items that are no longer present
+                        Associations.RemoveAt(i);
+                        _logger.LogInformation("Removed association: {Token}", existing.Token);
+                    }
+                }
+                
+                // Add any new items that weren't in the original collection
+                foreach (var newAssociation in newAssociationsLookup.Values)
+                {
+                    Associations.Add(newAssociation);
+                    _logger.LogInformation("Added new association: {Token} -> {Word}, IsDefault: {IsDefault}", 
+                        newAssociation.Token, newAssociation.Word, newAssociation.IsDefault);
+                }
+            });
+        });
     }
     
     [RelayCommand]
