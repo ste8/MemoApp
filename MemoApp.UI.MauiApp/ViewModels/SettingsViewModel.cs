@@ -252,51 +252,6 @@ public partial class SettingsViewModel : BaseViewModel
         }
     }
 
-    [RelayCommand]
-    private async Task ManagePacksAsync()
-    {
-        try
-        {
-            if (DownloadedPacks.Count == 0)
-            {
-                await Shell.Current.DisplayAlert(
-                    _localizationService.GetString("Settings_ManagePacks"),
-                    _localizationService.GetString("Settings_NoPacksDownloaded"),
-                    _localizationService.GetString("Common_OK"));
-                return;
-            }
-
-            var packNames = DownloadedPacks.Select(p => GetPackDisplayName(p)).ToArray();
-            var selectedPack = await Shell.Current.DisplayActionSheet(
-                _localizationService.GetString("Settings_DeletePack"),
-                _localizationService.GetString("Common_Cancel"),
-                null,
-                packNames);
-
-            if (!string.IsNullOrEmpty(selectedPack) && selectedPack != _localizationService.GetString("Common_Cancel"))
-            {
-                var pack = DownloadedPacks.FirstOrDefault(p => GetPackDisplayName(p) == selectedPack);
-                if (pack != null)
-                {
-                    var confirm = await Shell.Current.DisplayAlert(
-                        _localizationService.GetString("Settings_DeletePack"),
-                        _localizationService.GetString("Settings_DeletePackConfirmation"),
-                        _localizationService.GetString("Common_Delete"),
-                        _localizationService.GetString("Common_Cancel"));
-
-                    if (confirm)
-                    {
-                        await _downloadService.DeletePackAsync(pack.Id);
-                        await LoadPacksAsync();
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error managing packs");
-        }
-    }
 
     public async Task InitializeAsync()
     {

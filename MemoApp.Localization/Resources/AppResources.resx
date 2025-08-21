@@ -728,8 +728,8 @@
     <comment>Current pack label in settings</comment>
   </data>
   <data name="Settings_DownloadNewPacks" xml:space="preserve">
-    <value>Download New Packs</value>
-    <comment>Download new packs button in settings</comment>
+    <value>Manage Packs</value>
+    <comment>Button to manage packs (download, update, delete)</comment>
   </data>
   <data name="Settings_ManagePacks" xml:space="preserve">
     <value>Manage Packs</value>

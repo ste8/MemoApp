@@ -55,7 +55,7 @@
                                    BorderColor="Transparent"
                                    HasShadow="True">
                                 <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" 
-                                      ColumnDefinitions="*,Auto"
+                                      ColumnDefinitions="*,120"
                                       RowSpacing="8">
                                     
                                     <!-- Pack Name and Update Badge -->
@@ -74,15 +74,37 @@
                                         </Frame>
                                     </HorizontalStackLayout>
 
-                                    <!-- Download/Update Button -->
-                                    <Button Grid.Row="0" Grid.Column="1" 
-                                            Grid.RowSpan="2"
-                                            Text="{Binding ButtonText}"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PackDownloadViewModel}}, Path=DownloadPackCommand}"
-                                            CommandParameter="{Binding .}"
-                                            IsEnabled="{Binding CanDownload}"
-                                            VerticalOptions="Center"
-                                            WidthRequest="120"/>
+                                    <!-- Action Buttons -->
+                                    <StackLayout Grid.Row="0" Grid.Column="1" 
+                                                 Grid.RowSpan="2"
+                                                 Orientation="Vertical"
+                                                 Spacing="8"
+                                                 VerticalOptions="Center">
+                                        
+                                        <!-- Download/Update Button -->
+                                        <Button Text="{Binding ButtonText}"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PackDownloadViewModel}}, Path=DownloadPackCommand}"
+                                                CommandParameter="{Binding .}"
+                                                IsEnabled="{Binding CanDownload}"
+                                                BackgroundColor="{StaticResource Primary}"
+                                                TextColor="White"
+                                                FontSize="13"
+                                                HeightRequest="36"
+                                                MinimumWidthRequest="100"
+                                                CornerRadius="6"/>
+                                        
+                                        <!-- Delete Button (only for downloaded packs) -->
+                                        <Button Text="{localization:Localize Common_Delete}"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PackDownloadViewModel}}, Path=DeletePackCommand}"
+                                                CommandParameter="{Binding .}"
+                                                IsVisible="{Binding Pack.IsDownloaded}"
+                                                BackgroundColor="#FF3B30"
+                                                TextColor="White"
+                                                FontSize="13"
+                                                HeightRequest="36"
+                                                MinimumWidthRequest="100"
+                                                CornerRadius="6"/>
+                                    </StackLayout>
 
                                     <!-- Description -->
                                     <Label Grid.Row="1" Grid.Column="0"
