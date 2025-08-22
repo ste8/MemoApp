@@ -8,6 +8,7 @@ using MemoApp.Core.NumberMemorization;
 using MemoApp.Core.Services.Packs;
 using MemoApp.Core.MajorSystem.Services;
 using MemoApp.UI.MauiApp.Converters;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace MemoApp.UI.MauiApp;
 
@@ -46,6 +47,9 @@ public static class MauiProgram
 		// Register text measurement and container size services
 		builder.Services.AddSingleton<ITextMeasurementService, TextMeasurementService>();
 		builder.Services.AddSingleton<IContainerSizeService, ContainerSizeService>();
+		
+		// Register Messaging services
+		builder.Services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
 		
 		// Register pack management services
 		builder.Services.AddSingleton<IThumbnailService, ThumbnailService>();

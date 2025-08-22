@@ -1,10 +1,12 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using MemoApp.Core.MajorSystem.Models;
 using MemoApp.Core.MajorSystem.Services;
 using MemoApp.Localization.Services;
 using Microsoft.Extensions.Logging;
+using MemoApp.UI.MauiApp.Messages;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
 
@@ -19,6 +21,7 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
     private readonly ICustomImageSourceService _imageSourceService;
     private readonly IPackAssociationsService _packAssociationsService;
     private readonly ILocalizationService _localizationService;
+    private readonly IMessenger _messenger;
     private readonly ILogger<AddCustomAssociationViewModel> _logger;
 
     [ObservableProperty]
@@ -66,12 +69,14 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
         ICustomImageSourceService imageSourceService,
         IPackAssociationsService packAssociationsService,
         ILocalizationService localizationService,
+        IMessenger messenger,
         ILogger<AddCustomAssociationViewModel> logger)
     {
         _customAssociationsService = customAssociationsService;
         _imageSourceService = imageSourceService;
         _packAssociationsService = packAssociationsService;
         _localizationService = localizationService;
+        _messenger = messenger;
         _logger = logger;
 
         // Initialize AI availability
@@ -205,6 +210,17 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
                 currentPack.Id, Category, Token, Word.Trim(), _selectedImageStream, SetAsDefault);
 
             _logger.LogInformation("Successfully created custom association: {Token} -> {Word}", Token, Word);
+
+            // Send message to notify that a custom association was added
+            var message = new CustomAssociationAddedMessage(
+                currentPack.Id,
+                Category,
+                Token,
+                Word.Trim(),
+                SetAsDefault);
+            
+            _messenger.Send(message);
+            _logger.LogInformation("Sent CustomAssociationAddedMessage for {Token} -> {Word}", Token, Word);
 
             // Show success message
             var successTitle = _localizationService.GetString("Common_Success");

@@ -1,10 +1,12 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using MemoApp.Core.MajorSystem.Models;
 using MemoApp.Core.MajorSystem.Services;
 using MemoApp.Localization.Services;
 using Microsoft.Extensions.Logging;
+using MemoApp.UI.MauiApp.Messages;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
 
@@ -13,12 +15,13 @@ namespace MemoApp.UI.MauiApp.ViewModels;
 /// </summary>
 [QueryProperty(nameof(Token), "token")]
 [QueryProperty(nameof(Category), "category")]
-public partial class TokenDetailViewModel : ObservableObject
+public partial class TokenDetailViewModel : ObservableObject, IRecipient<CustomAssociationAddedMessage>
 {
     private readonly IPackAssociationsService _packAssociationsService;
     private readonly ITokenDefaultsService _tokenDefaultsService;
     private readonly ICustomAssociationsService _customAssociationsService;
     private readonly ILocalizationService _localizationService;
+    private readonly IMessenger _messenger;
     private readonly ILogger<TokenDetailViewModel> _logger;
 
     [ObservableProperty]
@@ -60,13 +63,18 @@ public partial class TokenDetailViewModel : ObservableObject
         ITokenDefaultsService tokenDefaultsService,
         ICustomAssociationsService customAssociationsService,
         ILocalizationService localizationService,
+        IMessenger messenger,
         ILogger<TokenDetailViewModel> logger)
     {
         _packAssociationsService = packAssociationsService;
         _tokenDefaultsService = tokenDefaultsService;
         _customAssociationsService = customAssociationsService;
         _localizationService = localizationService;
+        _messenger = messenger;
         _logger = logger;
+        
+        // Register for custom association added messages
+        _messenger.Register<CustomAssociationAddedMessage>(this);
         
         // Listen to Associations collection changes to update computed properties
         Associations.CollectionChanged += (_, _) =>
@@ -332,6 +340,28 @@ public partial class TokenDetailViewModel : ObservableObject
             var errorTitle = _localizationService.GetString("Common_Error");
             var errorMessage = _localizationService.GetString("TokenDetail_DeleteCustomError");
             await Application.Current.MainPage.DisplayAlert(errorTitle, errorMessage, _localizationService.GetString("Common_OK"));
+        }
+    }
+
+    /// <summary>
+    /// Receives CustomAssociationAddedMessage to refresh associations when a new custom association is added
+    /// </summary>
+    public async void Receive(CustomAssociationAddedMessage message)
+    {
+        try
+        {
+            // Only refresh if the message is for the current token
+            if (message.Category == Category && message.Token == Token)
+            {
+                _logger.LogInformation("Received CustomAssociationAddedMessage for {Token} -> {Word}, refreshing associations", 
+                    message.Token, message.Word);
+                
+                await LoadAssociationsAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error handling CustomAssociationAddedMessage for {Token}", Token);
         }
     }
 }
