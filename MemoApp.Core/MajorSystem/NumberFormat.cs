@@ -1,4 +1,4 @@
-namespace MemoApp.Localization.Services;
+namespace MemoApp.Core.MajorSystem;
 
 /// <summary>
 /// Represents the different number format options for the Major System.

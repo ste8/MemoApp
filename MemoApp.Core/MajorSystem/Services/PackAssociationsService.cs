@@ -108,11 +108,17 @@ public class PackAssociationsService : IPackAssociationsService
 
     public async Task<List<TokenAssociation>> LoadCategoryAssociationsAsync(string categoryKey, int skip, int take)
     {
+        // Default to padded format for backward compatibility
+        return await LoadCategoryAssociationsAsync(categoryKey, skip, take, NumberFormat.Padded);
+    }
+
+    public async Task<List<TokenAssociation>> LoadCategoryAssociationsAsync(string categoryKey, int skip, int take, NumberFormat numberFormat)
+    {
         var associations = new List<TokenAssociation>();
         
         try
         {
-            _logger.LogInformation("Loading associations for category: {CategoryKey} (skip: {Skip}, take: {Take})", categoryKey, skip, take);
+            _logger.LogInformation("Loading associations for category: {CategoryKey} (skip: {Skip}, take: {Take}, format: {NumberFormat})", categoryKey, skip, take, numberFormat);
             
             var packPath = GetCurrentPackPath();
             _logger.LogInformation("Pack path: {PackPath}", packPath ?? "NULL");
@@ -155,10 +161,10 @@ public class PackAssociationsService : IPackAssociationsService
                 return testData.Skip(skip).Take(take).ToList();
             }
             
-            // Get tokens for the category
-            var tokens = _categoryService.GetCategoryTokens(categoryKey);
-            _logger.LogInformation("Got {TokenCount} tokens for category {CategoryKey}: {Tokens}", 
-                tokens.Count, categoryKey, string.Join(", ", tokens.Take(10)));
+            // Get tokens for the category with proper number format
+            var tokens = _categoryService.GetCategoryTokens(categoryKey, numberFormat);
+            _logger.LogInformation("Got {TokenCount} tokens for category {CategoryKey} with format {NumberFormat}: {Tokens}", 
+                tokens.Count, categoryKey, numberFormat, string.Join(", ", tokens.Take(10)));
             
             // For symbols, discover dynamic tokens
             if (categoryKey == MajorSystemCategoryService.CategorySymbols)

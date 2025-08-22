@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Resources;
 using MemoApp.Localization.Resources;
+using MemoApp.Core.MajorSystem;
 
 namespace MemoApp.Localization.Services;
 

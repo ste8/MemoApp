@@ -13,9 +13,19 @@ public interface IMajorSystemCategoryService
     List<CategoryTokens> GetAllCategories();
     
     /// <summary>
+    /// Gets all available categories with number format support
+    /// </summary>
+    List<CategoryTokens> GetAllCategories(NumberFormat numberFormat);
+    
+    /// <summary>
     /// Gets tokens for a specific category
     /// </summary>
     List<string> GetCategoryTokens(string categoryKey);
+    
+    /// <summary>
+    /// Gets tokens for a specific category with number format support
+    /// </summary>
+    List<string> GetCategoryTokens(string categoryKey, NumberFormat numberFormat);
     
     /// <summary>
     /// Gets the localized display name for a category

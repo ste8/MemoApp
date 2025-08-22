@@ -1,4 +1,5 @@
 using System.Globalization;
+using MemoApp.Core.MajorSystem;
 
 namespace MemoApp.Localization.Services;
 

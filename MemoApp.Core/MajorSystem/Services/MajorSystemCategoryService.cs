@@ -24,27 +24,33 @@ public class MajorSystemCategoryService : IMajorSystemCategoryService
     
     public List<CategoryTokens> GetAllCategories()
     {
+        // Default to padded format for backward compatibility
+        return GetAllCategories(NumberFormat.Padded);
+    }
+    
+    public List<CategoryTokens> GetAllCategories(NumberFormat numberFormat)
+    {
         var categories = new List<CategoryTokens>
         {
             new CategoryTokens
             {
                 CategoryKey = CategoryNumbers,
                 DisplayName = CategoryNumbers, // Will be localized in the UI layer
-                Tokens = GetCategoryTokens(CategoryNumbers),
+                Tokens = GetCategoryTokens(CategoryNumbers, numberFormat),
                 SortOrder = 1
             },
             new CategoryTokens
             {
                 CategoryKey = CategoryLettersUpper,
                 DisplayName = CategoryLettersUpper, // Will be localized in the UI layer
-                Tokens = GetCategoryTokens(CategoryLettersUpper),
+                Tokens = GetCategoryTokens(CategoryLettersUpper, numberFormat),
                 SortOrder = 2
             },
             new CategoryTokens
             {
                 CategoryKey = CategoryLettersLower,
                 DisplayName = CategoryLettersLower, // Will be localized in the UI layer
-                Tokens = GetCategoryTokens(CategoryLettersLower),
+                Tokens = GetCategoryTokens(CategoryLettersLower, numberFormat),
                 SortOrder = 3
             },
             new CategoryTokens
@@ -58,7 +64,7 @@ public class MajorSystemCategoryService : IMajorSystemCategoryService
             {
                 CategoryKey = CategoryMonths,
                 DisplayName = CategoryMonths, // Will be localized in the UI layer
-                Tokens = GetCategoryTokens(CategoryMonths),
+                Tokens = GetCategoryTokens(CategoryMonths, numberFormat),
                 SortOrder = 5
             }
         };
@@ -68,9 +74,15 @@ public class MajorSystemCategoryService : IMajorSystemCategoryService
     
     public List<string> GetCategoryTokens(string categoryKey)
     {
+        // Default to padded format for backward compatibility
+        return GetCategoryTokens(categoryKey, NumberFormat.Padded);
+    }
+    
+    public List<string> GetCategoryTokens(string categoryKey, NumberFormat numberFormat)
+    {
         return categoryKey switch
         {
-            CategoryNumbers => GenerateNumberTokens(),
+            CategoryNumbers => GenerateNumberTokens(numberFormat),
             CategoryLettersUpper => GenerateUpperLetterTokens(),
             CategoryLettersLower => GenerateLowerLetterTokens(),
             CategoryMonths => GenerateMonthTokens(),
@@ -123,14 +135,34 @@ public class MajorSystemCategoryService : IMajorSystemCategoryService
         return await Task.FromResult(tokens);
     }
     
-    private List<string> GenerateNumberTokens()
+    private List<string> GenerateNumberTokens(NumberFormat numberFormat)
     {
         var tokens = new List<string>();
         
-        // For now, always use padded numbers. The UI layer can decide based on user preferences
-        for (int i = 0; i <= 99; i++)
+        if (numberFormat == NumberFormat.Natural)
         {
-            tokens.Add(i.ToString("00"));
+            // Natural format: 0-99 without zero padding
+            for (int i = 0; i <= 99; i++)
+            {
+                tokens.Add(i.ToString());
+            }
+        }
+        else
+        {
+            // Padded format: First add 00-09 (zero-prefixed), then 0-99 (regular)
+            // This matches the logic in NumberFormatHelper.GetPaddedFormatNumbers()
+            
+            // First: 00-09 (zero-prefixed)
+            for (int i = 0; i <= 9; i++)
+            {
+                tokens.Add(i.ToString("00"));
+            }
+            
+            // Then: 0-99 (regular numbers)
+            for (int i = 0; i <= 99; i++)
+            {
+                tokens.Add(i.ToString());
+            }
         }
         
         return tokens;
