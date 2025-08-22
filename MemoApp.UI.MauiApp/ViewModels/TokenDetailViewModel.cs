@@ -95,8 +95,21 @@ public partial class TokenDetailViewModel : ObservableObject
             
             _logger.LogInformation("Found {Count} associations for token {Token}", associations.Count, Token);
 
+            // Sort associations to show default item first, then alphabetically by word
+            var sortedAssociations = associations
+                .OrderByDescending(a => a.IsDefault)  // Default items first
+                .ThenBy(a => a.Word)                  // Then alphabetically
+                .ToList();
+
+            var defaultAssociation = sortedAssociations.FirstOrDefault(a => a.IsDefault);
+            if (defaultAssociation != null)
+            {
+                _logger.LogInformation("Default association '{Word}' will be displayed first for token {Token}", 
+                    defaultAssociation.Word, Token);
+            }
+
             Associations.Clear();
-            foreach (var association in associations)
+            foreach (var association in sortedAssociations)
             {
                 Associations.Add(association);
                 _logger.LogDebug("Added association: {Token} -> {Word} (Default: {IsDefault})", 
