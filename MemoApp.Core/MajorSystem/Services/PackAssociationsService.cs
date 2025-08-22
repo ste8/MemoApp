@@ -102,11 +102,17 @@ public class PackAssociationsService : IPackAssociationsService
     
     public async Task<List<TokenAssociation>> LoadCategoryAssociationsAsync(string categoryKey)
     {
+        // Load all associations without pagination
+        return await LoadCategoryAssociationsAsync(categoryKey, 0, int.MaxValue);
+    }
+
+    public async Task<List<TokenAssociation>> LoadCategoryAssociationsAsync(string categoryKey, int skip, int take)
+    {
         var associations = new List<TokenAssociation>();
         
         try
         {
-            _logger.LogInformation("Loading associations for category: {CategoryKey}", categoryKey);
+            _logger.LogInformation("Loading associations for category: {CategoryKey} (skip: {Skip}, take: {Take})", categoryKey, skip, take);
             
             var packPath = GetCurrentPackPath();
             _logger.LogInformation("Pack path: {PackPath}", packPath ?? "NULL");
@@ -114,7 +120,8 @@ public class PackAssociationsService : IPackAssociationsService
             if (string.IsNullOrEmpty(packPath))
             {
                 _logger.LogWarning("Pack path is empty, returning test data for debugging");
-                return CreateTestAssociations(categoryKey);
+                var testData = CreateTestAssociations(categoryKey);
+                return testData.Skip(skip).Take(take).ToList();
             }
             
             // Check if pack has major system structure
@@ -124,14 +131,16 @@ public class PackAssociationsService : IPackAssociationsService
             if (!Directory.Exists(thumbnailsPath) || !Directory.Exists(imagesPath))
             {
                 _logger.LogWarning("Pack {PackPath} doesn't have major system structure (thumbnails/images dirs missing), using test data", packPath);
-                return CreateTestAssociations(categoryKey);
+                var testData = CreateTestAssociations(categoryKey);
+                return testData.Skip(skip).Take(take).ToList();
             }
             
             var categoryThumbnailsPath = Path.Combine(thumbnailsPath, categoryKey);
             if (!Directory.Exists(categoryThumbnailsPath))
             {
                 _logger.LogWarning("Category {CategoryKey} thumbnails directory doesn't exist at {Path}, using test data", categoryKey, categoryThumbnailsPath);
-                return CreateTestAssociations(categoryKey);
+                var testData = CreateTestAssociations(categoryKey);
+                return testData.Skip(skip).Take(take).ToList();
             }
             
             // Debug: List all files in the category directory
@@ -142,7 +151,8 @@ public class PackAssociationsService : IPackAssociationsService
             if (filesInCategory.Length == 0)
             {
                 _logger.LogWarning("No PNG files found in {CategoryKey} thumbnails directory, using test data", categoryKey);
-                return CreateTestAssociations(categoryKey);
+                var testData = CreateTestAssociations(categoryKey);
+                return testData.Skip(skip).Take(take).ToList();
             }
             
             // Get tokens for the category
@@ -157,6 +167,11 @@ public class PackAssociationsService : IPackAssociationsService
                 _logger.LogInformation("Discovered {TokenCount} dynamic tokens for symbols", tokens.Count);
             }
             
+            // Apply pagination to tokens
+            var pagedTokens = tokens.Skip(skip).Take(take).ToList();
+            _logger.LogInformation("Processing {PagedTokenCount} tokens after pagination (skip: {Skip}, take: {Take})", 
+                pagedTokens.Count, skip, take);
+            
             // Load defaults if not already loaded
             if (_packDefaults == null)
             {
@@ -164,23 +179,21 @@ public class PackAssociationsService : IPackAssociationsService
                 _logger.LogInformation("Loaded pack defaults with {CategoryCount} categories", _packDefaults.Count);
             }
             
-            // For each token, find the default association
-            foreach (var token in tokens)
+            // Process tokens in parallel for better performance
+            var tasks = pagedTokens.Select(token => GetDefaultAssociationForTokenAsync(packPath, categoryKey, token)).ToArray();
+            var results = await Task.WhenAll(tasks);
+            
+            // Add all associations (both found and placeholders)
+            for (int i = 0; i < pagedTokens.Count; i++)
             {
-                var association = await GetDefaultAssociationForTokenAsync(packPath, categoryKey, token);
+                var token = pagedTokens[i];
+                var association = results[i];
+                
                 if (association != null)
                 {
                     associations.Add(association);
-                    _logger.LogInformation("Added association for token {Token}: {Word}, Thumbnail: {Thumbnail}", 
-                        token, association.Word, association.ThumbnailPath);
-                        
-                    // Verify thumbnail file exists
-                    if (!string.IsNullOrEmpty(association.ThumbnailPath))
-                    {
-                        var thumbnailExists = File.Exists(association.ThumbnailPath);
-                        _logger.LogInformation("Thumbnail file exists for {Token}: {Exists} at {Path}", 
-                            token, thumbnailExists, association.ThumbnailPath);
-                    }
+                    _logger.LogDebug("Added association for token {Token}: {Word}", 
+                        token, association.Word);
                 }
                 else
                 {
@@ -198,8 +211,8 @@ public class PackAssociationsService : IPackAssociationsService
                 }
             }
             
-            _logger.LogInformation("Returning {AssociationCount} associations for category {CategoryKey}", 
-                associations.Count, categoryKey);
+            _logger.LogInformation("Returning {AssociationCount} associations for category {CategoryKey} (skip: {Skip}, take: {Take})", 
+                associations.Count, categoryKey, skip, take);
         }
         catch (Exception ex)
         {

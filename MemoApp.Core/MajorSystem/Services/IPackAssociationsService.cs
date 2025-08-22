@@ -24,6 +24,11 @@ public interface IPackAssociationsService
     Task<List<TokenAssociation>> LoadCategoryAssociationsAsync(string categoryKey);
     
     /// <summary>
+    /// Loads associations for a specific category with pagination support
+    /// </summary>
+    Task<List<TokenAssociation>> LoadCategoryAssociationsAsync(string categoryKey, int skip, int take);
+    
+    /// <summary>
     /// Gets all associations for a specific token across all available images
     /// </summary>
     Task<List<TokenAssociation>> GetTokenAssociationsAsync(string categoryKey, string token);

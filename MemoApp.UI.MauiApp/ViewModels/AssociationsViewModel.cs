@@ -218,22 +218,28 @@ public partial class AssociationsViewModel : ObservableObject
         try
         {
             IsLoading = true;
-            _logger.LogInformation("Loading associations for category: {CategoryKey}", categoryKey);
+            _hasMoreItems = true; // Reset pagination state
+            _logger.LogInformation("Loading initial associations for category: {CategoryKey}", categoryKey);
             
             // Start loading task and minimum display time task concurrently
             var loadingTask = Task.Run(async () => 
-                await _packAssociationsService.LoadCategoryAssociationsAsync(categoryKey));
-            var minDisplayTask = Task.Delay(500); // Minimum 500ms display time
+                await _packAssociationsService.LoadCategoryAssociationsAsync(categoryKey, 0, PageSize));
+            var minDisplayTask = Task.Delay(300); // Reduced to 300ms for better perceived performance
             
             // Wait for both data loading and minimum display time
             var associations = await loadingTask;
             await minDisplayTask;
             
-            _logger.LogInformation("Found {Count} associations for category {CategoryKey}", associations.Count, categoryKey);
+            if (associations.Count < PageSize)
+            {
+                _hasMoreItems = false;
+            }
+            
+            _logger.LogInformation("Found {Count} initial associations for category {CategoryKey}", associations.Count, categoryKey);
             
             // Update UI on main thread, preserving scroll position
             await UpdateAssociationsPreservingScrollAsync(associations);
-            _logger.LogInformation("Finished loading {Count} associations for category {CategoryKey}. UI collection now has {UICount} items.", associations.Count, categoryKey, Associations.Count);
+            _logger.LogInformation("Finished loading {Count} initial associations for category {CategoryKey}. UI collection now has {UICount} items.", associations.Count, categoryKey, Associations.Count);
         }
         catch (Exception ex)
         {
@@ -377,12 +383,44 @@ public partial class AssociationsViewModel : ObservableObject
         }
     }
     
+    private bool _hasMoreItems = true;
+    private const int PageSize = 20;
+    
     [RelayCommand]
-    private Task LoadMoreAsync()
+    private async Task LoadMoreAsync()
     {
-        // For now, do nothing - all data is loaded at once
-        // Could implement pagination in the future
-        return Task.CompletedTask;
+        if (!_hasMoreItems || IsLoading || SelectedCategory == null)
+            return;
+        
+        try
+        {
+            _logger.LogInformation("Loading more associations for category {CategoryKey}, current count: {Count}", 
+                SelectedCategory.CategoryKey, Associations.Count);
+            
+            var moreAssociations = await _packAssociationsService.LoadCategoryAssociationsAsync(
+                SelectedCategory.CategoryKey, 
+                Associations.Count, 
+                PageSize);
+            
+            if (moreAssociations.Count < PageSize)
+            {
+                _hasMoreItems = false;
+                _logger.LogInformation("Reached end of associations for category {CategoryKey}", SelectedCategory.CategoryKey);
+            }
+            
+            // Add new associations to the existing collection
+            foreach (var association in moreAssociations)
+            {
+                Associations.Add(association);
+            }
+            
+            _logger.LogInformation("Loaded {NewCount} more associations, total now: {TotalCount}", 
+                moreAssociations.Count, Associations.Count);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error loading more associations for category {CategoryKey}", SelectedCategory?.CategoryKey);
+        }
     }
     
     protected virtual void Dispose(bool disposing)
