@@ -38,6 +38,22 @@ public partial class TokenDetailViewModel : ObservableObject
     [ObservableProperty]
     private TokenAssociation? _selectedAssociation;
 
+    /// <summary>
+    /// Shows empty state when not loading and no associations exist
+    /// </summary>
+    public bool ShowEmptyState => !IsLoading && Associations.Count == 0;
+
+    /// <summary>
+    /// Shows main content when not loading and associations exist
+    /// </summary>
+    public bool ShowMainContent => !IsLoading && Associations.Count > 0;
+
+    partial void OnIsLoadingChanged(bool value)
+    {
+        OnPropertyChanged(nameof(ShowEmptyState));
+        OnPropertyChanged(nameof(ShowMainContent));
+    }
+
     public TokenDetailViewModel(
         IPackAssociationsService packAssociationsService,
         ITokenDefaultsService tokenDefaultsService,
@@ -48,6 +64,13 @@ public partial class TokenDetailViewModel : ObservableObject
         _tokenDefaultsService = tokenDefaultsService;
         _localizationService = localizationService;
         _logger = logger;
+        
+        // Listen to Associations collection changes to update computed properties
+        Associations.CollectionChanged += (_, _) =>
+        {
+            OnPropertyChanged(nameof(ShowEmptyState));
+            OnPropertyChanged(nameof(ShowMainContent));
+        };
     }
 
     partial void OnTokenChanged(string value)
@@ -55,6 +78,8 @@ public partial class TokenDetailViewModel : ObservableObject
         UpdatePageTitle();
         if (!string.IsNullOrEmpty(Token) && !string.IsNullOrEmpty(Category))
         {
+            // Set loading state immediately to prevent empty state flicker
+            IsLoading = true;
             _ = LoadAssociationsAsync();
         }
     }
@@ -64,6 +89,8 @@ public partial class TokenDetailViewModel : ObservableObject
         UpdatePageTitle();
         if (!string.IsNullOrEmpty(Token) && !string.IsNullOrEmpty(Category))
         {
+            // Set loading state immediately to prevent empty state flicker
+            IsLoading = true;
             _ = LoadAssociationsAsync();
         }
     }

@@ -19,7 +19,7 @@
         </StackLayout>
         
         <!-- Empty state -->
-        <StackLayout IsVisible="{Binding Associations.Count, Converter={StaticResource IsZeroConverter}}" 
+        <StackLayout IsVisible="{Binding ShowEmptyState}" 
                      Spacing="20" HorizontalOptions="Center" VerticalOptions="Center" Padding="40">
             <Label Text="{localization:Localize TokenDetail_NoAssociations}" 
                    FontSize="Title" 
@@ -31,7 +31,7 @@
         </StackLayout>
         
         <!-- Main content -->
-        <ScrollView IsVisible="{Binding Associations.Count, Converter={StaticResource IsNotZeroConverter}}" 
+        <ScrollView IsVisible="{Binding ShowMainContent}" 
                     Padding="16">
             <StackLayout Spacing="16">
                 
