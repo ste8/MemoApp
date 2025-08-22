@@ -119,7 +119,26 @@ public partial class TokenDetailViewModel : ObservableObject
         if (association == null || _packAssociationsService.CurrentPack == null)
             return;
 
-        // Show confirmation dialog
+        // If already default, show informational message
+        if (association.IsDefault)
+        {
+            var infoTitle = _localizationService.GetString("TokenDetail_AlreadyDefaultTitle");
+            var infoMessage = string.Format(
+                _localizationService.GetString("TokenDetail_AlreadyDefaultMessage"), 
+                association.Word, 
+                association.Token);
+            var okButton = _localizationService.GetString("Common_OK");
+
+            await Application.Current.MainPage.DisplayAlert(
+                infoTitle,
+                infoMessage,
+                okButton);
+
+            _logger.LogInformation("User tapped already-default item {Token} -> {Word}", association.Token, association.Word);
+            return;
+        }
+
+        // Show confirmation dialog for non-default items
         var confirmTitle = _localizationService.GetString("TokenDetail_SetAsDefaultConfirmTitle");
         var confirmMessage = string.Format(
             _localizationService.GetString("TokenDetail_SetAsDefaultConfirmMessage"), 
