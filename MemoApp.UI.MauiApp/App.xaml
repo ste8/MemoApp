@@ -20,6 +20,7 @@
             <converters:IsZeroConverter x:Key="IsZeroConverter" />
             <converters:IsNotZeroConverter x:Key="IsNotZeroConverter" />
             <converters:BoolToStarConverter x:Key="BoolToStarConverter" />
+            <converters:BoolToStarFontFamilyConverter x:Key="BoolToStarFontFamilyConverter" />
             <converters:BoolToStarColorConverter x:Key="BoolToStarColorConverter" />
             <converters:DivisionConverter x:Key="DivisionConverter" />
             <converters:ResponseTimeToColorConverter x:Key="ResponseTimeToColorConverter" />

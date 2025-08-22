@@ -119,16 +119,35 @@ public class IsNotZeroConverter : IValueConverter
 }
 
 /// <summary>
-/// Converts boolean to FontAwesome star icon (filled for true, empty for false).
+/// Converts boolean to FontAwesome star icon (filled for true, outline for false).
 /// </summary>
 public class BoolToStarConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is bool boolValue)
-            return boolValue ? Utilities.FontAwesome.Solid.Star : Utilities.FontAwesome.Solid.StarEmpty;
+            return boolValue ? Utilities.FontAwesome.Solid.Star : Utilities.FontAwesome.Regular.Star;
         
-        return Utilities.FontAwesome.Solid.StarEmpty;
+        return Utilities.FontAwesome.Regular.Star;
+    }
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+/// <summary>
+/// Converts boolean to FontAwesome font family (Solid for filled star, Regular for outline star).
+/// </summary>
+public class BoolToStarFontFamilyConverter : IValueConverter
+{
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is bool boolValue)
+            return boolValue ? Utilities.FontAwesome.FontFamilies.Solid : Utilities.FontAwesome.FontFamilies.Regular;
+        
+        return Utilities.FontAwesome.FontFamilies.Regular;
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

@@ -101,7 +101,7 @@
                                     <!-- Star button for default state -->
                                     <Button Grid.Column="2"
                                             Text="{Binding IsDefault, Converter={StaticResource BoolToStarConverter}}"
-                                            FontFamily="{x:Static utilities:FontAwesome+FontFamilies.Solid}"
+                                            FontFamily="{Binding IsDefault, Converter={StaticResource BoolToStarFontFamilyConverter}}"
                                             FontSize="20"
                                             BackgroundColor="Transparent"
                                             TextColor="{Binding IsDefault, Converter={StaticResource BoolToStarColorConverter}}"

@@ -44,6 +44,7 @@ public static class FontAwesome
         public const string Check = "\uf00c";
         public const string Plus = "\uf067";
         public const string CircleInfo = "\uf05a";
+        public const string Star = "\uf005";                    // Outline star
     }
     
     /// <summary>
