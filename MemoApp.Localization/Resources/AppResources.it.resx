@@ -981,4 +981,134 @@
     <value>Associazione predefinita aggiornata</value>
     <comment>Toast message when default is changed</comment>
   </data>
+  
+  <!-- Custom Associations -->
+  <data name="TokenDetail_AssociationsHeader" xml:space="preserve">
+    <value>Associazioni Disponibili</value>
+    <comment>Header for associations list in token detail page</comment>
+  </data>
+  <data name="TokenDetail_AddCustom" xml:space="preserve">
+    <value>Aggiungi Personalizzata</value>
+    <comment>Button text to add custom association</comment>
+  </data>
+  <data name="TokenDetail_CustomBadge" xml:space="preserve">
+    <value>PERSONALIZZATA</value>
+    <comment>Badge label for custom associations</comment>
+  </data>
+  <data name="TokenDetail_DeleteCustomTitle" xml:space="preserve">
+    <value>Elimina Associazione Personalizzata</value>
+    <comment>Confirmation dialog title for deleting custom association</comment>
+  </data>
+  <data name="TokenDetail_DeleteCustomMessage" xml:space="preserve">
+    <value>Sei sicuro di voler eliminare l'associazione personalizzata "{0}" per il token "{1}"? Questa azione non può essere annullata.</value>
+    <comment>Confirmation dialog message for deleting custom association. Parameters: {0} = word, {1} = token</comment>
+  </data>
+  <data name="TokenDetail_DeleteCustomSuccess" xml:space="preserve">
+    <value>L'associazione personalizzata "{0}" per il token "{1}" è stata eliminata con successo.</value>
+    <comment>Success message after deleting custom association. Parameters: {0} = word, {1} = token</comment>
+  </data>
+  <data name="TokenDetail_DeleteCustomError" xml:space="preserve">
+    <value>Si è verificato un errore durante l'eliminazione dell'associazione personalizzata. Riprova.</value>
+    <comment>Error message when deleting custom association fails</comment>
+  </data>
+  
+  <!-- Add Custom Association Page -->
+  <data name="AddCustomAssociation_Title" xml:space="preserve">
+    <value>Aggiungi Associazione Personalizzata per {0}</value>
+    <comment>Page title for adding custom association. Parameter: {0} = token</comment>
+  </data>
+  <data name="AddCustomAssociation_Header" xml:space="preserve">
+    <value>Crea Associazione Personalizzata</value>
+    <comment>Header in add custom association page</comment>
+  </data>
+  <data name="AddCustomAssociation_WordLabel" xml:space="preserve">
+    <value>Parola Associazione</value>
+    <comment>Label for word input field</comment>
+  </data>
+  <data name="AddCustomAssociation_WordPlaceholder" xml:space="preserve">
+    <value>Inserisci la parola da associare...</value>
+    <comment>Placeholder text for word input field</comment>
+  </data>
+  <data name="AddCustomAssociation_ImageLabel" xml:space="preserve">
+    <value>Immagine Associazione</value>
+    <comment>Label for image selection section</comment>
+  </data>
+  <data name="AddCustomAssociation_SelectImage" xml:space="preserve">
+    <value>Seleziona Immagine</value>
+    <comment>Button text to select image from device</comment>
+  </data>
+  <data name="AddCustomAssociation_GenerateAI" xml:space="preserve">
+    <value>Genera con IA</value>
+    <comment>Button text to generate image with AI</comment>
+  </data>
+  <data name="AddCustomAssociation_CreditsRemaining" xml:space="preserve">
+    <value>Crediti rimanenti</value>
+    <comment>Label for AI credits display</comment>
+  </data>
+  <data name="AddCustomAssociation_ImageSelected" xml:space="preserve">
+    <value>Immagine selezionata con successo</value>
+    <comment>Message when image is selected</comment>
+  </data>
+  <data name="AddCustomAssociation_NoImageSelected" xml:space="preserve">
+    <value>Nessuna immagine selezionata</value>
+    <comment>Placeholder message when no image is selected</comment>
+  </data>
+  <data name="AddCustomAssociation_SetAsDefault" xml:space="preserve">
+    <value>Imposta come associazione predefinita</value>
+    <comment>Checkbox label to set new association as default</comment>
+  </data>
+  <data name="AddCustomAssociation_InfoMessage" xml:space="preserve">
+    <value>Le associazioni personalizzate vengono preservate durante gli aggiornamenti dei pacchetti e possono essere impostate come predefinite per i token.</value>
+    <comment>Information message about custom associations</comment>
+  </data>
+  <data name="AddCustomAssociation_WordRequired" xml:space="preserve">
+    <value>Inserisci una parola per l'associazione</value>
+    <comment>Validation message when word is required</comment>
+  </data>
+  <data name="AddCustomAssociation_ImageRequired" xml:space="preserve">
+    <value>Seleziona un'immagine per l'associazione</value>
+    <comment>Validation message when image is required</comment>
+  </data>
+  <data name="AddCustomAssociation_ErrorSelectingImage" xml:space="preserve">
+    <value>Si è verificato un errore durante la selezione dell'immagine. Riprova.</value>
+    <comment>Error message when image selection fails</comment>
+  </data>
+  <data name="AddCustomAssociation_AINotAvailable" xml:space="preserve">
+    <value>La generazione di immagini IA non è disponibile al momento.</value>
+    <comment>Error message when AI generation is not available</comment>
+  </data>
+  <data name="AddCustomAssociation_AIComingSoon" xml:space="preserve">
+    <value>La generazione di immagini IA arriverà presto! Per ora, seleziona un'immagine dal tuo dispositivo.</value>
+    <comment>Info message for AI feature coming soon</comment>
+  </data>
+  <data name="AddCustomAssociation_NoPackError" xml:space="preserve">
+    <value>Nessun pacchetto è attualmente selezionato. Scarica prima un pacchetto.</value>
+    <comment>Error message when no pack is available</comment>
+  </data>
+  <data name="AddCustomAssociation_SaveError" xml:space="preserve">
+    <value>Si è verificato un errore durante il salvataggio dell'associazione personalizzata. Riprova.</value>
+    <comment>Error message when saving custom association fails</comment>
+  </data>
+  <data name="AddCustomAssociation_SuccessMessage" xml:space="preserve">
+    <value>L'associazione personalizzata "{0}" per il token "{1}" è stata creata con successo!</value>
+    <comment>Success message after creating custom association. Parameters: {0} = word, {1} = token</comment>
+  </data>
+  
+  <!-- Common strings -->
+  <data name="Common_Save" xml:space="preserve">
+    <value>Salva</value>
+    <comment>Save button text</comment>
+  </data>
+  <data name="Common_Success" xml:space="preserve">
+    <value>Successo</value>
+    <comment>Success dialog title</comment>
+  </data>
+  <data name="Common_Error" xml:space="preserve">
+    <value>Errore</value>
+    <comment>Error dialog title</comment>
+  </data>
+  <data name="Common_Info" xml:space="preserve">
+    <value>Informazione</value>
+    <comment>Info dialog title</comment>
+  </data>
 </root>

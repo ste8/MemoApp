@@ -81,6 +81,18 @@ public static class MauiProgram
 			var logger = serviceProvider.GetRequiredService<ILogger<PackAssociationsService>>();
 			return new PackAssociationsService(packManager, categoryService, tokenDefaultsService, logger, FileSystem.Current.AppDataDirectory);
 		});
+		
+		// Register Custom Associations services
+		builder.Services.AddSingleton<IImageProcessingService, MauiImageProcessingService>();
+		builder.Services.AddSingleton<ICustomImageSourceService, MauiImageSourceService>();
+		builder.Services.AddSingleton<ICustomAssociationsService>(serviceProvider =>
+		{
+			var packManager = serviceProvider.GetRequiredService<IPackManagerService>();
+			var imageProcessingService = serviceProvider.GetRequiredService<IImageProcessingService>();
+			var tokenDefaultsService = serviceProvider.GetRequiredService<ITokenDefaultsService>();
+			var logger = serviceProvider.GetRequiredService<ILogger<CustomAssociationsService>>();
+			return new CustomAssociationsService(packManager, imageProcessingService, tokenDefaultsService, logger);
+		});
 
 
 		// Register ViewModels and Views for dependency injection
@@ -130,6 +142,10 @@ public static class MauiProgram
 		// Register Pack Management ViewModels and Views
 		builder.Services.AddTransient<PackDownloadViewModel>();
 		builder.Services.AddTransient<Views.PackDownloadPage>();
+		
+		// Register Add Custom Association ViewModels and Views
+		builder.Services.AddTransient<AddCustomAssociationViewModel>();
+		builder.Services.AddTransient<Views.AddCustomAssociationPage>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

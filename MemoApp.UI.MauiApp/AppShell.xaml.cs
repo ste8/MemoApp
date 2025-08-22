@@ -15,5 +15,6 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute(nameof(PackDownloadPage), typeof(PackDownloadPage));
 		Routing.RegisterRoute(nameof(TokenDetailPage), typeof(TokenDetailPage));
 		Routing.RegisterRoute(nameof(ImageViewerPage), typeof(ImageViewerPage));
+		Routing.RegisterRoute(nameof(AddCustomAssociationPage), typeof(AddCustomAssociationPage));
 	}
 }

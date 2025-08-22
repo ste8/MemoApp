@@ -981,4 +981,134 @@
     <value>Default association updated</value>
     <comment>Toast message when default is changed</comment>
   </data>
+  
+  <!-- Custom Associations -->
+  <data name="TokenDetail_AssociationsHeader" xml:space="preserve">
+    <value>Available Associations</value>
+    <comment>Header for associations list in token detail page</comment>
+  </data>
+  <data name="TokenDetail_AddCustom" xml:space="preserve">
+    <value>Add Custom</value>
+    <comment>Button text to add custom association</comment>
+  </data>
+  <data name="TokenDetail_CustomBadge" xml:space="preserve">
+    <value>CUSTOM</value>
+    <comment>Badge label for custom associations</comment>
+  </data>
+  <data name="TokenDetail_DeleteCustomTitle" xml:space="preserve">
+    <value>Delete Custom Association</value>
+    <comment>Confirmation dialog title for deleting custom association</comment>
+  </data>
+  <data name="TokenDetail_DeleteCustomMessage" xml:space="preserve">
+    <value>Are you sure you want to delete the custom association "{0}" for token "{1}"? This action cannot be undone.</value>
+    <comment>Confirmation dialog message for deleting custom association. Parameters: {0} = word, {1} = token</comment>
+  </data>
+  <data name="TokenDetail_DeleteCustomSuccess" xml:space="preserve">
+    <value>Custom association "{0}" for token "{1}" has been deleted successfully.</value>
+    <comment>Success message after deleting custom association. Parameters: {0} = word, {1} = token</comment>
+  </data>
+  <data name="TokenDetail_DeleteCustomError" xml:space="preserve">
+    <value>An error occurred while deleting the custom association. Please try again.</value>
+    <comment>Error message when deleting custom association fails</comment>
+  </data>
+  
+  <!-- Add Custom Association Page -->
+  <data name="AddCustomAssociation_Title" xml:space="preserve">
+    <value>Add Custom Association for {0}</value>
+    <comment>Page title for adding custom association. Parameter: {0} = token</comment>
+  </data>
+  <data name="AddCustomAssociation_Header" xml:space="preserve">
+    <value>Create Custom Association</value>
+    <comment>Header in add custom association page</comment>
+  </data>
+  <data name="AddCustomAssociation_WordLabel" xml:space="preserve">
+    <value>Association Word</value>
+    <comment>Label for word input field</comment>
+  </data>
+  <data name="AddCustomAssociation_WordPlaceholder" xml:space="preserve">
+    <value>Enter the word to associate...</value>
+    <comment>Placeholder text for word input field</comment>
+  </data>
+  <data name="AddCustomAssociation_ImageLabel" xml:space="preserve">
+    <value>Association Image</value>
+    <comment>Label for image selection section</comment>
+  </data>
+  <data name="AddCustomAssociation_SelectImage" xml:space="preserve">
+    <value>Select Image</value>
+    <comment>Button text to select image from device</comment>
+  </data>
+  <data name="AddCustomAssociation_GenerateAI" xml:space="preserve">
+    <value>Generate with AI</value>
+    <comment>Button text to generate image with AI</comment>
+  </data>
+  <data name="AddCustomAssociation_CreditsRemaining" xml:space="preserve">
+    <value>Credits remaining</value>
+    <comment>Label for AI credits display</comment>
+  </data>
+  <data name="AddCustomAssociation_ImageSelected" xml:space="preserve">
+    <value>Image selected successfully</value>
+    <comment>Message when image is selected</comment>
+  </data>
+  <data name="AddCustomAssociation_NoImageSelected" xml:space="preserve">
+    <value>No image selected</value>
+    <comment>Placeholder message when no image is selected</comment>
+  </data>
+  <data name="AddCustomAssociation_SetAsDefault" xml:space="preserve">
+    <value>Set as default association</value>
+    <comment>Checkbox label to set new association as default</comment>
+  </data>
+  <data name="AddCustomAssociation_InfoMessage" xml:space="preserve">
+    <value>Custom associations are preserved when updating packs and can be set as defaults for tokens.</value>
+    <comment>Information message about custom associations</comment>
+  </data>
+  <data name="AddCustomAssociation_WordRequired" xml:space="preserve">
+    <value>Please enter a word for the association</value>
+    <comment>Validation message when word is required</comment>
+  </data>
+  <data name="AddCustomAssociation_ImageRequired" xml:space="preserve">
+    <value>Please select an image for the association</value>
+    <comment>Validation message when image is required</comment>
+  </data>
+  <data name="AddCustomAssociation_ErrorSelectingImage" xml:space="preserve">
+    <value>An error occurred while selecting the image. Please try again.</value>
+    <comment>Error message when image selection fails</comment>
+  </data>
+  <data name="AddCustomAssociation_AINotAvailable" xml:space="preserve">
+    <value>AI image generation is not available at the moment.</value>
+    <comment>Error message when AI generation is not available</comment>
+  </data>
+  <data name="AddCustomAssociation_AIComingSoon" xml:space="preserve">
+    <value>AI image generation is coming soon! For now, please select an image from your device.</value>
+    <comment>Info message for AI feature coming soon</comment>
+  </data>
+  <data name="AddCustomAssociation_NoPackError" xml:space="preserve">
+    <value>No pack is currently selected. Please download a pack first.</value>
+    <comment>Error message when no pack is available</comment>
+  </data>
+  <data name="AddCustomAssociation_SaveError" xml:space="preserve">
+    <value>An error occurred while saving the custom association. Please try again.</value>
+    <comment>Error message when saving custom association fails</comment>
+  </data>
+  <data name="AddCustomAssociation_SuccessMessage" xml:space="preserve">
+    <value>Custom association "{0}" for token "{1}" has been created successfully!</value>
+    <comment>Success message after creating custom association. Parameters: {0} = word, {1} = token</comment>
+  </data>
+  
+  <!-- Common strings -->
+  <data name="Common_Save" xml:space="preserve">
+    <value>Save</value>
+    <comment>Save button text</comment>
+  </data>
+  <data name="Common_Success" xml:space="preserve">
+    <value>Success</value>
+    <comment>Success dialog title</comment>
+  </data>
+  <data name="Common_Error" xml:space="preserve">
+    <value>Error</value>
+    <comment>Error dialog title</comment>
+  </data>
+  <data name="Common_Info" xml:space="preserve">
+    <value>Information</value>
+    <comment>Info dialog title</comment>
+  </data>
 </root>

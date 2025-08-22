@@ -17,6 +17,7 @@ public partial class TokenDetailViewModel : ObservableObject
 {
     private readonly IPackAssociationsService _packAssociationsService;
     private readonly ITokenDefaultsService _tokenDefaultsService;
+    private readonly ICustomAssociationsService _customAssociationsService;
     private readonly ILocalizationService _localizationService;
     private readonly ILogger<TokenDetailViewModel> _logger;
 
@@ -57,11 +58,13 @@ public partial class TokenDetailViewModel : ObservableObject
     public TokenDetailViewModel(
         IPackAssociationsService packAssociationsService,
         ITokenDefaultsService tokenDefaultsService,
+        ICustomAssociationsService customAssociationsService,
         ILocalizationService localizationService,
         ILogger<TokenDetailViewModel> logger)
     {
         _packAssociationsService = packAssociationsService;
         _tokenDefaultsService = tokenDefaultsService;
+        _customAssociationsService = customAssociationsService;
         _localizationService = localizationService;
         _logger = logger;
         
@@ -120,10 +123,21 @@ public partial class TokenDetailViewModel : ObservableObject
 
             var associations = await _packAssociationsService.GetTokenAssociationsAsync(Category, Token);
             
-            _logger.LogInformation("Found {Count} associations for token {Token}", associations.Count, Token);
+            // Also load custom associations for this token
+            var currentPack = _packAssociationsService.CurrentPack;
+            var customAssociations = currentPack != null 
+                ? await _customAssociationsService.GetCustomAssociationsForTokenAsync(currentPack.Id, Category, Token)
+                : new List<TokenAssociation>();
+            
+            // Combine pack and custom associations
+            var allAssociations = new List<TokenAssociation>(associations);
+            allAssociations.AddRange(customAssociations);
+            
+            _logger.LogInformation("Found {PackCount} pack associations and {CustomCount} custom associations for token {Token}", 
+                associations.Count, customAssociations.Count, Token);
 
             // Sort associations to show default item first, then alphabetically by word
-            var sortedAssociations = associations
+            var sortedAssociations = allAssociations
                 .OrderByDescending(a => a.IsDefault)  // Default items first
                 .ThenBy(a => a.Word)                  // Then alphabetically
                 .ToList();
@@ -245,5 +259,79 @@ public partial class TokenDetailViewModel : ObservableObject
     private async Task RefreshAsync()
     {
         await LoadAssociationsAsync();
+    }
+
+    [RelayCommand]
+    private async Task AddCustomAssociationAsync()
+    {
+        if (string.IsNullOrEmpty(Token) || string.IsNullOrEmpty(Category))
+            return;
+
+        try
+        {
+            _logger.LogInformation("Navigating to add custom association for token {Token}", Token);
+            
+            // Navigate to the add custom association page
+            var navigationParameter = $"AddCustomAssociationPage?token={Token}&category={Uri.EscapeDataString(Category)}";
+            await Shell.Current.GoToAsync(navigationParameter);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error navigating to add custom association for token {Token}", Token);
+        }
+    }
+
+    [RelayCommand]
+    private async Task DeleteCustomAssociationAsync(TokenAssociation association)
+    {
+        if (association == null || !association.IsCustom)
+            return;
+
+        try
+        {
+            _logger.LogInformation("User requested to delete custom association {Token} -> {Word}", association.Token, association.Word);
+
+            // Show confirmation dialog
+            var confirmTitle = _localizationService.GetString("TokenDetail_DeleteCustomTitle");
+            var confirmMessage = string.Format(
+                _localizationService.GetString("TokenDetail_DeleteCustomMessage"), 
+                association.Word, 
+                association.Token);
+            var confirmButton = _localizationService.GetString("Common_Delete");
+            var cancelButton = _localizationService.GetString("Common_Cancel");
+
+            var result = await Application.Current.MainPage.DisplayAlert(
+                confirmTitle,
+                confirmMessage,
+                confirmButton,
+                cancelButton);
+
+            if (!result)
+            {
+                _logger.LogInformation("User cancelled deletion of custom association {Token} -> {Word}", association.Token, association.Word);
+                return;
+            }
+
+            // Delete the custom association
+            await _customAssociationsService.DeleteCustomAssociationAsync(association);
+
+            _logger.LogInformation("Successfully deleted custom association {Token} -> {Word}", association.Token, association.Word);
+
+            // Show success message
+            var successTitle = _localizationService.GetString("Common_Success");
+            var successMessage = string.Format(_localizationService.GetString("TokenDetail_DeleteCustomSuccess"), association.Word, association.Token);
+            await Application.Current.MainPage.DisplayAlert(successTitle, successMessage, _localizationService.GetString("Common_OK"));
+
+            // Refresh the associations list
+            await LoadAssociationsAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error deleting custom association {Token} -> {Word}", association.Token, association.Word);
+            
+            var errorTitle = _localizationService.GetString("Common_Error");
+            var errorMessage = _localizationService.GetString("TokenDetail_DeleteCustomError");
+            await Application.Current.MainPage.DisplayAlert(errorTitle, errorMessage, _localizationService.GetString("Common_OK"));
+        }
     }
 }

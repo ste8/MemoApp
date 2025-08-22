@@ -31,6 +31,11 @@ public class TokenAssociation
     public bool IsDefault { get; set; }
     
     /// <summary>
+    /// Whether this is a custom user-created association
+    /// </summary>
+    public bool IsCustom { get; set; }
+    
+    /// <summary>
     /// The category this association belongs to
     /// </summary>
     public string Category { get; set; } = string.Empty;

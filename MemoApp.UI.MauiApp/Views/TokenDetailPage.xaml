@@ -45,11 +45,25 @@
                            VerticalOptions="Center" />
                 </Grid>
                 
+                <!-- Header with Add Custom button -->
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12" Margin="0,8,0,0">
+                    <Label Grid.Column="0"
+                           Text="{localization:Localize TokenDetail_AssociationsHeader}" 
+                           FontSize="18" 
+                           FontAttributes="Bold" 
+                           VerticalOptions="Center" />
+                    <Button Grid.Column="1"
+                            Text="{localization:Localize TokenDetail_AddCustom}"
+                            Command="{Binding AddCustomAssociationCommand}"
+                            BackgroundColor="{StaticResource Success}"
+                            TextColor="White"
+                            FontSize="14"
+                            CornerRadius="8"
+                            Padding="12,6"
+                            VerticalOptions="Center" />
+                </Grid>
+                
                 <!-- Associations list -->
-                <Label Text="Available Associations" 
-                       FontSize="18" 
-                       FontAttributes="Bold" 
-                       Margin="0,8,0,0" />
                        
                 <CollectionView ItemsSource="{Binding Associations}"
                               SelectionMode="None">
@@ -62,7 +76,7 @@
                                     BackgroundColor="{DynamicResource CardBackgroundColor}"
                                     Stroke="{DynamicResource CardStrokeColor}"
                                     StrokeThickness="1">
-                                <Grid ColumnDefinitions="120,*,Auto" ColumnSpacing="16">
+                                <Grid ColumnDefinitions="120,*,Auto,Auto,Auto" ColumnSpacing="12">
                                     
                                     <!-- Large thumbnail/token display -->
                                     <Grid Grid.Column="0" 
@@ -91,26 +105,60 @@
                                         </Grid.GestureRecognizers>
                                     </Grid>
                                     
-                                    <!-- Association word -->
-                                    <Label Grid.Column="1"
-                                           Text="{Binding Word}"
-                                           FontSize="18"
-                                           FontAttributes="Bold"
-                                           VerticalOptions="Center" />
+                                    <!-- Association word with custom indicator -->
+                                    <StackLayout Grid.Column="1" VerticalOptions="Center">
+                                        <StackLayout Orientation="Horizontal" Spacing="8">
+                                            <Label Text="{Binding Word}"
+                                                   FontSize="18"
+                                                   FontAttributes="Bold"
+                                                   VerticalOptions="Center" />
+                                            <!-- Custom indicator badge -->
+                                            <Border BackgroundColor="{StaticResource Success}"
+                                                    Padding="6,2"
+                                                    IsVisible="{Binding IsCustom}">
+                                                <Label Text="{localization:Localize TokenDetail_CustomBadge}"
+                                                       TextColor="White"
+                                                       FontSize="10"
+                                                       FontAttributes="Bold" />
+                                            </Border>
+                                        </StackLayout>
+                                    </StackLayout>
+                                    
+                                    <!-- Custom indicator (alternative simple approach) -->
+                                    <Label Grid.Column="2"
+                                           Text="👤"
+                                           FontSize="16"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Center"
+                                           IsVisible="{Binding IsCustom}" />
                                     
                                     <!-- Star button for default state -->
-                                    <Button Grid.Column="2"
+                                    <Button Grid.Column="3"
                                             Text="{Binding IsDefault, Converter={StaticResource BoolToStarConverter}}"
                                             FontFamily="{Binding IsDefault, Converter={StaticResource BoolToStarFontFamilyConverter}}"
-                                            FontSize="20"
+                                            FontSize="18"
                                             BackgroundColor="Transparent"
                                             TextColor="{Binding IsDefault, Converter={StaticResource BoolToStarColorConverter}}"
                                             Command="{Binding SetAsDefaultCommand, Source={RelativeSource AncestorType={x:Type viewmodels:TokenDetailViewModel}}}"
                                             CommandParameter="{Binding}"
-                                            WidthRequest="44" 
-                                            HeightRequest="44"
+                                            WidthRequest="40" 
+                                            HeightRequest="40"
                                             Padding="0"
                                             VerticalOptions="Center" />
+                                    
+                                    <!-- Delete button (only for custom associations) -->
+                                    <Button Grid.Column="4"
+                                            Text="🗑️"
+                                            FontSize="16"
+                                            BackgroundColor="Transparent"
+                                            TextColor="{StaticResource Danger}"
+                                            Command="{Binding DeleteCustomAssociationCommand, Source={RelativeSource AncestorType={x:Type viewmodels:TokenDetailViewModel}}}"
+                                            CommandParameter="{Binding}"
+                                            WidthRequest="40"
+                                            HeightRequest="40"
+                                            Padding="0"
+                                            VerticalOptions="Center"
+                                            IsVisible="{Binding IsCustom}" />
                                 </Grid>
                             </Border>
                         </DataTemplate>
