@@ -1,3 +1,4 @@
+using MemoApp.Core.MajorSystem;
 using MemoApp.Localization.Services;
 
 namespace MemoApp.UI.MauiApp.Services;

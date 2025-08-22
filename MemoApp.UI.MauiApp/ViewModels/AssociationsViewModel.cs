@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MemoApp.Core.MajorSystem;
 using MemoApp.Core.MajorSystem.Models;
 using MemoApp.Core.MajorSystem.Services;
 using MemoApp.Localization.Services;
@@ -71,6 +72,9 @@ public partial class AssociationsViewModel : ObservableObject
         // Subscribe to token default changes for smart refresh
         _tokenDefaultsService.TokenDefaultChanged += OnTokenDefaultChanged;
         
+        // Subscribe to number format changes
+        _localizationService.NumberFormatChanged += OnNumberFormatChanged;
+        
         // Initialize localized strings
         UpdateLocalizedStrings();
         
@@ -97,6 +101,13 @@ public partial class AssociationsViewModel : ObservableObject
             _logger.LogDebug("Token default changed for {Category}/{Token}, but not current category {CurrentCategory}", 
                 e.Category, e.Token, SelectedCategory?.CategoryKey ?? "none");
         }
+    }
+    
+    private void OnNumberFormatChanged(object? sender, NumberFormat numberFormat)
+    {
+        _logger.LogInformation("Number format changed to {NumberFormat}, refreshing categories and associations", numberFormat);
+        // Run on main thread and reload all data to reflect new number format
+        MainThread.BeginInvokeOnMainThread(async () => await LoadDataAsync());
     }
     
     private void UpdateLocalizedStrings()
@@ -152,7 +163,9 @@ public partial class AssociationsViewModel : ObservableObject
     {
         try
         {
-            var categories = _categoryService.GetAllCategories();
+            // Get current number format from localization service
+            var numberFormat = _localizationService.CurrentNumberFormat;
+            var categories = _categoryService.GetAllCategories(numberFormat);
             
             // Localize display names
             foreach (var category in categories)
@@ -221,9 +234,12 @@ public partial class AssociationsViewModel : ObservableObject
             _hasMoreItems = true; // Reset pagination state
             _logger.LogInformation("Loading initial associations for category: {CategoryKey}", categoryKey);
             
+            // Get current number format
+            var numberFormat = _localizationService.CurrentNumberFormat;
+            
             // Start loading task and minimum display time task concurrently
             var loadingTask = Task.Run(async () => 
-                await _packAssociationsService.LoadCategoryAssociationsAsync(categoryKey, 0, PageSize));
+                await _packAssociationsService.LoadCategoryAssociationsAsync(categoryKey, 0, PageSize, numberFormat));
             var minDisplayTask = Task.Delay(300); // Reduced to 300ms for better perceived performance
             
             // Wait for both data loading and minimum display time
@@ -235,7 +251,8 @@ public partial class AssociationsViewModel : ObservableObject
                 _hasMoreItems = false;
             }
             
-            _logger.LogInformation("Found {Count} initial associations for category {CategoryKey}", associations.Count, categoryKey);
+            _logger.LogInformation("Found {Count} initial associations for category {CategoryKey} with format {NumberFormat}", 
+                associations.Count, categoryKey, numberFormat);
             
             // Update UI on main thread, preserving scroll position
             await UpdateAssociationsPreservingScrollAsync(associations);
@@ -397,10 +414,14 @@ public partial class AssociationsViewModel : ObservableObject
             _logger.LogInformation("Loading more associations for category {CategoryKey}, current count: {Count}", 
                 SelectedCategory.CategoryKey, Associations.Count);
             
+            // Get current number format
+            var numberFormat = _localizationService.CurrentNumberFormat;
+            
             var moreAssociations = await _packAssociationsService.LoadCategoryAssociationsAsync(
                 SelectedCategory.CategoryKey, 
                 Associations.Count, 
-                PageSize);
+                PageSize,
+                numberFormat);
             
             if (moreAssociations.Count < PageSize)
             {
@@ -429,6 +450,7 @@ public partial class AssociationsViewModel : ObservableObject
         {
             _packAssociationsService.PackChanged -= OnPackChanged;
             _tokenDefaultsService.TokenDefaultChanged -= OnTokenDefaultChanged;
+            _localizationService.NumberFormatChanged -= OnNumberFormatChanged;
         }
     }
 }

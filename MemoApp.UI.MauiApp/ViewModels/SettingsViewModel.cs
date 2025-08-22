@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MemoApp.Core.MajorSystem;
 using MemoApp.Core.Packs;
 using MemoApp.Core.Services.Packs;
 using MemoApp.Localization.Services;
