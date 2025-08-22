@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             xmlns:utilities="clr-namespace:MemoApp.UI.MauiApp.Utilities"
              x:Class="MemoApp.UI.MauiApp.Views.TrainingSessionPage"
              x:DataType="viewmodels:TrainingSessionViewModel"
              Title="{Binding Title}"
@@ -131,8 +132,8 @@
                     <!-- Action button with responsive sizing -->
                     <StackLayout Spacing="8">
                         <Button x:Name="NextButton"
-                                Text="{localization:Localize TrainingSession_NextNumber}"
                                 Command="{Binding AdvanceToNextCommand}"
+                                Text="Next Number →"
                                 BackgroundColor="{StaticResource Secondary}"
                                 TextColor="White"
                                 FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
@@ -251,8 +252,8 @@
                     <!-- Action buttons with responsive layout -->
                     <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
                         <Button Grid.Column="0"
-                                Text="{localization:Localize TrainingSession_ViewDetails}"
                                 Command="{Binding ShowStatisticsCommand}"
+                                Text="📊 View Details"
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="White"
                                 CornerRadius="10"
@@ -261,8 +262,8 @@
                                 AutomationProperties.HelpText="{localization:Localize TrainingSession_ViewDetails}" />
 
                         <Button Grid.Column="1"
-                                Text="{localization:Localize TrainingSession_NewSession}"
                                 Command="{Binding StartNewSessionCommand}"
+                                Text="⊕ New Session"
                                 BackgroundColor="{StaticResource Secondary}"
                                 TextColor="White"
                                 CornerRadius="10"

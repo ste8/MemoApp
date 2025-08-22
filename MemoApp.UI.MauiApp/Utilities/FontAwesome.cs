@@ -28,6 +28,21 @@ public static class FontAwesome
         public const string Spinner = "\uf110";                 // Loading spinner
         public const string Star = "\uf005";                    // Filled star
         public const string StarEmpty = "\uf006";               // Empty star
+        public const string Bolt = "\uf0e7";                    // Lightning bolt
+        public const string Play = "\uf04b";                    // Play button
+        public const string ArrowRight = "\uf061";              // Arrow right
+        public const string ArrowLeft = "\uf060";               // Arrow left
+        public const string ChartBar = "\uf080";                // Bar chart
+        public const string PlusCircle = "\uf055";              // Plus circle
+        public const string Globe = "\uf0ac";                   // Globe
+        public const string Hashtag = "\uf292";                 // Hashtag (#)
+        public const string Brain = "\uf5dc";                   // Brain
+        public const string Stop = "\uf04d";                    // Stop
+        public const string Lightbulb = "\uf0eb";               // Lightbulb
+        public const string Rocket = "\uf135";                  // Rocket
+        public const string Tag = "\uf02b";                     // Tag
+        public const string ChevronDown = "\uf078";             // Chevron down
+        public const string Minus = "\uf068";                   // Minus sign
     }
     
     /// <summary>
@@ -45,6 +60,7 @@ public static class FontAwesome
         public const string Plus = "\uf067";
         public const string CircleInfo = "\uf05a";
         public const string Star = "\uf005";                    // Outline star
+        public const string Lightbulb = "\uf0eb";               // Lightbulb outline
     }
     
     /// <summary>

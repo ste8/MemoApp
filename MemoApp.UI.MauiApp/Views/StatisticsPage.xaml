@@ -4,6 +4,7 @@
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
              xmlns:core="clr-namespace:MemoApp.Core.MajorSystem;assembly=MemoApp.Core"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             xmlns:utilities="clr-namespace:MemoApp.UI.MauiApp.Utilities"
              x:Class="MemoApp.UI.MauiApp.Views.StatisticsPage"
              x:DataType="viewmodels:StatisticsViewModel"
              Title="{Binding Title}">
@@ -240,8 +241,8 @@
                   ColumnSpacing="15">
                 
                 <Button Grid.Column="0"
-                        Text="{localization:Localize Statistics_Back}"
                         Command="{Binding GoBackCommand}"
+                        Text="← Back"
                         BackgroundColor="{StaticResource Secondary}"
                         TextColor="White"
                         CornerRadius="10"
@@ -251,8 +252,8 @@
                         AutomationProperties.HelpText="{localization:Localize Statistics_Back}" />
 
                 <Button Grid.Column="1"
-                        Text="{localization:Localize Common_NewSession}"
                         Command="{Binding StartNewSessionCommand}"
+                        Text="⊕ New Session"
                         BackgroundColor="{StaticResource Primary}"
                         TextColor="White"
                         CornerRadius="10"

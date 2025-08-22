@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             xmlns:utilities="clr-namespace:MemoApp.UI.MauiApp.Utilities"
              x:Class="MemoApp.UI.MauiApp.Views.NumberMemorizationPage"
              x:DataType="viewmodels:NumberMemorizationViewModel"
              Title="{Binding Title}">
@@ -29,12 +30,12 @@
                             
                             <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8">
                                 <Button Grid.Column="0"
-                                        Text="−"
+                                        Text="-"
                                         Command="{Binding DecrementNumberOfDigitsCommand}"
                                         BackgroundColor="Transparent"
                                         TextColor="{StaticResource Primary}"
                                         BorderWidth="0"
-                                        FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                                        FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
                                         FontAttributes="Bold"
                                         Padding="8,0"
                                         MinimumWidthRequest="40"
@@ -62,7 +63,7 @@
                                         BackgroundColor="Transparent"
                                         TextColor="{StaticResource Primary}"
                                         BorderWidth="0"
-                                        FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                                        FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
                                         FontAttributes="Bold"
                                         Padding="8,0"
                                         MinimumWidthRequest="40"
@@ -82,12 +83,12 @@
                             
                             <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8">
                                 <Button Grid.Column="0"
-                                        Text="−"
+                                        Text="-"
                                         Command="{Binding DecrementMaxPairValueCommand}"
                                         BackgroundColor="Transparent"
                                         TextColor="{StaticResource Primary}"
                                         BorderWidth="0"
-                                        FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                                        FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
                                         FontAttributes="Bold"
                                         Padding="8,0"
                                         MinimumWidthRequest="40"
@@ -115,7 +116,7 @@
                                         BackgroundColor="Transparent"
                                         TextColor="{StaticResource Primary}"
                                         BorderWidth="0"
-                                        FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                                        FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
                                         FontAttributes="Bold"
                                         Padding="8,0"
                                         MinimumWidthRequest="40"
@@ -198,8 +199,8 @@
                 </Frame>
 
                 <!-- Start Button -->
-                <Button Text="{localization:Localize NumberMemorization_StartMemorizing}"
-                        Command="{Binding StartMemorizingCommand}"
+                <Button Command="{Binding StartMemorizingCommand}"
+                        Text="[Start] Start Memorizing"
                         BackgroundColor="{StaticResource Primary}"
                         TextColor="White"
                         FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
@@ -330,9 +331,9 @@
                 <!-- Action Buttons -->
                 <StackLayout Spacing="15">
                     <!-- Stop & Hide Button -->
-                    <Button Text="{localization:Localize NumberMemorization_StopHide}"
-                            Command="{Binding StopAndHideCommand}"
+                    <Button Command="{Binding StopAndHideCommand}"
                             IsVisible="{Binding IsStopButtonVisible}"
+                            Text="[Stop] Stop &amp; Hide"
                             BackgroundColor="{StaticResource Secondary}"
                             TextColor="White"
                             FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
@@ -341,9 +342,9 @@
                             HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}" />
 
                     <!-- Recall Button -->
-                    <Button Text="{localization:Localize NumberMemorization_Recall}"
-                            Command="{Binding ToggleRecallCommand}"
+                    <Button Command="{Binding ToggleRecallCommand}"
                             IsVisible="{Binding IsRecallButtonVisible}"
+                            Text="[Recall] Recall"
                             BackgroundColor="{StaticResource Success}"
                             TextColor="White"
                             FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
@@ -352,8 +353,8 @@
                             HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}" />
 
                     <!-- New Game Button -->
-                    <Button Text="{localization:Localize NumberMemorization_NewGame}"
-                            Command="{Binding StartNewGameCommand}"
+                    <Button Command="{Binding StartNewGameCommand}"
+                            Text="[New] New Game"
                             BackgroundColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
                             TextColor="White"
                             FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"

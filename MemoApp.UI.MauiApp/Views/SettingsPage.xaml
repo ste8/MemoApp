@@ -4,17 +4,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             xmlns:utilities="clr-namespace:MemoApp.UI.MauiApp.Utilities"
              Title="{localization:Localize Settings_Title}">
     
     <ScrollView>
         <StackLayout Padding="20" Spacing="20">
             
             <!-- Page Title -->
-            <Label Text="{localization:Localize Settings_Title}"
-                   FontSize="32"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   Margin="0,0,0,20" />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10" Margin="0,0,0,20">
+                <Label Text="{x:Static utilities:FontAwesome+Solid.Cog}"
+                       FontFamily="{x:Static utilities:FontAwesome+FontFamilies.Solid}"
+                       FontSize="28"
+                       VerticalOptions="Center"
+                       TextColor="{StaticResource Primary}" />
+                <Label Text="{localization:Localize Settings_Title}"
+                       FontSize="32"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center" />
+            </StackLayout>
 
             <!-- General Settings Section -->
             <Frame BackgroundColor="LightGray"
@@ -35,8 +42,8 @@
                                FontSize="16"
                                FontAttributes="Bold" />
                         
-                        <Button Text="{Binding CurrentLanguageName, TargetNullValue={localization:Localize Language_SelectPrompt}}"
-                                Command="{Binding SelectLanguageCommand}"
+                        <Button Command="{Binding SelectLanguageCommand}"
+                                Text="🌎 Select Language"
                                 BackgroundColor="White"
                                 TextColor="Black"
                                 BorderColor="Gray"
@@ -61,8 +68,8 @@
                                FontSize="16"
                                FontAttributes="Bold" />
                         
-                        <Button Text="{Binding CurrentNumberFormatName, TargetNullValue={localization:Localize NumberFormat_SelectPrompt}}"
-                                Command="{Binding SelectNumberFormatCommand}"
+                        <Button Command="{Binding SelectNumberFormatCommand}"
+                                Text="# Number Format"
                                 BackgroundColor="White"
                                 TextColor="Black"
                                 BorderColor="Gray"
@@ -116,8 +123,8 @@
                     
                     <!-- Pack Management Buttons -->
                     <!-- Single Download/Manage Packs Button -->
-                    <Button Text="{localization:Localize Settings_DownloadNewPacks}"
-                            Command="{Binding DownloadPacksCommand}"
+                    <Button Command="{Binding DownloadPacksCommand}"
+                            Text="📦 Download Packs"
                             BackgroundColor="#007AFF"
                             TextColor="White"
                             CornerRadius="8"

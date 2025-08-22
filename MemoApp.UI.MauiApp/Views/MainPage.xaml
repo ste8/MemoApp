@@ -4,6 +4,7 @@
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              xmlns:views="clr-namespace:MemoApp.UI.MauiApp.Views"
+             xmlns:utilities="clr-namespace:MemoApp.UI.MauiApp.Utilities"
              x:Class="MemoApp.UI.MauiApp.Views.MainPage"
              x:DataType="viewmodels:MainViewModel"
              Title="{Binding Title}">
@@ -62,7 +63,7 @@
                                TextColor="White"
                                HorizontalOptions="Center" />
                         
-                        <Button Text="{Binding QuickTrainingButtonText}"
+                        <Button Text="⚡ Quick Training"
                                 Command="{Binding StartQuickTrainingCommand}"
                                 BackgroundColor="White"
                                 TextColor="{StaticResource Primary}"
@@ -71,7 +72,7 @@
                                 AutomationProperties.Name="{localization:Localize Accessibility_BeginTrainingButton}"
                                 AutomationProperties.HelpText="{localization:Localize Accessibility_BeginTrainingButtonHelp}" />
                         
-                        <Button Text="{localization:Localize MainPage_MajorSystemGuide}"
+                        <Button Text="ℹ️ Major System Guide"
                                 Command="{Binding ShowHelpCommand}"
                                 BackgroundColor="Transparent"
                                 TextColor="White"
@@ -201,8 +202,9 @@
                                                    VerticalOptions="Center"
                                                    HorizontalOptions="Start"
                                                    Margin="10,0,0,0" />
-                                            <Label Text="{Binding IsStartDropdownVisible, Converter={StaticResource BoolToDropdownArrowConverter}}"
-                                                   FontSize="14"
+                                            <Label Text="{x:Static utilities:FontAwesome+Solid.ChevronDown}"
+                                                   FontFamily="{x:Static utilities:FontAwesome+FontFamilies.Solid}"
+                                                   FontSize="12"
                                                    TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
                                                    VerticalOptions="Center"
                                                    HorizontalOptions="End"
@@ -312,8 +314,9 @@
                                                    VerticalOptions="Center"
                                                    HorizontalOptions="Start"
                                                    Margin="10,0,0,0" />
-                                            <Label Text="{Binding IsEndDropdownVisible, Converter={StaticResource BoolToDropdownArrowConverter}}"
-                                                   FontSize="14"
+                                            <Label Text="{x:Static utilities:FontAwesome+Solid.ChevronDown}"
+                                                   FontFamily="{x:Static utilities:FontAwesome+FontFamilies.Solid}"
+                                                   FontSize="12"
                                                    TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
                                                    VerticalOptions="Center"
                                                    HorizontalOptions="End"
@@ -385,7 +388,7 @@
                                IsVisible="{Binding HasValidationError}"
                                Margin="10,5,10,0" />
                         
-                        <Button Text="{localization:Localize MainPage_StartCustomTraining}"
+                        <Button Text="▶️ Custom Training"
                                 Command="{Binding StartCustomTrainingCommand}"
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="White"

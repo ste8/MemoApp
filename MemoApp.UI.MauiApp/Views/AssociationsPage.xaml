@@ -4,6 +4,7 @@
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
              xmlns:models="clr-namespace:MemoApp.Core.MajorSystem.Models;assembly=MemoApp.Core"
+             xmlns:utilities="clr-namespace:MemoApp.UI.MauiApp.Utilities"
              x:Class="MemoApp.UI.MauiApp.Views.AssociationsPage"
              x:DataType="viewmodels:AssociationsViewModel"
              Title="{localization:Localize Associations_Title}">
@@ -29,8 +30,8 @@
                    FontSize="Body" 
                    HorizontalOptions="Center" 
                    HorizontalTextAlignment="Center" />
-            <Button Text="{localization:Localize Associations_DownloadPack}" 
-                    Command="{Binding DownloadPackCommand}"
+            <Button Command="{Binding DownloadPackCommand}"
+                    Text="⬇️ Download Pack"
                     HorizontalOptions="Center" 
                     Margin="0,20,0,0" />
         </StackLayout>
@@ -160,8 +161,8 @@
         </Grid>
         
         <!-- Refresh button -->
-        <Button Text="{localization:Localize Common_Refresh}"
-                Command="{Binding RefreshCommand}"
+        <Button Command="{Binding RefreshCommand}"
+                Text="♾️ Refresh"
                 HorizontalOptions="End"
                 VerticalOptions="End"
                 Margin="16"
