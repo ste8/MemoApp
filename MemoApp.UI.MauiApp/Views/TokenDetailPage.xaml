@@ -85,7 +85,7 @@
                                           BackgroundColor="{DynamicResource Gray100}" 
                                           VerticalOptions="Center">
                                         <!-- Show image if thumbnail path exists -->
-                                        <Image Source="{Binding ImagePath}"
+                                        <Image Source="{Binding ImagePath, Converter={StaticResource FilePathToImageSourceConverter}}"
                                                Aspect="AspectFill"
                                                IsVisible="{Binding ImagePath, Converter={StaticResource IsNotNullOrEmptyConverter}}" />
                                         <!-- Show token as fallback if no image -->

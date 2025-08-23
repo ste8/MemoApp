@@ -77,16 +77,8 @@ public static class MauiProgram
 			var logger = serviceProvider.GetRequiredService<ILogger<TokenDefaultsService>>();
 			return new TokenDefaultsService(logger, FileSystem.Current.AppDataDirectory);
 		});
-		builder.Services.AddSingleton<IPackAssociationsService>(serviceProvider =>
-		{
-			var packManager = serviceProvider.GetRequiredService<IPackManagerService>();
-			var categoryService = serviceProvider.GetRequiredService<IMajorSystemCategoryService>();
-			var tokenDefaultsService = serviceProvider.GetRequiredService<ITokenDefaultsService>();
-			var logger = serviceProvider.GetRequiredService<ILogger<PackAssociationsService>>();
-			return new PackAssociationsService(packManager, categoryService, tokenDefaultsService, logger, FileSystem.Current.AppDataDirectory);
-		});
 		
-		// Register Custom Associations services
+		// Register Custom Associations services first (required by PackAssociationsService)
 		builder.Services.AddSingleton<IImageProcessingService, MauiImageProcessingService>();
 		builder.Services.AddSingleton<ICustomImageSourceService, MauiImageSourceService>();
 		builder.Services.AddSingleton<ICustomAssociationsService>(serviceProvider =>
@@ -96,6 +88,16 @@ public static class MauiProgram
 			var tokenDefaultsService = serviceProvider.GetRequiredService<ITokenDefaultsService>();
 			var logger = serviceProvider.GetRequiredService<ILogger<CustomAssociationsService>>();
 			return new CustomAssociationsService(packManager, imageProcessingService, tokenDefaultsService, logger);
+		});
+		
+		builder.Services.AddSingleton<IPackAssociationsService>(serviceProvider =>
+		{
+			var packManager = serviceProvider.GetRequiredService<IPackManagerService>();
+			var categoryService = serviceProvider.GetRequiredService<IMajorSystemCategoryService>();
+			var tokenDefaultsService = serviceProvider.GetRequiredService<ITokenDefaultsService>();
+			var customAssociationsService = serviceProvider.GetRequiredService<ICustomAssociationsService>();
+			var logger = serviceProvider.GetRequiredService<ILogger<PackAssociationsService>>();
+			return new PackAssociationsService(packManager, categoryService, tokenDefaultsService, customAssociationsService, logger, FileSystem.Current.AppDataDirectory);
 		});
 
 

@@ -137,12 +137,31 @@ public partial class TokenDetailViewModel : ObservableObject, IRecipient<CustomA
                 ? await _customAssociationsService.GetCustomAssociationsForTokenAsync(currentPack.Id, Category, Token)
                 : new List<TokenAssociation>();
             
+            // Apply default status to custom associations
+            if (customAssociations.Count > 0 && currentPack != null)
+            {
+                var currentDefault = await _tokenDefaultsService.GetEffectiveDefaultAsync(currentPack.Id, Category, Token, null);
+                foreach (var customAssoc in customAssociations)
+                {
+                    // Check if this custom association is the default based on filename pattern
+                    var customFilename = Path.GetFileName(customAssoc.ImagePath);
+                    customAssoc.IsDefault = !string.IsNullOrEmpty(currentDefault) && currentDefault.EndsWith(customFilename);
+                }
+            }
+            
             // Combine pack and custom associations
             var allAssociations = new List<TokenAssociation>(associations);
             allAssociations.AddRange(customAssociations);
             
             _logger.LogInformation("Found {PackCount} pack associations and {CustomCount} custom associations for token {Token}", 
                 associations.Count, customAssociations.Count, Token);
+                
+            // Debug custom associations
+            foreach (var customAssoc in customAssociations)
+            {
+                _logger.LogInformation("Custom association: {Token} -> {Word}, ImagePath: {ImagePath}, IsDefault: {IsDefault}, IsCustom: {IsCustom}", 
+                    customAssoc.Token, customAssoc.Word, customAssoc.ImagePath, customAssoc.IsDefault, customAssoc.IsCustom);
+            }
 
             // Sort associations to show default item first, then alphabetically by word
             var sortedAssociations = allAssociations
@@ -340,6 +359,51 @@ public partial class TokenDetailViewModel : ObservableObject, IRecipient<CustomA
             var errorTitle = _localizationService.GetString("Common_Error");
             var errorMessage = _localizationService.GetString("TokenDetail_DeleteCustomError");
             await Application.Current.MainPage.DisplayAlert(errorTitle, errorMessage, _localizationService.GetString("Common_OK"));
+        }
+    }
+
+    [RelayCommand]
+    private async Task DebugAsync()
+    {
+        try
+        {
+            var currentPack = _packAssociationsService.CurrentPack;
+            if (currentPack == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Debug", "No current pack", "OK");
+                return;
+            }
+
+            var customAssociationsService = _customAssociationsService as CustomAssociationsService;
+            if (customAssociationsService != null)
+            {
+                var customImagesPath = customAssociationsService.GetCustomImagesPath(currentPack.Id, Category);
+                var customThumbnailsPath = customAssociationsService.GetCustomThumbnailsPath(currentPack.Id, Category);
+                
+                var imagesExist = Directory.Exists(customImagesPath);
+                var thumbnailsExist = Directory.Exists(customThumbnailsPath);
+                
+                var imageFiles = imagesExist ? Directory.GetFiles(customImagesPath, "*.png") : new string[0];
+                var thumbnailFiles = thumbnailsExist ? Directory.GetFiles(customThumbnailsPath, "*.png") : new string[0];
+
+                var debugInfo = $"Pack: {currentPack.Id}\n" +
+                               $"Category: {Category}\n" +
+                               $"Token: {Token}\n" +
+                               $"Images Path: {customImagesPath}\n" +
+                               $"Images Exist: {imagesExist}\n" +
+                               $"Image Files: {imageFiles.Length}\n" +
+                               $"Thumbnails Path: {customThumbnailsPath}\n" +
+                               $"Thumbnails Exist: {thumbnailsExist}\n" +
+                               $"Thumbnail Files: {thumbnailFiles.Length}\n" +
+                               $"Associations Count: {Associations.Count}\n" +
+                               $"Custom Count: {Associations.Count(a => a.IsCustom)}";
+
+                await Application.Current.MainPage.DisplayAlert("Debug Info", debugInfo, "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Debug Error", ex.Message, "OK");
         }
     }
 

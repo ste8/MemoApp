@@ -26,6 +26,7 @@
             <converters:ResponseTimeToColorConverter x:Key="ResponseTimeToColorConverter" />
             <converters:BoolToDropdownArrowConverter x:Key="BoolToDropdownArrowConverter" />
             <converters:PercentageConverter x:Key="PercentageConverter" />
+            <converters:FilePathToImageSourceConverter x:Key="FilePathToImageSourceConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

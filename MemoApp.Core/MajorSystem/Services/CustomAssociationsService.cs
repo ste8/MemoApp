@@ -54,9 +54,11 @@ public class CustomAssociationsService : ICustomAssociationsService
 
             // Save the original image
             await SaveImageStreamAsync(imageStream, imagePath);
+            _logger.LogInformation("Saved image to: {Path} (exists: {Exists})", imagePath, File.Exists(imagePath));
 
             // Generate and save thumbnail
             await _imageProcessor.GenerateThumbnailAsync(imagePath, thumbnailPath);
+            _logger.LogInformation("Generated thumbnail to: {Path} (exists: {Exists})", thumbnailPath, File.Exists(thumbnailPath));
 
             // Create the association object
             var association = new TokenAssociation
@@ -103,6 +105,9 @@ public class CustomAssociationsService : ICustomAssociationsService
 
             var imageFiles = Directory.GetFiles(customImagesPath, "*.png");
             var customThumbnailsPath = GetCustomThumbnailsPath(packId, categoryKey);
+            
+            _logger.LogInformation("Looking for custom images in: {Path}", customImagesPath);
+            _logger.LogInformation("Found {Count} image files: {Files}", imageFiles.Length, string.Join(", ", imageFiles.Select(Path.GetFileName)));
 
             foreach (var imageFile in imageFiles)
             {

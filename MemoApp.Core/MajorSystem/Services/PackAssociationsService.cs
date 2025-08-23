@@ -14,6 +14,7 @@ public class PackAssociationsService : IPackAssociationsService
     private readonly IPackManagerService _packManager;
     private readonly IMajorSystemCategoryService _categoryService;
     private readonly ITokenDefaultsService _tokenDefaultsService;
+    private readonly ICustomAssociationsService _customAssociationsService;
     private readonly ILogger<PackAssociationsService> _logger;
     private readonly string _appDataDirectory;
     
@@ -28,12 +29,14 @@ public class PackAssociationsService : IPackAssociationsService
         IPackManagerService packManager,
         IMajorSystemCategoryService categoryService,
         ITokenDefaultsService tokenDefaultsService,
+        ICustomAssociationsService customAssociationsService,
         ILogger<PackAssociationsService> logger,
         string appDataDirectory)
     {
         _packManager = packManager;
         _categoryService = categoryService;
         _tokenDefaultsService = tokenDefaultsService;
+        _customAssociationsService = customAssociationsService;
         _logger = logger;
         _appDataDirectory = appDataDirectory;
         
@@ -348,9 +351,11 @@ public class PackAssociationsService : IPackAssociationsService
             if (!string.IsNullOrEmpty(defaultFilename))
             {
                 var thumbnailFile = Path.Combine(thumbnailPath, defaultFilename);
+                var imageFile = Path.Combine(imagePath, defaultFilename);
+                
+                // First, check standard pack directories
                 if (File.Exists(thumbnailFile))
                 {
-                    var imageFile = Path.Combine(imagePath, defaultFilename);
                     var word = ExtractWordFromFilename(defaultFilename);
                     
                     return new TokenAssociation
@@ -360,8 +365,35 @@ public class PackAssociationsService : IPackAssociationsService
                         Word = word,
                         ThumbnailPath = thumbnailFile,
                         ImagePath = File.Exists(imageFile) ? imageFile : string.Empty,
-                        IsDefault = true
+                        IsDefault = true,
+                        IsCustom = false
                     };
+                }
+                
+                // If not found in standard directories, check custom directories
+                if (_currentPack != null)
+                {
+                    var customThumbnailPath = _customAssociationsService.GetCustomThumbnailsPath(_currentPack.Id, categoryKey);
+                    var customImagePath = _customAssociationsService.GetCustomImagesPath(_currentPack.Id, categoryKey);
+                    
+                    var customThumbnailFile = Path.Combine(customThumbnailPath, defaultFilename);
+                    var customImageFile = Path.Combine(customImagePath, defaultFilename);
+                    
+                    if (File.Exists(customThumbnailFile) || File.Exists(customImageFile))
+                    {
+                        var word = ExtractWordFromFilename(defaultFilename);
+                        
+                        return new TokenAssociation
+                        {
+                            Token = token,
+                            Category = categoryKey,
+                            Word = word,
+                            ThumbnailPath = File.Exists(customThumbnailFile) ? customThumbnailFile : string.Empty,
+                            ImagePath = File.Exists(customImageFile) ? customImageFile : string.Empty,
+                            IsDefault = true,
+                            IsCustom = true
+                        };
+                    }
                 }
             }
             
