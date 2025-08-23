@@ -362,51 +362,6 @@ public partial class TokenDetailViewModel : ObservableObject, IRecipient<CustomA
         }
     }
 
-    [RelayCommand]
-    private async Task DebugAsync()
-    {
-        try
-        {
-            var currentPack = _packAssociationsService.CurrentPack;
-            if (currentPack == null)
-            {
-                await Application.Current.MainPage.DisplayAlert("Debug", "No current pack", "OK");
-                return;
-            }
-
-            var customAssociationsService = _customAssociationsService as CustomAssociationsService;
-            if (customAssociationsService != null)
-            {
-                var customImagesPath = customAssociationsService.GetCustomImagesPath(currentPack.Id, Category);
-                var customThumbnailsPath = customAssociationsService.GetCustomThumbnailsPath(currentPack.Id, Category);
-                
-                var imagesExist = Directory.Exists(customImagesPath);
-                var thumbnailsExist = Directory.Exists(customThumbnailsPath);
-                
-                var imageFiles = imagesExist ? Directory.GetFiles(customImagesPath, "*.png") : new string[0];
-                var thumbnailFiles = thumbnailsExist ? Directory.GetFiles(customThumbnailsPath, "*.png") : new string[0];
-
-                var debugInfo = $"Pack: {currentPack.Id}\n" +
-                               $"Category: {Category}\n" +
-                               $"Token: {Token}\n" +
-                               $"Images Path: {customImagesPath}\n" +
-                               $"Images Exist: {imagesExist}\n" +
-                               $"Image Files: {imageFiles.Length}\n" +
-                               $"Thumbnails Path: {customThumbnailsPath}\n" +
-                               $"Thumbnails Exist: {thumbnailsExist}\n" +
-                               $"Thumbnail Files: {thumbnailFiles.Length}\n" +
-                               $"Associations Count: {Associations.Count}\n" +
-                               $"Custom Count: {Associations.Count(a => a.IsCustom)}";
-
-                await Application.Current.MainPage.DisplayAlert("Debug Info", debugInfo, "OK");
-            }
-        }
-        catch (Exception ex)
-        {
-            await Application.Current.MainPage.DisplayAlert("Debug Error", ex.Message, "OK");
-        }
-    }
-
     /// <summary>
     /// Receives CustomAssociationAddedMessage to refresh associations when a new custom association is added
     /// </summary>

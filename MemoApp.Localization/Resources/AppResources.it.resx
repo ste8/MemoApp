@@ -645,6 +645,18 @@
     <value>Aumenta valore massimo coppia</value>
     <comment>Accessibility label for increment max pair button</comment>
   </data>
+  <data name="Accessibility_ViewImageButton" xml:space="preserve">
+    <value>Visualizza immagine intera</value>
+    <comment>Accessibility label for view full image button</comment>
+  </data>
+  <data name="Accessibility_SetAsDefaultButton" xml:space="preserve">
+    <value>Imposta come predefinita</value>
+    <comment>Accessibility label for set as default button</comment>
+  </data>
+  <data name="Accessibility_DeleteCustomButton" xml:space="preserve">
+    <value>Elimina associazione personalizzata</value>
+    <comment>Accessibility label for delete custom button</comment>
+  </data>
   <data name="NumberMemorization_ExampleLabel" xml:space="preserve">
     <value>Esempio:</value>
     <comment>Label for format example display</comment>
