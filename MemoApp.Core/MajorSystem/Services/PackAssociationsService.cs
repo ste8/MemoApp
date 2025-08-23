@@ -163,7 +163,7 @@ public class PackAssociationsService : IPackAssociationsService
             }
             
             // Debug: List all files in the category directory
-            var filesInCategory = Directory.GetFiles(categoryThumbnailsPath, "*.png");
+            var filesInCategory = ImageFormatHelper.GetImageFiles(categoryThumbnailsPath);
             _logger.LogInformation("Found {FileCount} PNG files in {CategoryKey} directory: {Files}", 
                 filesInCategory.Length, categoryKey, string.Join(", ", filesInCategory.Take(10)));
             
@@ -261,8 +261,8 @@ public class PackAssociationsService : IPackAssociationsService
             }
             
             // Find all files for this token
-            var pattern = $"{token}_*.png";
-            var thumbnailFiles = Directory.GetFiles(thumbnailPath, pattern);
+            var pattern = $"{token}_*";
+            var thumbnailFiles = ImageFormatHelper.GetImageFilesWithPattern(thumbnailPath, pattern);
             
             // Load defaults using cache to determine which is default
             if (_packDefaults == null)
@@ -359,7 +359,7 @@ public class PackAssociationsService : IPackAssociationsService
             }
             
             // Batch operation: Get all files once instead of per-token Directory.GetFiles calls
-            var allThumbnailFiles = Directory.GetFiles(thumbnailPath, "*.png");
+            var allThumbnailFiles = ImageFormatHelper.GetImageFiles(thumbnailPath);
             var thumbnailFilesByToken = allThumbnailFiles
                 .GroupBy(file => ExtractTokenFromFilename(Path.GetFileName(file)))
                 .ToDictionary(g => g.Key, g => g.ToArray());
@@ -370,7 +370,7 @@ public class PackAssociationsService : IPackAssociationsService
             if (imageDirectoryExists)
             {
                 // Pre-load all image files to avoid individual File.Exists calls
-                var imageFiles = Directory.GetFiles(imagePath, "*.png");
+                var imageFiles = ImageFormatHelper.GetImageFiles(imagePath);
                 existingImageFiles = new HashSet<string>(imageFiles.Select(f => Path.GetFileName(f)).Where(f => f != null)!, StringComparer.OrdinalIgnoreCase);
             }
             
@@ -387,13 +387,13 @@ public class PackAssociationsService : IPackAssociationsService
                 
                 if (Directory.Exists(customThumbnailBasePath))
                 {
-                    var customThumbnailFiles = Directory.GetFiles(customThumbnailBasePath, "*.png");
+                    var customThumbnailFiles = ImageFormatHelper.GetImageFiles(customThumbnailBasePath);
                     existingCustomThumbnails = new HashSet<string>(customThumbnailFiles.Select(f => Path.GetFileName(f)).Where(f => f != null)!, StringComparer.OrdinalIgnoreCase);
                 }
                 
                 if (Directory.Exists(customImageBasePath))
                 {
-                    var customImageFiles = Directory.GetFiles(customImageBasePath, "*.png");
+                    var customImageFiles = ImageFormatHelper.GetImageFiles(customImageBasePath);
                     existingCustomImages = new HashSet<string>(customImageFiles.Select(f => Path.GetFileName(f)).Where(f => f != null)!, StringComparer.OrdinalIgnoreCase);
                 }
             }
@@ -599,8 +599,8 @@ public class PackAssociationsService : IPackAssociationsService
             }
             
             // Otherwise, find the first available file for this token
-            var pattern = $"{token}_*.png";
-            var files = Directory.GetFiles(thumbnailPath, pattern);
+            var pattern = $"{token}_*";
+            var files = ImageFormatHelper.GetImageFilesWithPattern(thumbnailPath, pattern);
             
             if (files.Length > 0)
             {

@@ -42,9 +42,10 @@ public class CustomAssociationsService : ICustomAssociationsService
             // Ensure custom directories exist
             await EnsureCustomDirectoriesAsync(packId, categoryKey);
 
-            // Generate unique filename with timestamp
+            // Generate unique filename with timestamp using preferred format
             var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-            var filename = $"{token}_{word}_{timestamp}.png";
+            var preferredExtension = ImageFormatHelper.GetPreferredExtension();
+            var filename = $"{token}_{word}_{timestamp}{preferredExtension}";
 
             var customImagesPath = await GetCustomImagesPathAsync(packId, categoryKey).ConfigureAwait(false);
             var customThumbnailsPath = await GetCustomThumbnailsPathAsync(packId, categoryKey).ConfigureAwait(false);
@@ -103,7 +104,7 @@ public class CustomAssociationsService : ICustomAssociationsService
                 return associations;
             }
 
-            var imageFiles = Directory.GetFiles(customImagesPath, "*.png");
+            var imageFiles = ImageFormatHelper.GetImageFiles(customImagesPath);
             var customThumbnailsPath = await GetCustomThumbnailsPathAsync(packId, categoryKey).ConfigureAwait(false);
             
             _logger.LogInformation("Looking for custom images in: {Path}", customImagesPath);

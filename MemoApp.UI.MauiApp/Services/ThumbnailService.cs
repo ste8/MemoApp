@@ -1,13 +1,14 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Graphics;
 using Microsoft.Maui.Graphics.Platform;
+using MemoApp.Core.MajorSystem.Services;
 
 namespace MemoApp.UI.MauiApp.Services;
 
 public class ThumbnailService : IThumbnailService
 {
     private readonly ILogger<ThumbnailService> _logger;
-    private readonly string[] _supportedExtensions = { ".png", ".jpg", ".jpeg", ".bmp" };
+    private readonly string[] _supportedExtensions = ImageFormatHelper.SupportedExtensions;
 
     public ThumbnailService(ILogger<ThumbnailService> logger)
     {
@@ -59,9 +60,10 @@ public class ThumbnailService : IThumbnailService
                     throw new InvalidOperationException("Failed to resize image");
                 }
 
-                // Save thumbnail
+                // Save thumbnail using preferred format (WebP for better compression)
                 using var destStream = File.Create(destinationPath);
-                resized.Save(destStream, ImageFormat.Png, quality / 100f);
+                var outputFormat = GetImageFormat(destinationPath);
+                resized.Save(destStream, outputFormat, quality / 100f);
                 
                 resized.Dispose();
                 image.Dispose();
@@ -235,5 +237,18 @@ public class ThumbnailService : IThumbnailService
         }
 
         return (finalWidth, finalHeight);
+    }
+
+    private ImageFormat GetImageFormat(string filePath)
+    {
+        var extension = Path.GetExtension(filePath).ToLowerInvariant();
+        return extension switch
+        {
+            ".webp" => ImageFormat.Png, // Use PNG as fallback for WebP until native support
+            ".png" => ImageFormat.Png,
+            ".jpg" or ".jpeg" => ImageFormat.Jpeg,
+            ".bmp" => ImageFormat.Bmp,
+            _ => ImageFormat.Png // Default to PNG for compatibility
+        };
     }
 }

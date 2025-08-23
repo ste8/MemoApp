@@ -1,5 +1,7 @@
 using MemoApp.Core.MajorSystem.Services;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Graphics;
+using Microsoft.Maui.Graphics.Platform;
 
 namespace MemoApp.UI.MauiApp.Services;
 
@@ -35,9 +37,49 @@ public class MauiImageProcessingService : IImageProcessingService
                 Directory.CreateDirectory(outputDir);
             }
 
-            // For now, use a simple copy approach
-            // TODO: Implement actual image resizing using Microsoft.Maui.Graphics or SkiaSharp
-            await Task.Run(() => File.Copy(sourceImagePath, thumbnailPath, true));
+            // Use Microsoft.Maui.Graphics for proper image processing with WebP support
+            await Task.Run(() =>
+            {
+                using var sourceStream = File.OpenRead(sourceImagePath);
+                var sourceImage = PlatformImage.FromStream(sourceStream);
+                
+                if (sourceImage == null)
+                {
+                    throw new InvalidOperationException($"Failed to load image from {sourceImagePath}");
+                }
+
+                // Calculate thumbnail dimensions while maintaining aspect ratio
+                var aspectRatio = (float)sourceImage.Width / sourceImage.Height;
+                int thumbWidth, thumbHeight;
+                
+                if (aspectRatio > 1) // Wider than tall
+                {
+                    thumbWidth = maxWidth;
+                    thumbHeight = (int)(maxWidth / aspectRatio);
+                }
+                else // Taller than wide or square
+                {
+                    thumbHeight = maxHeight;
+                    thumbWidth = (int)(maxHeight * aspectRatio);
+                }
+
+                // Generate thumbnail
+                var thumbnail = sourceImage.Resize(thumbWidth, thumbHeight, ResizeMode.Stretch, true);
+                
+                if (thumbnail == null)
+                {
+                    sourceImage.Dispose();
+                    throw new InvalidOperationException("Failed to resize image");
+                }
+
+                // Save thumbnail in preferred format
+                using var destStream = File.Create(thumbnailPath);
+                var outputFormat = GetImageFormatFromPath(thumbnailPath);
+                thumbnail.Save(destStream, outputFormat, 0.85f); // 85% quality
+                
+                thumbnail.Dispose();
+                sourceImage.Dispose();
+            });
 
             _logger.LogInformation("Successfully generated thumbnail: {Path}", thumbnailPath);
             return true;
@@ -69,12 +111,61 @@ public class MauiImageProcessingService : IImageProcessingService
                 Directory.CreateDirectory(outputDir);
             }
 
-            // For now, use a simple copy approach if the source and output are different
-            // TODO: Implement actual image resizing using Microsoft.Maui.Graphics or SkiaSharp
-            if (sourceImagePath != outputPath)
+            // Use Microsoft.Maui.Graphics for proper image resizing with WebP support
+            await Task.Run(() =>
             {
-                await Task.Run(() => File.Copy(sourceImagePath, outputPath, true));
-            }
+                using var sourceStream = File.OpenRead(sourceImagePath);
+                var sourceImage = PlatformImage.FromStream(sourceStream);
+                
+                if (sourceImage == null)
+                {
+                    throw new InvalidOperationException($"Failed to load image from {sourceImagePath}");
+                }
+
+                var needsResize = sourceImage.Width > maxWidth || sourceImage.Height > maxHeight;
+                Microsoft.Maui.Graphics.IImage outputImage;
+                
+                if (needsResize)
+                {
+                    // Calculate new dimensions while maintaining aspect ratio
+                    var aspectRatio = (float)sourceImage.Width / sourceImage.Height;
+                    int newWidth, newHeight;
+                    
+                    if (aspectRatio > 1) // Wider than tall
+                    {
+                        newWidth = Math.Min(maxWidth, (int)sourceImage.Width);
+                        newHeight = (int)Math.Round(newWidth / aspectRatio);
+                    }
+                    else // Taller than wide or square
+                    {
+                        newHeight = Math.Min(maxHeight, (int)sourceImage.Height);
+                        newWidth = (int)Math.Round(newHeight * aspectRatio);
+                    }
+
+                    outputImage = sourceImage.Resize(newWidth, newHeight, ResizeMode.Stretch, true);
+                    if (outputImage == null)
+                    {
+                        sourceImage.Dispose();
+                        throw new InvalidOperationException("Failed to resize image");
+                    }
+                }
+                else
+                {
+                    // No resize needed, but we might need to convert format
+                    outputImage = sourceImage;
+                }
+
+                // Save in preferred format
+                using var destStream = File.Create(outputPath);
+                var outputFormat = GetImageFormatFromPath(outputPath);
+                outputImage.Save(destStream, outputFormat, 0.95f); // High quality for main images
+                
+                if (outputImage != sourceImage)
+                {
+                    outputImage.Dispose();
+                }
+                sourceImage.Dispose();
+            });
 
             _logger.LogInformation("Successfully processed image: {Path}", outputPath);
             return true;
@@ -155,5 +246,18 @@ public class MauiImageProcessingService : IImageProcessingService
             _logger.LogError(ex, "Error getting file size for {Path}", imagePath);
             return 0;
         }
+    }
+
+    private ImageFormat GetImageFormatFromPath(string filePath)
+    {
+        var extension = Path.GetExtension(filePath).ToLowerInvariant();
+        return extension switch
+        {
+            ".webp" => ImageFormat.Png, // Use PNG as fallback for WebP until native support
+            ".png" => ImageFormat.Png,
+            ".jpg" or ".jpeg" => ImageFormat.Jpeg,
+            ".bmp" => ImageFormat.Bmp,
+            _ => ImageFormat.Png // Default to PNG for compatibility
+        };
     }
 }

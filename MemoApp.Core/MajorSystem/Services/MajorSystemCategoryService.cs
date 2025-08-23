@@ -107,7 +107,7 @@ public class MajorSystemCategoryService : IMajorSystemCategoryService
             
             if (Directory.Exists(categoryPath))
             {
-                var files = Directory.GetFiles(categoryPath, "*.png");
+                var files = ImageFormatHelper.GetImageFiles(categoryPath);
                 
                 foreach (var file in files)
                 {
