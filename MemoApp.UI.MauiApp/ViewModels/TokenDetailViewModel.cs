@@ -125,13 +125,18 @@ public partial class TokenDetailViewModel : ObservableObject, IRecipient<CustomA
     [RelayCommand]
     private async Task LoadAssociationsAsync()
     {
+        await LoadAssociationsAsync(sortByDefault: true);
+    }
+
+    private async Task LoadAssociationsAsync(bool sortByDefault)
+    {
         if (string.IsNullOrEmpty(Token) || string.IsNullOrEmpty(Category))
             return;
 
         try
         {
             IsLoading = true;
-            _logger.LogInformation("Loading associations for token {Token} in category {Category}", Token, Category);
+            _logger.LogInformation("Loading associations for token {Token} in category {Category}, sortByDefault: {SortByDefault}", Token, Category, sortByDefault);
 
             var associations = await _packAssociationsService.GetTokenAssociationsAsync(Category, Token);
             
@@ -167,11 +172,23 @@ public partial class TokenDetailViewModel : ObservableObject, IRecipient<CustomA
                     customAssoc.Token, customAssoc.Word, customAssoc.ImagePath, customAssoc.IsDefault, customAssoc.IsCustom);
             }
 
-            // Sort associations to show default item first, then alphabetically by word
-            var sortedAssociations = allAssociations
-                .OrderByDescending(a => a.IsDefault)  // Default items first
-                .ThenBy(a => a.Word)                  // Then alphabetically
-                .ToList();
+            // Sort associations based on sortByDefault parameter
+            List<TokenAssociation> sortedAssociations;
+            if (sortByDefault)
+            {
+                // Initial load: sort to show default item first, then alphabetically by word
+                sortedAssociations = allAssociations
+                    .OrderByDescending(a => a.IsDefault)  // Default items first
+                    .ThenBy(a => a.Word)                  // Then alphabetically
+                    .ToList();
+            }
+            else
+            {
+                // Preserve current order, just update the associations
+                sortedAssociations = allAssociations
+                    .OrderBy(a => a.Word)  // Only sort alphabetically
+                    .ToList();
+            }
 
             var defaultAssociation = sortedAssociations.FirstOrDefault(a => a.IsDefault);
             if (defaultAssociation != null)
@@ -273,8 +290,8 @@ public partial class TokenDetailViewModel : ObservableObject, IRecipient<CustomA
             _messenger.Send(message);
             _logger.LogInformation("Sent TokenDefaultChangedMessage for {Token} -> {Word}", association.Token, association.Word);
 
-            // Refresh the associations to show updated default status
-            await LoadAssociationsAsync();
+            // Update the default status in-place without re-sorting to maintain current display order
+            await UpdateDefaultStatusInPlaceAsync(association);
 
             _logger.LogInformation("Successfully set {Token} -> {Word} as default", association.Token, association.Word);
         }
@@ -391,8 +408,8 @@ public partial class TokenDetailViewModel : ObservableObject, IRecipient<CustomA
             var successMessage = string.Format(_localizationService.GetString("TokenDetail_DeleteCustomSuccess"), association.Word, association.Token);
             await Application.Current.MainPage.DisplayAlert(successTitle, successMessage, _localizationService.GetString("Common_OK"));
 
-            // Refresh the associations list
-            await LoadAssociationsAsync();
+            // Refresh the associations list, preserving current order
+            await LoadAssociationsAsync(sortByDefault: false);
         }
         catch (Exception ex)
         {
@@ -417,12 +434,77 @@ public partial class TokenDetailViewModel : ObservableObject, IRecipient<CustomA
                 _logger.LogInformation("Received CustomAssociationAddedMessage for {Token} -> {Word}, refreshing associations", 
                     message.Token, message.Word);
                 
-                await LoadAssociationsAsync();
+                await LoadAssociationsAsync(sortByDefault: false);
             }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error handling CustomAssociationAddedMessage for {Token}", Token);
+        }
+    }
+
+    /// <summary>
+    /// Updates the default status of associations in-place without changing the display order
+    /// </summary>
+    private async Task UpdateDefaultStatusInPlaceAsync(TokenAssociation newDefaultAssociation)
+    {
+        try
+        {
+            var currentPack = _packAssociationsService.CurrentPack;
+            if (currentPack == null) return;
+
+            var currentDefault = await _tokenDefaultsService.GetEffectiveDefaultAsync(currentPack.Id, Category, Token, null);
+            
+            // Create updated associations with new IsDefault values while preserving order
+            var updatedAssociations = new List<TokenAssociation>();
+            foreach (var association in Associations)
+            {
+                // Create new instance with updated IsDefault property
+                var updatedAssociation = new TokenAssociation
+                {
+                    Token = association.Token,
+                    Word = association.Word,
+                    ImagePath = association.ImagePath,
+                    ThumbnailPath = association.ThumbnailPath,
+                    Category = association.Category,
+                    IsCustom = association.IsCustom,
+                    IsDefault = DetermineIsDefault(association, currentDefault, newDefaultAssociation)
+                };
+                
+                updatedAssociations.Add(updatedAssociation);
+            }
+
+            // Replace the collection contents to trigger UI updates while preserving order
+            Associations.Clear();
+            foreach (var association in updatedAssociations)
+            {
+                Associations.Add(association);
+            }
+
+            _logger.LogInformation("Updated default status in-place with UI refresh. New default: {Token} -> {Word}", 
+                newDefaultAssociation.Token, newDefaultAssociation.Word);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error updating default status in-place for {Token}", Token);
+        }
+    }
+
+    /// <summary>
+    /// Determines if an association should be marked as default
+    /// </summary>
+    private bool DetermineIsDefault(TokenAssociation association, string currentDefault, TokenAssociation newDefaultAssociation)
+    {
+        if (association.IsCustom)
+        {
+            // For custom associations, check filename pattern
+            var customFilename = Path.GetFileName(association.ImagePath);
+            return !string.IsNullOrEmpty(currentDefault) && currentDefault.EndsWith(customFilename);
+        }
+        else
+        {
+            // For pack associations, check if it matches the new default
+            return association.FileName == newDefaultAssociation.FileName;
         }
     }
 
