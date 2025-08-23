@@ -75,7 +75,8 @@ public static class MauiProgram
 		builder.Services.AddSingleton<ITokenDefaultsService>(serviceProvider =>
 		{
 			var logger = serviceProvider.GetRequiredService<ILogger<TokenDefaultsService>>();
-			return new TokenDefaultsService(logger, FileSystem.Current.AppDataDirectory);
+			var packManager = serviceProvider.GetRequiredService<IPackManagerService>();
+			return new TokenDefaultsService(logger, packManager);
 		});
 		
 		// Register Cache services

@@ -1,5 +1,6 @@
 using System.Text.Json;
 using MemoApp.Core.MajorSystem.Models;
+using MemoApp.Core.Services.Packs;
 using Microsoft.Extensions.Logging;
 
 namespace MemoApp.Core.MajorSystem.Services;
@@ -10,7 +11,7 @@ namespace MemoApp.Core.MajorSystem.Services;
 public class TokenDefaultsService : ITokenDefaultsService
 {
     private readonly ILogger<TokenDefaultsService> _logger;
-    private readonly string _appDataDirectory;
+    private readonly IPackManagerService _packManager;
     
     private const string UserDefaultsFileName = "user_defaults.json";
     
@@ -21,17 +22,17 @@ public class TokenDefaultsService : ITokenDefaultsService
     
     public TokenDefaultsService(
         ILogger<TokenDefaultsService> logger,
-        string appDataDirectory)
+        IPackManagerService packManager)
     {
         _logger = logger;
-        _appDataDirectory = appDataDirectory;
+        _packManager = packManager;
     }
     
     public async Task<UserDefaultPreferences> GetUserDefaultsAsync(string packId)
     {
         try
         {
-            var filePath = GetUserDefaultsFilePath(packId);
+            var filePath = await GetUserDefaultsFilePathAsync(packId);
             
             if (File.Exists(filePath))
             {
@@ -60,7 +61,7 @@ public class TokenDefaultsService : ITokenDefaultsService
     {
         try
         {
-            var filePath = GetUserDefaultsFilePath(preferences.PackId);
+            var filePath = await GetUserDefaultsFilePathAsync(preferences.PackId);
             var directory = Path.GetDirectoryName(filePath);
             
             if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
@@ -155,18 +156,16 @@ public class TokenDefaultsService : ITokenDefaultsService
         }
     }
     
-    public Task ClearPackDefaultsAsync(string packId)
+    public async Task ClearPackDefaultsAsync(string packId)
     {
         try
         {
-            var filePath = GetUserDefaultsFilePath(packId);
+            var filePath = await GetUserDefaultsFilePathAsync(packId);
             
             if (File.Exists(filePath))
             {
                 File.Delete(filePath);
             }
-            
-            return Task.CompletedTask;
         }
         catch (Exception ex)
         {
@@ -175,8 +174,9 @@ public class TokenDefaultsService : ITokenDefaultsService
         }
     }
     
-    private string GetUserDefaultsFilePath(string packId)
+    private async Task<string> GetUserDefaultsFilePathAsync(string packId)
     {
-        return Path.Combine(_appDataDirectory, "major_systems", packId, UserDefaultsFileName);
+        var packPath = await _packManager.GetPackDirectoryAsync(packId);
+        return Path.Combine(packPath, "major_system", UserDefaultsFileName);
     }
 }
