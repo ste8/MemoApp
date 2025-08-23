@@ -14,7 +14,7 @@ namespace MemoApp.UI.MauiApp.ViewModels;
 /// <summary>
 /// ViewModel for the Associations page
 /// </summary>
-public partial class AssociationsViewModel : ObservableObject, IRecipient<CustomAssociationDeletedMessage>
+public partial class AssociationsViewModel : ObservableObject, IRecipient<CustomAssociationDeletedMessage>, IRecipient<TokenDefaultChangedMessage>
 {
     private readonly IMajorSystemCategoryService _categoryService;
     private readonly IPackAssociationsService _packAssociationsService;
@@ -71,14 +71,12 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         _messenger = messenger;
         _logger = logger;
         
-        // Register for custom association deleted messages
+        // Register for messaging system
         _messenger.Register<CustomAssociationDeletedMessage>(this);
+        _messenger.Register<TokenDefaultChangedMessage>(this);
         
         // Subscribe to pack changes
         _packAssociationsService.PackChanged += OnPackChanged;
-        
-        // Subscribe to token default changes for smart refresh
-        _tokenDefaultsService.TokenDefaultChanged += OnTokenDefaultChanged;
         
         // Subscribe to number format changes
         _localizationService.NumberFormatChanged += OnNumberFormatChanged;
@@ -95,21 +93,6 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         _ = Task.Run(async () => await LoadDataAsync());
     }
     
-    private void OnTokenDefaultChanged(object? sender, Core.MajorSystem.Models.TokenDefaultChangedEventArgs e)
-    {
-        // Only refresh if the changed token is in the currently selected category
-        if (SelectedCategory != null && SelectedCategory.CategoryKey == e.Category)
-        {
-            _logger.LogInformation("Token default changed for {Category}/{Token}, refreshing current category", e.Category, e.Token);
-            // Run on main thread to ensure IsLoading updates are visible
-            MainThread.BeginInvokeOnMainThread(async () => await RefreshCurrentCategoryAsync());
-        }
-        else
-        {
-            _logger.LogDebug("Token default changed for {Category}/{Token}, but not current category {CurrentCategory}", 
-                e.Category, e.Token, SelectedCategory?.CategoryKey ?? "none");
-        }
-    }
     
     private void OnNumberFormatChanged(object? sender, NumberFormat numberFormat)
     {
@@ -359,11 +342,27 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         
         try
         {
+            // Get the current default before changing it
+            var currentPack = _packAssociationsService.CurrentPack;
+            var previousDefault = await _tokenDefaultsService.GetEffectiveDefaultAsync(
+                currentPack.Id, association.Category, association.Token, null);
+
             await _tokenDefaultsService.SetTokenDefaultAsync(
-                _packAssociationsService.CurrentPack.Id,
+                currentPack.Id,
                 association.Category,
                 association.Token,
                 filename);
+
+            // Send message to notify other views about the default change
+            var message = new TokenDefaultChangedMessage(
+                currentPack.Id,
+                association.Category,
+                association.Token,
+                filename,
+                previousDefault);
+            
+            _messenger.Send(message);
+            _logger.LogInformation("Sent TokenDefaultChangedMessage for {Token} in AssociationsViewModel", association.Token);
             
             // Refresh the current category to show updated default
             if (SelectedCategory != null)
@@ -423,6 +422,35 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error handling CustomAssociationDeletedMessage for {Token} in category {Category}", 
+                message.Token, message.Category);
+        }
+    }
+
+    /// <summary>
+    /// Receives TokenDefaultChangedMessage to refresh tokens list when a token's default association is changed
+    /// </summary>
+    public async void Receive(TokenDefaultChangedMessage message)
+    {
+        try
+        {
+            // Only refresh if the message is for the current category
+            if (SelectedCategory != null && message.Category == SelectedCategory.CategoryKey)
+            {
+                _logger.LogInformation("Received TokenDefaultChangedMessage for {Token} in category {Category}, refreshing current category", 
+                    message.Token, message.Category);
+                
+                // Refresh to show updated default status
+                await LoadCategoryAssociationsAsync(SelectedCategory.CategoryKey);
+            }
+            else
+            {
+                _logger.LogDebug("Received TokenDefaultChangedMessage for {Token} in category {Category}, but current category is {CurrentCategory}", 
+                    message.Token, message.Category, SelectedCategory?.CategoryKey ?? "none");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error handling TokenDefaultChangedMessage for {Token} in category {Category}", 
                 message.Token, message.Category);
         }
     }
@@ -487,7 +515,6 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         if (disposing)
         {
             _packAssociationsService.PackChanged -= OnPackChanged;
-            _tokenDefaultsService.TokenDefaultChanged -= OnTokenDefaultChanged;
             _localizationService.NumberFormatChanged -= OnNumberFormatChanged;
         }
     }

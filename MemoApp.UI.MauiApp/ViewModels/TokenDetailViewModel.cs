@@ -244,11 +244,27 @@ public partial class TokenDetailViewModel : ObservableObject, IRecipient<CustomA
         {
             _logger.LogInformation("Setting {Token} -> {Word} as default", association.Token, association.Word);
 
+            // Get the current default before changing it
+            var currentPack = _packAssociationsService.CurrentPack;
+            var previousDefault = await _tokenDefaultsService.GetEffectiveDefaultAsync(
+                currentPack.Id, association.Category, association.Token, null);
+
             await _tokenDefaultsService.SetTokenDefaultAsync(
-                _packAssociationsService.CurrentPack.Id,
+                currentPack.Id,
                 association.Category,
                 association.Token,
                 association.FileName);
+
+            // Send message to notify other views about the default change
+            var message = new TokenDefaultChangedMessage(
+                currentPack.Id,
+                association.Category,
+                association.Token,
+                association.FileName,
+                previousDefault);
+            
+            _messenger.Send(message);
+            _logger.LogInformation("Sent TokenDefaultChangedMessage for {Token} -> {Word}", association.Token, association.Word);
 
             // Refresh the associations to show updated default status
             await LoadAssociationsAsync();

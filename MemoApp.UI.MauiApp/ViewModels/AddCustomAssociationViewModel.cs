@@ -20,6 +20,7 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
     private readonly ICustomAssociationsService _customAssociationsService;
     private readonly ICustomImageSourceService _imageSourceService;
     private readonly IPackAssociationsService _packAssociationsService;
+    private readonly ITokenDefaultsService _tokenDefaultsService;
     private readonly ILocalizationService _localizationService;
     private readonly IMessenger _messenger;
     private readonly ILogger<AddCustomAssociationViewModel> _logger;
@@ -68,6 +69,7 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
         ICustomAssociationsService customAssociationsService,
         ICustomImageSourceService imageSourceService,
         IPackAssociationsService packAssociationsService,
+        ITokenDefaultsService tokenDefaultsService,
         ILocalizationService localizationService,
         IMessenger messenger,
         ILogger<AddCustomAssociationViewModel> logger)
@@ -75,6 +77,7 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
         _customAssociationsService = customAssociationsService;
         _imageSourceService = imageSourceService;
         _packAssociationsService = packAssociationsService;
+        _tokenDefaultsService = tokenDefaultsService;
         _localizationService = localizationService;
         _messenger = messenger;
         _logger = logger;
@@ -205,6 +208,14 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
                 return;
             }
 
+            // Get the current default before creating the association (if we're setting as default)
+            string? previousDefault = null;
+            if (SetAsDefault)
+            {
+                previousDefault = await _tokenDefaultsService.GetEffectiveDefaultAsync(
+                    currentPack.Id, Category, Token, null);
+            }
+
             // Create the custom association
             var association = await _customAssociationsService.CreateCustomAssociationAsync(
                 currentPack.Id, Category, Token, Word.Trim(), _selectedImageStream, SetAsDefault);
@@ -212,15 +223,29 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
             _logger.LogInformation("Successfully created custom association: {Token} -> {Word}", Token, Word);
 
             // Send message to notify that a custom association was added
-            var message = new CustomAssociationAddedMessage(
+            var addedMessage = new CustomAssociationAddedMessage(
                 currentPack.Id,
                 Category,
                 Token,
                 Word.Trim(),
                 SetAsDefault);
             
-            _messenger.Send(message);
+            _messenger.Send(addedMessage);
             _logger.LogInformation("Sent CustomAssociationAddedMessage for {Token} -> {Word}", Token, Word);
+
+            // If this association was set as default, also send a TokenDefaultChangedMessage
+            if (SetAsDefault)
+            {
+                var defaultChangedMessage = new TokenDefaultChangedMessage(
+                    currentPack.Id,
+                    Category,
+                    Token,
+                    association.FileName,
+                    previousDefault);
+                
+                _messenger.Send(defaultChangedMessage);
+                _logger.LogInformation("Sent TokenDefaultChangedMessage for new custom association {Token} -> {Word}", Token, Word);
+            }
 
             // Show success message
             var successTitle = _localizationService.GetString("Common_Success");
