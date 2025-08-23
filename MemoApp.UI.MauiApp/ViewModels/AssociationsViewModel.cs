@@ -90,7 +90,12 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
     
     private void OnPackChanged(object? sender, EventArgs e)
     {
-        _ = Task.Run(async () => await LoadDataAsync());
+        // Smart refresh: Use incremental update when possible
+        _ = Task.Run(async () => 
+        {
+            _logger.LogInformation("Pack changed, using smart refresh strategy");
+            await SmartRefreshAfterPackChangeAsync();
+        });
     }
     
     
@@ -364,11 +369,8 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
             _messenger.Send(message);
             _logger.LogInformation("Sent TokenDefaultChangedMessage for {Token} in AssociationsViewModel", association.Token);
             
-            // Refresh the current category to show updated default
-            if (SelectedCategory != null)
-            {
-                await LoadCategoryAssociationsAsync(SelectedCategory.CategoryKey);
-            }
+            // Smart refresh: Only update the specific token instead of full reload
+            await SmartRefreshTokenAsync(association.Token, association.Category);
         }
         catch (Exception ex)
         {
@@ -409,9 +411,8 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
                 _logger.LogInformation("Received CustomAssociationDeletedMessage for {Token} -> {Word} (was default: {WasDefault}) in category {Category}, refreshing", 
                     message.Token, message.Word, message.WasDefault, message.Category);
                 
-                // If a default association was deleted, we need to refresh to show the new default
-                // Otherwise, we still refresh to ensure the UI is consistent
-                await LoadCategoryAssociationsAsync(SelectedCategory.CategoryKey);
+                // Smart refresh: Only update the specific token instead of full reload
+                await SmartRefreshTokenAsync(message.Token, message.Category);
             }
             else
             {
@@ -439,8 +440,8 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
                 _logger.LogInformation("Received TokenDefaultChangedMessage for {Token} in category {Category}, refreshing current category", 
                     message.Token, message.Category);
                 
-                // Refresh to show updated default status
-                await LoadCategoryAssociationsAsync(SelectedCategory.CategoryKey);
+                // Smart refresh: Only update the specific token instead of full reload
+                await SmartRefreshTokenAsync(message.Token, message.Category);
             }
             else
             {
@@ -456,14 +457,178 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
     }
     
     /// <summary>
+    /// Smart refresh for a specific token to avoid full category reload
+    /// </summary>
+    private async Task SmartRefreshTokenAsync(string token, string category)
+    {
+        try
+        {
+            if (SelectedCategory?.CategoryKey != category)
+            {
+                _logger.LogDebug("Smart refresh skipped - token {Token} not in current category {CurrentCategory}", token, SelectedCategory?.CategoryKey ?? "none");
+                return;
+            }
+
+            _logger.LogInformation("Smart refreshing token {Token} in category {Category}", token, category);
+
+            // Get current number format
+            var numberFormat = _localizationService.CurrentNumberFormat;
+
+            // Load only the specific token's associations efficiently
+            var tokenAssociations = await _packAssociationsService.GetTokenAssociationsAsync(category, token);
+            
+            if (tokenAssociations.Count > 0)
+            {
+                // Get the default association for this token
+                var defaultAssociation = tokenAssociations.FirstOrDefault(a => a.IsDefault) ?? tokenAssociations.First();
+                
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                {
+                    // Find and update the existing token association in the collection
+                    var existingIndex = -1;
+                    for (int i = 0; i < Associations.Count; i++)
+                    {
+                        if (Associations[i].Token == token)
+                        {
+                            existingIndex = i;
+                            break;
+                        }
+                    }
+
+                    if (existingIndex >= 0)
+                    {
+                        // Update the existing association in-place
+                        Associations[existingIndex] = defaultAssociation;
+                        _logger.LogInformation("Smart refreshed token {Token}: updated association to {Word} (IsDefault: {IsDefault})", 
+                            token, defaultAssociation.Word, defaultAssociation.IsDefault);
+                    }
+                    else
+                    {
+                        // Token not found in current view - might be due to pagination
+                        _logger.LogInformation("Token {Token} not found in current associations view, may be on different page", token);
+                    }
+                });
+            }
+            else
+            {
+                // Token has no associations - remove from collection if present
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                {
+                    for (int i = Associations.Count - 1; i >= 0; i--)
+                    {
+                        if (Associations[i].Token == token)
+                        {
+                            Associations.RemoveAt(i);
+                            _logger.LogInformation("Removed token {Token} from associations (no longer has any associations)", token);
+                            break;
+                        }
+                    }
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error in smart refresh for token {Token} in category {Category}, falling back to full reload", token, category);
+            
+            // Fallback to full reload if smart refresh fails
+            if (SelectedCategory?.CategoryKey == category)
+            {
+                await LoadCategoryAssociationsAsync(category);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Optimized refresh that only reloads if necessary
+    /// </summary>
+    private async Task SmartRefreshCategoryAsync()
+    {
+        if (SelectedCategory == null)
+            return;
+
+        try
+        {
+            _logger.LogInformation("Smart refreshing category {Category}", SelectedCategory.CategoryKey);
+            
+            // Check if the pack has changed since last load
+            var currentPack = _packAssociationsService.CurrentPack;
+            if (currentPack == null)
+            {
+                // Pack is gone - clear everything
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                {
+                    Categories.Clear();
+                    Associations.Clear();
+                    HasPackAvailable = false;
+                });
+                return;
+            }
+
+            // For small changes, use smart token refresh when possible
+            // For now, implement basic smart refresh - more sophisticated caching could be added later
+            await LoadCategoryAssociationsAsync(SelectedCategory.CategoryKey);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error in smart category refresh for {Category}", SelectedCategory.CategoryKey);
+            // Fallback to full reload
+            await LoadDataAsync();
+        }
+    }
+
+    /// <summary>
+    /// Smart refresh strategy when pack changes to minimize full reloads
+    /// </summary>
+    private async Task SmartRefreshAfterPackChangeAsync()
+    {
+        try
+        {
+            // Check if we still have a pack available
+            var hasPackNow = await _packAssociationsService.HasPackAvailableAsync();
+            
+            if (!hasPackNow)
+            {
+                // Pack is gone - clear everything efficiently
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                {
+                    Categories.Clear();
+                    Associations.Clear();
+                    SelectedCategory = null;
+                    HasPackAvailable = false;
+                });
+                _logger.LogInformation("Pack removed - cleared all data");
+                return;
+            }
+
+            // Pack is available - check if it's actually different
+            HasPackAvailable = true;
+            
+            // Smart strategy: Only reload if we don't have any categories yet, or if the current category is invalid
+            if (Categories.Count == 0)
+            {
+                _logger.LogInformation("No categories loaded - performing initial load");
+                await LoadDataAsync();
+            }
+            else if (SelectedCategory != null)
+            {
+                // Check if current category is still valid and refresh it
+                _logger.LogInformation("Pack changed but categories exist - refreshing current category {Category}", SelectedCategory.CategoryKey);
+                await SmartRefreshCategoryAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error in smart refresh after pack change, falling back to full reload");
+            await LoadDataAsync();
+        }
+    }
+
+    /// <summary>
     /// Refreshes the currently selected category's associations
     /// </summary>
     public async Task RefreshCurrentCategoryAsync()
     {
-        if (SelectedCategory != null)
-        {
-            await LoadCategoryAssociationsAsync(SelectedCategory.CategoryKey);
-        }
+        await SmartRefreshCategoryAsync();
     }
     
     private bool _hasMoreItems = true;
