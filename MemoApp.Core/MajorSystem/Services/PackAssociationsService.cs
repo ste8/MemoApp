@@ -199,9 +199,8 @@ public class PackAssociationsService : IPackAssociationsService
                 _logger.LogInformation("Loaded pack defaults with {CategoryCount} categories", _packDefaults.Count);
             }
             
-            // Process tokens in parallel for better performance
-            var tasks = pagedTokens.Select(token => GetDefaultAssociationForTokenAsync(packPath, categoryKey, token)).ToArray();
-            var results = await Task.WhenAll(tasks);
+            // Process tokens with batched file operations for better performance
+            var results = await GetAssociationsForTokensBatchAsync(packPath, categoryKey, pagedTokens);
             
             // Add all associations (both found and placeholders)
             for (int i = 0; i < pagedTokens.Count; i++)
@@ -346,6 +345,169 @@ public class PackAssociationsService : IPackAssociationsService
             return defaults;
         }).ConfigureAwait(false);
     }
+
+    private async Task<TokenAssociation?[]> GetAssociationsForTokensBatchAsync(string packPath, string categoryKey, List<string> tokens)
+    {
+        try
+        {
+            var thumbnailPath = Path.Combine(packPath, "thumbnails", categoryKey);
+            var imagePath = Path.Combine(packPath, "images", categoryKey);
+            
+            // Batch operation: Check directory existence once
+            if (!Directory.Exists(thumbnailPath))
+            {
+                return new TokenAssociation?[tokens.Count];
+            }
+            
+            // Batch operation: Get all files once instead of per-token Directory.GetFiles calls
+            var allThumbnailFiles = Directory.GetFiles(thumbnailPath, "*.png");
+            var thumbnailFilesByToken = allThumbnailFiles
+                .GroupBy(file => ExtractTokenFromFilename(Path.GetFileName(file)))
+                .ToDictionary(g => g.Key, g => g.ToArray());
+            
+            // Batch operation: Check if image directory exists once
+            var imageDirectoryExists = Directory.Exists(imagePath);
+            HashSet<string>? existingImageFiles = null;
+            if (imageDirectoryExists)
+            {
+                // Pre-load all image files to avoid individual File.Exists calls
+                var imageFiles = Directory.GetFiles(imagePath, "*.png");
+                existingImageFiles = new HashSet<string>(imageFiles.Select(f => Path.GetFileName(f)).Where(f => f != null)!, StringComparer.OrdinalIgnoreCase);
+            }
+            
+            // Batch operation: Get custom paths once instead of per-token calls
+            string? customThumbnailBasePath = null;
+            string? customImageBasePath = null;
+            HashSet<string>? existingCustomThumbnails = null;
+            HashSet<string>? existingCustomImages = null;
+            
+            if (_currentPack != null)
+            {
+                customThumbnailBasePath = await _customAssociationsService.GetCustomThumbnailsPathAsync(_currentPack.Id, categoryKey).ConfigureAwait(false);
+                customImageBasePath = await _customAssociationsService.GetCustomImagesPathAsync(_currentPack.Id, categoryKey).ConfigureAwait(false);
+                
+                if (Directory.Exists(customThumbnailBasePath))
+                {
+                    var customThumbnailFiles = Directory.GetFiles(customThumbnailBasePath, "*.png");
+                    existingCustomThumbnails = new HashSet<string>(customThumbnailFiles.Select(f => Path.GetFileName(f)).Where(f => f != null)!, StringComparer.OrdinalIgnoreCase);
+                }
+                
+                if (Directory.Exists(customImageBasePath))
+                {
+                    var customImageFiles = Directory.GetFiles(customImageBasePath, "*.png");
+                    existingCustomImages = new HashSet<string>(customImageFiles.Select(f => Path.GetFileName(f)).Where(f => f != null)!, StringComparer.OrdinalIgnoreCase);
+                }
+            }
+            
+            // Process all tokens with batched data
+            var results = new TokenAssociation?[tokens.Count];
+            for (int i = 0; i < tokens.Count; i++)
+            {
+                var token = tokens[i];
+                results[i] = await GetDefaultAssociationForTokenBatchedAsync(
+                    thumbnailPath, imagePath, categoryKey, token,
+                    thumbnailFilesByToken, existingImageFiles,
+                    customThumbnailBasePath, customImageBasePath,
+                    existingCustomThumbnails, existingCustomImages);
+            }
+            
+            return results;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting batched associations for {Category}", categoryKey);
+            return new TokenAssociation?[tokens.Count];
+        }
+    }
+
+    private async Task<TokenAssociation?> GetDefaultAssociationForTokenBatchedAsync(
+        string thumbnailBasePath, string imageBasePath, string categoryKey, string token,
+        Dictionary<string, string[]> thumbnailFilesByToken, HashSet<string>? existingImageFiles,
+        string? customThumbnailBasePath, string? customImageBasePath,
+        HashSet<string>? existingCustomThumbnails, HashSet<string>? existingCustomImages)
+    {
+        try
+        {
+            // Get effective default (user custom or pack default)
+            string? defaultFilename = null;
+            if (_currentPack != null)
+            {
+                defaultFilename = await _tokenDefaultsService.GetEffectiveDefaultAsync(
+                    _currentPack.Id, categoryKey, token, _packDefaults);
+            }
+            
+            // If there's a default, try to find it
+            if (!string.IsNullOrEmpty(defaultFilename))
+            {
+                var thumbnailFile = Path.Combine(thumbnailBasePath, defaultFilename);
+                var imageFile = Path.Combine(imageBasePath, defaultFilename);
+                
+                // First, check standard pack directories using batched data
+                if (File.Exists(thumbnailFile)) // Still need this check as defaultFilename may not match actual files
+                {
+                    var word = ExtractWordFromFilename(defaultFilename);
+                    
+                    return new TokenAssociation
+                    {
+                        Token = token,
+                        Category = categoryKey,
+                        Word = word,
+                        ThumbnailPath = thumbnailFile,
+                        ImagePath = (existingImageFiles?.Contains(defaultFilename) == true) ? imageFile : string.Empty,
+                        IsDefault = true,
+                        IsCustom = false
+                    };
+                }
+                
+                // Check custom directories using batched data
+                if (customThumbnailBasePath != null && customImageBasePath != null)
+                {
+                    var hasCustomThumbnail = existingCustomThumbnails?.Contains(defaultFilename) == true;
+                    var hasCustomImage = existingCustomImages?.Contains(defaultFilename) == true;
+                    
+                    if (hasCustomThumbnail || hasCustomImage)
+                    {
+                        var word = ExtractWordFromFilename(defaultFilename);
+                        
+                        return new TokenAssociation
+                        {
+                            Token = token,
+                            Category = categoryKey,
+                            Word = word,
+                            ThumbnailPath = hasCustomThumbnail ? Path.Combine(customThumbnailBasePath, defaultFilename) : string.Empty,
+                            ImagePath = hasCustomImage ? Path.Combine(customImageBasePath, defaultFilename) : string.Empty,
+                            IsDefault = true,
+                            IsCustom = true
+                        };
+                    }
+                }
+            }
+            
+            // Otherwise, find the first available file for this token using batched data
+            if (thumbnailFilesByToken.TryGetValue(token, out var tokenFiles) && tokenFiles.Length > 0)
+            {
+                var filename = Path.GetFileName(tokenFiles[0]);
+                var imageFile = Path.Combine(imageBasePath, filename);
+                var word = ExtractWordFromFilename(filename);
+                
+                return new TokenAssociation
+                {
+                    Token = token,
+                    Category = categoryKey,
+                    Word = word,
+                    ThumbnailPath = tokenFiles[0],
+                    ImagePath = (existingImageFiles?.Contains(filename) == true) ? imageFile : string.Empty,
+                    IsDefault = false
+                };
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting batched default association for {Category}/{Token}", categoryKey, token);
+        }
+        
+        return null;
+    }
     
     private async Task<TokenAssociation?> GetDefaultAssociationForTokenAsync(string packPath, string categoryKey, string token)
     {
@@ -446,6 +608,28 @@ public class PackAssociationsService : IPackAssociationsService
         return null;
     }
     
+    private string ExtractTokenFromFilename(string filename)
+    {
+        try
+        {
+            // Remove extension
+            var nameWithoutExt = Path.GetFileNameWithoutExtension(filename);
+            
+            // Split by underscore and take the first part (token)
+            var parts = nameWithoutExt.Split('_');
+            if (parts.Length > 0)
+            {
+                return parts[0];
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error extracting token from filename: {Filename}", filename);
+        }
+        
+        return string.Empty;
+    }
+
     private string ExtractWordFromFilename(string filename)
     {
         try
