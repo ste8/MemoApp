@@ -339,10 +339,29 @@ public partial class TokenDetailViewModel : ObservableObject, IRecipient<CustomA
                 return;
             }
 
+            // Store the default status before deletion
+            var wasDefault = association.IsDefault;
+            var currentPack = _packAssociationsService.CurrentPack;
+
             // Delete the custom association
             await _customAssociationsService.DeleteCustomAssociationAsync(association);
 
-            _logger.LogInformation("Successfully deleted custom association {Token} -> {Word}", association.Token, association.Word);
+            _logger.LogInformation("Successfully deleted custom association {Token} -> {Word}, was default: {WasDefault}", 
+                association.Token, association.Word, wasDefault);
+
+            // Send message to notify other views about the deletion
+            if (currentPack != null)
+            {
+                var message = new CustomAssociationDeletedMessage(
+                    currentPack.Id,
+                    association.Category,
+                    association.Token,
+                    association.Word,
+                    wasDefault);
+                
+                _messenger.Send(message);
+                _logger.LogInformation("Sent CustomAssociationDeletedMessage for {Token} -> {Word}", association.Token, association.Word);
+            }
 
             // Show success message
             var successTitle = _localizationService.GetString("Common_Success");

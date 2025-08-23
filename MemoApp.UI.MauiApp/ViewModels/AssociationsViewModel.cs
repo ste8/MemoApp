@@ -1,23 +1,26 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using MemoApp.Core.MajorSystem;
 using MemoApp.Core.MajorSystem.Models;
 using MemoApp.Core.MajorSystem.Services;
 using MemoApp.Localization.Services;
 using Microsoft.Extensions.Logging;
+using MemoApp.UI.MauiApp.Messages;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
 
 /// <summary>
 /// ViewModel for the Associations page
 /// </summary>
-public partial class AssociationsViewModel : ObservableObject
+public partial class AssociationsViewModel : ObservableObject, IRecipient<CustomAssociationDeletedMessage>
 {
     private readonly IMajorSystemCategoryService _categoryService;
     private readonly IPackAssociationsService _packAssociationsService;
     private readonly ITokenDefaultsService _tokenDefaultsService;
     private readonly ILocalizationService _localizationService;
+    private readonly IMessenger _messenger;
     private readonly ILogger<AssociationsViewModel> _logger;
     
     [ObservableProperty]
@@ -58,13 +61,18 @@ public partial class AssociationsViewModel : ObservableObject
         IPackAssociationsService packAssociationsService,
         ITokenDefaultsService tokenDefaultsService,
         ILocalizationService localizationService,
+        IMessenger messenger,
         ILogger<AssociationsViewModel> logger)
     {
         _categoryService = categoryService;
         _packAssociationsService = packAssociationsService;
         _tokenDefaultsService = tokenDefaultsService;
         _localizationService = localizationService;
+        _messenger = messenger;
         _logger = logger;
+        
+        // Register for custom association deleted messages
+        _messenger.Register<CustomAssociationDeletedMessage>(this);
         
         // Subscribe to pack changes
         _packAssociationsService.PackChanged += OnPackChanged;
@@ -387,6 +395,36 @@ public partial class AssociationsViewModel : ObservableObject
     private async Task RefreshAsync()
     {
         await LoadDataAsync();
+    }
+
+    /// <summary>
+    /// Receives CustomAssociationDeletedMessage to refresh tokens list when a custom association is deleted
+    /// </summary>
+    public async void Receive(CustomAssociationDeletedMessage message)
+    {
+        try
+        {
+            // Only refresh if the message is for the current category
+            if (SelectedCategory != null && message.Category == SelectedCategory.CategoryKey)
+            {
+                _logger.LogInformation("Received CustomAssociationDeletedMessage for {Token} -> {Word} (was default: {WasDefault}) in category {Category}, refreshing", 
+                    message.Token, message.Word, message.WasDefault, message.Category);
+                
+                // If a default association was deleted, we need to refresh to show the new default
+                // Otherwise, we still refresh to ensure the UI is consistent
+                await LoadCategoryAssociationsAsync(SelectedCategory.CategoryKey);
+            }
+            else
+            {
+                _logger.LogDebug("Received CustomAssociationDeletedMessage for {Token} -> {Word} in category {Category}, but current category is {CurrentCategory}", 
+                    message.Token, message.Word, message.Category, SelectedCategory?.CategoryKey ?? "none");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error handling CustomAssociationDeletedMessage for {Token} in category {Category}", 
+                message.Token, message.Category);
+        }
     }
     
     /// <summary>
