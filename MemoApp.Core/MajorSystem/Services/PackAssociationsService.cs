@@ -399,17 +399,37 @@ public class PackAssociationsService : IPackAssociationsService
                 }
             }
             
-            // Process all tokens with batched data
+            // Optimize parallel processing: batch all async calls first, then process in parallel
+            
+            // Step 1: Batch all GetEffectiveDefaultAsync calls in parallel to minimize async overhead
+            Dictionary<string, string?> tokenDefaults;
+            if (_currentPack != null)
+            {
+                var defaultTasks = tokens.Select(async token => 
+                    new { Token = token, Default = await _tokenDefaultsService.GetEffectiveDefaultAsync(_currentPack.Id, categoryKey, token, _packDefaults).ConfigureAwait(false) })
+                    .ToArray();
+                
+                var defaultResults = await Task.WhenAll(defaultTasks);
+                tokenDefaults = defaultResults.ToDictionary(r => r.Token, r => r.Default);
+            }
+            else
+            {
+                tokenDefaults = new Dictionary<string, string?>();
+            }
+            
+            // Step 2: Process all tokens in parallel using CPU-bound operations only
             var results = new TokenAssociation?[tokens.Count];
-            for (int i = 0; i < tokens.Count; i++)
+            Parallel.For(0, tokens.Count, i =>
             {
                 var token = tokens[i];
-                results[i] = await GetDefaultAssociationForTokenBatchedAsync(
-                    thumbnailPath, imagePath, categoryKey, token,
+                tokenDefaults.TryGetValue(token, out var defaultFilename);
+                
+                results[i] = GetDefaultAssociationForTokenSynchronous(
+                    thumbnailPath, imagePath, categoryKey, token, defaultFilename,
                     thumbnailFilesByToken, existingImageFiles,
                     customThumbnailBasePath, customImageBasePath,
                     existingCustomThumbnails, existingCustomImages);
-            }
+            });
             
             return results;
         }
@@ -603,6 +623,87 @@ public class PackAssociationsService : IPackAssociationsService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error getting default association for {Category}/{Token}", categoryKey, token);
+        }
+        
+        return null;
+    }
+
+    private TokenAssociation? GetDefaultAssociationForTokenSynchronous(
+        string thumbnailBasePath, string imageBasePath, string categoryKey, string token, string? defaultFilename,
+        Dictionary<string, string[]> thumbnailFilesByToken, HashSet<string>? existingImageFiles,
+        string? customThumbnailBasePath, string? customImageBasePath,
+        HashSet<string>? existingCustomThumbnails, HashSet<string>? existingCustomImages)
+    {
+        try
+        {
+            // If there's a default, try to find it
+            if (!string.IsNullOrEmpty(defaultFilename))
+            {
+                var thumbnailFile = Path.Combine(thumbnailBasePath, defaultFilename);
+                var imageFile = Path.Combine(imageBasePath, defaultFilename);
+                
+                // First, check standard pack directories using batched data
+                if (File.Exists(thumbnailFile)) // Still need this check as defaultFilename may not match actual files
+                {
+                    var word = ExtractWordFromFilename(defaultFilename);
+                    
+                    return new TokenAssociation
+                    {
+                        Token = token,
+                        Category = categoryKey,
+                        Word = word,
+                        ThumbnailPath = thumbnailFile,
+                        ImagePath = (existingImageFiles?.Contains(defaultFilename) == true) ? imageFile : string.Empty,
+                        IsDefault = true,
+                        IsCustom = false
+                    };
+                }
+                
+                // Check custom directories using batched data
+                if (customThumbnailBasePath != null && customImageBasePath != null)
+                {
+                    var hasCustomThumbnail = existingCustomThumbnails?.Contains(defaultFilename) == true;
+                    var hasCustomImage = existingCustomImages?.Contains(defaultFilename) == true;
+                    
+                    if (hasCustomThumbnail || hasCustomImage)
+                    {
+                        var word = ExtractWordFromFilename(defaultFilename);
+                        
+                        return new TokenAssociation
+                        {
+                            Token = token,
+                            Category = categoryKey,
+                            Word = word,
+                            ThumbnailPath = hasCustomThumbnail ? Path.Combine(customThumbnailBasePath, defaultFilename) : string.Empty,
+                            ImagePath = hasCustomImage ? Path.Combine(customImageBasePath, defaultFilename) : string.Empty,
+                            IsDefault = true,
+                            IsCustom = true
+                        };
+                    }
+                }
+            }
+            
+            // Otherwise, find the first available file for this token using batched data
+            if (thumbnailFilesByToken.TryGetValue(token, out var tokenFiles) && tokenFiles.Length > 0)
+            {
+                var filename = Path.GetFileName(tokenFiles[0]);
+                var imageFile = Path.Combine(imageBasePath, filename);
+                var word = ExtractWordFromFilename(filename);
+                
+                return new TokenAssociation
+                {
+                    Token = token,
+                    Category = categoryKey,
+                    Word = word,
+                    ThumbnailPath = tokenFiles[0],
+                    ImagePath = (existingImageFiles?.Contains(filename) == true) ? imageFile : string.Empty,
+                    IsDefault = false
+                };
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting synchronous default association for {Category}/{Token}", categoryKey, token);
         }
         
         return null;
