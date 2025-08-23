@@ -86,7 +86,7 @@
                                     
                                     <!-- Large thumbnail/token display -->
                                     <Grid Grid.Column="0" 
-                                          BackgroundColor="{DynamicResource Gray100}" 
+                                          BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray800}}" 
                                           VerticalOptions="Center">
                                         <Grid.WidthRequest>80</Grid.WidthRequest>
                                         <Grid.HeightRequest>80</Grid.HeightRequest>

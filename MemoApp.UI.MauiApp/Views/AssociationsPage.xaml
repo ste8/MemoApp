@@ -117,7 +117,7 @@
                                     <Grid Grid.Column="0" 
                                           WidthRequest="88" 
                                           HeightRequest="88"
-                                          BackgroundColor="{DynamicResource Gray100}" 
+                                          BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray800}}" 
                                           VerticalOptions="Center">
                                         <!-- Show image if thumbnail path exists -->
                                         <Image Source="{Binding ThumbnailPath}"

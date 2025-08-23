@@ -11,6 +11,7 @@
     <Grid>
         <!-- Main image with pinch-to-zoom -->
         <Grid x:Name="ImageContainer"
+              BackgroundColor="{AppThemeBinding Light=White, Dark=Transparent}"
               HorizontalOptions="FillAndExpand"
               VerticalOptions="FillAndExpand">
             <Image x:Name="MainImage"
