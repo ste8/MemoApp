@@ -65,21 +65,48 @@ public class ImageCacheService : IImageCacheService, IDisposable
             return null;
         }
 
-        // Start async loading without blocking UI
-        _ = Task.Run(async () =>
+        // For immediate display, try synchronous loading first
+        // This ensures images show on first load
+        try
         {
-            try
+            if (File.Exists(path))
             {
-                await GetImageAsync(path);
+                _fileExistsCache[path] = true;
+                var imageSource = ImageSource.FromFile(path);
+                
+                // Cache for future use
+                _imageCache[path] = new WeakReference<ImageSource>(imageSource);
+                _logger.LogDebug("Loaded and cached image synchronously: {Path}", path);
+                
+                return imageSource;
             }
-            catch (Exception ex)
+            else
             {
-                _logger.LogDebug(ex, "Background image loading failed for {Path}", path);
+                _fileExistsCache[path] = false;
+                _logger.LogDebug("File does not exist: {Path}", path);
+                return null;
             }
-        });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to load image synchronously from {Path}, trying async", path);
+            
+            // If sync fails, start async loading
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    await GetImageAsync(path);
+                }
+                catch (Exception asyncEx)
+                {
+                    _logger.LogDebug(asyncEx, "Background image loading also failed for {Path}", path);
+                }
+            });
 
-        // Return placeholder immediately for smooth UI
-        return _placeholderImage;
+            // Return placeholder if we have one
+            return _placeholderImage;
+        }
     }
 
     public async Task<ImageSource?> GetImageAsync(string path, CancellationToken cancellationToken = default)

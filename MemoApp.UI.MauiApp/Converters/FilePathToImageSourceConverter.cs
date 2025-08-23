@@ -31,7 +31,9 @@ public class FilePathToImageSourceConverter : IValueConverter
             if (cacheService != null)
             {
                 // Use the high-performance cache service
-                return cacheService.GetImageOrPlaceholder(filePath);
+                var result = cacheService.GetImageOrPlaceholder(filePath);
+                System.Diagnostics.Debug.WriteLine($"FilePathToImageSourceConverter: Using cache service for {filePath}, result: {result != null}");
+                return result;
             }
 
             // Fallback to optimized local caching if service is not available
@@ -60,6 +62,7 @@ public class FilePathToImageSourceConverter : IValueConverter
                 if (Application.Current?.Handler?.MauiContext?.Services is IServiceProvider services)
                 {
                     _imageCacheService = services.GetService<IImageCacheService>();
+                    System.Diagnostics.Debug.WriteLine($"FilePathToImageSourceConverter: Service resolution result: {_imageCacheService != null}");
                 }
             }
             catch (Exception ex)
@@ -80,30 +83,27 @@ public class FilePathToImageSourceConverter : IValueConverter
             return cachedImage;
         }
 
-        // Load asynchronously but return null immediately to avoid blocking UI
-        // In a real scenario, you might want to return a placeholder here
-        _ = Task.Run(async () =>
+        // The service is not available, use simple synchronous loading as fallback
+        // This ensures images display in TokenDetailPage
+        try
         {
-            try
+            if (File.Exists(filePath))
             {
-                if (File.Exists(filePath))
-                {
-                    // Load image on background thread
-                    var imageSource = ImageSource.FromFile(filePath);
-                    _fallbackCache[filePath] = new WeakReference<ImageSource>(imageSource);
-                    
-                    // Trigger UI refresh by setting the binding again (would require more complex implementation)
-                    // This is why using the proper service is better
-                }
+                System.Diagnostics.Debug.WriteLine($"FilePathToImageSourceConverter: Service not available, loading {filePath} directly");
+                var imageSource = ImageSource.FromFile(filePath);
+                _fallbackCache[filePath] = new WeakReference<ImageSource>(imageSource);
+                return imageSource;
             }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"FilePathToImageSourceConverter fallback loading failed: {ex.Message}");
-            }
-        });
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"FilePathToImageSourceConverter: Direct loading failed: {ex.Message}");
+        }
 
-        return null; // Return null to avoid blocking UI thread
+        // Don't do async loading in fallback - just return null
+        return null;
     }
+
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {

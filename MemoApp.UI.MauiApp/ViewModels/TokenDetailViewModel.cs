@@ -7,6 +7,7 @@ using MemoApp.Core.MajorSystem.Services;
 using MemoApp.Localization.Services;
 using Microsoft.Extensions.Logging;
 using MemoApp.UI.MauiApp.Messages;
+using MemoApp.UI.MauiApp.Services;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
 
@@ -22,6 +23,7 @@ public partial class TokenDetailViewModel : ObservableObject, IRecipient<CustomA
     private readonly ICustomAssociationsService _customAssociationsService;
     private readonly ILocalizationService _localizationService;
     private readonly IMessenger _messenger;
+    private readonly IImageCacheService _imageCacheService;
     private readonly ILogger<TokenDetailViewModel> _logger;
 
     [ObservableProperty]
@@ -64,6 +66,7 @@ public partial class TokenDetailViewModel : ObservableObject, IRecipient<CustomA
         ICustomAssociationsService customAssociationsService,
         ILocalizationService localizationService,
         IMessenger messenger,
+        IImageCacheService imageCacheService,
         ILogger<TokenDetailViewModel> logger)
     {
         _packAssociationsService = packAssociationsService;
@@ -71,6 +74,7 @@ public partial class TokenDetailViewModel : ObservableObject, IRecipient<CustomA
         _customAssociationsService = customAssociationsService;
         _localizationService = localizationService;
         _messenger = messenger;
+        _imageCacheService = imageCacheService;
         _logger = logger;
         
         // Register for custom association added messages
@@ -183,6 +187,9 @@ public partial class TokenDetailViewModel : ObservableObject, IRecipient<CustomA
                 _logger.LogDebug("Added association: {Token} -> {Word} (Default: {IsDefault})", 
                     association.Token, association.Word, association.IsDefault);
             }
+            
+            // Skip preloading for now to test synchronous loading
+            // _ = PreloadAssociationImagesAsync(sortedAssociations);
         }
         catch (Exception ex)
         {
@@ -416,6 +423,41 @@ public partial class TokenDetailViewModel : ObservableObject, IRecipient<CustomA
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error handling CustomAssociationAddedMessage for {Token}", Token);
+        }
+    }
+
+    /// <summary>
+    /// Preloads association images asynchronously for better performance
+    /// </summary>
+    private async Task PreloadAssociationImagesAsync(List<TokenAssociation> associations)
+    {
+        try
+        {
+            // Extract all image paths that need preloading
+            var imagePaths = associations
+                .SelectMany(a => new[] { a.ThumbnailPath, a.ImagePath })
+                .Where(path => !string.IsNullOrEmpty(path))
+                .Distinct()
+                .ToList();
+
+            if (imagePaths.Count > 0)
+            {
+                _logger.LogInformation("Preloading {Count} images for token detail view", imagePaths.Count);
+                
+                // Preload in background with shorter timeout for detail view
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+                await _imageCacheService.PreloadImagesAsync(imagePaths, cts.Token);
+                
+                _logger.LogInformation("Completed preloading images for token detail");
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Image preloading was cancelled for token detail");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Error during image preloading in token detail");
         }
     }
 }
