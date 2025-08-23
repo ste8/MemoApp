@@ -78,6 +78,9 @@ public static class MauiProgram
 			return new TokenDefaultsService(logger, FileSystem.Current.AppDataDirectory);
 		});
 		
+		// Register Cache service
+		builder.Services.AddSingleton<IPackAssociationsCacheService, PackAssociationsCacheService>();
+		
 		// Register Custom Associations services first (required by PackAssociationsService)
 		builder.Services.AddSingleton<IImageProcessingService, MauiImageProcessingService>();
 		builder.Services.AddSingleton<ICustomImageSourceService, MauiImageSourceService>();
@@ -96,8 +99,9 @@ public static class MauiProgram
 			var categoryService = serviceProvider.GetRequiredService<IMajorSystemCategoryService>();
 			var tokenDefaultsService = serviceProvider.GetRequiredService<ITokenDefaultsService>();
 			var customAssociationsService = serviceProvider.GetRequiredService<ICustomAssociationsService>();
+			var cacheService = serviceProvider.GetRequiredService<IPackAssociationsCacheService>();
 			var logger = serviceProvider.GetRequiredService<ILogger<PackAssociationsService>>();
-			return new PackAssociationsService(packManager, categoryService, tokenDefaultsService, customAssociationsService, logger, FileSystem.Current.AppDataDirectory);
+			return new PackAssociationsService(packManager, categoryService, tokenDefaultsService, customAssociationsService, cacheService, logger, FileSystem.Current.AppDataDirectory);
 		});
 
 

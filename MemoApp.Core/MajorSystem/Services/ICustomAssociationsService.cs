@@ -63,7 +63,7 @@ public interface ICustomAssociationsService
     /// <param name="packId">The pack ID</param>
     /// <param name="categoryKey">The category key</param>
     /// <returns>The custom images directory path</returns>
-    string GetCustomImagesPath(string packId, string categoryKey);
+    Task<string> GetCustomImagesPathAsync(string packId, string categoryKey);
     
     /// <summary>
     /// Gets the custom thumbnails directory path for a pack and category
@@ -71,5 +71,5 @@ public interface ICustomAssociationsService
     /// <param name="packId">The pack ID</param>
     /// <param name="categoryKey">The category key</param>
     /// <returns>The custom thumbnails directory path</returns>
-    string GetCustomThumbnailsPath(string packId, string categoryKey);
+    Task<string> GetCustomThumbnailsPathAsync(string packId, string categoryKey);
 }

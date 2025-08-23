@@ -15,6 +15,7 @@ public class PackAssociationsService : IPackAssociationsService
     private readonly IMajorSystemCategoryService _categoryService;
     private readonly ITokenDefaultsService _tokenDefaultsService;
     private readonly ICustomAssociationsService _customAssociationsService;
+    private readonly IPackAssociationsCacheService _cacheService;
     private readonly ILogger<PackAssociationsService> _logger;
     private readonly string _appDataDirectory;
     
@@ -30,6 +31,7 @@ public class PackAssociationsService : IPackAssociationsService
         IMajorSystemCategoryService categoryService,
         ITokenDefaultsService tokenDefaultsService,
         ICustomAssociationsService customAssociationsService,
+        IPackAssociationsCacheService cacheService,
         ILogger<PackAssociationsService> logger,
         string appDataDirectory)
     {
@@ -37,6 +39,7 @@ public class PackAssociationsService : IPackAssociationsService
         _categoryService = categoryService;
         _tokenDefaultsService = tokenDefaultsService;
         _customAssociationsService = customAssociationsService;
+        _cacheService = cacheService;
         _logger = logger;
         _appDataDirectory = appDataDirectory;
         
@@ -75,7 +78,8 @@ public class PackAssociationsService : IPackAssociationsService
         // Use the pack manager to get the correct pack path, then add major_system subdirectory
         try
         {
-            var packPath = _packManager.GetPackDirectoryAsync(_currentPack.Id).Result;
+            // Note: This is a synchronous method but _packManager is async. Consider making this async in future refactoring.
+            var packPath = _packManager.GetPackDirectoryAsync(_currentPack.Id).ConfigureAwait(false).GetAwaiter().GetResult();
             return Path.Combine(packPath, "major_system");
         }
         catch (Exception ex)
@@ -89,8 +93,15 @@ public class PackAssociationsService : IPackAssociationsService
     {
         try
         {
+            var previousPackId = _currentPack?.Id;
             _currentPack = await _packManager.GetCurrentPackAsync();
             _packDefaults = null; // Clear cached defaults
+            
+            // Invalidate cache when pack changes
+            if (previousPackId != null && previousPackId != _currentPack?.Id)
+            {
+                _cacheService.InvalidatePackCache(previousPackId);
+            }
             
             if (_currentPack != null)
             {
@@ -181,7 +192,7 @@ public class PackAssociationsService : IPackAssociationsService
             _logger.LogInformation("Processing {PagedTokenCount} tokens after pagination (skip: {Skip}, take: {Take})", 
                 pagedTokens.Count, skip, take);
             
-            // Load defaults if not already loaded
+            // Load defaults using cache (fixes redundant JSON parsing performance issue)
             if (_packDefaults == null)
             {
                 _packDefaults = await LoadPackDefaultsAsync();
@@ -255,7 +266,7 @@ public class PackAssociationsService : IPackAssociationsService
             var pattern = $"{token}_*.png";
             var thumbnailFiles = Directory.GetFiles(thumbnailPath, pattern);
             
-            // Load defaults to determine which is default
+            // Load defaults using cache to determine which is default
             if (_packDefaults == null)
             {
                 _packDefaults = await LoadPackDefaultsAsync();
@@ -296,35 +307,44 @@ public class PackAssociationsService : IPackAssociationsService
     
     public async Task<Dictionary<string, Dictionary<string, string>>> LoadPackDefaultsAsync()
     {
-        var defaults = new Dictionary<string, Dictionary<string, string>>();
-        
-        try
+        if (_currentPack == null)
         {
-            var packPath = GetCurrentPackPath();
-            if (string.IsNullOrEmpty(packPath))
-            {
-                return defaults;
-            }
+            return new Dictionary<string, Dictionary<string, string>>();
+        }
+
+        // Use cache to eliminate redundant JSON parsing (critical performance fix)
+        return await _cacheService.GetCachedPackDefaultsAsync(_currentPack.Id, async () =>
+        {
+            var defaults = new Dictionary<string, Dictionary<string, string>>();
             
-            var defaultsFile = Path.Combine(packPath, "defaults.json");
-            
-            if (File.Exists(defaultsFile))
+            try
             {
-                var json = await File.ReadAllTextAsync(defaultsFile);
-                var jsonDefaults = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(json);
-                
-                if (jsonDefaults != null)
+                var packPath = GetCurrentPackPath();
+                if (string.IsNullOrEmpty(packPath))
                 {
-                    defaults = jsonDefaults;
+                    return defaults;
+                }
+                
+                var defaultsFile = Path.Combine(packPath, "defaults.json");
+                
+                if (File.Exists(defaultsFile))
+                {
+                    var json = await File.ReadAllTextAsync(defaultsFile).ConfigureAwait(false);
+                    var jsonDefaults = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(json);
+                    
+                    if (jsonDefaults != null)
+                    {
+                        defaults = jsonDefaults;
+                    }
                 }
             }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error loading pack defaults");
-        }
-        
-        return defaults;
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading pack defaults");
+            }
+            
+            return defaults;
+        }).ConfigureAwait(false);
     }
     
     private async Task<TokenAssociation?> GetDefaultAssociationForTokenAsync(string packPath, string categoryKey, string token)
@@ -373,8 +393,8 @@ public class PackAssociationsService : IPackAssociationsService
                 // If not found in standard directories, check custom directories
                 if (_currentPack != null)
                 {
-                    var customThumbnailPath = _customAssociationsService.GetCustomThumbnailsPath(_currentPack.Id, categoryKey);
-                    var customImagePath = _customAssociationsService.GetCustomImagesPath(_currentPack.Id, categoryKey);
+                    var customThumbnailPath = await _customAssociationsService.GetCustomThumbnailsPathAsync(_currentPack.Id, categoryKey).ConfigureAwait(false);
+                    var customImagePath = await _customAssociationsService.GetCustomImagesPathAsync(_currentPack.Id, categoryKey).ConfigureAwait(false);
                     
                     var customThumbnailFile = Path.Combine(customThumbnailPath, defaultFilename);
                     var customImageFile = Path.Combine(customImagePath, defaultFilename);

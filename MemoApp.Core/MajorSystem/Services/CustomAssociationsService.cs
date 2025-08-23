@@ -46,8 +46,8 @@ public class CustomAssociationsService : ICustomAssociationsService
             var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
             var filename = $"{token}_{word}_{timestamp}.png";
 
-            var customImagesPath = GetCustomImagesPath(packId, categoryKey);
-            var customThumbnailsPath = GetCustomThumbnailsPath(packId, categoryKey);
+            var customImagesPath = await GetCustomImagesPathAsync(packId, categoryKey).ConfigureAwait(false);
+            var customThumbnailsPath = await GetCustomThumbnailsPathAsync(packId, categoryKey).ConfigureAwait(false);
 
             var imagePath = Path.Combine(customImagesPath, filename);
             var thumbnailPath = Path.Combine(customThumbnailsPath, filename);
@@ -97,14 +97,14 @@ public class CustomAssociationsService : ICustomAssociationsService
 
         try
         {
-            var customImagesPath = GetCustomImagesPath(packId, categoryKey);
+            var customImagesPath = await GetCustomImagesPathAsync(packId, categoryKey).ConfigureAwait(false);
             if (!Directory.Exists(customImagesPath))
             {
                 return associations;
             }
 
             var imageFiles = Directory.GetFiles(customImagesPath, "*.png");
-            var customThumbnailsPath = GetCustomThumbnailsPath(packId, categoryKey);
+            var customThumbnailsPath = await GetCustomThumbnailsPathAsync(packId, categoryKey).ConfigureAwait(false);
             
             _logger.LogInformation("Looking for custom images in: {Path}", customImagesPath);
             _logger.LogInformation("Found {Count} image files: {Files}", imageFiles.Length, string.Join(", ", imageFiles.Select(Path.GetFileName)));
@@ -195,8 +195,8 @@ public class CustomAssociationsService : ICustomAssociationsService
     {
         try
         {
-            var customImagesPath = GetCustomImagesPath(packId, categoryKey);
-            var customThumbnailsPath = GetCustomThumbnailsPath(packId, categoryKey);
+            var customImagesPath = await GetCustomImagesPathAsync(packId, categoryKey).ConfigureAwait(false);
+            var customThumbnailsPath = await GetCustomThumbnailsPathAsync(packId, categoryKey).ConfigureAwait(false);
 
             if (!Directory.Exists(customImagesPath))
             {
@@ -219,15 +219,15 @@ public class CustomAssociationsService : ICustomAssociationsService
         }
     }
 
-    public string GetCustomImagesPath(string packId, string categoryKey)
+    public async Task<string> GetCustomImagesPathAsync(string packId, string categoryKey)
     {
-        var packPath = _packManager.GetPackDirectoryAsync(packId).Result;
+        var packPath = await _packManager.GetPackDirectoryAsync(packId).ConfigureAwait(false);
         return Path.Combine(packPath, "major_system", "custom", "images", categoryKey);
     }
 
-    public string GetCustomThumbnailsPath(string packId, string categoryKey)
+    public async Task<string> GetCustomThumbnailsPathAsync(string packId, string categoryKey)
     {
-        var packPath = _packManager.GetPackDirectoryAsync(packId).Result;
+        var packPath = await _packManager.GetPackDirectoryAsync(packId).ConfigureAwait(false);
         return Path.Combine(packPath, "major_system", "custom", "thumbnails", categoryKey);
     }
 
