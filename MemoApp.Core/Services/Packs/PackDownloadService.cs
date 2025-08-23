@@ -391,14 +391,22 @@ public class PackDownloadService : IPackDownloadService
     {
         try
         {
-            _logger.LogInformation("Updating pack {PackId} from v{OldVersion} to v{NewVersion}",
-                pack.Id, pack.Version, pack.Version);
+            _logger.LogInformation("Updating pack {PackId} to v{NewVersion}",
+                pack.Id, pack.Version);
 
             // Backup current pack
             var backupPath = await _packManager.BackupPackAsync(pack.Id);
             
             try
             {
+                // Clean up current pack directory to remove old images and thumbnails
+                var packPath = await _packManager.GetPackDirectoryAsync(pack.Id);
+                if (Directory.Exists(packPath))
+                {
+                    _logger.LogInformation("Cleaning up existing pack directory before update: {PackPath}", packPath);
+                    Directory.Delete(packPath, recursive: true);
+                }
+                
                 // Download and install new version
                 var result = await DownloadPackAsync(pack, progress, cancellationToken);
                 
