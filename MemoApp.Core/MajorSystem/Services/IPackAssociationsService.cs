@@ -49,9 +49,9 @@ public interface IPackAssociationsService
     Task<bool> HasPackAvailableAsync();
     
     /// <summary>
-    /// Gets the path to the current pack directory
+    /// Gets the path to the current pack directory asynchronously
     /// </summary>
-    string? GetCurrentPackPath();
+    Task<string?> GetCurrentPackPathAsync();
     
     /// <summary>
     /// Refreshes the current pack data

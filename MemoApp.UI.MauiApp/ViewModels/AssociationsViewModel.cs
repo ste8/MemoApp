@@ -8,6 +8,7 @@ using MemoApp.Core.MajorSystem.Services;
 using MemoApp.Localization.Services;
 using Microsoft.Extensions.Logging;
 using MemoApp.UI.MauiApp.Messages;
+using MemoApp.UI.MauiApp.Services;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
 
@@ -21,6 +22,7 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
     private readonly ITokenDefaultsService _tokenDefaultsService;
     private readonly ILocalizationService _localizationService;
     private readonly IMessenger _messenger;
+    private readonly IImageCacheService _imageCacheService;
     private readonly ILogger<AssociationsViewModel> _logger;
     
     [ObservableProperty]
@@ -62,6 +64,7 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         ITokenDefaultsService tokenDefaultsService,
         ILocalizationService localizationService,
         IMessenger messenger,
+        IImageCacheService imageCacheService,
         ILogger<AssociationsViewModel> logger)
     {
         _categoryService = categoryService;
@@ -69,6 +72,7 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         _tokenDefaultsService = tokenDefaultsService;
         _localizationService = localizationService;
         _messenger = messenger;
+        _imageCacheService = imageCacheService;
         _logger = logger;
         
         // Register for messaging system
@@ -173,7 +177,7 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
             var symbolsCategory = categories.FirstOrDefault(c => c.CategoryKey == MajorSystemCategoryService.CategorySymbols);
             if (symbolsCategory != null && _packAssociationsService.CurrentPack != null)
             {
-                var packPath = _packAssociationsService.GetCurrentPackPath();
+                var packPath = await _packAssociationsService.GetCurrentPackPathAsync();
                 if (!string.IsNullOrEmpty(packPath))
                 {
                     symbolsCategory.Tokens = await _categoryService.DiscoverDynamicTokensAsync(packPath, MajorSystemCategoryService.CategorySymbols);
@@ -252,6 +256,10 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
             
             // Update UI on main thread, preserving scroll position
             await UpdateAssociationsPreservingScrollAsync(associations);
+            
+            // Preload images asynchronously for better perceived performance
+            _ = PreloadAssociationImagesAsync(associations);
+            
             _logger.LogInformation("Finished loading {Count} initial associations for category {CategoryKey}. UI collection now has {UICount} items.", associations.Count, categoryKey, Associations.Count);
         }
         catch (Exception ex)
@@ -620,6 +628,41 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         {
             _logger.LogError(ex, "Error in smart refresh after pack change, falling back to full reload");
             await LoadDataAsync();
+        }
+    }
+
+    /// <summary>
+    /// Preloads association images asynchronously for better perceived performance
+    /// </summary>
+    private async Task PreloadAssociationImagesAsync(List<TokenAssociation> associations)
+    {
+        try
+        {
+            // Extract all image paths that need preloading
+            var imagePaths = associations
+                .SelectMany(a => new[] { a.ThumbnailPath, a.ImagePath })
+                .Where(path => !string.IsNullOrEmpty(path))
+                .Distinct()
+                .ToList();
+
+            if (imagePaths.Count > 0)
+            {
+                _logger.LogInformation("Preloading {Count} images for better performance", imagePaths.Count);
+                
+                // Preload in background with cancellation support
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30)); // 30 second timeout
+                await _imageCacheService.PreloadImagesAsync(imagePaths, cts.Token);
+                
+                _logger.LogInformation("Completed preloading images for category");
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Image preloading was cancelled (timeout or app navigation)");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Error during image preloading");
         }
     }
 

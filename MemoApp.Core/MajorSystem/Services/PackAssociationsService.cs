@@ -53,7 +53,7 @@ public class PackAssociationsService : IPackAssociationsService
         _logger.LogInformation("Current pack: {Pack}", _currentPack?.Id ?? "NULL");
         if (_currentPack != null)
         {
-            var packPath = GetCurrentPackPath();
+            var packPath = await GetCurrentPackPathAsync().ConfigureAwait(false);
             _logger.LogInformation("Pack path would be: {PackPath}", packPath);
             if (!string.IsNullOrEmpty(packPath) && Directory.Exists(packPath))
             {
@@ -71,15 +71,14 @@ public class PackAssociationsService : IPackAssociationsService
         return _currentPack != null; // Return actual pack availability
     }
     
-    public string? GetCurrentPackPath()
+    public async Task<string?> GetCurrentPackPathAsync()
     {
         if (_currentPack == null) return null;
         
         // Use the pack manager to get the correct pack path, then add major_system subdirectory
         try
         {
-            // Note: This is a synchronous method but _packManager is async. Consider making this async in future refactoring.
-            var packPath = _packManager.GetPackDirectoryAsync(_currentPack.Id).ConfigureAwait(false).GetAwaiter().GetResult();
+            var packPath = await _packManager.GetPackDirectoryAsync(_currentPack.Id).ConfigureAwait(false);
             return Path.Combine(packPath, "major_system");
         }
         catch (Exception ex)
@@ -134,7 +133,7 @@ public class PackAssociationsService : IPackAssociationsService
         {
             _logger.LogInformation("Loading associations for category: {CategoryKey} (skip: {Skip}, take: {Take}, format: {NumberFormat})", categoryKey, skip, take, numberFormat);
             
-            var packPath = GetCurrentPackPath();
+            var packPath = await GetCurrentPackPathAsync().ConfigureAwait(false);
             _logger.LogInformation("Pack path: {PackPath}", packPath ?? "NULL");
             
             if (string.IsNullOrEmpty(packPath))
@@ -247,7 +246,7 @@ public class PackAssociationsService : IPackAssociationsService
         
         try
         {
-            var packPath = GetCurrentPackPath();
+            var packPath = await GetCurrentPackPathAsync().ConfigureAwait(false);
             if (string.IsNullOrEmpty(packPath))
             {
                 return associations;
@@ -318,7 +317,7 @@ public class PackAssociationsService : IPackAssociationsService
             
             try
             {
-                var packPath = GetCurrentPackPath();
+                var packPath = await GetCurrentPackPathAsync().ConfigureAwait(false);
                 if (string.IsNullOrEmpty(packPath))
                 {
                     return defaults;

@@ -78,8 +78,9 @@ public static class MauiProgram
 			return new TokenDefaultsService(logger, FileSystem.Current.AppDataDirectory);
 		});
 		
-		// Register Cache service
+		// Register Cache services
 		builder.Services.AddSingleton<IPackAssociationsCacheService, PackAssociationsCacheService>();
+		builder.Services.AddSingleton<IImageCacheService, ImageCacheService>();
 		
 		// Register Custom Associations services first (required by PackAssociationsService)
 		builder.Services.AddSingleton<IImageProcessingService, MauiImageProcessingService>();
