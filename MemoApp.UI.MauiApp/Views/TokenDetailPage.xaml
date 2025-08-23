@@ -124,27 +124,8 @@
                                            VerticalOptions="Center"
                                            LineBreakMode="TailTruncation" />
                                     
-                                    <!-- Star button for default state (fixed position in column 2) -->
+                                    <!-- Delete button (only for custom associations, fixed position in column 2) -->
                                     <Button Grid.Column="2"
-                                            Text="{Binding IsDefault, Converter={StaticResource BoolToStarConverter}}"
-                                            FontFamily="{Binding IsDefault, Converter={StaticResource BoolToStarFontFamilyConverter}}"
-                                            FontSize="20"
-                                            BackgroundColor="Transparent"
-                                            TextColor="{Binding IsDefault, Converter={StaticResource BoolToStarColorConverter}}"
-                                            Command="{Binding SetAsDefaultCommand, Source={RelativeSource AncestorType={x:Type viewmodels:TokenDetailViewModel}}}"
-                                            CommandParameter="{Binding}"
-                                            WidthRequest="48" 
-                                            HeightRequest="48"
-                                            Padding="0"
-                                            VerticalOptions="Center"
-                                            HorizontalOptions="Center">
-                                        <AutomationProperties.Name>
-                                            <localization:Localize Key="Accessibility_SetAsDefaultButton" />
-                                        </AutomationProperties.Name>
-                                    </Button>
-                                    
-                                    <!-- Delete button (only for custom associations, fixed position in column 3) -->
-                                    <Button Grid.Column="3"
                                             Text="🗑️"
                                             FontSize="18"
                                             BackgroundColor="Transparent"
@@ -159,6 +140,25 @@
                                             IsVisible="{Binding IsCustom}">
                                         <AutomationProperties.Name>
                                             <localization:Localize Key="Accessibility_DeleteCustomButton" />
+                                        </AutomationProperties.Name>
+                                    </Button>
+                                    
+                                    <!-- Star button for default state (always rightmost in column 3) -->
+                                    <Button Grid.Column="3"
+                                            Text="{Binding IsDefault, Converter={StaticResource BoolToStarConverter}}"
+                                            FontFamily="{Binding IsDefault, Converter={StaticResource BoolToStarFontFamilyConverter}}"
+                                            FontSize="20"
+                                            BackgroundColor="Transparent"
+                                            TextColor="{Binding IsDefault, Converter={StaticResource BoolToStarColorConverter}}"
+                                            Command="{Binding SetAsDefaultCommand, Source={RelativeSource AncestorType={x:Type viewmodels:TokenDetailViewModel}}}"
+                                            CommandParameter="{Binding}"
+                                            WidthRequest="48" 
+                                            HeightRequest="48"
+                                            Padding="0"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Center">
+                                        <AutomationProperties.Name>
+                                            <localization:Localize Key="Accessibility_SetAsDefaultButton" />
                                         </AutomationProperties.Name>
                                     </Button>
                                 </Grid>
