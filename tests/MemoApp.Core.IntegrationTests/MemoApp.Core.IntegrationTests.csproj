@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MemoApp.Core\MemoApp.Core.csproj" />
+    <ProjectReference Include="..\..\src\MemoApp.Core\MemoApp.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
