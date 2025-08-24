@@ -1,15 +1,15 @@
 ﻿using Microsoft.Extensions.Logging;
 using MemoApp.UI.MauiApp.ViewModels;
-using MemoApp.UI.MauiApp.Views;
 using MemoApp.Localization.Extensions;
 using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Services.Analytics;
+using MemoApp.UI.MauiApp.Services.ErrorMonitoring;
 using MemoApp.Localization.Services;
 using MemoApp.Core.NumberMemorization;
 using MemoApp.Core.Services.Packs;
 using MemoApp.Core.Services.Analytics;
+using MemoApp.Core.Services.ErrorMonitoring;
 using MemoApp.Core.MajorSystem.Services;
-using MemoApp.UI.MauiApp.Converters;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace MemoApp.UI.MauiApp;
@@ -39,6 +39,13 @@ public static class MauiProgram
 		var configuration = builder.Configuration;
 		var packsIndexUrl = configuration["PackManagement:PacksIndexUrl"] ?? "https://github.com/ste8/MemoApp-Packs/releases/download/packs-manifest/packs.json";
 		var cacheMinutes = int.Parse(configuration["PackManagement:CacheDurationMinutes"] ?? "30");
+
+		// Register Error Monitoring Services (early in pipeline)
+		builder.Services.AddSingleton<IErrorMonitoringService, SentryErrorMonitoringService>();
+		builder.Services.AddSingleton<GlobalExceptionHandler>();
+		
+		// Add Sentry MAUI integration
+		builder.UseSentry();
 
 		// Register HTTP client for pack downloads
 		builder.Services.AddHttpClient();
@@ -226,6 +233,36 @@ public static class MauiProgram
 				System.Diagnostics.Debug.WriteLine($"Failed to load saved preferences at startup: {ex.Message}");
 			}
 		}).Wait();
+		
+		// Initialize error monitoring first (before other services)
+		Task.Run(async () =>
+		{
+			try
+			{
+				var errorService = app.Services.GetRequiredService<IErrorMonitoringService>();
+				await errorService.InitializeAsync();
+				
+				// Initialize global exception handler
+				var globalHandler = app.Services.GetRequiredService<GlobalExceptionHandler>();
+				globalHandler.Initialize();
+				
+				// Set initial user context
+				await errorService.SetUserContextAsync(new Dictionary<string, object>
+				{
+					["session_id"] = Guid.NewGuid().ToString(),
+					["app_version"] = AppInfo.VersionString,
+					["platform"] = DeviceInfo.Platform.ToString(),
+					["device_model"] = DeviceInfo.Model,
+					["ui_language"] = localizationService.CurrentCulture.TwoLetterISOLanguageName
+				});
+				
+				System.Diagnostics.Debug.WriteLine("Error monitoring initialized successfully");
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Failed to initialize error monitoring: {ex.Message}");
+			}
+		});
 		
 		// Initialize analytics tracking
 		Task.Run(async () =>

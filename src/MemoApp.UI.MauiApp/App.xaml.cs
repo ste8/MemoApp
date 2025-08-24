@@ -1,4 +1,5 @@
 ﻿using MemoApp.Core.Services.Packs;
+using MemoApp.Core.Services.ErrorMonitoring;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Views;
@@ -10,13 +11,16 @@ public partial class App : Application
 	private readonly IPackManagerService _packManager;
 	private readonly ILocalizationService _localizationService;
 	private readonly IPackUpdateBackgroundService _updateService;
+	private readonly IErrorMonitoringService? _errorService;
+	private readonly DateTime _appStartTime = DateTime.UtcNow;
 	
-	public App(IPackManagerService packManager, ILocalizationService localizationService, IPackUpdateBackgroundService updateService)
+	public App(IPackManagerService packManager, ILocalizationService localizationService, IPackUpdateBackgroundService updateService, IErrorMonitoringService? errorService = null)
 	{
 		InitializeComponent();
 		_packManager = packManager;
 		_localizationService = localizationService;
 		_updateService = updateService;
+		_errorService = errorService;
 	}
 
 	protected override Window CreateWindow(IActivationState? activationState)
@@ -27,6 +31,20 @@ public partial class App : Application
 	protected override async void OnStart()
 	{
 		base.OnStart();
+		
+		// Track app startup performance
+		var startupTime = (DateTime.UtcNow - _appStartTime).TotalMilliseconds;
+		if (_errorService != null && startupTime > 10000) // > 10 seconds
+		{
+			await _errorService.LogPerformanceIssueAsync(
+				PerformanceIssueTypes.AppStartupSlow,
+				new Dictionary<string, object>
+				{
+					["startup_time_ms"] = startupTime,
+					["cold_start"] = true,
+					["platform"] = DeviceInfo.Platform.ToString()
+				});
+		}
 		
 		// Start background update service
 		await _updateService.StartAsync();
