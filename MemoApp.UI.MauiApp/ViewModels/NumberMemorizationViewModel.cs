@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.NumberMemorization;
+using MemoApp.Core.Services.Analytics;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Services;
 
@@ -13,8 +14,14 @@ public partial class NumberMemorizationViewModel : BaseViewModel
     private readonly ILocalizationService _localizationService;
     private readonly ITextMeasurementService _textMeasurementService;
     private readonly IContainerSizeService _containerSizeService;
+    private readonly IAnalyticsService _analyticsService;
     private IDispatcherTimer? _timer;
     private NumberMemorizationGame _currentGame = new();
+    
+    // Analytics tracking
+    private DateTime _exerciseStartTime;
+    private DateTime _memorizationStartTime;
+    private DateTime _recallStartTime;
 
     [ObservableProperty]
     private int numberOfDigits = 20;
@@ -74,13 +81,15 @@ public partial class NumberMemorizationViewModel : BaseViewModel
         INumberMemorizationSettingsService settingsService,
         ILocalizationService localizationService,
         ITextMeasurementService textMeasurementService,
-        IContainerSizeService containerSizeService)
+        IContainerSizeService containerSizeService,
+        IAnalyticsService analyticsService)
     {
         _gameService = gameService ?? throw new ArgumentNullException(nameof(gameService));
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
         _textMeasurementService = textMeasurementService ?? throw new ArgumentNullException(nameof(textMeasurementService));
         _containerSizeService = containerSizeService ?? throw new ArgumentNullException(nameof(containerSizeService));
+        _analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
         
         Title = _localizationService.GetString("NumberMemorization_Title");
         
@@ -204,8 +213,19 @@ public partial class NumberMemorizationViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private void StartMemorizing()
+    private async void StartMemorizing()
     {
+        // Track analytics for exercise start
+        _exerciseStartTime = DateTime.UtcNow;
+        _memorizationStartTime = _exerciseStartTime;
+        
+        await _analyticsService.TrackEventAsync(AnalyticsEvents.NumberMemorizationStarted, new Dictionary<string, object>
+        {
+            [AnalyticsParameters.DifficultyDigits] = NumberOfDigits,
+            [AnalyticsParameters.NumberRange] = MaxPairValue == 99 ? "0_99" : "00_99",
+            [AnalyticsParameters.PhaseType] = PhaseTypes.Memorization
+        });
+
         // Create new game with current settings
         var settings = new NumberMemorizationSettings
         {
@@ -227,8 +247,22 @@ public partial class NumberMemorizationViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private void StopAndHide()
+    private async void StopAndHide()
     {
+        // Track exercise abandonment
+        var currentTime = DateTime.UtcNow;
+        var totalDuration = (currentTime - _exerciseStartTime).TotalSeconds;
+        var currentPhaseType = _currentGame.IsNumberVisible ? PhaseTypes.Memorization : PhaseTypes.Recall;
+        
+        await _analyticsService.TrackEventAsync(AnalyticsEvents.ExerciseAbandoned, new Dictionary<string, object>
+        {
+            [AnalyticsParameters.ExerciseType] = ExerciseTypes.NumberMemorization,
+            [AnalyticsParameters.DurationSeconds] = (int)totalDuration,
+            [AnalyticsParameters.AbandonmentPoint] = currentPhaseType,
+            [AnalyticsParameters.AbandonmentReason] = AbandonmentReasons.UserQuit,
+            [AnalyticsParameters.DifficultyDigits] = NumberOfDigits
+        });
+        
         _gameService.StopGame(_currentGame);
         CurrentPhase = _currentGame.Phase;
         
@@ -238,15 +272,63 @@ public partial class NumberMemorizationViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private void ToggleRecall()
+    private async void ToggleRecall()
     {
+        var wasShowingNumber = _currentGame.IsNumberVisible;
         _gameService.ToggleNumberVisibility(_currentGame);
+        
+        // Track phase transitions
+        if (wasShowingNumber && !_currentGame.IsNumberVisible)
+        {
+            // Switched from memorization to recall phase
+            _recallStartTime = DateTime.UtcNow;
+            var memorizationDuration = (_recallStartTime - _memorizationStartTime).TotalSeconds;
+            
+            await _analyticsService.TrackEventAsync(AnalyticsEvents.NumberRecallStarted, new Dictionary<string, object>
+            {
+                [AnalyticsParameters.DifficultyDigits] = NumberOfDigits,
+                [AnalyticsParameters.MemorizationTime] = (int)memorizationDuration,
+                [AnalyticsParameters.PhaseType] = PhaseTypes.Recall
+            });
+        }
+        else if (!wasShowingNumber && _currentGame.IsNumberVisible)
+        {
+            // Switched back to memorization from recall
+            await _analyticsService.TrackEventAsync(AnalyticsEvents.ExercisePhaseStarted, new Dictionary<string, object>
+            {
+                [AnalyticsParameters.ExerciseType] = ExerciseTypes.NumberMemorization,
+                [AnalyticsParameters.PhaseType] = PhaseTypes.Memorization,
+                [AnalyticsParameters.DifficultyDigits] = NumberOfDigits
+            });
+        }
+        
         UpdateDisplayedNumber();
     }
 
     [RelayCommand]
-    private void StartNewGame()
+    private async void StartNewGame()
     {
+        // Track exercise completion if user finished a previous game
+        if (_currentGame.Phase != GamePhase.Setup)
+        {
+            var currentTime = DateTime.UtcNow;
+            var totalDuration = (currentTime - _exerciseStartTime).TotalSeconds;
+            var wasInRecall = !_currentGame.IsNumberVisible;
+            var recallDuration = wasInRecall && _recallStartTime != default 
+                ? (currentTime - _recallStartTime).TotalSeconds 
+                : 0;
+            
+            await _analyticsService.TrackEventAsync(AnalyticsEvents.NumberMemorizationCompleted, new Dictionary<string, object>
+            {
+                [AnalyticsParameters.ExerciseType] = ExerciseTypes.NumberMemorization,
+                [AnalyticsParameters.DurationSeconds] = (int)totalDuration,
+                [AnalyticsParameters.Success] = true, // User completed the session (reached recall phase)
+                [AnalyticsParameters.DifficultyDigits] = NumberOfDigits,
+                [AnalyticsParameters.RecallTime] = (int)recallDuration,
+                [AnalyticsParameters.NumberRange] = MaxPairValue == 99 ? "0_99" : "00_99"
+            });
+        }
+        
         _timer?.Stop();
         _gameService.ResetGame(_currentGame);
         CurrentPhase = _currentGame.Phase;

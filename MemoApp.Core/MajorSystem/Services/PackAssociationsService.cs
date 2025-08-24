@@ -844,4 +844,10 @@ public class PackAssociationsService : IPackAssociationsService
         _logger.LogInformation("Created {Count} test associations for category {CategoryKey}", associations.Count, categoryKey);
         return associations;
     }
+    
+    public async Task<string?> GetCurrentPackNameAsync()
+    {
+        await Task.CompletedTask; // Make it async for consistency
+        return _currentPack?.GetDisplayName();
+    }
 }

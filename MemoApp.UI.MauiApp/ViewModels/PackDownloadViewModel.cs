@@ -3,6 +3,7 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.Packs;
+using MemoApp.Core.Services.Analytics;
 using MemoApp.Core.Services.Packs;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Services;
@@ -16,6 +17,7 @@ public partial class PackDownloadViewModel : BaseViewModel
     private readonly IPackManagerService _packManager;
     private readonly MauiPackService _mauiPackService;
     private readonly ILocalizationService _localizationService;
+    private readonly IAnalyticsService _analyticsService;
     private readonly ILogger<PackDownloadViewModel> _logger;
     private CancellationTokenSource? _downloadCancellation;
 
@@ -50,12 +52,14 @@ public partial class PackDownloadViewModel : BaseViewModel
         IPackManagerService packManager,
         MauiPackService mauiPackService,
         ILocalizationService localizationService,
+        IAnalyticsService analyticsService,
         ILogger<PackDownloadViewModel> logger)
     {
         _downloadService = downloadService;
         _packManager = packManager;
         _mauiPackService = mauiPackService;
         _localizationService = localizationService;
+        _analyticsService = analyticsService;
         _logger = logger;
 
         Title = _localizationService.GetString("PackDownload_Title");
@@ -155,8 +159,22 @@ public partial class PackDownloadViewModel : BaseViewModel
         if (packItem == null || IsDownloading)
             return;
 
+        var downloadStartTime = DateTime.UtcNow;
+        var isUpdate = packItem.Pack.HasUpdate;
+        
         try
         {
+            // Track download start analytics
+            await _analyticsService.TrackEventAsync(
+                isUpdate ? AnalyticsEvents.PackUpdated : AnalyticsEvents.PackDownloaded,
+                new Dictionary<string, object>
+                {
+                    [AnalyticsParameters.PackName] = packItem.Pack.InternationalName,
+                    [AnalyticsParameters.PackLanguage] = packItem.Pack.LanguageCode,
+                    [AnalyticsParameters.PackSizeMB] = Math.Round(packItem.Pack.FileSize / (1024.0 * 1024.0), 2),
+                    [AnalyticsParameters.UpdateAvailable] = isUpdate
+                });
+
             IsDownloading = true;
             packItem.IsDownloading = true;
             _downloadCancellation = new CancellationTokenSource();
@@ -194,6 +212,22 @@ public partial class PackDownloadViewModel : BaseViewModel
 
             if (result.State == DownloadState.Completed)
             {
+                var downloadEndTime = DateTime.UtcNow;
+                var downloadDuration = (downloadEndTime - downloadStartTime).TotalSeconds;
+
+                // Track successful download/update analytics
+                await _analyticsService.TrackEventAsync(
+                    isUpdate ? AnalyticsEvents.PackUpdated : AnalyticsEvents.PackDownloaded,
+                    new Dictionary<string, object>
+                    {
+                        [AnalyticsParameters.PackName] = packItem.Pack.InternationalName,
+                        [AnalyticsParameters.PackLanguage] = packItem.Pack.LanguageCode,
+                        [AnalyticsParameters.PackSizeMB] = Math.Round(packItem.Pack.FileSize / (1024.0 * 1024.0), 2),
+                        [AnalyticsParameters.DownloadDurationSeconds] = (int)downloadDuration,
+                        [AnalyticsParameters.DownloadSuccess] = true,
+                        [AnalyticsParameters.UpdateAvailable] = isUpdate
+                    });
+
                 // Log pack location for debugging
                 var packPath = await _packManager.GetPackDirectoryAsync(packItem.Pack.Id);
                 _logger.LogInformation("Pack {PackId} downloaded successfully to: {PackPath}", packItem.Pack.Id, packPath);
@@ -216,6 +250,23 @@ public partial class PackDownloadViewModel : BaseViewModel
 
                 // Refresh to update UI state
                 await RefreshPacksAsync();
+            }
+            else
+            {
+                // Track failed download analytics
+                var downloadEndTime = DateTime.UtcNow;
+                var downloadDuration = (downloadEndTime - downloadStartTime).TotalSeconds;
+
+                await _analyticsService.TrackEventAsync(
+                    isUpdate ? AnalyticsEvents.PackUpdated : AnalyticsEvents.PackDownloaded,
+                    new Dictionary<string, object>
+                    {
+                        [AnalyticsParameters.PackName] = packItem.Pack.InternationalName,
+                        [AnalyticsParameters.PackLanguage] = packItem.Pack.LanguageCode,
+                        [AnalyticsParameters.DownloadDurationSeconds] = (int)downloadDuration,
+                        [AnalyticsParameters.DownloadSuccess] = false,
+                        [AnalyticsParameters.UpdateAvailable] = isUpdate
+                    });
             }
         }
         catch (Exception ex)
@@ -257,6 +308,14 @@ public partial class PackDownloadViewModel : BaseViewModel
         try
         {
             var success = await _downloadService.DeletePackAsync(packItem.Pack.Id);
+            
+            // Track pack deletion analytics
+            await _analyticsService.TrackEventAsync(AnalyticsEvents.PackDeleted, new Dictionary<string, object>
+            {
+                [AnalyticsParameters.PackName] = packItem.Pack.InternationalName,
+                [AnalyticsParameters.PackLanguage] = packItem.Pack.LanguageCode,
+                [AnalyticsParameters.Success] = success
+            });
             
             if (success)
             {

@@ -57,4 +57,9 @@ public interface IPackAssociationsService
     /// Refreshes the current pack data
     /// </summary>
     Task RefreshPackDataAsync();
+    
+    /// <summary>
+    /// Gets the name of the current pack
+    /// </summary>
+    Task<string?> GetCurrentPackNameAsync();
 }

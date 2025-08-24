@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using MemoApp.Core.MajorSystem;
 using MemoApp.Core.MajorSystem.Models;
 using MemoApp.Core.MajorSystem.Services;
+using MemoApp.Core.Services.Analytics;
 using MemoApp.Localization.Services;
 using Microsoft.Extensions.Logging;
 using MemoApp.UI.MauiApp.Messages;
@@ -23,6 +24,7 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
     private readonly ILocalizationService _localizationService;
     private readonly IMessenger _messenger;
     private readonly IImageCacheService _imageCacheService;
+    private readonly IAnalyticsService _analyticsService;
     private readonly ILogger<AssociationsViewModel> _logger;
     
     [ObservableProperty]
@@ -65,6 +67,7 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         ILocalizationService localizationService,
         IMessenger messenger,
         IImageCacheService imageCacheService,
+        IAnalyticsService analyticsService,
         ILogger<AssociationsViewModel> logger)
     {
         _categoryService = categoryService;
@@ -73,6 +76,7 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         _localizationService = localizationService;
         _messenger = messenger;
         _imageCacheService = imageCacheService;
+        _analyticsService = analyticsService;
         _logger = logger;
         
         // Register for messaging system
@@ -233,6 +237,13 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
             IsLoading = true;
             _hasMoreItems = true; // Reset pagination state
             _logger.LogInformation("Loading initial associations for category: {CategoryKey}", categoryKey);
+            
+            // Track category viewing analytics
+            _ = _analyticsService.TrackEventAsync(AnalyticsEvents.MajorSystemCategoryViewed, new Dictionary<string, object>
+            {
+                [AnalyticsParameters.Category] = categoryKey,
+                [AnalyticsParameters.PackName] = await GetCurrentPackNameAsync() ?? "unknown"
+            });
             
             // Get current number format
             var numberFormat = _localizationService.CurrentNumberFormat;
@@ -715,6 +726,18 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error loading more associations for category {CategoryKey}", SelectedCategory?.CategoryKey);
+        }
+    }
+    
+    private async Task<string?> GetCurrentPackNameAsync()
+    {
+        try
+        {
+            return await _packAssociationsService.GetCurrentPackNameAsync();
+        }
+        catch
+        {
+            return null;
         }
     }
     

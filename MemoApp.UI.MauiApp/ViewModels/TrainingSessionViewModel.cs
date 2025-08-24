@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.MajorSystem;
+using MemoApp.Core.Services.Analytics;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Utilities;
 using MemoApp.UI.MauiApp.Services;
@@ -17,7 +18,12 @@ namespace MemoApp.UI.MauiApp.ViewModels;
 public partial class TrainingSessionViewModel : BaseViewModel
 {
     private readonly ILocalizationService _localizationService;
+    private readonly IAnalyticsService _analyticsService;
     private GameSession? _gameSession;
+    
+    // Analytics tracking
+    private DateTime _sessionStartTime;
+    private int _totalAdvances;
 
     [ObservableProperty]
     private string rangeStart = "00";
@@ -52,9 +58,10 @@ public partial class TrainingSessionViewModel : BaseViewModel
     [ObservableProperty]
     private ObservableCollection<NumberPerformance> performances = new();
 
-    public TrainingSessionViewModel(ILocalizationService localizationService)
+    public TrainingSessionViewModel(ILocalizationService localizationService, IAnalyticsService analyticsService)
     {
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
+        _analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
         Title = "Training Session";
     }
 
@@ -86,9 +93,23 @@ public partial class TrainingSessionViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private void StartSession()
+    private async void StartSession()
     {
         if (_gameSession == null) return;
+
+        // Track session start analytics
+        _sessionStartTime = DateTime.UtcNow;
+        _totalAdvances = 0;
+        
+        var rangeSize = int.Parse(RangeEnd) - int.Parse(RangeStart) + 1;
+        
+        await _analyticsService.TrackEventAsync(AnalyticsEvents.TrainingSessionStarted, new Dictionary<string, object>
+        {
+            [AnalyticsParameters.ExerciseType] = ExerciseTypes.TrainingSession,
+            [AnalyticsParameters.NumberRange] = $"{RangeStart}_{RangeEnd}",
+            [AnalyticsParameters.DifficultyDigits] = rangeSize,
+            [AnalyticsParameters.TokensAvailable] = TotalNumbers
+        });
 
         _gameSession.StartSession();
         UpdateSessionStatus();
@@ -97,9 +118,20 @@ public partial class TrainingSessionViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private void AdvanceToNext()
+    private async void AdvanceToNext()
     {
         if (_gameSession == null || !IsSessionActive) return;
+
+        _totalAdvances++;
+        
+        // Track training step completion
+        await _analyticsService.TrackEventAsync(AnalyticsEvents.TrainingStepCompleted, new Dictionary<string, object>
+        {
+            [AnalyticsParameters.ExerciseType] = ExerciseTypes.TrainingSession,
+            [AnalyticsParameters.Token] = CurrentNumber,
+            [AnalyticsParameters.ProgressPercentage] = (int)(ProgressValue * 100),
+            [AnalyticsParameters.Attempts] = _totalAdvances
+        });
 
         _gameSession.AdvanceToNext();
         UpdateSessionStatus();
@@ -125,6 +157,24 @@ public partial class TrainingSessionViewModel : BaseViewModel
     [RelayCommand]
     private async Task StartNewSession()
     {
+        // Track user starting a new session
+        if (_gameSession != null && IsSessionActive)
+        {
+            // Session was abandoned before completion
+            var currentTime = DateTime.UtcNow;
+            var partialDuration = (currentTime - _sessionStartTime).TotalSeconds;
+            
+            await _analyticsService.TrackEventAsync(AnalyticsEvents.ExerciseAbandoned, new Dictionary<string, object>
+            {
+                [AnalyticsParameters.ExerciseType] = ExerciseTypes.TrainingSession,
+                [AnalyticsParameters.NumberRange] = $"{RangeStart}_{RangeEnd}",
+                [AnalyticsParameters.DurationSeconds] = (int)partialDuration,
+                [AnalyticsParameters.AbandonmentReason] = AbandonmentReasons.UserQuit,
+                [AnalyticsParameters.AbandonmentPoint] = PhaseTypes.Setup,
+                [AnalyticsParameters.ProgressPercentage] = (int)(ProgressValue * 100)
+            });
+        }
+        
         await Shell.Current.GoToAsync("..");
     }
 
@@ -147,15 +197,30 @@ public partial class TrainingSessionViewModel : BaseViewModel
         }
     }
 
-    private void CompleteSession()
+    private async void CompleteSession()
     {
         if (_gameSession == null) return;
 
+        var sessionEndTime = DateTime.UtcNow;
+        var totalDuration = (sessionEndTime - _sessionStartTime).TotalSeconds;
+        var statistics = _gameSession.GetStatistics();
+
+        // Track session completion analytics
+        await _analyticsService.TrackEventAsync(AnalyticsEvents.TrainingSessionCompleted, new Dictionary<string, object>
+        {
+            [AnalyticsParameters.ExerciseType] = ExerciseTypes.TrainingSession,
+            [AnalyticsParameters.NumberRange] = $"{RangeStart}_{RangeEnd}",
+            [AnalyticsParameters.DurationSeconds] = (int)totalDuration,
+            [AnalyticsParameters.Success] = true,
+            [AnalyticsParameters.TokensAvailable] = TotalNumbers,
+            [AnalyticsParameters.Attempts] = _totalAdvances,
+            [AnalyticsParameters.ProgressPercentage] = 100
+        });
+
         IsSessionActive = false;
         IsSessionCompleted = true;
-        SessionStatistics = _gameSession.GetStatistics();
+        SessionStatistics = statistics;
         Title = "Session Complete!";
-        
     }
 
 }

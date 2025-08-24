@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.MajorSystem;
 using MemoApp.Core.Packs;
 using MemoApp.Core.Services.Packs;
+using MemoApp.Core.Services.Analytics;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Views;
@@ -18,6 +19,7 @@ public partial class SettingsViewModel : BaseViewModel
     private readonly IPackManagerService _packManager;
     private readonly IPackDownloadService _downloadService;
     private readonly IPackUpdateBackgroundService? _updateService;
+    private readonly IAnalyticsService _analyticsService;
     private readonly ILogger<SettingsViewModel> _logger;
 
     [ObservableProperty]
@@ -43,12 +45,14 @@ public partial class SettingsViewModel : BaseViewModel
         IPackManagerService packManager,
         IPackDownloadService downloadService,
         IPackUpdateBackgroundService? updateService,
+        IAnalyticsService analyticsService,
         ILogger<SettingsViewModel> logger)
     {
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
         _packManager = packManager ?? throw new ArgumentNullException(nameof(packManager));
         _downloadService = downloadService ?? throw new ArgumentNullException(nameof(downloadService));
         _updateService = updateService;
+        _analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         Title = _localizationService.GetString("Settings_Title");
@@ -88,6 +92,13 @@ public partial class SettingsViewModel : BaseViewModel
                     _localizationService.SetCulture(selectedCulture);
                     await _localizationService.SaveLanguagePreferenceAsync();
                     
+                    // Track language change analytics
+                    await _analyticsService.TrackEventAsync(AnalyticsEvents.LanguageChanged, new Dictionary<string, object>
+                    {
+                        [AnalyticsParameters.LanguageCode] = selectedCulture.TwoLetterISOLanguageName,
+                        [AnalyticsParameters.LanguageName] = selectedLanguage
+                    });
+                    
                     CurrentLanguageName = selectedLanguage;
                     
                     _logger.LogInformation("Language changed successfully to: {Language}", selectedLanguage);
@@ -123,6 +134,13 @@ public partial class SettingsViewModel : BaseViewModel
                 {
                     _localizationService.SetNumberFormat(numberFormat.Value);
                     await _localizationService.SaveNumberFormatPreferenceAsync();
+                    
+                    // Track number format change analytics
+                    await _analyticsService.TrackEventAsync(AnalyticsEvents.NumberFormatChanged, new Dictionary<string, object>
+                    {
+                        [AnalyticsParameters.NumberFormatName] = selectedFormat,
+                        [AnalyticsParameters.NumberFormat] = numberFormat.Value.ToString()
+                    });
                     
                     CurrentNumberFormatName = selectedFormat;
                     
@@ -163,6 +181,15 @@ public partial class SettingsViewModel : BaseViewModel
                 if (pack != null)
                 {
                     await _packManager.SetCurrentPackAsync(pack.Id);
+                    
+                    // Track pack selection analytics
+                    await _analyticsService.TrackEventAsync(AnalyticsEvents.PackSelected, new Dictionary<string, object>
+                    {
+                        [AnalyticsParameters.PackName] = pack.InternationalName,
+                        [AnalyticsParameters.PackLanguage] = pack.LanguageCode,
+                        [AnalyticsParameters.PackId] = pack.Id
+                    });
+                    
                     CurrentPackName = GetPackDisplayName(pack);
                     _logger.LogInformation("Pack changed to: {PackId}", pack.Id);
                 }

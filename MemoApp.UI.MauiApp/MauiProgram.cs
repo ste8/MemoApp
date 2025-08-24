@@ -3,9 +3,11 @@ using MemoApp.UI.MauiApp.ViewModels;
 using MemoApp.UI.MauiApp.Views;
 using MemoApp.Localization.Extensions;
 using MemoApp.UI.MauiApp.Services;
+using MemoApp.UI.MauiApp.Services.Analytics;
 using MemoApp.Localization.Services;
 using MemoApp.Core.NumberMemorization;
 using MemoApp.Core.Services.Packs;
+using MemoApp.Core.Services.Analytics;
 using MemoApp.Core.MajorSystem.Services;
 using MemoApp.UI.MauiApp.Converters;
 using CommunityToolkit.Mvvm.Messaging;
@@ -83,6 +85,13 @@ public static class MauiProgram
 		builder.Services.AddSingleton<IPackAssociationsCacheService, PackAssociationsCacheService>();
 		builder.Services.AddSingleton<IImageCacheService, ImageCacheService>();
 		
+		// Register Analytics services - platform-specific implementation
+#if ANDROID || IOS
+		builder.Services.AddSingleton<IAnalyticsService, FirebaseAnalyticsService>();
+#else
+		builder.Services.AddSingleton<IAnalyticsService, LocalAnalyticsService>();
+#endif
+		
 		// Register Custom Associations services first (required by PackAssociationsService)
 		builder.Services.AddSingleton<IImageProcessingService, MauiImageProcessingService>();
 		builder.Services.AddSingleton<ICustomImageSourceService, MauiImageSourceService>();
@@ -113,7 +122,12 @@ public static class MauiProgram
 		builder.Services.AddSingleton<MainViewModel>();
 		builder.Services.AddSingleton<Views.MainPage>();
 		
-		builder.Services.AddTransient<TrainingSessionViewModel>();
+		builder.Services.AddTransient<TrainingSessionViewModel>(serviceProvider =>
+		{
+			var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+			var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
+			return new TrainingSessionViewModel(localizationService, analyticsService);
+		});
 		builder.Services.AddTransient<Views.TrainingSessionPage>();
 		
 		builder.Services.AddTransient<StatisticsViewModel>();
@@ -128,19 +142,40 @@ public static class MauiProgram
 			var packManager = serviceProvider.GetRequiredService<IPackManagerService>();
 			var downloadService = serviceProvider.GetRequiredService<IPackDownloadService>();
 			var updateService = serviceProvider.GetService<IPackUpdateBackgroundService>(); // Optional
+			var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
 			var logger = serviceProvider.GetRequiredService<ILogger<SettingsViewModel>>();
-			return new SettingsViewModel(localizationService, packManager, downloadService, updateService, logger);
+			return new SettingsViewModel(localizationService, packManager, downloadService, updateService, analyticsService, logger);
 		});
 		builder.Services.AddTransient<Views.SettingsPage>();
 		
 		// Register Number Memorization services
 		builder.Services.AddSingleton<INumberMemorizationService, NumberMemorizationService>();
 		builder.Services.AddSingleton<INumberMemorizationSettingsService, NumberMemorizationSettingsService>();
-		builder.Services.AddTransient<NumberMemorizationViewModel>();
+		builder.Services.AddTransient<NumberMemorizationViewModel>(serviceProvider =>
+		{
+			var gameService = serviceProvider.GetRequiredService<INumberMemorizationService>();
+			var settingsService = serviceProvider.GetRequiredService<INumberMemorizationSettingsService>();
+			var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+			var textMeasurementService = serviceProvider.GetRequiredService<ITextMeasurementService>();
+			var containerSizeService = serviceProvider.GetRequiredService<IContainerSizeService>();
+			var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
+			return new NumberMemorizationViewModel(gameService, settingsService, localizationService, textMeasurementService, containerSizeService, analyticsService);
+		});
 		builder.Services.AddTransient<Views.NumberMemorizationPage>();
 		
 		// Register Associations ViewModels and Views
-		builder.Services.AddTransient<AssociationsViewModel>();
+		builder.Services.AddTransient<AssociationsViewModel>(serviceProvider =>
+		{
+			var categoryService = serviceProvider.GetRequiredService<IMajorSystemCategoryService>();
+			var packAssociationsService = serviceProvider.GetRequiredService<IPackAssociationsService>();
+			var tokenDefaultsService = serviceProvider.GetRequiredService<ITokenDefaultsService>();
+			var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+			var messenger = serviceProvider.GetRequiredService<IMessenger>();
+			var imageCacheService = serviceProvider.GetRequiredService<IImageCacheService>();
+			var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
+			var logger = serviceProvider.GetRequiredService<ILogger<AssociationsViewModel>>();
+			return new AssociationsViewModel(categoryService, packAssociationsService, tokenDefaultsService, localizationService, messenger, imageCacheService, analyticsService, logger);
+		});
 		builder.Services.AddTransient<Views.AssociationsPage>();
 		
 		// Register Token Detail ViewModels and Views
@@ -152,7 +187,16 @@ public static class MauiProgram
 		builder.Services.AddTransient<Views.ImageViewerPage>();
 		
 		// Register Pack Management ViewModels and Views
-		builder.Services.AddTransient<PackDownloadViewModel>();
+		builder.Services.AddTransient<PackDownloadViewModel>(serviceProvider =>
+		{
+			var downloadService = serviceProvider.GetRequiredService<IPackDownloadService>();
+			var packManager = serviceProvider.GetRequiredService<IPackManagerService>();
+			var mauiPackService = serviceProvider.GetRequiredService<MauiPackService>();
+			var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+			var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
+			var logger = serviceProvider.GetRequiredService<ILogger<PackDownloadViewModel>>();
+			return new PackDownloadViewModel(downloadService, packManager, mauiPackService, localizationService, analyticsService, logger);
+		});
 		builder.Services.AddTransient<Views.PackDownloadPage>();
 		
 		// Register Add Custom Association ViewModels and Views
@@ -182,6 +226,20 @@ public static class MauiProgram
 				System.Diagnostics.Debug.WriteLine($"Failed to load saved preferences at startup: {ex.Message}");
 			}
 		}).Wait();
+		
+		// Initialize analytics tracking
+		Task.Run(async () =>
+		{
+			try
+			{
+				var analyticsService = app.Services.GetRequiredService<IAnalyticsService>();
+				await analyticsService.TrackAppStartAsync();
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Failed to track app start: {ex.Message}");
+			}
+		});
 
 		return app;
 	}
