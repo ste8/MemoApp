@@ -10,7 +10,8 @@ public partial class AppShell : Shell
 		
 		// Register routes for navigation
 		// These routes enable programmatic navigation using Shell.Current.GoToAsync()
-		Routing.RegisterRoute("training", typeof(TrainingSessionPage));
+		Routing.RegisterRoute("training", typeof(FlashNumbersPage));
+		Routing.RegisterRoute("flashnumbers", typeof(FlashNumbersPage));
 		Routing.RegisterRoute("statistics", typeof(StatisticsPage));
 		Routing.RegisterRoute(nameof(PackDownloadPage), typeof(PackDownloadPage));
 		Routing.RegisterRoute(nameof(TokenDetailPage), typeof(TokenDetailPage));

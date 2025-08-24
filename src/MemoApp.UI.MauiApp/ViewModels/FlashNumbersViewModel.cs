@@ -10,12 +10,12 @@ using MemoApp.UI.MauiApp.Services;
 namespace MemoApp.UI.MauiApp.ViewModels;
 
 /// <summary>
-/// ViewModel for the training session page.
-/// Manages a training session using the MemoApp.Core game logic.
+/// ViewModel for the Flash Numbers exercise page.
+/// Manages a Flash Numbers session using the MemoApp.Core game logic.
 /// </summary>
 [QueryProperty(nameof(RangeStart), "rangeStart")]
 [QueryProperty(nameof(RangeEnd), "rangeEnd")]
-public partial class TrainingSessionViewModel : BaseViewModel
+public partial class FlashNumbersViewModel : BaseViewModel
 {
     private readonly ILocalizationService _localizationService;
     private readonly IAnalyticsService _analyticsService;
@@ -58,11 +58,11 @@ public partial class TrainingSessionViewModel : BaseViewModel
     [ObservableProperty]
     private ObservableCollection<NumberPerformance> performances = new();
 
-    public TrainingSessionViewModel(ILocalizationService localizationService, IAnalyticsService analyticsService)
+    public FlashNumbersViewModel(ILocalizationService localizationService, IAnalyticsService analyticsService)
     {
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
         _analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
-        Title = "Training Session";
+        Title = "Flash Numbers";
     }
 
     /// <summary>
@@ -73,7 +73,7 @@ public partial class TrainingSessionViewModel : BaseViewModel
         try
         {
             IsBusy = true;
-            Title = $"Training: {RangeStart}-{RangeEnd}";
+            Title = $"Flash Numbers: {RangeStart}-{RangeEnd}";
             
             
             _gameSession = new GameSession(RangeStart, RangeEnd);
@@ -83,7 +83,7 @@ public partial class TrainingSessionViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert("Error", $"Failed to initialize training session: {ex.Message}", "OK");
+            await Shell.Current.DisplayAlert("Error", $"Failed to initialize Flash Numbers session: {ex.Message}", "OK");
             await Shell.Current.GoToAsync("..");
         }
         finally
@@ -103,9 +103,9 @@ public partial class TrainingSessionViewModel : BaseViewModel
         
         var rangeSize = int.Parse(RangeEnd) - int.Parse(RangeStart) + 1;
         
-        await _analyticsService.TrackEventAsync(AnalyticsEvents.TrainingSessionStarted, new Dictionary<string, object>
+        await _analyticsService.TrackEventAsync(AnalyticsEvents.FlashNumbersStarted, new Dictionary<string, object>
         {
-            [AnalyticsParameters.ExerciseType] = ExerciseTypes.TrainingSession,
+            [AnalyticsParameters.ExerciseType] = ExerciseTypes.FlashNumbers,
             [AnalyticsParameters.NumberRange] = $"{RangeStart}_{RangeEnd}",
             [AnalyticsParameters.DifficultyDigits] = rangeSize,
             [AnalyticsParameters.TokensAvailable] = TotalNumbers
@@ -124,10 +124,10 @@ public partial class TrainingSessionViewModel : BaseViewModel
 
         _totalAdvances++;
         
-        // Track training step completion
-        await _analyticsService.TrackEventAsync(AnalyticsEvents.TrainingStepCompleted, new Dictionary<string, object>
+        // Track Flash Numbers step completion
+        await _analyticsService.TrackEventAsync(AnalyticsEvents.FlashNumbersStepCompleted, new Dictionary<string, object>
         {
-            [AnalyticsParameters.ExerciseType] = ExerciseTypes.TrainingSession,
+            [AnalyticsParameters.ExerciseType] = ExerciseTypes.FlashNumbers,
             [AnalyticsParameters.Token] = CurrentNumber,
             [AnalyticsParameters.ProgressPercentage] = (int)(ProgressValue * 100),
             [AnalyticsParameters.Attempts] = _totalAdvances
@@ -166,7 +166,7 @@ public partial class TrainingSessionViewModel : BaseViewModel
             
             await _analyticsService.TrackEventAsync(AnalyticsEvents.ExerciseAbandoned, new Dictionary<string, object>
             {
-                [AnalyticsParameters.ExerciseType] = ExerciseTypes.TrainingSession,
+                [AnalyticsParameters.ExerciseType] = ExerciseTypes.FlashNumbers,
                 [AnalyticsParameters.NumberRange] = $"{RangeStart}_{RangeEnd}",
                 [AnalyticsParameters.DurationSeconds] = (int)partialDuration,
                 [AnalyticsParameters.AbandonmentReason] = AbandonmentReasons.UserQuit,
@@ -206,9 +206,9 @@ public partial class TrainingSessionViewModel : BaseViewModel
         var statistics = _gameSession.GetStatistics();
 
         // Track session completion analytics
-        await _analyticsService.TrackEventAsync(AnalyticsEvents.TrainingSessionCompleted, new Dictionary<string, object>
+        await _analyticsService.TrackEventAsync(AnalyticsEvents.FlashNumbersCompleted, new Dictionary<string, object>
         {
-            [AnalyticsParameters.ExerciseType] = ExerciseTypes.TrainingSession,
+            [AnalyticsParameters.ExerciseType] = ExerciseTypes.FlashNumbers,
             [AnalyticsParameters.NumberRange] = $"{RangeStart}_{RangeEnd}",
             [AnalyticsParameters.DurationSeconds] = (int)totalDuration,
             [AnalyticsParameters.Success] = true,
@@ -220,7 +220,7 @@ public partial class TrainingSessionViewModel : BaseViewModel
         IsSessionActive = false;
         IsSessionCompleted = true;
         SessionStatistics = statistics;
-        Title = "Session Complete!";
+        Title = "Flash Numbers Complete!";
     }
 
 }

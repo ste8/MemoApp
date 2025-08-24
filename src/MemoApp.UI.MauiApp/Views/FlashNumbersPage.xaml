@@ -4,8 +4,8 @@
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              xmlns:utilities="clr-namespace:MemoApp.UI.MauiApp.Utilities"
-             x:Class="MemoApp.UI.MauiApp.Views.TrainingSessionPage"
-             x:DataType="viewmodels:TrainingSessionViewModel"
+             x:Class="MemoApp.UI.MauiApp.Views.FlashNumbersPage"
+             x:DataType="viewmodels:FlashNumbersViewModel"
              Title="{Binding Title}"
              Shell.TabBarIsVisible="{Binding IsSessionCompleted}">
 
@@ -54,7 +54,7 @@
                             </Grid.RowDefinitions>
 
                             <Label Grid.Row="0"
-                                   Text="{localization:Localize TrainingSession_Progress}"
+                                   Text="{localization:Localize FlashNumbers_Progress}"
                                    Style="{StaticResource SubHeadline}"
                                    HorizontalOptions="Center"
                                    Margin="0,0,0,15" />
@@ -101,7 +101,7 @@
                            HasShadow="True">
                         
                         <StackLayout Spacing="20">
-                            <Label Text="{localization:Localize TrainingSession_CurrentNumber}"
+                            <Label Text="{localization:Localize FlashNumbers_CurrentNumber}"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
                                    HorizontalOptions="Center"
@@ -119,7 +119,7 @@
                                    AutomationProperties.Name="{localization:Localize Accessibility_CurrentNumber}"
                                    AutomationProperties.HelpText="{Binding CurrentNumber, StringFormat='Current number to practice: {0}'}" />
 
-                            <Label Text="{localization:Localize TrainingSession_ThinkInstruction}"
+                            <Label Text="{localization:Localize FlashNumbers_ThinkInstruction}"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    HorizontalOptions="Center"
@@ -147,7 +147,7 @@
                                 AutomationProperties.HelpText="{localization:Localize Accessibility_NextButtonHelp}" />
                         
                         <!-- Keyboard shortcut hint for desktop platforms only -->
-                        <Label Text="{localization:Localize TrainingSession_KeyboardShortcutHint}"
+                        <Label Text="{localization:Localize FlashNumbers_KeyboardShortcutHint}"
                                IsVisible="{OnPlatform MacCatalyst=True, WinUI=True, Default=False}"
                                FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
                                TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
@@ -163,7 +163,7 @@
                            CornerRadius="10"
                            HasShadow="False">
                         
-                        <Label Text="{localization:Localize TrainingSession_HelpTip}"
+                        <Label Text="{localization:Localize FlashNumbers_HelpTip}"
                                TextColor="White"
                                FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                HorizontalTextAlignment="Center"
@@ -187,7 +187,7 @@
                                    FontSize="{OnIdiom Phone=60, Tablet=80, Desktop=100}"
                                    HorizontalOptions="Center" />
 
-                            <Label Text="{localization:Localize TrainingSession_Complete}"
+                            <Label Text="{localization:Localize FlashNumbers_Complete}"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
                                    FontAttributes="Bold"
@@ -269,7 +269,7 @@
                                 CornerRadius="10"
                                 HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
                                 AutomationProperties.Name="{localization:Localize Accessibility_NewSessionButton}"
-                                AutomationProperties.HelpText="{localization:Localize TrainingSession_NewSession}" />
+                                AutomationProperties.HelpText="{localization:Localize FlashNumbers_NewSession}" />
                     </Grid>
                 </StackLayout>
             </Grid>

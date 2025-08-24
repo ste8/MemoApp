@@ -122,13 +122,13 @@ public static class MauiProgram
 		builder.Services.AddSingleton<MainViewModel>();
 		builder.Services.AddSingleton<Views.MainPage>();
 		
-		builder.Services.AddTransient<TrainingSessionViewModel>(serviceProvider =>
+		builder.Services.AddTransient<FlashNumbersViewModel>(serviceProvider =>
 		{
 			var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
 			var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
-			return new TrainingSessionViewModel(localizationService, analyticsService);
+			return new FlashNumbersViewModel(localizationService, analyticsService);
 		});
-		builder.Services.AddTransient<Views.TrainingSessionPage>();
+		builder.Services.AddTransient<Views.FlashNumbersPage>();
 		
 		builder.Services.AddTransient<StatisticsViewModel>();
 		builder.Services.AddTransient<Views.StatisticsPage>();

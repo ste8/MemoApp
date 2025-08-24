@@ -3,12 +3,12 @@ using MemoApp.UI.MauiApp.ViewModels;
 
 namespace MemoApp.UI.MauiApp.Views;
 
-public partial class TrainingSessionPage : ContentPage
+public partial class FlashNumbersPage : ContentPage
 {
-    private readonly TrainingSessionViewModel _viewModel;
+    private readonly FlashNumbersViewModel _viewModel;
     private readonly IPackUpdateBackgroundService? _updateService;
 
-    public TrainingSessionPage(TrainingSessionViewModel viewModel)
+    public FlashNumbersPage(FlashNumbersViewModel viewModel)
     {
         InitializeComponent();
         _viewModel = viewModel;

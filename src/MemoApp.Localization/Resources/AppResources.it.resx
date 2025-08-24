@@ -161,10 +161,14 @@
     <comment>Full range training option description</comment>
   </data>
   
-  <!-- Training Session -->
+  <!-- Flash Numbers (ex Sessione di Allenamento) -->
+  <data name="FlashNumbers_Title" xml:space="preserve">
+    <value>Flash Numbers</value>
+    <comment>Flash Numbers exercise page title</comment>
+  </data>
   <data name="TrainingSession_Title" xml:space="preserve">
-    <value>Sessione di Allenamento</value>
-    <comment>Training session page title</comment>
+    <value>Flash Numbers</value>
+    <comment>Training session page title (deprecated - use FlashNumbers_Title)</comment>
   </data>
   <data name="TrainingSession_Progress" xml:space="preserve">
     <value>Progresso</value>
@@ -182,9 +186,13 @@
     <value>Rimanenti: {0}</value>
     <comment>Remaining count label</comment>
   </data>
+  <data name="FlashNumbers_CurrentNumber" xml:space="preserve">
+    <value>Numero Corrente</value>
+    <comment>Flash Numbers current number display title</comment>
+  </data>
   <data name="TrainingSession_CurrentNumber" xml:space="preserve">
     <value>Numero Corrente</value>
-    <comment>Current number display title</comment>
+    <comment>Current number display title (deprecated - use FlashNumbers_CurrentNumber)</comment>
   </data>
   <data name="TrainingSession_YourAnswer" xml:space="preserve">
     <value>La Tua Risposta</value>
@@ -202,9 +210,13 @@
     <value>Numero Successivo</value>
     <comment>Next number button</comment>
   </data>
+  <data name="FlashNumbers_Complete" xml:space="preserve">
+    <value>Flash Numbers Completato!</value>
+    <comment>Flash Numbers completion title</comment>
+  </data>
   <data name="TrainingSession_Complete" xml:space="preserve">
-    <value>Sessione Completata!</value>
-    <comment>Session completion title</comment>
+    <value>Flash Numbers Completato!</value>
+    <comment>Session completion title (deprecated - use FlashNumbers_Complete)</comment>
   </data>
   <data name="TrainingSession_Statistics" xml:space="preserve">
     <value>Statistiche della Sessione</value>
@@ -306,13 +318,21 @@
   </data>
   
   <!-- Training Session Additional -->
+  <data name="FlashNumbers_ThinkInstruction" xml:space="preserve">
+    <value>Pensa alla tua associazione parola/immagine</value>
+    <comment>Flash Numbers instruction</comment>
+  </data>
   <data name="TrainingSession_ThinkInstruction" xml:space="preserve">
     <value>Pensa alla tua associazione parola/immagine</value>
-    <comment>Training session instruction</comment>
+    <comment>Training session instruction (deprecated - use FlashNumbers_ThinkInstruction)</comment>
+  </data>
+  <data name="FlashNumbers_HelpTip" xml:space="preserve">
+    <value>💡 Prenditi il tempo per ricordare la tua parola o immagine del Sistema Maggiore per questo numero, poi tocca 'Numero Successivo' per continuare. Premi 'N' per l'accesso rapido.</value>
+    <comment>Flash Numbers help tip</comment>
   </data>
   <data name="TrainingSession_HelpTip" xml:space="preserve">
     <value>💡 Prenditi il tempo per ricordare la tua parola o immagine del Sistema Maggiore per questo numero, poi tocca 'Numero Successivo' per continuare. Premi 'N' per l'accesso rapido.</value>
-    <comment>Training session help tip</comment>
+    <comment>Training session help tip (deprecated - use FlashNumbers_HelpTip)</comment>
   </data>
   <data name="TrainingSession_Celebration" xml:space="preserve">
     <value>🎉</value>
@@ -326,9 +346,13 @@
     <value>Riepilogo Sessione</value>
     <comment>Session summary title</comment>
   </data>
+  <data name="FlashNumbers_NewSession" xml:space="preserve">
+    <value>Nuovo Flash Numbers</value>
+    <comment>New Flash Numbers session button text</comment>
+  </data>
   <data name="TrainingSession_NewSession" xml:space="preserve">
-    <value>Nuova Sessione</value>
-    <comment>New session button</comment>
+    <value>Nuovo Flash Numbers</value>
+    <comment>New session button (deprecated - use FlashNumbers_NewSession)</comment>
   </data>
   
   <!-- Statistics Page -->
@@ -392,9 +416,13 @@
     <value>Annulla</value>
     <comment>Cancel button text</comment>
   </data>
+  <data name="FlashNumbers_KeyboardShortcutHint" xml:space="preserve">
+    <value>Premi N per andare al numero successivo</value>
+    <comment>Flash Numbers keyboard shortcut hint for Next button</comment>
+  </data>
   <data name="TrainingSession_KeyboardShortcutHint" xml:space="preserve">
     <value>Premi N per andare al numero successivo</value>
-    <comment>Keyboard shortcut hint for Next button</comment>
+    <comment>Keyboard shortcut hint for Next button (deprecated - use FlashNumbers_KeyboardShortcutHint)</comment>
   </data>
   
   <!-- Accessibility Labels -->

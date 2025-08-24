@@ -44,10 +44,15 @@ public static class AnalyticsEvents
     public const string FeatureDiscovered = "feature_discovered";
     public const string ButtonClicked = "button_clicked";
     
-    // Training Session Events
+    // Training Session Events (Legacy - use FlashNumbers events for new implementations)
     public const string TrainingSessionStarted = "training_session_started";
     public const string TrainingSessionCompleted = "training_session_completed";
     public const string TrainingStepCompleted = "training_step_completed";
+    
+    // Flash Numbers Events (renamed from Training Session)
+    public const string FlashNumbersStarted = "flash_numbers_started";
+    public const string FlashNumbersCompleted = "flash_numbers_completed";
+    public const string FlashNumbersStepCompleted = "flash_numbers_step_completed";
     
     // User Engagement Events
     public const string FirstTimeUser = "first_time_user";
@@ -149,7 +154,8 @@ public static class ExerciseTypes
 {
     public const string NumberMemorization = "number_memorization";
     public const string MajorSystemReview = "major_system_review";
-    public const string TrainingSession = "training_session";
+    public const string TrainingSession = "training_session"; // Legacy - use FlashNumbers for new code
+    public const string FlashNumbers = "flash_numbers"; // Renamed from TrainingSession
     public const string FreeRecall = "free_recall";
 }
 
