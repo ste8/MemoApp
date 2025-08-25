@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 using MemoApp.UI.MauiApp.ViewModels;
 using MemoApp.Localization.Extensions;
 using MemoApp.UI.MauiApp.Services;
@@ -11,6 +12,7 @@ using MemoApp.Core.Services.Analytics;
 using MemoApp.Core.Services.ErrorMonitoring;
 using MemoApp.Core.MajorSystem.Services;
 using CommunityToolkit.Mvvm.Messaging;
+using System.Linq;
 
 namespace MemoApp.UI.MauiApp;
 
@@ -19,6 +21,50 @@ public static class MauiProgram
 	public static Microsoft.Maui.Hosting.MauiApp CreateMauiApp()
 	{
 		var builder = Microsoft.Maui.Hosting.MauiApp.CreateBuilder();
+		
+		// Load appsettings.json configuration from embedded resource
+		var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+		using var stream = assembly.GetManifestResourceStream("MemoApp.UI.MauiApp.appsettings.json");
+		if (stream != null)
+		{
+			var configBuilder = new ConfigurationBuilder();
+			configBuilder.AddJsonStream(stream);
+			var embeddedConfig = configBuilder.Build();
+			
+			// Add the embedded config to the builder
+			foreach (var kvp in embeddedConfig.AsEnumerable())
+			{
+				if (kvp.Value != null)
+				{
+					builder.Configuration[kvp.Key] = kvp.Value;
+				}
+			}
+		}
+		else
+		{
+			System.Diagnostics.Debug.WriteLine("Warning: appsettings.json not found as embedded resource");
+		}
+		
+#if DEBUG
+		// Also try to load appsettings.Development.json if it exists
+		using var devStream = assembly.GetManifestResourceStream("MemoApp.UI.MauiApp.appsettings.Development.json");
+		if (devStream != null)
+		{
+			var devConfigBuilder = new ConfigurationBuilder();
+			devConfigBuilder.AddJsonStream(devStream);
+			var embeddedDevConfig = devConfigBuilder.Build();
+			
+			// Add the embedded dev config to the builder (overwrites main config values)
+			foreach (var kvp in embeddedDevConfig.AsEnumerable())
+			{
+				if (kvp.Value != null)
+				{
+					builder.Configuration[kvp.Key] = kvp.Value;
+				}
+			}
+		}
+#endif
+		
 		builder
 			.UseMauiApp<App>()
 			.ConfigureFonts(fonts =>
@@ -35,7 +81,7 @@ public static class MauiProgram
 				fonts.AddFont("fa-brands-400.ttf", "FontAwesomeBrands");
 			});
 
-		// Load configuration
+		// Load configuration (now loaded from appsettings.json)
 		var configuration = builder.Configuration;
 		var packsIndexUrl = configuration["PackManagement:PacksIndexUrl"] ?? "https://github.com/ste8/MemoApp-Packs/releases/download/packs-manifest/packs.json";
 		var cacheMinutes = int.Parse(configuration["PackManagement:CacheDurationMinutes"] ?? "30");
@@ -44,8 +90,32 @@ public static class MauiProgram
 		builder.Services.AddSingleton<IErrorMonitoringService, SentryErrorMonitoringService>();
 		builder.Services.AddSingleton<GlobalExceptionHandler>();
 		
-		// Add Sentry MAUI integration
-		builder.UseSentry();
+		// Register App Initialization Service
+		builder.Services.AddSingleton<IAppInitializationService, AppInitializationService>();
+		
+		// Configure Sentry MAUI integration with proper options
+		builder.UseSentry(options =>
+		{
+			var sentryDsn = configuration["Sentry:Dsn"];
+			System.Diagnostics.Debug.WriteLine($"Loading Sentry DSN: '{sentryDsn}' (Length: {sentryDsn?.Length ?? 0})");
+			
+			if (!string.IsNullOrEmpty(sentryDsn))
+			{
+				options.Dsn = sentryDsn;
+				options.Environment = configuration["Sentry:Environment"] ?? "production";
+				options.Debug = bool.TryParse(configuration["Sentry:Debug"], out var debug) && debug;
+				options.TracesSampleRate = double.TryParse(configuration["Sentry:TracesSampleRate"], out var traceRate) ? traceRate : 0.1;
+				
+				System.Diagnostics.Debug.WriteLine($"Sentry configured: Environment={options.Environment}, Debug={options.Debug}, TracesSampleRate={options.TracesSampleRate}");
+			}
+			else
+			{
+				System.Diagnostics.Debug.WriteLine("Warning: Sentry DSN is null or empty - Sentry will not be initialized");
+				// List all configuration keys for debugging
+				var allKeys = configuration.AsEnumerable().Select(kvp => $"{kvp.Key}={kvp.Value}").ToArray();
+				System.Diagnostics.Debug.WriteLine($"All configuration keys ({allKeys.Length}): {string.Join(", ", allKeys)}");
+			}
+		});
 
 		// Register HTTP client for pack downloads
 		builder.Services.AddHttpClient();
@@ -219,62 +289,29 @@ public static class MauiProgram
 		// Initialize the LocalizationResourceManager with the DI service
 		app.Services.InitializeLocalization();
 
-		// Load saved preferences before the app starts
-		var localizationService = app.Services.GetRequiredService<ILocalizationService>();
-		Task.Run(async () =>
-		{
-			try
-			{
-				await localizationService.LoadSavedLanguageAsync();
-				await localizationService.LoadSavedNumberFormatAsync();
-			}
-			catch (Exception ex)
-			{
-				System.Diagnostics.Debug.WriteLine($"Failed to load saved preferences at startup: {ex.Message}");
-			}
-		}).Wait();
+		// Initialize all services using the proper coordination service
+		// This replaces the dangerous .Wait() and Task.Run patterns
+		var initializationService = app.Services.GetRequiredService<IAppInitializationService>();
 		
-		// Initialize error monitoring first (before other services)
+		// Start initialization asynchronously but don't block app startup
+		// The app can start showing UI while services initialize in background
 		Task.Run(async () =>
 		{
 			try
 			{
-				var errorService = app.Services.GetRequiredService<IErrorMonitoringService>();
-				await errorService.InitializeAsync();
-				
-				// Initialize global exception handler
-				var globalHandler = app.Services.GetRequiredService<GlobalExceptionHandler>();
-				globalHandler.Initialize();
-				
-				// Set initial user context
-				await errorService.SetUserContextAsync(new Dictionary<string, object>
+				var initSuccess = await initializationService.InitializeAsync();
+				if (initSuccess)
 				{
-					["session_id"] = Guid.NewGuid().ToString(),
-					["app_version"] = AppInfo.VersionString,
-					["platform"] = DeviceInfo.Platform.ToString(),
-					["device_model"] = DeviceInfo.Model,
-					["ui_language"] = localizationService.CurrentCulture.TwoLetterISOLanguageName
-				});
-				
-				System.Diagnostics.Debug.WriteLine("Error monitoring initialized successfully");
+					System.Diagnostics.Debug.WriteLine("All app services initialized successfully");
+				}
+				else
+				{
+					System.Diagnostics.Debug.WriteLine($"App initialization failed: {initializationService.CurrentStatus}");
+				}
 			}
 			catch (Exception ex)
 			{
-				System.Diagnostics.Debug.WriteLine($"Failed to initialize error monitoring: {ex.Message}");
-			}
-		});
-		
-		// Initialize analytics tracking
-		Task.Run(async () =>
-		{
-			try
-			{
-				var analyticsService = app.Services.GetRequiredService<IAnalyticsService>();
-				await analyticsService.TrackAppStartAsync();
-			}
-			catch (Exception ex)
-			{
-				System.Diagnostics.Debug.WriteLine($"Failed to track app start: {ex.Message}");
+				System.Diagnostics.Debug.WriteLine($"Critical error during app initialization: {ex.Message}");
 			}
 		});
 

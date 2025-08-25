@@ -34,53 +34,32 @@ public class SentryErrorMonitoringService : IErrorMonitoringService
         try
         {
             var dsn = _configuration["Sentry:Dsn"];
+            _logger.LogDebug("Checking Sentry DSN configuration: '{Dsn}' (Length: {Length})", 
+                dsn ?? "NULL", dsn?.Length ?? 0);
+            
             if (string.IsNullOrEmpty(dsn))
             {
                 _logger.LogWarning("Sentry DSN not configured. Error monitoring disabled.");
                 return;
             }
 
-            SentrySdk.Init(options =>
+            // Check if Sentry is already initialized (by MAUI integration)
+            if (SentrySdk.IsEnabled)
             {
-                options.Dsn = dsn;
-                
-                // Set environment based on build configuration
-#if DEBUG
-                options.Environment = "development";
-                options.Debug = true;
-                options.DiagnosticLevel = SentryLevel.Debug;
-#else
-                options.Environment = _configuration["Sentry:Environment"] ?? "production";
-                options.Debug = false;
-#endif
-                
-                // Low sampling rate to preserve quota
-                options.TracesSampleRate = 0.1;
-                
-                // Set release version
-                options.Release = $"memoraise@{AppInfo.VersionString}";
-                
-                // Only send critical errors - filter in BeforeSend
-                options.SetBeforeSend(BeforeSendCallback);
-                
-                // Add app context - filter breadcrumbs
-                options.SetBeforeBreadcrumb((breadcrumb, hint) =>
-                {
-                    // Filter out non-critical breadcrumbs
-                    if (breadcrumb.Level < BreadcrumbLevel.Warning)
-                        return null;
-                    return breadcrumb;
-                });
-            });
-
-            _isEnabled = true;
-            _logger.LogInformation("Sentry error monitoring initialized");
+                _logger.LogInformation("Sentry SDK already initialized by MAUI integration");
+                _isEnabled = true;
+            }
+            else
+            {
+                _logger.LogWarning("Sentry SDK not initialized. Error monitoring disabled.");
+                return;
+            }
             
             await Task.CompletedTask;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to initialize Sentry");
+            _logger.LogError(ex, "Failed to initialize error monitoring service");
             _isEnabled = false;
         }
     }
@@ -309,39 +288,6 @@ public class SentryErrorMonitoringService : IErrorMonitoringService
         }
     }
 
-    private SentryEvent? BeforeSendCallback(SentryEvent evt, SentryHint hint)
-    {
-        // Filter out non-critical errors
-        if (evt.Level < SentryLevel.Error)
-            return null;
-        
-        // Check if it's a critical error type
-        if (!evt.Tags.TryGetValue("critical", out var isCritical) || isCritical != "true")
-        {
-            // Check if exception is critical
-            if (evt.Exception != null && !IsCriticalException(evt.Exception))
-            {
-                _logger.LogDebug("Filtered non-critical exception: {ExceptionType}", evt.Exception.GetType().Name);
-                return null;
-            }
-        }
-        
-        return evt;
-    }
-
-    private bool IsCriticalException(Exception exception)
-    {
-        // Define which exceptions are always critical
-        return exception switch
-        {
-            OutOfMemoryException => true,
-            StackOverflowException => true,
-            AccessViolationException => true,
-            _ when exception.Message.Contains("crash", StringComparison.OrdinalIgnoreCase) => true,
-            _ when exception.Message.Contains("fatal", StringComparison.OrdinalIgnoreCase) => true,
-            _ => false
-        };
-    }
 
     private Dictionary<string, object> ConvertToDict(object obj)
     {
