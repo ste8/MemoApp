@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "239507839719",
+    "project_id": "memoapp-4e18a",
+    "storage_bucket": "memoapp-4e18a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:239507839719:android:26b0f369f8253209416042",
+        "android_client_info": {
+          "package_name": "com.stefanoottaviani.memoapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOYLZybO7RRmFnjWnpji6rzXFd8nc_iSU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
