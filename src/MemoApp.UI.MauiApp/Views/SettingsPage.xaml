@@ -134,6 +134,52 @@
                 </StackLayout>
             </Frame>
 
+            <!-- About Section -->
+            <Frame BackgroundColor="LightGray"
+                   CornerRadius="10"
+                   HasShadow="True"
+                   Padding="15">
+                
+                <StackLayout Spacing="15">
+                    
+                    <!-- Section Title -->
+                    <Label Text="{localization:Localize AppInfo_About}"
+                           FontSize="18"
+                           FontAttributes="Bold" />
+                    
+                    <!-- App Info Grid -->
+                    <Grid RowSpacing="10" ColumnSpacing="15">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- App Name -->
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="{localization:Localize AppInfo_AppName}"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center" />
+                        <Label Grid.Row="0" Grid.Column="1"
+                               Text="{Binding AppName}"
+                               VerticalOptions="Center" />
+                        
+                        <!-- Version -->
+                        <Label Grid.Row="1" Grid.Column="0"
+                               Text="{localization:Localize AppInfo_Version}"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center" />
+                        <Label Grid.Row="1" Grid.Column="1"
+                               Text="{Binding Version}"
+                               VerticalOptions="Center" />
+                    </Grid>
+                    
+                </StackLayout>
+            </Frame>
+
         </StackLayout>
     </ScrollView>
 </ContentPage>

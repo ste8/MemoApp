@@ -37,6 +37,9 @@ public static class ServiceRegistration
         // App Initialization Service
         services.AddSingleton<IAppInitializationService, AppInitializationService>();
         
+        // App Info Service for version information
+        services.AddSingleton<IAppInfoService, AppInfoService>();
+        
         // Messaging services
         services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
         
@@ -183,7 +186,11 @@ public static class ServiceRegistration
     public static IServiceCollection AddViewModels(this IServiceCollection services)
     {
         // Singleton ViewModels (shared state)
-        services.AddSingleton<MainViewModel>();
+        services.AddSingleton<MainViewModel>(serviceProvider =>
+        {
+            var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+            return new MainViewModel(localizationService);
+        });
         
         // Transient ViewModels (new instance per navigation)
         services.AddTransient<FlashNumbersViewModel>(serviceProvider =>
@@ -203,8 +210,9 @@ public static class ServiceRegistration
             var downloadService = serviceProvider.GetRequiredService<IPackDownloadService>();
             var updateService = serviceProvider.GetService<IPackUpdateBackgroundService>(); // Optional
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
+            var appInfoService = serviceProvider.GetRequiredService<IAppInfoService>();
             var logger = serviceProvider.GetRequiredService<ILogger<SettingsViewModel>>();
-            return new SettingsViewModel(localizationService, packManager, downloadService, updateService, analyticsService, logger);
+            return new SettingsViewModel(localizationService, packManager, downloadService, updateService, analyticsService, appInfoService, logger);
         });
         
         return services;

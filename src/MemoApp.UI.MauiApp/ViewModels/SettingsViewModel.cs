@@ -20,6 +20,7 @@ public partial class SettingsViewModel : BaseViewModel
     private readonly IPackDownloadService _downloadService;
     private readonly IPackUpdateBackgroundService? _updateService;
     private readonly IAnalyticsService _analyticsService;
+    private readonly IAppInfoService _appInfoService;
     private readonly ILogger<SettingsViewModel> _logger;
 
     [ObservableProperty]
@@ -37,6 +38,14 @@ public partial class SettingsViewModel : BaseViewModel
     [ObservableProperty]
     private ObservableCollection<Pack> downloadedPacks = new();
 
+    // App Info properties
+    [ObservableProperty]
+    private string appName = string.Empty;
+
+    [ObservableProperty]
+    private string version = string.Empty;
+
+
     public ObservableCollection<string> AvailableLanguages { get; }
     public ObservableCollection<string> AvailableNumberFormats { get; }
 
@@ -46,6 +55,7 @@ public partial class SettingsViewModel : BaseViewModel
         IPackDownloadService downloadService,
         IPackUpdateBackgroundService? updateService,
         IAnalyticsService analyticsService,
+        IAppInfoService appInfoService,
         ILogger<SettingsViewModel> logger)
     {
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
@@ -53,6 +63,7 @@ public partial class SettingsViewModel : BaseViewModel
         _downloadService = downloadService ?? throw new ArgumentNullException(nameof(downloadService));
         _updateService = updateService;
         _analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
+        _appInfoService = appInfoService ?? throw new ArgumentNullException(nameof(appInfoService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         Title = _localizationService.GetString("Settings_Title");
@@ -63,6 +74,9 @@ public partial class SettingsViewModel : BaseViewModel
         CurrentLanguageName = _localizationService.GetString("Language_English");
         CurrentNumberFormatName = _localizationService.GetString("NumberFormat_Padded");
         CurrentPackName = _localizationService.GetString("Settings_NoPacksDownloaded");
+        
+        // Initialize app info properties
+        InitializeAppInfo();
         
         _logger.LogInformation("SettingsViewModel constructor completed");
     }
@@ -403,5 +417,26 @@ public partial class SettingsViewModel : BaseViewModel
         var currentLanguage = _localizationService.GetCurrentLanguage();
         var useNative = currentLanguage == "it" && pack.LanguageCode == "it";
         return pack.GetDisplayName(useNative);
+    }
+
+    private void InitializeAppInfo()
+    {
+        try
+        {
+            var appDetails = _appInfoService.GetAppDetails();
+            
+            AppName = appDetails.AppName;
+            Version = appDetails.Version;
+            
+            _logger.LogDebug("App info initialized: {AppName} v{Version}", AppName, Version);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error initializing app info");
+            
+            // Fallback values if app info fails to load
+            AppName = "MemoRaise";
+            Version = "Unknown";
+        }
     }
 }

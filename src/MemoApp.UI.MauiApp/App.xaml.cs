@@ -12,14 +12,16 @@ public partial class App : Application
 	private readonly ILocalizationService _localizationService;
 	private readonly IPackUpdateBackgroundService _updateService;
 	private readonly IErrorMonitoringService? _errorService;
+	private readonly IAppInitializationService _initializationService;
 	private readonly DateTime _appStartTime = DateTime.UtcNow;
 	
-	public App(IPackManagerService packManager, ILocalizationService localizationService, IPackUpdateBackgroundService updateService, IErrorMonitoringService? errorService = null)
+	public App(IPackManagerService packManager, ILocalizationService localizationService, IPackUpdateBackgroundService updateService, IAppInitializationService initializationService, IErrorMonitoringService? errorService = null)
 	{
 		InitializeComponent();
 		_packManager = packManager;
 		_localizationService = localizationService;
 		_updateService = updateService;
+		_initializationService = initializationService;
 		_errorService = errorService;
 	}
 
@@ -65,6 +67,7 @@ public partial class App : Application
 		// Restart background update service when app resumes
 		await _updateService.StartAsync();
 	}
+
 
 	public async Task CheckFirstLaunchAsync()
 	{

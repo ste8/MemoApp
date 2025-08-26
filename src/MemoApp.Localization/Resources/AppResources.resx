@@ -1152,4 +1152,46 @@
     <value>Information</value>
     <comment>Info dialog title</comment>
   </data>
+  
+  <!-- App Info and Version strings -->
+  <data name="AppInfo_About" xml:space="preserve">
+    <value>About</value>
+    <comment>About section title in settings</comment>
+  </data>
+  <data name="AppInfo_Version" xml:space="preserve">
+    <value>Version</value>
+    <comment>App version label</comment>
+  </data>
+  <data name="AppInfo_Build" xml:space="preserve">
+    <value>Build</value>
+    <comment>App build number label</comment>
+  </data>
+  <data name="AppInfo_Platform" xml:space="preserve">
+    <value>Platform</value>
+    <comment>Platform label</comment>
+  </data>
+  <data name="AppInfo_AppName" xml:space="preserve">
+    <value>App Name</value>
+    <comment>Application name label</comment>
+  </data>
+  <data name="AppInfo_PackageName" xml:space="preserve">
+    <value>Package ID</value>
+    <comment>Package/bundle identifier label</comment>
+  </data>
+  <data name="AppInfo_Framework" xml:space="preserve">
+    <value>Framework</value>
+    <comment>.NET framework version label</comment>
+  </data>
+  <data name="AppInfo_BuildDate" xml:space="preserve">
+    <value>Build Date</value>
+    <comment>Application build date label</comment>
+  </data>
+  <data name="AppInfo_Copyright" xml:space="preserve">
+    <value>Copyright</value>
+    <comment>Copyright information label</comment>
+  </data>
+  <data name="MainPage_Version" xml:space="preserve">
+    <value>Version {0}</value>
+    <comment>Version display on main page (parameter is version number)</comment>
+  </data>
 </root>
