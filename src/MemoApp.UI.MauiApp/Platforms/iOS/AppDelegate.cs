@@ -1,5 +1,4 @@
 ﻿using Foundation;
-using Firebase.Core;
 
 namespace MemoApp.UI.MauiApp;
 
@@ -8,19 +7,31 @@ public class AppDelegate : MauiUIApplicationDelegate
 {
 	public override bool FinishedLaunching(UIKit.UIApplication application, NSDictionary launchOptions)
 	{
-		// Initialize Firebase for iOS
+		var result = base.FinishedLaunching(application, launchOptions);
+		InitFirebaseAnalytics();
+		return result;
+	}
+
+	private static void InitFirebaseAnalytics()
+	{
+		// Then initialize Firebase for iOS
 		try
 		{
+			// Debug: Check multiple possible locations for the plist file
+			var rootPath = Foundation.NSBundle.MainBundle.PathForResource("GoogleService-Info", "plist");
+			System.Diagnostics.Debug.WriteLine($"GoogleService-Info.plist at root: {rootPath ?? "NOT FOUND"}");
+			
+			// Try to configure Firebase - it should find the file automatically if properly bundled
 			Firebase.Core.App.Configure();
+			System.Diagnostics.Debug.WriteLine("Firebase configured successfully");
 		}
 		catch (System.Exception ex)
 		{
-			System.Diagnostics.Debug.WriteLine($"Failed to initialize Firebase: {ex.Message}");
-			// Firebase initialization failed, but app should continue
+			// Firebase initialization failed, but app should continue.
 			// Analytics will use fallback behavior
+			System.Diagnostics.Debug.WriteLine($"Failed to initialize Firebase: {ex.Message}");
+			System.Diagnostics.Debug.WriteLine($"Exception type: {ex.GetType().Name}");
 		}
-
-		return base.FinishedLaunching(application, launchOptions);
 	}
 
 	protected override Microsoft.Maui.Hosting.MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();

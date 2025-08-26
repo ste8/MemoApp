@@ -78,4 +78,11 @@
 		<EmbeddedResource Include="appsettings.Development.json" Condition="Exists('appsettings.Development.json')" />
 	</ItemGroup>
 
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+	  <None Remove="Platforms\iOS\GoogleService-Info.plist" />
+	  <BundleResource Include="Platforms\iOS\GoogleService-Info.plist">
+	    <LogicalName>GoogleService-Info.plist</LogicalName>
+	  </BundleResource>
+	</ItemGroup>
+
 </Project>
