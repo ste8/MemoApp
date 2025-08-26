@@ -8,6 +8,7 @@ using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Services.Analytics;
 using MemoApp.UI.MauiApp.Services.ErrorMonitoring;
 using MemoApp.UI.MauiApp.ViewModels;
+using MemoApp.UI.MauiApp.Views;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -143,6 +144,11 @@ public static class ServiceRegistration
         services.AddSingleton<IImageProcessingService, MauiImageProcessingService>();
         services.AddSingleton<ICustomImageSourceService, MauiImageSourceService>();
         
+        // UI measurement services
+        services.AddSingleton<ITextMeasurementService, TextMeasurementService>();
+        services.AddSingleton<IContainerSizeService, ContainerSizeService>();
+        services.AddSingleton<INumberMemorizationSettingsService, NumberMemorizationSettingsService>();
+        
         return services;
     }
 
@@ -203,6 +209,71 @@ public static class ServiceRegistration
         services.AddTransient<StatisticsViewModel>();
         services.AddTransient<HelpViewModel>();
         
+        services.AddTransient<AssociationsViewModel>(serviceProvider =>
+        {
+            var categoryService = serviceProvider.GetRequiredService<IMajorSystemCategoryService>();
+            var packAssociationsService = serviceProvider.GetRequiredService<IPackAssociationsService>();
+            var tokenDefaultsService = serviceProvider.GetRequiredService<ITokenDefaultsService>();
+            var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+            var messenger = serviceProvider.GetRequiredService<IMessenger>();
+            var imageCacheService = serviceProvider.GetRequiredService<IImageCacheService>();
+            var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
+            var logger = serviceProvider.GetRequiredService<ILogger<AssociationsViewModel>>();
+            return new AssociationsViewModel(categoryService, packAssociationsService, tokenDefaultsService, localizationService, messenger, imageCacheService, analyticsService, logger);
+        });
+        
+        services.AddTransient<PackDownloadViewModel>(serviceProvider =>
+        {
+            var downloadService = serviceProvider.GetRequiredService<IPackDownloadService>();
+            var packManager = serviceProvider.GetRequiredService<IPackManagerService>();
+            var mauiPackService = serviceProvider.GetRequiredService<MauiPackService>();
+            var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+            var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
+            var logger = serviceProvider.GetRequiredService<ILogger<PackDownloadViewModel>>();
+            return new PackDownloadViewModel(downloadService, packManager, mauiPackService, localizationService, analyticsService, logger);
+        });
+        
+        services.AddTransient<NumberMemorizationViewModel>(serviceProvider =>
+        {
+            var gameService = serviceProvider.GetRequiredService<INumberMemorizationService>();
+            var settingsService = serviceProvider.GetRequiredService<INumberMemorizationSettingsService>();
+            var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+            var textMeasurementService = serviceProvider.GetRequiredService<ITextMeasurementService>();
+            var containerSizeService = serviceProvider.GetRequiredService<IContainerSizeService>();
+            var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
+            return new NumberMemorizationViewModel(gameService, settingsService, localizationService, textMeasurementService, containerSizeService, analyticsService);
+        });
+        
+        services.AddTransient<TokenDetailViewModel>(serviceProvider =>
+        {
+            var packAssociationsService = serviceProvider.GetRequiredService<IPackAssociationsService>();
+            var tokenDefaultsService = serviceProvider.GetRequiredService<ITokenDefaultsService>();
+            var customAssociationsService = serviceProvider.GetRequiredService<ICustomAssociationsService>();
+            var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+            var messenger = serviceProvider.GetRequiredService<IMessenger>();
+            var imageCacheService = serviceProvider.GetRequiredService<IImageCacheService>();
+            var logger = serviceProvider.GetRequiredService<ILogger<TokenDetailViewModel>>();
+            return new TokenDetailViewModel(packAssociationsService, tokenDefaultsService, customAssociationsService, localizationService, messenger, imageCacheService, logger);
+        });
+        
+        services.AddTransient<AddCustomAssociationViewModel>(serviceProvider =>
+        {
+            var customAssociationsService = serviceProvider.GetRequiredService<ICustomAssociationsService>();
+            var imageSourceService = serviceProvider.GetRequiredService<ICustomImageSourceService>();
+            var packAssociationsService = serviceProvider.GetRequiredService<IPackAssociationsService>();
+            var tokenDefaultsService = serviceProvider.GetRequiredService<ITokenDefaultsService>();
+            var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+            var messenger = serviceProvider.GetRequiredService<IMessenger>();
+            var logger = serviceProvider.GetRequiredService<ILogger<AddCustomAssociationViewModel>>();
+            return new AddCustomAssociationViewModel(customAssociationsService, imageSourceService, packAssociationsService, tokenDefaultsService, localizationService, messenger, logger);
+        });
+        
+        services.AddTransient<ImageViewerViewModel>(serviceProvider =>
+        {
+            var logger = serviceProvider.GetRequiredService<ILogger<ImageViewerViewModel>>();
+            return new ImageViewerViewModel(logger);
+        });
+        
         services.AddTransient<SettingsViewModel>(serviceProvider => 
         {
             var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
@@ -232,6 +303,12 @@ public static class ServiceRegistration
         services.AddTransient<Views.StatisticsPage>();
         services.AddTransient<Views.HelpPage>();
         services.AddTransient<Views.SettingsPage>();
+        services.AddTransient<Views.AssociationsPage>();
+        services.AddTransient<Views.PackDownloadPage>();
+        services.AddTransient<Views.NumberMemorizationPage>();
+        services.AddTransient<Views.TokenDetailPage>();
+        services.AddTransient<Views.AddCustomAssociationPage>();
+        services.AddTransient<Views.ImageViewerPage>();
         
         return services;
     }
