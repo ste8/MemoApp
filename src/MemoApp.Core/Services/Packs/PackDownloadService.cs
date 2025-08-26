@@ -1,4 +1,5 @@
 using System.IO.Compression;
+using System.Net;
 using System.Text.Json;
 using MemoApp.Core.Packs;
 using Microsoft.Extensions.Logging;
@@ -122,9 +123,20 @@ public class PackDownloadService : IPackDownloadService
             }
 
             // Check storage space
-            if (!await HasSufficientStorageAsync(pack.FileSize * 2)) // Need space for zip + extracted
+            var requiredSpace = pack.FileSize * 2; // Need space for zip + extracted
+            var availableSpace = await GetAvailableStorageSpaceAsync();
+            
+            if (availableSpace < requiredSpace)
             {
-                throw new InvalidOperationException("Insufficient storage space");
+                downloadProgress.State = DownloadState.Failed;
+                downloadProgress.ErrorType = DownloadErrorType.InsufficientStorage;
+                downloadProgress.RequiredStorageBytes = requiredSpace;
+                downloadProgress.AvailableStorageBytes = availableSpace;
+                downloadProgress.ErrorMessage = "Insufficient storage space";
+                downloadProgress.EndTime = DateTime.UtcNow;
+                progress?.Report(downloadProgress);
+                
+                throw new InsufficientStorageException(requiredSpace, availableSpace);
             }
 
             // Download the pack
@@ -137,7 +149,19 @@ public class PackDownloadService : IPackDownloadService
             // Download the file and ensure all streams are properly closed
             using (var response = await _httpClient.GetAsync(pack.DownloadUrl, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
             {
-                response.EnsureSuccessStatusCode();
+                try
+                {
+                    response.EnsureSuccessStatusCode();
+                }
+                catch (HttpRequestException ex)
+                {
+                    downloadProgress.State = DownloadState.Failed;
+                    downloadProgress.ErrorType = DownloadErrorType.NetworkError;
+                    downloadProgress.ErrorMessage = "Network error during download";
+                    downloadProgress.EndTime = DateTime.UtcNow;
+                    progress?.Report(downloadProgress);
+                    throw;
+                }
 
                 var totalBytes = response.Content.Headers.ContentLength ?? pack.FileSize;
                 downloadProgress.TotalBytes = totalBytes;
@@ -173,13 +197,25 @@ public class PackDownloadService : IPackDownloadService
             
             if (!extractionSuccess)
             {
-                throw new InvalidOperationException("Failed to extract pack contents");
+                downloadProgress.State = DownloadState.Failed;
+                downloadProgress.ErrorType = DownloadErrorType.ExtractionError;
+                downloadProgress.ErrorMessage = "Failed to extract pack contents";
+                downloadProgress.EndTime = DateTime.UtcNow;
+                progress?.Report(downloadProgress);
+                
+                throw new PackExtractionException("Failed to extract pack contents");
             }
 
             // Validate pack integrity after extraction
             if (!await ValidatePackIntegrityAsync(packPath))
             {
-                throw new InvalidOperationException("Pack validation failed - corrupted or missing content");
+                downloadProgress.State = DownloadState.Failed;
+                downloadProgress.ErrorType = DownloadErrorType.ValidationError;
+                downloadProgress.ErrorMessage = "Pack validation failed";
+                downloadProgress.EndTime = DateTime.UtcNow;
+                progress?.Report(downloadProgress);
+                
+                throw new PackValidationException("Pack validation failed - corrupted or missing content");
             }
 
             // Save pack info
@@ -207,12 +243,48 @@ public class PackDownloadService : IPackDownloadService
             downloadProgress.EndTime = DateTime.UtcNow;
             _logger.LogWarning("Download cancelled for pack {PackId}", pack.Id);
         }
+        catch (InsufficientStorageException ex)
+        {
+            downloadProgress.State = DownloadState.Failed;
+            downloadProgress.ErrorType = DownloadErrorType.InsufficientStorage;
+            downloadProgress.RequiredStorageBytes = ex.RequiredBytes;
+            downloadProgress.AvailableStorageBytes = ex.AvailableBytes;
+            downloadProgress.ErrorMessage = ex.Message;
+            downloadProgress.EndTime = DateTime.UtcNow;
+            _logger.LogError(ex, "Insufficient storage for pack {PackId}: Required {RequiredMB:F1}MB, Available {AvailableMB:F1}MB", 
+                pack.Id, ex.RequiredBytes / (1024.0 * 1024.0), ex.AvailableBytes / (1024.0 * 1024.0));
+        }
+        catch (HttpRequestException ex)
+        {
+            downloadProgress.State = DownloadState.Failed;
+            downloadProgress.ErrorType = DownloadErrorType.NetworkError;
+            downloadProgress.ErrorMessage = ex.Message;
+            downloadProgress.EndTime = DateTime.UtcNow;
+            _logger.LogError(ex, "Network error downloading pack {PackId}", pack.Id);
+        }
+        catch (PackExtractionException ex)
+        {
+            downloadProgress.State = DownloadState.Failed;
+            downloadProgress.ErrorType = DownloadErrorType.ExtractionError;
+            downloadProgress.ErrorMessage = ex.Message;
+            downloadProgress.EndTime = DateTime.UtcNow;
+            _logger.LogError(ex, "Extraction failed for pack {PackId}", pack.Id);
+        }
+        catch (PackValidationException ex)
+        {
+            downloadProgress.State = DownloadState.Failed;
+            downloadProgress.ErrorType = DownloadErrorType.ValidationError;
+            downloadProgress.ErrorMessage = ex.Message;
+            downloadProgress.EndTime = DateTime.UtcNow;
+            _logger.LogError(ex, "Validation failed for pack {PackId}", pack.Id);
+        }
         catch (Exception ex)
         {
             downloadProgress.State = DownloadState.Failed;
+            downloadProgress.ErrorType = DownloadErrorType.UnknownError;
             downloadProgress.ErrorMessage = ex.Message;
             downloadProgress.EndTime = DateTime.UtcNow;
-            _logger.LogError(ex, "Failed to download pack {PackId}", pack.Id);
+            _logger.LogError(ex, "Unexpected error downloading pack {PackId}", pack.Id);
         }
 
         return downloadProgress;

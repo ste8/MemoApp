@@ -1,5 +1,17 @@
 namespace MemoApp.Core.Packs;
 
+/// <summary>
+/// Categorizes different types of download errors for better user feedback
+/// </summary>
+public enum DownloadErrorType
+{
+    NetworkError,
+    InsufficientStorage,
+    ExtractionError,
+    ValidationError,
+    UnknownError
+}
+
 public class DownloadProgress
 {
     public string PackId { get; set; } = string.Empty;
@@ -11,6 +23,21 @@ public class DownloadProgress
     public string? ErrorMessage { get; set; }
     public DateTime StartTime { get; set; }
     public DateTime? EndTime { get; set; }
+    
+    /// <summary>
+    /// Type of error that occurred during download (null if no error)
+    /// </summary>
+    public DownloadErrorType? ErrorType { get; set; }
+    
+    /// <summary>
+    /// For storage errors, the number of bytes needed for the operation
+    /// </summary>
+    public long? RequiredStorageBytes { get; set; }
+    
+    /// <summary>
+    /// For storage errors, the number of bytes currently available
+    /// </summary>
+    public long? AvailableStorageBytes { get; set; }
     
     public TimeSpan ElapsedTime => (EndTime ?? DateTime.UtcNow) - StartTime;
     

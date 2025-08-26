@@ -731,6 +731,22 @@
     <value>Download del pacchetto fallito. Riprova.</value>
     <comment>Error message on download failure</comment>
   </data>
+  <data name="PackDownload_InsufficientStorageError" xml:space="preserve">
+    <value>Spazio di archiviazione insufficiente. Libera almeno {0} MB e riprova.</value>
+    <comment>Error when device has insufficient storage for download</comment>
+  </data>
+  <data name="PackDownload_NetworkError" xml:space="preserve">
+    <value>Connessione di rete fallita. Controlla la connessione internet e riprova.</value>
+    <comment>Network-related download error</comment>
+  </data>
+  <data name="PackDownload_ExtractionError" xml:space="preserve">
+    <value>Errore nell'estrazione del contenuto del pacchetto. Il download potrebbe essere corrotto.</value>
+    <comment>Error during pack extraction</comment>
+  </data>
+  <data name="PackDownload_ValidationError" xml:space="preserve">
+    <value>Validazione del pacchetto fallita. Il contenuto scaricato sembra corrotto.</value>
+    <comment>Error during pack validation</comment>
+  </data>
   <data name="PackDownload_NetworkErrorMessage" xml:space="preserve">
     <value>Errore di rete. Controlla la connessione.</value>
     <comment>Network error message</comment>

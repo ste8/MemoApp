@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Net;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -189,7 +190,10 @@ public partial class PackDownloadViewModel : BaseViewModel
                     if (p.State == DownloadState.Failed)
                     {
                         packItem.IsDownloading = false;
-                        StatusMessage = p.ErrorMessage ?? _localizationService.GetString("PackDownload_ErrorMessage");
+                        packItem.DownloadProgress = 0;
+                        
+                        // Show specific error message based on error type
+                        StatusMessage = GetErrorMessage(p);
                     }
                 });
             });
@@ -269,10 +273,32 @@ public partial class PackDownloadViewModel : BaseViewModel
                     });
             }
         }
+        catch (InsufficientStorageException ex)
+        {
+            var requiredMB = Math.Ceiling(ex.RequiredBytes / (1024.0 * 1024.0));
+            StatusMessage = _localizationService.GetString("PackDownload_InsufficientStorageError")
+                .Replace("{0}", requiredMB.ToString());
+            _logger.LogError(ex, "Insufficient storage for pack {PackId}: Required {RequiredMB:F1}MB", packItem.Pack.Id, requiredMB);
+        }
+        catch (HttpRequestException ex)
+        {
+            StatusMessage = _localizationService.GetString("PackDownload_NetworkError");
+            _logger.LogError(ex, "Network error downloading pack {PackId}", packItem.Pack.Id);
+        }
+        catch (PackExtractionException ex)
+        {
+            StatusMessage = _localizationService.GetString("PackDownload_ExtractionError");
+            _logger.LogError(ex, "Extraction failed for pack {PackId}", packItem.Pack.Id);
+        }
+        catch (PackValidationException ex)
+        {
+            StatusMessage = _localizationService.GetString("PackDownload_ValidationError");
+            _logger.LogError(ex, "Validation failed for pack {PackId}", packItem.Pack.Id);
+        }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to download pack {PackId}", packItem.Pack.Id);
             StatusMessage = _localizationService.GetString("PackDownload_ErrorMessage");
+            _logger.LogError(ex, "Unexpected error downloading pack {PackId}", packItem.Pack.Id);
         }
         finally
         {
@@ -344,6 +370,23 @@ public partial class PackDownloadViewModel : BaseViewModel
             DownloadState.GeneratingThumbnails => 
                 _localizationService.GetString("PackDownload_GeneratingThumbnailsLabel"),
             _ => string.Empty
+        };
+    }
+
+    private string GetErrorMessage(DownloadProgress progress)
+    {
+        return progress.ErrorType switch
+        {
+            DownloadErrorType.InsufficientStorage => 
+                _localizationService.GetString("PackDownload_InsufficientStorageError")
+                    .Replace("{0}", Math.Ceiling((progress.RequiredStorageBytes ?? 0) / (1024.0 * 1024.0)).ToString()),
+            DownloadErrorType.NetworkError => 
+                _localizationService.GetString("PackDownload_NetworkError"),
+            DownloadErrorType.ExtractionError => 
+                _localizationService.GetString("PackDownload_ExtractionError"),
+            DownloadErrorType.ValidationError => 
+                _localizationService.GetString("PackDownload_ValidationError"),
+            _ => progress.ErrorMessage ?? _localizationService.GetString("PackDownload_ErrorMessage")
         };
     }
 }
