@@ -61,16 +61,41 @@ public class FirebaseAnalyticsService : IAnalyticsService
             var sanitizedEventName = SanitizeEventName(eventName);
             var sanitizedParameters = SanitizeParameters(parameters);
 
-            if (sanitizedParameters?.Any() == true)
+            // Check if Firebase Analytics is available
+            if (CrossFirebaseAnalytics.Current == null)
             {
-                CrossFirebaseAnalytics.Current.LogEvent(sanitizedEventName, sanitizedParameters);
-                _logger.LogDebug("Tracked event: {EventName} with {ParameterCount} parameters", 
-                    sanitizedEventName, sanitizedParameters.Count);
+                _logger.LogWarning("Firebase Analytics is not available, skipping event: {EventName}", sanitizedEventName);
+                return;
             }
-            else
+
+            try
             {
-                CrossFirebaseAnalytics.Current.LogEvent(sanitizedEventName, new Dictionary<string, object>());
-                _logger.LogDebug("Tracked event: {EventName} (no parameters)", sanitizedEventName);
+                if (sanitizedParameters?.Any() == true)
+                {
+                    CrossFirebaseAnalytics.Current.LogEvent(sanitizedEventName, sanitizedParameters);
+                    _logger.LogDebug("Tracked event: {EventName} with {ParameterCount} parameters", 
+                        sanitizedEventName, sanitizedParameters.Count);
+                }
+                else
+                {
+                    CrossFirebaseAnalytics.Current.LogEvent(sanitizedEventName, new Dictionary<string, object>());
+                    _logger.LogDebug("Tracked event: {EventName} (no parameters)", sanitizedEventName);
+                }
+            }
+            catch (NullReferenceException ex)
+            {
+                _logger.LogWarning(ex, "Firebase Analytics not properly initialized, skipping event: {EventName}", sanitizedEventName);
+                return;
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Firebase Analytics invalid operation for event: {EventName}, continuing without analytics", sanitizedEventName);
+                return;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Firebase Analytics error for event: {EventName}, continuing without analytics", sanitizedEventName);
+                return;
             }
         }
         catch (Exception ex)
@@ -94,7 +119,31 @@ public class FirebaseAnalyticsService : IAnalyticsService
             var sanitizedName = SanitizePropertyName(name);
             var stringValue = SanitizePropertyValue(value);
 
-            CrossFirebaseAnalytics.Current.SetUserProperty(sanitizedName, stringValue);
+            if (CrossFirebaseAnalytics.Current == null)
+            {
+                _logger.LogWarning("Firebase Analytics is not available, skipping user property: {PropertyName}", sanitizedName);
+                return;
+            }
+
+            try
+            {
+                CrossFirebaseAnalytics.Current.SetUserProperty(sanitizedName, stringValue);
+            }
+            catch (NullReferenceException ex)
+            {
+                _logger.LogWarning(ex, "Firebase Analytics not properly initialized, skipping user property: {PropertyName}", sanitizedName);
+                return;
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Firebase Analytics invalid operation for user property: {PropertyName}, continuing without analytics", sanitizedName);
+                return;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Firebase Analytics error for user property: {PropertyName}, continuing without analytics", sanitizedName);
+                return;
+            }
             _logger.LogDebug("Set user property: {PropertyName} = {PropertyValue}", sanitizedName, stringValue);
         }
         catch (Exception ex)
@@ -134,7 +183,32 @@ public class FirebaseAnalyticsService : IAnalyticsService
             }
 
             var sanitizedParameters = SanitizeParameters(screenParameters);
-            CrossFirebaseAnalytics.Current.LogEvent("screen_view", sanitizedParameters);
+            
+            if (CrossFirebaseAnalytics.Current == null)
+            {
+                _logger.LogWarning("Firebase Analytics is not available, skipping screen view: {ScreenName}", screenName);
+                return;
+            }
+            
+            try
+            {
+                CrossFirebaseAnalytics.Current.LogEvent("screen_view", sanitizedParameters);
+            }
+            catch (NullReferenceException ex)
+            {
+                _logger.LogWarning(ex, "Firebase Analytics not properly initialized, skipping screen view: {ScreenName}", screenName);
+                return;
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Firebase Analytics invalid operation for screen view: {ScreenName}, continuing without analytics", screenName);
+                return;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Firebase Analytics error for screen view: {ScreenName}, continuing without analytics", screenName);
+                return;
+            }
             
             _logger.LogDebug("Tracked screen view: {ScreenName}", screenName);
         }
@@ -155,7 +229,32 @@ public class FirebaseAnalyticsService : IAnalyticsService
         try
         {
             await EnsureInitializedAsync();
-            CrossFirebaseAnalytics.Current.SetUserId(userId);
+            
+            if (CrossFirebaseAnalytics.Current == null)
+            {
+                _logger.LogWarning("Firebase Analytics is not available, skipping set user ID");
+                return;
+            }
+            
+            try
+            {
+                CrossFirebaseAnalytics.Current.SetUserId(userId);
+            }
+            catch (NullReferenceException ex)
+            {
+                _logger.LogWarning(ex, "Firebase Analytics not properly initialized, skipping set user ID");
+                return;
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Firebase Analytics invalid operation for set user ID, continuing without analytics");
+                return;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Firebase Analytics error for set user ID, continuing without analytics");
+                return;
+            }
             
             _logger.LogDebug("Set user ID: {UserId}", !string.IsNullOrEmpty(userId) ? "***" : "null");
         }
