@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using MemoApp.Core.MajorSystem.Models;
 using MemoApp.Core.MajorSystem.Services;
 using MemoApp.Localization.Services;
+using MemoApp.UI.MauiApp.Services;
 using Microsoft.Extensions.Logging;
 using MemoApp.UI.MauiApp.Messages;
 
@@ -22,6 +23,7 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
     private readonly IPackAssociationsService _packAssociationsService;
     private readonly ITokenDefaultsService _tokenDefaultsService;
     private readonly ILocalizationService _localizationService;
+    private readonly IUserNotificationService _userNotificationService;
     private readonly IMessenger _messenger;
     private readonly ILogger<AddCustomAssociationViewModel> _logger;
 
@@ -71,6 +73,7 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
         IPackAssociationsService packAssociationsService,
         ITokenDefaultsService tokenDefaultsService,
         ILocalizationService localizationService,
+        IUserNotificationService userNotificationService,
         IMessenger messenger,
         ILogger<AddCustomAssociationViewModel> logger)
     {
@@ -79,6 +82,7 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
         _packAssociationsService = packAssociationsService;
         _tokenDefaultsService = tokenDefaultsService;
         _localizationService = localizationService;
+        _userNotificationService = userNotificationService;
         _messenger = messenger;
         _logger = logger;
 
@@ -136,10 +140,8 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
         {
             _logger.LogError(ex, "Error selecting image for token {Token}", Token);
             
-            var errorTitle = _localizationService.GetString("Common_Error");
             var errorMessage = _localizationService.GetString("AddCustomAssociation_ErrorSelectingImage");
-            
-            await Application.Current.MainPage.DisplayAlert(errorTitle, errorMessage, _localizationService.GetString("Common_OK"));
+            await _userNotificationService.ShowErrorToastAsync(errorMessage);
         }
     }
 
@@ -158,9 +160,8 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
 
             if (!IsAIGenerationAvailable)
             {
-                var errorTitle = _localizationService.GetString("Common_Error");
-                var errorMessage = _localizationService.GetString("AddCustomAssociation_AINotAvailable");
-                await Application.Current.MainPage.DisplayAlert(errorTitle, errorMessage, _localizationService.GetString("Common_OK"));
+                var errorMessage = _localizationService.GetString("AIService_NotAvailable");
+                await _userNotificationService.ShowErrorToastAsync(errorMessage);
                 return;
             }
 
@@ -195,10 +196,7 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
             if (currentPack == null)
             {
                 var errorMessage = _localizationService.GetString("AddCustomAssociation_NoPackError");
-                await Application.Current.MainPage.DisplayAlert(
-                    _localizationService.GetString("Common_Error"), 
-                    errorMessage, 
-                    _localizationService.GetString("Common_OK"));
+                await _userNotificationService.ShowErrorToastAsync(errorMessage);
                 return;
             }
 
@@ -217,8 +215,26 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
             }
 
             // Create the custom association
-            var association = await _customAssociationsService.CreateCustomAssociationAsync(
-                currentPack.Id, Category, Token, Word.Trim(), _selectedImageStream, SetAsDefault);
+            TokenAssociation association;
+            try
+            {
+                association = await _customAssociationsService.CreateCustomAssociationAsync(
+                    currentPack.Id, Category, Token, Word.Trim(), _selectedImageStream, SetAsDefault);
+            }
+            catch (Exception ex) when (ex.Message.Contains("image processing") || ex.Message.Contains("thumbnail"))
+            {
+                _logger.LogError(ex, "Image processing failed for custom association: {Token} -> {Word}", Token, Word);
+                var errorMessage = _localizationService.GetString("ImageProcessing_Failed");
+                await _userNotificationService.ShowErrorToastAsync(errorMessage);
+                return;
+            }
+            catch (Exception ex) when (ex.Message.Contains("invalid format") || ex.Message.Contains("unsupported"))
+            {
+                _logger.LogError(ex, "Invalid image format for custom association: {Token} -> {Word}", Token, Word);
+                var errorMessage = _localizationService.GetString("ImageProcessing_InvalidFormat");
+                await _userNotificationService.ShowErrorToastAsync(errorMessage);
+                return;
+            }
 
             _logger.LogInformation("Successfully created custom association: {Token} -> {Word}", Token, Word);
 
@@ -259,9 +275,8 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
         {
             _logger.LogError(ex, "Error saving custom association: {Token} -> {Word}", Token, Word);
             
-            var errorTitle = _localizationService.GetString("Common_Error");
-            var errorMessage = _localizationService.GetString("AddCustomAssociation_SaveError");
-            await Application.Current.MainPage.DisplayAlert(errorTitle, errorMessage, _localizationService.GetString("Common_OK"));
+            var errorMessage = _localizationService.GetString("CustomAssociation_CreationFailed");
+            await _userNotificationService.ShowErrorToastAsync(errorMessage);
         }
         finally
         {
@@ -322,6 +337,8 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
             _logger.LogError(ex, "Error checking AI availability");
             IsAIGenerationAvailable = false;
             RemainingCredits = 0;
+            
+            // Don't show error to user for AI availability check - it's non-critical
         }
     }
 

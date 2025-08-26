@@ -748,6 +748,42 @@
     <value>Pack validation failed. The downloaded content appears corrupted.</value>
     <comment>Error during pack validation</comment>
   </data>
+  <data name="Dialog_OK" xml:space="preserve">
+    <value>OK</value>
+    <comment>OK button text in dialogs</comment>
+  </data>
+  <data name="Dialog_Yes" xml:space="preserve">
+    <value>Yes</value>
+    <comment>Yes button text in confirmation dialogs</comment>
+  </data>
+  <data name="Dialog_No" xml:space="preserve">
+    <value>No</value>
+    <comment>No button text in confirmation dialogs</comment>
+  </data>
+  <data name="Settings_LoadFailed_Title" xml:space="preserve">
+    <value>Settings Load Failed</value>
+    <comment>Title for settings load error dialog</comment>
+  </data>
+  <data name="Settings_LoadFailed_UsingDefaults" xml:space="preserve">
+    <value>Failed to load your preferences. Using default settings for now.</value>
+    <comment>Warning when settings fail to load</comment>
+  </data>
+  <data name="Settings_SaveFailed" xml:space="preserve">
+    <value>Failed to save your preferences. Changes may be lost when you restart the app.</value>
+    <comment>Warning when settings fail to save</comment>
+  </data>
+  <data name="Navigation_Failed" xml:space="preserve">
+    <value>Unable to open that screen right now. Please try again.</value>
+    <comment>Error when navigation fails</comment>
+  </data>
+  <data name="UpdateCheck_Failed" xml:space="preserve">
+    <value>Unable to check for pack updates. Check your internet connection.</value>
+    <comment>Error when update checking fails</comment>
+  </data>
+  <data name="Service_InitializationFailed" xml:space="preserve">
+    <value>Some app features may not work properly due to initialization errors.</value>
+    <comment>Warning when app services fail to initialize</comment>
+  </data>
   <data name="PackDownload_NetworkErrorMessage" xml:space="preserve">
     <value>Network error. Please check your connection.</value>
     <comment>Network error message</comment>
@@ -1209,5 +1245,31 @@
   <data name="MainPage_Version" xml:space="preserve">
     <value>Version {0}</value>
     <comment>Version display on main page (parameter is version number)</comment>
+  </data>
+  
+  <!-- Image Processing Error Messages -->
+  <data name="ImageProcessing_Failed" xml:space="preserve">
+    <value>Image processing failed. Please try with a different image.</value>
+    <comment>Error message when image processing fails</comment>
+  </data>
+  <data name="ImageProcessing_ThumbnailFailed" xml:space="preserve">
+    <value>Failed to generate thumbnail for your image. The association was created but may display slowly.</value>
+    <comment>Warning message when thumbnail generation fails</comment>
+  </data>
+  <data name="ImageProcessing_InvalidFormat" xml:space="preserve">
+    <value>Invalid image format. Please select a PNG, JPG, or other supported image file.</value>
+    <comment>Error message when image format is not supported</comment>
+  </data>
+  <data name="CustomAssociation_CreationFailed" xml:space="preserve">
+    <value>Failed to create custom association. Please try again.</value>
+    <comment>Error message when custom association creation fails</comment>
+  </data>
+  <data name="AIService_NotAvailable" xml:space="preserve">
+    <value>AI image generation service is currently unavailable. Please try again later.</value>
+    <comment>Error message when AI service is not available</comment>
+  </data>
+  <data name="AssociationLoading_Failed" xml:space="preserve">
+    <value>Unable to load associations. Please check your internet connection or try refreshing.</value>
+    <comment>Error message when association loading fails</comment>
   </data>
 </root>

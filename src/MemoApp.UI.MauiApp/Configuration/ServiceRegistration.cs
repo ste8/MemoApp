@@ -41,6 +41,9 @@ public static class ServiceRegistration
         // App Info Service for version information
         services.AddSingleton<IAppInfoService, AppInfoService>();
         
+        // User notification service for consistent error feedback
+        services.AddSingleton<IUserNotificationService, UserNotificationService>();
+        
         // Messaging services
         services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
         
@@ -195,7 +198,9 @@ public static class ServiceRegistration
         services.AddSingleton<MainViewModel>(serviceProvider =>
         {
             var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
-            return new MainViewModel(localizationService);
+            var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
+            var logger = serviceProvider.GetRequiredService<ILogger<MainViewModel>>();
+            return new MainViewModel(localizationService, userNotificationService, logger);
         });
         
         // Transient ViewModels (new instance per navigation)
@@ -218,8 +223,9 @@ public static class ServiceRegistration
             var messenger = serviceProvider.GetRequiredService<IMessenger>();
             var imageCacheService = serviceProvider.GetRequiredService<IImageCacheService>();
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
+            var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
             var logger = serviceProvider.GetRequiredService<ILogger<AssociationsViewModel>>();
-            return new AssociationsViewModel(categoryService, packAssociationsService, tokenDefaultsService, localizationService, messenger, imageCacheService, analyticsService, logger);
+            return new AssociationsViewModel(categoryService, packAssociationsService, tokenDefaultsService, localizationService, messenger, imageCacheService, analyticsService, userNotificationService, logger);
         });
         
         services.AddTransient<PackDownloadViewModel>(serviceProvider =>
@@ -263,9 +269,10 @@ public static class ServiceRegistration
             var packAssociationsService = serviceProvider.GetRequiredService<IPackAssociationsService>();
             var tokenDefaultsService = serviceProvider.GetRequiredService<ITokenDefaultsService>();
             var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+            var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
             var messenger = serviceProvider.GetRequiredService<IMessenger>();
             var logger = serviceProvider.GetRequiredService<ILogger<AddCustomAssociationViewModel>>();
-            return new AddCustomAssociationViewModel(customAssociationsService, imageSourceService, packAssociationsService, tokenDefaultsService, localizationService, messenger, logger);
+            return new AddCustomAssociationViewModel(customAssociationsService, imageSourceService, packAssociationsService, tokenDefaultsService, localizationService, userNotificationService, messenger, logger);
         });
         
         services.AddTransient<ImageViewerViewModel>(serviceProvider =>
@@ -282,8 +289,9 @@ public static class ServiceRegistration
             var updateService = serviceProvider.GetService<IPackUpdateBackgroundService>(); // Optional
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
             var appInfoService = serviceProvider.GetRequiredService<IAppInfoService>();
+            var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
             var logger = serviceProvider.GetRequiredService<ILogger<SettingsViewModel>>();
-            return new SettingsViewModel(localizationService, packManager, downloadService, updateService, analyticsService, appInfoService, logger);
+            return new SettingsViewModel(localizationService, packManager, downloadService, updateService, analyticsService, appInfoService, userNotificationService, logger);
         });
         
         return services;

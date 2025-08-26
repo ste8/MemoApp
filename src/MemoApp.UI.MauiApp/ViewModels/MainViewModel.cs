@@ -3,7 +3,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.MajorSystem;
 using MemoApp.Localization.Services;
+using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Utilities;
+using Microsoft.Extensions.Logging;
 using System.Globalization;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
@@ -15,11 +17,18 @@ namespace MemoApp.UI.MauiApp.ViewModels;
 public partial class MainViewModel : BaseViewModel
 {
     private readonly ILocalizationService _localizationService;
+    private readonly IUserNotificationService _userNotificationService;
+    private readonly ILogger<MainViewModel> _logger;
     private const string RangeValidationErrorMessage = "Start number must be less than or equal to end number.";
     
-    public MainViewModel(ILocalizationService localizationService)
+    public MainViewModel(
+        ILocalizationService localizationService,
+        IUserNotificationService userNotificationService,
+        ILogger<MainViewModel> logger)
     {
         _localizationService = localizationService;
+        _userNotificationService = userNotificationService;
+        _logger = logger;
         Title = "Major System Training";
         LoadTrainingOptions();
         LoadNumberOptions();
@@ -101,7 +110,16 @@ public partial class MainViewModel : BaseViewModel
             { "rangeEnd", numberFormat == NumberFormat.Padded ? "09" : "9" }
         };
         
-        await Shell.Current.GoToAsync("training", parameters);
+        try
+        {
+            await Shell.Current.GoToAsync("training", parameters);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to navigate to training");
+            await _userNotificationService.ShowErrorToastAsync(
+                _localizationService.GetString("Navigation_Failed"));
+        }
     }
 
     [RelayCommand]
@@ -127,7 +145,16 @@ public partial class MainViewModel : BaseViewModel
     [RelayCommand]
     private async Task ShowHelp()
     {
-        await Shell.Current.GoToAsync("//help");
+        try
+        {
+            await Shell.Current.GoToAsync("//help");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to navigate to help page");
+            await _userNotificationService.ShowErrorToastAsync(
+                _localizationService.GetString("Navigation_Failed"));
+        }
     }
 
 
@@ -140,7 +167,16 @@ public partial class MainViewModel : BaseViewModel
             { "rangeEnd", option.RangeEnd }
         };
         
-        await Shell.Current.GoToAsync("training", parameters);
+        try
+        {
+            await Shell.Current.GoToAsync("training", parameters);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to navigate to training");
+            await _userNotificationService.ShowErrorToastAsync(
+                _localizationService.GetString("Navigation_Failed"));
+        }
     }
 
     [RelayCommand]
@@ -247,7 +283,9 @@ public partial class MainViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Number selection error: {ex.Message}");
+            _logger.LogError(ex, "Number selection error");
+            await _userNotificationService.ShowErrorToastAsync(
+                _localizationService.GetString("Settings_SaveFailed"));
         }
     }
 

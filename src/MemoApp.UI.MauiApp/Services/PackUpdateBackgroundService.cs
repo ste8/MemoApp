@@ -11,8 +11,11 @@ public interface IPackUpdateBackgroundService
     DateTime? LastCheckTime { get; }
     bool IsCheckingForUpdates { get; }
     bool IsUserInActivity { get; }
+    string LastErrorMessage { get; }
+    bool HasRecentError { get; }
     
     event EventHandler<PackUpdateEventArgs>? UpdatesAvailableChanged;
+    event EventHandler<string>? ErrorOccurred;
     
     Task StartAsync();
     Task StopAsync();
@@ -34,6 +37,12 @@ public class PackUpdateEventArgs : EventArgs
     public bool IsSilentCheck { get; set; }
 }
 
+public class PackUpdateErrorEventArgs : EventArgs
+{
+    public string ErrorMessage { get; set; } = string.Empty;
+    public bool IsUserFacing { get; set; }
+}
+
 public class PackUpdateBackgroundService : IPackUpdateBackgroundService, IDisposable
 {
     private readonly IPackDownloadService _downloadService;
@@ -44,6 +53,8 @@ public class PackUpdateBackgroundService : IPackUpdateBackgroundService, IDispos
     private bool _isCheckingForUpdates;
     private int _availableUpdatesCount;
     private DateTime? _lastCheckTime;
+    private string _lastErrorMessage = string.Empty;
+    private DateTime? _lastErrorTime;
     private readonly SemaphoreSlim _checkLock = new(1, 1);
     
     private const string LastCheckKey = "PackUpdateLastCheck";
@@ -58,8 +69,11 @@ public class PackUpdateBackgroundService : IPackUpdateBackgroundService, IDispos
     public DateTime? LastCheckTime => _lastCheckTime;
     public bool IsCheckingForUpdates => _isCheckingForUpdates;
     public bool IsUserInActivity => _isUserInActivity;
+    public string LastErrorMessage => _lastErrorMessage;
+    public bool HasRecentError => _lastErrorTime.HasValue && (DateTime.UtcNow - _lastErrorTime.Value).TotalHours < 1;
     
     public event EventHandler<PackUpdateEventArgs>? UpdatesAvailableChanged;
+    public event EventHandler<string>? ErrorOccurred;
     
     public PackUpdateBackgroundService(
         IPackDownloadService downloadService,
@@ -251,6 +265,17 @@ public class PackUpdateBackgroundService : IPackUpdateBackgroundService, IDispos
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error checking for pack updates");
+            
+            // Store error information
+            _lastErrorMessage = "Unable to check for pack updates. Check your internet connection.";
+            _lastErrorTime = DateTime.UtcNow;
+            
+            // Notify about error if not silent
+            if (!silent)
+            {
+                ErrorOccurred?.Invoke(this, _lastErrorMessage);
+            }
+            
             return _availableUpdatesCount;
         }
         finally
@@ -305,6 +330,10 @@ public class PackUpdateBackgroundService : IPackUpdateBackgroundService, IDispos
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error during scheduled update check");
+            
+            // Store error but don't notify user for background checks
+            _lastErrorMessage = "Background update check failed";
+            _lastErrorTime = DateTime.UtcNow;
         }
     }
     

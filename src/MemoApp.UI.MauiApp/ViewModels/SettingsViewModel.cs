@@ -21,6 +21,7 @@ public partial class SettingsViewModel : BaseViewModel
     private readonly IPackUpdateBackgroundService? _updateService;
     private readonly IAnalyticsService _analyticsService;
     private readonly IAppInfoService _appInfoService;
+    private readonly IUserNotificationService _userNotificationService;
     private readonly ILogger<SettingsViewModel> _logger;
 
     [ObservableProperty]
@@ -56,6 +57,7 @@ public partial class SettingsViewModel : BaseViewModel
         IPackUpdateBackgroundService? updateService,
         IAnalyticsService analyticsService,
         IAppInfoService appInfoService,
+        IUserNotificationService userNotificationService,
         ILogger<SettingsViewModel> logger)
     {
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
@@ -64,6 +66,7 @@ public partial class SettingsViewModel : BaseViewModel
         _updateService = updateService;
         _analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
         _appInfoService = appInfoService ?? throw new ArgumentNullException(nameof(appInfoService));
+        _userNotificationService = userNotificationService ?? throw new ArgumentNullException(nameof(userNotificationService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         Title = _localizationService.GetString("Settings_Title");
@@ -122,6 +125,8 @@ public partial class SettingsViewModel : BaseViewModel
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error selecting language");
+            await _userNotificationService.ShowErrorToastAsync(
+                _localizationService.GetString("Settings_SaveFailed"));
         }
     }
 
@@ -165,6 +170,8 @@ public partial class SettingsViewModel : BaseViewModel
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error selecting number format");
+            await _userNotificationService.ShowErrorToastAsync(
+                _localizationService.GetString("Settings_SaveFailed"));
         }
     }
 
@@ -212,6 +219,8 @@ public partial class SettingsViewModel : BaseViewModel
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error selecting pack");
+            await _userNotificationService.ShowErrorToastAsync(
+                _localizationService.GetString("Settings_SaveFailed"));
         }
     }
 
@@ -225,6 +234,8 @@ public partial class SettingsViewModel : BaseViewModel
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error navigating to pack download page");
+            await _userNotificationService.ShowErrorToastAsync(
+                _localizationService.GetString("Navigation_Failed"));
         }
     }
 
@@ -250,6 +261,11 @@ public partial class SettingsViewModel : BaseViewModel
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error initializing settings");
+            
+            // Notify user about the failure
+            await _userNotificationService.ShowWarningToastAsync(
+                _localizationService.GetString("Settings_LoadFailed_UsingDefaults"));
+            
             // Ensure we have fallback values even if initialization fails
             if (string.IsNullOrEmpty(CurrentLanguageName))
             {

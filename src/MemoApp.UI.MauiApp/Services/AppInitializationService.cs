@@ -19,6 +19,7 @@ public class AppInitializationService : IAppInitializationService
     private readonly IErrorMonitoringService? _errorService;
     private readonly IAnalyticsService _analyticsService;
     private readonly GlobalExceptionHandler? _globalHandler;
+    private readonly IUserNotificationService? _userNotificationService;
     private readonly ILogger<AppInitializationService> _logger;
     
     private volatile bool _isInitialized = false;
@@ -33,12 +34,14 @@ public class AppInitializationService : IAppInitializationService
         IAnalyticsService analyticsService,
         ILogger<AppInitializationService> logger,
         IErrorMonitoringService? errorService = null,
-        GlobalExceptionHandler? globalHandler = null)
+        GlobalExceptionHandler? globalHandler = null,
+        IUserNotificationService? userNotificationService = null)
     {
         _localizationService = localizationService;
         _errorService = errorService;
         _analyticsService = analyticsService;
         _globalHandler = globalHandler;
+        _userNotificationService = userNotificationService;
         _logger = logger;
     }
 

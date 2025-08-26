@@ -25,6 +25,7 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
     private readonly IMessenger _messenger;
     private readonly IImageCacheService _imageCacheService;
     private readonly IAnalyticsService _analyticsService;
+    private readonly IUserNotificationService _userNotificationService;
     private readonly ILogger<AssociationsViewModel> _logger;
     
     [ObservableProperty]
@@ -68,6 +69,7 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         IMessenger messenger,
         IImageCacheService imageCacheService,
         IAnalyticsService analyticsService,
+        IUserNotificationService userNotificationService,
         ILogger<AssociationsViewModel> logger)
     {
         _categoryService = categoryService;
@@ -77,6 +79,7 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         _messenger = messenger;
         _imageCacheService = imageCacheService;
         _analyticsService = analyticsService;
+        _userNotificationService = userNotificationService;
         _logger = logger;
         
         // Register for messaging system
@@ -155,6 +158,10 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error loading associations data");
+            
+            // Show user-friendly error message
+            var errorMessage = _localizationService.GetString("AssociationLoading_Failed");
+            await _userNotificationService.ShowErrorToastAsync(errorMessage);
         }
         finally
         {
@@ -197,6 +204,10 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error loading categories");
+            
+            // Show user-friendly error message for category loading failures
+            var errorMessage = _localizationService.GetString("AssociationLoading_Failed");
+            await _userNotificationService.ShowErrorToastAsync(errorMessage);
         }
     }
     
@@ -276,6 +287,16 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error loading category associations for {CategoryKey}", categoryKey);
+            
+            // Clear associations if they failed to load so user sees empty state rather than stale data
+            MainThread.BeginInvokeOnMainThread(() => 
+            {
+                Associations.Clear();
+            });
+            
+            // Show user-friendly error message
+            var errorMessage = _localizationService.GetString("AssociationLoading_Failed");
+            await _userNotificationService.ShowErrorToastAsync(errorMessage);
         }
         finally
         {

@@ -747,6 +747,42 @@
     <value>Validazione del pacchetto fallita. Il contenuto scaricato sembra corrotto.</value>
     <comment>Error during pack validation</comment>
   </data>
+  <data name="Dialog_OK" xml:space="preserve">
+    <value>OK</value>
+    <comment>OK button text in dialogs</comment>
+  </data>
+  <data name="Dialog_Yes" xml:space="preserve">
+    <value>Sì</value>
+    <comment>Yes button text in confirmation dialogs</comment>
+  </data>
+  <data name="Dialog_No" xml:space="preserve">
+    <value>No</value>
+    <comment>No button text in confirmation dialogs</comment>
+  </data>
+  <data name="Settings_LoadFailed_Title" xml:space="preserve">
+    <value>Errore Caricamento Impostazioni</value>
+    <comment>Title for settings load error dialog</comment>
+  </data>
+  <data name="Settings_LoadFailed_UsingDefaults" xml:space="preserve">
+    <value>Impossibile caricare le tue preferenze. Utilizzo impostazioni predefinite per ora.</value>
+    <comment>Warning when settings fail to load</comment>
+  </data>
+  <data name="Settings_SaveFailed" xml:space="preserve">
+    <value>Impossibile salvare le tue preferenze. Le modifiche potrebbero andare perse al riavvio dell'app.</value>
+    <comment>Warning when settings fail to save</comment>
+  </data>
+  <data name="Navigation_Failed" xml:space="preserve">
+    <value>Impossibile aprire quella schermata al momento. Riprova.</value>
+    <comment>Error when navigation fails</comment>
+  </data>
+  <data name="UpdateCheck_Failed" xml:space="preserve">
+    <value>Impossibile controllare gli aggiornamenti dei pacchetti. Controlla la connessione internet.</value>
+    <comment>Error when update checking fails</comment>
+  </data>
+  <data name="Service_InitializationFailed" xml:space="preserve">
+    <value>Alcune funzioni dell'app potrebbero non funzionare correttamente a causa di errori di inizializzazione.</value>
+    <comment>Warning when app services fail to initialize</comment>
+  </data>
   <data name="PackDownload_NetworkErrorMessage" xml:space="preserve">
     <value>Errore di rete. Controlla la connessione.</value>
     <comment>Network error message</comment>
@@ -1208,5 +1244,31 @@
   <data name="MainPage_Version" xml:space="preserve">
     <value>Versione {0}</value>
     <comment>Version display on main page (parameter is version number)</comment>
+  </data>
+  
+  <!-- Image Processing Error Messages -->
+  <data name="ImageProcessing_Failed" xml:space="preserve">
+    <value>Elaborazione immagine fallita. Prova con un'immagine diversa.</value>
+    <comment>Error message when image processing fails</comment>
+  </data>
+  <data name="ImageProcessing_ThumbnailFailed" xml:space="preserve">
+    <value>Generazione miniatura fallita. L'associazione è stata creata ma potrebbe caricarsi lentamente.</value>
+    <comment>Warning message when thumbnail generation fails</comment>
+  </data>
+  <data name="ImageProcessing_InvalidFormat" xml:space="preserve">
+    <value>Formato immagine non valido. Seleziona un file PNG, JPG o altro formato supportato.</value>
+    <comment>Error message when image format is not supported</comment>
+  </data>
+  <data name="CustomAssociation_CreationFailed" xml:space="preserve">
+    <value>Creazione associazione personalizzata fallita. Riprova.</value>
+    <comment>Error message when custom association creation fails</comment>
+  </data>
+  <data name="AIService_NotAvailable" xml:space="preserve">
+    <value>Il servizio di generazione immagini AI non è attualmente disponibile. Riprova più tardi.</value>
+    <comment>Error message when AI service is not available</comment>
+  </data>
+  <data name="AssociationLoading_Failed" xml:space="preserve">
+    <value>Impossibile caricare le associazioni. Controlla la connessione internet o prova ad aggiornare.</value>
+    <comment>Error message when association loading fails</comment>
   </data>
 </root>
