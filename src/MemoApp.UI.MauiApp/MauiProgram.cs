@@ -4,6 +4,8 @@ using MemoApp.UI.MauiApp.Services;
 using MemoApp.Localization.Extensions;
 using MemoApp.Localization.Services;
 using MemoApp.Core.Services.ErrorMonitoring;
+using Plugin.AdMob;
+using Plugin.AdMob.Configuration;
 
 namespace MemoApp.UI.MauiApp;
 
@@ -25,14 +27,17 @@ public static class MauiProgram
         
         try
         {
-            // Step 1: Load configuration from embedded resources
+            // Load configuration from embedded resources
             builder.LoadEmbeddedConfiguration();
             
-            // Step 2: Configure core MAUI application settings
+            // Configure core MAUI application settings
             builder.ConfigureMauiApp();
             
-            // Step 3: Configure Sentry for error monitoring (before service registration)
+            // Configure Sentry for error monitoring (before service registration)
             builder.ConfigureSentry();
+            
+            // Configure Ads (Google AdMob)
+            builder.ConfigureAdMob();
             
             // Step 4: Register all services in proper dependency order
             builder.Services
@@ -189,5 +194,22 @@ public static class MauiProgram
         {
             return "[invalid]";
         }
+    }
+
+    private static MauiAppBuilder ConfigureAdMob(this MauiAppBuilder builder)
+    {
+        builder.UseAdMob()
+            .UseConsentDebugSettings(new ConsentDebugSettings {
+                Geography = ConsentDebugGeography.Eea,
+                TestDeviceHashedIds = ["33BE2250B43518CCDA7DE426D04EE231"],
+                //Reset = true
+            });
+        
+#if DEBUG
+        AdConfig.UseTestAdUnitIds = true;
+        //AdConfig.DefaultBannerAdUnitId = "";
+#endif
+        
+        return builder;
     }
 }

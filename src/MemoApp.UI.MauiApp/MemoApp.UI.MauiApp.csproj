@@ -73,6 +73,7 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+		<PackageReference Include="Plugin.AdMob" Version="2.3.1" />
 		<PackageReference Include="Plugin.Firebase.Core" Version="3.1.1" />
 		<PackageReference Include="Plugin.Firebase.Analytics" Version="3.1.2" />
 		<PackageReference Include="Sentry.Maui" Version="4.13.0" />
@@ -100,4 +101,25 @@
 	  <GoogleServicesJson Include="Platforms\Android\google-services.json" />
 	</ItemGroup>
 
+	<!-- Packages explicitly added to solve incompatibility issues between Plugin.AdMob and Plugin.Firebase.Analytics -->
+	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
+	  <PackageReference Include="Xamarin.AndroidX.Fragment.Ktx" Version="1.8.9" />
+	  <PackageReference Include="Xamarin.GooglePlayServices.Measurement" Version="123.0.0.1" />
+	</ItemGroup>
+
+	<!-- Required by Plugin.AdMob -->
+	<Target Name="LinkWithSwift" DependsOnTargets="_ParseBundlerArguments;_DetectSdkLocations" BeforeTargets="_LinkNativeExecutable">
+		<PropertyGroup>
+			<_SwiftPlatform Condition="$(RuntimeIdentifier.StartsWith('iossimulator-'))">iphonesimulator</_SwiftPlatform>
+			<_SwiftPlatform Condition="$(RuntimeIdentifier.StartsWith('ios-'))">iphoneos</_SwiftPlatform>
+		</PropertyGroup>
+		<ItemGroup>
+			<_CustomLinkFlags Include="-L" />
+			<_CustomLinkFlags Include="/usr/lib/swift" />
+			<_CustomLinkFlags Include="-L" />
+			<_CustomLinkFlags Include="$(_SdkDevPath)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/$(_SwiftPlatform)" />
+			<_CustomLinkFlags Include="-Wl,-rpath" />
+			<_CustomLinkFlags Include="-Wl,/usr/lib/swift" />
+		</ItemGroup>
+	</Target>
 </Project>

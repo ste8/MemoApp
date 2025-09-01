@@ -47,6 +47,10 @@ public static class ServiceRegistration
         // Messaging services
         services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
         
+        // AdMob registered as transient because its status is stored
+        // in the service (needed to handle AdUnit IDs)
+        services.AddTransient<IAdMobService, AdMobService>();
+        
         return services;
     }
 

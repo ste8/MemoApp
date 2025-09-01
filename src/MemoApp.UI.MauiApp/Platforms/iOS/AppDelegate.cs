@@ -34,5 +34,10 @@ public class AppDelegate : MauiUIApplicationDelegate
 		}
 	}
 
-	protected override Microsoft.Maui.Hosting.MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+	protected override Microsoft.Maui.Hosting.MauiApp CreateMauiApp()
+	{
+		var app = MauiProgram.CreateMauiApp();
+		Google.MobileAds.MobileAds.SharedInstance.Start(completionHandler: null);
+		return app;
+	}
 }
