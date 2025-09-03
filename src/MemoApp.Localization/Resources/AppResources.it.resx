@@ -106,6 +106,14 @@
     <value>Inizia Allenamento Personalizzato</value>
     <comment>Custom training button</comment>
   </data>
+  <data name="MainPage_QuickFlashNumbers" xml:space="preserve">
+    <value>⚡ Flash Numeri Veloce</value>
+    <comment>Quick Flash Numbers exercise button</comment>
+  </data>
+  <data name="MainPage_CustomFlashNumbers" xml:space="preserve">
+    <value>▶️ Flash Numeri Personalizzato</value>
+    <comment>Custom Flash Numbers exercise button</comment>
+  </data>
   <data name="MainPage_PresetTraining" xml:space="preserve">
     <value>Allenamenti Predefiniti</value>
     <comment>Preset training section title</comment>

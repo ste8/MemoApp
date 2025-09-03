@@ -95,7 +95,7 @@ public class GlobalExceptionHandler
     {
         return pageName switch
         {
-            "FlashNumbersPage" => "training_exercise",
+            "FlashNumbersPage" => "flash_numbers_exercise",
             "AssociationsPage" => "viewing_associations",
             "PackDownloadPage" => "downloading_pack",
             "SettingsPage" => "changing_settings",

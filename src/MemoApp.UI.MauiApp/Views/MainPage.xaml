@@ -63,7 +63,7 @@
                                TextColor="White"
                                HorizontalOptions="Center" />
                         
-                        <Button Text="⚡ Quick Training"
+                        <Button Text="{localization:Localize MainPage_QuickFlashNumbers}"
                                 Command="{Binding StartQuickTrainingCommand}"
                                 BackgroundColor="White"
                                 TextColor="{StaticResource Primary}"
@@ -388,7 +388,7 @@
                                IsVisible="{Binding HasValidationError}"
                                Margin="10,5,10,0" />
                         
-                        <Button Text="▶️ Custom Training"
+                        <Button Text="{localization:Localize MainPage_CustomFlashNumbers}"
                                 Command="{Binding StartCustomTrainingCommand}"
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="White"

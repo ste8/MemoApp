@@ -112,11 +112,11 @@ public partial class MainViewModel : BaseViewModel
         
         try
         {
-            await Shell.Current.GoToAsync("training", parameters);
+            await Shell.Current.GoToAsync("flashnumbers", parameters);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to navigate to training");
+            _logger.LogError(ex, "Failed to navigate to Flash Numbers exercise");
             await _userNotificationService.ShowErrorToastAsync(
                 _localizationService.GetString("Navigation_Failed"));
         }
@@ -133,7 +133,7 @@ public partial class MainViewModel : BaseViewModel
                 { "rangeEnd", CustomRangeEnd }
             };
             
-            await Shell.Current.GoToAsync("training", parameters);
+            await Shell.Current.GoToAsync("flashnumbers", parameters);
         }
         else
         {
@@ -169,11 +169,11 @@ public partial class MainViewModel : BaseViewModel
         
         try
         {
-            await Shell.Current.GoToAsync("training", parameters);
+            await Shell.Current.GoToAsync("flashnumbers", parameters);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to navigate to training");
+            _logger.LogError(ex, "Failed to navigate to Flash Numbers exercise");
             await _userNotificationService.ShowErrorToastAsync(
                 _localizationService.GetString("Navigation_Failed"));
         }
