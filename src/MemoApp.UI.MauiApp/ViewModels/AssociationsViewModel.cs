@@ -10,6 +10,8 @@ using MemoApp.Localization.Services;
 using Microsoft.Extensions.Logging;
 using MemoApp.UI.MauiApp.Messages;
 using MemoApp.UI.MauiApp.Services;
+using MemoApp.UI.MauiApp.Services.Freemium;
+using Microsoft.Extensions.Configuration;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
 
@@ -27,6 +29,8 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
     private readonly IAnalyticsService _analyticsService;
     private readonly IUserNotificationService _userNotificationService;
     private readonly ILogger<AssociationsViewModel> _logger;
+    private readonly ISubscriptionService? _subscriptionService;
+    private readonly IConfiguration _configuration;
     
     [ObservableProperty]
     private bool _isLoading;
@@ -61,6 +65,15 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
     [ObservableProperty]
     private TokenAssociation? _selectedAssociation;
     
+    [ObservableProperty]
+    private bool _showAds = true;
+    
+    [ObservableProperty]
+    private string? _androidBannerAdUnitId;
+    
+    [ObservableProperty]
+    private string? _iOSBannerAdUnitId;
+    
     public AssociationsViewModel(
         IMajorSystemCategoryService categoryService,
         IPackAssociationsService packAssociationsService,
@@ -70,7 +83,9 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         IImageCacheService imageCacheService,
         IAnalyticsService analyticsService,
         IUserNotificationService userNotificationService,
-        ILogger<AssociationsViewModel> logger)
+        ILogger<AssociationsViewModel> logger,
+        IConfiguration configuration,
+        ISubscriptionService? subscriptionService = null)
     {
         _categoryService = categoryService;
         _packAssociationsService = packAssociationsService;
@@ -81,6 +96,8 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         _analyticsService = analyticsService;
         _userNotificationService = userNotificationService;
         _logger = logger;
+        _configuration = configuration;
+        _subscriptionService = subscriptionService;
         
         // Register for messaging system
         _messenger.Register<CustomAssociationDeletedMessage>(this);
@@ -94,6 +111,12 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         
         // Initialize localized strings
         UpdateLocalizedStrings();
+        
+        // Initialize ad configuration
+        InitializeAdConfiguration();
+        
+        // Check subscription status
+        _ = CheckSubscriptionStatusAsync();
         
         // Load initial data - don't block constructor
         _ = LoadDataAsync();
@@ -768,6 +791,64 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         {
             _packAssociationsService.PackChanged -= OnPackChanged;
             _localizationService.NumberFormatChanged -= OnNumberFormatChanged;
+            
+            if (_subscriptionService != null)
+            {
+                _subscriptionService.SubscriptionStatusChanged -= OnSubscriptionStatusChanged;
+            }
         }
+    }
+    
+    private void InitializeAdConfiguration()
+    {
+        try
+        {
+            AndroidBannerAdUnitId = _configuration["Freemium:AdMob:Android:BannerAdUnitId"];
+            IOSBannerAdUnitId = _configuration["Freemium:AdMob:iOS:BannerAdUnitId"];
+            
+            _logger.LogInformation("Ad configuration initialized");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error initializing ad configuration");
+        }
+    }
+    
+    private async Task CheckSubscriptionStatusAsync()
+    {
+        try
+        {
+            if (_subscriptionService != null)
+            {
+                var status = await _subscriptionService.GetCurrentSubscriptionStatusAsync();
+                ShowAds = !status.IsActive;
+                
+                // Subscribe to subscription changes
+                _subscriptionService.SubscriptionStatusChanged += OnSubscriptionStatusChanged;
+                
+                _logger.LogInformation("Subscription status checked: Premium={IsPremium}, ShowAds={ShowAds}", 
+                    status.IsActive, ShowAds);
+            }
+            else
+            {
+                ShowAds = true; // Show ads if subscription service is not available
+                _logger.LogWarning("Subscription service not available, ads will be shown");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error checking subscription status");
+            ShowAds = true; // Default to showing ads on error
+        }
+    }
+    
+    private void OnSubscriptionStatusChanged(object? sender, Models.Freemium.SubscriptionStatus status)
+    {
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            ShowAds = !status.IsActive;
+            _logger.LogInformation("Subscription status changed: Premium={IsPremium}, ShowAds={ShowAds}", 
+                status.IsActive, ShowAds);
+        });
     }
 }

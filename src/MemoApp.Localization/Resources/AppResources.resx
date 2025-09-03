@@ -1272,4 +1272,8 @@
     <value>Unable to load associations. Please check your internet connection or try refreshing.</value>
     <comment>Error message when association loading fails</comment>
   </data>
+  <data name="Associations_DownloadPack" xml:space="preserve">
+    <value>⬇️ Download Pack</value>
+    <comment>Button text to download pack when no pack is available</comment>
+  </data>
 </root>

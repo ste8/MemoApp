@@ -1271,4 +1271,8 @@
     <value>Impossibile caricare le associazioni. Controlla la connessione internet o prova ad aggiornare.</value>
     <comment>Error message when association loading fails</comment>
   </data>
+  <data name="Associations_DownloadPack" xml:space="preserve">
+    <value>⬇️ Scarica Pacchetto</value>
+    <comment>Button text to download pack when no pack is available</comment>
+  </data>
 </root>

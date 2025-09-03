@@ -4,6 +4,7 @@ using MemoApp.Core.NumberMemorization;
 using MemoApp.Core.Services.Analytics;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Services;
+using MemoApp.UI.MauiApp.Services.Freemium;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
 

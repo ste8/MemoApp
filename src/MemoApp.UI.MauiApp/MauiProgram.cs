@@ -44,6 +44,7 @@ public static class MauiProgram
                 .AddCoreServices(builder.Configuration)
                 .AddLocalizationServices()
                 .AddAnalyticsServices()
+                .AddFreemiumServices()
                 .AddPackManagementServices(builder.Configuration)
                 .AddMemoryTrainingServices()
                 .AddCacheAndImageServices()
@@ -207,7 +208,20 @@ public static class MauiProgram
         
 #if DEBUG
         AdConfig.UseTestAdUnitIds = true;
-        //AdConfig.DefaultBannerAdUnitId = "";
+#else
+        // Only configure ad unit IDs for platforms that support AdMob (iOS and Android)
+        if (DeviceInfo.Platform == DevicePlatform.iOS || DeviceInfo.Platform == DevicePlatform.Android)
+        {
+            var platform = DeviceInfo.Platform == DevicePlatform.iOS ? "iOS" : "Android";
+            var bannerAdUnitId = builder.Configuration[$"Freemium:AdMob:{platform}:BannerAdUnitId"];
+            var interstitialAdUnitId = builder.Configuration[$"Freemium:AdMob:{platform}:InterstitialAdUnitId"];
+            
+            if (!string.IsNullOrEmpty(bannerAdUnitId))
+                AdConfig.DefaultBannerAdUnitId = bannerAdUnitId;
+                
+            if (!string.IsNullOrEmpty(interstitialAdUnitId))
+                AdConfig.DefaultInterstitialAdUnitId = interstitialAdUnitId;
+        }
 #endif
         
         return builder;

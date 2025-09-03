@@ -7,6 +7,7 @@ using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Services.Analytics;
 using MemoApp.UI.MauiApp.Services.ErrorMonitoring;
+using MemoApp.UI.MauiApp.Services.Freemium;
 using MemoApp.UI.MauiApp.ViewModels;
 using MemoApp.UI.MauiApp.Views;
 using CommunityToolkit.Mvvm.Messaging;
@@ -47,9 +48,8 @@ public static class ServiceRegistration
         // Messaging services
         services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
         
-        // AdMob registered as transient because its status is stored
-        // in the service (needed to handle AdUnit IDs)
-        services.AddTransient<IAdMobService, AdMobService>();
+        // AdMob registered as singleton since it uses default AdConfig settings
+        services.AddSingleton<IAdMobService, AdMobService>();
         
         return services;
     }
@@ -78,6 +78,25 @@ public static class ServiceRegistration
 #else
         services.AddSingleton<IAnalyticsService, LocalAnalyticsService>();
 #endif
+        return services;
+    }
+
+    /// <summary>
+    /// Registers freemium services (subscriptions, promotions, ads)
+    /// </summary>
+    /// <param name="services">The service collection</param>
+    /// <returns>The service collection for method chaining</returns>
+    public static IServiceCollection AddFreemiumServices(this IServiceCollection services)
+    {
+        // Subscription service
+        services.AddSingleton<ISubscriptionService, SubscriptionService>();
+        
+        // Promotion service
+        services.AddSingleton<IPromotionService, PromotionService>();
+        
+        // Interstitial ad manager
+        services.AddTransient<IInterstitialAdManager, InterstitialAdManager>();
+        
         return services;
     }
 
@@ -212,7 +231,8 @@ public static class ServiceRegistration
         {
             var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
-            return new FlashNumbersViewModel(localizationService, analyticsService);
+            var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
+            return new FlashNumbersViewModel(localizationService, analyticsService, interstitialAdManager);
         });
         
         services.AddTransient<StatisticsViewModel>();
@@ -229,7 +249,9 @@ public static class ServiceRegistration
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
             var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
             var logger = serviceProvider.GetRequiredService<ILogger<AssociationsViewModel>>();
-            return new AssociationsViewModel(categoryService, packAssociationsService, tokenDefaultsService, localizationService, messenger, imageCacheService, analyticsService, userNotificationService, logger);
+            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+            var subscriptionService = serviceProvider.GetService<ISubscriptionService>(); // Optional
+            return new AssociationsViewModel(categoryService, packAssociationsService, tokenDefaultsService, localizationService, messenger, imageCacheService, analyticsService, userNotificationService, logger, configuration, subscriptionService);
         });
         
         services.AddTransient<PackDownloadViewModel>(serviceProvider =>

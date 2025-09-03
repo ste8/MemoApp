@@ -5,14 +5,17 @@
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
              xmlns:models="clr-namespace:MemoApp.Core.MajorSystem.Models;assembly=MemoApp.Core"
              xmlns:utilities="clr-namespace:MemoApp.UI.MauiApp.Utilities"
+             xmlns:views="clr-namespace:MemoApp.UI.MauiApp.Views"
              x:Class="MemoApp.UI.MauiApp.Views.AssociationsPage"
              x:DataType="viewmodels:AssociationsViewModel"
              Title="{localization:Localize Associations_Title}">
     
     
-    <Grid>
-        <!-- Loading state -->
-        <StackLayout IsVisible="{Binding IsLoading}" Spacing="20" HorizontalOptions="Center" VerticalOptions="Center" Padding="40">
+    <Grid RowDefinitions="*,Auto">
+        <!-- Main content container -->
+        <Grid Grid.Row="0">
+            <!-- Loading state -->
+            <StackLayout IsVisible="{Binding IsLoading}" Spacing="20" HorizontalOptions="Center" VerticalOptions="Center" Padding="40">
             <ActivityIndicator IsRunning="True" Color="{DynamicResource Primary}" />
             <Label Text="{localization:Localize Common_Loading}" 
                    HorizontalOptions="Center" 
@@ -31,7 +34,7 @@
                    HorizontalOptions="Center" 
                    HorizontalTextAlignment="Center" />
             <Button Command="{Binding DownloadPackCommand}"
-                    Text="⬇️ Download Pack"
+                    Text="{localization:Localize Associations_DownloadPack}"
                     HorizontalOptions="Center" 
                     Margin="0,20,0,0" />
         </StackLayout>
@@ -169,5 +172,14 @@
                 BackgroundColor="{DynamicResource Primary}"
                 TextColor="{DynamicResource OnPrimary}"
                 IsVisible="{Binding HasPackAvailable}" />
+        </Grid>
+        
+        <!-- AdMob Banner - Shows at the bottom when ads are enabled -->
+        <views:AdMobSmartBanner Grid.Row="1"
+                               IsVisible="{Binding ShowAds}"
+                               AndroidAdUnitId="{Binding AndroidBannerAdUnitId}"
+                               iOSAdUnitId="{Binding IOSBannerAdUnitId}"
+                               VerticalOptions="End"
+                               HorizontalOptions="FillAndExpand" />
     </Grid>
 </ContentPage>

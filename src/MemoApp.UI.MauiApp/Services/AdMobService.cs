@@ -5,15 +5,18 @@ namespace MemoApp.UI.MauiApp.Services;
 
 public interface IAdMobService
 {
-    Task PrepareInterstitialAd(string? adUnitId = null);
+    Task PrepareInterstitialAd();
     
     Task ShowInterstitialAd();
+    
+    bool IsInterstitialAdLoaded { get; }
 }
 
 public class AdMobService : IAdMobService
 {
     private readonly IInterstitialAdService _interstitialAdService;
-    private string? _interstitialAdUnitId;
+    
+    public bool IsInterstitialAdLoaded => _interstitialAdService.IsAdLoaded;
     
     public AdMobService()
     {
@@ -22,21 +25,27 @@ public class AdMobService : IAdMobService
         _interstitialAdService.OnAdLoaded += (_, __) => Debug.WriteLine("Interstitial ad prepared.");
     }
 
-    public Task PrepareInterstitialAd(string? adUnitId = null)
+    public Task PrepareInterstitialAd()
     {
-        _interstitialAdUnitId = adUnitId;
-        _interstitialAdService.PrepareAd(_interstitialAdUnitId);
+        // Uses the default interstitial ad unit ID configured in AdConfig
+        if (!_interstitialAdService.IsAdLoaded) {
+            _interstitialAdService.PrepareAd();
+        } else {
+            Debug.WriteLine("Interstitial already loaded.");
+        }
         return Task.CompletedTask;
     }
 
     public Task ShowInterstitialAd()
     {
-        if (_interstitialAdService.IsAdLoaded) {
+        if (_interstitialAdService.IsAdLoaded) 
+        {
             _interstitialAdService.ShowAd();
-        } else {
-            Debug.WriteLine("Interstitial NON loaded.");
+        } 
+        else 
+        {
+            Debug.WriteLine("Interstitial ad not loaded.");
         }
-        _interstitialAdService.PrepareAd(_interstitialAdUnitId);
         return Task.CompletedTask;
     }
 }
