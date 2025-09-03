@@ -53,6 +53,17 @@ stages:
             dotnet workload install ios --version $(dotnet_workload_version)
           #source for "dotnet nuget locals all --clear": https://www.youtube.com/watch?v=eLY9EDzyvoQ          
 
+      #Android workloads needed also in iOS build, otherwise nuget restore cannot be executed
+      - task: Bash@3
+        displayName: Install Android workloads
+        inputs:
+          targetType: 'inline'
+          script: |
+            dotnet nuget locals all --clear 
+            dotnet workload install android --version $(dotnet_workload_version)
+          #source for "dotnet nuget locals all --clear": https://www.youtube.com/watch?v=eLY9EDzyvoQ          
+
+
       - task: InstallAppleProvisioningProfile@1
         name: installProvProfile
         inputs:
