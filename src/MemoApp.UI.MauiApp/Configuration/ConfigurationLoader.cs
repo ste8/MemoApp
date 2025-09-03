@@ -10,6 +10,7 @@ public static class ConfigurationLoader
 {
     private const string AppSettingsResourceName = "MemoApp.UI.MauiApp.appsettings.json";
     private const string DevAppSettingsResourceName = "MemoApp.UI.MauiApp.appsettings.Development.json";
+    private const string ProductionAppSettingsResourceName = "MemoApp.UI.MauiApp.appsettings.Production.json";
 
     /// <summary>
     /// Loads embedded configuration files into the builder configuration
@@ -25,6 +26,9 @@ public static class ConfigurationLoader
 #if DEBUG
         // Load development settings in debug builds
         LoadConfigurationFromResource(builder, assembly, DevAppSettingsResourceName);
+#else
+        // Load production settings in release builds
+        LoadConfigurationFromResource(builder, assembly, ProductionAppSettingsResourceName);
 #endif
     }
 
