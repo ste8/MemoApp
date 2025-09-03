@@ -64,6 +64,7 @@ stages:
           certSecureFile: Stefano Ottaviani.p12
           keychain: 'temp' 
           certPwd: $(ios_distribution_p12_password)
+          opensslPkcsArgs: '-legacy'
           
       - task: NuGetAuthenticate@1      
       - script: dotnet restore $(app_sln_path)
