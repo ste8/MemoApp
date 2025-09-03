@@ -57,11 +57,11 @@ stages:
         name: installProvProfile
         inputs:
           provisioningProfileLocation: 'secureFiles'
-          provProfileSecureFile: MemoApp__Distribution.mobileprovision
+          provProfileSecureFile: MemoApp__Distribution_iOS_AppStore.mobileprovision
 
       - task: InstallAppleCertificate@2
         inputs:
-          certSecureFile: CertificatesDistributionAppStore.p12
+          certSecureFile: Stefano Ottaviani.p12
           keychain: 'temp' 
           certPwd: $(ios_distribution_p12_password)
           
