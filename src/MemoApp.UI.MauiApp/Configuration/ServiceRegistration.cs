@@ -1,7 +1,7 @@
 using MemoApp.Core.Services.Analytics;
 using MemoApp.Core.Services.ErrorMonitoring;
 using MemoApp.Core.MajorSystem.Services;
-using MemoApp.Core.NumberMemorization;
+using MemoApp.Core.BigNumber;
 using MemoApp.Core.Services.Packs;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Services;
@@ -149,8 +149,8 @@ public static class ServiceRegistration
             return new TokenDefaultsService(logger, packManager);
         });
         
-        // Number memorization service
-        services.AddSingleton<INumberMemorizationService, NumberMemorizationService>();
+        // Big Number service
+        services.AddSingleton<IBigNumberService, BigNumberService>();
         
         return services;
     }
@@ -173,7 +173,7 @@ public static class ServiceRegistration
         // UI measurement services
         services.AddSingleton<ITextMeasurementService, TextMeasurementService>();
         services.AddSingleton<IContainerSizeService, ContainerSizeService>();
-        services.AddSingleton<INumberMemorizationSettingsService, NumberMemorizationSettingsService>();
+        services.AddSingleton<IBigNumberSettingsService, BigNumberSettingsService>();
         
         return services;
     }
@@ -265,15 +265,15 @@ public static class ServiceRegistration
             return new PackDownloadViewModel(downloadService, packManager, mauiPackService, localizationService, analyticsService, logger);
         });
         
-        services.AddTransient<NumberMemorizationViewModel>(serviceProvider =>
+        services.AddTransient<BigNumberViewModel>(serviceProvider =>
         {
-            var gameService = serviceProvider.GetRequiredService<INumberMemorizationService>();
-            var settingsService = serviceProvider.GetRequiredService<INumberMemorizationSettingsService>();
+            var gameService = serviceProvider.GetRequiredService<IBigNumberService>();
+            var settingsService = serviceProvider.GetRequiredService<IBigNumberSettingsService>();
             var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
             var textMeasurementService = serviceProvider.GetRequiredService<ITextMeasurementService>();
             var containerSizeService = serviceProvider.GetRequiredService<IContainerSizeService>();
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
-            return new NumberMemorizationViewModel(gameService, settingsService, localizationService, textMeasurementService, containerSizeService, analyticsService);
+            return new BigNumberViewModel(gameService, settingsService, localizationService, textMeasurementService, containerSizeService, analyticsService);
         });
         
         services.AddTransient<TokenDetailViewModel>(serviceProvider =>
@@ -339,7 +339,7 @@ public static class ServiceRegistration
         services.AddTransient<Views.SettingsPage>();
         services.AddTransient<Views.AssociationsPage>();
         services.AddTransient<Views.PackDownloadPage>();
-        services.AddTransient<Views.NumberMemorizationPage>();
+        services.AddTransient<Views.BigNumberPage>();
         services.AddTransient<Views.TokenDetailPage>();
         services.AddTransient<Views.AddCustomAssociationPage>();
         services.AddTransient<Views.ImageViewerPage>();

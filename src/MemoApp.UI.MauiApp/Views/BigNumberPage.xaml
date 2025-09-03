@@ -4,8 +4,8 @@
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              xmlns:utilities="clr-namespace:MemoApp.UI.MauiApp.Utilities"
-             x:Class="MemoApp.UI.MauiApp.Views.NumberMemorizationPage"
-             x:DataType="viewmodels:NumberMemorizationViewModel"
+             x:Class="MemoApp.UI.MauiApp.Views.BigNumberPage"
+             x:DataType="viewmodels:BigNumberViewModel"
              Title="{Binding Title}">
 
     <ScrollView>
@@ -24,7 +24,7 @@
                     <StackLayout Spacing="20">
                         <!-- Number of Digits -->
                         <StackLayout Spacing="8">
-                            <Label Text="{localization:Localize NumberMemorization_NumberOfDigits}"
+                            <Label Text="{localization:Localize BigNumber_NumberOfDigits}"
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    FontAttributes="Bold" />
                             
@@ -70,14 +70,14 @@
                                         SemanticProperties.Description="{localization:Localize Accessibility_IncrementNumberOfDigits}" />
                             </Grid>
                             
-                            <Label Text="{localization:Localize NumberMemorization_DigitsHelp}"
+                            <Label Text="{localization:Localize BigNumber_DigitsHelp}"
                                    FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
                                    TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
                         </StackLayout>
 
                         <!-- Max Pair Value -->
                         <StackLayout Spacing="8">
-                            <Label Text="{localization:Localize NumberMemorization_MaxPairValue}"
+                            <Label Text="{localization:Localize BigNumber_MaxPairValue}"
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    FontAttributes="Bold" />
                             
@@ -123,32 +123,32 @@
                                         SemanticProperties.Description="{localization:Localize Accessibility_IncrementMaxPairValue}" />
                             </Grid>
                             
-                            <Label Text="{localization:Localize NumberMemorization_MaxPairHelp}"
+                            <Label Text="{localization:Localize BigNumber_MaxPairHelp}"
                                    FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
                                    TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
                         </StackLayout>
 
                         <!-- Display Format -->
                         <StackLayout Spacing="8">
-                            <Label Text="{localization:Localize NumberMemorization_DisplayFormat}"
+                            <Label Text="{localization:Localize BigNumber_DisplayFormat}"
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    FontAttributes="Bold" />
                             
                             <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
                                 <RadioButton Grid.Column="0"
-                                             Content="{localization:Localize NumberMemorization_Continuous}"
+                                             Content="{localization:Localize BigNumber_Continuous}"
                                              IsChecked="{Binding IsContinuousSelected}"
                                              GroupName="DisplayFormat" />
                                 
                                 <RadioButton Grid.Column="1"
-                                             Content="{localization:Localize NumberMemorization_Separated}"
+                                             Content="{localization:Localize BigNumber_Separated}"
                                              IsChecked="{Binding IsSeparatedSelected}"
                                              GroupName="DisplayFormat" />
                             </Grid>
                             
                             <!-- Format Example -->
                             <StackLayout Orientation="Horizontal" Spacing="6" Margin="0,0,0,0">
-                                <Label Text="{localization:Localize NumberMemorization_ExampleLabel}"
+                                <Label Text="{localization:Localize BigNumber_ExampleLabel}"
                                        FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}"
                                        TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
                                        VerticalOptions="Center" />
@@ -189,7 +189,7 @@
                             
                             <!-- Optimally spaced label -->
                             <Label Grid.Column="1"
-                                   Text="{localization:Localize NumberMemorization_ShowTimer}"
+                                   Text="{localization:Localize BigNumber_ShowTimer}"
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    VerticalOptions="Center"
                                    Margin="{OnIdiom Phone='12,0,0,0', Tablet='16,0,0,0', Desktop='8,0,0,0'}"
@@ -222,7 +222,7 @@
                        HasShadow="True">
                     
                     <StackLayout Spacing="5">
-                        <Label Text="{localization:Localize NumberMemorization_Time}"
+                        <Label Text="{localization:Localize BigNumber_Time}"
                                FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                FontAttributes="Bold"
                                HorizontalOptions="Center"
@@ -262,7 +262,7 @@
                     
                     <StackLayout Spacing="8">
                         <!-- Font Size Label - Only show on larger screens -->
-                        <Label Text="{localization:Localize NumberMemorization_FontSize}"
+                        <Label Text="{localization:Localize BigNumber_FontSize}"
                                FontSize="{OnIdiom Phone=11, Tablet=13, Desktop=15}"
                                HorizontalOptions="Center"
                                TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"

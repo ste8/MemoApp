@@ -1,6 +1,6 @@
-namespace MemoApp.Core.NumberMemorization;
+namespace MemoApp.Core.BigNumber;
 
-public class NumberMemorizationSettings
+public class BigNumberSettings
 {
     public int NumberOfDigits { get; set; } = 20;
     public int MaxPairValue { get; set; } = 99;

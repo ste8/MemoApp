@@ -1,14 +1,14 @@
 using System.Text;
 
-namespace MemoApp.Core.NumberMemorization;
+namespace MemoApp.Core.BigNumber;
 
-public class NumberMemorizationService : INumberMemorizationService
+public class BigNumberService : IBigNumberService
 {
     private readonly Random _random = new();
 
-    public NumberMemorizationGame CreateNewGame(NumberMemorizationSettings settings)
+    public BigNumberGame CreateNewGame(BigNumberSettings settings)
     {
-        var game = new NumberMemorizationGame
+        var game = new BigNumberGame
         {
             GeneratedNumber = GenerateNumber(settings.NumberOfDigits, settings.MaxPairValue),
             Phase = GamePhase.Setup,
@@ -51,7 +51,7 @@ public class NumberMemorizationService : INumberMemorizationService
         return result.ToString();
     }
 
-    public void StartGame(NumberMemorizationGame game)
+    public void StartGame(BigNumberGame game)
     {
         game.Phase = GamePhase.Memorizing;
         game.IsTimerRunning = true;
@@ -60,7 +60,7 @@ public class NumberMemorizationService : INumberMemorizationService
         game.ElapsedTime = TimeSpan.Zero;
     }
 
-    public void StopGame(NumberMemorizationGame game)
+    public void StopGame(BigNumberGame game)
     {
         game.Phase = GamePhase.Stopped;
         game.IsTimerRunning = false;
@@ -72,7 +72,7 @@ public class NumberMemorizationService : INumberMemorizationService
         }
     }
 
-    public void ResetGame(NumberMemorizationGame game)
+    public void ResetGame(BigNumberGame game)
     {
         game.Phase = GamePhase.Setup;
         game.IsTimerRunning = false;
@@ -82,7 +82,7 @@ public class NumberMemorizationService : INumberMemorizationService
         game.GeneratedNumber = string.Empty;
     }
 
-    public void ToggleNumberVisibility(NumberMemorizationGame game)
+    public void ToggleNumberVisibility(BigNumberGame game)
     {
         game.IsNumberVisible = !game.IsNumberVisible;
     }

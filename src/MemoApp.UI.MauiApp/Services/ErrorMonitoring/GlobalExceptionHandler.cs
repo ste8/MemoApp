@@ -99,7 +99,7 @@ public class GlobalExceptionHandler
             "AssociationsPage" => "viewing_associations",
             "PackDownloadPage" => "downloading_pack",
             "SettingsPage" => "changing_settings",
-            "NumberMemorizationPage" => "memory_exercise",
+            "BigNumberPage" => "big_number_exercise",
             "MainPage" => "main_navigation",
             _ => "unknown_action"
         };

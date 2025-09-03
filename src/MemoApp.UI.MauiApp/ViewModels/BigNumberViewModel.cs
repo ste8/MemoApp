@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MemoApp.Core.NumberMemorization;
+using MemoApp.Core.BigNumber;
 using MemoApp.Core.Services.Analytics;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Services;
@@ -8,16 +8,16 @@ using MemoApp.UI.MauiApp.Services.Freemium;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
 
-public partial class NumberMemorizationViewModel : BaseViewModel
+public partial class BigNumberViewModel : BaseViewModel
 {
-    private readonly INumberMemorizationService _gameService;
-    private readonly INumberMemorizationSettingsService _settingsService;
+    private readonly IBigNumberService _gameService;
+    private readonly IBigNumberSettingsService _settingsService;
     private readonly ILocalizationService _localizationService;
     private readonly ITextMeasurementService _textMeasurementService;
     private readonly IContainerSizeService _containerSizeService;
     private readonly IAnalyticsService _analyticsService;
     private IDispatcherTimer? _timer;
-    private NumberMemorizationGame _currentGame = new();
+    private BigNumberGame _currentGame = new();
     
     // Analytics tracking
     private DateTime _exerciseStartTime;
@@ -77,9 +77,9 @@ public partial class NumberMemorizationViewModel : BaseViewModel
 
     public string CurrentFormatExample => GenerateExampleNumber(ShowSeparated);
 
-    public NumberMemorizationViewModel(
-        INumberMemorizationService gameService,
-        INumberMemorizationSettingsService settingsService,
+    public BigNumberViewModel(
+        IBigNumberService gameService,
+        IBigNumberSettingsService settingsService,
         ILocalizationService localizationService,
         ITextMeasurementService textMeasurementService,
         IContainerSizeService containerSizeService,
@@ -92,7 +92,7 @@ public partial class NumberMemorizationViewModel : BaseViewModel
         _containerSizeService = containerSizeService ?? throw new ArgumentNullException(nameof(containerSizeService));
         _analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
         
-        Title = _localizationService.GetString("NumberMemorization_Title");
+        Title = _localizationService.GetString("BigNumber_Title");
         
         // Initialize timer
         _timer = Application.Current?.Dispatcher.CreateTimer();
@@ -220,7 +220,7 @@ public partial class NumberMemorizationViewModel : BaseViewModel
         _exerciseStartTime = DateTime.UtcNow;
         _memorizationStartTime = _exerciseStartTime;
         
-        await _analyticsService.TrackEventAsync(AnalyticsEvents.NumberMemorizationStarted, new Dictionary<string, object>
+        await _analyticsService.TrackEventAsync(AnalyticsEvents.BigNumberStarted, new Dictionary<string, object>
         {
             [AnalyticsParameters.DifficultyDigits] = NumberOfDigits,
             [AnalyticsParameters.NumberRange] = MaxPairValue == 99 ? "0_99" : "00_99",
@@ -228,7 +228,7 @@ public partial class NumberMemorizationViewModel : BaseViewModel
         });
 
         // Create new game with current settings
-        var settings = new NumberMemorizationSettings
+        var settings = new BigNumberSettings
         {
             NumberOfDigits = NumberOfDigits,
             MaxPairValue = MaxPairValue,
@@ -257,7 +257,7 @@ public partial class NumberMemorizationViewModel : BaseViewModel
         
         await _analyticsService.TrackEventAsync(AnalyticsEvents.ExerciseAbandoned, new Dictionary<string, object>
         {
-            [AnalyticsParameters.ExerciseType] = ExerciseTypes.NumberMemorization,
+            [AnalyticsParameters.ExerciseType] = ExerciseTypes.BigNumber,
             [AnalyticsParameters.DurationSeconds] = (int)totalDuration,
             [AnalyticsParameters.AbandonmentPoint] = currentPhaseType,
             [AnalyticsParameters.AbandonmentReason] = AbandonmentReasons.UserQuit,
@@ -297,7 +297,7 @@ public partial class NumberMemorizationViewModel : BaseViewModel
             // Switched back to memorization from recall
             await _analyticsService.TrackEventAsync(AnalyticsEvents.ExercisePhaseStarted, new Dictionary<string, object>
             {
-                [AnalyticsParameters.ExerciseType] = ExerciseTypes.NumberMemorization,
+                [AnalyticsParameters.ExerciseType] = ExerciseTypes.BigNumber,
                 [AnalyticsParameters.PhaseType] = PhaseTypes.Memorization,
                 [AnalyticsParameters.DifficultyDigits] = NumberOfDigits
             });
@@ -319,9 +319,9 @@ public partial class NumberMemorizationViewModel : BaseViewModel
                 ? (currentTime - _recallStartTime).TotalSeconds 
                 : 0;
             
-            await _analyticsService.TrackEventAsync(AnalyticsEvents.NumberMemorizationCompleted, new Dictionary<string, object>
+            await _analyticsService.TrackEventAsync(AnalyticsEvents.BigNumberCompleted, new Dictionary<string, object>
             {
-                [AnalyticsParameters.ExerciseType] = ExerciseTypes.NumberMemorization,
+                [AnalyticsParameters.ExerciseType] = ExerciseTypes.BigNumber,
                 [AnalyticsParameters.DurationSeconds] = (int)totalDuration,
                 [AnalyticsParameters.Success] = true, // User completed the session (reached recall phase)
                 [AnalyticsParameters.DifficultyDigits] = NumberOfDigits,
@@ -664,7 +664,7 @@ public partial class NumberMemorizationViewModel : BaseViewModel
 
     private async Task SaveSettingsAsync()
     {
-        var settings = new NumberMemorizationSettings
+        var settings = new BigNumberSettings
         {
             NumberOfDigits = NumberOfDigits,
             MaxPairValue = MaxPairValue,

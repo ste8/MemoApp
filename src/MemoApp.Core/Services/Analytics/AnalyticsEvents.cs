@@ -20,9 +20,9 @@ public static class AnalyticsEvents
     public const string ExercisePhaseStarted = "exercise_phase_started"; // memorization, recall
     public const string ExercisePhaseCompleted = "exercise_phase_completed";
     
-    // Number Memorization Exercise
-    public const string NumberMemorizationStarted = "number_memorization_started";
-    public const string NumberMemorizationCompleted = "number_memorization_completed";
+    // Big Number Exercise
+    public const string BigNumberStarted = "big_number_started";
+    public const string BigNumberCompleted = "big_number_completed";
     public const string NumberRecallStarted = "number_recall_started";
     public const string NumberRecallCompleted = "number_recall_completed";
     
@@ -152,7 +152,7 @@ public static class AnalyticsUserProperties
 /// </summary>
 public static class ExerciseTypes
 {
-    public const string NumberMemorization = "number_memorization";
+    public const string BigNumber = "big_number";
     public const string MajorSystemReview = "major_system_review";
     public const string TrainingSession = "training_session"; // Legacy - use FlashNumbers for new code
     public const string FlashNumbers = "flash_numbers"; // Renamed from TrainingSession

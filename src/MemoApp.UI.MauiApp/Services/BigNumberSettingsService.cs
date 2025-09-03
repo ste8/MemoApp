@@ -1,17 +1,17 @@
-using MemoApp.Core.NumberMemorization;
+using MemoApp.Core.BigNumber;
 
 namespace MemoApp.UI.MauiApp.Services;
 
-public class NumberMemorizationSettingsService : INumberMemorizationSettingsService
+public class BigNumberSettingsService : IBigNumberSettingsService
 {
-    private const string NumberOfDigitsKey = "NumberMemorization_NumberOfDigits";
-    private const string MaxPairValueKey = "NumberMemorization_MaxPairValue";
-    private const string ShowSeparatedKey = "NumberMemorization_ShowSeparated";
-    private const string ShowTimerKey = "NumberMemorization_ShowTimer";
+    private const string NumberOfDigitsKey = "BigNumber_NumberOfDigits";
+    private const string MaxPairValueKey = "BigNumber_MaxPairValue";
+    private const string ShowSeparatedKey = "BigNumber_ShowSeparated";
+    private const string ShowTimerKey = "BigNumber_ShowTimer";
 
-    public Task<NumberMemorizationSettings> LoadSettingsAsync()
+    public Task<BigNumberSettings> LoadSettingsAsync()
     {
-        var settings = new NumberMemorizationSettings
+        var settings = new BigNumberSettings
         {
             NumberOfDigits = Preferences.Get(NumberOfDigitsKey, 20),
             MaxPairValue = Preferences.Get(MaxPairValueKey, 99),
@@ -22,7 +22,7 @@ public class NumberMemorizationSettingsService : INumberMemorizationSettingsServ
         return Task.FromResult(settings);
     }
 
-    public Task SaveSettingsAsync(NumberMemorizationSettings settings)
+    public Task SaveSettingsAsync(BigNumberSettings settings)
     {
         Preferences.Set(NumberOfDigitsKey, settings.NumberOfDigits);
         Preferences.Set(MaxPairValueKey, settings.MaxPairValue);

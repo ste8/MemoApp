@@ -1,6 +1,6 @@
-namespace MemoApp.Core.NumberMemorization;
+namespace MemoApp.Core.BigNumber;
 
-public class NumberMemorizationGame
+public class BigNumberGame
 {
     public string GeneratedNumber { get; set; } = string.Empty;
     public TimeSpan ElapsedTime { get; set; } = TimeSpan.Zero;

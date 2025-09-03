@@ -2,9 +2,9 @@ using MemoApp.UI.MauiApp.ViewModels;
 
 namespace MemoApp.UI.MauiApp.Views;
 
-public partial class NumberMemorizationPage : ContentPage
+public partial class BigNumberPage : ContentPage
 {
-    public NumberMemorizationPage(NumberMemorizationViewModel viewModel)
+    public BigNumberPage(BigNumberViewModel viewModel)
     {
         InitializeComponent();
         BindingContext = viewModel;
@@ -14,7 +14,7 @@ public partial class NumberMemorizationPage : ContentPage
     {
         base.OnAppearing();
         
-        if (BindingContext is NumberMemorizationViewModel viewModel)
+        if (BindingContext is BigNumberViewModel viewModel)
         {
             // Set the container element reference for accurate size measurement
             viewModel.SetContainerElement(NumberDisplayFrame);

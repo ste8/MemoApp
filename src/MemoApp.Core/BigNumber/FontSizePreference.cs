@@ -1,4 +1,4 @@
-namespace MemoApp.Core.NumberMemorization;
+namespace MemoApp.Core.BigNumber;
 
 public enum FontSizePreference
 {

@@ -24,8 +24,8 @@
         <ShellContent
             Title="{localization:Localize Tab_NumberMemory}"
             Icon="memory"
-            Route="numbermemorization"
-            ContentTemplate="{DataTemplate views:NumberMemorizationPage}" />
+            Route="bignumber"
+            ContentTemplate="{DataTemplate views:BigNumberPage}" />
 
         <ShellContent
             Title="{localization:Localize Tab_Help}"
