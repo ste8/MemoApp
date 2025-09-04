@@ -61,7 +61,7 @@ stages:
 
       - task: InstallAppleCertificate@2
         inputs:
-          certSecureFile: Stefano Ottaviani Apple Distribution Key.p12
+          certSecureFile: StefanoOttavianiAppleDistributionKey.p12
           keychain: "temp"
           certPwd: $(ios_distribution_p12_password)
           deleteCert: true
