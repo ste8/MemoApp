@@ -1306,4 +1306,12 @@
     <value>Hide</value>
     <comment>Button text to hide associations during recall</comment>
   </data>
+  <data name="Accessibility_AssociationsScrollableArea" xml:space="preserve">
+    <value>Visual associations for number memorization</value>
+    <comment>Accessibility description for the associations scrollable area</comment>
+  </data>
+  <data name="Accessibility_ScrollToViewAllAssociations" xml:space="preserve">
+    <value>Scroll to view all visual associations for the memorized number</value>
+    <comment>Accessibility hint for scrolling through associations</comment>
+  </data>
 </root>

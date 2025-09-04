@@ -92,6 +92,9 @@ public partial class BigNumberViewModel : BaseViewModel
     [ObservableProperty]
     private ObservableCollection<TokenAssociation> numberAssociations = new();
 
+    private List<TokenAssociation> _allAssociations = new();
+    private const int ASSOCIATIONS_BATCH_SIZE = 20;
+
     [ObservableProperty]
     private bool isRecallPhase = false;
 
@@ -741,6 +744,24 @@ public partial class BigNumberViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    private void LoadMoreAssociations()
+    {
+        // Load next batch of associations for virtualization
+        if (CurrentPhase == GamePhase.Recall && _allAssociations.Count > NumberAssociations.Count)
+        {
+            var nextBatch = _allAssociations
+                .Skip(NumberAssociations.Count)
+                .Take(ASSOCIATIONS_BATCH_SIZE)
+                .ToList();
+            
+            foreach (var association in nextBatch)
+            {
+                NumberAssociations.Add(association);
+            }
+        }
+    }
+
+    [RelayCommand]
     private void ToggleAssociationsVisibility()
     {
         // This is for runtime toggle during recall phase
@@ -777,14 +798,17 @@ public partial class BigNumberViewModel : BaseViewModel
             // Clear associations when not in recall phase
             IsAssociationsVisible = false;
             NumberAssociations.Clear();
+            _allAssociations.Clear();
         }
     }
+
 
     private async Task LoadNumberAssociationsAsync()
     {
         try
         {
             NumberAssociations.Clear();
+            _allAssociations.Clear();
             
             if (_currentGame?.GeneratedNumber == null)
                 return;
@@ -806,10 +830,8 @@ public partial class BigNumberViewModel : BaseViewModel
                 }
             }
 
-            // Load associations for each pair/digit
-            var associations = new List<TokenAssociation>();
-            
-            foreach (var pair in pairs)
+            // Load associations for each pair/digit in parallel
+            var associationTasks = pairs.Select(async pair =>
             {
                 var categoryKey = pair.Length == 1 ? "numbers" : "numbers";
                 var tokenAssociations = await _packAssociationsService.GetTokenAssociationsAsync(categoryKey, pair);
@@ -817,13 +839,19 @@ public partial class BigNumberViewModel : BaseViewModel
                 if (tokenAssociations.Any())
                 {
                     // Get the default association or the first one
-                    var defaultAssociation = tokenAssociations.FirstOrDefault(a => a.IsDefault) ?? tokenAssociations.First();
-                    associations.Add(defaultAssociation);
+                    return tokenAssociations.FirstOrDefault(a => a.IsDefault) ?? tokenAssociations.First();
                 }
-            }
+                return null;
+            });
 
+            var results = await Task.WhenAll(associationTasks);
+            _allAssociations.AddRange(results.Where(a => a != null)!);
+
+            // Load first batch immediately for instant display
+            var firstBatch = _allAssociations.Take(ASSOCIATIONS_BATCH_SIZE).ToList();
+            
             // Update the observable collection on UI thread
-            foreach (var association in associations)
+            foreach (var association in firstBatch)
             {
                 NumberAssociations.Add(association);
             }

@@ -1305,4 +1305,12 @@
     <value>Nascondi</value>
     <comment>Button text to hide associations during recall</comment>
   </data>
+  <data name="Accessibility_AssociationsScrollableArea" xml:space="preserve">
+    <value>Associazioni visive per la memorizzazione dei numeri</value>
+    <comment>Accessibility description for the associations scrollable area</comment>
+  </data>
+  <data name="Accessibility_ScrollToViewAllAssociations" xml:space="preserve">
+    <value>Scorri per visualizzare tutte le associazioni visive del numero memorizzato</value>
+    <comment>Accessibility hint for scrolling through associations</comment>
+  </data>
 </root>
