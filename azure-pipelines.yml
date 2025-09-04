@@ -61,7 +61,7 @@ stages:
 
       - task: InstallAppleCertificate@2
         inputs:
-          certSecureFile: StefanoOttavianiAppleDistributionKey.p12
+          certSecureFile: StefanoOttavianiAppleDistributionKey-OpenSSL3.p12
           keychain: "temp"
           certPwd: $(ios_distribution_p12_password)
         displayName: "Install Apple Certificate"
