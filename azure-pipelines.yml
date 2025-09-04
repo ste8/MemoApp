@@ -59,25 +59,13 @@ stages:
           provisioningProfileLocation: 'secureFiles'
           provProfileSecureFile: MemoApp__Distribution_iOS_AppStore.mobileprovision
 
-      # Two tasks for handling OpenSSL compatibility
       - task: InstallAppleCertificate@2
         inputs:
-          certSecureFile: Stefano Ottaviani.p12
+          certSecureFile: Stefano Ottaviani Apple Distribution Key.p12
           keychain: "temp"
           certPwd: $(ios_distribution_p12_password)
           deleteCert: true
-          opensslPkcsArgs: "-legacy"
-        continueOnError: true
-        displayName: "Install Apple Certificate with Legacy Flag"
-
-      - task: InstallAppleCertificate@2
-        inputs:
-          certSecureFile: Stefano Ottaviani.p12
-          keychain: "temp"
-          certPwd: $(ios_distribution_p12_password)
-          deleteCert: true
-        continueOnError: true
-        displayName: "Install Apple Certificate without Legacy Flag"
+        displayName: "Install Apple Certificate"
           
       - task: NuGetAuthenticate@1      
       - script: dotnet restore $(app_sln_path)
