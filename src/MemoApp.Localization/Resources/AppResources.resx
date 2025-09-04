@@ -1298,4 +1298,12 @@
     <value>💡</value>
     <comment>Button to toggle associations visibility during recall</comment>
   </data>
+  <data name="BigNumber_ShowAssociations_Button" xml:space="preserve">
+    <value>Show</value>
+    <comment>Button text to show associations during recall</comment>
+  </data>
+  <data name="BigNumber_HideAssociations" xml:space="preserve">
+    <value>Hide</value>
+    <comment>Button text to hide associations during recall</comment>
+  </data>
 </root>

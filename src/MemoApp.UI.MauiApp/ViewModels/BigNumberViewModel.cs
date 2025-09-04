@@ -9,6 +9,7 @@ using MemoApp.UI.MauiApp.Constants;
 using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Services.Freemium;
 using System.Collections.ObjectModel;
+using Microsoft.Maui.Graphics;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
 
@@ -90,6 +91,15 @@ public partial class BigNumberViewModel : BaseViewModel
 
     [ObservableProperty]
     private ObservableCollection<TokenAssociation> numberAssociations = new();
+
+    [ObservableProperty]
+    private bool isRecallPhase = false;
+
+    [ObservableProperty]
+    private string associationsToggleText = "Show";
+
+    [ObservableProperty]
+    private Color associationsToggleColor = Colors.Green;
 
     public string CurrentFormatExample => GenerateExampleNumber(ShowSeparated);
 
@@ -321,6 +331,13 @@ public partial class BigNumberViewModel : BaseViewModel
             _currentGame.IsNumberVisible = true;
             CurrentPhase = _currentGame.Phase;
             
+            // Initialize associations visibility based on settings
+            IsAssociationsVisible = ShowAssociations;
+            AssociationsToggleText = IsAssociationsVisible 
+                ? _localizationService.GetString("BigNumber_HideAssociations") 
+                : _localizationService.GetString("BigNumber_ShowAssociations_Button");
+            AssociationsToggleColor = IsAssociationsVisible ? Colors.Red : Colors.Green;
+            
             await _analyticsService.TrackEventAsync(AnalyticsEvents.NumberRecallStarted, new Dictionary<string, object>
             {
                 [AnalyticsParameters.DifficultyDigits] = NumberOfDigits,
@@ -377,6 +394,7 @@ public partial class BigNumberViewModel : BaseViewModel
         IsGameSectionVisible = CurrentPhase != GamePhase.Setup;
         IsStopButtonVisible = CurrentPhase == GamePhase.Memorizing;
         IsRecallButtonVisible = CurrentPhase == GamePhase.Stopped;
+        IsRecallPhase = CurrentPhase == GamePhase.Recall;
         
         // Timer visibility logic:
         // - During memorizing: only show if ShowTimer setting is enabled
@@ -722,17 +740,42 @@ public partial class BigNumberViewModel : BaseViewModel
         ShowAssociations = !ShowAssociations;
     }
 
+    [RelayCommand]
+    private void ToggleAssociationsVisibility()
+    {
+        // This is for runtime toggle during recall phase
+        if (CurrentPhase == GamePhase.Recall)
+        {
+            IsAssociationsVisible = !IsAssociationsVisible;
+            
+            // Update toggle button text and color
+            AssociationsToggleText = IsAssociationsVisible 
+                ? _localizationService.GetString("BigNumber_HideAssociations") 
+                : _localizationService.GetString("BigNumber_ShowAssociations_Button");
+            AssociationsToggleColor = IsAssociationsVisible ? Colors.Red : Colors.Green;
+            
+            // Load associations if needed
+            if (IsAssociationsVisible && NumberAssociations.Count == 0)
+            {
+                _ = LoadNumberAssociationsAsync();
+            }
+        }
+    }
+
     private void UpdateAssociationsVisibility()
     {
-        // Show associations during recall phase only if enabled
-        IsAssociationsVisible = ShowAssociations && CurrentPhase == GamePhase.Recall;
-        
-        if (IsAssociationsVisible)
+        // Load associations during recall phase if visible
+        if (CurrentPhase == GamePhase.Recall)
         {
-            _ = LoadNumberAssociationsAsync();
+            if (IsAssociationsVisible && NumberAssociations.Count == 0)
+            {
+                _ = LoadNumberAssociationsAsync();
+            }
         }
         else
         {
+            // Clear associations when not in recall phase
+            IsAssociationsVisible = false;
             NumberAssociations.Clear();
         }
     }
