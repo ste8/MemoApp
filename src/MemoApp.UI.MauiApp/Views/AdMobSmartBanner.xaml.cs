@@ -1,27 +1,11 @@
+using Microsoft.Extensions.Configuration;
+
 namespace MemoApp.UI.MauiApp.Views;
 
 public partial class AdMobSmartBanner : ContentView
 {
-    public static readonly BindableProperty AndroidAdUnitIdProperty =
-        BindableProperty.Create(nameof(AndroidAdUnitId), typeof(string), typeof(AdMobSmartBanner), string.Empty, propertyChanged: OnAdUnitIdChanged);
-
-    public static readonly BindableProperty iOSAdUnitIdProperty =
-        BindableProperty.Create(nameof(iOSAdUnitId), typeof(string), typeof(AdMobSmartBanner), string.Empty, propertyChanged: OnAdUnitIdChanged);
-
     public static readonly BindableProperty AdUnitIdProperty =
         BindableProperty.Create(nameof(AdUnitId), typeof(string), typeof(AdMobSmartBanner), string.Empty);
-
-    public string AndroidAdUnitId
-    {
-        get => (string)GetValue(AndroidAdUnitIdProperty);
-        set => SetValue(AndroidAdUnitIdProperty, value);
-    }
-
-    public string iOSAdUnitId
-    {
-        get => (string)GetValue(iOSAdUnitIdProperty);
-        set => SetValue(iOSAdUnitIdProperty, value);
-    }
 
     public string AdUnitId
     {
@@ -32,25 +16,32 @@ public partial class AdMobSmartBanner : ContentView
     public AdMobSmartBanner()
     {
         InitializeComponent();
-        UpdateAdUnitId();
+        InitializeAdConfiguration();
     }
 
-    private static void OnAdUnitIdChanged(BindableObject bindable, object oldValue, object newValue)
+    private void InitializeAdConfiguration()
     {
-        if (bindable is AdMobSmartBanner banner)
+        try
         {
-            banner.UpdateAdUnitId();
-        }
-    }
+            var configuration = Handler?.MauiContext?.Services?.GetService<IConfiguration>();
+            if (configuration == null) 
+            {
+                System.Diagnostics.Debug.WriteLine("Warning: IConfiguration service not available for AdMobSmartBanner");
+                return;
+            }
 
-    private void UpdateAdUnitId()
-    {
 #if ANDROID
-        AdUnitId = AndroidAdUnitId;
+            AdUnitId = configuration["Freemium:AdMob:Android:BannerAdUnitId"] ?? string.Empty;
 #elif IOS
-        AdUnitId = iOSAdUnitId;
+            AdUnitId = configuration["Freemium:AdMob:iOS:BannerAdUnitId"] ?? string.Empty;
 #else
-        AdUnitId = string.Empty;
+            AdUnitId = string.Empty;
 #endif
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error loading ad configuration: {ex.Message}");
+            AdUnitId = string.Empty;
+        }
     }
 }

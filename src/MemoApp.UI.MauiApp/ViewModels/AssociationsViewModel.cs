@@ -67,11 +67,6 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
     [ObservableProperty]
     private bool _showAds = true;
     
-    [ObservableProperty]
-    private string? _androidBannerAdUnitId;
-    
-    [ObservableProperty]
-    private string? _iOSBannerAdUnitId;
     
     public AssociationsViewModel(
         IMajorSystemCategoryService categoryService,
@@ -112,8 +107,6 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         // Initialize localized strings
         UpdateLocalizedStrings();
         
-        // Initialize ad configuration
-        InitializeAdConfiguration();
         
         // Load initial data - don't block constructor
         _ = LoadDataAsync();
@@ -791,18 +784,4 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         }
     }
     
-    private void InitializeAdConfiguration()
-    {
-        try
-        {
-            AndroidBannerAdUnitId = _configuration["Freemium:AdMob:Android:BannerAdUnitId"];
-            IOSBannerAdUnitId = _configuration["Freemium:AdMob:iOS:BannerAdUnitId"];
-            
-            _logger.LogInformation("Ad configuration initialized");
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error initializing ad configuration");
-        }
-    }
 }

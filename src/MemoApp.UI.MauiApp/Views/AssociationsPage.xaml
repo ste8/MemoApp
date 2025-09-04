@@ -177,8 +177,6 @@
         <!-- AdMob Banner - Shows at the bottom when ads are enabled -->
         <views:AdMobSmartBanner Grid.Row="1"
                                IsVisible="{Binding ShowAds}"
-                               AndroidAdUnitId="{Binding AndroidBannerAdUnitId}"
-                               iOSAdUnitId="{Binding IOSBannerAdUnitId}"
                                VerticalOptions="End"
                                HorizontalOptions="FillAndExpand" />
     </Grid>
