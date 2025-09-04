@@ -6,12 +6,5 @@
              x:Class="MemoApp.UI.MauiApp.Views.AdMobSmartBanner"
              x:Name="ThisControl">
     
-    <adMob:BannerAd AdSize="SmartBanner">
-        <adMob:BannerAd.AdUnitId>
-            <OnPlatform x:TypeArguments="x:String">
-                <On Platform="iOS" Value="{Binding iOSAdUnitId, Source={x:Reference ThisControl}}" />
-                <On Platform="Android" Value="{Binding AndroidAdUnitId, Source={x:Reference ThisControl}}" />
-            </OnPlatform>
-        </adMob:BannerAd.AdUnitId>
-    </adMob:BannerAd>
+    <adMob:BannerAd AdSize="SmartBanner" AdUnitId="{Binding Source={x:Reference ThisControl}, Path=AdUnitId}" />
 </ContentView>

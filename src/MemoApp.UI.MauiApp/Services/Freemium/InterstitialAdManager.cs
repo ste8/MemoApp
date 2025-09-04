@@ -6,7 +6,6 @@ namespace MemoApp.UI.MauiApp.Services.Freemium;
 public class InterstitialAdManager : IInterstitialAdManager
 {
     private readonly IAdMobService _adMobService;
-    private readonly ISubscriptionService _subscriptionService;
     private readonly IConfiguration _configuration;
     private readonly ILogger<InterstitialAdManager> _logger;
     
@@ -17,12 +16,10 @@ public class InterstitialAdManager : IInterstitialAdManager
     
     public InterstitialAdManager(
         IAdMobService adMobService,
-        ISubscriptionService subscriptionService,
         IConfiguration configuration,
         ILogger<InterstitialAdManager> logger)
     {
         _adMobService = adMobService;
-        _subscriptionService = subscriptionService;
         _configuration = configuration;
         _logger = logger;
     }
@@ -31,13 +28,7 @@ public class InterstitialAdManager : IInterstitialAdManager
     {
         try
         {
-            // Don't prepare ads for premium users
-            if (_subscriptionService?.IsPremiumUser == true)
-            {
-                _logger.LogInformation("Skipping ad preparation for premium user");
-                return;
-            }
-            
+            // Always prepare ads since we're ads-only
             await _adMobService.PrepareInterstitialAd();
             _logger.LogInformation("Prepared interstitial ad for {ExerciseType}", exerciseType);
         }
@@ -51,10 +42,7 @@ public class InterstitialAdManager : IInterstitialAdManager
     {
         try
         {
-            // Never show ads to premium users
-            if (_subscriptionService?.IsPremiumUser == true)
-                return false;
-            
+            // Always check ad frequency since we're ads-only
             var count = await GetExerciseCountAsync(exerciseType);
             
             // Show ad every 4-5 sessions (randomized)

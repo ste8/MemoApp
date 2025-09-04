@@ -29,7 +29,6 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
     private readonly IAnalyticsService _analyticsService;
     private readonly IUserNotificationService _userNotificationService;
     private readonly ILogger<AssociationsViewModel> _logger;
-    private readonly ISubscriptionService? _subscriptionService;
     private readonly IConfiguration _configuration;
     
     [ObservableProperty]
@@ -84,8 +83,7 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         IAnalyticsService analyticsService,
         IUserNotificationService userNotificationService,
         ILogger<AssociationsViewModel> logger,
-        IConfiguration configuration,
-        ISubscriptionService? subscriptionService = null)
+        IConfiguration configuration)
     {
         _categoryService = categoryService;
         _packAssociationsService = packAssociationsService;
@@ -97,7 +95,9 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         _userNotificationService = userNotificationService;
         _logger = logger;
         _configuration = configuration;
-        _subscriptionService = subscriptionService;
+        
+        // Always show ads in this version
+        ShowAds = true;
         
         // Register for messaging system
         _messenger.Register<CustomAssociationDeletedMessage>(this);
@@ -114,9 +114,6 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         
         // Initialize ad configuration
         InitializeAdConfiguration();
-        
-        // Check subscription status
-        _ = CheckSubscriptionStatusAsync();
         
         // Load initial data - don't block constructor
         _ = LoadDataAsync();
@@ -791,11 +788,6 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         {
             _packAssociationsService.PackChanged -= OnPackChanged;
             _localizationService.NumberFormatChanged -= OnNumberFormatChanged;
-            
-            if (_subscriptionService != null)
-            {
-                _subscriptionService.SubscriptionStatusChanged -= OnSubscriptionStatusChanged;
-            }
         }
     }
     
@@ -812,43 +804,5 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         {
             _logger.LogError(ex, "Error initializing ad configuration");
         }
-    }
-    
-    private async Task CheckSubscriptionStatusAsync()
-    {
-        try
-        {
-            if (_subscriptionService != null)
-            {
-                var status = await _subscriptionService.GetCurrentSubscriptionStatusAsync();
-                ShowAds = !status.IsActive;
-                
-                // Subscribe to subscription changes
-                _subscriptionService.SubscriptionStatusChanged += OnSubscriptionStatusChanged;
-                
-                _logger.LogInformation("Subscription status checked: Premium={IsPremium}, ShowAds={ShowAds}", 
-                    status.IsActive, ShowAds);
-            }
-            else
-            {
-                ShowAds = true; // Show ads if subscription service is not available
-                _logger.LogWarning("Subscription service not available, ads will be shown");
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error checking subscription status");
-            ShowAds = true; // Default to showing ads on error
-        }
-    }
-    
-    private void OnSubscriptionStatusChanged(object? sender, Models.Freemium.SubscriptionStatus status)
-    {
-        MainThread.BeginInvokeOnMainThread(() =>
-        {
-            ShowAds = !status.IsActive;
-            _logger.LogInformation("Subscription status changed: Premium={IsPremium}, ShowAds={ShowAds}", 
-                status.IsActive, ShowAds);
-        });
     }
 }

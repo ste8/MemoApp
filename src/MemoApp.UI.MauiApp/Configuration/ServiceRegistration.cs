@@ -250,8 +250,7 @@ public static class ServiceRegistration
             var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
             var logger = serviceProvider.GetRequiredService<ILogger<AssociationsViewModel>>();
             var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-            var subscriptionService = serviceProvider.GetService<ISubscriptionService>(); // Optional
-            return new AssociationsViewModel(categoryService, packAssociationsService, tokenDefaultsService, localizationService, messenger, imageCacheService, analyticsService, userNotificationService, logger, configuration, subscriptionService);
+            return new AssociationsViewModel(categoryService, packAssociationsService, tokenDefaultsService, localizationService, messenger, imageCacheService, analyticsService, userNotificationService, logger, configuration);
         });
         
         services.AddTransient<PackDownloadViewModel>(serviceProvider =>
