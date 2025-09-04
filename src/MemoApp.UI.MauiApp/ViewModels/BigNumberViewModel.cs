@@ -16,6 +16,7 @@ public partial class BigNumberViewModel : BaseViewModel
     private readonly ITextMeasurementService _textMeasurementService;
     private readonly IContainerSizeService _containerSizeService;
     private readonly IAnalyticsService _analyticsService;
+    private readonly IInterstitialAdManager? _interstitialAdManager;
     private IDispatcherTimer? _timer;
     private BigNumberGame _currentGame = new();
     
@@ -83,7 +84,8 @@ public partial class BigNumberViewModel : BaseViewModel
         ILocalizationService localizationService,
         ITextMeasurementService textMeasurementService,
         IContainerSizeService containerSizeService,
-        IAnalyticsService analyticsService)
+        IAnalyticsService analyticsService,
+        IInterstitialAdManager? interstitialAdManager = null)
     {
         _gameService = gameService ?? throw new ArgumentNullException(nameof(gameService));
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
@@ -91,6 +93,7 @@ public partial class BigNumberViewModel : BaseViewModel
         _textMeasurementService = textMeasurementService ?? throw new ArgumentNullException(nameof(textMeasurementService));
         _containerSizeService = containerSizeService ?? throw new ArgumentNullException(nameof(containerSizeService));
         _analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
+        _interstitialAdManager = interstitialAdManager;
         
         Title = _localizationService.GetString("BigNumber_Title");
         
@@ -216,6 +219,12 @@ public partial class BigNumberViewModel : BaseViewModel
     [RelayCommand]
     private async void StartMemorizing()
     {
+        // Prepare ad for potential display
+        if (_interstitialAdManager != null)
+        {
+            await _interstitialAdManager.PrepareAdForExerciseAsync("BigNumber");
+        }
+        
         // Track analytics for exercise start
         _exerciseStartTime = DateTime.UtcNow;
         _memorizationStartTime = _exerciseStartTime;
@@ -328,6 +337,13 @@ public partial class BigNumberViewModel : BaseViewModel
                 [AnalyticsParameters.RecallTime] = (int)recallDuration,
                 [AnalyticsParameters.NumberRange] = MaxPairValue == 99 ? "0_99" : "00_99"
             });
+            
+            // Show ad if needed and increment exercise count
+            if (_interstitialAdManager != null)
+            {
+                await _interstitialAdManager.ShowAdIfNeededAsync("BigNumber");
+                await _interstitialAdManager.IncrementExerciseCountAsync("BigNumber");
+            }
         }
         
         _timer?.Stop();

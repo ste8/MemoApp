@@ -272,7 +272,8 @@ public static class ServiceRegistration
             var textMeasurementService = serviceProvider.GetRequiredService<ITextMeasurementService>();
             var containerSizeService = serviceProvider.GetRequiredService<IContainerSizeService>();
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
-            return new BigNumberViewModel(gameService, settingsService, localizationService, textMeasurementService, containerSizeService, analyticsService);
+            var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
+            return new BigNumberViewModel(gameService, settingsService, localizationService, textMeasurementService, containerSizeService, analyticsService, interstitialAdManager);
         });
         
         services.AddTransient<TokenDetailViewModel>(serviceProvider =>

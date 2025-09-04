@@ -9,10 +9,8 @@ public class InterstitialAdManager : IInterstitialAdManager
     private readonly IConfiguration _configuration;
     private readonly ILogger<InterstitialAdManager> _logger;
     
-    private const string FlashNumbersKey = "FlashNumbers";
-    private const string BigNumberKey = "BigNumber";
-    private const int AdFrequency = 4; // Show ad every 4-5 sessions
-    private readonly Random _random = new();
+    private const string TotalExerciseCountKey = "total_exercise_count";
+    private const int AdFrequency = 5; // Show ad every 5 sessions
     
     public InterstitialAdManager(
         IAdMobService adMobService,
@@ -42,17 +40,15 @@ public class InterstitialAdManager : IInterstitialAdManager
     {
         try
         {
-            // Always check ad frequency since we're ads-only
-            var count = await GetExerciseCountAsync(exerciseType);
+            // Check total exercise count across all exercise types
+            var totalCount = await GetTotalExerciseCountAsync();
             
-            // Show ad every 4-5 sessions (randomized)
-            var threshold = AdFrequency + _random.Next(0, 2); // 4 or 5
-            
-            return count > 0 && count % threshold == 0;
+            // Show ad every 5 sessions
+            return totalCount > 0 && totalCount % AdFrequency == 0;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error checking if should show ad for {ExerciseType}", exerciseType);
+            _logger.LogError(ex, "Error checking if should show ad (total count logic)");
             return false;
         }
     }
@@ -77,30 +73,24 @@ public class InterstitialAdManager : IInterstitialAdManager
     {
         try
         {
-            var key = GetCountKeyForExercise(exerciseType);
-            var count = Preferences.Get(key, 0);
-            count++;
-            Preferences.Set(key, count);
+            // Increment total exercise count across all exercise types
+            var totalCount = Preferences.Get(TotalExerciseCountKey, 0);
+            totalCount++;
+            Preferences.Set(TotalExerciseCountKey, totalCount);
             
-            _logger.LogInformation("Incremented {ExerciseType} count to {Count}", exerciseType, count);
+            _logger.LogInformation("Incremented total exercise count to {TotalCount} for {ExerciseType}", totalCount, exerciseType);
             
             await Task.CompletedTask;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error incrementing exercise count for {ExerciseType}", exerciseType);
+            _logger.LogError(ex, "Error incrementing total exercise count for {ExerciseType}", exerciseType);
         }
     }
     
-    private async Task<int> GetExerciseCountAsync(string exerciseType)
+    private async Task<int> GetTotalExerciseCountAsync()
     {
-        var key = GetCountKeyForExercise(exerciseType);
-        return await Task.FromResult(Preferences.Get(key, 0));
-    }
-    
-    private string GetCountKeyForExercise(string exerciseType)
-    {
-        return $"exercise_count_{exerciseType}";
+        return await Task.FromResult(Preferences.Get(TotalExerciseCountKey, 0));
     }
     
 }
