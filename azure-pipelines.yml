@@ -64,7 +64,6 @@ stages:
           certSecureFile: StefanoOttavianiAppleDistributionKey.p12
           keychain: "temp"
           certPwd: $(ios_distribution_p12_password)
-          deleteCert: true
         displayName: "Install Apple Certificate"
           
       - task: NuGetAuthenticate@1      
