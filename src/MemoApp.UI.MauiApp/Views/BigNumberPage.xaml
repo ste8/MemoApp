@@ -4,6 +4,7 @@
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              xmlns:utilities="clr-namespace:MemoApp.UI.MauiApp.Utilities"
+             xmlns:models="clr-namespace:MemoApp.Core.MajorSystem.Models;assembly=MemoApp.Core"
              x:Class="MemoApp.UI.MauiApp.Views.BigNumberPage"
              x:DataType="viewmodels:BigNumberViewModel"
              Title="{Binding Title}">
@@ -195,6 +196,41 @@
                                    Margin="{OnIdiom Phone='12,0,0,0', Tablet='16,0,0,0', Desktop='8,0,0,0'}"
                                    InputTransparent="True" />
                         </Grid>
+
+                        <!-- Show Associations -->
+                        <Grid ColumnDefinitions="Auto,*" 
+                              Padding="{OnIdiom Phone='0,8', Tablet='0,10', Desktop='0,6'}">
+                            
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ToggleAssociationsCommand}" />
+                            </Grid.GestureRecognizers>
+                            
+                            <!-- iOS: Platform-native Switch -->
+                            <Switch Grid.Column="0"
+                                    IsToggled="{Binding ShowAssociations}"
+                                    OnColor="{StaticResource Primary}"
+                                    VerticalOptions="Center"
+                                    IsVisible="{OnPlatform iOS=True, Default=False}"
+                                    InputTransparent="True" />
+                            
+                            <!-- Android/Windows/macOS: Properly sized CheckBox -->
+                            <CheckBox Grid.Column="0"
+                                      IsChecked="{Binding ShowAssociations}"
+                                      Color="{StaticResource Primary}"
+                                      VerticalOptions="Center"
+                                      MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
+                                      MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
+                                      IsVisible="{OnPlatform iOS=False, Default=True}"
+                                      InputTransparent="True" />
+                            
+                            <!-- Optimally spaced label -->
+                            <Label Grid.Column="1"
+                                   Text="{localization:Localize BigNumber_ShowAssociations}"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   VerticalOptions="Center"
+                                   Margin="{OnIdiom Phone='12,0,0,0', Tablet='16,0,0,0', Desktop='8,0,0,0'}"
+                                   InputTransparent="True" />
+                        </Grid>
                     </StackLayout>
                 </Frame>
 
@@ -251,6 +287,80 @@
                            HorizontalOptions="Center"
                            VerticalOptions="Center"
                            HorizontalTextAlignment="Center" />
+                </Frame>
+
+                <!-- Visual Associations Display -->
+                <Frame IsVisible="{Binding IsAssociationsVisible}"
+                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                       Padding="15"
+                       CornerRadius="15"
+                       HasShadow="True">
+                    
+                    <StackLayout Spacing="10">
+                        <!-- Header with toggle button -->
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                            <Label Grid.Column="0"
+                                   Text="{localization:Localize BigNumber_AssociationsTitle}"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center" />
+                            
+                            <Button Grid.Column="1"
+                                    Text="{localization:Localize BigNumber_ToggleAssociations}"
+                                    Command="{Binding ToggleAssociationsCommand}"
+                                    BackgroundColor="Transparent"
+                                    TextColor="{StaticResource Primary}"
+                                    FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
+                                    Padding="8"
+                                    WidthRequest="{OnIdiom Phone=40, Tablet=48, Desktop=56}"
+                                    HeightRequest="{OnIdiom Phone=40, Tablet=48, Desktop=56}"
+                                    CornerRadius="{OnIdiom Phone=20, Tablet=24, Desktop=28}" />
+                        </Grid>
+                        
+                        <!-- Associations Grid -->
+                        <CollectionView ItemsSource="{Binding NumberAssociations}"
+                                        BackgroundColor="Transparent">
+                            
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout Orientation="Vertical"
+                                               Span="{OnIdiom Phone=2, Tablet=4, Desktop=6}"
+                                               HorizontalItemSpacing="8"
+                                               VerticalItemSpacing="8" />
+                            </CollectionView.ItemsLayout>
+                            
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:TokenAssociation">
+                                    <Frame Padding="8"
+                                           CornerRadius="8"
+                                           BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray800}}"
+                                           HasShadow="False">
+                                        
+                                        <StackLayout Spacing="4">
+                                            <!-- Thumbnail Image -->
+                                            <Image Source="{Binding ThumbnailPath}"
+                                                   Aspect="AspectFit"
+                                                   HeightRequest="{OnIdiom Phone=48, Tablet=64, Desktop=80}"
+                                                   BackgroundColor="Transparent" />
+                                            
+                                            <!-- Token -->
+                                            <Label Text="{Binding Token}"
+                                                   FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                                   FontAttributes="Bold"
+                                                   HorizontalTextAlignment="Center"
+                                                   TextColor="{StaticResource Primary}" />
+                                            
+                                            <!-- Word -->
+                                            <Label Text="{Binding Word}"
+                                                   FontSize="{OnIdiom Phone=10, Tablet=12, Desktop=14}"
+                                                   HorizontalTextAlignment="Center"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="2" />
+                                        </StackLayout>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
                 </Frame>
 
                 <!-- Font Size Controls -->
@@ -342,7 +452,7 @@
                             HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}" />
 
                     <!-- Recall Button -->
-                    <Button Command="{Binding ToggleRecallCommand}"
+                    <Button Command="{Binding StartRecallCommand}"
                             IsVisible="{Binding IsRecallButtonVisible}"
                             Text="[Recall] Recall"
                             BackgroundColor="{StaticResource Success}"

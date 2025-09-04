@@ -7,4 +7,5 @@ public class BigNumberSettings
     public bool ShowSeparated { get; set; } = false;
     public bool ShowTimer { get; set; } = false;
     public FontSizePreference FontSize { get; set; } = FontSizePreference.Auto;
+    public bool ShowAssociations { get; set; } = false;
 }

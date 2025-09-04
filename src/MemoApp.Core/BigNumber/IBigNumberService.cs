@@ -8,6 +8,7 @@ public interface IBigNumberService
     void StopGame(BigNumberGame game);
     void ResetGame(BigNumberGame game);
     void ToggleNumberVisibility(BigNumberGame game);
+    void StartRecall(BigNumberGame game);
     string FormatNumber(string number, bool showSeparated);
     string FormatTime(TimeSpan timeSpan);
 }

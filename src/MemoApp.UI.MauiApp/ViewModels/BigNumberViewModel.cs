@@ -2,10 +2,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.BigNumber;
 using MemoApp.Core.Services.Analytics;
+using MemoApp.Core.MajorSystem.Services;
+using MemoApp.Core.MajorSystem.Models;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Constants;
 using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Services.Freemium;
+using System.Collections.ObjectModel;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
 
@@ -19,6 +22,7 @@ public partial class BigNumberViewModel : BaseViewModel
     private readonly IAnalyticsService _analyticsService;
     private readonly IInterstitialAdManager? _interstitialAdManager;
     private readonly IExerciseCountService _exerciseCountService;
+    private readonly IPackAssociationsService _packAssociationsService;
     private IDispatcherTimer? _timer;
     private BigNumberGame _currentGame = new();
     
@@ -78,6 +82,15 @@ public partial class BigNumberViewModel : BaseViewModel
     [ObservableProperty]
     private double numberFontSize = 32;
 
+    [ObservableProperty]
+    private bool showAssociations = false;
+
+    [ObservableProperty]
+    private bool isAssociationsVisible = false;
+
+    [ObservableProperty]
+    private ObservableCollection<TokenAssociation> numberAssociations = new();
+
     public string CurrentFormatExample => GenerateExampleNumber(ShowSeparated);
 
     public BigNumberViewModel(
@@ -88,6 +101,7 @@ public partial class BigNumberViewModel : BaseViewModel
         IContainerSizeService containerSizeService,
         IAnalyticsService analyticsService,
         IExerciseCountService exerciseCountService,
+        IPackAssociationsService packAssociationsService,
         IInterstitialAdManager? interstitialAdManager = null)
     {
         _gameService = gameService ?? throw new ArgumentNullException(nameof(gameService));
@@ -97,6 +111,7 @@ public partial class BigNumberViewModel : BaseViewModel
         _containerSizeService = containerSizeService ?? throw new ArgumentNullException(nameof(containerSizeService));
         _analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
         _exerciseCountService = exerciseCountService ?? throw new ArgumentNullException(nameof(exerciseCountService));
+        _packAssociationsService = packAssociationsService ?? throw new ArgumentNullException(nameof(packAssociationsService));
         _interstitialAdManager = interstitialAdManager;
         
         Title = _localizationService.GetString("BigNumber_Title");
@@ -119,6 +134,7 @@ public partial class BigNumberViewModel : BaseViewModel
         ShowSeparated = settings.ShowSeparated;
         ShowTimer = settings.ShowTimer;
         FontSizePreference = settings.FontSize;
+        ShowAssociations = settings.ShowAssociations;
         
         IsContinuousSelected = !settings.ShowSeparated;
         IsSeparatedSelected = settings.ShowSeparated;
@@ -172,6 +188,12 @@ public partial class BigNumberViewModel : BaseViewModel
         _ = SaveSettingsAsync();
         // Update timer visibility: during memorizing respect setting, when stopped always show
         IsTimerVisible = (value && CurrentPhase == GamePhase.Memorizing) || CurrentPhase == GamePhase.Stopped;
+    }
+
+    partial void OnShowAssociationsChanged(bool value)
+    {
+        _ = SaveSettingsAsync();
+        UpdateAssociationsVisibility();
     }
 
     partial void OnFontSizePreferenceChanged(FontSizePreference value)
@@ -286,17 +308,18 @@ public partial class BigNumberViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async void ToggleRecall()
+    private async void StartRecall()
     {
-        var wasShowingNumber = _currentGame.IsNumberVisible;
-        _gameService.ToggleNumberVisibility(_currentGame);
-        
-        // Track phase transitions
-        if (wasShowingNumber && !_currentGame.IsNumberVisible)
+        if (_currentGame.Phase == GamePhase.Stopped)
         {
-            // Switched from memorization to recall phase
+            // Start recall phase - show number and associations
             _recallStartTime = DateTime.UtcNow;
             var memorizationDuration = (_recallStartTime - _memorizationStartTime).TotalSeconds;
+            
+            _gameService.StartRecall(_currentGame);
+            // Show the number during recall phase
+            _currentGame.IsNumberVisible = true;
+            CurrentPhase = _currentGame.Phase;
             
             await _analyticsService.TrackEventAsync(AnalyticsEvents.NumberRecallStarted, new Dictionary<string, object>
             {
@@ -304,19 +327,9 @@ public partial class BigNumberViewModel : BaseViewModel
                 [AnalyticsParameters.MemorizationTime] = (int)memorizationDuration,
                 [AnalyticsParameters.PhaseType] = PhaseTypes.Recall
             });
+            
+            UpdateDisplayedNumber();
         }
-        else if (!wasShowingNumber && _currentGame.IsNumberVisible)
-        {
-            // Switched back to memorization from recall
-            await _analyticsService.TrackEventAsync(AnalyticsEvents.ExercisePhaseStarted, new Dictionary<string, object>
-            {
-                [AnalyticsParameters.ExerciseType] = ExerciseTypes.BigNumber,
-                [AnalyticsParameters.PhaseType] = PhaseTypes.Memorization,
-                [AnalyticsParameters.DifficultyDigits] = NumberOfDigits
-            });
-        }
-        
-        UpdateDisplayedNumber();
     }
 
     [RelayCommand]
@@ -367,10 +380,11 @@ public partial class BigNumberViewModel : BaseViewModel
         
         // Timer visibility logic:
         // - During memorizing: only show if ShowTimer setting is enabled
-        // - When stopped: ALWAYS show the final time regardless of setting
-        IsTimerVisible = (ShowTimer && CurrentPhase == GamePhase.Memorizing) || CurrentPhase == GamePhase.Stopped;
+        // - When stopped or recall: ALWAYS show the final time regardless of setting
+        IsTimerVisible = (ShowTimer && CurrentPhase == GamePhase.Memorizing) || CurrentPhase == GamePhase.Stopped || CurrentPhase == GamePhase.Recall;
         
         UpdateDisplayedNumber();
+        UpdateAssociationsVisibility();
     }
 
     private void UpdateDisplayedNumber()
@@ -389,6 +403,9 @@ public partial class BigNumberViewModel : BaseViewModel
         }
         
         IsNumberVisible = !string.IsNullOrEmpty(DisplayedNumber);
+        
+        // Update associations when display changes
+        UpdateAssociationsVisibility();
     }
 
     private void OnTimerTick(object? sender, EventArgs e)
@@ -692,9 +709,86 @@ public partial class BigNumberViewModel : BaseViewModel
             MaxPairValue = MaxPairValue,
             ShowSeparated = ShowSeparated,
             ShowTimer = ShowTimer,
-            FontSize = FontSizePreference
+            FontSize = FontSizePreference,
+            ShowAssociations = ShowAssociations
         };
 
         await _settingsService.SaveSettingsAsync(settings);
+    }
+
+    [RelayCommand]
+    private void ToggleAssociations()
+    {
+        ShowAssociations = !ShowAssociations;
+    }
+
+    private void UpdateAssociationsVisibility()
+    {
+        // Show associations during recall phase only if enabled
+        IsAssociationsVisible = ShowAssociations && CurrentPhase == GamePhase.Recall;
+        
+        if (IsAssociationsVisible)
+        {
+            _ = LoadNumberAssociationsAsync();
+        }
+        else
+        {
+            NumberAssociations.Clear();
+        }
+    }
+
+    private async Task LoadNumberAssociationsAsync()
+    {
+        try
+        {
+            NumberAssociations.Clear();
+            
+            if (_currentGame?.GeneratedNumber == null)
+                return;
+
+            // Split the generated number into pairs
+            var numberString = _currentGame.GeneratedNumber;
+            var pairs = new List<string>();
+            
+            for (int i = 0; i < numberString.Length; i += 2)
+            {
+                if (i + 1 < numberString.Length)
+                {
+                    pairs.Add(numberString.Substring(i, 2));
+                }
+                else
+                {
+                    // Handle odd number of digits
+                    pairs.Add(numberString.Substring(i, 1));
+                }
+            }
+
+            // Load associations for each pair/digit
+            var associations = new List<TokenAssociation>();
+            
+            foreach (var pair in pairs)
+            {
+                var categoryKey = pair.Length == 1 ? "numbers" : "numbers";
+                var tokenAssociations = await _packAssociationsService.GetTokenAssociationsAsync(categoryKey, pair);
+                
+                if (tokenAssociations.Any())
+                {
+                    // Get the default association or the first one
+                    var defaultAssociation = tokenAssociations.FirstOrDefault(a => a.IsDefault) ?? tokenAssociations.First();
+                    associations.Add(defaultAssociation);
+                }
+            }
+
+            // Update the observable collection on UI thread
+            foreach (var association in associations)
+            {
+                NumberAssociations.Add(association);
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log error but don't crash the app
+            System.Diagnostics.Debug.WriteLine($"Error loading associations: {ex.Message}");
+        }
     }
 }

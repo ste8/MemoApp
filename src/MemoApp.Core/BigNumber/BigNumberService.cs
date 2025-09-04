@@ -87,6 +87,13 @@ public class BigNumberService : IBigNumberService
         game.IsNumberVisible = !game.IsNumberVisible;
     }
 
+    public void StartRecall(BigNumberGame game)
+    {
+        game.Phase = GamePhase.Recall;
+        game.IsTimerRunning = false;
+        // Number visibility will be set by the ViewModel based on recall behavior
+    }
+
     public string FormatNumber(string number, bool showSeparated)
     {
         if (string.IsNullOrEmpty(number))

@@ -4,5 +4,6 @@ public enum GamePhase
 {
     Setup,
     Memorizing,
-    Stopped
+    Stopped,
+    Recall
 }

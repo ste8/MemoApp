@@ -1284,4 +1284,18 @@
     <value>⬇️ Download Pack</value>
     <comment>Button text to download pack when no pack is available</comment>
   </data>
+  
+  <!-- BigNumber Associations -->
+  <data name="BigNumber_ShowAssociations" xml:space="preserve">
+    <value>Show visual associations</value>
+    <comment>Toggle to show visual associations during recall</comment>
+  </data>
+  <data name="BigNumber_AssociationsTitle" xml:space="preserve">
+    <value>Visual Associations</value>
+    <comment>Title for the associations display section</comment>
+  </data>
+  <data name="BigNumber_ToggleAssociations" xml:space="preserve">
+    <value>💡</value>
+    <comment>Button to toggle associations visibility during recall</comment>
+  </data>
 </root>
