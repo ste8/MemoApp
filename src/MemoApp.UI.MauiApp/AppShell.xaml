@@ -11,21 +11,39 @@
     <TabBar>
         <ShellContent
             Title="{localization:Localize Tab_Training}"
-            Icon="training"
             Route="main"
-            ContentTemplate="{DataTemplate views:MainPage}" />
+            ContentTemplate="{DataTemplate views:MainPage}">
+            <ShellContent.Icon>
+                <FontImageSource
+                    FontFamily="FontAwesomeLight"
+                    Glyph="&#xf0e7;"
+                    Color="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}" />
+            </ShellContent.Icon>
+        </ShellContent>
 
         <ShellContent
             Title="{localization:Localize Associations_Title}"
-            Icon="associations"
             Route="associations"
-            ContentTemplate="{DataTemplate views:AssociationsPage}" />
+            ContentTemplate="{DataTemplate views:AssociationsPage}">
+            <ShellContent.Icon>
+                <FontImageSource
+                    FontFamily="FontAwesomeLight"
+                    Glyph="&#xe4a2;"
+                    Color="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}" />
+            </ShellContent.Icon>
+        </ShellContent>
 
         <ShellContent
             Title="{localization:Localize Tab_NumberMemory}"
-            Icon="memory"
             Route="bignumber"
-            ContentTemplate="{DataTemplate views:BigNumberPage}" />
+            ContentTemplate="{DataTemplate views:BigNumberPage}">
+            <ShellContent.Icon>
+                <FontImageSource
+                    FontFamily="FontAwesomeLight"
+                    Glyph="&#xe256;"
+                    Color="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}" />
+            </ShellContent.Icon>
+        </ShellContent>
 
         <ShellContent
             Title="{localization:Localize Tab_Help}"
