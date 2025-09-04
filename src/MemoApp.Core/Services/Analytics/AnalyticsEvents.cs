@@ -148,18 +148,6 @@ public static class AnalyticsUserProperties
 }
 
 /// <summary>
-/// Common values for exercise types
-/// </summary>
-public static class ExerciseTypes
-{
-    public const string BigNumber = "big_number";
-    public const string MajorSystemReview = "major_system_review";
-    public const string TrainingSession = "training_session"; // Legacy - use FlashNumbers for new code
-    public const string FlashNumbers = "flash_numbers"; // Renamed from TrainingSession
-    public const string FreeRecall = "free_recall";
-}
-
-/// <summary>
 /// Common values for categories
 /// </summary>
 public static class Categories

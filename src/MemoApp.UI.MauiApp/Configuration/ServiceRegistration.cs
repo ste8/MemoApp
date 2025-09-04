@@ -94,6 +94,9 @@ public static class ServiceRegistration
         // Promotion service
         services.AddSingleton<IPromotionService, PromotionService>();
         
+        // Exercise count service (for ad frequency tracking)
+        services.AddSingleton<IExerciseCountService, ExerciseCountService>();
+        
         // Interstitial ad manager
         services.AddTransient<IInterstitialAdManager, InterstitialAdManager>();
         
@@ -231,8 +234,9 @@ public static class ServiceRegistration
         {
             var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
+            var exerciseCountService = serviceProvider.GetRequiredService<IExerciseCountService>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
-            return new FlashNumbersViewModel(localizationService, analyticsService, interstitialAdManager);
+            return new FlashNumbersViewModel(localizationService, analyticsService, exerciseCountService, interstitialAdManager);
         });
         
         services.AddTransient<StatisticsViewModel>();
@@ -272,8 +276,9 @@ public static class ServiceRegistration
             var textMeasurementService = serviceProvider.GetRequiredService<ITextMeasurementService>();
             var containerSizeService = serviceProvider.GetRequiredService<IContainerSizeService>();
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
+            var exerciseCountService = serviceProvider.GetRequiredService<IExerciseCountService>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
-            return new BigNumberViewModel(gameService, settingsService, localizationService, textMeasurementService, containerSizeService, analyticsService, interstitialAdManager);
+            return new BigNumberViewModel(gameService, settingsService, localizationService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, interstitialAdManager);
         });
         
         services.AddTransient<TokenDetailViewModel>(serviceProvider =>

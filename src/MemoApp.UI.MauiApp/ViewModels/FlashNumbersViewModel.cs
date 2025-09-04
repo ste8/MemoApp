@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.MajorSystem;
 using MemoApp.Core.Services.Analytics;
 using MemoApp.Localization.Services;
+using MemoApp.UI.MauiApp.Constants;
 using MemoApp.UI.MauiApp.Utilities;
 using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Services.Freemium;
@@ -21,6 +22,7 @@ public partial class FlashNumbersViewModel : BaseViewModel
     private readonly ILocalizationService _localizationService;
     private readonly IAnalyticsService _analyticsService;
     private readonly IInterstitialAdManager? _interstitialAdManager;
+    private readonly IExerciseCountService _exerciseCountService;
     private GameSession? _gameSession;
     
     // Analytics tracking
@@ -63,10 +65,12 @@ public partial class FlashNumbersViewModel : BaseViewModel
     public FlashNumbersViewModel(
         ILocalizationService localizationService, 
         IAnalyticsService analyticsService,
+        IExerciseCountService exerciseCountService,
         IInterstitialAdManager? interstitialAdManager = null)
     {
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
         _analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
+        _exerciseCountService = exerciseCountService ?? throw new ArgumentNullException(nameof(exerciseCountService));
         _interstitialAdManager = interstitialAdManager;
         Title = "Flash Numbers";
     }
@@ -84,7 +88,7 @@ public partial class FlashNumbersViewModel : BaseViewModel
             // Prepare interstitial ad for potential showing
             if (_interstitialAdManager != null)
             {
-                await _interstitialAdManager.PrepareAdForExerciseAsync("FlashNumbers");
+                await _interstitialAdManager.PrepareAdForExerciseAsync(ExerciseTypes.FlashNumbers);
             }
             
             _gameSession = new GameSession(RangeStart, RangeEnd);
@@ -111,7 +115,7 @@ public partial class FlashNumbersViewModel : BaseViewModel
         // Show interstitial ad if needed (before starting exercise)
         if (_interstitialAdManager != null)
         {
-            await _interstitialAdManager.ShowAdIfNeededAsync("FlashNumbers");
+            await _interstitialAdManager.ShowAdIfNeededAsync(ExerciseTypes.FlashNumbers);
         }
 
         // Track session start analytics
@@ -223,10 +227,7 @@ public partial class FlashNumbersViewModel : BaseViewModel
         var statistics = _gameSession.GetStatistics();
 
         // Increment exercise count for ad frequency tracking
-        if (_interstitialAdManager != null)
-        {
-            await _interstitialAdManager.IncrementExerciseCountAsync("FlashNumbers");
-        }
+        await _exerciseCountService.IncrementExerciseCountAsync(ExerciseTypes.FlashNumbers);
 
         // Track session completion analytics
         await _analyticsService.TrackEventAsync(AnalyticsEvents.FlashNumbersCompleted, new Dictionary<string, object>

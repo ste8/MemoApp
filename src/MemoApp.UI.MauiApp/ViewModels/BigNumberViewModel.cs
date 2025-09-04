@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.BigNumber;
 using MemoApp.Core.Services.Analytics;
 using MemoApp.Localization.Services;
+using MemoApp.UI.MauiApp.Constants;
 using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Services.Freemium;
 
@@ -17,6 +18,7 @@ public partial class BigNumberViewModel : BaseViewModel
     private readonly IContainerSizeService _containerSizeService;
     private readonly IAnalyticsService _analyticsService;
     private readonly IInterstitialAdManager? _interstitialAdManager;
+    private readonly IExerciseCountService _exerciseCountService;
     private IDispatcherTimer? _timer;
     private BigNumberGame _currentGame = new();
     
@@ -85,6 +87,7 @@ public partial class BigNumberViewModel : BaseViewModel
         ITextMeasurementService textMeasurementService,
         IContainerSizeService containerSizeService,
         IAnalyticsService analyticsService,
+        IExerciseCountService exerciseCountService,
         IInterstitialAdManager? interstitialAdManager = null)
     {
         _gameService = gameService ?? throw new ArgumentNullException(nameof(gameService));
@@ -93,6 +96,7 @@ public partial class BigNumberViewModel : BaseViewModel
         _textMeasurementService = textMeasurementService ?? throw new ArgumentNullException(nameof(textMeasurementService));
         _containerSizeService = containerSizeService ?? throw new ArgumentNullException(nameof(containerSizeService));
         _analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
+        _exerciseCountService = exerciseCountService ?? throw new ArgumentNullException(nameof(exerciseCountService));
         _interstitialAdManager = interstitialAdManager;
         
         Title = _localizationService.GetString("BigNumber_Title");
@@ -222,7 +226,7 @@ public partial class BigNumberViewModel : BaseViewModel
         // Prepare ad for potential display
         if (_interstitialAdManager != null)
         {
-            await _interstitialAdManager.PrepareAdForExerciseAsync("BigNumber");
+            await _interstitialAdManager.PrepareAdForExerciseAsync(ExerciseTypes.BigNumber);
         }
         
         // Track analytics for exercise start
@@ -341,9 +345,11 @@ public partial class BigNumberViewModel : BaseViewModel
             // Show ad if needed and increment exercise count
             if (_interstitialAdManager != null)
             {
-                await _interstitialAdManager.ShowAdIfNeededAsync("BigNumber");
-                await _interstitialAdManager.IncrementExerciseCountAsync("BigNumber");
+                await _interstitialAdManager.ShowAdIfNeededAsync(ExerciseTypes.BigNumber);
             }
+            
+            // Increment exercise count for ad frequency tracking
+            await _exerciseCountService.IncrementExerciseCountAsync(ExerciseTypes.BigNumber);
         }
         
         _timer?.Stop();

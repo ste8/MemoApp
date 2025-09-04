@@ -6,18 +6,20 @@ namespace MemoApp.UI.MauiApp.Services.Freemium;
 public class InterstitialAdManager : IInterstitialAdManager
 {
     private readonly IAdMobService _adMobService;
+    private readonly IExerciseCountService _exerciseCountService;
     private readonly IConfiguration _configuration;
     private readonly ILogger<InterstitialAdManager> _logger;
     
-    private const string TotalExerciseCountKey = "total_exercise_count";
     private const int AdFrequency = 5; // Show ad every 5 sessions
     
     public InterstitialAdManager(
         IAdMobService adMobService,
+        IExerciseCountService exerciseCountService,
         IConfiguration configuration,
         ILogger<InterstitialAdManager> logger)
     {
         _adMobService = adMobService;
+        _exerciseCountService = exerciseCountService ?? throw new ArgumentNullException(nameof(exerciseCountService));
         _configuration = configuration;
         _logger = logger;
     }
@@ -41,7 +43,7 @@ public class InterstitialAdManager : IInterstitialAdManager
         try
         {
             // Check total exercise count across all exercise types
-            var totalCount = await GetTotalExerciseCountAsync();
+            var totalCount = await _exerciseCountService.GetTotalExerciseCountAsync();
             
             // Show ad every 5 sessions
             return totalCount > 0 && totalCount % AdFrequency == 0;
@@ -67,30 +69,6 @@ public class InterstitialAdManager : IInterstitialAdManager
         {
             _logger.LogError(ex, "Error showing ad for {ExerciseType}", exerciseType);
         }
-    }
-    
-    public async Task IncrementExerciseCountAsync(string exerciseType)
-    {
-        try
-        {
-            // Increment total exercise count across all exercise types
-            var totalCount = Preferences.Get(TotalExerciseCountKey, 0);
-            totalCount++;
-            Preferences.Set(TotalExerciseCountKey, totalCount);
-            
-            _logger.LogInformation("Incremented total exercise count to {TotalCount} for {ExerciseType}", totalCount, exerciseType);
-            
-            await Task.CompletedTask;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error incrementing total exercise count for {ExerciseType}", exerciseType);
-        }
-    }
-    
-    private async Task<int> GetTotalExerciseCountAsync()
-    {
-        return await Task.FromResult(Preferences.Get(TotalExerciseCountKey, 0));
     }
     
 }
