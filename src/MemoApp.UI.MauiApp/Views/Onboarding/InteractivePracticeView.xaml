@@ -93,13 +93,22 @@
                 </Border>
             </Grid>
             
-            <!-- Feedback -->
-            <Label Text="{Binding FeedbackText}"
-                   TextColor="{Binding FeedbackColor}"
-                   HorizontalOptions="Center"
-                   HorizontalTextAlignment="Center"
-                   FontSize="18"
-                   IsVisible="{Binding IsFeedbackVisible}" />
+            <!-- Feedback Container - Fixed Height to Prevent Layout Shifts -->
+            <Border HeightRequest="60"
+                    BackgroundColor="Transparent"
+                    Stroke="Transparent"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                <Label Text="{Binding FeedbackText}"
+                       TextColor="{Binding FeedbackColor}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       VerticalOptions="Center"
+                       FontSize="18"
+                       LineBreakMode="WordWrap"
+                       MaxLines="2"
+                       Opacity="{Binding IsFeedbackVisible, Converter={StaticResource BoolToOpacityConverter}}" />
+            </Border>
         </VerticalStackLayout>
     </Grid>
 </ContentView>

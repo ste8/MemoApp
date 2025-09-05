@@ -301,7 +301,7 @@ public partial class InteractivePracticeViewModel : ObservableObject
 
     private async Task HandleFallbackFeedback()
     {
-        FeedbackText = "Option selected!";
+        FeedbackText = _localizationService.GetString("Onboarding_Practice_FallbackFeedback");
         FeedbackColor = Colors.Blue;
         IsFeedbackVisible = true;
         

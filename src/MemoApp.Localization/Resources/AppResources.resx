@@ -1454,6 +1454,10 @@
     <value>Not quite. Think: 3=M, 2=N. Which word has both sounds?</value>
     <comment>Incorrect answer feedback</comment>
   </data>
+  <data name="Onboarding_Practice_FallbackFeedback" xml:space="preserve">
+    <value>Option selected!</value>
+    <comment>Fallback feedback when specific feedback fails to load</comment>
+  </data>
   
   <!-- Navigation Guide Screen -->
   <data name="Onboarding_Navigation_Title" xml:space="preserve">

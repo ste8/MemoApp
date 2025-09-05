@@ -181,3 +181,26 @@ public class BoolToStarColorConverter : IValueConverter
         throw new NotImplementedException();
     }
 }
+
+/// <summary>
+/// Converts boolean to opacity (1.0 for true, 0.0 for false). 
+/// Used for smooth visibility transitions without layout shifts.
+/// </summary>
+public class BoolToOpacityConverter : IValueConverter
+{
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is bool boolValue)
+            return boolValue ? 1.0 : 0.0;
+        
+        return 0.0;
+    }
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is double doubleValue)
+            return doubleValue > 0.5;
+        
+        return false;
+    }
+}
