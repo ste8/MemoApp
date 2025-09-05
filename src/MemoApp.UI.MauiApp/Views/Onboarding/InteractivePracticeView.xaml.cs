@@ -1,66 +1,139 @@
-using MemoApp.Localization.Services;
+using MemoApp.UI.MauiApp.ViewModels.Onboarding;
 
 namespace MemoApp.UI.MauiApp.Views.Onboarding;
 
 public partial class InteractivePracticeView : ContentView
 {
-    private readonly ILocalizationService _localizationService;
+    private InteractivePracticeViewModel? _viewModel;
+    private int _wrongAttempts = 0;
 
-    public InteractivePracticeView(ILocalizationService localizationService)
+    public InteractivePracticeView(InteractivePracticeViewModel viewModel)
     {
         InitializeComponent();
-        _localizationService = localizationService;
+        _viewModel = viewModel;
+        BindingContext = viewModel;
+        
+        // Initialize the practice data
+        _viewModel.LoadPractice();
+        _viewModel.LoadLocalizedText();
+        
+        // Reset state
+        _wrongAttempts = 0;
+        
+        // Subscribe to ViewModel events for visual feedback
+        _viewModel.PropertyChanged += OnViewModelPropertyChanged;
+    }
+
+    /// <summary>
+    /// Handles property changes from the ViewModel for visual feedback
+    /// </summary>
+    private async void OnViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        // No longer needed since we're using direct event handlers
+    }
+
+    private async void OnOption0Clicked(object sender, EventArgs e)
+    {
+        await ProcessOptionClick(Option0, 0);
     }
 
     private async void OnOption1Clicked(object sender, EventArgs e)
     {
-        System.Diagnostics.Debug.WriteLine("Option 1 (Moon) clicked - CORRECT!");
-        await ProcessOptionClick(Option1, true);
+        await ProcessOptionClick(Option1, 1);
     }
 
     private async void OnOption2Clicked(object sender, EventArgs e)
     {
-        System.Diagnostics.Debug.WriteLine("Option 2 (Mum) clicked - INCORRECT");
-        await ProcessOptionClick(Option2, false);
+        await ProcessOptionClick(Option2, 2);
     }
 
-    private async void OnOption3Clicked(object sender, EventArgs e)
-    {
-        System.Diagnostics.Debug.WriteLine("Option 3 (Onion) clicked - INCORRECT");
-        await ProcessOptionClick(Option3, false);
-    }
-
-    private async Task ProcessOptionClick(Border clickedBorder, bool isCorrect)
+    private async Task ProcessOptionClick(Border clickedBorder, int optionIndex)
     {
         try
         {
-            if (isCorrect)
+            if (_viewModel?.Practice == null || optionIndex < 0 || optionIndex >= _viewModel.Practice.Options.Count)
+                return;
+
+            // Don't allow clicks if already answered
+            if (_viewModel.IsAnswered)
+                return;
+
+            var selectedOption = _viewModel.Practice.Options[optionIndex];
+            var correctIndex = _viewModel.CorrectAnswerIndex;
+            
+            if (selectedOption.IsCorrect)
             {
+                // Correct answer - turn green
                 clickedBorder.BackgroundColor = Colors.Green;
-                FeedbackLabel.Text = _localizationService.GetString("Onboarding_Practice_Correct");
-                FeedbackLabel.TextColor = Colors.Green;
+                
+                // Show correct feedback
+                _viewModel.FeedbackText = GetLocalizedString(_viewModel.Practice.CorrectFeedbackKey);
+                _viewModel.FeedbackColor = Colors.Green;
+                _viewModel.IsFeedbackVisible = true;
+                
+                _viewModel.IsAnswered = true;
             }
             else
             {
+                // Wrong answer - turn red
                 clickedBorder.BackgroundColor = Colors.Red;
-                FeedbackLabel.Text = _localizationService.GetString("Onboarding_Practice_TryAgain");
-                FeedbackLabel.TextColor = Colors.Red;
+                _wrongAttempts++;
                 
-                // Show correct answer after a delay
-                await Task.Delay(1000);
-                Option1.BackgroundColor = Colors.Green;
+                // Show incorrect feedback
+                _viewModel.FeedbackText = GetLocalizedString(_viewModel.Practice.TryAgainFeedbackKey);
+                _viewModel.FeedbackColor = Colors.Red;
+                _viewModel.IsFeedbackVisible = true;
+                
+                // Only show correct answer after second wrong attempt
+                if (_wrongAttempts >= 2)
+                {
+                    await Task.Delay(1500);
+                    
+                    var borders = new[] { Option0, Option1, Option2 };
+                    if (correctIndex >= 0 && correctIndex < borders.Length)
+                    {
+                        borders[correctIndex].BackgroundColor = Colors.Green;
+                    }
+                    
+                    _viewModel.IsAnswered = true;
+                }
             }
-            
-            await FeedbackLabel.FadeTo(1, 300);
         }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Error in ProcessOptionClick: {ex.Message}");
-            
-            // Fallback - show some visual feedback
-            FeedbackLabel.Text = "Tap detected!";
-            FeedbackLabel.TextColor = Colors.Blue;
-            await FeedbackLabel.FadeTo(1, 300);
+        }
+    }
+    
+    private string GetLocalizedString(string key)
+    {
+        // For now, use simple hardcoded messages - these could be localized later
+        if (key != null && (key.Contains("Correct") || key.Contains("correct")))
+        {
+            return "Correct! 32 = MN = Moon";
+        }
+        else
+        {
+            return "Not quite. Think: 3=M, 2=N. Which word has both sounds?";
+        }
+    }
+
+    /// <summary>
+    /// Clean up event subscriptions
+    /// </summary>
+    protected override void OnBindingContextChanged()
+    {
+        if (_viewModel != null)
+        {
+            _viewModel.PropertyChanged -= OnViewModelPropertyChanged;
+        }
+        
+        base.OnBindingContextChanged();
+        
+        _viewModel = BindingContext as InteractivePracticeViewModel;
+        if (_viewModel != null)
+        {
+            _viewModel.PropertyChanged += OnViewModelPropertyChanged;
         }
     }
 }

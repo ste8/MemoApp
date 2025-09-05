@@ -2,7 +2,9 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
-             x:Class="MemoApp.UI.MauiApp.Views.Onboarding.InteractivePracticeView">
+             xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels.Onboarding"
+             x:Class="MemoApp.UI.MauiApp.Views.Onboarding.InteractivePracticeView"
+             x:DataType="viewmodels:InteractivePracticeViewModel">
     
     <Grid Padding="30">
         <Grid.RowDefinitions>
@@ -32,14 +34,14 @@
                    CornerRadius="15"
                    Padding="20"
                    HorizontalOptions="Center">
-                <Label Text="32"
+                <Label Text="{Binding Practice.Number}"
                        FontSize="48"
                        FontAttributes="Bold"
                        TextColor="White"
                        HorizontalOptions="Center" />
             </Frame>
             
-            <Label Text="{localization:Localize Onboarding_Practice_Question}"
+            <Label Text="{Binding QuestionText}"
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center"
                    Margin="0,20,0,10" />
@@ -49,6 +51,20 @@
                   ColumnSpacing="15">
                 
                 <Border Grid.Column="0"
+                        x:Name="Option0"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                        StrokeShape="RoundRectangle 15"
+                        HeightRequest="100">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnOption0Clicked" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="5" VerticalOptions="Center">
+                        <Label Text="{Binding Practice.Options[0].Emoji}" FontSize="32" HorizontalOptions="Center" />
+                        <Label Text="{Binding Option0Text}" HorizontalOptions="Center" FontSize="12" />
+                    </VerticalStackLayout>
+                </Border>
+                
+                <Border Grid.Column="1"
                         x:Name="Option1"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
                         StrokeShape="RoundRectangle 15"
@@ -57,12 +73,12 @@
                         <TapGestureRecognizer Tapped="OnOption1Clicked" />
                     </Border.GestureRecognizers>
                     <VerticalStackLayout Spacing="5" VerticalOptions="Center">
-                        <Label Text="🌙" FontSize="32" HorizontalOptions="Center" />
-                        <Label Text="{localization:Localize Onboarding_Moon}" HorizontalOptions="Center" FontSize="12" />
+                        <Label Text="{Binding Practice.Options[1].Emoji}" FontSize="32" HorizontalOptions="Center" />
+                        <Label Text="{Binding Option1Text}" HorizontalOptions="Center" FontSize="12" />
                     </VerticalStackLayout>
                 </Border>
                 
-                <Border Grid.Column="1"
+                <Border Grid.Column="2"
                         x:Name="Option2"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
                         StrokeShape="RoundRectangle 15"
@@ -71,32 +87,19 @@
                         <TapGestureRecognizer Tapped="OnOption2Clicked" />
                     </Border.GestureRecognizers>
                     <VerticalStackLayout Spacing="5" VerticalOptions="Center">
-                        <Label Text="👩" FontSize="32" HorizontalOptions="Center" />
-                        <Label Text="{localization:Localize Onboarding_Mum}" HorizontalOptions="Center" FontSize="12" />
-                    </VerticalStackLayout>
-                </Border>
-                
-                <Border Grid.Column="2"
-                        x:Name="Option3"
-                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
-                        StrokeShape="RoundRectangle 15"
-                        HeightRequest="100">
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnOption3Clicked" />
-                    </Border.GestureRecognizers>
-                    <VerticalStackLayout Spacing="5" VerticalOptions="Center">
-                        <Label Text="🧅" FontSize="32" HorizontalOptions="Center" />
-                        <Label Text="{localization:Localize Onboarding_Onion}" HorizontalOptions="Center" FontSize="12" />
+                        <Label Text="{Binding Practice.Options[2].Emoji}" FontSize="32" HorizontalOptions="Center" />
+                        <Label Text="{Binding Option2Text}" HorizontalOptions="Center" FontSize="12" />
                     </VerticalStackLayout>
                 </Border>
             </Grid>
             
             <!-- Feedback -->
-            <Label x:Name="FeedbackLabel"
+            <Label Text="{Binding FeedbackText}"
+                   TextColor="{Binding FeedbackColor}"
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center"
                    FontSize="18"
-                   Opacity="0" />
+                   IsVisible="{Binding IsFeedbackVisible}" />
         </VerticalStackLayout>
     </Grid>
 </ContentView>

@@ -8,6 +8,7 @@ using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Services.Analytics;
 using MemoApp.UI.MauiApp.Services.ErrorMonitoring;
 using MemoApp.UI.MauiApp.Services.Freemium;
+using MemoApp.UI.MauiApp.Services.Onboarding;
 using MemoApp.UI.MauiApp.ViewModels;
 using MemoApp.UI.MauiApp.Views;
 using CommunityToolkit.Mvvm.Messaging;
@@ -154,6 +155,9 @@ public static class ServiceRegistration
         
         // Big Number service
         services.AddSingleton<IBigNumberService, BigNumberService>();
+        
+        // Onboarding service
+        services.AddSingleton<IMajorSystemOnboardingService, MajorSystemOnboardingService>();
         
         return services;
     }
@@ -329,6 +333,20 @@ public static class ServiceRegistration
         // Onboarding ViewModels
         services.AddTransient<ViewModels.Onboarding.OnboardingNavigationViewModel>();
         services.AddTransient<ViewModels.Onboarding.PersonalizationViewModel>();
+        services.AddTransient<ViewModels.Onboarding.ExampleViewModel>(serviceProvider =>
+        {
+            var onboardingService = serviceProvider.GetRequiredService<IMajorSystemOnboardingService>();
+            var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+            var logger = serviceProvider.GetRequiredService<ILogger<ViewModels.Onboarding.ExampleViewModel>>();
+            return new ViewModels.Onboarding.ExampleViewModel(onboardingService, localizationService, logger);
+        });
+        services.AddTransient<ViewModels.Onboarding.InteractivePracticeViewModel>(serviceProvider =>
+        {
+            var onboardingService = serviceProvider.GetRequiredService<IMajorSystemOnboardingService>();
+            var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+            var logger = serviceProvider.GetRequiredService<ILogger<ViewModels.Onboarding.InteractivePracticeViewModel>>();
+            return new ViewModels.Onboarding.InteractivePracticeViewModel(onboardingService, localizationService, logger);
+        });
         
         return services;
     }

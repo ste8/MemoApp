@@ -2,7 +2,9 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
-             x:Class="MemoApp.UI.MauiApp.Views.Onboarding.ExampleView">
+             xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels.Onboarding"
+             x:Class="MemoApp.UI.MauiApp.Views.Onboarding.ExampleView"
+             x:DataType="viewmodels:ExampleViewModel">
     
     <Grid Padding="30">
         <Grid.RowDefinitions>
@@ -32,7 +34,7 @@
                    CornerRadius="15"
                    Padding="20"
                    HorizontalOptions="Center">
-                <Label Text="41"
+                <Label Text="{Binding Example.Number}"
                        FontSize="48"
                        FontAttributes="Bold"
                        TextColor="White"
@@ -40,61 +42,50 @@
             </Frame>
             
             <!-- Conversion Steps -->
-            <VerticalStackLayout Spacing="15" x:Name="ConversionSteps">
-                <!-- Step 1 -->
-                <Frame x:Name="Step1"
-                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
-                       BorderColor="Transparent"
-                       CornerRadius="10"
-                       Padding="15"
-                       Opacity="0">
-                    <Label>
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="4 = " FontAttributes="Bold" FontSize="18" />
-                                <Span Text="R" FontSize="18" TextColor="{StaticResource Primary}" />
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-                </Frame>
-                
-                <!-- Step 2 -->
-                <Frame x:Name="Step2"
-                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
-                       BorderColor="Transparent"
-                       CornerRadius="10"
-                       Padding="15"
-                       Opacity="0">
-                    <Label>
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="1 = " FontAttributes="Bold" FontSize="18" />
-                                <Span Text="T" FontSize="18" TextColor="{StaticResource Primary}" />
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-                </Frame>
-                
-                <!-- Step 3 -->
-                <Frame x:Name="Step3"
-                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
-                       BorderColor="Transparent"
-                       CornerRadius="10"
-                       Padding="15"
-                       Opacity="0">
-                    <HorizontalStackLayout Spacing="10">
-                        <Label>
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <Span Text="RT = " FontAttributes="Bold" FontSize="18" />
-                                    <Span Text="RaT" FontSize="18" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
-                                </FormattedString>
-                            </Label.FormattedText>
-                        </Label>
-                        <Label Text="🐀" FontSize="24" />
-                    </HorizontalStackLayout>
-                </Frame>
+            <VerticalStackLayout Spacing="15" x:Name="ConversionSteps" BindableLayout.ItemsSource="{Binding Example.ConversionSteps}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Frame x:Name="ConversionStep"
+                               BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                               BorderColor="Transparent"
+                               CornerRadius="10"
+                               Padding="15"
+                               Opacity="0">
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding Digit}" FontAttributes="Bold" FontSize="18" />
+                                        <Span Text=" = " FontAttributes="Bold" FontSize="18" />
+                                        <Span Text="{Binding Letter}" FontSize="18" TextColor="{StaticResource Primary}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Frame>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
             </VerticalStackLayout>
+            
+            <!-- Final Word Step -->
+            <Frame x:Name="Step3"
+                   BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                   BorderColor="Transparent"
+                   CornerRadius="10"
+                   Padding="15"
+                   Opacity="0">
+                <HorizontalStackLayout Spacing="10">
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding Example.ConversionSteps[0].Letter}" FontAttributes="Bold" FontSize="18" />
+                                <Span Text="{Binding Example.ConversionSteps[1].Letter}" FontAttributes="Bold" FontSize="18" />
+                                <Span Text=" = " FontAttributes="Bold" FontSize="18" />
+                                <Span Text="{Binding Example.Word}" FontSize="18" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Text="{Binding Example.Emoji}" FontSize="24" />
+                </HorizontalStackLayout>
+            </Frame>
             
             <!-- Result Image -->
             <Border x:Name="ResultImage"
@@ -106,8 +97,8 @@
                     HorizontalOptions="Center"
                     Opacity="0">
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="🐀" FontSize="64" HorizontalOptions="Center" />
-                    <Label Text="{localization:Localize Onboarding_Example_Remember}"
+                    <Label Text="{Binding Example.Emoji}" FontSize="64" HorizontalOptions="Center" />
+                    <Label Text="{Binding RememberText}"
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center" />
                 </VerticalStackLayout>

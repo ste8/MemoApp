@@ -1313,4 +1313,72 @@
     <value>Scorri per visualizzare tutte le associazioni visive del numero memorizzato</value>
     <comment>Accessibility hint for scrolling through associations</comment>
   </data>
+  <data name="Onboarding_Title" xml:space="preserve">
+    <value>Configurazione</value>
+    <comment>Onboarding title</comment>
+  </data>
+  <data name="Onboarding_Skip" xml:space="preserve">
+    <value>Salta</value>
+    <comment>Skip onboarding button</comment>
+  </data>
+  <data name="Onboarding_Back" xml:space="preserve">
+    <value>Indietro</value>
+    <comment>Back button in onboarding</comment>
+  </data>
+  <data name="Onboarding_Next" xml:space="preserve">
+    <value>Avanti</value>
+    <comment>Next button in onboarding</comment>
+  </data>
+  <data name="Onboarding_StartTraining" xml:space="preserve">
+    <value>Inizia Allenamento</value>
+    <comment>Start training button</comment>
+  </data>
+  <data name="Onboarding_Example_Title" xml:space="preserve">
+    <value>Esempio</value>
+    <comment>Example section title</comment>
+  </data>
+  <data name="Onboarding_Example_Remember" xml:space="preserve">
+    <value>Ricorda questa immagine!</value>
+    <comment>Remember this image text</comment>
+  </data>
+  <data name="Onboarding_Practice_Title" xml:space="preserve">
+    <value>Pratica</value>
+    <comment>Practice section title</comment>
+  </data>
+  <data name="Onboarding_Practice_Question" xml:space="preserve">
+    <value>Quale immagine rappresenta questo numero?</value>
+    <comment>Practice question text</comment>
+  </data>
+  <data name="Onboarding_Moon" xml:space="preserve">
+    <value>Luna</value>
+    <comment>Moon option</comment>
+  </data>
+  <data name="Onboarding_Mum" xml:space="preserve">
+    <value>Mamma</value>
+    <comment>Mom option</comment>
+  </data>
+  <data name="Onboarding_Onion" xml:space="preserve">
+    <value>Cipolla</value>
+    <comment>Onion option</comment>
+  </data>
+  <data name="Onboarding_Mano" xml:space="preserve">
+    <value>Mano</value>
+    <comment>Hand option for Italian Major System (32 = Mano)</comment>
+  </data>
+  <data name="Onboarding_Mamma" xml:space="preserve">
+    <value>Mamma</value>
+    <comment>Mom option for Italian Major System</comment>
+  </data>
+  <data name="Onboarding_Rana" xml:space="preserve">
+    <value>Rana</value>
+    <comment>Frog option for Italian Major System</comment>
+  </data>
+  <data name="Onboarding_Practice_Correct" xml:space="preserve">
+    <value>Corretto! 32 = MN = Mano</value>
+    <comment>Correct answer feedback</comment>
+  </data>
+  <data name="Onboarding_Practice_TryAgain" xml:space="preserve">
+    <value>Riprova! La risposta corretta è evidenziata</value>
+    <comment>Try again feedback</comment>
+  </data>
 </root>

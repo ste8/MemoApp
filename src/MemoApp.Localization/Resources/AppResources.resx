@@ -1434,6 +1434,18 @@
     <value>Onion</value>
     <comment>Onion option</comment>
   </data>
+  <data name="Onboarding_Mano" xml:space="preserve">
+    <value>Hand</value>
+    <comment>Hand option for Italian Major System (32 = Mano)</comment>
+  </data>
+  <data name="Onboarding_Mamma" xml:space="preserve">
+    <value>Mom</value>
+    <comment>Mom option for Italian Major System</comment>
+  </data>
+  <data name="Onboarding_Rana" xml:space="preserve">
+    <value>Frog</value>
+    <comment>Frog option for Italian Major System</comment>
+  </data>
   <data name="Onboarding_Practice_Correct" xml:space="preserve">
     <value>Correct! 32 = MN = Moon</value>
     <comment>Correct answer feedback</comment>
