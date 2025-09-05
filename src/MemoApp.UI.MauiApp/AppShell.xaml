@@ -9,18 +9,7 @@
     Title="Major System Training">
 
     <TabBar>
-        <ShellContent
-            Title="{localization:Localize Tab_Training}"
-            Route="main"
-            ContentTemplate="{DataTemplate views:MainPage}">
-            <ShellContent.Icon>
-                <FontImageSource
-                    FontFamily="FontAwesomeLight"
-                    Glyph="&#xf0e7;"
-                    Color="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}" />
-            </ShellContent.Icon>
-        </ShellContent>
-
+        <!-- First Tab: Associations - Learn the number-to-image mappings -->
         <ShellContent
             Title="{localization:Localize Associations_Title}"
             Route="associations"
@@ -33,8 +22,22 @@
             </ShellContent.Icon>
         </ShellContent>
 
+        <!-- Second Tab: Training - Flash numbers exercise -->
         <ShellContent
-            Title="{localization:Localize Tab_NumberMemory}"
+            Title="{localization:Localize Tab_Training}"
+            Route="main"
+            ContentTemplate="{DataTemplate views:MainPage}">
+            <ShellContent.Icon>
+                <FontImageSource
+                    FontFamily="FontAwesomeLight"
+                    Glyph="&#xf0e7;"
+                    Color="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}" />
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <!-- Third Tab: Big Number - Number memorization exercise -->
+        <ShellContent
+            Title="{localization:Localize BigNumber_Title}"
             Route="bignumber"
             ContentTemplate="{DataTemplate views:BigNumberPage}">
             <ShellContent.Icon>
@@ -45,12 +48,7 @@
             </ShellContent.Icon>
         </ShellContent>
 
-        <ShellContent
-            Title="{localization:Localize Tab_Help}"
-            Icon="help"
-            Route="help"
-            ContentTemplate="{DataTemplate views:HelpPage}" />
-
+        <!-- Fourth Tab: Settings - App configuration and preferences -->
         <ShellContent
             Title="{localization:Localize Tab_Settings}"
             Icon="settings"
