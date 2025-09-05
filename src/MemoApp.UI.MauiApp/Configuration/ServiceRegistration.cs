@@ -326,6 +326,10 @@ public static class ServiceRegistration
             return new SettingsViewModel(localizationService, packManager, downloadService, updateService, analyticsService, appInfoService, userNotificationService, logger);
         });
         
+        // Onboarding ViewModels
+        services.AddTransient<ViewModels.Onboarding.OnboardingNavigationViewModel>();
+        services.AddTransient<ViewModels.Onboarding.PersonalizationViewModel>();
+        
         return services;
     }
 
@@ -349,6 +353,16 @@ public static class ServiceRegistration
         services.AddTransient<Views.TokenDetailPage>();
         services.AddTransient<Views.AddCustomAssociationPage>();
         services.AddTransient<Views.ImageViewerPage>();
+        
+        // Onboarding Views
+        services.AddTransient<Views.Onboarding.OnboardingNavigationPage>();
+        services.AddTransient<Views.Onboarding.WelcomeView>();
+        services.AddTransient<Views.Onboarding.ChallengeView>();
+        services.AddTransient<Views.Onboarding.MajorSystemIntroView>();
+        services.AddTransient<Views.Onboarding.ExampleView>();
+        services.AddTransient<Views.Onboarding.InteractivePracticeView>();
+        services.AddTransient<Views.Onboarding.NavigationGuideView>();
+        services.AddTransient<Views.Onboarding.PersonalizationView>();
         
         return services;
     }

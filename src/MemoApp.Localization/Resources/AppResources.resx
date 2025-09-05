@@ -1314,4 +1314,188 @@
     <value>Scroll to view all visual associations for the memorized number</value>
     <comment>Accessibility hint for scrolling through associations</comment>
   </data>
+  
+  <!-- Onboarding Resources -->
+  <data name="Onboarding_Title" xml:space="preserve">
+    <value>Getting Started</value>
+    <comment>Title for onboarding flow</comment>
+  </data>
+  <data name="Onboarding_Skip" xml:space="preserve">
+    <value>Skip</value>
+    <comment>Skip button text</comment>
+  </data>
+  <data name="Onboarding_Back" xml:space="preserve">
+    <value>Back</value>
+    <comment>Back button text</comment>
+  </data>
+  <data name="Onboarding_Next" xml:space="preserve">
+    <value>Next</value>
+    <comment>Next button text</comment>
+  </data>
+  <data name="Onboarding_StartTraining" xml:space="preserve">
+    <value>Start Training!</value>
+    <comment>Final button text to complete onboarding</comment>
+  </data>
+  <data name="Onboarding_SkipTitle" xml:space="preserve">
+    <value>Skip Tutorial?</value>
+    <comment>Skip confirmation dialog title</comment>
+  </data>
+  <data name="Onboarding_SkipMessage" xml:space="preserve">
+    <value>You can always access the tutorial later from Settings. Are you sure you want to skip?</value>
+    <comment>Skip confirmation dialog message</comment>
+  </data>
+  
+  <!-- Welcome Screen -->
+  <data name="Onboarding_Welcome_Title" xml:space="preserve">
+    <value>Welcome to MemoRaise</value>
+    <comment>Welcome screen title</comment>
+  </data>
+  <data name="Onboarding_Welcome_Subtitle" xml:space="preserve">
+    <value>Master the art of number memorization</value>
+    <comment>Welcome screen subtitle</comment>
+  </data>
+  <data name="Onboarding_TimeEstimate" xml:space="preserve">
+    <value>5 minutes to get started</value>
+    <comment>Time estimate for onboarding</comment>
+  </data>
+  
+  <!-- Challenge Screen -->
+  <data name="Onboarding_Challenge_Title" xml:space="preserve">
+    <value>Can you memorize this?</value>
+    <comment>Challenge screen title</comment>
+  </data>
+  <data name="Onboarding_Challenge_Remember" xml:space="preserve">
+    <value>Try to remember the number...</value>
+    <comment>Challenge instruction</comment>
+  </data>
+  <data name="Onboarding_Challenge_Hard" xml:space="preserve">
+    <value>Hard, right? Let's make it easy!</value>
+    <comment>Challenge conclusion message</comment>
+  </data>
+  
+  <!-- Major System Screen -->
+  <data name="Onboarding_MajorSystem_Title" xml:space="preserve">
+    <value>The Major System</value>
+    <comment>Major System introduction title</comment>
+  </data>
+  <data name="Onboarding_Numbers" xml:space="preserve">
+    <value>Numbers</value>
+    <comment>Numbers label in conversion flow</comment>
+  </data>
+  <data name="Onboarding_Sounds" xml:space="preserve">
+    <value>Sounds</value>
+    <comment>Sounds label in conversion flow</comment>
+  </data>
+  <data name="Onboarding_Images" xml:space="preserve">
+    <value>Images</value>
+    <comment>Images label in conversion flow</comment>
+  </data>
+  <data name="Onboarding_ConversionTable" xml:space="preserve">
+    <value>Number to Sound Conversion</value>
+    <comment>Conversion table title</comment>
+  </data>
+  
+  <!-- Example Screen -->
+  <data name="Onboarding_Example_Title" xml:space="preserve">
+    <value>See It In Action</value>
+    <comment>Example screen title</comment>
+  </data>
+  <data name="Onboarding_Example_Remember" xml:space="preserve">
+    <value>41 = Rat</value>
+    <comment>Example memory association</comment>
+  </data>
+  
+  <!-- Practice Screen -->
+  <data name="Onboarding_Practice_Title" xml:space="preserve">
+    <value>Your Turn!</value>
+    <comment>Practice screen title</comment>
+  </data>
+  <data name="Onboarding_Practice_Question" xml:space="preserve">
+    <value>What image helps you remember 32?</value>
+    <comment>Practice question</comment>
+  </data>
+  <data name="Onboarding_Moon" xml:space="preserve">
+    <value>Moon</value>
+    <comment>Moon option</comment>
+  </data>
+  <data name="Onboarding_Money" xml:space="preserve">
+    <value>Money</value>
+    <comment>Money option</comment>
+  </data>
+  <data name="Onboarding_Man" xml:space="preserve">
+    <value>Man</value>
+    <comment>Man option</comment>
+  </data>
+  <data name="Onboarding_Mum" xml:space="preserve">
+    <value>Mum</value>
+    <comment>Mum option</comment>
+  </data>
+  <data name="Onboarding_Onion" xml:space="preserve">
+    <value>Onion</value>
+    <comment>Onion option</comment>
+  </data>
+  <data name="Onboarding_Practice_Correct" xml:space="preserve">
+    <value>Correct! 32 = MN = Moon</value>
+    <comment>Correct answer feedback</comment>
+  </data>
+  <data name="Onboarding_Practice_TryAgain" xml:space="preserve">
+    <value>Not quite. Think: 3=M, 2=N. Which word has both sounds?</value>
+    <comment>Incorrect answer feedback</comment>
+  </data>
+  
+  <!-- Navigation Guide Screen -->
+  <data name="Onboarding_Navigation_Title" xml:space="preserve">
+    <value>Explore the App</value>
+    <comment>Navigation guide title</comment>
+  </data>
+  <data name="Onboarding_Navigation_AssociationsDesc" xml:space="preserve">
+    <value>Your visual dictionary</value>
+    <comment>Associations tab description</comment>
+  </data>
+  <data name="Onboarding_Navigation_TrainingDesc" xml:space="preserve">
+    <value>Practice with flash cards</value>
+    <comment>Training tab description</comment>
+  </data>
+  <data name="Onboarding_Navigation_BigNumberDesc" xml:space="preserve">
+    <value>Challenge yourself with long numbers</value>
+    <comment>Big Number tab description</comment>
+  </data>
+  <data name="Onboarding_Navigation_SettingsDesc" xml:space="preserve">
+    <value>Customize your experience</value>
+    <comment>Settings tab description</comment>
+  </data>
+  
+  <!-- Personalization Screen -->
+  <data name="Onboarding_Personalization_Title" xml:space="preserve">
+    <value>Personalize Your Experience</value>
+    <comment>Personalization screen title</comment>
+  </data>
+  <data name="Onboarding_Personalization_Level" xml:space="preserve">
+    <value>Your Experience Level</value>
+    <comment>Experience level label</comment>
+  </data>
+  <data name="Onboarding_Level_Beginner" xml:space="preserve">
+    <value>Beginner - New to memory techniques</value>
+    <comment>Beginner level option</comment>
+  </data>
+  <data name="Onboarding_Level_Intermediate" xml:space="preserve">
+    <value>Intermediate - Some experience</value>
+    <comment>Intermediate level option</comment>
+  </data>
+  <data name="Onboarding_Level_Expert" xml:space="preserve">
+    <value>Expert - Master the Major System</value>
+    <comment>Expert level option</comment>
+  </data>
+  <data name="Onboarding_Personalization_Reminder" xml:space="preserve">
+    <value>Daily Practice Reminder</value>
+    <comment>Reminder toggle label</comment>
+  </data>
+  <data name="Onboarding_Personalization_ReminderDesc" xml:space="preserve">
+    <value>Get a daily notification to practice</value>
+    <comment>Reminder description</comment>
+  </data>
+  <data name="Onboarding_Personalization_Ready" xml:space="preserve">
+    <value>You're all set! Let's start training!</value>
+    <comment>Ready message</comment>
+  </data>
 </root>

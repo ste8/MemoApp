@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels.Onboarding"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             x:Class="MemoApp.UI.MauiApp.Views.Onboarding.PersonalizationView"
+             x:DataType="viewmodels:PersonalizationViewModel">
+    
+    <ScrollView Padding="30">
+        <VerticalStackLayout Spacing="25">
+            
+            <!-- Title -->
+            <Label Text="{localization:Localize Onboarding_Personalization_Title}"
+                   Style="{StaticResource Headline}"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   Margin="0,0,0,20" />
+            
+            <!-- Language Selection -->
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                   BorderColor="Transparent"
+                   CornerRadius="10"
+                   Padding="20">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="{localization:Localize Settings_Language}"
+                           FontAttributes="Bold" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Button Grid.Column="0"
+                                Text="English"
+                                Command="{Binding SelectLanguageCommand}"
+                                CommandParameter="en"
+                                BackgroundColor="{Binding EnglishButtonColor}"
+                                TextColor="{Binding EnglishTextColor}" />
+                        <Button Grid.Column="1"
+                                Text="Italiano"
+                                Command="{Binding SelectLanguageCommand}"
+                                CommandParameter="it"
+                                BackgroundColor="{Binding ItalianButtonColor}"
+                                TextColor="{Binding ItalianTextColor}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+            
+            <!-- Difficulty Level -->
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                   BorderColor="Transparent"
+                   CornerRadius="10"
+                   Padding="20">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="{localization:Localize Onboarding_Personalization_Level}"
+                           FontAttributes="Bold" />
+                    <Grid RowDefinitions="*,*,*" RowSpacing="10">
+                        <Button Grid.Row="0"
+                                Text="{localization:Localize Onboarding_Level_Beginner}"
+                                Command="{Binding SelectLevelCommand}"
+                                CommandParameter="Beginner"
+                                BackgroundColor="{Binding BeginnerButtonColor}"
+                                TextColor="{Binding BeginnerTextColor}" />
+                        <Button Grid.Row="1"
+                                Text="{localization:Localize Onboarding_Level_Intermediate}"
+                                Command="{Binding SelectLevelCommand}"
+                                CommandParameter="Intermediate"
+                                BackgroundColor="{Binding IntermediateButtonColor}"
+                                TextColor="{Binding IntermediateTextColor}" />
+                        <Button Grid.Row="2"
+                                Text="{localization:Localize Onboarding_Level_Expert}"
+                                Command="{Binding SelectLevelCommand}"
+                                CommandParameter="Expert"
+                                BackgroundColor="{Binding ExpertButtonColor}"
+                                TextColor="{Binding ExpertTextColor}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+            
+            <!-- Daily Reminder -->
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                   BorderColor="Transparent"
+                   CornerRadius="10"
+                   Padding="20">
+                <HorizontalStackLayout>
+                    <VerticalStackLayout Spacing="5" HorizontalOptions="FillAndExpand">
+                        <Label Text="{localization:Localize Onboarding_Personalization_Reminder}"
+                               FontAttributes="Bold" />
+                        <Label Text="{localization:Localize Onboarding_Personalization_ReminderDesc}"
+                               FontSize="12"
+                               Opacity="0.8" />
+                    </VerticalStackLayout>
+                    <Switch IsToggled="{Binding EnableReminders}"
+                            VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Frame>
+            
+            <!-- Ready Message -->
+            <Label Text="{localization:Localize Onboarding_Personalization_Ready}"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   FontAttributes="Bold"
+                   FontSize="18"
+                   TextColor="{StaticResource Primary}"
+                   Margin="0,20,0,0" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentView>

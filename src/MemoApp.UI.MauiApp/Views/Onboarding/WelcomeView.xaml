@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             x:Class="MemoApp.UI.MauiApp.Views.Onboarding.WelcomeView">
+    
+    <Grid Padding="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Logo/Icon -->
+        <Label Grid.Row="1"
+               Text="🧠"
+               FontSize="80"
+               HorizontalOptions="Center"
+               Margin="0,0,0,30" />
+
+        <!-- Welcome Text -->
+        <VerticalStackLayout Grid.Row="2" Spacing="15">
+            <Label Text="{localization:Localize Onboarding_Welcome_Title}"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   FontSize="28"
+                   FontAttributes="Bold" />
+            
+            <Label Text="{localization:Localize Onboarding_Welcome_Subtitle}"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   FontSize="16"
+                   Opacity="0.8" />
+        </VerticalStackLayout>
+
+        <!-- Time Estimate -->
+        <Frame Grid.Row="3"
+               BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+               BorderColor="Transparent"
+               CornerRadius="15"
+               Padding="10,5"
+               HorizontalOptions="Center"
+               Margin="0,30,0,0">
+            <HorizontalStackLayout Spacing="8">
+                <Label Text="⏱️"
+                       VerticalOptions="Center" />
+                <Label Text="{localization:Localize Onboarding_TimeEstimate}"
+                       TextColor="White"
+                       VerticalOptions="Center" />
+            </HorizontalStackLayout>
+        </Frame>
+
+        <!-- Animated Numbers Background -->
+        <AbsoluteLayout Grid.Row="0" Grid.RowSpan="5"
+                        IsClippedToBounds="True"
+                        InputTransparent="True">
+            <!-- Floating numbers animation (visual only) -->
+            <Label Text="42"
+                   FontSize="48"
+                   Opacity="0.1"
+                   AbsoluteLayout.LayoutBounds="0.2, 0.1, AutoSize, AutoSize"
+                   AbsoluteLayout.LayoutFlags="PositionProportional" />
+            <Label Text="73"
+                   FontSize="36"
+                   Opacity="0.08"
+                   AbsoluteLayout.LayoutBounds="0.8, 0.2, AutoSize, AutoSize"
+                   AbsoluteLayout.LayoutFlags="PositionProportional" />
+            <Label Text="91"
+                   FontSize="42"
+                   Opacity="0.1"
+                   AbsoluteLayout.LayoutBounds="0.1, 0.8, AutoSize, AutoSize"
+                   AbsoluteLayout.LayoutFlags="PositionProportional" />
+            <Label Text="58"
+                   FontSize="40"
+                   Opacity="0.08"
+                   AbsoluteLayout.LayoutBounds="0.9, 0.7, AutoSize, AutoSize"
+                   AbsoluteLayout.LayoutFlags="PositionProportional" />
+        </AbsoluteLayout>
+    </Grid>
+</ContentView>

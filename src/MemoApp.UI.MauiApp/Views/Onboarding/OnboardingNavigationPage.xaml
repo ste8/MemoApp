@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels.Onboarding"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             xmlns:shapes="http://schemas.microsoft.com/dotnet/2021/maui/toolkit"
+             x:Class="MemoApp.UI.MauiApp.Views.Onboarding.OnboardingNavigationPage"
+             x:DataType="viewmodels:OnboardingNavigationViewModel"
+             Title="{localization:Localize Onboarding_Title}"
+             BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Content Area -->
+        <Grid x:Name="ContentArea" Grid.Row="0">
+            <!-- Onboarding views will be dynamically added here -->
+        </Grid>
+
+        <!-- Progress Indicator -->
+        <HorizontalStackLayout Grid.Row="1" 
+                              HorizontalOptions="Center"
+                              Spacing="8"
+                              Margin="0,20,0,10">
+            <Frame x:Name="Indicator0" BackgroundColor="{StaticResource Primary}" WidthRequest="8" HeightRequest="8" CornerRadius="4" Padding="0" BorderColor="Transparent" />
+            <Frame x:Name="Indicator1" BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray600}}" WidthRequest="8" HeightRequest="8" CornerRadius="4" Padding="0" BorderColor="Transparent" />
+            <Frame x:Name="Indicator2" BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray600}}" WidthRequest="8" HeightRequest="8" CornerRadius="4" Padding="0" BorderColor="Transparent" />
+            <Frame x:Name="Indicator3" BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray600}}" WidthRequest="8" HeightRequest="8" CornerRadius="4" Padding="0" BorderColor="Transparent" />
+            <Frame x:Name="Indicator4" BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray600}}" WidthRequest="8" HeightRequest="8" CornerRadius="4" Padding="0" BorderColor="Transparent" />
+            <Frame x:Name="Indicator5" BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray600}}" WidthRequest="8" HeightRequest="8" CornerRadius="4" Padding="0" BorderColor="Transparent" />
+            <Frame x:Name="Indicator6" BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray600}}" WidthRequest="8" HeightRequest="8" CornerRadius="4" Padding="0" BorderColor="Transparent" />
+        </HorizontalStackLayout>
+
+        <!-- Navigation Controls -->
+        <Grid Grid.Row="2" 
+              Padding="20"
+              ColumnDefinitions="*,*,*">
+            
+            <!-- Skip Button -->
+            <Button Grid.Column="0"
+                    Text="{localization:Localize Onboarding_Skip}"
+                    Command="{Binding SkipCommand}"
+                    IsVisible="{Binding CanSkip}"
+                    BackgroundColor="Transparent"
+                    TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                    HorizontalOptions="Start" />
+
+            <!-- Back Button -->
+            <Button Grid.Column="1"
+                    Text="{localization:Localize Onboarding_Back}"
+                    Command="{Binding BackCommand}"
+                    IsVisible="{Binding CanGoBack}"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource Primary}"
+                    HorizontalOptions="Center" />
+
+            <!-- Next/Start Button -->
+            <Button Grid.Column="2"
+                    Text="{Binding NextButtonText}"
+                    Command="{Binding NextCommand}"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="White"
+                    CornerRadius="20"
+                    HorizontalOptions="End"
+                    MinimumWidthRequest="100" />
+        </Grid>
+    </Grid>
+</ContentPage>

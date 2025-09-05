@@ -3,6 +3,7 @@ using MemoApp.Core.Services.ErrorMonitoring;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Views;
+using MemoApp.UI.MauiApp.Views.Onboarding;
 
 namespace MemoApp.UI.MauiApp;
 
@@ -13,21 +14,38 @@ public partial class App : Application
 	private readonly IPackUpdateBackgroundService _updateService;
 	private readonly IErrorMonitoringService? _errorService;
 	private readonly IAppInitializationService _initializationService;
+	private readonly IServiceProvider _serviceProvider;
 	private readonly DateTime _appStartTime = DateTime.UtcNow;
 	
-	public App(IPackManagerService packManager, ILocalizationService localizationService, IPackUpdateBackgroundService updateService, IAppInitializationService initializationService, IErrorMonitoringService? errorService = null)
+	public App(IPackManagerService packManager, ILocalizationService localizationService, IPackUpdateBackgroundService updateService, IAppInitializationService initializationService, IServiceProvider serviceProvider, IErrorMonitoringService? errorService = null)
 	{
 		InitializeComponent();
 		_packManager = packManager;
 		_localizationService = localizationService;
 		_updateService = updateService;
 		_initializationService = initializationService;
+		_serviceProvider = serviceProvider;
 		_errorService = errorService;
 	}
 
 	protected override Window CreateWindow(IActivationState? activationState)
 	{
-		return new Window(new AppShell());
+		// Check if onboarding has been completed
+		var onboardingCompleted = Preferences.Get("OnboardingCompleted", "false") == "true";
+		
+		// Force onboarding for testing - TODO: Remove this
+		onboardingCompleted = false;
+		
+		if (onboardingCompleted)
+		{
+			return new Window(new AppShell());
+		}
+		else
+		{
+			// Show onboarding flow
+			var onboardingPage = _serviceProvider.GetRequiredService<OnboardingNavigationPage>();
+			return new Window(onboardingPage);
+		}
 	}
 	
 	protected override async void OnStart()

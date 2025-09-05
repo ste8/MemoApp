@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             x:Class="MemoApp.UI.MauiApp.Views.Onboarding.NavigationGuideView">
+    
+    <ScrollView Padding="30">
+        <VerticalStackLayout Spacing="20">
+            
+            <!-- Title -->
+            <Label Text="{localization:Localize Onboarding_Navigation_Title}"
+                   Style="{StaticResource Headline}"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   Margin="0,0,0,20" />
+            
+            <!-- Tab Explanations -->
+            <VerticalStackLayout Spacing="15">
+                
+                <!-- Associations Tab -->
+                <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                       BorderColor="Transparent"
+                       CornerRadius="10"
+                       Padding="15">
+                    <HorizontalStackLayout Spacing="15">
+                        <Label Text="📚" FontSize="28" VerticalOptions="Center" />
+                        <VerticalStackLayout Spacing="5" VerticalOptions="Center">
+                            <Label Text="{localization:Localize Associations_Title}"
+                                   FontAttributes="Bold" />
+                            <Label Text="{localization:Localize Onboarding_Navigation_AssociationsDesc}"
+                                   FontSize="12"
+                                   Opacity="0.8" />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                </Frame>
+                
+                <!-- Training Tab -->
+                <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                       BorderColor="Transparent"
+                       CornerRadius="10"
+                       Padding="15">
+                    <HorizontalStackLayout Spacing="15">
+                        <Label Text="⚡" FontSize="28" VerticalOptions="Center" />
+                        <VerticalStackLayout Spacing="5" VerticalOptions="Center">
+                            <Label Text="{localization:Localize Tab_Training}"
+                                   FontAttributes="Bold" />
+                            <Label Text="{localization:Localize Onboarding_Navigation_TrainingDesc}"
+                                   FontSize="12"
+                                   Opacity="0.8" />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                </Frame>
+                
+                <!-- Big Number Tab -->
+                <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                       BorderColor="Transparent"
+                       CornerRadius="10"
+                       Padding="15">
+                    <HorizontalStackLayout Spacing="15">
+                        <Label Text="🔢" FontSize="28" VerticalOptions="Center" />
+                        <VerticalStackLayout Spacing="5" VerticalOptions="Center">
+                            <Label Text="{localization:Localize BigNumber_Title}"
+                                   FontAttributes="Bold" />
+                            <Label Text="{localization:Localize Onboarding_Navigation_BigNumberDesc}"
+                                   FontSize="12"
+                                   Opacity="0.8" />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                </Frame>
+                
+                <!-- Settings Tab -->
+                <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                       BorderColor="Transparent"
+                       CornerRadius="10"
+                       Padding="15">
+                    <HorizontalStackLayout Spacing="15">
+                        <Label Text="⚙️" FontSize="28" VerticalOptions="Center" />
+                        <VerticalStackLayout Spacing="5" VerticalOptions="Center">
+                            <Label Text="{localization:Localize Tab_Settings}"
+                                   FontAttributes="Bold" />
+                            <Label Text="{localization:Localize Onboarding_Navigation_SettingsDesc}"
+                                   FontSize="12"
+                                   Opacity="0.8" />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentView>

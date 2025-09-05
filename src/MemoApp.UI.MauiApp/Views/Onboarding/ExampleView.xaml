@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             x:Class="MemoApp.UI.MauiApp.Views.Onboarding.ExampleView">
+    
+    <Grid Padding="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <!-- Title -->
+        <Label Grid.Row="0"
+               Text="{localization:Localize Onboarding_Example_Title}"
+               Style="{StaticResource Headline}"
+               HorizontalOptions="Center"
+               HorizontalTextAlignment="Center"
+               FontSize="24"
+               FontAttributes="Bold"
+               Margin="0,0,0,30" />
+        
+        <!-- Example Content -->
+        <VerticalStackLayout Grid.Row="1" 
+                            Spacing="20"
+                            VerticalOptions="Center">
+            
+            <!-- Number to Convert -->
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                   BorderColor="Transparent"
+                   CornerRadius="15"
+                   Padding="20"
+                   HorizontalOptions="Center">
+                <Label Text="41"
+                       FontSize="48"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Center" />
+            </Frame>
+            
+            <!-- Conversion Steps -->
+            <VerticalStackLayout Spacing="15" x:Name="ConversionSteps">
+                <!-- Step 1 -->
+                <Frame x:Name="Step1"
+                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                       BorderColor="Transparent"
+                       CornerRadius="10"
+                       Padding="15"
+                       Opacity="0">
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="4 = " FontAttributes="Bold" FontSize="18" />
+                                <Span Text="R" FontSize="18" TextColor="{StaticResource Primary}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </Frame>
+                
+                <!-- Step 2 -->
+                <Frame x:Name="Step2"
+                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                       BorderColor="Transparent"
+                       CornerRadius="10"
+                       Padding="15"
+                       Opacity="0">
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="1 = " FontAttributes="Bold" FontSize="18" />
+                                <Span Text="T" FontSize="18" TextColor="{StaticResource Primary}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </Frame>
+                
+                <!-- Step 3 -->
+                <Frame x:Name="Step3"
+                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                       BorderColor="Transparent"
+                       CornerRadius="10"
+                       Padding="15"
+                       Opacity="0">
+                    <HorizontalStackLayout Spacing="10">
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="RT = " FontAttributes="Bold" FontSize="18" />
+                                    <Span Text="RaT" FontSize="18" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label Text="🐀" FontSize="24" />
+                    </HorizontalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+            
+            <!-- Result Image -->
+            <Border x:Name="ResultImage"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                    Stroke="{StaticResource Primary}"
+                    StrokeThickness="2"
+                    StrokeShape="RoundRectangle 15"
+                    Padding="20"
+                    HorizontalOptions="Center"
+                    Opacity="0">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="🐀" FontSize="64" HorizontalOptions="Center" />
+                    <Label Text="{localization:Localize Onboarding_Example_Remember}"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </Grid>
+</ContentView>
