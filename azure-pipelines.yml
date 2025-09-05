@@ -45,25 +45,26 @@ stages:
           version: $(dotnet_version)
       
       - task: Bash@3
-        displayName: Install iOS workloads
+        displayName: Install MAUI workloads
         inputs:
           targetType: 'inline'
           script: |
             dotnet nuget locals all --clear 
-            dotnet workload install ios --version $(dotnet_workload_version)
+            dotnet workload install maui --version $(dotnet_workload_version)
           #source for "dotnet nuget locals all --clear": https://www.youtube.com/watch?v=eLY9EDzyvoQ          
 
       - task: InstallAppleProvisioningProfile@1
         name: installProvProfile
         inputs:
           provisioningProfileLocation: 'secureFiles'
-          provProfileSecureFile: MemoApp__Distribution.mobileprovision
+          provProfileSecureFile: MemoApp__Distribution_iOS_AppStore.mobileprovision
 
       - task: InstallAppleCertificate@2
         inputs:
-          certSecureFile: CertificatesDistributionAppStore.p12
-          keychain: 'temp' 
+          certSecureFile: StefanoOttavianiAppleDistributionKey-OpenSSL3.p12
+          keychain: "temp"
           certPwd: $(ios_distribution_p12_password)
+        displayName: "Install Apple Certificate"
           
       - task: NuGetAuthenticate@1      
       - script: dotnet restore $(app_sln_path)
@@ -73,8 +74,15 @@ stages:
         displayName: Build iOS app
         inputs:
           targetType: 'inline'
-          script: |
-            dotnet publish $(app_csproj_path) -c $(build_configuration) -p:Platform=$(build_platform) --output '$(Build.ArtifactStagingDirectory)/iOS' -p:ArchiveOnBuild=true -p:CodesignKey="$(codesign_key)" -p:CodesignProvision="$(installProvProfile.APPLE_PROV_PROFILE_UUID)" 
+          script: >
+            dotnet publish $(app_csproj_path)
+            -f net9.0-ios 
+            -c $(build_configuration) 
+            -o '$(Build.ArtifactStagingDirectory)/iOS' 
+            -p:RuntimeIdentifier=ios-arm64 
+            -p:ArchiveOnBuild=true 
+            -p:CodesignKey="$(codesign_key)" 
+            -p:CodesignProvision="$(installProvProfile.provisioningProfileUuid)" 
 
       - task: PublishBuildArtifacts@1
         displayName: 'Publish iOS app to artifacts'
