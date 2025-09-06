@@ -1514,4 +1514,8 @@
     <value>You're all set! Let's start training!</value>
     <comment>Ready message</comment>
   </data>
+  <data name="Onboarding_CompletionError" xml:space="preserve">
+    <value>Unable to complete onboarding. Please restart the app.</value>
+    <comment>Error message when onboarding completion fails</comment>
+  </data>
 </root>

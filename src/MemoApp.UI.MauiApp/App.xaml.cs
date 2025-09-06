@@ -33,16 +33,18 @@ public partial class App : Application
 		// Check if onboarding has been completed
 		var onboardingCompleted = Preferences.Get("OnboardingCompleted", "false") == "true";
 		
-		// Force onboarding for testing - TODO: Remove this
-		onboardingCompleted = false;
+		// Force onboarding for testing - uncomment to always show onboarding
+		// onboardingCompleted = false;
 		
 		if (onboardingCompleted)
 		{
-			return new Window(new AppShell());
+			// User has completed onboarding, show main app
+			var appShell = _serviceProvider.GetRequiredService<AppShell>();
+			return new Window(appShell);
 		}
 		else
 		{
-			// Show onboarding flow
+			// Show onboarding flow for new users
 			var onboardingPage = _serviceProvider.GetRequiredService<OnboardingNavigationPage>();
 			return new Window(onboardingPage);
 		}

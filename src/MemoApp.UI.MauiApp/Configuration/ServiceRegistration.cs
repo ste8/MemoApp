@@ -358,6 +358,9 @@ public static class ServiceRegistration
     /// <returns>The service collection for method chaining</returns>
     public static IServiceCollection AddViews(this IServiceCollection services)
     {
+        // Register Shell (main navigation container)
+        services.AddSingleton<AppShell>();
+        
         // Register pages
         services.AddSingleton<Views.TestPage>();
         services.AddSingleton<Views.MainPage>();

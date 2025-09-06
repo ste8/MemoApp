@@ -1385,4 +1385,8 @@
     <value>Opzione selezionata!</value>
     <comment>Fallback feedback when specific feedback fails to load</comment>
   </data>
+  <data name="Onboarding_CompletionError" xml:space="preserve">
+    <value>Impossibile completare l'onboarding. Si prega di riavviare l'app.</value>
+    <comment>Error message when onboarding completion fails</comment>
+  </data>
 </root>

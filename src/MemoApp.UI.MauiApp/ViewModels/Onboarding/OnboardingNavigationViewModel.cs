@@ -151,12 +151,35 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
             Preferences.Set("OnboardingCompleted", "true");
             Preferences.Set("OnboardingVersion", "1.0");
             
-            // Navigate to main app
-            Application.Current.MainPage = _serviceProvider.GetRequiredService<AppShell>();
+            // Navigate to main app by replacing the Window's Page
+            var appShell = _serviceProvider.GetRequiredService<AppShell>();
+            
+            // Get the current window
+            var currentWindow = Application.Current?.Windows?.FirstOrDefault();
+            if (currentWindow != null)
+            {
+                // Replace the window's page with the AppShell
+                currentWindow.Page = appShell;
+            }
+            else
+            {
+                // Fallback: try to set MainPage directly
+                Application.Current.MainPage = appShell;
+            }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to complete onboarding");
+            
+            // Show error to user
+            var currentPage = Application.Current?.MainPage ?? Application.Current?.Windows?.FirstOrDefault()?.Page;
+            if (currentPage != null)
+            {
+                await currentPage.DisplayAlert(
+                    _localizationService.GetString("Common_Error"),
+                    _localizationService.GetString("Onboarding_CompletionError"),
+                    _localizationService.GetString("Common_OK"));
+            }
         }
     }
 }
