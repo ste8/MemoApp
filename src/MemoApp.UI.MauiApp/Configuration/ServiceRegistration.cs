@@ -347,6 +347,16 @@ public static class ServiceRegistration
             var logger = serviceProvider.GetRequiredService<ILogger<ViewModels.Onboarding.InteractivePracticeViewModel>>();
             return new ViewModels.Onboarding.InteractivePracticeViewModel(onboardingService, localizationService, logger);
         });
+        services.AddTransient<ViewModels.Onboarding.PackDownloadOnboardingViewModel>(serviceProvider =>
+        {
+            var downloadService = serviceProvider.GetRequiredService<IPackDownloadService>();
+            var packManager = serviceProvider.GetRequiredService<IPackManagerService>();
+            var mauiPackService = serviceProvider.GetRequiredService<MauiPackService>();
+            var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+            var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
+            var logger = serviceProvider.GetRequiredService<ILogger<ViewModels.Onboarding.PackDownloadOnboardingViewModel>>();
+            return new ViewModels.Onboarding.PackDownloadOnboardingViewModel(downloadService, packManager, mauiPackService, localizationService, analyticsService, logger);
+        });
         
         return services;
     }
@@ -383,6 +393,7 @@ public static class ServiceRegistration
         services.AddTransient<Views.Onboarding.ExampleView>();
         services.AddTransient<Views.Onboarding.InteractivePracticeView>();
         services.AddTransient<Views.Onboarding.NavigationGuideView>();
+        services.AddTransient<Views.Onboarding.PackDownloadOnboardingView>();
         services.AddTransient<Views.Onboarding.PersonalizationView>();
         
         return services;

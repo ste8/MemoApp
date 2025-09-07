@@ -45,6 +45,8 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
     {
         try
         {
+            _logger.LogInformation("Initializing onboarding pages");
+            
             // Create onboarding pages
             OnboardingPages.Clear();
             
@@ -72,9 +74,42 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
             var navigationView = _serviceProvider.GetRequiredService<NavigationGuideView>();
             OnboardingPages.Add(navigationView);
             
+            // Add Pack Download Screen (Step 7)
+            _logger.LogInformation("Creating PackDownloadOnboardingView...");
+            var packDownloadView = _serviceProvider.GetRequiredService<PackDownloadOnboardingView>();
+            if (packDownloadView == null)
+            {
+                _logger.LogError("PackDownloadOnboardingView is null!");
+                throw new InvalidOperationException("Failed to create PackDownloadOnboardingView");
+            }
+            OnboardingPages.Add(packDownloadView);
+            _logger.LogInformation("PackDownloadOnboardingView added successfully at index {Index}", OnboardingPages.Count - 1);
+            
             // Add Personalization Screen
+            _logger.LogInformation("Creating PersonalizationView...");
             var personalizationView = _serviceProvider.GetRequiredService<PersonalizationView>();
+            if (personalizationView == null)
+            {
+                _logger.LogError("PersonalizationView is null!");
+                throw new InvalidOperationException("Failed to create PersonalizationView");
+            }
             OnboardingPages.Add(personalizationView);
+            _logger.LogInformation("PersonalizationView added successfully at index {Index}", OnboardingPages.Count - 1);
+            
+            _logger.LogInformation("Total onboarding pages added: {PageCount}", OnboardingPages.Count);
+            
+            // Validate that all expected views were added
+            if (OnboardingPages.Count != 8)
+            {
+                _logger.LogError("Expected 8 onboarding pages but got {ActualCount}!", OnboardingPages.Count);
+                throw new InvalidOperationException($"Expected 8 onboarding pages but got {OnboardingPages.Count}");
+            }
+            
+            // Log all view types for debugging
+            for (int i = 0; i < OnboardingPages.Count; i++)
+            {
+                _logger.LogInformation("Position {Index}: {ViewType}", i, OnboardingPages[i].GetType().Name);
+            }
             
             UpdateNavigationState();
         }
@@ -94,28 +129,62 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
         CanGoBack = CurrentPosition > 0;
         CanSkip = CurrentPosition < OnboardingPages.Count - 1;
         
+        _logger.LogInformation("UpdateNavigationState - Position: {CurrentPosition}/{TotalPages}, CanGoBack: {CanGoBack}, CanSkip: {CanSkip}",
+            CurrentPosition, OnboardingPages.Count - 1, CanGoBack, CanSkip);
+        
         // Update button text for last page
         if (CurrentPosition == OnboardingPages.Count - 1)
         {
             NextButtonText = _localizationService.GetString("Onboarding_StartTraining");
             CanSkip = false;
+            _logger.LogInformation("On last page - NextButtonText set to 'Start Training'");
         }
         else
         {
             NextButtonText = _localizationService.GetString("Onboarding_Next");
+            _logger.LogInformation("Not on last page - NextButtonText set to 'Next'");
         }
     }
 
     [RelayCommand]
     private async Task Next()
     {
-        if (CurrentPosition < OnboardingPages.Count - 1)
+        try
         {
-            CurrentPosition++;
+            _logger.LogInformation("Next command executed. CurrentPosition: {CurrentPosition}, TotalPages: {TotalPages}", 
+                CurrentPosition, OnboardingPages.Count);
+            
+            // Defensive check
+            if (OnboardingPages.Count == 0)
+            {
+                _logger.LogError("No onboarding pages loaded! Completing onboarding as fallback.");
+                await CompleteOnboarding();
+                return;
+            }
+            
+            if (CurrentPosition < OnboardingPages.Count - 1)
+            {
+                int newPosition = CurrentPosition + 1;
+                _logger.LogInformation("Advancing from position {CurrentPosition} to {NewPosition}. Next view: {ViewType}", 
+                    CurrentPosition, newPosition, 
+                    newPosition < OnboardingPages.Count ? OnboardingPages[newPosition].GetType().Name : "None");
+                
+                CurrentPosition = newPosition;
+            }
+            else
+            {
+                _logger.LogInformation("At final position {CurrentPosition}/{TotalPages}. Completing onboarding.", 
+                    CurrentPosition, OnboardingPages.Count - 1);
+                await CompleteOnboarding();
+            }
         }
-        else
+        catch (Exception ex)
         {
-            await CompleteOnboarding();
+            _logger.LogError(ex, "Error in Next command. CurrentPosition: {CurrentPosition}, TotalPages: {TotalPages}", 
+                CurrentPosition, OnboardingPages.Count);
+            
+            // Don't complete onboarding on error - let user try again
+            throw;
         }
     }
 

@@ -33,6 +33,7 @@
             <Frame x:Name="Indicator4" BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray600}}" WidthRequest="8" HeightRequest="8" CornerRadius="4" Padding="0" BorderColor="Transparent" />
             <Frame x:Name="Indicator5" BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray600}}" WidthRequest="8" HeightRequest="8" CornerRadius="4" Padding="0" BorderColor="Transparent" />
             <Frame x:Name="Indicator6" BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray600}}" WidthRequest="8" HeightRequest="8" CornerRadius="4" Padding="0" BorderColor="Transparent" />
+            <Frame x:Name="Indicator7" BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray600}}" WidthRequest="8" HeightRequest="8" CornerRadius="4" Padding="0" BorderColor="Transparent" />
         </HorizontalStackLayout>
 
         <!-- Navigation Controls -->

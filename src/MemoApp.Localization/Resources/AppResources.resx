@@ -1518,4 +1518,82 @@
     <value>Unable to complete onboarding. Please restart the app.</value>
     <comment>Error message when onboarding completion fails</comment>
   </data>
+  
+  <!-- Pack Download Onboarding Screen -->
+  <data name="OnboardingPackDownload_Title" xml:space="preserve">
+    <value>Download Content Pack</value>
+    <comment>Pack download onboarding screen title</comment>
+  </data>
+  <data name="OnboardingPackDownload_Description" xml:space="preserve">
+    <value>Download an image pack to unlock visual associations for memory training. This helps you create mental images for better memorization.</value>
+    <comment>Pack download onboarding screen description</comment>
+  </data>
+  <data name="OnboardingPackDownload_LoadingMessage" xml:space="preserve">
+    <value>Loading available packs...</value>
+    <comment>Loading message while fetching available packs</comment>
+  </data>
+  <data name="OnboardingPackDownload_NoPacksError" xml:space="preserve">
+    <value>No content packs are currently available. Please check your internet connection and try again.</value>
+    <comment>Error message when no packs are available</comment>
+  </data>
+  <data name="OnboardingPackDownload_LoadError" xml:space="preserve">
+    <value>Unable to load available packs. Please check your internet connection.</value>
+    <comment>Error message when pack loading fails</comment>
+  </data>
+  <data name="OnboardingPackDownload_AlreadyDownloadedTitle" xml:space="preserve">
+    <value>Content Pack Ready!</value>
+    <comment>Title when user already has a pack downloaded</comment>
+  </data>
+  <data name="OnboardingPackDownload_AlreadyDownloadedMessage" xml:space="preserve">
+    <value>You already have a content pack installed. You can proceed to the next step or download additional packs later from Settings.</value>
+    <comment>Message when user already has a pack downloaded</comment>
+  </data>
+  <data name="OnboardingPackDownload_RecommendedPack" xml:space="preserve">
+    <value>Recommended Pack</value>
+    <comment>Label for the recommended pack to download</comment>
+  </data>
+  <data name="OnboardingPackDownload_DownloadButton" xml:space="preserve">
+    <value>Download Now (Recommended)</value>
+    <comment>Button text to download the recommended pack</comment>
+  </data>
+  <data name="OnboardingPackDownload_SelectButton" xml:space="preserve">
+    <value>Select</value>
+    <comment>Button text to select an alternative pack</comment>
+  </data>
+  <data name="OnboardingPackDownload_AlternativePacksTitle" xml:space="preserve">
+    <value>Other Available Packs</value>
+    <comment>Title for alternative packs section</comment>
+  </data>
+  <data name="OnboardingPackDownload_SkipTitle" xml:space="preserve">
+    <value>Download Later</value>
+    <comment>Title for skip option</comment>
+  </data>
+  <data name="OnboardingPackDownload_SkipMessage" xml:space="preserve">
+    <value>You can download packs later from the Settings page. Some features may be limited without a content pack.</value>
+    <comment>Message explaining consequences of skipping pack download</comment>
+  </data>
+  <data name="OnboardingPackDownload_CompletedMessage" xml:space="preserve">
+    <value>Pack downloaded successfully! Visual associations are now available.</value>
+    <comment>Success message when pack download completes</comment>
+  </data>
+  <data name="OnboardingPackDownload_DownloadError" xml:space="preserve">
+    <value>Download failed. Please try again or skip for now.</value>
+    <comment>Generic download error message</comment>
+  </data>
+  <data name="OnboardingPackDownload_NetworkError" xml:space="preserve">
+    <value>Network error during download. Please check your connection and try again.</value>
+    <comment>Network error message during pack download</comment>
+  </data>
+  <data name="OnboardingPackDownload_InsufficientStorageError" xml:space="preserve">
+    <value>Insufficient storage space. You need at least {0} MB of free space.</value>
+    <comment>Insufficient storage error message with required space parameter</comment>
+  </data>
+  <data name="OnboardingPackDownload_ExtractionError" xml:space="preserve">
+    <value>Failed to extract pack contents. Please try downloading again.</value>
+    <comment>Extraction error message during pack download</comment>
+  </data>
+  <data name="OnboardingPackDownload_ValidationError" xml:space="preserve">
+    <value>Pack validation failed. The downloaded content may be corrupted.</value>
+    <comment>Validation error message during pack download</comment>
+  </data>
 </root>

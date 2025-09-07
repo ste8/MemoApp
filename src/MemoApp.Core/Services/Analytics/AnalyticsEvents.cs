@@ -54,6 +54,13 @@ public static class AnalyticsEvents
     public const string FlashNumbersCompleted = "flash_numbers_completed";
     public const string FlashNumbersStepCompleted = "flash_numbers_step_completed";
     
+    // Onboarding Events
+    public const string OnboardingStarted = "onboarding_started";
+    public const string OnboardingCompleted = "onboarding_completed";
+    public const string OnboardingStepViewed = "onboarding_step_viewed";
+    public const string OnboardingPackDownloadStarted = "onboarding_pack_download_started";
+    public const string OnboardingPackDownloadCompleted = "onboarding_pack_download_completed";
+    
     // User Engagement Events
     public const string FirstTimeUser = "first_time_user";
     public const string UserRetention = "user_retention";
@@ -128,6 +135,10 @@ public static class AnalyticsParameters
     // Settings Parameters
     public const string SettingType = "setting_type";
     public const string SettingName = "setting_name";
+    
+    // Error Parameters
+    public const string ErrorMessage = "error_message";
+    public const string ErrorType = "error_type";
 }
 
 /// <summary>

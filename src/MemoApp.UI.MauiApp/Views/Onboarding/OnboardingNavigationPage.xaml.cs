@@ -52,6 +52,7 @@ public partial class OnboardingNavigationPage : ContentPage
         _indicators.Add(Indicator4);
         _indicators.Add(Indicator5);
         _indicators.Add(Indicator6);
+        _indicators.Add(Indicator7);
         
         // Store views from ViewModel
         _onboardingViews.Clear();
@@ -91,12 +92,19 @@ public partial class OnboardingNavigationPage : ContentPage
 
     private void UpdateIndicators()
     {
+        // Ensure indicators are initialized before updating
+        if (_indicators == null || _indicators.Count == 0)
+            return;
+            
         var primaryColor = (Color)Application.Current.Resources["Primary"];
         var grayColor = (Color)(Application.Current.Resources.TryGetValue("Gray400", out var gray) ? gray : Colors.Gray);
         
         for (int i = 0; i < _indicators.Count; i++)
         {
-            _indicators[i].BackgroundColor = i == _viewModel.CurrentPosition ? primaryColor : grayColor;
+            if (_indicators[i] != null)
+            {
+                _indicators[i].BackgroundColor = i == _viewModel.CurrentPosition ? primaryColor : grayColor;
+            }
         }
     }
 

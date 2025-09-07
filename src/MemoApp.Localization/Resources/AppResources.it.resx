@@ -1389,4 +1389,82 @@
     <value>Impossibile completare l'onboarding. Si prega di riavviare l'app.</value>
     <comment>Error message when onboarding completion fails</comment>
   </data>
+  
+  <!-- Pack Download Onboarding Screen -->
+  <data name="OnboardingPackDownload_Title" xml:space="preserve">
+    <value>Scarica Pacchetto Contenuti</value>
+    <comment>Pack download onboarding screen title</comment>
+  </data>
+  <data name="OnboardingPackDownload_Description" xml:space="preserve">
+    <value>Scarica un pacchetto di immagini per sbloccare le associazioni visive per l'allenamento della memoria. Questo ti aiuta a creare immagini mentali per una migliore memorizzazione.</value>
+    <comment>Pack download onboarding screen description</comment>
+  </data>
+  <data name="OnboardingPackDownload_LoadingMessage" xml:space="preserve">
+    <value>Caricamento pacchetti disponibili...</value>
+    <comment>Loading message while fetching available packs</comment>
+  </data>
+  <data name="OnboardingPackDownload_NoPacksError" xml:space="preserve">
+    <value>Nessun pacchetto di contenuti è attualmente disponibile. Controlla la connessione internet e riprova.</value>
+    <comment>Error message when no packs are available</comment>
+  </data>
+  <data name="OnboardingPackDownload_LoadError" xml:space="preserve">
+    <value>Impossibile caricare i pacchetti disponibili. Controlla la connessione internet.</value>
+    <comment>Error message when pack loading fails</comment>
+  </data>
+  <data name="OnboardingPackDownload_AlreadyDownloadedTitle" xml:space="preserve">
+    <value>Pacchetto Contenuti Pronto!</value>
+    <comment>Title when user already has a pack downloaded</comment>
+  </data>
+  <data name="OnboardingPackDownload_AlreadyDownloadedMessage" xml:space="preserve">
+    <value>Hai già un pacchetto di contenuti installato. Puoi procedere al prossimo passaggio o scaricare pacchetti aggiuntivi dalle Impostazioni.</value>
+    <comment>Message when user already has a pack downloaded</comment>
+  </data>
+  <data name="OnboardingPackDownload_RecommendedPack" xml:space="preserve">
+    <value>Pacchetto Consigliato</value>
+    <comment>Label for the recommended pack to download</comment>
+  </data>
+  <data name="OnboardingPackDownload_DownloadButton" xml:space="preserve">
+    <value>Scarica Ora (Consigliato)</value>
+    <comment>Button text to download the recommended pack</comment>
+  </data>
+  <data name="OnboardingPackDownload_SelectButton" xml:space="preserve">
+    <value>Seleziona</value>
+    <comment>Button text to select an alternative pack</comment>
+  </data>
+  <data name="OnboardingPackDownload_AlternativePacksTitle" xml:space="preserve">
+    <value>Altri Pacchetti Disponibili</value>
+    <comment>Title for alternative packs section</comment>
+  </data>
+  <data name="OnboardingPackDownload_SkipTitle" xml:space="preserve">
+    <value>Scarica Più Tardi</value>
+    <comment>Title for skip option</comment>
+  </data>
+  <data name="OnboardingPackDownload_SkipMessage" xml:space="preserve">
+    <value>Puoi scaricare i pacchetti più tardi dalla pagina Impostazioni. Alcune funzionalità potrebbero essere limitate senza un pacchetto di contenuti.</value>
+    <comment>Message explaining consequences of skipping pack download</comment>
+  </data>
+  <data name="OnboardingPackDownload_CompletedMessage" xml:space="preserve">
+    <value>Pacchetto scaricato con successo! Le associazioni visive sono ora disponibili.</value>
+    <comment>Success message when pack download completes</comment>
+  </data>
+  <data name="OnboardingPackDownload_DownloadError" xml:space="preserve">
+    <value>Download fallito. Riprova o salta per ora.</value>
+    <comment>Generic download error message</comment>
+  </data>
+  <data name="OnboardingPackDownload_NetworkError" xml:space="preserve">
+    <value>Errore di rete durante il download. Controlla la connessione e riprova.</value>
+    <comment>Network error message during pack download</comment>
+  </data>
+  <data name="OnboardingPackDownload_InsufficientStorageError" xml:space="preserve">
+    <value>Spazio di archiviazione insufficiente. Sono necessari almeno {0} MB di spazio libero.</value>
+    <comment>Insufficient storage error message with required space parameter</comment>
+  </data>
+  <data name="OnboardingPackDownload_ExtractionError" xml:space="preserve">
+    <value>Impossibile estrarre il contenuto del pacchetto. Prova a scaricare di nuovo.</value>
+    <comment>Extraction error message during pack download</comment>
+  </data>
+  <data name="OnboardingPackDownload_ValidationError" xml:space="preserve">
+    <value>Validazione del pacchetto fallita. Il contenuto scaricato potrebbe essere corrotto.</value>
+    <comment>Validation error message during pack download</comment>
+  </data>
 </root>
