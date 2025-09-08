@@ -79,12 +79,12 @@
     <comment>Quick start section title</comment>
   </data>
   <data name="MainPage_BeginTraining" xml:space="preserve">
-    <value>Inizia Allenamento (00-09)</value>
-    <comment>Quick start training button</comment>
+    <value>Inizia Flash Numbers (00-09)</value>
+    <comment>Quick start Flash Numbers button</comment>
   </data>
   <data name="MainPage_BeginTrainingBase" xml:space="preserve">
-    <value>Inizia Allenamento</value>
-    <comment>Quick start training button base text (without range)</comment>
+    <value>Inizia Flash Numbers</value>
+    <comment>Quick start Flash Numbers button base text (without range)</comment>
   </data>
   <data name="MainPage_MajorSystemGuide" xml:space="preserve">
     <value>Guida Sistema Maggiore</value>
@@ -103,8 +103,8 @@
     <comment>End number picker title</comment>
   </data>
   <data name="MainPage_StartCustomTraining" xml:space="preserve">
-    <value>Inizia Allenamento Personalizzato</value>
-    <comment>Custom training button</comment>
+    <value>Inizia Flash Numbers Personalizzato</value>
+    <comment>Custom Flash Numbers button</comment>
   </data>
   <data name="MainPage_QuickFlashNumbers" xml:space="preserve">
     <value>⚡ Flash Numeri Veloce</value>
@@ -297,8 +297,8 @@
     <comment>Help page - what is section title</comment>
   </data>
   <data name="Help_TryQuickTraining" xml:space="preserve">
-    <value>Prova Allenamento Veloce</value>
-    <comment>Help page - try training button</comment>
+    <value>Prova Flash Numbers Veloce</value>
+    <comment>Help page - try Flash Numbers button</comment>
   </data>
   <data name="Help_DigitMappingsTitle" xml:space="preserve">
     <value>🔢 Mappatura Cifre-Suoni</value>
@@ -321,8 +321,8 @@
     <comment>Help page - rules section title</comment>
   </data>
   <data name="Help_StartTrainingNow" xml:space="preserve">
-    <value>Inizia Allenamento</value>
-    <comment>Help page - start training button</comment>
+    <value>Inizia Flash Numbers</value>
+    <comment>Help page - start Flash Numbers button</comment>
   </data>
   
   <!-- Training Session Additional -->
@@ -479,12 +479,12 @@
     <comment>Accessibility label for loading indicator</comment>
   </data>
   <data name="Accessibility_BeginTrainingButton" xml:space="preserve">
-    <value>Pulsante inizia addestramento</value>
-    <comment>Accessibility label for begin training button</comment>
+    <value>Pulsante inizia Flash Numbers</value>
+    <comment>Accessibility label for begin Flash Numbers button</comment>
   </data>
   <data name="Accessibility_BeginTrainingButtonHelp" xml:space="preserve">
-    <value>Inizia una sessione di addestramento rapido con numeri 0-9</value>
-    <comment>Accessibility help text for begin training button</comment>
+    <value>Inizia una sessione Flash Numbers rapida con numeri 0-9</value>
+    <comment>Accessibility help text for begin Flash Numbers button</comment>
   </data>
   <data name="Accessibility_HelpButton" xml:space="preserve">
     <value>Pulsante guida Major System</value>
@@ -568,6 +568,10 @@
   <data name="Tab_Training" xml:space="preserve">
     <value>Allenamento</value>
     <comment>Training tab label</comment>
+  </data>
+  <data name="Tab_FlashNumbers" xml:space="preserve">
+    <value>Flash Numbers</value>
+    <comment>Flash Numbers tab label</comment>
   </data>
   <data name="Tab_Help" xml:space="preserve">
     <value>Aiuto</value>
@@ -1354,8 +1358,8 @@
     <comment>Next button in onboarding</comment>
   </data>
   <data name="Onboarding_StartTraining" xml:space="preserve">
-    <value>Inizia Allenamento</value>
-    <comment>Start training button</comment>
+    <value>Inizia Flash Numbers!</value>
+    <comment>Start Flash Numbers button</comment>
   </data>
   <data name="Onboarding_Example_Title" xml:space="preserve">
     <value>Esempio</value>
@@ -1490,6 +1494,28 @@
   <data name="OnboardingPackDownload_ValidationError" xml:space="preserve">
     <value>Validazione del pacchetto fallita. Il contenuto scaricato potrebbe essere corrotto.</value>
     <comment>Validation error message during pack download</comment>
+  </data>
+  
+  <!-- Navigation Guide Screen -->
+  <data name="Onboarding_Navigation_Title" xml:space="preserve">
+    <value>Esplora l'App</value>
+    <comment>Navigation guide title</comment>
+  </data>
+  <data name="Onboarding_Navigation_AssociationsDesc" xml:space="preserve">
+    <value>Il tuo dizionario visivo</value>
+    <comment>Associations tab description</comment>
+  </data>
+  <data name="Onboarding_Navigation_TrainingDesc" xml:space="preserve">
+    <value>Pratica Flash Numbers con esercizi veloci numero-parola</value>
+    <comment>Flash Numbers tab description</comment>
+  </data>
+  <data name="Onboarding_Navigation_BigNumberDesc" xml:space="preserve">
+    <value>Sfida te stesso con numeri lunghi</value>
+    <comment>Big Number tab description</comment>
+  </data>
+  <data name="Onboarding_Navigation_SettingsDesc" xml:space="preserve">
+    <value>Personalizza la tua esperienza</value>
+    <comment>Settings tab description</comment>
   </data>
   
   <!-- Sharing Feature -->

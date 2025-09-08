@@ -43,7 +43,7 @@
                     </Label>
 
                     <Button Command="{Binding StartQuickTrainingCommand}"
-                            Text="🚀 Try Quick Training"
+                            Text="{localization:Localize Help_TryQuickTraining}"
                             BackgroundColor="White"
                             TextColor="{StaticResource Primary}"
                             CornerRadius="10"
@@ -296,7 +296,7 @@
 
             <!-- Action Button -->
             <Button Command="{Binding GoToMainPageCommand}"
-                    Text="▶️ Start Training Now"
+                    Text="{localization:Localize Help_StartTrainingNow}"
                     BackgroundColor="{StaticResource Primary}"
                     TextColor="White"
                     FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"

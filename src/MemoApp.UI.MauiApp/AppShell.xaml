@@ -24,7 +24,7 @@
 
         <!-- Second Tab: Training - Flash numbers exercise -->
         <ShellContent
-            Title="{localization:Localize Tab_Training}"
+            Title="{localization:Localize Tab_FlashNumbers}"
             Route="main"
             ContentTemplate="{DataTemplate views:MainPage}">
             <ShellContent.Icon>

@@ -79,12 +79,12 @@
     <comment>Quick start section title</comment>
   </data>
   <data name="MainPage_BeginTraining" xml:space="preserve">
-    <value>Begin Training (00-09)</value>
-    <comment>Quick start training button</comment>
+    <value>Begin Flash Numbers (00-09)</value>
+    <comment>Quick start Flash Numbers button</comment>
   </data>
   <data name="MainPage_BeginTrainingBase" xml:space="preserve">
-    <value>Begin Training</value>
-    <comment>Quick start training button base text (without range)</comment>
+    <value>Begin Flash Numbers</value>
+    <comment>Quick start Flash Numbers button base text (without range)</comment>
   </data>
   <data name="MainPage_MajorSystemGuide" xml:space="preserve">
     <value>Major System Guide</value>
@@ -103,8 +103,8 @@
     <comment>End number picker title</comment>
   </data>
   <data name="MainPage_StartCustomTraining" xml:space="preserve">
-    <value>Start Custom Training</value>
-    <comment>Custom training button</comment>
+    <value>Start Custom Flash Numbers</value>
+    <comment>Custom Flash Numbers button</comment>
   </data>
   <data name="MainPage_QuickFlashNumbers" xml:space="preserve">
     <value>⚡ Quick Flash Numbers</value>
@@ -298,8 +298,8 @@
     <comment>Help page - what is section title</comment>
   </data>
   <data name="Help_TryQuickTraining" xml:space="preserve">
-    <value>Try Quick Training</value>
-    <comment>Help page - try training button</comment>
+    <value>Try Quick Flash Numbers</value>
+    <comment>Help page - try Flash Numbers button</comment>
   </data>
   <data name="Help_DigitMappingsTitle" xml:space="preserve">
     <value>🔢 Digit to Sound Mappings</value>
@@ -322,8 +322,8 @@
     <comment>Help page - rules section title</comment>
   </data>
   <data name="Help_StartTrainingNow" xml:space="preserve">
-    <value>Start Training Now</value>
-    <comment>Help page - start training button</comment>
+    <value>Start Flash Numbers Now</value>
+    <comment>Help page - start Flash Numbers button</comment>
   </data>
   
   <!-- Training Session Additional -->
@@ -460,8 +460,8 @@
     <comment>Accessibility help text for language button</comment>
   </data>
   <data name="Accessibility_StartTrainingButton" xml:space="preserve">
-    <value>Start training session</value>
-    <comment>Accessibility label for start training button</comment>
+    <value>Start Flash Numbers session</value>
+    <comment>Accessibility label for start Flash Numbers button</comment>
   </data>
   <data name="Accessibility_StatisticsButton" xml:space="preserve">
     <value>View detailed statistics</value>
@@ -480,12 +480,12 @@
     <comment>Accessibility label for loading indicator</comment>
   </data>
   <data name="Accessibility_BeginTrainingButton" xml:space="preserve">
-    <value>Begin training button</value>
-    <comment>Accessibility label for begin training button</comment>
+    <value>Begin Flash Numbers button</value>
+    <comment>Accessibility label for begin Flash Numbers button</comment>
   </data>
   <data name="Accessibility_BeginTrainingButtonHelp" xml:space="preserve">
-    <value>Start a quick training session with numbers 0-9</value>
-    <comment>Accessibility help text for begin training button</comment>
+    <value>Start a quick Flash Numbers session with numbers 0-9</value>
+    <comment>Accessibility help text for begin Flash Numbers button</comment>
   </data>
   <data name="Accessibility_HelpButton" xml:space="preserve">
     <value>Major System guide button</value>
@@ -512,12 +512,12 @@
     <comment>Accessibility help text for end number picker</comment>
   </data>
   <data name="Accessibility_StartCustomTrainingButton" xml:space="preserve">
-    <value>Start custom training button</value>
-    <comment>Accessibility label for start custom training button</comment>
+    <value>Start custom Flash Numbers button</value>
+    <comment>Accessibility label for start custom Flash Numbers button</comment>
   </data>
   <data name="Accessibility_StartCustomTrainingButtonHelp" xml:space="preserve">
-    <value>Start training session with your selected number range</value>
-    <comment>Accessibility help text for start custom training button</comment>
+    <value>Start Flash Numbers session with your selected number range</value>
+    <comment>Accessibility help text for start custom Flash Numbers button</comment>
   </data>
   
   <!-- Settings Page -->
@@ -569,6 +569,10 @@
   <data name="Tab_Training" xml:space="preserve">
     <value>Training</value>
     <comment>Training tab label</comment>
+  </data>
+  <data name="Tab_FlashNumbers" xml:space="preserve">
+    <value>Flash Numbers</value>
+    <comment>Flash Numbers tab label</comment>
   </data>
   <data name="Tab_Help" xml:space="preserve">
     <value>Help</value>
@@ -1357,7 +1361,7 @@
     <comment>Next button text</comment>
   </data>
   <data name="Onboarding_StartTraining" xml:space="preserve">
-    <value>Start Training!</value>
+    <value>Start Flash Numbers!</value>
     <comment>Final button text to complete onboarding</comment>
   </data>
   <data name="Onboarding_SkipTitle" xml:space="preserve">
@@ -1493,8 +1497,8 @@
     <comment>Associations tab description</comment>
   </data>
   <data name="Onboarding_Navigation_TrainingDesc" xml:space="preserve">
-    <value>Practice with flash cards</value>
-    <comment>Training tab description</comment>
+    <value>Practice Flash Numbers with quick number-to-word exercises</value>
+    <comment>Flash Numbers tab description</comment>
   </data>
   <data name="Onboarding_Navigation_BigNumberDesc" xml:space="preserve">
     <value>Challenge yourself with long numbers</value>

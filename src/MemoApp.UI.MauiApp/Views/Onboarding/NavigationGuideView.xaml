@@ -44,7 +44,7 @@
                     <HorizontalStackLayout Spacing="15">
                         <Label Text="⚡" FontSize="28" VerticalOptions="Center" />
                         <VerticalStackLayout Spacing="5" VerticalOptions="Center">
-                            <Label Text="{localization:Localize Tab_Training}"
+                            <Label Text="{localization:Localize Tab_FlashNumbers}"
                                    FontAttributes="Bold" />
                             <Label Text="{localization:Localize Onboarding_Navigation_TrainingDesc}"
                                    FontSize="12"
