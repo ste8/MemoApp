@@ -200,9 +200,9 @@
                 <RoundRectangle CornerRadius="12" />
             </Setter.Value>
         </Setter>
-        <Setter Property="Padding" Value="12" />
-        <Setter Property="Margin" Value="4,6" />
-        <Setter Property="MinimumHeightRequest" Value="100" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="Margin" Value="2,3" />
+        <Setter Property="MinimumHeightRequest" Value="88" />
     </Style>
 
     <Style TargetType="ImageButton">

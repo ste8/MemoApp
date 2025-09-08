@@ -159,8 +159,8 @@
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" 
                                    Span="{OnPlatform iOS=1, Android=1, Default=2, WinUI=3, MacCatalyst=3}" 
-                                   HorizontalItemSpacing="12" 
-                                   VerticalItemSpacing="8" />
+                                   HorizontalItemSpacing="8" 
+                                   VerticalItemSpacing="6" />
                 </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:TokenAssociation">
@@ -171,46 +171,41 @@
                                             Radius="6"
                                             Opacity="0.15" />
                                 </Border.Shadow>
-                                <Grid ColumnDefinitions="100,*" ColumnSpacing="12">
-                                    <!-- Thumbnail or Token placeholder with rounded corners -->
-                                    <Border Grid.Column="0" 
-                                            WidthRequest="88" 
-                                            HeightRequest="88"
-                                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}" 
-                                            VerticalOptions="Center">
-                                        <Border.StrokeShape>
-                                            <RoundRectangle CornerRadius="8" />
-                                        </Border.StrokeShape>
-                                        <Grid>
-                                            <!-- Show image if thumbnail path exists -->
-                                            <Image Source="{Binding ThumbnailPath}"
-                                                   Aspect="AspectFill"
-                                                   IsVisible="{Binding ThumbnailPath, Converter={StaticResource IsNotNullOrEmptyConverter}}" />
-                                            <!-- Show token as fallback if no image -->
-                                            <Label Text="{Binding Token}"
-                                                   FontSize="24"
-                                                   FontAttributes="Bold"
-                                                   HorizontalOptions="Center"
-                                                   VerticalOptions="Center"
-                                                   BackgroundColor="Transparent"
-                                                   TextColor="{DynamicResource Primary}"
-                                                   IsVisible="{Binding ThumbnailPath, Converter={StaticResource IsNullOrEmptyConverter}}" />
-                                        </Grid>
-                                    </Border>
+                                <Grid ColumnDefinitions="80,*" ColumnSpacing="10">
+                                    <!-- Thumbnail or Token placeholder without border -->
+                                    <Grid Grid.Column="0" 
+                                          WidthRequest="72" 
+                                          HeightRequest="72"
+                                          BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}" 
+                                          VerticalOptions="Center">
+                                        <!-- Show image if thumbnail path exists -->
+                                        <Image Source="{Binding ThumbnailPath}"
+                                               Aspect="AspectFill"
+                                               IsVisible="{Binding ThumbnailPath, Converter={StaticResource IsNotNullOrEmptyConverter}}" />
+                                        <!-- Show token as fallback if no image -->
+                                        <Label Text="{Binding Token}"
+                                               FontSize="20"
+                                               FontAttributes="Bold"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               BackgroundColor="Transparent"
+                                               TextColor="{DynamicResource Primary}"
+                                               IsVisible="{Binding ThumbnailPath, Converter={StaticResource IsNullOrEmptyConverter}}" />
+                                    </Grid>
                                     
                                     <!-- Content area with better typography -->
                                     <StackLayout Grid.Column="1" 
-                                                Spacing="6" 
+                                                Spacing="4" 
                                                 VerticalOptions="Center">
                                         <!-- Token with larger, bolder text -->
                                         <Label Text="{Binding Token}"
-                                               FontSize="18"
+                                               FontSize="16"
                                                FontAttributes="Bold"
                                                TextColor="{AppThemeBinding Light={StaticResource OnSurfaceTextColorLight}, Dark={StaticResource OnSurfaceTextColorDark}}" />
                                         
                                         <!-- Word/Association with better contrast -->
                                         <Label Text="{Binding Word}"
-                                               FontSize="15"
+                                               FontSize="14"
                                                TextColor="{DynamicResource Primary}"
                                                LineBreakMode="TailTruncation"
                                                MaxLines="2" />
