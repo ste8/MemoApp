@@ -171,27 +171,33 @@
                                             Radius="6"
                                             Opacity="0.15" />
                                 </Border.Shadow>
-                                <Grid ColumnDefinitions="80,*" ColumnSpacing="10">
-                                    <!-- Thumbnail or Token placeholder without border -->
-                                    <Grid Grid.Column="0" 
-                                          WidthRequest="72" 
-                                          HeightRequest="72"
-                                          BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}" 
-                                          VerticalOptions="Center">
-                                        <!-- Show image if thumbnail path exists -->
-                                        <Image Source="{Binding ThumbnailPath}"
-                                               Aspect="AspectFill"
-                                               IsVisible="{Binding ThumbnailPath, Converter={StaticResource IsNotNullOrEmptyConverter}}" />
-                                        <!-- Show token as fallback if no image -->
-                                        <Label Text="{Binding Token}"
-                                               FontSize="20"
-                                               FontAttributes="Bold"
-                                               HorizontalOptions="Center"
-                                               VerticalOptions="Center"
-                                               BackgroundColor="Transparent"
-                                               TextColor="{DynamicResource Primary}"
-                                               IsVisible="{Binding ThumbnailPath, Converter={StaticResource IsNullOrEmptyConverter}}" />
-                                    </Grid>
+                                <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+                                    <!-- Thumbnail or Token placeholder with rounded corners -->
+                                    <Border Grid.Column="0" 
+                                            WidthRequest="72" 
+                                            HeightRequest="72"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}" 
+                                            VerticalOptions="Center"
+                                            StrokeThickness="0">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="8" />
+                                        </Border.StrokeShape>
+                                        <Grid>
+                                            <!-- Show image if thumbnail path exists -->
+                                            <Image Source="{Binding ThumbnailPath}"
+                                                   Aspect="AspectFill"
+                                                   IsVisible="{Binding ThumbnailPath, Converter={StaticResource IsNotNullOrEmptyConverter}}" />
+                                            <!-- Show token as fallback if no image -->
+                                            <Label Text="{Binding Token}"
+                                                   FontSize="20"
+                                                   FontAttributes="Bold"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"
+                                                   BackgroundColor="Transparent"
+                                                   TextColor="{DynamicResource Primary}"
+                                                   IsVisible="{Binding ThumbnailPath, Converter={StaticResource IsNullOrEmptyConverter}}" />
+                                        </Grid>
+                                    </Border>
                                     
                                     <!-- Content area with better typography -->
                                     <StackLayout Grid.Column="1" 
@@ -210,6 +216,17 @@
                                                LineBreakMode="TailTruncation"
                                                MaxLines="2" />
                                     </StackLayout>
+                                    
+                                    <!-- Subtle chevron indicator for tap affordance -->
+                                    <Label Grid.Column="2" 
+                                           Text="›"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Center"
+                                           Margin="0,0,4,0"
+                                           x:Name="ChevronIndicator" />
                                 </Grid>
                                 
                                 <Border.GestureRecognizers>
@@ -217,14 +234,26 @@
                                                         CommandParameter="{Binding}" />
                                 </Border.GestureRecognizers>
                                 
-                                <!-- Subtle press animation -->
+                                <!-- Enhanced interaction states for better affordance -->
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
-                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter TargetName="ChevronIndicator" Property="Label.TextColor" Value="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}" />
+                                                <Setter TargetName="ChevronIndicator" Property="Label.TextColor" Value="{DynamicResource Primary}" />
+                                                <Setter Property="Scale" Value="1.01" />
+                                            </VisualState.Setters>
+                                        </VisualState>
                                         <VisualState x:Name="Pressed">
                                             <VisualState.Setters>
                                                 <Setter Property="Scale" Value="0.98" />
                                                 <Setter Property="Opacity" Value="0.8" />
+                                                <Setter TargetName="ChevronIndicator" Property="Label.TextColor" Value="{DynamicResource Primary}" />
                                             </VisualState.Setters>
                                         </VisualState>
                                     </VisualStateGroup>
