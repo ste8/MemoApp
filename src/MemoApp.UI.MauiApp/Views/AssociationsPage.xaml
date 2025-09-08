@@ -23,9 +23,14 @@
                    HorizontalTextAlignment="Center" />
         </StackLayout>
         
-        <!-- Empty state -->
-        <StackLayout IsVisible="{Binding HasPackAvailable, Converter={StaticResource InvertedBoolConverter}}" 
-                     Spacing="20" HorizontalOptions="Center" VerticalOptions="Center" Padding="40">
+        <!-- Empty state - only show after initial load is complete -->
+        <StackLayout Spacing="20" HorizontalOptions="Center" VerticalOptions="Center" Padding="40">
+            <StackLayout.IsVisible>
+                <MultiBinding Converter="{StaticResource MultiBooleanAndConverter}">
+                    <Binding Path="HasPackAvailable" Converter="{StaticResource InvertedBoolConverter}" />
+                    <Binding Path="IsInitialLoad" Converter="{StaticResource InvertedBoolConverter}" />
+                </MultiBinding>
+            </StackLayout.IsVisible>
             <Label Text="{Binding EmptyStateTitle}" 
                    FontSize="Title" 
                    HorizontalOptions="Center" 

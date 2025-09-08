@@ -23,6 +23,7 @@
             <converters:BoolToStarFontFamilyConverter x:Key="BoolToStarFontFamilyConverter" />
             <converters:BoolToStarColorConverter x:Key="BoolToStarColorConverter" />
             <converters:BoolToOpacityConverter x:Key="BoolToOpacityConverter" />
+            <converters:MultiBooleanAndConverter x:Key="MultiBooleanAndConverter" />
             <converters:DivisionConverter x:Key="DivisionConverter" />
             <converters:ResponseTimeToColorConverter x:Key="ResponseTimeToColorConverter" />
             <converters:BoolToDropdownArrowConverter x:Key="BoolToDropdownArrowConverter" />

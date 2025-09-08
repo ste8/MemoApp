@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Linq;
 
 namespace MemoApp.UI.MauiApp.Converters;
 
@@ -202,5 +203,26 @@ public class BoolToOpacityConverter : IValueConverter
             return doubleValue > 0.5;
         
         return false;
+    }
+}
+
+/// <summary>
+/// Multi-value converter that performs AND logic on multiple boolean values.
+/// Returns true only if all bound values are true. Used for complex visibility logic.
+/// </summary>
+public class MultiBooleanAndConverter : IMultiValueConverter
+{
+    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (values == null || values.Length == 0)
+            return false;
+            
+        // Check if all values are boolean and all are true
+        return values.All(value => value is bool boolValue && boolValue);
+    }
+
+    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
     }
 }

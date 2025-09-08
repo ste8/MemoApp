@@ -43,6 +43,9 @@ public partial class AssociationsViewModel : ObservableObject,
     private bool _hasPackAvailable;
     
     [ObservableProperty]
+    private bool _isInitialLoad = true;
+    
+    [ObservableProperty]
     private string _emptyStateTitle = string.Empty;
     
     [ObservableProperty]
@@ -156,6 +159,9 @@ public partial class AssociationsViewModel : ObservableObject,
             HasPackAvailable = await _packAssociationsService.HasPackAvailableAsync();
             _logger.LogInformation("Pack available: {HasPack}", HasPackAvailable);
             
+            // Mark initial load as complete after pack availability check
+            IsInitialLoad = false;
+            
             if (HasPackAvailable)
             {
                 await LoadCategoriesAsync();
@@ -187,6 +193,7 @@ public partial class AssociationsViewModel : ObservableObject,
         finally
         {
             IsLoading = false;
+            IsInitialLoad = false; // Ensure this is always set even if an error occurs
             _logger.LogInformation("Finished loading associations data");
         }
     }
