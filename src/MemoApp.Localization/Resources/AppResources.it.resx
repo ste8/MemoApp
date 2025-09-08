@@ -872,7 +872,7 @@
     <comment>Pack management section title</comment>
   </data>
   <data name="FirstLaunch_WelcomeTitle" xml:space="preserve">
-    <value>Benvenuto in MemoApp!</value>
+    <value>Benvenuto in MemoRaise!</value>
     <comment>First launch welcome title</comment>
   </data>
   <data name="FirstLaunch_DownloadPackMessage" xml:space="preserve">
@@ -1572,11 +1572,11 @@
     <comment>Share success message</comment>
   </data>
   <data name="Share_FlashNumbersMessage" xml:space="preserve">
-    <value>Ho appena completato Flash Numbers in MemoApp! 🎯 Memorizzato {0} numeri in {1} con una velocità media di {2}s per numero. Alleno la mia memoria con il Sistema Maggiore!</value>
+    <value>Ho appena completato Flash Numbers in MemoRaise! 🎯 Memorizzato {0} numeri in {1} con una velocità media di {2}s per numero. Alleno la mia memoria con il Sistema Maggiore!</value>
     <comment>Default share message for Flash Numbers exercise</comment>
   </data>
   <data name="Share_BigNumberMessage" xml:space="preserve">
-    <value>Ho appena memorizzato un numero di {0} cifre in {1} usando MemoApp! 🧠 Alleno la mia memoria con la tecnica del Sistema Maggiore. Riesci a battere il mio tempo?</value>
+    <value>Ho appena memorizzato un numero di {0} cifre in {1} usando MemoRaise! 🧠 Alleno la mia memoria con la tecnica del Sistema Maggiore. Riesci a battere il mio tempo?</value>
     <comment>Default share message for Big Number exercise</comment>
   </data>
   <data name="Share_Achievement_Fast" xml:space="preserve">
@@ -1606,7 +1606,7 @@
     <comment>Title for sharing Big Number results</comment>
   </data>
   <data name="Share_FlashNumbers_Template" xml:space="preserve">
-    <value>🧠 Ho appena memorizzato {TotalNumbers} numeri ({NumberRange}) in MemoApp!
+    <value>🧠 Ho appena memorizzato {TotalNumbers} numeri ({NumberRange}) in MemoRaise!
 
 📊 I miei risultati:
 • Tempo totale: {TotalDuration}
@@ -1615,13 +1615,13 @@
 
 Il Sistema Maggiore aiuta a convertire i numeri in immagini memorabili - incredibile cosa può fare il cervello!
 
-Scarica MemoApp: {AppUrl}
+Scarica MemoRaise: {AppUrl}
 
 #FlashNumbers #AllenamentoMemoria #SistemaMaggiore</value>
     <comment>Template for sharing Flash Numbers results</comment>
   </data>
   <data name="Share_BigNumber_Template" xml:space="preserve">
-    <value>🧠 Ho appena memorizzato un numero di {NumberOfDigits} cifre in MemoApp!
+    <value>🧠 Ho appena memorizzato un numero di {NumberOfDigits} cifre in MemoRaise!
 
 📊 I miei risultati:
 • Tempo memorizzazione: {MemorizationTime}
@@ -1630,7 +1630,7 @@ Scarica MemoApp: {AppUrl}
 
 Il Sistema Maggiore trasforma i numeri in storie visive - prova a memorizzare {NumberOfDigits} cifre anche tu!
 
-Scarica MemoApp: {AppUrl}
+Scarica MemoRaise: {AppUrl}
 
 #BigNumber #SfidaMemoria #SistemaMaggiore</value>
     <comment>Template for sharing Big Number results</comment>

@@ -873,7 +873,7 @@
     <comment>Pack management section title</comment>
   </data>
   <data name="FirstLaunch_WelcomeTitle" xml:space="preserve">
-    <value>Welcome to MemoApp!</value>
+    <value>Welcome to MemoRaise!</value>
     <comment>First launch welcome title</comment>
   </data>
   <data name="FirstLaunch_DownloadPackMessage" xml:space="preserve">
@@ -1679,11 +1679,11 @@
     <comment>Share success message</comment>
   </data>
   <data name="Share_FlashNumbersMessage" xml:space="preserve">
-    <value>Just completed Flash Numbers in MemoApp! 🎯 Memorized {0} numbers in {1} with an average speed of {2}s per number. Training my memory with the Major System!</value>
+    <value>Just completed Flash Numbers in MemoRaise! 🎯 Memorized {0} numbers in {1} with an average speed of {2}s per number. Training my memory with the Major System!</value>
     <comment>Default share message for Flash Numbers exercise</comment>
   </data>
   <data name="Share_BigNumberMessage" xml:space="preserve">
-    <value>Just memorized a {0}-digit number in {1} using MemoApp! 🧠 Training my memory with the Major System technique. Can you beat my time?</value>
+    <value>Just memorized a {0}-digit number in {1} using MemoRaise! 🧠 Training my memory with the Major System technique. Can you beat my time?</value>
     <comment>Default share message for Big Number exercise</comment>
   </data>
   <data name="Share_Achievement_Fast" xml:space="preserve">
@@ -1713,7 +1713,7 @@
     <comment>Title for sharing Big Number results</comment>
   </data>
   <data name="Share_FlashNumbers_Template" xml:space="preserve">
-    <value>🧠 Just memorized {TotalNumbers} numbers ({NumberRange}) in MemoApp!
+    <value>🧠 Just memorized {TotalNumbers} numbers ({NumberRange}) in MemoRaise!
 
 📊 My Results:
 • Total Time: {TotalDuration}
@@ -1722,13 +1722,13 @@
 
 The Major System helps convert numbers into memorable images - amazing what your brain can do!
 
-Download MemoApp: {AppUrl}
+Download MemoRaise: {AppUrl}
 
 #FlashNumbers #MemoryTraining #MajorSystem</value>
     <comment>Template for sharing Flash Numbers results</comment>
   </data>
   <data name="Share_BigNumber_Template" xml:space="preserve">
-    <value>🧠 Just memorized a {NumberOfDigits}-digit number in MemoApp!
+    <value>🧠 Just memorized a {NumberOfDigits}-digit number in MemoRaise!
 
 📊 My Results:
 • Memorization Time: {MemorizationTime}
@@ -1737,7 +1737,7 @@ Download MemoApp: {AppUrl}
 
 The Major System transforms numbers into visual stories - try memorizing {NumberOfDigits} digits yourself!
 
-Download MemoApp: {AppUrl}
+Download MemoRaise: {AppUrl}
 
 #BigNumber #MemoryChallenge #MajorSystem</value>
     <comment>Template for sharing Big Number results</comment>
