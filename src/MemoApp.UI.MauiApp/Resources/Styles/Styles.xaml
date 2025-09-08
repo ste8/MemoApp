@@ -138,6 +138,72 @@
         <Setter Property="CornerRadius" Value="8" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
     </Style>
+    
+    <!-- Card Styling Resources -->
+    <Color x:Key="CardBackgroundColorLight">White</Color>
+    <Color x:Key="CardBackgroundColorDark">#212121</Color>
+    <Color x:Key="CardStrokeColorLight">#C8C8C8</Color>
+    <Color x:Key="CardStrokeColorDark">#404040</Color>
+    <Color x:Key="OnSurfaceTextColorLight">#212121</Color>
+    <Color x:Key="OnSurfaceTextColorDark">White</Color>
+    <Color x:Key="OnPrimary">White</Color>
+    
+    <!-- Secondary Button Colors -->
+    <Color x:Key="SecondaryButtonBackgroundColorLight">#E1E1E1</Color>
+    <Color x:Key="SecondaryButtonBackgroundColorDark">#2D2D2D</Color>
+    <Color x:Key="SecondaryButtonBackgroundColorSelectedLight">#512BD4</Color>
+    <Color x:Key="SecondaryButtonBackgroundColorSelectedDark">#ac99ea</Color>
+    <Color x:Key="OnSecondaryButtonTextColorLight">#212121</Color>
+    <Color x:Key="OnSecondaryButtonTextColorDark">#E1E1E1</Color>
+    <Color x:Key="OnSecondaryButtonTextColorSelectedLight">White</Color>
+    <Color x:Key="OnSecondaryButtonTextColorSelectedDark">#212121</Color>
+    
+    <!-- Category Button Style -->
+    <Style x:Key="CategoryButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SecondaryButtonBackgroundColorLight}, Dark={StaticResource SecondaryButtonBackgroundColorDark}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnSecondaryButtonTextColorLight}, Dark={StaticResource OnSecondaryButtonTextColorDark}}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="OpenSansSemiBold" />
+        <Setter Property="Padding" Value="16,10" />
+        <Setter Property="CornerRadius" Value="20" />
+        <Setter Property="MinimumHeightRequest" Value="40" />
+        <Setter Property="MinimumWidthRequest" Value="80" />
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Selected">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SecondaryButtonBackgroundColorSelectedLight}, Dark={StaticResource SecondaryButtonBackgroundColorSelectedDark}}" />
+                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnSecondaryButtonTextColorSelectedLight}, Dark={StaticResource OnSecondaryButtonTextColorSelectedDark}}" />
+                            <Setter Property="Scale" Value="1.05" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="0.95" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    
+    <!-- Association Card Border Style -->
+    <Style x:Key="AssociationCardStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardBackgroundColorLight}, Dark={StaticResource CardBackgroundColorDark}}" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource CardStrokeColorLight}, Dark={StaticResource CardStrokeColorDark}}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="12" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Padding" Value="12" />
+        <Setter Property="Margin" Value="4,6" />
+        <Setter Property="MinimumHeightRequest" Value="100" />
+    </Style>
 
     <Style TargetType="ImageButton">
         <Setter Property="Opacity" Value="1" />

@@ -1284,6 +1284,26 @@
     <value>⬇️ Download Pack</value>
     <comment>Button text to download pack when no pack is available</comment>
   </data>
+  <data name="Associations_CategoryLabel" xml:space="preserve">
+    <value>Category:</value>
+    <comment>Label for category selection on mobile</comment>
+  </data>
+  <data name="Associations_CategoriesLabel" xml:space="preserve">
+    <value>Categories:</value>
+    <comment>Label for categories selection on desktop</comment>
+  </data>
+  <data name="Associations_RefreshButton" xml:space="preserve">
+    <value>Refresh</value>
+    <comment>Button text to refresh associations list</comment>
+  </data>
+  <data name="Associations_LoadedCount" xml:space="preserve">
+    <value>Associations loaded: </value>
+    <comment>Debug info showing number of loaded associations</comment>
+  </data>
+  <data name="Associations_AllCategories" xml:space="preserve">
+    <value>All</value>
+    <comment>Option to show all categories</comment>
+  </data>
   
   <!-- BigNumber Associations -->
   <data name="BigNumber_ShowAssociations" xml:space="preserve">
