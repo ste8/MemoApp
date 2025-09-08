@@ -3,6 +3,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.MajorSystem;
 using MemoApp.Core.Services.Analytics;
+using MemoApp.Core.Services.Sharing;
+using MemoApp.Core.Models;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Constants;
 using MemoApp.UI.MauiApp.Utilities;
@@ -21,6 +23,7 @@ public partial class FlashNumbersViewModel : BaseViewModel
 {
     private readonly ILocalizationService _localizationService;
     private readonly IAnalyticsService _analyticsService;
+    private readonly IShareService _shareService;
     private readonly IInterstitialAdManager? _interstitialAdManager;
     private readonly IExerciseCountService _exerciseCountService;
     private GameSession? _gameSession;
@@ -65,11 +68,13 @@ public partial class FlashNumbersViewModel : BaseViewModel
     public FlashNumbersViewModel(
         ILocalizationService localizationService, 
         IAnalyticsService analyticsService,
+        IShareService shareService,
         IExerciseCountService exerciseCountService,
         IInterstitialAdManager? interstitialAdManager = null)
     {
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
         _analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
+        _shareService = shareService ?? throw new ArgumentNullException(nameof(shareService));
         _exerciseCountService = exerciseCountService ?? throw new ArgumentNullException(nameof(exerciseCountService));
         _interstitialAdManager = interstitialAdManager;
         Title = "Flash Numbers";
@@ -245,6 +250,88 @@ public partial class FlashNumbersViewModel : BaseViewModel
         IsSessionCompleted = true;
         SessionStatistics = statistics;
         Title = "Flash Numbers Complete!";
+    }
+
+    [RelayCommand]
+    private async Task ShareResultsAsync()
+    {
+        try
+        {
+            if (_gameSession?.GetStatistics() is not { } statistics)
+            {
+                await Shell.Current.DisplayAlert(
+                    _localizationService.GetString("Error_Title"), 
+                    "No results to share", 
+                    _localizationService.GetString("Common_OK"));
+                return;
+            }
+
+            // Calculate totals for sharing
+            var sessionEndTime = DateTime.UtcNow;
+            var totalDuration = (sessionEndTime - _sessionStartTime).TotalSeconds;
+            var averageTime = TotalNumbers > 0 ? totalDuration / TotalNumbers : 0;
+            
+            // For now, use average as fastest time (we don't have individual timing data readily available)
+            var fastestTime = averageTime;
+
+            // Create shareable result
+            var shareResult = new FlashNumbersShareResult
+            {
+                ExerciseType = "FlashNumbers",
+                Duration = TimeSpan.FromSeconds(totalDuration),
+                TotalNumbers = TotalNumbers,
+                NumberRange = $"{RangeStart}-{RangeEnd}",
+                AverageTimePerNumber = TimeSpan.FromSeconds(averageTime),
+                FastestTime = TimeSpan.FromSeconds(fastestTime)
+            };
+
+            // Generate localized share content
+            var shareContent = shareResult.GenerateShareContent(key => _localizationService.GetString(key));
+
+            // Track share initiation
+            await _analyticsService.TrackEventAsync(AnalyticsEvents.ShareInitiated, new Dictionary<string, object>
+            {
+                [AnalyticsParameters.ExerciseType] = shareResult.ExerciseType,
+                ["total_numbers"] = shareResult.TotalNumbers,
+                ["duration_seconds"] = (int)shareResult.Duration.TotalSeconds
+            });
+
+            // Attempt to share
+            var shareSuccess = await _shareService.ShareTextAsync(shareContent.Title, shareContent.Message);
+
+            if (shareSuccess)
+            {
+                // Track successful share
+                await _analyticsService.TrackEventAsync(AnalyticsEvents.ShareCompleted, new Dictionary<string, object>
+                {
+                    [AnalyticsParameters.ExerciseType] = shareResult.ExerciseType,
+                    ["share_method"] = "native"
+                });
+            }
+            else
+            {
+                // Track failed share
+                await _analyticsService.TrackEventAsync(AnalyticsEvents.ShareFailed, new Dictionary<string, object>
+                {
+                    [AnalyticsParameters.ExerciseType] = shareResult.ExerciseType,
+                    ["error"] = "share_cancelled_or_failed"
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert(
+                _localizationService.GetString("Error_Title"), 
+                $"Failed to share results: {ex.Message}", 
+                _localizationService.GetString("Common_OK"));
+
+            // Track share error
+            await _analyticsService.TrackEventAsync(AnalyticsEvents.ShareFailed, new Dictionary<string, object>
+            {
+                [AnalyticsParameters.ExerciseType] = "FlashNumbers",
+                ["error"] = ex.Message
+            });
+        }
     }
 
 }

@@ -250,7 +250,7 @@
                     </Frame>
 
                     <!-- Action buttons with responsive layout -->
-                    <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="{OnIdiom Phone=10, Tablet=15, Desktop=15}">
                         <Button Grid.Column="0"
                                 Command="{Binding ShowStatisticsCommand}"
                                 Text="📊 View Details"
@@ -258,16 +258,30 @@
                                 TextColor="White"
                                 CornerRadius="10"
                                 HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
+                                FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
                                 AutomationProperties.Name="{localization:Localize Accessibility_StatisticsButton}"
                                 AutomationProperties.HelpText="{localization:Localize TrainingSession_ViewDetails}" />
 
                         <Button Grid.Column="1"
+                                Command="{Binding ShareResultsCommand}"
+                                Text="{localization:Localize Share_Results}"
+                                BackgroundColor="#1DA1F2"
+                                TextColor="White"
+                                CornerRadius="10"
+                                HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
+                                FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                AutomationProperties.Name="{localization:Localize Accessibility_ShareButton}"
+                                AutomationProperties.HelpText="{localization:Localize Accessibility_ShareButtonHelp}"
+                                SemanticProperties.Description="{localization:Localize Share_ResultsDescription}" />
+
+                        <Button Grid.Column="2"
                                 Command="{Binding StartNewSessionCommand}"
                                 Text="⊕ New Session"
                                 BackgroundColor="{StaticResource Secondary}"
                                 TextColor="White"
                                 CornerRadius="10"
                                 HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
+                                FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
                                 AutomationProperties.Name="{localization:Localize Accessibility_NewSessionButton}"
                                 AutomationProperties.HelpText="{localization:Localize FlashNumbers_NewSession}" />
                     </Grid>

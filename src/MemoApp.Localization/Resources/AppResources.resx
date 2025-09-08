@@ -1620,4 +1620,146 @@
     <value>Pack validation failed. The downloaded content may be corrupted.</value>
     <comment>Validation error message during pack download</comment>
   </data>
+  
+  <!-- Sharing Feature -->
+  <data name="Share_ButtonText" xml:space="preserve">
+    <value>Share Results</value>
+    <comment>Main share button text</comment>
+  </data>
+  <data name="Share_Title" xml:space="preserve">
+    <value>Share Your Achievement</value>
+    <comment>Share dialog title</comment>
+  </data>
+  <data name="Share_Time" xml:space="preserve">
+    <value>Time</value>
+    <comment>Time label in share preview</comment>
+  </data>
+  <data name="Share_Numbers" xml:space="preserve">
+    <value>Numbers</value>
+    <comment>Numbers completed label in share preview</comment>
+  </data>
+  <data name="Share_Speed" xml:space="preserve">
+    <value>Avg Speed</value>
+    <comment>Average speed label in share preview</comment>
+  </data>
+  <data name="Share_PersonalBest" xml:space="preserve">
+    <value>New Personal Best!</value>
+    <comment>Personal best indicator text</comment>
+  </data>
+  <data name="Share_MessagePlaceholder" xml:space="preserve">
+    <value>Add a personal message (optional)</value>
+    <comment>Share message editor placeholder</comment>
+  </data>
+  <data name="Share_IncludeStats" xml:space="preserve">
+    <value>Include Statistics</value>
+    <comment>Include statistics toggle label</comment>
+  </data>
+  <data name="Share_IncludeAppLink" xml:space="preserve">
+    <value>Include App Link</value>
+    <comment>Include app link toggle label</comment>
+  </data>
+  <data name="Share_ChoosePlatform" xml:space="preserve">
+    <value>Choose where to share</value>
+    <comment>Platform selection prompt</comment>
+  </data>
+  <data name="Share_More" xml:space="preserve">
+    <value>More</value>
+    <comment>More sharing options button text</comment>
+  </data>
+  <data name="Share_CopyToClipboard" xml:space="preserve">
+    <value>Copy to Clipboard</value>
+    <comment>Copy to clipboard button text</comment>
+  </data>
+  <data name="Share_Success" xml:space="preserve">
+    <value>Shared Successfully!</value>
+    <comment>Share success message</comment>
+  </data>
+  <data name="Share_FlashNumbersMessage" xml:space="preserve">
+    <value>Just completed Flash Numbers in MemoApp! 🎯 Memorized {0} numbers in {1} with an average speed of {2}s per number. Training my memory with the Major System!</value>
+    <comment>Default share message for Flash Numbers exercise</comment>
+  </data>
+  <data name="Share_BigNumberMessage" xml:space="preserve">
+    <value>Just memorized a {0}-digit number in {1} using MemoApp! 🧠 Training my memory with the Major System technique. Can you beat my time?</value>
+    <comment>Default share message for Big Number exercise</comment>
+  </data>
+  <data name="Share_Achievement_Fast" xml:space="preserve">
+    <value>Speed Demon</value>
+    <comment>Achievement text for fast completion</comment>
+  </data>
+  <data name="Share_Achievement_Perfect" xml:space="preserve">
+    <value>Perfect Score</value>
+    <comment>Achievement text for perfect completion</comment>
+  </data>
+  <data name="Share_Achievement_Milestone" xml:space="preserve">
+    <value>Milestone Reached</value>
+    <comment>Achievement text for reaching milestone</comment>
+  </data>
+  
+  <!-- New Share Feature Strings -->
+  <data name="Share_Results" xml:space="preserve">
+    <value>Share</value>
+    <comment>Share button text</comment>
+  </data>
+  <data name="Share_FlashNumbers_Title" xml:space="preserve">
+    <value>Flash Numbers Results</value>
+    <comment>Title for sharing Flash Numbers results</comment>
+  </data>
+  <data name="Share_BigNumber_Title" xml:space="preserve">
+    <value>Big Number Results</value>
+    <comment>Title for sharing Big Number results</comment>
+  </data>
+  <data name="Share_FlashNumbers_Template" xml:space="preserve">
+    <value>🧠 Just memorized {TotalNumbers} numbers ({NumberRange}) in MemoApp!
+
+📊 My Results:
+• Total Time: {TotalDuration}
+• Average per Number: {AverageTime}
+• Fastest: {FastestTime}
+
+The Major System helps convert numbers into memorable images - amazing what your brain can do!
+
+Download MemoApp: {AppUrl}
+
+#FlashNumbers #MemoryTraining #MajorSystem</value>
+    <comment>Template for sharing Flash Numbers results</comment>
+  </data>
+  <data name="Share_BigNumber_Template" xml:space="preserve">
+    <value>🧠 Just memorized a {NumberOfDigits}-digit number in MemoApp!
+
+📊 My Results:
+• Memorization Time: {MemorizationTime}
+• Number Length: {NumberOfDigits} digits
+• Difficulty Level: {DifficultyLevel}
+
+The Major System transforms numbers into visual stories - try memorizing {NumberOfDigits} digits yourself!
+
+Download MemoApp: {AppUrl}
+
+#BigNumber #MemoryChallenge #MajorSystem</value>
+    <comment>Template for sharing Big Number results</comment>
+  </data>
+  <data name="Share_Difficulty_Beginner" xml:space="preserve">
+    <value>Beginner</value>
+    <comment>Beginner difficulty level for sharing</comment>
+  </data>
+  <data name="Share_Difficulty_Intermediate" xml:space="preserve">
+    <value>Intermediate</value>
+    <comment>Intermediate difficulty level for sharing</comment>
+  </data>
+  <data name="Share_Difficulty_Advanced" xml:space="preserve">
+    <value>Advanced</value>
+    <comment>Advanced difficulty level for sharing</comment>
+  </data>
+  <data name="Accessibility_ShareButton" xml:space="preserve">
+    <value>Share results</value>
+    <comment>Accessibility label for share button</comment>
+  </data>
+  <data name="Accessibility_ShareButtonHelp" xml:space="preserve">
+    <value>Share your exercise results on social media or messaging apps</value>
+    <comment>Accessibility help text for share button</comment>
+  </data>
+  <data name="Share_ResultsDescription" xml:space="preserve">
+    <value>Share your memory training results</value>
+    <comment>Semantic description for share button</comment>
+  </data>
 </root>

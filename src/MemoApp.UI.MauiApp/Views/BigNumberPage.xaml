@@ -481,15 +481,30 @@
                             CornerRadius="15"
                             HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}" />
 
-                    <!-- New Game Button -->
-                    <Button Command="{Binding StartNewGameCommand}"
-                            Text="[New] New Game"
-                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
-                            TextColor="White"
-                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
-                            CornerRadius="15"
-                            HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
-                            Margin="20,10" />
+                    <!-- Action buttons -->
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="15" Margin="20,10">
+                        <Button Grid.Column="0"
+                                Command="{Binding ShareResultsCommand}"
+                                Text="{localization:Localize Share_Results}"
+                                BackgroundColor="#1DA1F2"
+                                TextColor="White"
+                                FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                CornerRadius="15"
+                                HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
+                                AutomationProperties.Name="{localization:Localize Accessibility_ShareButton}"
+                                AutomationProperties.HelpText="{localization:Localize Accessibility_ShareButtonHelp}"
+                                SemanticProperties.Description="{localization:Localize Share_ResultsDescription}"
+                                IsVisible="{Binding CanShareResults}" />
+
+                        <Button Grid.Column="1"
+                                Command="{Binding StartNewGameCommand}"
+                                Text="[New] New Game"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                                TextColor="White"
+                                FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                CornerRadius="15"
+                                HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}" />
+                    </Grid>
                 </StackLayout>
             </StackLayout>
         </Grid>

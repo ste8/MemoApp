@@ -66,6 +66,11 @@ public static class AnalyticsEvents
     public const string UserRetention = "user_retention";
     public const string DailyActive = "daily_active";
     public const string WeeklyActive = "weekly_active";
+    
+    // Share Events
+    public const string ShareInitiated = "share_initiated";
+    public const string ShareCompleted = "share_completed";
+    public const string ShareFailed = "share_failed";
 }
 
 /// <summary>

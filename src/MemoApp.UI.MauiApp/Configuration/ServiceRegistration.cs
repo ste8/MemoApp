@@ -1,5 +1,6 @@
 using MemoApp.Core.Services.Analytics;
 using MemoApp.Core.Services.ErrorMonitoring;
+using MemoApp.Core.Services.Sharing;
 using MemoApp.Core.MajorSystem.Services;
 using MemoApp.Core.BigNumber;
 using MemoApp.Core.Services.Packs;
@@ -9,6 +10,7 @@ using MemoApp.UI.MauiApp.Services.Analytics;
 using MemoApp.UI.MauiApp.Services.ErrorMonitoring;
 using MemoApp.UI.MauiApp.Services.Freemium;
 using MemoApp.UI.MauiApp.Services.Onboarding;
+using MemoApp.UI.MauiApp.Services.Sharing;
 using MemoApp.UI.MauiApp.ViewModels;
 using MemoApp.UI.MauiApp.Views;
 using CommunityToolkit.Mvvm.Messaging;
@@ -48,6 +50,9 @@ public static class ServiceRegistration
         
         // Messaging services
         services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
+        
+        // Share service for sharing exercise results
+        services.AddSingleton<IShareService, MauiShareService>();
         
         // AdMob registered as singleton since it uses default AdConfig settings
         services.AddSingleton<IAdMobService, AdMobService>();
@@ -238,9 +243,10 @@ public static class ServiceRegistration
         {
             var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
+            var shareService = serviceProvider.GetRequiredService<IShareService>();
             var exerciseCountService = serviceProvider.GetRequiredService<IExerciseCountService>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
-            return new FlashNumbersViewModel(localizationService, analyticsService, exerciseCountService, interstitialAdManager);
+            return new FlashNumbersViewModel(localizationService, analyticsService, shareService, exerciseCountService, interstitialAdManager);
         });
         
         services.AddTransient<StatisticsViewModel>();
@@ -284,7 +290,8 @@ public static class ServiceRegistration
             var exerciseCountService = serviceProvider.GetRequiredService<IExerciseCountService>();
             var packAssociationsService = serviceProvider.GetRequiredService<IPackAssociationsService>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
-            return new BigNumberViewModel(gameService, settingsService, localizationService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, packAssociationsService, interstitialAdManager);
+            var shareService = serviceProvider.GetRequiredService<IShareService>();
+            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, packAssociationsService, interstitialAdManager);
         });
         
         services.AddTransient<TokenDetailViewModel>(serviceProvider =>

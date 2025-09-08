@@ -2,6 +2,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.BigNumber;
 using MemoApp.Core.Services.Analytics;
+using MemoApp.Core.Services.Sharing;
+using MemoApp.Core.Models;
 using MemoApp.Core.MajorSystem.Services;
 using MemoApp.Core.MajorSystem.Models;
 using MemoApp.Localization.Services;
@@ -18,6 +20,7 @@ public partial class BigNumberViewModel : BaseViewModel
     private readonly IBigNumberService _gameService;
     private readonly IBigNumberSettingsService _settingsService;
     private readonly ILocalizationService _localizationService;
+    private readonly IShareService _shareService;
     private readonly ITextMeasurementService _textMeasurementService;
     private readonly IContainerSizeService _containerSizeService;
     private readonly IAnalyticsService _analyticsService;
@@ -104,12 +107,16 @@ public partial class BigNumberViewModel : BaseViewModel
     [ObservableProperty]
     private Color associationsToggleColor = Colors.Green;
 
+    [ObservableProperty]
+    private bool canShareResults = false;
+
     public string CurrentFormatExample => GenerateExampleNumber(ShowSeparated);
 
     public BigNumberViewModel(
         IBigNumberService gameService,
         IBigNumberSettingsService settingsService,
         ILocalizationService localizationService,
+        IShareService shareService,
         ITextMeasurementService textMeasurementService,
         IContainerSizeService containerSizeService,
         IAnalyticsService analyticsService,
@@ -120,6 +127,7 @@ public partial class BigNumberViewModel : BaseViewModel
         _gameService = gameService ?? throw new ArgumentNullException(nameof(gameService));
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
+        _shareService = shareService ?? throw new ArgumentNullException(nameof(shareService));
         _textMeasurementService = textMeasurementService ?? throw new ArgumentNullException(nameof(textMeasurementService));
         _containerSizeService = containerSizeService ?? throw new ArgumentNullException(nameof(containerSizeService));
         _analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
@@ -398,6 +406,9 @@ public partial class BigNumberViewModel : BaseViewModel
         IsStopButtonVisible = CurrentPhase == GamePhase.Memorizing;
         IsRecallButtonVisible = CurrentPhase == GamePhase.Stopped;
         IsRecallPhase = CurrentPhase == GamePhase.Recall;
+        
+        // Enable sharing when memorization is completed (stopped or in recall)
+        CanShareResults = CurrentPhase == GamePhase.Stopped || CurrentPhase == GamePhase.Recall;
         
         // Timer visibility logic:
         // - During memorizing: only show if ShowTimer setting is enabled
@@ -860,6 +871,81 @@ public partial class BigNumberViewModel : BaseViewModel
         {
             // Log error but don't crash the app
             System.Diagnostics.Debug.WriteLine($"Error loading associations: {ex.Message}");
+        }
+    }
+
+    [RelayCommand]
+    private async Task ShareResultsAsync()
+    {
+        try
+        {
+            if (_memorizationStartTime == default || _recallStartTime == default)
+            {
+                await Shell.Current.DisplayAlert(
+                    _localizationService.GetString("Error_Title"), 
+                    "No results to share", 
+                    _localizationService.GetString("Common_OK"));
+                return;
+            }
+
+            var memorizationTime = _recallStartTime - _memorizationStartTime;
+
+            // Create shareable result
+            var shareResult = new BigNumberShareResult
+            {
+                ExerciseType = "BigNumber",
+                Duration = memorizationTime,
+                NumberOfDigits = _currentGame.GeneratedNumber.Length,
+                MaxPairValue = MaxPairValue,
+                MemorizationTime = memorizationTime
+            };
+
+            // Generate localized share content
+            var shareContent = shareResult.GenerateShareContent(key => _localizationService.GetString(key));
+
+            // Track share initiation
+            await _analyticsService.TrackEventAsync(AnalyticsEvents.ShareInitiated, new Dictionary<string, object>
+            {
+                [AnalyticsParameters.ExerciseType] = shareResult.ExerciseType,
+                ["number_digits"] = shareResult.NumberOfDigits,
+                ["memorization_seconds"] = (int)shareResult.MemorizationTime.TotalSeconds
+            });
+
+            // Attempt to share
+            var shareSuccess = await _shareService.ShareTextAsync(shareContent.Title, shareContent.Message);
+
+            if (shareSuccess)
+            {
+                // Track successful share
+                await _analyticsService.TrackEventAsync(AnalyticsEvents.ShareCompleted, new Dictionary<string, object>
+                {
+                    [AnalyticsParameters.ExerciseType] = shareResult.ExerciseType,
+                    ["share_method"] = "native"
+                });
+            }
+            else
+            {
+                // Track failed share
+                await _analyticsService.TrackEventAsync(AnalyticsEvents.ShareFailed, new Dictionary<string, object>
+                {
+                    [AnalyticsParameters.ExerciseType] = shareResult.ExerciseType,
+                    ["error"] = "share_cancelled_or_failed"
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert(
+                _localizationService.GetString("Error_Title"), 
+                $"Failed to share results: {ex.Message}", 
+                _localizationService.GetString("Common_OK"));
+
+            // Track share error
+            await _analyticsService.TrackEventAsync(AnalyticsEvents.ShareFailed, new Dictionary<string, object>
+            {
+                [AnalyticsParameters.ExerciseType] = "BigNumber",
+                ["error"] = ex.Message
+            });
         }
     }
 }
