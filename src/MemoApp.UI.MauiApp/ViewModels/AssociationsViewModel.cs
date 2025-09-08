@@ -473,11 +473,7 @@ public partial class AssociationsViewModel : ObservableObject,
         }
     }
     
-    [RelayCommand]
-    private async Task RefreshAsync()
-    {
-        await LoadDataAsync();
-    }
+    // RefreshCommand removed - page automatically refreshes on category change and pack updates
 
     /// <summary>
     /// Receives CustomAssociationDeletedMessage to refresh tokens list when a custom association is deleted

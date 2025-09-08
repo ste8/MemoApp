@@ -268,45 +268,6 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
         </Grid>
-        
-        <!-- Floating Action Button for Refresh -->
-        <Border BackgroundColor="{DynamicResource Primary}"
-                HorizontalOptions="End"
-                VerticalOptions="End"
-                Margin="16"
-                WidthRequest="56"
-                HeightRequest="56"
-                IsVisible="{Binding HasPackAvailable}">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="28" />
-            </Border.StrokeShape>
-            <Border.Shadow>
-                <Shadow Brush="{DynamicResource Primary}"
-                        Offset="0,4"
-                        Radius="12"
-                        Opacity="0.3" />
-            </Border.Shadow>
-            <Border.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding RefreshCommand}" />
-            </Border.GestureRecognizers>
-            <Grid>
-                <Label Text="↻" 
-                       FontSize="24"
-                       TextColor="{StaticResource OnPrimary}"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center" />
-            </Grid>
-            <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="Pressed">
-                        <VisualState.Setters>
-                            <Setter Property="Scale" Value="0.9" />
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
-        </Border>
         </Grid>
         
         <!-- AdMob Banner - Shows at the bottom when ads are enabled -->
