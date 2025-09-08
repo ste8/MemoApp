@@ -28,9 +28,10 @@ This file contains important guidelines and context for Claude when working on t
 ### Localization Resource Naming Convention:
 - Use descriptive keys like: `PageName_ElementPurpose`
 - Examples: 
-  - `TrainingSession_NextNumber`
-  - `MainPage_StartTraining`
+  - `FlashNumbers_NextNumber`
+  - `MainPage_BeginFlashNumbers`
   - `Statistics_AverageTime`
+  - `Share_FlashNumbersMessage`
 
 ### Current Supported Languages:
 - **English** (default): `AppResources.resx`
@@ -51,13 +52,13 @@ This file contains important guidelines and context for Claude when working on t
 **Resource files:**
 ```xml
 <!-- AppResources.resx -->
-<data name="TrainingSession_KeyboardShortcutHint" xml:space="preserve">
+<data name="FlashNumbers_KeyboardShortcutHint" xml:space="preserve">
   <value>Press N to go to next number</value>
   <comment>Keyboard shortcut hint for Next button</comment>
 </data>
 
 <!-- AppResources.it.resx -->
-<data name="TrainingSession_KeyboardShortcutHint" xml:space="preserve">
+<data name="FlashNumbers_KeyboardShortcutHint" xml:space="preserve">
   <value>Premi N per andare al numero successivo</value>
   <comment>Keyboard shortcut hint for Next button</comment>
 </data>
@@ -121,12 +122,15 @@ Repository/
 
 When adding any new UI feature:
 1. **Plan localization first** - identify all text that will be visible
-2. **Add resource keys** to both AppResources.resx and AppResources.it.resx
-3. **Plan analytics tracking** - identify user interactions to track
-4. **Implement using localization** from the start
-5. **Add analytics events** following Firebase conventions
-6. **Test in both languages** before considering feature complete
-7. **Test analytics events** are properly tracked
+2. **Check branding consistency** - ensure "MemoRaise" is used in user-facing contexts
+3. **Add resource keys** to both AppResources.resx and AppResources.it.resx
+4. **Plan analytics tracking** - identify user interactions to track
+5. **Implement using localization** from the start
+6. **Add analytics events** following Firebase conventions
+7. **Test in both languages** before considering feature complete
+8. **Test analytics events** are properly tracked
+9. **Verify social sharing** (if applicable) uses consistent MemoRaise branding
+10. **Run MAUI code reviewer** for complex changes to ensure best practices
 
 ### Analytics Guidelines:
 - Use snake_case for event names (e.g., `exercise_started`)
@@ -135,16 +139,54 @@ When adding any new UI feature:
 - Add analytics to ViewModels, not core services
 - Test both Firebase and Local analytics implementations
 
+### Social Sharing Guidelines:
+- All sharing templates must use "MemoRaise" branding
+- Include proper app download links with consistent naming
+- Use descriptive hashtags (#FlashNumbers, #MemoryTraining, #MajorSystem)
+- Support both simple messages and detailed templates
+- Maintain privacy by sharing metrics, not actual memorized content
+- Test sharing functionality across all supported platforms
+
 Remember: **Every user-visible string must be localized in both English and Italian!**
 
 **NEVER** commit code with hardcoded user-facing strings, even temporarily.
 
+**ALWAYS** use "MemoRaise" in user-facing contexts and "Flash Numbers" for training exercises.
+
+## Branding Guidelines
+
+**CRITICAL**: Consistent branding is essential for user trust and app discoverability.
+
+### Commercial vs Internal Names
+- **Commercial Name (User-Facing)**: "MemoRaise" - Use in all user-visible contexts
+- **Internal Name (Technical)**: "MemoApp" - Use only in code namespaces, project references, and technical contexts
+
+### User-Facing Contexts Requiring "MemoRaise":
+- Welcome messages and onboarding
+- Social sharing templates and app promotion
+- Settings and about pages
+- Error messages and notifications
+- App store descriptions and metadata
+- External communications and links
+
+### Technical Contexts Where "MemoApp" is Acceptable:
+- Code namespaces and class names
+- Project file names and directory structure
+- Internal API endpoints and services
+- Developer documentation and logs
+- Database schemas and internal identifiers
+
+### Terminology Standardization
+- **"Flash Numbers"** - Use instead of generic "training" for number-flash exercises
+- **"Big Number"** - Use for number memorization challenges
+- **"MemoRaise"** - Commercial brand name in all user communications
+
 ## Current Features
 
-- **Multi-language Support**: English/Italian localization
-- **Major System Training**: Number-to-image association exercises
-- **Number Memorization**: Timed memory exercises with statistics
-- **Training Sessions**: Structured practice with progress tracking
+- **Multi-language Support**: English/Italian localization with consistent branding
+- **Flash Numbers**: Number-to-image association exercises with social sharing
+- **Big Number Challenges**: Timed memory exercises with detailed statistics
+- **Social Sharing**: Cross-platform sharing with consistent MemoRaise branding
 - **Pack Management**: Downloadable content packs with auto-updates
 - **Analytics**: Comprehensive user behavior tracking
 - **Cross-platform**: iOS, Android, macOS, Windows support
