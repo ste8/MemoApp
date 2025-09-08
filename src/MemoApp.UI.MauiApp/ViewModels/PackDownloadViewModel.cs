@@ -3,11 +3,13 @@ using System.Net;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using MemoApp.Core.Packs;
 using MemoApp.Core.Services.Analytics;
 using MemoApp.Core.Services.Packs;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Services;
+using MemoApp.UI.MauiApp.Messages;
 using Microsoft.Extensions.Logging;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
@@ -19,6 +21,7 @@ public partial class PackDownloadViewModel : BaseViewModel
     private readonly MauiPackService _mauiPackService;
     private readonly ILocalizationService _localizationService;
     private readonly IAnalyticsService _analyticsService;
+    private readonly IMessenger _messenger;
     private readonly ILogger<PackDownloadViewModel> _logger;
     private CancellationTokenSource? _downloadCancellation;
 
@@ -54,6 +57,7 @@ public partial class PackDownloadViewModel : BaseViewModel
         MauiPackService mauiPackService,
         ILocalizationService localizationService,
         IAnalyticsService analyticsService,
+        IMessenger messenger,
         ILogger<PackDownloadViewModel> logger)
     {
         _downloadService = downloadService;
@@ -61,6 +65,7 @@ public partial class PackDownloadViewModel : BaseViewModel
         _mauiPackService = mauiPackService;
         _localizationService = localizationService;
         _analyticsService = analyticsService;
+        _messenger = messenger;
         _logger = logger;
 
         Title = _localizationService.GetString("PackDownload_Title");
@@ -162,6 +167,7 @@ public partial class PackDownloadViewModel : BaseViewModel
 
         var downloadStartTime = DateTime.UtcNow;
         var isUpdate = packItem.Pack.HasUpdate;
+        var previousVersion = packItem.Pack.Version; // Capture version before update
         
         try
         {
@@ -252,6 +258,32 @@ public partial class PackDownloadViewModel : BaseViewModel
                     StatusMessage = _localizationService.GetString("PackDownload_SuccessMessage");
                 });
 
+                // Send appropriate message to notify other ViewModels
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                {
+                    try
+                    {
+                        if (isUpdate)
+                        {
+                            var updateMessage = PackUpdatedMessage.FromPack(packItem.Pack, previousVersion, downloadDuration);
+                            _messenger.Send(updateMessage);
+                            _logger.LogInformation("Sent PackUpdatedMessage for pack {PackId} (v{PreviousVersion} → v{NewVersion})", 
+                                packItem.Pack.Id, previousVersion, packItem.Pack.Version);
+                        }
+                        else
+                        {
+                            var downloadMessage = PackDownloadedMessage.FromPack(packItem.Pack, downloadDuration);
+                            _messenger.Send(downloadMessage);
+                            _logger.LogInformation("Sent PackDownloadedMessage for pack {PackId} (v{Version})", 
+                                packItem.Pack.Id, packItem.Pack.Version);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Failed to send pack message for {PackId}", packItem.Pack.Id);
+                    }
+                });
+
                 // Refresh to update UI state
                 await RefreshPacksAsync();
             }
@@ -333,6 +365,10 @@ public partial class PackDownloadViewModel : BaseViewModel
 
         try
         {
+            // Check if this will be the last pack before deletion
+            var downloadedPacksCount = Packs.Count(p => p.Pack.IsDownloaded);
+            var wasLastPack = downloadedPacksCount <= 1;
+            
             var success = await _downloadService.DeletePackAsync(packItem.Pack.Id);
             
             // Track pack deletion analytics
@@ -345,6 +381,22 @@ public partial class PackDownloadViewModel : BaseViewModel
             
             if (success)
             {
+                // Send delete message to notify other ViewModels
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                {
+                    try
+                    {
+                        var deleteMessage = PackDeletedMessage.FromPack(packItem.Pack, wasLastPack);
+                        _messenger.Send(deleteMessage);
+                        _logger.LogInformation("Sent PackDeletedMessage for pack {PackId} (was last pack: {WasLastPack})", 
+                            packItem.Pack.Id, wasLastPack);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Failed to send pack delete message for {PackId}", packItem.Pack.Id);
+                    }
+                });
+                
                 await RefreshPacksAsync();
             }
             else

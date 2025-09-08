@@ -18,7 +18,12 @@ namespace MemoApp.UI.MauiApp.ViewModels;
 /// <summary>
 /// ViewModel for the Associations page
 /// </summary>
-public partial class AssociationsViewModel : ObservableObject, IRecipient<CustomAssociationDeletedMessage>, IRecipient<TokenDefaultChangedMessage>
+public partial class AssociationsViewModel : ObservableObject, 
+    IRecipient<CustomAssociationDeletedMessage>, 
+    IRecipient<TokenDefaultChangedMessage>,
+    IRecipient<PackDownloadedMessage>,
+    IRecipient<PackUpdatedMessage>,
+    IRecipient<PackDeletedMessage>
 {
     private readonly IMajorSystemCategoryService _categoryService;
     private readonly IPackAssociationsService _packAssociationsService;
@@ -97,6 +102,9 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         // Register for messaging system
         _messenger.Register<CustomAssociationDeletedMessage>(this);
         _messenger.Register<TokenDefaultChangedMessage>(this);
+        _messenger.Register<PackDownloadedMessage>(this);
+        _messenger.Register<PackUpdatedMessage>(this);
+        _messenger.Register<PackDeletedMessage>(this);
         
         // Subscribe to pack changes
         _packAssociationsService.PackChanged += OnPackChanged;
@@ -519,6 +527,111 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
         {
             _logger.LogError(ex, "Error handling TokenDefaultChangedMessage for {Token} in category {Category}", 
                 message.Token, message.Category);
+        }
+    }
+
+    /// <summary>
+    /// Receives PackDownloadedMessage to refresh when a new pack is downloaded
+    /// </summary>
+    public async void Receive(PackDownloadedMessage message)
+    {
+        try
+        {
+            _logger.LogInformation("Received PackDownloadedMessage for pack {PackName} (v{Version}), performing full refresh", 
+                message.PackName, message.Version);
+
+            // New pack downloaded - perform full refresh as structure may have changed
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                await LoadDataAsync();
+            });
+
+            // Track analytics for pack download completion
+            await _analyticsService.TrackEventAsync("pack_download_ui_refreshed", new Dictionary<string, object>
+            {
+                ["pack_id"] = message.PackId,
+                ["pack_name"] = message.PackName,
+                ["language"] = message.LanguageCode,
+                ["download_duration_seconds"] = message.DownloadDurationSeconds
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error handling PackDownloadedMessage for pack {PackId}", message.PackId);
+        }
+    }
+
+    /// <summary>
+    /// Receives PackUpdatedMessage to refresh when a pack is updated
+    /// </summary>
+    public async void Receive(PackUpdatedMessage message)
+    {
+        try
+        {
+            _logger.LogInformation("Received PackUpdatedMessage for pack {PackName} (v{PreviousVersion} → v{NewVersion}), performing smart refresh", 
+                message.PackName, message.PreviousVersion, message.NewVersion);
+
+            // Pack updated - use smart refresh to maintain user's position if possible
+            await SmartRefreshAfterPackChangeAsync();
+
+            // Track analytics for pack update completion
+            await _analyticsService.TrackEventAsync("pack_update_ui_refreshed", new Dictionary<string, object>
+            {
+                ["pack_id"] = message.PackId,
+                ["pack_name"] = message.PackName,
+                ["language"] = message.LanguageCode,
+                ["previous_version"] = message.PreviousVersion,
+                ["new_version"] = message.NewVersion,
+                ["update_duration_seconds"] = message.UpdateDurationSeconds
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error handling PackUpdatedMessage for pack {PackId}", message.PackId);
+        }
+    }
+
+    /// <summary>
+    /// Receives PackDeletedMessage to refresh when a pack is deleted
+    /// </summary>
+    public async void Receive(PackDeletedMessage message)
+    {
+        try
+        {
+            _logger.LogInformation("Received PackDeletedMessage for pack {PackName} (v{Version}), was last pack: {WasLastPack}", 
+                message.PackName, message.Version, message.WasLastPack);
+
+            if (message.WasLastPack)
+            {
+                // No packs left - clear everything
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                {
+                    Categories.Clear();
+                    Associations.Clear();
+                    SelectedCategory = null;
+                    HasPackAvailable = false;
+                });
+                
+                _logger.LogInformation("Last pack deleted - cleared all data");
+            }
+            else
+            {
+                // Other packs still available - refresh to show remaining pack data
+                await SmartRefreshAfterPackChangeAsync();
+            }
+
+            // Track analytics for pack deletion completion
+            await _analyticsService.TrackEventAsync("pack_deletion_ui_refreshed", new Dictionary<string, object>
+            {
+                ["pack_id"] = message.PackId,
+                ["pack_name"] = message.PackName,
+                ["language"] = message.LanguageCode,
+                ["was_last_pack"] = message.WasLastPack
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error handling PackDeletedMessage for pack {PackId}", message.PackId);
         }
     }
     

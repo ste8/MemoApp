@@ -268,8 +268,9 @@ public static class ServiceRegistration
             var mauiPackService = serviceProvider.GetRequiredService<MauiPackService>();
             var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
+            var messenger = serviceProvider.GetRequiredService<IMessenger>();
             var logger = serviceProvider.GetRequiredService<ILogger<PackDownloadViewModel>>();
-            return new PackDownloadViewModel(downloadService, packManager, mauiPackService, localizationService, analyticsService, logger);
+            return new PackDownloadViewModel(downloadService, packManager, mauiPackService, localizationService, analyticsService, messenger, logger);
         });
         
         services.AddTransient<BigNumberViewModel>(serviceProvider =>

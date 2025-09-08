@@ -16,7 +16,10 @@ namespace MemoApp.UI.MauiApp.ViewModels;
 /// </summary>
 [QueryProperty(nameof(Token), "token")]
 [QueryProperty(nameof(Category), "category")]
-public partial class TokenDetailViewModel : ObservableObject, IRecipient<CustomAssociationAddedMessage>
+public partial class TokenDetailViewModel : ObservableObject, 
+    IRecipient<CustomAssociationAddedMessage>,
+    IRecipient<PackUpdatedMessage>,
+    IRecipient<PackDeletedMessage>
 {
     private readonly IPackAssociationsService _packAssociationsService;
     private readonly ITokenDefaultsService _tokenDefaultsService;
@@ -79,6 +82,8 @@ public partial class TokenDetailViewModel : ObservableObject, IRecipient<CustomA
         
         // Register for custom association added messages
         _messenger.Register<CustomAssociationAddedMessage>(this);
+        _messenger.Register<PackUpdatedMessage>(this);
+        _messenger.Register<PackDeletedMessage>(this);
         
         // Listen to Associations collection changes to update computed properties
         Associations.CollectionChanged += (_, _) =>
@@ -440,6 +445,57 @@ public partial class TokenDetailViewModel : ObservableObject, IRecipient<CustomA
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error handling CustomAssociationAddedMessage for {Token}", Token);
+        }
+    }
+
+    /// <summary>
+    /// Receives PackUpdatedMessage to refresh when a pack is updated
+    /// </summary>
+    public async void Receive(PackUpdatedMessage message)
+    {
+        try
+        {
+            _logger.LogInformation("Received PackUpdatedMessage for pack {PackName} (v{PreviousVersion} → v{NewVersion}), refreshing token associations", 
+                message.PackName, message.PreviousVersion, message.NewVersion);
+
+            // Pack updated - refresh associations to get updated content
+            await LoadAssociationsAsync(sortByDefault: false);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error handling PackUpdatedMessage for token {Token}", Token);
+        }
+    }
+
+    /// <summary>
+    /// Receives PackDeletedMessage to handle when a pack is deleted
+    /// </summary>
+    public async void Receive(PackDeletedMessage message)
+    {
+        try
+        {
+            _logger.LogInformation("Received PackDeletedMessage for pack {PackName} (v{Version}), was last pack: {WasLastPack}", 
+                message.PackName, message.Version, message.WasLastPack);
+
+            if (message.WasLastPack)
+            {
+                // No packs left - clear all associations
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                {
+                    Associations.Clear();
+                });
+                
+                _logger.LogInformation("Last pack deleted - cleared all associations for token {Token}", Token);
+            }
+            else
+            {
+                // Other packs still available - refresh to show remaining associations
+                await LoadAssociationsAsync(sortByDefault: false);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error handling PackDeletedMessage for token {Token}", Token);
         }
     }
 
