@@ -436,12 +436,25 @@ public partial class AssociationsViewModel : ObservableObject, IRecipient<Custom
     {
         try
         {
-            // Navigate to pack download page (implementation depends on navigation service)
-            _logger.LogInformation("Navigating to pack download");
+            _logger.LogInformation("User tapped download pack button, navigating to PackDownloadPage");
+            
+            // Track analytics for navigating to pack download
+            _ = _analyticsService.TrackEventAsync(AnalyticsEvents.ButtonClicked, new Dictionary<string, object>
+            {
+                [AnalyticsParameters.ButtonName] = "download_pack",
+                [AnalyticsParameters.SourceScreen] = "associations_empty_state"
+            });
+            
+            // Navigate to the pack download page
+            await Shell.Current.GoToAsync("PackDownloadPage");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error navigating to pack download");
+            
+            // Show user-friendly error message
+            var errorMessage = _localizationService.GetString("Common_Error");
+            await _userNotificationService.ShowErrorToastAsync(errorMessage);
         }
     }
     
