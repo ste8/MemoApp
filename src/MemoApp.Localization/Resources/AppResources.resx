@@ -720,6 +720,10 @@
     <value>Downloaded</value>
     <comment>Label for downloaded packs</comment>
   </data>
+  <data name="PackDownload_UpToDate" xml:space="preserve">
+    <value>Up to date</value>
+    <comment>Accessibility label for packs that are downloaded and up to date</comment>
+  </data>
   <data name="PackDownload_ProgressLabel" xml:space="preserve">
     <value>Downloading...</value>
     <comment>Progress label during download</comment>

@@ -110,6 +110,7 @@
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PackDownloadViewModel}}, Path=DownloadPackCommand}"
                                                 CommandParameter="{Binding .}"
                                                 IsEnabled="{Binding CanDownload}"
+                                                IsVisible="{Binding ShowDownloadButton}"
                                                 BackgroundColor="{StaticResource Primary}"
                                                 TextColor="White"
                                                 FontSize="{OnIdiom Phone=14, Tablet=13, Desktop=13}"
@@ -121,6 +122,17 @@
                                                 VerticalOptions="Center"
                                                 SemanticProperties.Description="{Binding ButtonText}"
                                                 AutomationProperties.Name="{Binding ButtonText}"/>
+
+                                        <!-- Downloaded/Up-to-Date Indicator -->
+                                        <Label Text="&#xf00c;"
+                                               FontFamily="FontAwesomeSolid"
+                                               IsVisible="{Binding ShowDownloadButton, Converter={StaticResource InverseBoolConverter}}"
+                                               TextColor="#34C759"
+                                               FontSize="{OnIdiom Phone=18, Tablet=16, Desktop=16}"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               SemanticProperties.Description="{localization:Localize PackDownload_UpToDate}"
+                                               AutomationProperties.Name="{localization:Localize PackDownload_UpToDate}"/>
                                         
                                         <!-- Delete Button (only for downloaded packs) -->
                                         <Button Text="&#xf2ed;"

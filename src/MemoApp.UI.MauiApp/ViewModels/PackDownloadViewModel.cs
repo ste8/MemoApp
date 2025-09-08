@@ -479,6 +479,7 @@ public partial class PackItemViewModel : ObservableObject
 
     public bool CanDownload => !Pack.IsDownloaded || Pack.HasUpdate;
     public bool ShowUpdateBadge => Pack.IsDownloaded && Pack.HasUpdate;
+    public bool ShowDownloadButton => !Pack.IsDownloaded || Pack.HasUpdate;
 
     public PackItemViewModel(Pack pack, ILocalizationService localizationService)
     {

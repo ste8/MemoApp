@@ -719,6 +719,10 @@
     <value>Scaricato</value>
     <comment>Label for downloaded packs</comment>
   </data>
+  <data name="PackDownload_UpToDate" xml:space="preserve">
+    <value>Aggiornato</value>
+    <comment>Accessibility label for packs that are downloaded and up to date</comment>
+  </data>
   <data name="PackDownload_ProgressLabel" xml:space="preserve">
     <value>Download in corso...</value>
     <comment>Progress label during download</comment>
