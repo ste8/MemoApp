@@ -64,31 +64,31 @@
 
             <!-- Error State -->
             <Frame IsVisible="{Binding HasError}"
-                   BackgroundColor="{AppThemeBinding Light={StaticResource Red100}, Dark={StaticResource Red900}}"
-                   BorderColor="{AppThemeBinding Light={StaticResource Red300}, Dark={StaticResource Red600}}"
+                   BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                   BorderColor="{AppThemeBinding Light={StaticResource Danger}, Dark={StaticResource DangerDark}}"
                    CornerRadius="10"
                    Padding="20">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="{localization:Localize Common_Error}"
                            FontAttributes="Bold"
-                           TextColor="{AppThemeBinding Light={StaticResource Red600}, Dark={StaticResource Red300}}" />
+                           TextColor="{AppThemeBinding Light={StaticResource Danger}, Dark={StaticResource DangerDark}}" />
                     <Label Text="{Binding ErrorMessage}"
-                           TextColor="{AppThemeBinding Light={StaticResource Red600}, Dark={StaticResource Red300}}" />
+                           TextColor="{AppThemeBinding Light={StaticResource Danger}, Dark={StaticResource DangerDark}}" />
                 </VerticalStackLayout>
             </Frame>
 
             <!-- Already Downloaded State -->
             <Frame IsVisible="{Binding HasDownloadedPack}"
-                   BackgroundColor="{AppThemeBinding Light={StaticResource Green100}, Dark={StaticResource Green900}}"
-                   BorderColor="{AppThemeBinding Light={StaticResource Green300}, Dark={StaticResource Green600}}"
+                   BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                   BorderColor="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource SuccessDark}}"
                    CornerRadius="10"
                    Padding="20">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="{localization:Localize OnboardingPackDownload_AlreadyDownloadedTitle}"
                            FontAttributes="Bold"
-                           TextColor="{AppThemeBinding Light={StaticResource Green600}, Dark={StaticResource Green300}}" />
+                           TextColor="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource SuccessDark}}" />
                     <Label Text="{localization:Localize OnboardingPackDownload_AlreadyDownloadedMessage}"
-                           TextColor="{AppThemeBinding Light={StaticResource Green600}, Dark={StaticResource Green300}}" />
+                           TextColor="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource SuccessDark}}" />
                 </VerticalStackLayout>
             </Frame>
 
