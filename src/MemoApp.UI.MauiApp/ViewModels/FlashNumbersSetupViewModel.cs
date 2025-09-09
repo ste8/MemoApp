@@ -29,10 +29,14 @@ public partial class FlashNumbersSetupViewModel : BaseViewModel
         _userNotificationService = userNotificationService;
         _logger = logger;
         
+        _logger.LogInformation("FlashNumbersSetupViewModel constructor called");
+        
         Title = _localizationService.GetString("Tab_FlashNumbers");
         
         LoadTrainingOptions();
         LoadNumberOptions();
+        
+        _logger.LogInformation($"Loaded {TrainingOptions.Count} training options and {NumberOptions.Count} number options");
         
         // Subscribe to culture and number format changes
         _localizationService.CultureChanged += OnCultureChanged;
@@ -43,6 +47,8 @@ public partial class FlashNumbersSetupViewModel : BaseViewModel
         
         // Initialize quick training button text
         UpdateQuickTrainingButtonText();
+        
+        _logger.LogInformation($"QuickTrainingButtonText set to: {QuickTrainingButtonText}");
     }
 
     #region Properties

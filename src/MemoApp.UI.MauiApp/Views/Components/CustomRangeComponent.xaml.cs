@@ -134,6 +134,6 @@ public partial class CustomRangeComponent : ContentView
 	public CustomRangeComponent()
 	{
 		InitializeComponent();
-		BindingContext = this;
+		// Don't set BindingContext - inherit from parent
 	}
 }

@@ -5,13 +5,20 @@ namespace MemoApp.UI.MauiApp.Views.Components;
 public partial class QuickStartComponent : ContentView
 {
 	public static readonly BindableProperty QuickTrainingCommandProperty = 
-		BindableProperty.Create(nameof(QuickTrainingCommand), typeof(ICommand), typeof(QuickStartComponent));
+		BindableProperty.Create(nameof(QuickTrainingCommand), typeof(ICommand), typeof(QuickStartComponent), 
+			defaultValue: null, defaultBindingMode: BindingMode.OneWay);
 
 	public static readonly BindableProperty QuickTrainingButtonTextProperty = 
-		BindableProperty.Create(nameof(QuickTrainingButtonText), typeof(string), typeof(QuickStartComponent));
+		BindableProperty.Create(nameof(QuickTrainingButtonText), typeof(string), typeof(QuickStartComponent),
+			defaultValue: string.Empty, defaultBindingMode: BindingMode.OneWay,
+			propertyChanged: (bindable, oldValue, newValue) =>
+			{
+				System.Diagnostics.Debug.WriteLine($"QuickTrainingButtonText changed from '{oldValue}' to '{newValue}'");
+			});
 
 	public static readonly BindableProperty ShowHelpCommandProperty = 
-		BindableProperty.Create(nameof(ShowHelpCommand), typeof(ICommand), typeof(QuickStartComponent));
+		BindableProperty.Create(nameof(ShowHelpCommand), typeof(ICommand), typeof(QuickStartComponent),
+			defaultValue: null, defaultBindingMode: BindingMode.OneWay);
 
 	public ICommand QuickTrainingCommand
 	{
@@ -34,6 +41,6 @@ public partial class QuickStartComponent : ContentView
 	public QuickStartComponent()
 	{
 		InitializeComponent();
-		BindingContext = this;
+		// Don't set BindingContext - inherit from parent
 	}
 }

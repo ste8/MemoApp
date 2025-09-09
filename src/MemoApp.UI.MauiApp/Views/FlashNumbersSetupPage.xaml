@@ -47,15 +47,15 @@
 
                     <!-- Quick Start Component -->
                     <components:QuickStartComponent 
-                        QuickTrainingCommand="{Binding StartQuickTrainingCommand}"
                         QuickTrainingButtonText="{Binding QuickTrainingButtonText}"
+                        QuickTrainingCommand="{Binding StartQuickTrainingCommand}"
                         ShowHelpCommand="{Binding ShowHelpCommand}" />
 
                     <!-- Mobile Preset Training (only visible on phones) -->
                     <components:PresetTrainingComponent 
+                        IsMobileLayout="True"
                         TrainingOptions="{Binding TrainingOptions}"
                         StartPresetTrainingCommand="{Binding StartPresetTrainingCommand}"
-                        IsMobileLayout="True"
                         IsVisible="{OnIdiom Phone=True, Tablet=False, Desktop=False}" />
 
                     <!-- Custom Range Component -->
@@ -80,9 +80,9 @@
                 <!-- Right Column: Desktop Preset training (only visible on tablet/desktop) -->
                 <components:PresetTrainingComponent 
                     Grid.Column="1"
+                    IsMobileLayout="False"
                     TrainingOptions="{Binding TrainingOptions}"
                     StartPresetTrainingCommand="{Binding StartPresetTrainingCommand}"
-                    IsMobileLayout="False"
                     IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}"
                     Margin="20,0,0,0" />
                     

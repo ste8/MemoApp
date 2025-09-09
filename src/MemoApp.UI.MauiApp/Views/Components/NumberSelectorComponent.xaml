@@ -7,19 +7,19 @@
     
     <Grid>
         <!-- Use Picker on mobile platforms -->
-        <Picker ItemsSource="{Binding NumberOptions}"
-                SelectedIndex="{Binding SelectedIndex}"
-                Title="{Binding Title}"
+        <Picker ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=NumberOptions}"
+                SelectedIndex="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=SelectedIndex}"
+                Title="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=Title}"
                 HorizontalOptions="FillAndExpand"
                 FontSize="{OnIdiom Phone=14, Default=16}"
                 IsVisible="{OnPlatform Android=True, iOS=True, Default=False}"
-                AutomationProperties.Name="{Binding AccessibilityName}"
-                AutomationProperties.HelpText="{Binding AccessibilityHelp}" />
+                AutomationProperties.Name="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=AccessibilityName}"
+                AutomationProperties.HelpText="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=AccessibilityHelp}" />
         
         <!-- Desktop alternative -->
         <StackLayout IsVisible="{OnPlatform WinUI=True, MacCatalyst=True, Default=False}"
                  HorizontalOptions="FillAndExpand">
-        <Label Text="{Binding Title}"
+        <Label Text="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=Title}"
                FontSize="14"
                TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
                Margin="0,0,0,5" />
@@ -33,9 +33,9 @@
                 </Border.StrokeShape>
                 <Grid>
                     <Grid.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ToggleDropdownCommand}" />
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=ToggleDropdownCommand}" />
                     </Grid.GestureRecognizers>
-                    <Label Text="{Binding SelectedValue}"
+                    <Label Text="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=SelectedValue}"
                            FontSize="14"
                            TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
                            VerticalOptions="Center"
@@ -53,7 +53,7 @@
         </Grid>
         
         <!-- Dropdown for Desktop -->
-        <Frame IsVisible="{Binding IsDropdownVisible}"
+        <Frame IsVisible="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=IsDropdownVisible}"
                BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray900}}"
                BorderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
                CornerRadius="8"
@@ -61,7 +61,7 @@
                HasShadow="True"
                ZIndex="1000"
                MaximumHeightRequest="200">
-            <CollectionView ItemsSource="{Binding NumberOptions}"
+            <CollectionView ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=NumberOptions}"
                             BackgroundColor="Transparent"
                             SelectionMode="None"
                             MaximumHeightRequest="180">

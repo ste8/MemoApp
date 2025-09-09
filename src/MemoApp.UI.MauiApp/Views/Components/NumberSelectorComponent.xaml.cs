@@ -89,6 +89,6 @@ public partial class NumberSelectorComponent : ContentView
 	public NumberSelectorComponent()
 	{
 		InitializeComponent();
-		BindingContext = this;
+		// Don't set BindingContext - inherit from parent
 	}
 }

@@ -36,6 +36,6 @@ public partial class PresetTrainingComponent : ContentView
 	public PresetTrainingComponent()
 	{
 		InitializeComponent();
-		BindingContext = this;
+		// Don't set BindingContext - inherit from parent
 	}
 }
