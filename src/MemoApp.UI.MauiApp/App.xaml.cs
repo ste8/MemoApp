@@ -1,27 +1,20 @@
-﻿using MemoApp.Core.Services.Packs;
 using MemoApp.Core.Services.ErrorMonitoring;
-using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Services;
-using MemoApp.UI.MauiApp.Views;
 using MemoApp.UI.MauiApp.Views.Onboarding;
 
 namespace MemoApp.UI.MauiApp;
 
 public partial class App : Application
 {
-	private readonly IPackManagerService _packManager;
-	private readonly ILocalizationService _localizationService;
 	private readonly IPackUpdateBackgroundService _updateService;
 	private readonly IErrorMonitoringService? _errorService;
 	private readonly IAppInitializationService _initializationService;
 	private readonly IServiceProvider _serviceProvider;
 	private readonly DateTime _appStartTime = DateTime.UtcNow;
 	
-	public App(IPackManagerService packManager, ILocalizationService localizationService, IPackUpdateBackgroundService updateService, IAppInitializationService initializationService, IServiceProvider serviceProvider, IErrorMonitoringService? errorService = null)
+	public App(IPackUpdateBackgroundService updateService, IAppInitializationService initializationService, IServiceProvider serviceProvider, IErrorMonitoringService? errorService = null)
 	{
 		InitializeComponent();
-		_packManager = packManager;
-		_localizationService = localizationService;
 		_updateService = updateService;
 		_initializationService = initializationService;
 		_serviceProvider = serviceProvider;
@@ -89,23 +82,4 @@ public partial class App : Application
 	}
 
 
-	public async Task CheckFirstLaunchAsync()
-	{
-		// Check if any packs are downloaded
-		var hasPacksDownloaded = await _packManager.HasAnyPackDownloadedAsync();
-		
-		if (!hasPacksDownloaded)
-		{
-			var mainPage = MainPage ?? Windows?.FirstOrDefault()?.Page;
-			if (mainPage != null)
-			{
-				await mainPage.DisplayAlert(
-					_localizationService.GetString("FirstLaunch_WelcomeTitle"),
-					_localizationService.GetString("FirstLaunch_DownloadPackMessage"),
-					_localizationService.GetString("Common_OK"));
-				
-				await Shell.Current.GoToAsync(nameof(PackDownloadPage));
-			}
-		}
-	}
 }

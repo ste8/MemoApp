@@ -19,12 +19,6 @@ public partial class MainPage : ContentPage
 		if (_firstAppearance)
 		{
 			_firstAppearance = false;
-			
-			// Check if this is first launch and needs pack download
-			if (Application.Current is App app)
-			{
-				await app.CheckFirstLaunchAsync();
-			}
 		}
 	}
 }
