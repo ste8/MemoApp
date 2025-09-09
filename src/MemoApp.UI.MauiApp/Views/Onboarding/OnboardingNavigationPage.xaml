@@ -21,53 +21,137 @@
             <!-- Onboarding views will be dynamically added here -->
         </Grid>
 
-        <!-- Progress Indicator -->
+        <!-- Enhanced 4-Step Progress Indicator -->
         <HorizontalStackLayout Grid.Row="1" 
                               HorizontalOptions="Center"
-                              Spacing="8"
-                              Margin="0,20,0,10">
-            <Frame x:Name="Indicator0" BackgroundColor="{StaticResource Primary}" WidthRequest="8" HeightRequest="8" CornerRadius="4" Padding="0" BorderColor="Transparent" />
-            <Frame x:Name="Indicator1" BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray600}}" WidthRequest="8" HeightRequest="8" CornerRadius="4" Padding="0" BorderColor="Transparent" />
-            <Frame x:Name="Indicator2" BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray600}}" WidthRequest="8" HeightRequest="8" CornerRadius="4" Padding="0" BorderColor="Transparent" />
-            <Frame x:Name="Indicator3" BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray600}}" WidthRequest="8" HeightRequest="8" CornerRadius="4" Padding="0" BorderColor="Transparent" />
-            <Frame x:Name="Indicator4" BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray600}}" WidthRequest="8" HeightRequest="8" CornerRadius="4" Padding="0" BorderColor="Transparent" />
-            <Frame x:Name="Indicator5" BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray600}}" WidthRequest="8" HeightRequest="8" CornerRadius="4" Padding="0" BorderColor="Transparent" />
-            <Frame x:Name="Indicator6" BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray600}}" WidthRequest="8" HeightRequest="8" CornerRadius="4" Padding="0" BorderColor="Transparent" />
-            <Frame x:Name="Indicator7" BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray600}}" WidthRequest="8" HeightRequest="8" CornerRadius="4" Padding="0" BorderColor="Transparent" />
+                              Spacing="10"
+                              Margin="0,20,0,15">
+            
+            <!-- Step 1: Learn -->
+            <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                <Frame x:Name="PhaseIndicator0" 
+                       BackgroundColor="{StaticResource Primary}" 
+                       WidthRequest="30" 
+                       HeightRequest="6" 
+                       CornerRadius="3" 
+                       Padding="0" 
+                       BorderColor="Transparent" />
+                <Label x:Name="PhaseLabel0"
+                       Text="{localization:Localize Onboarding_Step_Learn}"
+                       FontSize="11"
+                       HorizontalOptions="Center"
+                       TextColor="{StaticResource Primary}" />
+            </VerticalStackLayout>
+            
+            <!-- Step 2: Practice -->
+            <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                <Frame x:Name="PhaseIndicator1" 
+                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" 
+                       WidthRequest="30" 
+                       HeightRequest="6" 
+                       CornerRadius="3" 
+                       Padding="0" 
+                       BorderColor="Transparent" />
+                <Label x:Name="PhaseLabel1"
+                       Text="{localization:Localize Onboarding_Step_Practice}"
+                       FontSize="11"
+                       HorizontalOptions="Center"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
+            </VerticalStackLayout>
+            
+            <!-- Step 3: Content (CRITICAL) -->
+            <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                <Frame x:Name="PhaseIndicator2" 
+                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" 
+                       WidthRequest="40" 
+                       HeightRequest="8" 
+                       CornerRadius="4" 
+                       Padding="0" 
+                       BorderColor="Transparent"
+                       HasShadow="True" />
+                <Label x:Name="PhaseLabel2"
+                       Text="{localization:Localize Onboarding_Step_Content}"
+                       FontSize="11"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
+            </VerticalStackLayout>
+            
+            <!-- Step 4: Setup -->
+            <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                <Frame x:Name="PhaseIndicator3" 
+                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" 
+                       WidthRequest="30" 
+                       HeightRequest="6" 
+                       CornerRadius="3" 
+                       Padding="0" 
+                       BorderColor="Transparent" />
+                <Label x:Name="PhaseLabel3"
+                       Text="{localization:Localize Onboarding_Step_Setup}"
+                       FontSize="11"
+                       HorizontalOptions="Center"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
+            </VerticalStackLayout>
+            
         </HorizontalStackLayout>
 
-        <!-- Navigation Controls -->
+        <!-- Enhanced Navigation Controls for Mobile -->
         <Grid Grid.Row="2" 
-              Padding="20"
-              ColumnDefinitions="*,*,*">
+              Padding="20,10,20,20"
+              ColumnDefinitions="*,*,*"
+              RowDefinitions="Auto,Auto"
+              RowSpacing="15">
             
-            <!-- Skip Button -->
-            <Button Grid.Column="0"
+            <!-- Skip Button - Enhanced Touch Target -->
+            <Button Grid.Column="0" Grid.Row="0"
                     Text="{localization:Localize Onboarding_Skip}"
                     Command="{Binding SkipCommand}"
                     IsVisible="{Binding CanSkip}"
                     BackgroundColor="Transparent"
                     TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
-                    HorizontalOptions="Start" />
+                    FontSize="16"
+                    HeightRequest="50"
+                    MinimumWidthRequest="80"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center" />
 
-            <!-- Back Button -->
-            <Button Grid.Column="1"
+            <!-- Back Button - Enhanced Touch Target -->
+            <Button Grid.Column="1" Grid.Row="0"
                     Text="{localization:Localize Onboarding_Back}"
                     Command="{Binding BackCommand}"
                     IsVisible="{Binding CanGoBack}"
-                    BackgroundColor="Transparent"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
                     TextColor="{StaticResource Primary}"
-                    HorizontalOptions="Center" />
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    CornerRadius="25"
+                    HeightRequest="50"
+                    MinimumWidthRequest="100"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center" />
 
-            <!-- Next/Start Button -->
-            <Button Grid.Column="2"
+            <!-- Next/Start Button - Enhanced and Prominent -->
+            <Button Grid.Column="2" Grid.Row="0"
                     Text="{Binding NextButtonText}"
                     Command="{Binding NextCommand}"
                     BackgroundColor="{StaticResource Primary}"
                     TextColor="White"
-                    CornerRadius="20"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    CornerRadius="25"
+                    HeightRequest="50"
+                    MinimumWidthRequest="120"
                     HorizontalOptions="End"
-                    MinimumWidthRequest="100" />
+                    VerticalOptions="Center" />
+                    
+            <!-- Progress Text Helper (Mobile) -->
+            <Label Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1"
+                   Text="{Binding ProgressText}"
+                   FontSize="12"
+                   TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
+                   HorizontalOptions="Center"
+                   IsVisible="{OnIdiom Phone=True, Tablet=False, Desktop=False}" />
+                   
         </Grid>
     </Grid>
 </ContentPage>

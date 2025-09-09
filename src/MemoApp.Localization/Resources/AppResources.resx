@@ -1418,6 +1418,78 @@
     <value>5 minutes to get started</value>
     <comment>Time estimate for onboarding</comment>
   </data>
+  <data name="Onboarding_QuickTimeEstimate" xml:space="preserve">
+    <value>3 minutes to get started</value>
+    <comment>Quick time estimate for streamlined onboarding</comment>
+  </data>
+  <data name="Onboarding_ValueProposition" xml:space="preserve">
+    <value>Master the Major System in minutes</value>
+    <comment>Value proposition for memory training</comment>
+  </data>
+  <data name="Onboarding_LearnHow" xml:space="preserve">
+    <value>Learn how to turn numbers into unforgettable images</value>
+    <comment>Description of what users will learn</comment>
+  </data>
+  <data name="Onboarding_Phase_Learn" xml:space="preserve">
+    <value>Learn</value>
+    <comment>Phase 1 indicator label</comment>
+  </data>
+  <data name="Onboarding_Phase_Practice" xml:space="preserve">
+    <value>Practice</value>
+    <comment>Phase 2 indicator label</comment>
+  </data>
+  <data name="Onboarding_Phase_Setup" xml:space="preserve">
+    <value>Setup</value>
+    <comment>Phase 3 indicator label</comment>
+  </data>
+  <data name="Onboarding_Step_Learn" xml:space="preserve">
+    <value>Learn</value>
+    <comment>Step 1 indicator label</comment>
+  </data>
+  <data name="Onboarding_Step_Practice" xml:space="preserve">
+    <value>Practice</value>
+    <comment>Step 2 indicator label</comment>
+  </data>
+  <data name="Onboarding_Step_Content" xml:space="preserve">
+    <value>Content</value>
+    <comment>Step 3 indicator label - critical pack download step</comment>
+  </data>
+  <data name="Onboarding_Step_Setup" xml:space="preserve">
+    <value>Setup</value>
+    <comment>Step 4 indicator label</comment>
+  </data>
+  <data name="Onboarding_SkipOptionsTitle" xml:space="preserve">
+    <value>Skip to which part?</value>
+    <comment>Title for contextual skip options</comment>
+  </data>
+  <data name="Onboarding_SkipToEnd" xml:space="preserve">
+    <value>Complete onboarding</value>
+    <comment>Option to skip to end of onboarding</comment>
+  </data>
+  <data name="Onboarding_SkipToPractice" xml:space="preserve">
+    <value>Skip to practice</value>
+    <comment>Option to skip to practice phase</comment>
+  </data>
+  <data name="Onboarding_SkipToSetup" xml:space="preserve">
+    <value>Skip to setup</value>
+    <comment>Option to skip to setup phase</comment>
+  </data>
+  <data name="OnboardingPackDownload_Benefit1" xml:space="preserve">
+    <value>1000+ high-quality images included</value>
+    <comment>First benefit of downloading pack</comment>
+  </data>
+  <data name="OnboardingPackDownload_Benefit2" xml:space="preserve">
+    <value>Works offline once downloaded</value>
+    <comment>Second benefit of downloading pack</comment>
+  </data>
+  <data name="OnboardingPackDownload_Benefit3" xml:space="preserve">
+    <value>Free and no ads</value>
+    <comment>Third benefit of downloading pack</comment>
+  </data>
+  <data name="OnboardingPackDownload_SkipNote" xml:space="preserve">
+    <value>You can always download packs later from Settings</value>
+    <comment>Reassuring note about skipping pack download</comment>
+  </data>
   
   <!-- Challenge Screen -->
   <data name="Onboarding_Challenge_Title" xml:space="preserve">
@@ -1655,6 +1727,58 @@
   <data name="OnboardingPackDownload_ValidationError" xml:space="preserve">
     <value>Pack validation failed. The downloaded content may be corrupted.</value>
     <comment>Validation error message during pack download</comment>
+  </data>
+  <data name="OnboardingPackDownload_CriticalTitle" xml:space="preserve">
+    <value>Content Required</value>
+    <comment>Critical banner title for pack download requirement</comment>
+  </data>
+  <data name="OnboardingPackDownload_CriticalMessage" xml:space="preserve">
+    <value>MemoRaise requires content packs to function properly. Without them, most training features will be unavailable.</value>
+    <comment>Critical message explaining pack requirement</comment>
+  </data>
+  <data name="OnboardingPackDownload_WithoutPacks" xml:space="preserve">
+    <value>Without Packs</value>
+    <comment>Header for limitations without packs</comment>
+  </data>
+  <data name="OnboardingPackDownload_WithPacks" xml:space="preserve">
+    <value>With Packs</value>
+    <comment>Header for benefits with packs</comment>
+  </data>
+  <data name="OnboardingPackDownload_Limitation1" xml:space="preserve">
+    <value>Only basic number display</value>
+    <comment>First limitation without packs</comment>
+  </data>
+  <data name="OnboardingPackDownload_Limitation2" xml:space="preserve">
+    <value>No visual associations</value>
+    <comment>Second limitation without packs</comment>
+  </data>
+  <data name="OnboardingPackDownload_Limitation3" xml:space="preserve">
+    <value>Reduced learning effectiveness</value>
+    <comment>Third limitation without packs</comment>
+  </data>
+  <data name="OnboardingPackDownload_RecommendedBadge" xml:space="preserve">
+    <value>Recommended</value>
+    <comment>Badge text for recommended pack</comment>
+  </data>
+  <data name="OnboardingPackDownload_DownloadButtonProminent" xml:space="preserve">
+    <value>🚀 Download Essential Pack</value>
+    <comment>Prominent download button text with icon</comment>
+  </data>
+  <data name="OnboardingPackDownload_ImagesCount" xml:space="preserve">
+    <value>1000+ Images</value>
+    <comment>Pack images count display</comment>
+  </data>
+  <data name="OnboardingPackDownload_SkipForNow" xml:space="preserve">
+    <value>Skip for now (limited features)</value>
+    <comment>Skip button text with consequence reminder</comment>
+  </data>
+  <data name="OnboardingPackDownload_SkipWarningTitle" xml:space="preserve">
+    <value>Limited Experience Warning</value>
+    <comment>Warning title for skip consequences</comment>
+  </data>
+  <data name="OnboardingPackDownload_SkipWarningMessage" xml:space="preserve">
+    <value>Without content packs, you'll only have access to basic number display. Visual memory techniques require image associations from content packs.</value>
+    <comment>Detailed warning about consequences of skipping pack download</comment>
   </data>
   
   <!-- Sharing Feature -->

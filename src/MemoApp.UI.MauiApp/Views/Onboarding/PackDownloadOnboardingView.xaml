@@ -9,21 +9,48 @@
     <ScrollView Padding="30">
         <VerticalStackLayout Spacing="25">
             
-            <!-- Title -->
-            <Label Text="{localization:Localize OnboardingPackDownload_Title}"
-                   Style="{StaticResource Headline}"
-                   HorizontalOptions="Center"
-                   HorizontalTextAlignment="Center"
-                   FontSize="24"
-                   FontAttributes="Bold"
-                   Margin="0,0,0,10" />
-            
-            <!-- Description -->
-            <Label Text="{localization:Localize OnboardingPackDownload_Description}"
-                   HorizontalOptions="Center"
-                   HorizontalTextAlignment="Center"
-                   FontSize="16"
-                   Margin="0,0,0,20" />
+            <!-- Enhanced Title -->
+            <VerticalStackLayout Spacing="15" Margin="0,0,0,25">
+                <Label Text="🎯" FontSize="40" HorizontalOptions="Center" />
+                <Label Text="{localization:Localize OnboardingPackDownload_Title}"
+                       Style="{StaticResource Headline}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       FontSize="24"
+                       FontAttributes="Bold" />
+                
+                <!-- Reassuring Description -->
+                <Label Text="{localization:Localize OnboardingPackDownload_Description}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       FontSize="16"
+                       Opacity="0.9" />
+                       
+                <!-- Benefits List -->
+                <VerticalStackLayout Spacing="8" Margin="20,15,20,0">
+                    <HorizontalStackLayout Spacing="10">
+                        <Label Text="✅" FontSize="16" VerticalOptions="Center" />
+                        <Label Text="{localization:Localize OnboardingPackDownload_Benefit1}"
+                               FontSize="14"
+                               VerticalOptions="Center"
+                               Opacity="0.8" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="10">
+                        <Label Text="✅" FontSize="16" VerticalOptions="Center" />
+                        <Label Text="{localization:Localize OnboardingPackDownload_Benefit2}"
+                               FontSize="14"
+                               VerticalOptions="Center"
+                               Opacity="0.8" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="10">
+                        <Label Text="✅" FontSize="16" VerticalOptions="Center" />
+                        <Label Text="{localization:Localize OnboardingPackDownload_Benefit3}"
+                               FontSize="14"
+                               VerticalOptions="Center"
+                               Opacity="0.8" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
             
             <!-- Loading State -->
             <VerticalStackLayout IsVisible="{Binding IsLoading}" Spacing="15">
@@ -109,23 +136,34 @@
                            TextColor="{StaticResource Primary}" />
                     <Button Text="{localization:Localize Common_Cancel}"
                             Command="{Binding CancelDownloadCommand}"
-                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray800}}"
                             TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}"
                             WidthRequest="150"
                             HorizontalOptions="Center" />
                 </VerticalStackLayout>
 
-                <!-- Download Button -->
+                <!-- Enhanced Download Button -->
                 <Button IsVisible="{Binding IsDownloading, Converter={StaticResource InvertedBoolConverter}}"
                         Text="{localization:Localize OnboardingPackDownload_DownloadButton}"
                         Command="{Binding DownloadSelectedPackCommand}"
                         IsEnabled="{Binding SelectedPack, Converter={StaticResource IsNotNullConverter}}"
                         BackgroundColor="{StaticResource Primary}"
                         TextColor="White"
+                        FontSize="16"
                         FontAttributes="Bold"
-                        HeightRequest="50"
-                        CornerRadius="10"
-                        HorizontalOptions="FillAndExpand" />
+                        HeightRequest="55"
+                        CornerRadius="25"
+                        HorizontalOptions="FillAndExpand"
+                        Margin="10,0,10,0" />
+                        
+                <!-- Optional Skip Text -->
+                <Label IsVisible="{Binding ShowSkipOption}"
+                       Text="{localization:Localize OnboardingPackDownload_SkipNote}"
+                       FontSize="12"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       Margin="0,10,0,0" />
 
                 <!-- Alternative Packs (if more than one available) -->
                 <VerticalStackLayout IsVisible="{Binding HasMultiplePacks}" Spacing="15">
@@ -141,7 +179,7 @@
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray700}}"
+                                <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
                                        BorderColor="Transparent"
                                        CornerRadius="8"
                                        Padding="15"
@@ -174,17 +212,27 @@
                     </CollectionView>
                 </VerticalStackLayout>
 
-                <!-- Skip Option -->
-                <VerticalStackLayout IsVisible="{Binding ShowSkipOption}" Spacing="10" Margin="0,20,0,0">
-                    <Label Text="{localization:Localize OnboardingPackDownload_SkipTitle}"
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center" />
-                    <Label Text="{localization:Localize OnboardingPackDownload_SkipMessage}"
-                           FontSize="12"
-                           Opacity="0.8"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center" />
-                </VerticalStackLayout>
+                <!-- Reassuring Skip Option -->
+                <Frame IsVisible="{Binding ShowSkipOption}"
+                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                       BorderColor="Transparent"
+                       CornerRadius="15"
+                       Padding="20,15"
+                       Margin="0,20,0,0">
+                    <VerticalStackLayout Spacing="8">
+                        <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                            <Label Text="💡" FontSize="16" VerticalOptions="Center" />
+                            <Label Text="{localization:Localize OnboardingPackDownload_SkipTitle}"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <Label Text="{localization:Localize OnboardingPackDownload_SkipMessage}"
+                               FontSize="13"
+                               Opacity="0.8"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Frame>
 
             </VerticalStackLayout>
 

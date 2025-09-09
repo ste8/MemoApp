@@ -412,6 +412,7 @@ public static class ServiceRegistration
         services.AddTransient<Views.Onboarding.OnboardingNavigationPage>();
         services.AddTransient<Views.Onboarding.WelcomeView>();
         services.AddTransient<Views.Onboarding.ChallengeView>();
+        services.AddTransient<Views.Onboarding.WelcomeChallengeView>();
         services.AddTransient<Views.Onboarding.MajorSystemIntroView>();
         services.AddTransient<Views.Onboarding.ExampleView>();
         services.AddTransient<Views.Onboarding.InteractivePracticeView>();

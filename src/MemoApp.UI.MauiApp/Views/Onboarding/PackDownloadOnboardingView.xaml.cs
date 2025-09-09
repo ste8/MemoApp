@@ -9,11 +9,9 @@ public partial class PackDownloadOnboardingView : ContentView
 
     public PackDownloadOnboardingView(PackDownloadOnboardingViewModel viewModel)
     {
-        System.Diagnostics.Debug.WriteLine("PackDownloadOnboardingView constructor called");
         InitializeComponent();
         _viewModel = viewModel;
         BindingContext = viewModel;
-        System.Diagnostics.Debug.WriteLine("PackDownloadOnboardingView constructor completed");
     }
 
     /// <summary>

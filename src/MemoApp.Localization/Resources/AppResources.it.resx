@@ -1527,6 +1527,58 @@
     <value>Validazione del pacchetto fallita. Il contenuto scaricato potrebbe essere corrotto.</value>
     <comment>Validation error message during pack download</comment>
   </data>
+  <data name="OnboardingPackDownload_CriticalTitle" xml:space="preserve">
+    <value>Contenuto Richiesto</value>
+    <comment>Critical banner title for pack download requirement</comment>
+  </data>
+  <data name="OnboardingPackDownload_CriticalMessage" xml:space="preserve">
+    <value>MemoRaise richiede pacchetti di contenuti per funzionare correttamente. Senza di essi, la maggior parte delle funzioni di allenamento non sarà disponibile.</value>
+    <comment>Critical message explaining pack requirement</comment>
+  </data>
+  <data name="OnboardingPackDownload_WithoutPacks" xml:space="preserve">
+    <value>Senza Pacchetti</value>
+    <comment>Header for limitations without packs</comment>
+  </data>
+  <data name="OnboardingPackDownload_WithPacks" xml:space="preserve">
+    <value>Con Pacchetti</value>
+    <comment>Header for benefits with packs</comment>
+  </data>
+  <data name="OnboardingPackDownload_Limitation1" xml:space="preserve">
+    <value>Solo visualizzazione numeri base</value>
+    <comment>First limitation without packs</comment>
+  </data>
+  <data name="OnboardingPackDownload_Limitation2" xml:space="preserve">
+    <value>Nessuna associazione visiva</value>
+    <comment>Second limitation without packs</comment>
+  </data>
+  <data name="OnboardingPackDownload_Limitation3" xml:space="preserve">
+    <value>Efficacia di apprendimento ridotta</value>
+    <comment>Third limitation without packs</comment>
+  </data>
+  <data name="OnboardingPackDownload_RecommendedBadge" xml:space="preserve">
+    <value>Consigliato</value>
+    <comment>Badge text for recommended pack</comment>
+  </data>
+  <data name="OnboardingPackDownload_DownloadButtonProminent" xml:space="preserve">
+    <value>🚀 Scarica Pacchetto Essenziale</value>
+    <comment>Prominent download button text with icon</comment>
+  </data>
+  <data name="OnboardingPackDownload_ImagesCount" xml:space="preserve">
+    <value>1000+ Immagini</value>
+    <comment>Pack images count display</comment>
+  </data>
+  <data name="OnboardingPackDownload_SkipForNow" xml:space="preserve">
+    <value>Salta per ora (funzioni limitate)</value>
+    <comment>Skip button text with consequence reminder</comment>
+  </data>
+  <data name="OnboardingPackDownload_SkipWarningTitle" xml:space="preserve">
+    <value>Avviso Esperienza Limitata</value>
+    <comment>Warning title for skip consequences</comment>
+  </data>
+  <data name="OnboardingPackDownload_SkipWarningMessage" xml:space="preserve">
+    <value>Senza pacchetti di contenuti, avrai accesso solo alla visualizzazione base dei numeri. Le tecniche di memoria visiva richiedono associazioni di immagini dai pacchetti di contenuti.</value>
+    <comment>Detailed warning about consequences of skipping pack download</comment>
+  </data>
   
   <!-- Navigation Guide Screen -->
   <data name="Onboarding_Navigation_Title" xml:space="preserve">
@@ -1718,5 +1770,79 @@ Scarica MemoRaise: {AppUrl}
   <data name="Tooltip_Dismiss" xml:space="preserve">
     <value>Ho capito!</value>
     <comment>Dismiss button text for tooltips</comment>
+  </data>
+  
+  <!-- Onboarding New Keys -->
+  <data name="Onboarding_QuickTimeEstimate" xml:space="preserve">
+    <value>3 minuti per iniziare</value>
+    <comment>Quick time estimate for streamlined onboarding</comment>
+  </data>
+  <data name="Onboarding_ValueProposition" xml:space="preserve">
+    <value>Padroneggia il Sistema Maggiore in pochi minuti</value>
+    <comment>Value proposition for memory training</comment>
+  </data>
+  <data name="Onboarding_LearnHow" xml:space="preserve">
+    <value>Impara come trasformare i numeri in immagini indimenticabili</value>
+    <comment>Description of what users will learn</comment>
+  </data>
+  <data name="Onboarding_Phase_Learn" xml:space="preserve">
+    <value>Impara</value>
+    <comment>Phase 1 indicator label</comment>
+  </data>
+  <data name="Onboarding_Phase_Practice" xml:space="preserve">
+    <value>Pratica</value>
+    <comment>Phase 2 indicator label</comment>
+  </data>
+  <data name="Onboarding_Phase_Setup" xml:space="preserve">
+    <value>Configura</value>
+    <comment>Phase 3 indicator label</comment>
+  </data>
+  <data name="Onboarding_Step_Learn" xml:space="preserve">
+    <value>Impara</value>
+    <comment>Step 1 indicator label</comment>
+  </data>
+  <data name="Onboarding_Step_Practice" xml:space="preserve">
+    <value>Pratica</value>
+    <comment>Step 2 indicator label</comment>
+  </data>
+  <data name="Onboarding_Step_Content" xml:space="preserve">
+    <value>Contenuto</value>
+    <comment>Step 3 indicator label - critical pack download step</comment>
+  </data>
+  <data name="Onboarding_Step_Setup" xml:space="preserve">
+    <value>Configura</value>
+    <comment>Step 4 indicator label</comment>
+  </data>
+  <data name="Onboarding_SkipOptionsTitle" xml:space="preserve">
+    <value>Salta a quale parte?</value>
+    <comment>Title for contextual skip options</comment>
+  </data>
+  <data name="Onboarding_SkipToEnd" xml:space="preserve">
+    <value>Completa introduzione</value>
+    <comment>Option to skip to end of onboarding</comment>
+  </data>
+  <data name="Onboarding_SkipToPractice" xml:space="preserve">
+    <value>Vai alla pratica</value>
+    <comment>Option to skip to practice phase</comment>
+  </data>
+  <data name="Onboarding_SkipToSetup" xml:space="preserve">
+    <value>Vai alla configurazione</value>
+    <comment>Option to skip to setup phase</comment>
+  </data>
+  <data name="OnboardingPackDownload_Benefit1" xml:space="preserve">
+    <value>Oltre 1000 immagini di qualità incluse</value>
+    <comment>First benefit of downloading pack</comment>
+  </data>
+  <data name="OnboardingPackDownload_Benefit2" xml:space="preserve">
+    <value>Funziona offline una volta scaricato</value>
+    <comment>Second benefit of downloading pack</comment>
+  </data>
+  <data name="OnboardingPackDownload_Benefit3" xml:space="preserve">
+    <value>Gratuito e senza pubblicità</value>
+    <comment>Third benefit of downloading pack</comment>
+  </data>
+  <data name="OnboardingPackDownload_SkipNote" xml:space="preserve">
+    <value>Puoi sempre scaricare i pacchetti più tardi dalle Impostazioni</value>
+    <comment>Reassuring note about skipping pack download</comment>
   </data>
 </root>

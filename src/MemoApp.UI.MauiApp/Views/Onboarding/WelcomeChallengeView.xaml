@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             x:Class="MemoApp.UI.MauiApp.Views.Onboarding.WelcomeChallengeView">
+    
+    <ScrollView Padding="30">
+        <VerticalStackLayout Spacing="30">
+
+            <!-- Logo and Welcome Section -->
+            <VerticalStackLayout Spacing="20">
+                <Label Text="🧠"
+                       FontSize="80"
+                       HorizontalOptions="Center" />
+
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="{localization:Localize Onboarding_Welcome_Title}"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           FontSize="28"
+                           FontAttributes="Bold" />
+                    
+                    <Label Text="{localization:Localize Onboarding_Welcome_Subtitle}"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           FontSize="16"
+                           Opacity="0.8" />
+                </VerticalStackLayout>
+
+                <!-- Updated Time Estimate -->
+                <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                       BorderColor="Transparent"
+                       CornerRadius="15"
+                       Padding="12,8"
+                       HorizontalOptions="Center">
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="⏱️" 
+                               FontSize="16"
+                               VerticalOptions="Center" />
+                        <Label Text="{localization:Localize Onboarding_QuickTimeEstimate}"
+                               TextColor="White"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+
+            <!-- Challenge Section -->
+            <VerticalStackLayout Spacing="25">
+                <Label Text="{localization:Localize Onboarding_Challenge_Title}"
+                       Style="{StaticResource Headline}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       FontSize="24"
+                       FontAttributes="Bold" />
+
+                <!-- Enhanced Number Display -->
+                <Frame x:Name="NumberFrame"
+                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                       BorderColor="{StaticResource Primary}"
+                       HasShadow="True"
+                       CornerRadius="20"
+                       Padding="40,25"
+                       HorizontalOptions="Center"
+                       MinimumHeightRequest="120"
+                       MinimumWidthRequest="280">
+                    <Label x:Name="ChallengeNumber"
+                           Text="4159265358"
+                           FontSize="42"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+                </Frame>
+
+                <!-- Enhanced Status Message with Animation Container -->
+                <Border HeightRequest="50"
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="Center">
+                    <Label x:Name="StatusLabel"
+                           Text="{localization:Localize Onboarding_Challenge_Remember}"
+                           Style="{StaticResource SubHeadline}"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           VerticalOptions="Center"
+                           FontSize="16"
+                           Opacity="0" />
+                </Border>
+
+                <!-- Value Proposition -->
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="{localization:Localize Onboarding_ValueProposition}"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}" />
+                    
+                    <Label Text="{localization:Localize Onboarding_LearnHow}"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           FontSize="14"
+                           Opacity="0.8" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- Floating Numbers Background (Simplified) -->
+            <AbsoluteLayout HeightRequest="100"
+                            IsClippedToBounds="True"
+                            InputTransparent="True">
+                <Label Text="42" FontSize="36" Opacity="0.06"
+                       AbsoluteLayout.LayoutBounds="0.2, 0.3, AutoSize, AutoSize"
+                       AbsoluteLayout.LayoutFlags="PositionProportional" />
+                <Label Text="91" FontSize="32" Opacity="0.05"
+                       AbsoluteLayout.LayoutBounds="0.8, 0.7, AutoSize, AutoSize"
+                       AbsoluteLayout.LayoutFlags="PositionProportional" />
+            </AbsoluteLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentView>
