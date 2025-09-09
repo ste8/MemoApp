@@ -283,7 +283,7 @@ public partial class FlashNumbersSetupViewModel : BaseViewModel
     {
         var numberFormat = _localizationService.CurrentNumberFormat;
         
-        TrainingOptions = new ObservableCollection<TrainingOption>();
+        TrainingOptions.Clear();
         
         if (numberFormat == NumberFormat.Padded)
         {
