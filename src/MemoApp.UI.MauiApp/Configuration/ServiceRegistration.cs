@@ -54,6 +54,9 @@ public static class ServiceRegistration
         // Share service for sharing exercise results
         services.AddSingleton<IShareService, MauiShareService>();
         
+        // First-time tooltip service
+        services.AddSingleton<IFirstTimeTooltipService, FirstTimeTooltipService>();
+        
         // AdMob registered as singleton since it uses default AdConfig settings
         services.AddSingleton<IAdMobService, AdMobService>();
         
@@ -245,8 +248,9 @@ public static class ServiceRegistration
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
             var shareService = serviceProvider.GetRequiredService<IShareService>();
             var exerciseCountService = serviceProvider.GetRequiredService<IExerciseCountService>();
+            var tooltipService = serviceProvider.GetRequiredService<IFirstTimeTooltipService>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
-            return new FlashNumbersViewModel(localizationService, analyticsService, shareService, exerciseCountService, interstitialAdManager);
+            return new FlashNumbersViewModel(localizationService, analyticsService, shareService, exerciseCountService, tooltipService, interstitialAdManager);
         });
         
         services.AddTransient<StatisticsViewModel>();
@@ -264,7 +268,8 @@ public static class ServiceRegistration
             var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
             var logger = serviceProvider.GetRequiredService<ILogger<AssociationsViewModel>>();
             var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-            return new AssociationsViewModel(categoryService, packAssociationsService, tokenDefaultsService, localizationService, messenger, imageCacheService, analyticsService, userNotificationService, logger, configuration);
+            var tooltipService = serviceProvider.GetRequiredService<IFirstTimeTooltipService>();
+            return new AssociationsViewModel(categoryService, packAssociationsService, tokenDefaultsService, localizationService, messenger, imageCacheService, analyticsService, userNotificationService, logger, configuration, tooltipService);
         });
         
         services.AddTransient<PackDownloadViewModel>(serviceProvider =>
@@ -289,9 +294,10 @@ public static class ServiceRegistration
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
             var exerciseCountService = serviceProvider.GetRequiredService<IExerciseCountService>();
             var packAssociationsService = serviceProvider.GetRequiredService<IPackAssociationsService>();
+            var tooltipService = serviceProvider.GetRequiredService<IFirstTimeTooltipService>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
             var shareService = serviceProvider.GetRequiredService<IShareService>();
-            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, packAssociationsService, interstitialAdManager);
+            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, packAssociationsService, tooltipService, interstitialAdManager);
         });
         
         services.AddTransient<TokenDetailViewModel>(serviceProvider =>

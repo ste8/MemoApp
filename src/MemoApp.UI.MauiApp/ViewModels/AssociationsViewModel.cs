@@ -35,6 +35,7 @@ public partial class AssociationsViewModel : ObservableObject,
     private readonly IUserNotificationService _userNotificationService;
     private readonly ILogger<AssociationsViewModel> _logger;
     private readonly IConfiguration _configuration;
+    private readonly IFirstTimeTooltipService _tooltipService;
     
     [ObservableProperty]
     private bool _isLoading;
@@ -86,7 +87,8 @@ public partial class AssociationsViewModel : ObservableObject,
         IAnalyticsService analyticsService,
         IUserNotificationService userNotificationService,
         ILogger<AssociationsViewModel> logger,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        IFirstTimeTooltipService tooltipService)
     {
         _categoryService = categoryService;
         _packAssociationsService = packAssociationsService;
@@ -98,6 +100,7 @@ public partial class AssociationsViewModel : ObservableObject,
         _userNotificationService = userNotificationService;
         _logger = logger;
         _configuration = configuration;
+        _tooltipService = tooltipService;
         
         // Always show ads in this version
         ShowAds = true;
@@ -118,6 +121,8 @@ public partial class AssociationsViewModel : ObservableObject,
         // Initialize localized strings
         UpdateLocalizedStrings();
         
+        // Show first-time tooltip
+        _ = ShowFirstTimeTooltipAsync();
         
         // Load initial data - don't block constructor
         _ = LoadDataAsync();
@@ -145,6 +150,25 @@ public partial class AssociationsViewModel : ObservableObject,
     {
         EmptyStateTitle = _localizationService.GetString("Associations_NoPackDownloaded");
         EmptyStateMessage = _localizationService.GetString("Associations_NoPackDownloadedMessage");
+    }
+    
+    private async Task ShowFirstTimeTooltipAsync()
+    {
+        try
+        {
+            // Show the tooltip after a small delay to ensure the page is fully loaded
+            await Task.Delay(500);
+            
+            var title = _localizationService.GetString("Tooltip_Associations_Title");
+            var message = _localizationService.GetString("Tooltip_Associations_Message");
+            var dismissText = _localizationService.GetString("Tooltip_Dismiss");
+            
+            await _tooltipService.ShowTooltipIfFirstTimeAsync("Associations", title, message, dismissText);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error showing first-time tooltip");
+        }
     }
     
     [RelayCommand]
