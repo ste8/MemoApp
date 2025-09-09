@@ -118,6 +118,34 @@
     <value>Allenamenti Predefiniti</value>
     <comment>Preset training section title</comment>
   </data>
+  <data name="MainPage_Welcome" xml:space="preserve">
+    <value>Benvenuto in MemoRaise</value>
+    <comment>Main page welcome title</comment>
+  </data>
+  <data name="MainPage_WelcomeTitle" xml:space="preserve">
+    <value>Benvenuto in MemoRaise</value>
+    <comment>Main page welcome title for ViewModel binding</comment>
+  </data>
+  <data name="MainPage_WelcomeSubtitle" xml:space="preserve">
+    <value>Padroneggia il Sistema Maggiore e migliora le tue abilità di memoria</value>
+    <comment>Main page welcome subtitle</comment>
+  </data>
+  <data name="MainPage_FlashNumbersDescription" xml:space="preserve">
+    <value>Pratica le associazioni numero-immagine con intervalli personalizzabili</value>
+    <comment>Flash Numbers card description</comment>
+  </data>
+  <data name="MainPage_BigNumberDescription" xml:space="preserve">
+    <value>Mettiti alla prova con esercizi di memorizzazione numerica a tempo</value>
+    <comment>Big Number card description</comment>
+  </data>
+  <data name="MainPage_GetStarted" xml:space="preserve">
+    <value>Inizia</value>
+    <comment>Get started section title</comment>
+  </data>
+  <data name="MainPage_LearnMajorSystem" xml:space="preserve">
+    <value>Impara il Sistema Maggiore</value>
+    <comment>Learn Major System button text</comment>
+  </data>
   
   <!-- Training Options -->
   <data name="TrainingOption_Beginner" xml:space="preserve">
@@ -565,6 +593,10 @@
   </data>
   
   <!-- Tab Labels -->
+  <data name="Tab_Home" xml:space="preserve">
+    <value>Casa</value>
+    <comment>Home tab label</comment>
+  </data>
   <data name="Tab_Training" xml:space="preserve">
     <value>Allenamento</value>
     <comment>Training tab label</comment>

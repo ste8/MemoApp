@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:MemoApp.UI.MauiApp.Views.Components"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             x:Class="MemoApp.UI.MauiApp.Views.Components.CustomRangeComponent">
+    
+    <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+           Padding="15"
+           CornerRadius="10"
+           HasShadow="True">
+        
+        <StackLayout Spacing="15">
+            <Label Text="{localization:Localize MainPage_CustomRange}" 
+                   Style="{StaticResource SubHeadline}"
+                   HorizontalOptions="Center" />
+            
+            <!-- Number Range Selectors -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Start Number Selector -->
+                <components:NumberSelectorComponent 
+                    Grid.Column="0" 
+                    Grid.Row="0"
+                    Title="{localization:Localize MainPage_StartNumber}"
+                    NumberOptions="{Binding NumberOptions}"
+                    SelectedIndex="{Binding SelectedStartIndex}"
+                    SelectedValue="{Binding CustomRangeStart}"
+                    IsDropdownVisible="{Binding IsStartDropdownVisible}"
+                    ToggleDropdownCommand="{Binding ToggleStartDropdownCommand}"
+                    SelectNumberOptionCommand="{Binding SelectStartNumberOptionCommand}"
+                    AccessibilityName="{localization:Localize Accessibility_StartNumberPicker}"
+                    AccessibilityHelp="{localization:Localize Accessibility_StartNumberPickerHelp}" />
+                
+                <Label Grid.Column="1" Grid.Row="0"
+                       Text="{localization:Localize Common_To}"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"
+                       Margin="{OnIdiom Phone='5,0', Tablet='10,0', Desktop='15,0'}"
+                       FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=16}" />
+
+                <!-- End Number Selector -->
+                <components:NumberSelectorComponent 
+                    Grid.Column="2" 
+                    Grid.Row="0"
+                    Title="{localization:Localize MainPage_EndNumber}"
+                    NumberOptions="{Binding NumberOptions}"
+                    SelectedIndex="{Binding SelectedEndIndex}"
+                    SelectedValue="{Binding CustomRangeEnd}"
+                    IsDropdownVisible="{Binding IsEndDropdownVisible}"
+                    ToggleDropdownCommand="{Binding ToggleEndDropdownCommand}"
+                    SelectNumberOptionCommand="{Binding SelectEndNumberOptionCommand}"
+                    AccessibilityName="{localization:Localize Accessibility_EndNumberPicker}"
+                    AccessibilityHelp="{localization:Localize Accessibility_EndNumberPickerHelp}" />
+                    
+            </Grid>
+            
+            <!-- Validation Message -->
+            <Label Text="{Binding ValidationMessage}"
+                   TextColor="Red"
+                   FontSize="14"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   LineBreakMode="WordWrap"
+                   IsVisible="{Binding HasValidationError}"
+                   Margin="10,5,10,0" />
+            
+            <Button Text="{localization:Localize MainPage_CustomFlashNumbers}"
+                    Command="{Binding StartCustomTrainingCommand}"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="White"
+                    CornerRadius="8"
+                    HeightRequest="{OnIdiom Phone=60, Tablet=65, Desktop=70}"
+                    LineBreakMode="WordWrap"
+                    Padding="15,10"
+                    AutomationProperties.Name="{localization:Localize Accessibility_StartCustomTrainingButton}"
+                    AutomationProperties.HelpText="{localization:Localize Accessibility_StartCustomTrainingButtonHelp}" />
+        </StackLayout>
+    </Frame>
+    
+</ContentView>

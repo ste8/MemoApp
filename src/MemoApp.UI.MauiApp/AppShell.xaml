@@ -9,7 +9,20 @@
     Title="Major System Training">
 
     <TabBar>
-        <!-- First Tab: Associations - Learn the number-to-image mappings -->
+        <!-- First Tab: Welcome/Home -->
+        <ShellContent
+            Title="{localization:Localize Tab_Home}"
+            Route="main"
+            ContentTemplate="{DataTemplate views:MainPage}">
+            <ShellContent.Icon>
+                <FontImageSource
+                    FontFamily="FontAwesomeLight"
+                    Glyph="&#xf015;"
+                    Color="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}" />
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <!-- Second Tab: Associations - Learn the number-to-image mappings -->
         <ShellContent
             Title="{localization:Localize Associations_Title}"
             Route="associations"
@@ -22,11 +35,11 @@
             </ShellContent.Icon>
         </ShellContent>
 
-        <!-- Second Tab: Training - Flash numbers exercise -->
+        <!-- Third Tab: Training - Flash numbers setup -->
         <ShellContent
             Title="{localization:Localize Tab_FlashNumbers}"
-            Route="main"
-            ContentTemplate="{DataTemplate views:MainPage}">
+            Route="flashnumberssetup"
+            ContentTemplate="{DataTemplate views:FlashNumbersSetupPage}">
             <ShellContent.Icon>
                 <FontImageSource
                     FontFamily="FontAwesomeLight"
@@ -35,7 +48,7 @@
             </ShellContent.Icon>
         </ShellContent>
 
-        <!-- Third Tab: Big Number - Number memorization exercise -->
+        <!-- Fourth Tab: Big Number - Number memorization exercise -->
         <ShellContent
             Title="{localization:Localize BigNumber_Title}"
             Route="bignumber"
@@ -48,7 +61,7 @@
             </ShellContent.Icon>
         </ShellContent>
 
-        <!-- Fourth Tab: Settings - App configuration and preferences -->
+        <!-- Fifth Tab: Settings - App configuration and preferences -->
         <ShellContent
             Title="{localization:Localize Tab_Settings}"
             Icon="settings"

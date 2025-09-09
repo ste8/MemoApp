@@ -241,6 +241,14 @@ public static class ServiceRegistration
             return new MainViewModel(localizationService, userNotificationService, logger);
         });
         
+        services.AddSingleton<FlashNumbersSetupViewModel>(serviceProvider =>
+        {
+            var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+            var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
+            var logger = serviceProvider.GetRequiredService<ILogger<FlashNumbersSetupViewModel>>();
+            return new FlashNumbersSetupViewModel(localizationService, userNotificationService, logger);
+        });
+        
         // Transient ViewModels (new instance per navigation)
         services.AddTransient<FlashNumbersViewModel>(serviceProvider =>
         {
@@ -388,6 +396,7 @@ public static class ServiceRegistration
         // Register pages
         services.AddSingleton<Views.TestPage>();
         services.AddSingleton<Views.MainPage>();
+        services.AddSingleton<Views.FlashNumbersSetupPage>();
         services.AddTransient<Views.FlashNumbersPage>();
         services.AddTransient<Views.StatisticsPage>();
         services.AddTransient<Views.HelpPage>();

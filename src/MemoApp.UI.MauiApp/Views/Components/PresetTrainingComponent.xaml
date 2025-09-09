@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
+             xmlns:components="clr-namespace:MemoApp.UI.MauiApp.Views.Components"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             x:Class="MemoApp.UI.MauiApp.Views.Components.PresetTrainingComponent">
+    
+    <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+           Padding="15"
+           CornerRadius="10"
+           HasShadow="True">
+        
+        <StackLayout Spacing="15">
+            <Label Text="{localization:Localize MainPage_PresetTraining}" 
+                   Style="{StaticResource SubHeadline}"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,10" />
+
+            <!-- Mobile CollectionView with compact grid layout -->
+            <CollectionView ItemsSource="{Binding TrainingOptions}"
+                            SelectionMode="None"
+                            IsVisible="{Binding IsMobileLayout}">
+                
+                <CollectionView.ItemsLayout>
+                    <!-- 3-column grid layout for mobile -->
+                    <GridItemsLayout Orientation="Vertical" 
+                                   Span="3"
+                                   HorizontalItemSpacing="8"
+                                   VerticalItemSpacing="8" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type viewmodels:TrainingOption}">
+                        <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                               Padding="8,10"
+                               CornerRadius="6"
+                               HasShadow="False"
+                               Margin="0">
+                            
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type components:PresetTrainingComponent}}, Path=StartPresetTrainingCommand}"
+                                                      CommandParameter="{Binding .}" />
+                            </Frame.GestureRecognizers>
+
+                            <Label Text="{Binding Name}" 
+                                   FontAttributes="Bold"
+                                   FontSize="14"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   HorizontalTextAlignment="Center" />
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Desktop/Tablet CollectionView with list layout -->
+            <CollectionView ItemsSource="{Binding TrainingOptions}"
+                            SelectionMode="None"
+                            IsVisible="{Binding IsMobileLayout, Converter={StaticResource InvertedBoolConverter}}">
+                
+                <CollectionView.ItemsLayout>
+                    <!-- Single column layout for desktop/tablet -->
+                    <LinearItemsLayout Orientation="Vertical" 
+                                     ItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type viewmodels:TrainingOption}">
+                        <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                               Padding="10,12"
+                               CornerRadius="8"
+                               HasShadow="False"
+                               Margin="0,3">
+                            
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type components:PresetTrainingComponent}}, Path=StartPresetTrainingCommand}"
+                                                      CommandParameter="{Binding .}" />
+                            </Frame.GestureRecognizers>
+
+                            <Label Text="{Binding Name}" 
+                                   FontAttributes="Bold"
+                                   FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </Frame>
+    
+</ContentView>

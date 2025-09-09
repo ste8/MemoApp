@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
+             xmlns:components="clr-namespace:MemoApp.UI.MauiApp.Views.Components"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             xmlns:views="clr-namespace:MemoApp.UI.MauiApp.Views"
+             x:Class="MemoApp.UI.MauiApp.Views.FlashNumbersSetupPage"
+             x:DataType="viewmodels:FlashNumbersSetupViewModel"
+             Title="{Binding Title}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <!-- Update Notification Banner at the top -->
+        <views:UpdateNotificationBanner Grid.Row="0" />
+        
+        <ScrollView Grid.Row="1">
+            <!-- Main responsive grid layout -->
+            <Grid x:Name="MainGrid" 
+                  Padding="{OnPlatform iOS='20,40,20,20', Default='20'}">
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <!-- Second column only visible on larger screens -->
+                    <ColumnDefinition Width="{OnIdiom Phone=0, Tablet='*', Desktop='*'}" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Column: Main content -->
+                <StackLayout Grid.Column="0" 
+                             Spacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
+                    
+                    <!-- Page Header -->
+                    <Label Text="{localization:Localize FlashNumbers_Title}" 
+                           Style="{StaticResource Headline}"
+                           HorizontalOptions="Center"
+                           Margin="0,0,0,10" />
+                    
+                    <Label Text="{localization:Localize MainPage_Subtitle}" 
+                           Style="{StaticResource SubHeadline}"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           Margin="0,0,0,20" />
+
+                    <!-- Quick Start Component -->
+                    <components:QuickStartComponent 
+                        QuickTrainingCommand="{Binding StartQuickTrainingCommand}"
+                        QuickTrainingButtonText="{Binding QuickTrainingButtonText}"
+                        ShowHelpCommand="{Binding ShowHelpCommand}" />
+
+                    <!-- Mobile Preset Training (only visible on phones) -->
+                    <components:PresetTrainingComponent 
+                        TrainingOptions="{Binding TrainingOptions}"
+                        StartPresetTrainingCommand="{Binding StartPresetTrainingCommand}"
+                        IsMobileLayout="True"
+                        IsVisible="{OnIdiom Phone=True, Tablet=False, Desktop=False}" />
+
+                    <!-- Custom Range Component -->
+                    <components:CustomRangeComponent 
+                        NumberOptions="{Binding NumberOptions}"
+                        SelectedStartIndex="{Binding SelectedStartIndex}"
+                        SelectedEndIndex="{Binding SelectedEndIndex}"
+                        CustomRangeStart="{Binding CustomRangeStart}"
+                        CustomRangeEnd="{Binding CustomRangeEnd}"
+                        IsStartDropdownVisible="{Binding IsStartDropdownVisible}"
+                        IsEndDropdownVisible="{Binding IsEndDropdownVisible}"
+                        ValidationMessage="{Binding ValidationMessage}"
+                        HasValidationError="{Binding HasValidationError}"
+                        ToggleStartDropdownCommand="{Binding ToggleStartDropdownCommand}"
+                        ToggleEndDropdownCommand="{Binding ToggleEndDropdownCommand}"
+                        SelectStartNumberOptionCommand="{Binding SelectStartNumberOptionCommand}"
+                        SelectEndNumberOptionCommand="{Binding SelectEndNumberOptionCommand}"
+                        StartCustomTrainingCommand="{Binding StartCustomTrainingCommand}" />
+                        
+                </StackLayout>
+
+                <!-- Right Column: Desktop Preset training (only visible on tablet/desktop) -->
+                <components:PresetTrainingComponent 
+                    Grid.Column="1"
+                    TrainingOptions="{Binding TrainingOptions}"
+                    StartPresetTrainingCommand="{Binding StartPresetTrainingCommand}"
+                    IsMobileLayout="False"
+                    IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}"
+                    Margin="20,0,0,0" />
+                    
+            </Grid>
+        </ScrollView>
+    </Grid>
+</ContentPage>

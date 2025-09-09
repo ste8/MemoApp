@@ -226,3 +226,23 @@ public class MultiBooleanAndConverter : IMultiValueConverter
         throw new NotImplementedException();
     }
 }
+
+/// <summary>
+/// Converts a string to boolean based on parameter comparison.
+/// Returns true if the bound string equals the converter parameter.
+/// </summary>
+public class StringToBoolConverter : IValueConverter
+{
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is string stringValue && parameter is string parameterValue)
+            return string.Equals(stringValue, parameterValue, StringComparison.OrdinalIgnoreCase);
+        
+        return false;
+    }
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
