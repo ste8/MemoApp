@@ -416,7 +416,6 @@ public static class ServiceRegistration
         services.AddTransient<Views.Onboarding.MajorSystemIntroView>();
         services.AddTransient<Views.Onboarding.ExampleView>();
         services.AddTransient<Views.Onboarding.InteractivePracticeView>();
-        services.AddTransient<Views.Onboarding.NavigationGuideView>();
         services.AddTransient<Views.Onboarding.PackDownloadOnboardingView>();
         services.AddTransient<Views.Onboarding.PersonalizationView>();
         

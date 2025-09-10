@@ -50,7 +50,7 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
         {
             _logger.LogInformation("Initializing onboarding pages");
             
-            // Create streamlined 5-step onboarding pages
+            // Create streamlined 4-step onboarding pages
             OnboardingPages.Clear();
             
             // Step 1: Welcome + Challenge (merged)
@@ -65,7 +65,7 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
             var practiceView = _serviceProvider.GetRequiredService<InteractivePracticeView>();
             OnboardingPages.Add(practiceView);
             
-            // Step 4: Pack Download (moved earlier, better timing)
+            // Step 4: Pack Download (final step, leads directly to main app)
             _logger.LogInformation("Creating PackDownloadOnboardingView...");
             var packDownloadView = _serviceProvider.GetRequiredService<PackDownloadOnboardingView>();
             if (packDownloadView == null)
@@ -76,17 +76,13 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
             OnboardingPages.Add(packDownloadView);
             _logger.LogInformation("PackDownloadOnboardingView added successfully at index {Index}", OnboardingPages.Count - 1);
             
-            // Step 5: Navigation Guide + Personalization (final setup)
-            var navigationView = _serviceProvider.GetRequiredService<NavigationGuideView>();
-            OnboardingPages.Add(navigationView);
-            
             _logger.LogInformation("Total onboarding pages added: {PageCount}", OnboardingPages.Count);
             
             // Validate that all expected views were added
-            if (OnboardingPages.Count != 5)
+            if (OnboardingPages.Count != 4)
             {
-                _logger.LogError("Expected 5 onboarding pages but got {ActualCount}!", OnboardingPages.Count);
-                throw new InvalidOperationException($"Expected 5 onboarding pages but got {OnboardingPages.Count}");
+                _logger.LogError("Expected 4 onboarding pages but got {ActualCount}!", OnboardingPages.Count);
+                throw new InvalidOperationException($"Expected 4 onboarding pages but got {OnboardingPages.Count}");
             }
             
             // Log all view types for debugging
@@ -206,7 +202,7 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
         }
         else if (action == _localizationService.GetString("Onboarding_SkipToSetup") && CurrentPosition < 3)
         {
-            CurrentPosition = 3; // Jump to setup phase
+            CurrentPosition = 3; // Jump to pack download (final step)
         }
     }
     
@@ -220,15 +216,15 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
         // Phase-specific skip options
         switch (CurrentPosition)
         {
-            case 0: // Welcome+Challenge - offer skip to practice or setup
+            case 0: // Welcome+Challenge - offer skip to practice or pack download
                 options.Add(_localizationService.GetString("Onboarding_SkipToPractice"));
                 options.Add(_localizationService.GetString("Onboarding_SkipToSetup"));
                 break;
-            case 1: // Major System - offer skip to practice or setup  
+            case 1: // Major System - offer skip to practice or pack download  
                 options.Add(_localizationService.GetString("Onboarding_SkipToPractice"));
                 options.Add(_localizationService.GetString("Onboarding_SkipToSetup"));
                 break;
-            case 2: // Practice - offer skip to setup
+            case 2: // Practice - offer skip to pack download (final step)
                 options.Add(_localizationService.GetString("Onboarding_SkipToSetup"));
                 break;
             default:

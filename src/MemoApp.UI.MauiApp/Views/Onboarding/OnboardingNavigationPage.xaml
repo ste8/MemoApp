@@ -77,22 +77,6 @@
                        TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
             </VerticalStackLayout>
             
-            <!-- Step 4: Setup -->
-            <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                <Frame x:Name="PhaseIndicator3" 
-                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" 
-                       WidthRequest="30" 
-                       HeightRequest="6" 
-                       CornerRadius="3" 
-                       Padding="0" 
-                       BorderColor="Transparent" />
-                <Label x:Name="PhaseLabel3"
-                       Text="{localization:Localize Onboarding_Step_Setup}"
-                       FontSize="11"
-                       HorizontalOptions="Center"
-                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
-            </VerticalStackLayout>
-            
         </HorizontalStackLayout>
 
         <!-- Enhanced Navigation Controls for Mobile -->

@@ -48,7 +48,6 @@ public partial class OnboardingNavigationPage : ContentPage
         _indicators.Add(PhaseIndicator0);
         _indicators.Add(PhaseIndicator1);
         _indicators.Add(PhaseIndicator2);
-        _indicators.Add(PhaseIndicator3);
         
         // Store views from ViewModel
         _onboardingViews.Clear();
@@ -96,17 +95,15 @@ public partial class OnboardingNavigationPage : ContentPage
         var grayColor = (Color)(Application.Current.Resources.TryGetValue("Gray300", out var gray) ? gray : Colors.Gray);
         var warningColor = (Color)(Application.Current.Resources.TryGetValue("Orange400", out var orange) ? orange : Colors.Orange);
         
-        // Map 5 steps to 4 visual indicators:
+        // Map 4 steps to 4 visual indicators:
         // Step 1 (Learn): Steps 0-1 (Welcome+Challenge, Major System)
         // Step 2 (Practice): Step 2 (Interactive Practice)
-        // Step 3 (Content): Step 3 (Pack Download) - HIGHLIGHTED AS CRITICAL
-        // Step 4 (Setup): Step 4 (Navigation)
+        // Step 3 (Content): Step 3 (Pack Download) - FINAL STEP
         var currentStep = _viewModel.CurrentPosition switch
         {
             0 or 1 => 0, // Learn step
             2 => 1,      // Practice step
-            3 => 2,      // Content step (CRITICAL)
-            4 => 3,      // Setup step
+            3 => 2,      // Content step (FINAL)
             _ => 0
         };
         
@@ -127,7 +124,7 @@ public partial class OnboardingNavigationPage : ContentPage
         }
         
         // Update step labels colors with special handling for content step
-        var labelElements = new[] { PhaseLabel0, PhaseLabel1, PhaseLabel2, PhaseLabel3 };
+        var labelElements = new[] { PhaseLabel0, PhaseLabel1, PhaseLabel2 };
         
         for (int i = 0; i < labelElements.Length; i++)
         {
