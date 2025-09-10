@@ -62,6 +62,12 @@ public partial class FlashNumbersPage : ContentPage
             System.Diagnostics.Debug.WriteLine("Executing AdvanceToNextCommand");
             _viewModel.AdvanceToNextCommand?.Execute(null);
         }
+        // Check if 'H' was pressed (for revealing/hiding association)
+        else if (char.ToUpperInvariant(lastChar) == 'H')
+        {
+            System.Diagnostics.Debug.WriteLine("Executing ToggleAssociationRevealCommand");
+            _viewModel.ToggleAssociationRevealCommand?.Execute(null);
+        }
 
         // Clear the text to be ready for next input
         if (sender is Entry entry)

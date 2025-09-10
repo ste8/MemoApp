@@ -98,6 +98,8 @@
     <x:String x:Key="Icon_Add">{x:Static utilities:FontAwesome+Solid.Plus}</x:String>
     <x:String x:Key="Icon_Search">{x:Static utilities:FontAwesome+Solid.MagnifyingGlass}</x:String>
     <x:String x:Key="Icon_Share">{x:Static utilities:FontAwesome+Solid.Share}</x:String>
+    <x:String x:Key="Icon_Eye">{x:Static utilities:FontAwesome+Solid.Eye}</x:String>
+    <x:String x:Key="Icon_EyeSlash">{x:Static utilities:FontAwesome+Solid.EyeSlash}</x:String>
 
     <!-- STATUS ICONS -->
     <x:String x:Key="Icon_Success">{x:Static utilities:FontAwesome+Solid.CircleCheck}</x:String>

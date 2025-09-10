@@ -55,6 +55,8 @@ public static class AnalyticsEvents
     public const string FlashNumbersStarted = "flash_numbers_started";
     public const string FlashNumbersCompleted = "flash_numbers_completed";
     public const string FlashNumbersStepCompleted = "flash_numbers_step_completed";
+    public const string FlashNumbersAssociationRevealed = "flash_numbers_association_revealed";
+    public const string FlashNumbersAssociationHidden = "flash_numbers_association_hidden";
     
     // Onboarding Events
     public const string OnboardingStarted = "onboarding_started";
@@ -115,6 +117,7 @@ public static class AnalyticsParameters
     public const string NewDefault = "new_default";
     public const string OldValue = "old_value";
     public const string NewValue = "new_value";
+    public const string HasAssociation = "has_association";
     
     // Pack Parameters
     public const string PackId = "pack_id";

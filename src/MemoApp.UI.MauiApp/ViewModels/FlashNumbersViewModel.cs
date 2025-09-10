@@ -2,6 +2,8 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.MajorSystem;
+using MemoApp.Core.MajorSystem.Services;
+using MemoApp.Core.MajorSystem.Models;
 using MemoApp.Core.Services.Analytics;
 using MemoApp.Core.Services.Sharing;
 using MemoApp.Core.Models;
@@ -26,6 +28,7 @@ public partial class FlashNumbersViewModel : BaseViewModel
     private readonly IShareService _shareService;
     private readonly IInterstitialAdManager? _interstitialAdManager;
     private readonly IExerciseCountService _exerciseCountService;
+    private readonly IPackAssociationsService _packAssociationsService;
     private GameSession? _gameSession;
     
     // Analytics tracking
@@ -65,17 +68,41 @@ public partial class FlashNumbersViewModel : BaseViewModel
     [ObservableProperty]
     private ObservableCollection<NumberPerformance> performances = new();
 
+    [ObservableProperty]
+    private bool isAssociationRevealed;
+
+    [ObservableProperty]
+    private TokenAssociation? currentAssociation;
+
+    [ObservableProperty]
+    private string associationRevealButtonText = "";
+
+    [ObservableProperty]
+    private string revealButtonIcon = "👁";
+
+    // Track reveal usage for analytics
+    private int _revealUsageCount;
+
+    [ObservableProperty]
+    private string? currentAssociationWord;
+
+    [ObservableProperty]
+    private string? currentAssociationImagePath;
+
+
     public FlashNumbersViewModel(
         ILocalizationService localizationService, 
         IAnalyticsService analyticsService,
         IShareService shareService,
         IExerciseCountService exerciseCountService,
+        IPackAssociationsService packAssociationsService,
         IInterstitialAdManager? interstitialAdManager = null)
     {
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
         _analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
         _shareService = shareService ?? throw new ArgumentNullException(nameof(shareService));
         _exerciseCountService = exerciseCountService ?? throw new ArgumentNullException(nameof(exerciseCountService));
+        _packAssociationsService = packAssociationsService ?? throw new ArgumentNullException(nameof(packAssociationsService));
         _interstitialAdManager = interstitialAdManager;
         Title = "Flash Numbers";
     }
@@ -165,6 +192,121 @@ public partial class FlashNumbersViewModel : BaseViewModel
         if (_gameSession.State == SessionState.Completed)
         {
             CompleteSession();
+        }
+        
+        // Reset association reveal when advancing to next number
+        IsAssociationRevealed = false;
+        CurrentAssociation = null;
+        CurrentAssociationWord = null;
+        CurrentAssociationImagePath = null;
+    }
+
+    [RelayCommand]
+    private async void ToggleAssociationReveal()
+    {
+        if (_gameSession?.CurrentNumber == null || !IsSessionActive) return;
+
+        try
+        {
+            if (IsAssociationRevealed)
+            {
+                // Hide the association
+                IsAssociationRevealed = false;
+                CurrentAssociation = null;
+                CurrentAssociationWord = null;
+                CurrentAssociationImagePath = null;
+                
+                // Track hiding association
+                await _analyticsService.TrackEventAsync(AnalyticsEvents.FlashNumbersAssociationHidden, new Dictionary<string, object>
+                {
+                    [AnalyticsParameters.ExerciseType] = ExerciseTypes.FlashNumbers,
+                    [AnalyticsParameters.Token] = CurrentNumber,
+                    [AnalyticsParameters.NumberRange] = $"{RangeStart}_{RangeEnd}"
+                });
+            }
+            else
+            {
+                // Load and show the association
+                await LoadAssociationForCurrentNumber();
+                
+                // Track revealing association
+                await _analyticsService.TrackEventAsync(AnalyticsEvents.FlashNumbersAssociationRevealed, new Dictionary<string, object>
+                {
+                    [AnalyticsParameters.ExerciseType] = ExerciseTypes.FlashNumbers,
+                    [AnalyticsParameters.Token] = CurrentNumber,
+                    [AnalyticsParameters.NumberRange] = $"{RangeStart}_{RangeEnd}",
+                    [AnalyticsParameters.HasAssociation] = CurrentAssociation != null
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log the error but don't crash the training session
+            await _analyticsService.TrackEventAsync("association_reveal_error", new Dictionary<string, object>
+            {
+                [AnalyticsParameters.ErrorType] = "AssociationRevealError",
+                [AnalyticsParameters.ErrorMessage] = ex.Message,
+                [AnalyticsParameters.Token] = CurrentNumber
+            });
+        }
+    }
+
+    /// <summary>
+    /// Loads the association for the current number from the pack associations service
+    /// </summary>
+    private async Task LoadAssociationForCurrentNumber()
+    {
+        if (_gameSession?.CurrentNumber == null) return;
+
+        try
+        {
+            var currentNumber = _gameSession.CurrentNumber.Value;
+            var token = currentNumber.Display; // Get the display format (e.g., "07" for zero-prefixed)
+            
+            // Use "numbers" category like other parts of the app (BigNumberViewModel, AssociationsViewModel)
+            var categoryKey = "numbers"; 
+            
+            // Get all associations for this token (includes custom associations)
+            var associations = await _packAssociationsService.GetTokenAssociationsAsync(categoryKey, token);
+            
+            if (associations?.Count > 0)
+            {
+                // Prefer default association, but use first available if no default
+                // This will also pick up custom associations if user has set them
+                var association = associations.FirstOrDefault(a => a.IsDefault) ?? associations.First();
+                
+                CurrentAssociation = association;
+                CurrentAssociationWord = association.Word;
+                // Use ThumbnailPath first, fallback to ImagePath if thumbnail not available
+                CurrentAssociationImagePath = !string.IsNullOrEmpty(association.ThumbnailPath) 
+                    ? association.ThumbnailPath 
+                    : association.ImagePath;
+                IsAssociationRevealed = true;
+            }
+            else
+            {
+                // No association found - still set as revealed to show "no association" message
+                CurrentAssociation = null;
+                CurrentAssociationWord = null;
+                CurrentAssociationImagePath = null;
+                IsAssociationRevealed = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log error but continue
+            await _analyticsService.TrackEventAsync("association_load_error", new Dictionary<string, object>
+            {
+                [AnalyticsParameters.ErrorType] = "LoadAssociationError",
+                [AnalyticsParameters.ErrorMessage] = ex.Message,
+                [AnalyticsParameters.Token] = CurrentNumber
+            });
+            
+            // Set as revealed but with no data to show error state
+            IsAssociationRevealed = true;
+            CurrentAssociation = null;
+            CurrentAssociationWord = null;
+            CurrentAssociationImagePath = null;
         }
     }
 
@@ -261,7 +403,7 @@ public partial class FlashNumbersViewModel : BaseViewModel
             {
                 await Shell.Current.DisplayAlert(
                     _localizationService.GetString("Error_Title"), 
-                    "No results to share", 
+                    _localizationService.GetString("Error_NoResultsToShare"), 
                     _localizationService.GetString("Common_OK"));
                 return;
             }
@@ -333,5 +475,6 @@ public partial class FlashNumbersViewModel : BaseViewModel
             });
         }
     }
+
 
 }

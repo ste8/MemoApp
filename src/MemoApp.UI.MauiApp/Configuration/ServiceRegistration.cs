@@ -256,8 +256,9 @@ public static class ServiceRegistration
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
             var shareService = serviceProvider.GetRequiredService<IShareService>();
             var exerciseCountService = serviceProvider.GetRequiredService<IExerciseCountService>();
+            var packAssociationsService = serviceProvider.GetRequiredService<IPackAssociationsService>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
-            return new FlashNumbersViewModel(localizationService, analyticsService, shareService, exerciseCountService, interstitialAdManager);
+            return new FlashNumbersViewModel(localizationService, analyticsService, shareService, exerciseCountService, packAssociationsService, interstitialAdManager);
         });
         
         services.AddTransient<StatisticsViewModel>();

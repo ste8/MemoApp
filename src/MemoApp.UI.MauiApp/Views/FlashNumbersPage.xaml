@@ -101,15 +101,58 @@
                            CornerRadius="20"
                            HasShadow="True">
                         
-                        <StackLayout Spacing="20">
-                            <Label Text="{localization:Localize FlashNumbers_CurrentNumber}"
-                                   TextColor="White"
-                                   FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
-                                   HorizontalOptions="Center"
-                                   FontAttributes="Bold" />
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            
+                            <!-- Header with reveal button -->
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                
+                                <Label Grid.Column="0"
+                                       Text="{localization:Localize FlashNumbers_CurrentNumber}"
+                                       TextColor="White"
+                                       FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       FontAttributes="Bold" />
+                                
+                                <!-- Reveal association button -->
+                                <Button Grid.Column="1"
+                                        Command="{Binding ToggleAssociationRevealCommand}"
+                                        Text="{StaticResource Icon_Eye}"
+                                        FontFamily="{StaticResource IconFont_Solid}"
+                                        BackgroundColor="Transparent"
+                                        TextColor="White"
+                                        FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                                        WidthRequest="{OnIdiom Phone=48, Tablet=56, Desktop=64}"
+                                        HeightRequest="{OnIdiom Phone=48, Tablet=56, Desktop=64}"
+                                        CornerRadius="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                                        BorderWidth="2"
+                                        BorderColor="White"
+                                        Margin="0,0,0,0"
+                                        Opacity="0.9"
+                                        AutomationProperties.Name="{localization:Localize Accessibility_RevealAssociationButton}"
+                                        AutomationProperties.HelpText="{localization:Localize Accessibility_RevealAssociationButtonHelp}">
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button" Binding="{Binding IsAssociationRevealed}" Value="True">
+                                            <Setter Property="Text" Value="{StaticResource Icon_EyeSlash}" />
+                                            <Setter Property="Opacity" Value="1.0" />
+                                        </DataTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </Grid>
 
                             <!-- Large number display with responsive sizing -->
-                            <Label Text="{Binding CurrentNumber}"
+                            <Label Grid.Row="1"
+                                   Text="{Binding CurrentNumber}"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=80, Tablet=120, Desktop=160}"
                                    FontAttributes="Bold"
@@ -117,17 +160,71 @@
                                    VerticalOptions="Center"
                                    HorizontalTextAlignment="Center"
                                    MinimumHeightRequest="{OnIdiom Phone=120, Tablet=160, Desktop=200}"
+                                   Margin="0,20,0,20"
                                    AutomationProperties.Name="{localization:Localize Accessibility_CurrentNumber}"
                                    AutomationProperties.HelpText="{Binding CurrentNumber, StringFormat='Current number to practice: {0}'}" />
 
-                            <Label Text="{localization:Localize FlashNumbers_ThinkInstruction}"
+                            <!-- Think instruction (hidden when association is revealed) -->
+                            <Label Grid.Row="2"
+                                   Text="{localization:Localize FlashNumbers_ThinkInstruction}"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    HorizontalOptions="Center"
                                    HorizontalTextAlignment="Center"
                                    FontAttributes="Italic"
-                                   Opacity="0.95" />
-                        </StackLayout>
+                                   Opacity="0.95"
+                                   IsVisible="{Binding IsAssociationRevealed, Converter={StaticResource InvertedBoolConverter}}" />
+
+                            <!-- Revealed association section -->
+                            <Frame Grid.Row="3"
+                                   BackgroundColor="{StaticResource Gray900}"
+                                   Padding="20"
+                                   CornerRadius="15"
+                                   HasShadow="False"
+                                   Margin="0,10,0,0"
+                                   IsVisible="{Binding IsAssociationRevealed}">
+                                
+                                <StackLayout Spacing="15">
+                                    <!-- Association content -->
+                                    <StackLayout IsVisible="{Binding CurrentAssociation, Converter={StaticResource IsNotNullConverter}}"
+                                                Spacing="12">
+                                        
+                                        <!-- Association word -->
+                                        <Label Text="{Binding CurrentAssociationWord, StringFormat='{localization:Localize FlashNumbers_AssociationWord}'}"
+                                               TextColor="White"
+                                               FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                               FontAttributes="Bold"
+                                               HorizontalOptions="Center"
+                                               HorizontalTextAlignment="Center"
+                                               IsVisible="{Binding CurrentAssociationWord, Converter={StaticResource IsNotNullConverter}}" />
+                                        
+                                        <!-- Association image with rounded frame -->
+                                        <Frame IsVisible="{Binding CurrentAssociationImagePath, Converter={StaticResource IsNotNullConverter}}"
+                                               BackgroundColor="White"
+                                               Padding="8"
+                                               CornerRadius="15"
+                                               HasShadow="False"
+                                               HorizontalOptions="Center"
+                                               WidthRequest="{OnIdiom Phone=96, Tablet=116, Desktop=136}"
+                                               HeightRequest="{OnIdiom Phone=96, Tablet=116, Desktop=136}">
+                                            <Image Source="{Binding CurrentAssociationImagePath}"
+                                                   Aspect="AspectFit"
+                                                   AutomationProperties.Name="{localization:Localize Accessibility_AssociationImage}"
+                                                   AutomationProperties.HelpText="{Binding CurrentAssociationWord, StringFormat='Association image for word: {0}'}" />
+                                        </Frame>
+                                    </StackLayout>
+                                    
+                                    <!-- No association message -->
+                                    <Label Text="{localization:Localize FlashNumbers_NoAssociation}"
+                                           TextColor="White"
+                                           FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                           FontAttributes="Italic"
+                                           HorizontalOptions="Center"
+                                           HorizontalTextAlignment="Center"
+                                           IsVisible="{Binding CurrentAssociation, Converter={StaticResource IsNullConverter}}" />
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
                     </Frame>
 
                     <!-- Action button with responsive sizing -->
@@ -147,15 +244,25 @@
                                 AutomationProperties.Name="{localization:Localize Accessibility_NextButton}"
                                 AutomationProperties.HelpText="{localization:Localize Accessibility_NextButtonHelp}" />
                         
-                        <!-- Keyboard shortcut hint for desktop platforms only -->
-                        <Label Text="{localization:Localize FlashNumbers_KeyboardShortcutHint}"
-                               IsVisible="{OnPlatform MacCatalyst=True, WinUI=True, Default=False}"
-                               FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                               TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
-                               HorizontalOptions="Center"
-                               HorizontalTextAlignment="Center"
-                               LineBreakMode="WordWrap"
-                               FontAttributes="Italic" />
+                        <!-- Keyboard shortcut hints for desktop platforms only -->
+                        <StackLayout IsVisible="{OnPlatform MacCatalyst=True, WinUI=True, Default=False}"
+                                     Spacing="4">
+                            <Label Text="{localization:Localize FlashNumbers_KeyboardShortcutHint}"
+                                   FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center"
+                                   LineBreakMode="WordWrap"
+                                   FontAttributes="Italic" />
+                            
+                            <Label Text="{localization:Localize FlashNumbers_KeyboardHintReveal}"
+                                   FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center"
+                                   LineBreakMode="WordWrap"
+                                   FontAttributes="Italic" />
+                        </StackLayout>
                     </StackLayout>
 
                     <!-- Instructions card -->

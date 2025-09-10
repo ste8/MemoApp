@@ -42,6 +42,22 @@ public class IsNotNullConverter : IValueConverter
 }
 
 /// <summary>
+/// Checks if an object is null. Useful for conditional visibility of fallback elements.
+/// </summary>
+public class IsNullConverter : IValueConverter
+{
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        return value == null;
+    }
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+/// <summary>
 /// Checks if a string is not null or empty. Useful for conditional visibility of images.
 /// </summary>
 public class IsNotNullOrEmptyConverter : IValueConverter

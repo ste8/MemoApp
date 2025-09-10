@@ -16,6 +16,7 @@
             <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
             <converters:InvertedBoolConverter x:Key="InverseBoolConverter" />
             <converters:IsNotNullConverter x:Key="IsNotNullConverter" />
+            <converters:IsNullConverter x:Key="IsNullConverter" />
             <converters:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
             <converters:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter" />
             <converters:IsZeroConverter x:Key="IsZeroConverter" />

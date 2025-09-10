@@ -2094,4 +2094,46 @@ Download MemoRaise: {AppUrl}
     <value>Challenge your memory with timed number sequences</value>
     <comment>Contextual header for Big Number page explaining its purpose</comment>
   </data>
+  
+  <!-- Flash Numbers Association Reveal Feature -->
+  <data name="FlashNumbers_RevealAssociation" xml:space="preserve">
+    <value>Show Association</value>
+    <comment>Button text to reveal the Major System association for the current number</comment>
+  </data>
+  <data name="FlashNumbers_HideAssociation" xml:space="preserve">
+    <value>Hide Association</value>
+    <comment>Button text to hide the revealed Major System association</comment>
+  </data>
+  <data name="FlashNumbers_AssociationWord" xml:space="preserve">
+    <value>Word: {0}</value>
+    <comment>Label format showing the word association for a number</comment>
+  </data>
+  <data name="FlashNumbers_AssociationRevealed" xml:space="preserve">
+    <value>Major System Association</value>
+    <comment>Header text when showing the revealed association</comment>
+  </data>
+  <data name="FlashNumbers_KeyboardHintReveal" xml:space="preserve">
+    <value>Press H to reveal association</value>
+    <comment>Keyboard shortcut hint for revealing associations on desktop</comment>
+  </data>
+  <data name="Accessibility_RevealAssociationButton" xml:space="preserve">
+    <value>Reveal association</value>
+    <comment>Accessibility name for the reveal association button</comment>
+  </data>
+  <data name="Accessibility_RevealAssociationButtonHelp" xml:space="preserve">
+    <value>Shows the Major System word and image association for this number</value>
+    <comment>Accessibility help text for the reveal association button</comment>
+  </data>
+  <data name="Accessibility_AssociationImage" xml:space="preserve">
+    <value>Association image</value>
+    <comment>Accessibility name for the association image</comment>
+  </data>
+  <data name="FlashNumbers_NoAssociation" xml:space="preserve">
+    <value>No association found for this number</value>
+    <comment>Message shown when no Major System association is available</comment>
+  </data>
+  <data name="Error_NoResultsToShare" xml:space="preserve">
+    <value>No results to share</value>
+    <comment>Error message when trying to share but no results available</comment>
+  </data>
 </root>

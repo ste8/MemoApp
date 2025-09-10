@@ -52,6 +52,8 @@ public static class FontAwesome
         public const string Upload = "\uf093";                  // Upload
         public const string PenToSquare = "\uf044";             // Edit
         public const string Share = "\uf1e0";                   // Share
+        public const string Eye = "\uf06e";                     // Eye/Visible
+        public const string EyeSlash = "\uf070";                // Eye slash/Hidden
     }
     
     /// <summary>

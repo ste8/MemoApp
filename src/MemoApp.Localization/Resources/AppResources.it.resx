@@ -1989,4 +1989,46 @@ Scarica MemoRaise: {AppUrl}
     <value>Metti alla prova la tua memoria con sequenze di numeri cronometrate</value>
     <comment>Contextual header for Big Number page explaining its purpose</comment>
   </data>
+  
+  <!-- Flash Numbers Association Reveal Feature -->
+  <data name="FlashNumbers_RevealAssociation" xml:space="preserve">
+    <value>Mostra Associazione</value>
+    <comment>Button text to reveal the Major System association for the current number</comment>
+  </data>
+  <data name="FlashNumbers_HideAssociation" xml:space="preserve">
+    <value>Nascondi Associazione</value>
+    <comment>Button text to hide the revealed Major System association</comment>
+  </data>
+  <data name="FlashNumbers_AssociationWord" xml:space="preserve">
+    <value>Parola: {0}</value>
+    <comment>Label format showing the word association for a number</comment>
+  </data>
+  <data name="FlashNumbers_AssociationRevealed" xml:space="preserve">
+    <value>Associazione Sistema Maggiore</value>
+    <comment>Header text when showing the revealed association</comment>
+  </data>
+  <data name="FlashNumbers_KeyboardHintReveal" xml:space="preserve">
+    <value>Premi H per rivelare l'associazione</value>
+    <comment>Keyboard shortcut hint for revealing associations on desktop</comment>
+  </data>
+  <data name="Accessibility_RevealAssociationButton" xml:space="preserve">
+    <value>Rivela associazione</value>
+    <comment>Accessibility name for the reveal association button</comment>
+  </data>
+  <data name="Accessibility_RevealAssociationButtonHelp" xml:space="preserve">
+    <value>Mostra la parola e l'immagine del Sistema Maggiore associate a questo numero</value>
+    <comment>Accessibility help text for the reveal association button</comment>
+  </data>
+  <data name="Accessibility_AssociationImage" xml:space="preserve">
+    <value>Immagine associazione</value>
+    <comment>Accessibility name for the association image</comment>
+  </data>
+  <data name="FlashNumbers_NoAssociation" xml:space="preserve">
+    <value>Nessuna associazione trovata per questo numero</value>
+    <comment>Message shown when no Major System association is available</comment>
+  </data>
+  <data name="Error_NoResultsToShare" xml:space="preserve">
+    <value>Nessun risultato da condividere</value>
+    <comment>Error message when trying to share but no results available</comment>
+  </data>
 </root>
