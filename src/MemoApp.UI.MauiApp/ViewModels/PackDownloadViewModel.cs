@@ -26,7 +26,7 @@ public partial class PackDownloadViewModel : BaseViewModel
     private CancellationTokenSource? _downloadCancellation;
 
     [ObservableProperty]
-    private ObservableCollection<PackItemViewModel> packs = new();
+    private ObservableCollection<PackCardViewModel> packs = new();
 
     [ObservableProperty]
     private bool isRefreshing;
@@ -109,8 +109,10 @@ public partial class PackDownloadViewModel : BaseViewModel
 
             foreach (var pack in index.Packs)
             {
-                var packItem = new PackItemViewModel(pack, _localizationService);
-                Packs.Add(packItem);
+                var packCard = new PackCardViewModel(pack, _localizationService, PackCardContext.Management);
+                packCard.DownloadCommand = new RelayCommand<PackCardViewModel>(async (p) => await DownloadPackCardAsync(p));
+                packCard.DeleteCommand = new RelayCommand<PackCardViewModel>(async (p) => await DeletePackCardAsync(p));
+                Packs.Add(packCard);
                 
                 if (pack.HasUpdate)
                 {
@@ -440,6 +442,126 @@ public partial class PackDownloadViewModel : BaseViewModel
                 _localizationService.GetString("PackDownload_ValidationError"),
             _ => progress.ErrorMessage ?? _localizationService.GetString("PackDownload_ErrorMessage")
         };
+    }
+
+    private async Task DownloadPackCardAsync(PackCardViewModel? packCard)
+    {
+        if (packCard == null || IsDownloading)
+            return;
+
+        var downloadStartTime = DateTime.UtcNow;
+        var isUpdate = packCard.Pack.HasUpdate;
+        var previousVersion = packCard.Pack.Version; // Capture version before update
+        
+        try
+        {
+            // Track download start analytics
+            await _analyticsService.TrackEventAsync(
+                isUpdate ? AnalyticsEvents.PackUpdated : AnalyticsEvents.PackDownloaded,
+                new Dictionary<string, object>
+                {
+                    [AnalyticsParameters.PackName] = packCard.Pack.InternationalName,
+                    [AnalyticsParameters.PackLanguage] = packCard.Pack.LanguageCode,
+                    [AnalyticsParameters.PackSizeMB] = Math.Round(packCard.Pack.FileSize / (1024.0 * 1024.0), 2),
+                    [AnalyticsParameters.UpdateAvailable] = isUpdate
+                });
+
+            IsDownloading = true;
+            packCard.IsDownloading = true;
+            _downloadCancellation = new CancellationTokenSource();
+
+            var progress = new Progress<DownloadProgress>(p =>
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    packCard.DownloadProgress = p.ProgressPercentage;
+                    packCard.ProgressText = GetProgressText(p);
+                    
+                    if (p.State == DownloadState.Failed)
+                    {
+                        packCard.IsDownloading = false;
+                        packCard.DownloadProgress = 0;
+                        
+                        // Show specific error message based on error type
+                        StatusMessage = GetErrorMessage(p);
+                    }
+                });
+            });
+
+            DownloadProgress result;
+            
+            if (packCard.Pack.HasUpdate)
+            {
+                result = await Task.Run(() => 
+                    _downloadService.UpdatePackAsync(packCard.Pack, progress, _downloadCancellation.Token)
+                        .ContinueWith(t => t.Result ? 
+                            new DownloadProgress { State = DownloadState.Completed } : 
+                            new DownloadProgress { State = DownloadState.Failed }));
+            }
+            else
+            {
+                result = await _downloadService.DownloadPackAsync(
+                    packCard.Pack, progress, _downloadCancellation.Token);
+            }
+
+            if (result.State == DownloadState.Completed)
+            {
+                var downloadEndTime = DateTime.UtcNow;
+                var downloadDuration = (downloadEndTime - downloadStartTime).TotalSeconds;
+
+                // Update pack state
+                packCard.Pack.IsDownloaded = true;
+                packCard.Pack.HasUpdate = false;
+                packCard.RefreshState();
+
+                // Generate thumbnails after successful download
+                packCard.ProgressText = _localizationService.GetString("PackDownload_GeneratingThumbnailsLabel");
+                await _mauiPackService.GenerateThumbnailsForPackAsync(packCard.Pack.Id, null);
+
+                StatusMessage = isUpdate 
+                    ? _localizationService.GetString("PackDownload_UpdateCompleted").Replace("{0}", packCard.Pack.GetDisplayName(true))
+                    : _localizationService.GetString("PackDownload_DownloadCompleted").Replace("{0}", packCard.Pack.GetDisplayName(true));
+
+                _logger.LogInformation("Pack {PackId} {Action} completed", packCard.Pack.Id, isUpdate ? "update" : "download");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unexpected error {Action} pack {PackId}", isUpdate ? "updating" : "downloading", packCard?.Pack?.Id);
+            StatusMessage = _localizationService.GetString("PackDownload_ErrorMessage");
+        }
+        finally
+        {
+            IsDownloading = false;
+            if (packCard != null)
+            {
+                packCard.IsDownloading = false;
+            }
+            _downloadCancellation?.Dispose();
+            _downloadCancellation = null;
+        }
+    }
+
+    private async Task DeletePackCardAsync(PackCardViewModel? packCard)
+    {
+        if (packCard == null)
+            return;
+
+        try
+        {
+            var success = await _downloadService.DeletePackAsync(packCard.Pack.Id);
+            packCard.Pack.IsDownloaded = false;
+            packCard.Pack.HasUpdate = false;
+            packCard.RefreshState();
+
+            StatusMessage = _localizationService.GetString("PackDownload_DeleteCompleted").Replace("{0}", packCard.Pack.GetDisplayName(true));
+            _logger.LogInformation("Pack {PackId} deleted successfully", packCard.Pack.Id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to delete pack {PackId}", packCard.Pack.Id);
+            StatusMessage = _localizationService.GetString("PackDownload_DeleteError");
+        }
     }
 }
 

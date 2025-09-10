@@ -48,8 +48,8 @@ public partial class PackCardViewModel : ObservableObject
     }
 
     // Context-based visibility properties
-    public bool ShowDescription => _context != PackCardContext.Onboarding;
-    public bool ShowPackInfo => _context == PackCardContext.Management;
+    public bool ShowDescription => true; // Always show description - users need to understand what they're downloading
+    public bool ShowPackInfo => _context != PackCardContext.Selection; // Show pack info in Management and Onboarding contexts
     public bool ShowDeleteButton => _context == PackCardContext.Management && Pack.IsDownloaded;
     public bool CanDownload => !Pack.IsDownloaded || Pack.HasUpdate;
     public bool ShowUpdateBadge => Pack.IsDownloaded && Pack.HasUpdate;
