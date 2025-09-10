@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             x:Class="MemoApp.UI.MauiApp.Controls.UnifiedPackSelector">
+    
+    <ContentView.Resources>
+        <!-- Define adaptive layouts for different screen sizes -->
+        <OnIdiom x:Key="CardColumns" x:TypeArguments="GridLength">
+            <OnIdiom.Phone>*</OnIdiom.Phone>
+            <OnIdiom.Tablet>*,*</OnIdiom.Tablet>
+            <OnIdiom.Desktop>*,*,*</OnIdiom.Desktop>
+        </OnIdiom>
+        
+        <OnIdiom x:Key="CardSpacing" x:TypeArguments="x:Double">
+            <OnIdiom.Phone>12</OnIdiom.Phone>
+            <OnIdiom.Tablet>16</OnIdiom.Tablet>
+            <OnIdiom.Desktop>20</OnIdiom.Desktop>
+        </OnIdiom>
+
+        <!-- State-based color scheme -->
+        <Color x:Key="CardBackgroundDefault">#FAFAFA</Color>
+        <Color x:Key="CardBackgroundHover">#F5F5F5</Color>
+        <Color x:Key="CardBackgroundSelected">#E8E4FF</Color>
+        <Color x:Key="CardBorderDefault">#E0E0E0</Color>
+        <Color x:Key="CardBorderSelected">#512BD4</Color>
+        
+        <!-- Typography scales -->
+        <OnIdiom x:Key="TitleFontSize" x:TypeArguments="x:Double">
+            <OnIdiom.Phone>18</OnIdiom.Phone>
+            <OnIdiom.Tablet>20</OnIdiom.Tablet>
+            <OnIdiom.Desktop>22</OnIdiom.Desktop>
+        </OnIdiom>
+        
+        <OnIdiom x:Key="DescriptionFontSize" x:TypeArguments="x:Double">
+            <OnIdiom.Phone>13</OnIdiom.Phone>
+            <OnIdiom.Tablet>14</OnIdiom.Tablet>
+            <OnIdiom.Desktop>15</OnIdiom.Desktop>
+        </OnIdiom>
+        
+        <OnIdiom x:Key="MetaFontSize" x:TypeArguments="x:Double">
+            <OnIdiom.Phone>11</OnIdiom.Phone>
+            <OnIdiom.Tablet>12</OnIdiom.Tablet>
+            <OnIdiom.Desktop>13</OnIdiom.Desktop>
+        </OnIdiom>
+    </ContentView.Resources>
+
+    <Grid>
+        <!-- Loading State -->
+        <Grid IsVisible="{Binding IsLoading}" 
+              VerticalOptions="Center"
+              HorizontalOptions="Center"
+              RowDefinitions="Auto,Auto"
+              RowSpacing="20">
+            <ActivityIndicator Grid.Row="0"
+                              IsRunning="True"
+                              Color="{StaticResource Primary}"
+                              WidthRequest="48"
+                              HeightRequest="48"/>
+            <Label Grid.Row="1"
+                   Text="{localization:Localize PackDownload_LoadingPacks}"
+                   FontSize="16"
+                   TextColor="{StaticResource Gray600}"
+                   HorizontalTextAlignment="Center"/>
+        </Grid>
+
+        <!-- Error State -->
+        <Border IsVisible="{Binding HasError}"
+                StrokeThickness="2"
+                Stroke="{StaticResource Danger}"
+                BackgroundColor="#FFF5F5"
+                Padding="24"
+                Margin="20"
+                VerticalOptions="Center">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="12">
+                <Label Text="⚠️" FontSize="32" HorizontalOptions="Center"/>
+                <Label Text="{localization:Localize PackDownload_ErrorTitle}"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource Danger}"
+                       HorizontalTextAlignment="Center"/>
+                <Label Text="{Binding ErrorMessage}"
+                       FontSize="14"
+                       TextColor="{StaticResource Gray600}"
+                       HorizontalTextAlignment="Center"
+                       LineBreakMode="WordWrap"/>
+                <Button Text="{localization:Localize Common_Retry}"
+                        Command="{Binding RetryCommand}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        CornerRadius="8"
+                        HeightRequest="44"
+                        WidthRequest="120"
+                        HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Main Pack Grid -->
+        <ScrollView IsVisible="{Binding HasPacks}">
+            <Grid Padding="{OnIdiom Phone='16', Tablet='24', Desktop='32'}"
+                  RowSpacing="{StaticResource CardSpacing}">
+                
+                <Grid.RowDefinitions>
+                    <!-- Header Row -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Filter/Sort Row (Future) -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Pack Grid -->
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header Section -->
+                <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,16">
+                    <VerticalStackLayout Grid.Column="0" Spacing="4">
+                        <Label Text="{Binding HeaderTitle}"
+                               FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Gray900}"/>
+                        <Label Text="{Binding HeaderSubtitle}"
+                               FontSize="{OnIdiom Phone=14, Tablet=15, Desktop=16}"
+                               TextColor="{StaticResource Gray600}"
+                               IsVisible="{Binding HeaderSubtitle, Converter={StaticResource IsNotNullOrEmptyConverter}}"/>
+                    </VerticalStackLayout>
+                    
+                    <!-- Refresh Button (only in management mode) -->
+                    <Button Grid.Column="1"
+                            IsVisible="{Binding ShowRefreshButton}"
+                            Text="🔄"
+                            Command="{Binding RefreshCommand}"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White"
+                            CornerRadius="22"
+                            WidthRequest="44"
+                            HeightRequest="44"
+                            FontSize="20"
+                            VerticalOptions="Center"/>
+                </Grid>
+
+                <!-- Future: Filter/Sort Controls -->
+                <Border Grid.Row="1" 
+                        IsVisible="{Binding ShowFilters}"
+                        BackgroundColor="{StaticResource Gray50}"
+                        Stroke="{StaticResource Gray200}"
+                        StrokeThickness="1"
+                        Padding="12,8"
+                        Margin="0,0,0,16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8"/>
+                    </Border.StrokeShape>
+                    <HorizontalStackLayout Spacing="16">
+                        <!-- Language Filter -->
+                        <Picker Title="{localization:Localize PackDownload_FilterByLanguage}"
+                                ItemsSource="{Binding AvailableLanguages}"
+                                SelectedItem="{Binding SelectedLanguage}"
+                                WidthRequest="150"/>
+                        <!-- Company Filter -->
+                        <Picker Title="{localization:Localize PackDownload_FilterByCompany}"
+                                ItemsSource="{Binding AvailableCompanies}"
+                                SelectedItem="{Binding SelectedCompany}"
+                                WidthRequest="200"
+                                IsVisible="{Binding HasMultipleCompanies}"/>
+                    </HorizontalStackLayout>
+                </Border>
+
+                <!-- Pack Cards Grid -->
+                <CollectionView Grid.Row="2"
+                                ItemsSource="{Binding FilteredPacks}"
+                                SelectionMode="{Binding SelectionMode}"
+                                SelectedItem="{Binding SelectedPack}">
+                    
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+                                        Span="{OnIdiom Phone=1, Tablet=2, Desktop=3}"
+                                        VerticalItemSpacing="{StaticResource CardSpacing}"
+                                        HorizontalItemSpacing="{StaticResource CardSpacing}"/>
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border StrokeThickness="2"
+                                    BackgroundColor="{Binding IsSelected, Converter={StaticResource BoolToColorConverter}, ConverterParameter='Selected|Default'}"
+                                    Stroke="{Binding IsSelected, Converter={StaticResource BoolToColorConverter}, ConverterParameter='SelectedBorder|DefaultBorder'}">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="12"/>
+                                </Border.StrokeShape>
+                                
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="{StaticResource CardBackgroundSelected}"/>
+                                                <Setter Property="Stroke" Value="{StaticResource CardBorderSelected}"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+
+                                <Grid Padding="16" RowDefinitions="Auto,Auto,Auto,Auto,Auto" RowSpacing="12">
+                                    
+                                    <!-- Header Row: Title + Status Badge -->
+                                    <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                            <Label Text="{Binding DisplayName}"
+                                                   FontSize="{StaticResource TitleFontSize}"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource Gray900}"
+                                                   LineBreakMode="TailTruncation"/>
+                                            <!-- Company/Specialization Badge -->
+                                            <Border IsVisible="{Binding ShowCompanyBadge}"
+                                                    BackgroundColor="{StaticResource Secondary}"
+                                                    Padding="6,2"
+                                                    HorizontalOptions="Start">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="4"/>
+                                                </Border.StrokeShape>
+                                                <Label Text="{Binding CompanyName}"
+                                                       FontSize="10"
+                                                       TextColor="White"
+                                                       FontAttributes="Bold"/>
+                                            </Border>
+                                        </VerticalStackLayout>
+                                        
+                                        <!-- Status Indicator -->
+                                        <Grid Grid.Column="1" WidthRequest="32" HeightRequest="32">
+                                            <!-- Downloaded Check -->
+                                            <Border IsVisible="{Binding IsDownloaded}"
+                                                    BackgroundColor="{StaticResource Success}"
+                                                    WidthRequest="32"
+                                                    HeightRequest="32">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="16"/>
+                                                </Border.StrokeShape>
+                                                <Label Text="✓" 
+                                                       TextColor="White"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center"
+                                                       FontSize="16"
+                                                       FontAttributes="Bold"/>
+                                            </Border>
+                                            
+                                            <!-- Update Available Badge -->
+                                            <Border IsVisible="{Binding HasUpdate}"
+                                                    BackgroundColor="{StaticResource Warning}"
+                                                    WidthRequest="32"
+                                                    HeightRequest="32">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="16"/>
+                                                </Border.StrokeShape>
+                                                <Label Text="↑" 
+                                                       TextColor="White"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center"
+                                                       FontSize="16"
+                                                       FontAttributes="Bold"/>
+                                            </Border>
+                                        </Grid>
+                                    </Grid>
+
+                                    <!-- Description -->
+                                    <Label Grid.Row="1"
+                                           Text="{Binding DisplayDescription}"
+                                           FontSize="{StaticResource DescriptionFontSize}"
+                                           TextColor="{StaticResource Gray600}"
+                                           LineBreakMode="WordWrap"
+                                           MaxLines="3"/>
+
+                                    <!-- Metadata Row -->
+                                    <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,Auto" ColumnSpacing="16">
+                                        <HorizontalStackLayout Grid.Column="0" Spacing="4">
+                                            <Label Text="📦" FontSize="12"/>
+                                            <Label Text="{Binding SizeText}"
+                                                   FontSize="{StaticResource MetaFontSize}"
+                                                   TextColor="{StaticResource Gray500}"/>
+                                        </HorizontalStackLayout>
+                                        
+                                        <HorizontalStackLayout Grid.Column="1" Spacing="4">
+                                            <Label Text="🏷️" FontSize="12"/>
+                                            <Label Text="{Binding VersionText}"
+                                                   FontSize="{StaticResource MetaFontSize}"
+                                                   TextColor="{StaticResource Gray500}"/>
+                                        </HorizontalStackLayout>
+                                        
+                                        <HorizontalStackLayout Grid.Column="2" Spacing="4">
+                                            <Label Text="🌐" FontSize="12"/>
+                                            <Label Text="{Binding LanguageText}"
+                                                   FontSize="{StaticResource MetaFontSize}"
+                                                   TextColor="{StaticResource Gray500}"/>
+                                        </HorizontalStackLayout>
+                                    </Grid>
+
+                                    <!-- Progress Indicator (Download/Update) -->
+                                    <Grid Grid.Row="3" IsVisible="{Binding IsProcessing}">
+                                        <ProgressBar Progress="{Binding Progress}"
+                                                    ProgressColor="{StaticResource Primary}"
+                                                    BackgroundColor="{StaticResource Gray200}"
+                                                    HeightRequest="6"/>
+                                        <Label Text="{Binding ProgressText}"
+                                               FontSize="11"
+                                               TextColor="{StaticResource Primary}"
+                                               HorizontalOptions="Center"
+                                               Margin="0,8,0,0"/>
+                                    </Grid>
+
+                                    <!-- Action Button -->
+                                    <Button Grid.Row="4"
+                                            Text="{Binding ActionButtonText}"
+                                            Command="{Binding ActionCommand}"
+                                            BackgroundColor="{Binding ActionButtonColor}"
+                                            TextColor="White"
+                                            FontAttributes="Bold"
+                                            HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}"
+                                            CornerRadius="8"
+                                            IsEnabled="{Binding CanPerformAction}"
+                                            Opacity="{Binding CanPerformAction, Converter={StaticResource BoolToOpacityConverter}}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                    <!-- Empty State -->
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout Spacing="16" 
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Center"
+                                           Padding="40">
+                            <Label Text="📭" FontSize="64" HorizontalOptions="Center"/>
+                            <Label Text="{localization:Localize PackDownload_NoPacksTitle}"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   HorizontalTextAlignment="Center"/>
+                            <Label Text="{localization:Localize PackDownload_NoPacksMessage}"
+                                   FontSize="14"
+                                   TextColor="{StaticResource Gray600}"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                </CollectionView>
+            </Grid>
+        </ScrollView>
+
+        <!-- Floating Action Section (Onboarding Mode) -->
+        <Border IsVisible="{Binding IsOnboardingMode}"
+                BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray900}}"
+                Stroke="{StaticResource Gray200}"
+                StrokeThickness="1"
+                Padding="16"
+                VerticalOptions="End"
+                Margin="0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="0"/>
+            </Border.StrokeShape>
+            <Border.Shadow>
+                <Shadow Brush="Black"
+                        Offset="0,-2"
+                        Radius="8"
+                        Opacity="0.1"/>
+            </Border.Shadow>
+            
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                <Button Grid.Column="0"
+                        Text="{localization:Localize PackDownload_DownloadSelected}"
+                        Command="{Binding DownloadSelectedCommand}"
+                        IsEnabled="{Binding HasSelectedPack}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        HeightRequest="52"
+                        CornerRadius="26"/>
+                
+                <Button Grid.Column="1"
+                        Text="{localization:Localize Common_Skip}"
+                        Command="{Binding SkipCommand}"
+                        BackgroundColor="Transparent"
+                        TextColor="{StaticResource Gray600}"
+                        BorderColor="{StaticResource Gray300}"
+                        BorderWidth="1"
+                        HeightRequest="52"
+                        WidthRequest="100"
+                        CornerRadius="26"/>
+            </Grid>
+        </Border>
+    </Grid>
+</ContentView>

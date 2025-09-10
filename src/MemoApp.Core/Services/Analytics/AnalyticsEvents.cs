@@ -34,7 +34,9 @@ public static class AnalyticsEvents
     public const string CustomAssociationDeleted = "custom_association_deleted";
     
     // Pack Management Events
+    public const string PackDownloadStarted = "pack_download_started";
     public const string PackDownloaded = "pack_downloaded";
+    public const string PackUpdateStarted = "pack_update_started";
     public const string PackUpdated = "pack_updated";
     public const string PackDeleted = "pack_deleted";
     public const string PackSelected = "pack_selected";

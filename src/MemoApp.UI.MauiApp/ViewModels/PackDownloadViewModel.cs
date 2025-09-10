@@ -14,25 +14,16 @@ using Microsoft.Extensions.Logging;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
 
-public partial class PackDownloadViewModel : BaseViewModel
+public partial class PackDownloadViewModel : PackDownloadBaseViewModel
 {
-    private readonly IPackDownloadService _downloadService;
-    private readonly IPackManagerService _packManager;
-    private readonly MauiPackService _mauiPackService;
-    private readonly ILocalizationService _localizationService;
-    private readonly IAnalyticsService _analyticsService;
     private readonly IMessenger _messenger;
-    private readonly ILogger<PackDownloadViewModel> _logger;
-    private CancellationTokenSource? _downloadCancellation;
+    private readonly ILogger<PackDownloadViewModel> _typedLogger;
 
     [ObservableProperty]
     private ObservableCollection<PackCardViewModel> packs = new();
 
     [ObservableProperty]
     private bool isRefreshing;
-
-    [ObservableProperty]
-    private bool isDownloading;
 
     [ObservableProperty]
     private string? statusMessage;
@@ -59,14 +50,10 @@ public partial class PackDownloadViewModel : BaseViewModel
         IAnalyticsService analyticsService,
         IMessenger messenger,
         ILogger<PackDownloadViewModel> logger)
+        : base(downloadService, packManager, mauiPackService, localizationService, analyticsService, logger)
     {
-        _downloadService = downloadService;
-        _packManager = packManager;
-        _mauiPackService = mauiPackService;
-        _localizationService = localizationService;
-        _analyticsService = analyticsService;
         _messenger = messenger;
-        _logger = logger;
+        _typedLogger = logger;
 
         Title = _localizationService.GetString("PackDownload_Title");
 
@@ -81,7 +68,7 @@ public partial class PackDownloadViewModel : BaseViewModel
         await RefreshPacksAsync();
         
         // Log application data directory for debugging
-        _logger.LogInformation("Application data directory: {DataDir}", FileSystem.Current.AppDataDirectory);
+        _typedLogger.LogInformation("Application data directory: {DataDir}", FileSystem.Current.AppDataDirectory);
     }
 
     private async Task RefreshPacksAsync()
@@ -104,7 +91,8 @@ public partial class PackDownloadViewModel : BaseViewModel
                 return;
             }
 
-            Packs.Clear();
+            // Prepare pack cards to avoid CollectionView layout issues
+            var packCards = new List<PackCardViewModel>();
             int updateCount = 0;
 
             foreach (var pack in index.Packs)
@@ -112,7 +100,7 @@ public partial class PackDownloadViewModel : BaseViewModel
                 var packCard = new PackCardViewModel(pack, _localizationService, PackCardContext.Management);
                 packCard.DownloadCommand = new RelayCommand<PackCardViewModel>(async (p) => await DownloadPackCardAsync(p));
                 packCard.DeleteCommand = new RelayCommand<PackCardViewModel>(async (p) => await DeletePackCardAsync(p));
-                Packs.Add(packCard);
+                packCards.Add(packCard);
                 
                 if (pack.HasUpdate)
                 {
@@ -120,7 +108,10 @@ public partial class PackDownloadViewModel : BaseViewModel
                 }
             }
 
-            HasNoPacks = Packs.Count == 0;
+            // Use the base class iOS-safe collection update method
+            await UpdatePackCollectionSafelyAsync(Packs, packCards, "Packs");
+
+            HasNoPacks = packCards.Count == 0;
             
             if (HasNoPacks)
             {
@@ -152,7 +143,7 @@ public partial class PackDownloadViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to refresh packs");
+            _typedLogger.LogError(ex, "Failed to refresh packs");
             StatusMessage = _localizationService.GetString("PackDownload_ErrorMessage");
             HasNoPacks = true;
         }
@@ -167,183 +158,9 @@ public partial class PackDownloadViewModel : BaseViewModel
         if (packItem == null || IsDownloading)
             return;
 
-        var downloadStartTime = DateTime.UtcNow;
-        var isUpdate = packItem.Pack.HasUpdate;
-        var previousVersion = packItem.Pack.Version; // Capture version before update
-        
-        try
-        {
-            // Track download start analytics
-            await _analyticsService.TrackEventAsync(
-                isUpdate ? AnalyticsEvents.PackUpdated : AnalyticsEvents.PackDownloaded,
-                new Dictionary<string, object>
-                {
-                    [AnalyticsParameters.PackName] = packItem.Pack.InternationalName,
-                    [AnalyticsParameters.PackLanguage] = packItem.Pack.LanguageCode,
-                    [AnalyticsParameters.PackSizeMB] = Math.Round(packItem.Pack.FileSize / (1024.0 * 1024.0), 2),
-                    [AnalyticsParameters.UpdateAvailable] = isUpdate
-                });
-
-            IsDownloading = true;
-            packItem.IsDownloading = true;
-            _downloadCancellation = new CancellationTokenSource();
-
-            var progress = new Progress<DownloadProgress>(p =>
-            {
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    packItem.DownloadProgress = p.ProgressPercentage;
-                    packItem.ProgressText = GetProgressText(p);
-                    
-                    if (p.State == DownloadState.Failed)
-                    {
-                        packItem.IsDownloading = false;
-                        packItem.DownloadProgress = 0;
-                        
-                        // Show specific error message based on error type
-                        StatusMessage = GetErrorMessage(p);
-                    }
-                });
-            });
-
-            DownloadProgress result;
-            
-            if (packItem.Pack.HasUpdate)
-            {
-                result = await Task.Run(() => 
-                    _downloadService.UpdatePackAsync(packItem.Pack, progress, _downloadCancellation.Token)
-                        .ContinueWith(t => t.Result ? 
-                            new DownloadProgress { State = DownloadState.Completed } : 
-                            new DownloadProgress { State = DownloadState.Failed }));
-            }
-            else
-            {
-                result = await _downloadService.DownloadPackAsync(
-                    packItem.Pack, progress, _downloadCancellation.Token);
-            }
-
-            if (result.State == DownloadState.Completed)
-            {
-                var downloadEndTime = DateTime.UtcNow;
-                var downloadDuration = (downloadEndTime - downloadStartTime).TotalSeconds;
-
-                // Track successful download/update analytics
-                await _analyticsService.TrackEventAsync(
-                    isUpdate ? AnalyticsEvents.PackUpdated : AnalyticsEvents.PackDownloaded,
-                    new Dictionary<string, object>
-                    {
-                        [AnalyticsParameters.PackName] = packItem.Pack.InternationalName,
-                        [AnalyticsParameters.PackLanguage] = packItem.Pack.LanguageCode,
-                        [AnalyticsParameters.PackSizeMB] = Math.Round(packItem.Pack.FileSize / (1024.0 * 1024.0), 2),
-                        [AnalyticsParameters.DownloadDurationSeconds] = (int)downloadDuration,
-                        [AnalyticsParameters.DownloadSuccess] = true,
-                        [AnalyticsParameters.UpdateAvailable] = isUpdate
-                    });
-
-                // Log pack location for debugging
-                var packPath = await _packManager.GetPackDirectoryAsync(packItem.Pack.Id);
-                _logger.LogInformation("Pack {PackId} downloaded successfully to: {PackPath}", packItem.Pack.Id, packPath);
-                
-                // Generate thumbnails after successful download
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    packItem.ProgressText = _localizationService.GetString("PackDownload_GeneratingThumbnailsLabel");
-                });
-
-                await _mauiPackService.GenerateThumbnailsForPackAsync(packItem.Pack.Id, null);
-
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    packItem.Pack.IsDownloaded = true;
-                    packItem.Pack.HasUpdate = false;
-                    packItem.IsDownloading = false;
-                    StatusMessage = _localizationService.GetString("PackDownload_SuccessMessage");
-                });
-
-                // Send appropriate message to notify other ViewModels
-                await MainThread.InvokeOnMainThreadAsync(() =>
-                {
-                    try
-                    {
-                        if (isUpdate)
-                        {
-                            var updateMessage = PackUpdatedMessage.FromPack(packItem.Pack, previousVersion, downloadDuration);
-                            _messenger.Send(updateMessage);
-                            _logger.LogInformation("Sent PackUpdatedMessage for pack {PackId} (v{PreviousVersion} → v{NewVersion})", 
-                                packItem.Pack.Id, previousVersion, packItem.Pack.Version);
-                        }
-                        else
-                        {
-                            var downloadMessage = PackDownloadedMessage.FromPack(packItem.Pack, downloadDuration);
-                            _messenger.Send(downloadMessage);
-                            _logger.LogInformation("Sent PackDownloadedMessage for pack {PackId} (v{Version})", 
-                                packItem.Pack.Id, packItem.Pack.Version);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, "Failed to send pack message for {PackId}", packItem.Pack.Id);
-                    }
-                });
-
-                // Refresh to update UI state
-                await RefreshPacksAsync();
-            }
-            else
-            {
-                // Track failed download analytics
-                var downloadEndTime = DateTime.UtcNow;
-                var downloadDuration = (downloadEndTime - downloadStartTime).TotalSeconds;
-
-                await _analyticsService.TrackEventAsync(
-                    isUpdate ? AnalyticsEvents.PackUpdated : AnalyticsEvents.PackDownloaded,
-                    new Dictionary<string, object>
-                    {
-                        [AnalyticsParameters.PackName] = packItem.Pack.InternationalName,
-                        [AnalyticsParameters.PackLanguage] = packItem.Pack.LanguageCode,
-                        [AnalyticsParameters.DownloadDurationSeconds] = (int)downloadDuration,
-                        [AnalyticsParameters.DownloadSuccess] = false,
-                        [AnalyticsParameters.UpdateAvailable] = isUpdate
-                    });
-            }
-        }
-        catch (InsufficientStorageException ex)
-        {
-            var requiredMB = Math.Ceiling(ex.RequiredBytes / (1024.0 * 1024.0));
-            StatusMessage = _localizationService.GetString("PackDownload_InsufficientStorageError")
-                .Replace("{0}", requiredMB.ToString());
-            _logger.LogError(ex, "Insufficient storage for pack {PackId}: Required {RequiredMB:F1}MB", packItem.Pack.Id, requiredMB);
-        }
-        catch (HttpRequestException ex)
-        {
-            StatusMessage = _localizationService.GetString("PackDownload_NetworkError");
-            _logger.LogError(ex, "Network error downloading pack {PackId}", packItem.Pack.Id);
-        }
-        catch (PackExtractionException ex)
-        {
-            StatusMessage = _localizationService.GetString("PackDownload_ExtractionError");
-            _logger.LogError(ex, "Extraction failed for pack {PackId}", packItem.Pack.Id);
-        }
-        catch (PackValidationException ex)
-        {
-            StatusMessage = _localizationService.GetString("PackDownload_ValidationError");
-            _logger.LogError(ex, "Validation failed for pack {PackId}", packItem.Pack.Id);
-        }
-        catch (Exception ex)
-        {
-            StatusMessage = _localizationService.GetString("PackDownload_ErrorMessage");
-            _logger.LogError(ex, "Unexpected error downloading pack {PackId}", packItem.Pack.Id);
-        }
-        finally
-        {
-            IsDownloading = false;
-            if (packItem != null)
-            {
-                packItem.IsDownloading = false;
-            }
-            _downloadCancellation?.Dispose();
-            _downloadCancellation = null;
-        }
+        // Convert PackItemViewModel to PackCardViewModel for base class method
+        var packCard = new PackCardViewModel(packItem.Pack, _localizationService, PackCardContext.Management);
+        await DownloadPackCardAsync(packCard);
     }
 
     private void CancelDownload()
@@ -390,12 +207,12 @@ public partial class PackDownloadViewModel : BaseViewModel
                     {
                         var deleteMessage = PackDeletedMessage.FromPack(packItem.Pack, wasLastPack);
                         _messenger.Send(deleteMessage);
-                        _logger.LogInformation("Sent PackDeletedMessage for pack {PackId} (was last pack: {WasLastPack})", 
+                        _typedLogger.LogInformation("Sent PackDeletedMessage for pack {PackId} (was last pack: {WasLastPack})", 
                             packItem.Pack.Id, wasLastPack);
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(ex, "Failed to send pack delete message for {PackId}", packItem.Pack.Id);
+                        _typedLogger.LogError(ex, "Failed to send pack delete message for {PackId}", packItem.Pack.Id);
                     }
                 });
                 
@@ -408,137 +225,8 @@ public partial class PackDownloadViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to delete pack {PackId}", packItem.Pack.Id);
+            _typedLogger.LogError(ex, "Failed to delete pack {PackId}", packItem.Pack.Id);
             StatusMessage = _localizationService.GetString("PackDownload_ErrorMessage");
-        }
-    }
-
-    private string GetProgressText(DownloadProgress progress)
-    {
-        return progress.State switch
-        {
-            DownloadState.Downloading => 
-                $"{_localizationService.GetString("PackDownload_ProgressLabel")} {progress.ProgressPercentage:F0}%",
-            DownloadState.Extracting => 
-                _localizationService.GetString("PackDownload_ExtractingLabel"),
-            DownloadState.GeneratingThumbnails => 
-                _localizationService.GetString("PackDownload_GeneratingThumbnailsLabel"),
-            _ => string.Empty
-        };
-    }
-
-    private string GetErrorMessage(DownloadProgress progress)
-    {
-        return progress.ErrorType switch
-        {
-            DownloadErrorType.InsufficientStorage => 
-                _localizationService.GetString("PackDownload_InsufficientStorageError")
-                    .Replace("{0}", Math.Ceiling((progress.RequiredStorageBytes ?? 0) / (1024.0 * 1024.0)).ToString()),
-            DownloadErrorType.NetworkError => 
-                _localizationService.GetString("PackDownload_NetworkError"),
-            DownloadErrorType.ExtractionError => 
-                _localizationService.GetString("PackDownload_ExtractionError"),
-            DownloadErrorType.ValidationError => 
-                _localizationService.GetString("PackDownload_ValidationError"),
-            _ => progress.ErrorMessage ?? _localizationService.GetString("PackDownload_ErrorMessage")
-        };
-    }
-
-    private async Task DownloadPackCardAsync(PackCardViewModel? packCard)
-    {
-        if (packCard == null || IsDownloading)
-            return;
-
-        var downloadStartTime = DateTime.UtcNow;
-        var isUpdate = packCard.Pack.HasUpdate;
-        var previousVersion = packCard.Pack.Version; // Capture version before update
-        
-        try
-        {
-            // Track download start analytics
-            await _analyticsService.TrackEventAsync(
-                isUpdate ? AnalyticsEvents.PackUpdated : AnalyticsEvents.PackDownloaded,
-                new Dictionary<string, object>
-                {
-                    [AnalyticsParameters.PackName] = packCard.Pack.InternationalName,
-                    [AnalyticsParameters.PackLanguage] = packCard.Pack.LanguageCode,
-                    [AnalyticsParameters.PackSizeMB] = Math.Round(packCard.Pack.FileSize / (1024.0 * 1024.0), 2),
-                    [AnalyticsParameters.UpdateAvailable] = isUpdate
-                });
-
-            IsDownloading = true;
-            packCard.IsDownloading = true;
-            _downloadCancellation = new CancellationTokenSource();
-
-            var progress = new Progress<DownloadProgress>(p =>
-            {
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    packCard.DownloadProgress = p.ProgressPercentage;
-                    packCard.ProgressText = GetProgressText(p);
-                    
-                    if (p.State == DownloadState.Failed)
-                    {
-                        packCard.IsDownloading = false;
-                        packCard.DownloadProgress = 0;
-                        
-                        // Show specific error message based on error type
-                        StatusMessage = GetErrorMessage(p);
-                    }
-                });
-            });
-
-            DownloadProgress result;
-            
-            if (packCard.Pack.HasUpdate)
-            {
-                result = await Task.Run(() => 
-                    _downloadService.UpdatePackAsync(packCard.Pack, progress, _downloadCancellation.Token)
-                        .ContinueWith(t => t.Result ? 
-                            new DownloadProgress { State = DownloadState.Completed } : 
-                            new DownloadProgress { State = DownloadState.Failed }));
-            }
-            else
-            {
-                result = await _downloadService.DownloadPackAsync(
-                    packCard.Pack, progress, _downloadCancellation.Token);
-            }
-
-            if (result.State == DownloadState.Completed)
-            {
-                var downloadEndTime = DateTime.UtcNow;
-                var downloadDuration = (downloadEndTime - downloadStartTime).TotalSeconds;
-
-                // Update pack state
-                packCard.Pack.IsDownloaded = true;
-                packCard.Pack.HasUpdate = false;
-                packCard.RefreshState();
-
-                // Generate thumbnails after successful download
-                packCard.ProgressText = _localizationService.GetString("PackDownload_GeneratingThumbnailsLabel");
-                await _mauiPackService.GenerateThumbnailsForPackAsync(packCard.Pack.Id, null);
-
-                StatusMessage = isUpdate 
-                    ? _localizationService.GetString("PackDownload_UpdateCompleted").Replace("{0}", packCard.Pack.GetDisplayName(true))
-                    : _localizationService.GetString("PackDownload_DownloadCompleted").Replace("{0}", packCard.Pack.GetDisplayName(true));
-
-                _logger.LogInformation("Pack {PackId} {Action} completed", packCard.Pack.Id, isUpdate ? "update" : "download");
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Unexpected error {Action} pack {PackId}", isUpdate ? "updating" : "downloading", packCard?.Pack?.Id);
-            StatusMessage = _localizationService.GetString("PackDownload_ErrorMessage");
-        }
-        finally
-        {
-            IsDownloading = false;
-            if (packCard != null)
-            {
-                packCard.IsDownloading = false;
-            }
-            _downloadCancellation?.Dispose();
-            _downloadCancellation = null;
         }
     }
 
@@ -555,13 +243,67 @@ public partial class PackDownloadViewModel : BaseViewModel
             packCard.RefreshState();
 
             StatusMessage = _localizationService.GetString("PackDownload_DeleteCompleted").Replace("{0}", packCard.Pack.GetDisplayName(true));
-            _logger.LogInformation("Pack {PackId} deleted successfully", packCard.Pack.Id);
+            _typedLogger.LogInformation("Pack {PackId} deleted successfully", packCard.Pack.Id);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to delete pack {PackId}", packCard.Pack.Id);
+            _typedLogger.LogError(ex, "Failed to delete pack {PackId}", packCard.Pack.Id);
             StatusMessage = _localizationService.GetString("PackDownload_DeleteError");
         }
+    }
+
+    // Abstract method implementations for base class
+    protected override string GetDownloadStartEventName(bool isUpdate)
+    {
+        return isUpdate ? AnalyticsEvents.PackUpdateStarted : AnalyticsEvents.PackDownloadStarted;
+    }
+
+    protected override string GetDownloadCompletedEventName(bool isUpdate)
+    {
+        return isUpdate ? AnalyticsEvents.PackUpdated : AnalyticsEvents.PackDownloaded;
+    }
+
+    protected override async Task OnDownloadCompleted(PackCardViewModel packCard, double downloadDuration)
+    {
+        var isUpdate = packCard.Pack.HasUpdate;
+        var previousVersion = packCard.Pack.Version; // Capture version before update
+
+        // Log pack location for debugging
+        var packPath = await _packManager.GetPackDirectoryAsync(packCard.Pack.Id);
+        _typedLogger.LogInformation("Pack {PackId} downloaded successfully to: {PackPath}", packCard.Pack.Id, packPath);
+
+        StatusMessage = isUpdate 
+            ? _localizationService.GetString("PackDownload_UpdateCompleted").Replace("{0}", packCard.Pack.GetDisplayName(true))
+            : _localizationService.GetString("PackDownload_DownloadCompleted").Replace("{0}", packCard.Pack.GetDisplayName(true));
+
+        // Send appropriate message to notify other ViewModels
+        await MainThread.InvokeOnMainThreadAsync(() =>
+        {
+            try
+            {
+                if (isUpdate)
+                {
+                    var updateMessage = PackUpdatedMessage.FromPack(packCard.Pack, previousVersion, downloadDuration);
+                    _messenger.Send(updateMessage);
+                    _typedLogger.LogInformation("Sent PackUpdatedMessage for pack {PackId} (v{PreviousVersion} → v{NewVersion})", 
+                        packCard.Pack.Id, previousVersion, packCard.Pack.Version);
+                }
+                else
+                {
+                    var downloadMessage = PackDownloadedMessage.FromPack(packCard.Pack, downloadDuration);
+                    _messenger.Send(downloadMessage);
+                    _typedLogger.LogInformation("Sent PackDownloadedMessage for pack {PackId} (v{Version})", 
+                        packCard.Pack.Id, packCard.Pack.Version);
+                }
+            }
+            catch (Exception ex)
+            {
+                _typedLogger.LogError(ex, "Failed to send pack message for {PackId}", packCard.Pack.Id);
+            }
+        });
+
+        // Refresh to update UI state
+        await RefreshPacksAsync();
     }
 }
 
