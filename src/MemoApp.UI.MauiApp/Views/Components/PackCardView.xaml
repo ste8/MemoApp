@@ -36,7 +36,7 @@
                          VerticalOptions="{OnIdiom Phone=Start, Tablet=Center, Desktop=Center}">
                 
                 <!-- Download/Update Button -->
-                <Button Text="{Binding ButtonText}"
+                <Button Text="{StaticResource Icon_Download}"
                         Command="{Binding DownloadCommand}"
                         CommandParameter="{Binding .}"
                         IsEnabled="{Binding CanExecuteDownload}"
@@ -59,7 +59,7 @@
                 </Border>
                 
                 <!-- Delete Button (only for downloaded packs) -->
-                <Button Text="{localization:Localize Common_Delete}"
+                <Button Text="{StaticResource Icon_Delete}"
                         Command="{Binding DeleteCommand}"
                         CommandParameter="{Binding .}"
                         IsEnabled="{Binding CanExecuteDelete}"

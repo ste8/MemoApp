@@ -602,13 +602,13 @@
     <Style x:Key="EnhancedActionButtonStyle" TargetType="Button">
         <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
         <Setter Property="TextColor" Value="White"/>
-        <Setter Property="FontFamily" Value="OpenSansSemiBold"/>
-        <Setter Property="FontSize" Value="{OnIdiom Phone=14, Tablet=15, Desktop=14}"/>
-        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}"/>
+        <Setter Property="FontSize" Value="{StaticResource IconSize_Responsive_Medium}"/>
         <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="HeightRequest" Value="{OnIdiom Phone=44, Tablet=40, Desktop=38}"/>
-        <Setter Property="MinimumWidthRequest" Value="{OnIdiom Phone=100, Tablet=120, Desktop=110}"/>
-        <Setter Property="Padding" Value="16,0"/>
+        <Setter Property="WidthRequest" Value="{OnIdiom Phone=44, Tablet=40, Desktop=38}"/>
+        <Setter Property="MinimumWidthRequest" Value="{OnIdiom Phone=44, Tablet=40, Desktop=38}"/>
+        <Setter Property="Padding" Value="0"/>
         <Setter Property="Shadow">
             <Shadow Brush="{StaticResource Primary}"
                     Offset="0,2"
@@ -642,11 +642,12 @@
         <Setter Property="TextColor" Value="{StaticResource Danger}"/>
         <Setter Property="BorderColor" Value="{StaticResource Danger}"/>
         <Setter Property="BorderWidth" Value="1"/>
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
-        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}"/>
+        <Setter Property="FontSize" Value="{StaticResource IconSize_Responsive_Medium}"/>
         <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="HeightRequest" Value="{OnIdiom Phone=44, Tablet=40, Desktop=38}"/>
         <Setter Property="WidthRequest" Value="{OnIdiom Phone=44, Tablet=40, Desktop=38}"/>
+        <Setter Property="Padding" Value="0"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
