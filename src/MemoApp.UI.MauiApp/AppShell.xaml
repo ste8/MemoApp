@@ -17,7 +17,7 @@
             <ShellContent.Icon>
                 <FontImageSource
                     FontFamily="{StaticResource IconFont_Solid}"
-                    Glyph="{StaticResource Icon_Home}"
+                    Glyph="{StaticResource Glyph_Home}"
                     Color="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}" />
             </ShellContent.Icon>
         </ShellContent>
@@ -30,7 +30,7 @@
             <ShellContent.Icon>
                 <FontImageSource
                     FontFamily="{StaticResource IconFont_Solid}"
-                    Glyph="{StaticResource Icon_FlashNumbers}"
+                    Glyph="{StaticResource Glyph_Link}"
                     Color="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}" />
             </ShellContent.Icon>
         </ShellContent>
@@ -43,7 +43,7 @@
             <ShellContent.Icon>
                 <FontImageSource
                     FontFamily="{StaticResource IconFont_Solid}"
-                    Glyph="{StaticResource Icon_Statistics}"
+                    Glyph="{StaticResource Glyph_Bolt}"
                     Color="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}" />
             </ShellContent.Icon>
         </ShellContent>
@@ -56,7 +56,7 @@
             <ShellContent.Icon>
                 <FontImageSource
                     FontFamily="{StaticResource IconFont_Solid}"
-                    Glyph="{StaticResource Icon_Associations}"
+                    Glyph="{StaticResource Glyph_ChartLine}"
                     Color="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}" />
             </ShellContent.Icon>
         </ShellContent>
@@ -69,7 +69,7 @@
             <ShellContent.Icon>
                 <FontImageSource
                     FontFamily="{StaticResource IconFont_Solid}"
-                    Glyph="{StaticResource Icon_Settings}"
+                    Glyph="{StaticResource Glyph_Cog}"
                     Color="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}" />
             </ShellContent.Icon>
         </ShellContent>

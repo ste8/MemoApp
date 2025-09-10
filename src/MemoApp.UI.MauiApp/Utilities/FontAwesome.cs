@@ -43,6 +43,15 @@ public static class FontAwesome
         public const string Tag = "\uf02b";                     // Tag
         public const string ChevronDown = "\uf078";             // Chevron down
         public const string Minus = "\uf068";                   // Minus sign
+        public const string House = "\uf015";                   // Home/House
+        public const string ChartLine = "\uf201";               // Line chart
+        public const string Link = "\uf0c1";                    // Link/Chain
+        public const string ChevronLeft = "\uf053";             // Chevron left
+        public const string ChevronRight = "\uf054";            // Chevron right
+        public const string Bars = "\uf0c9";                    // Menu bars
+        public const string Upload = "\uf093";                  // Upload
+        public const string PenToSquare = "\uf044";             // Edit
+        public const string Share = "\uf1e0";                   // Share
     }
     
     /// <summary>

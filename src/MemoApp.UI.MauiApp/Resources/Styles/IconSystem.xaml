@@ -80,6 +80,15 @@
     <x:String x:Key="Icon_Close">{x:Static utilities:FontAwesome+Solid.Xmark}</x:String>
     <x:String x:Key="Icon_Menu">{x:Static utilities:FontAwesome+Solid.Bars}</x:String>
 
+    <!-- TAB ICON GLYPHS (Direct Unicode values for FontImageSource) -->
+    <!-- NOTE: FontImageSource.Glyph does not support x:Static markup extensions in MAUI -->
+    <!-- These are the direct Unicode values corresponding to FontAwesome+Solid constants -->
+    <x:String x:Key="Glyph_Home">&#xf015;</x:String>        <!-- House -->
+    <x:String x:Key="Glyph_Bolt">&#xf0e7;</x:String>        <!-- Lightning Bolt -->
+    <x:String x:Key="Glyph_ChartLine">&#xf201;</x:String>   <!-- Line Chart -->
+    <x:String x:Key="Glyph_Link">&#xf0c1;</x:String>        <!-- Link/Chain -->
+    <x:String x:Key="Glyph_Cog">&#xf013;</x:String>         <!-- Settings Gear -->
+
     <!-- ACTION ICONS -->
     <x:String x:Key="Icon_Refresh">{x:Static utilities:FontAwesome+Solid.ArrowsRotate}</x:String>
     <x:String x:Key="Icon_Download">{x:Static utilities:FontAwesome+Solid.Download}</x:String>
