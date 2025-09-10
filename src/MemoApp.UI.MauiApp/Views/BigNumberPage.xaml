@@ -9,35 +9,23 @@
              x:DataType="viewmodels:BigNumberViewModel"
              Title="{Binding Title}">
 
-    <ScrollView>
-        <Grid Padding="{OnPlatform iOS='20,40,20,20', Default='20'}">
+    <ScrollView Padding="{OnPlatform iOS='20,16,20,20', Android='20,16,20,20', Default='20'}">
+        <StackLayout Spacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
             
             <!-- Setup Section -->
             <StackLayout IsVisible="{Binding IsSetupSectionVisible}"
                          Spacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
                 
-                <!-- Page Title -->
-                <Label Text="{localization:Localize BigNumber_Title}" 
-                       Style="{StaticResource SubHeadline}"
-                       HorizontalOptions="Center"
-                       FontAttributes="Bold"
-                       Margin="0,0,0,4" />
-                
-                <!-- Contextual Header - Always visible, elegant and informative -->
-                <Label Text="{localization:Localize BigNumber_ContextualHeader}" 
-                       FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=16}"
-                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
-                       HorizontalOptions="Center"
-                       HorizontalTextAlignment="Center"
-                       LineBreakMode="WordWrap"
-                       MaximumWidthRequest="{OnIdiom Phone=320, Tablet=500, Desktop=600}"
-                       Margin="0,0,0,20" />
+                <!-- Enhanced Contextual Header - Primary page identifier -->
+                <StackLayout Spacing="8" Margin="0,0,0,16">
+                    <Label Text="{localization:Localize BigNumber_ContextualHeader}" 
+                           Style="{StaticResource ContextualHeaderStyle}"
+                           HorizontalOptions="Start"
+                           HorizontalTextAlignment="Start" />
+                </StackLayout>
                 
                 <!-- Settings Card -->
-                <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
-                       Padding="20"
-                       CornerRadius="15"
-                       HasShadow="True">
+                <Frame Style="{StaticResource ModernCardStyle}">
                     
                     <StackLayout Spacing="20">
                         <!-- Number of Digits -->
@@ -254,13 +242,10 @@
                 <!-- Start Button -->
                 <Button Command="{Binding StartMemorizingCommand}"
                         Text="[Start] Start Memorizing"
+                        Style="{StaticResource PrimaryActionButtonStyle}"
                         BackgroundColor="{StaticResource Primary}"
                         TextColor="White"
-                        FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
-                        FontAttributes="Bold"
-                        CornerRadius="15"
-                        HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
-                        Margin="20,10" />
+                        Margin="0,8,0,16" />
             </StackLayout>
 
             <!-- Game Section -->
@@ -524,6 +509,6 @@
                     </Grid>
                 </StackLayout>
             </StackLayout>
-        </Grid>
+        </StackLayout>
     </ScrollView>
 </ContentPage>

@@ -26,15 +26,16 @@
                           AutomationProperties.Name="{localization:Localize Accessibility_LoadingIndicator}" />
 
         <!-- Main content -->
-        <ScrollView IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}">
+        <ScrollView IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
+                   Padding="{OnPlatform iOS='20,16,20,20', Android='20,16,20,20', Default='20'}">
             
             <!-- 
-            Responsive training session layout:
-            - Single column for active training
-            - Adaptive spacing and font sizes for different screen sizes
-            - Card-based design with clear visual hierarchy
+            Optimized training session layout:
+            - Mobile-first responsive design
+            - Reduced top spacing for better thumb reach
+            - Enhanced visual hierarchy without title duplication
             -->
-            <Grid Padding="{OnPlatform iOS='20,40,20,20', Default='20'}">
+            <StackLayout Spacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
                 
                 <!-- Session Active View -->
                 <StackLayout IsVisible="{Binding IsSessionActive}"
@@ -286,7 +287,7 @@
                                 AutomationProperties.HelpText="{localization:Localize FlashNumbers_NewSession}" />
                     </Grid>
                 </StackLayout>
-            </Grid>
+            </StackLayout>
         </ScrollView>
     </Grid>
 </ContentPage>

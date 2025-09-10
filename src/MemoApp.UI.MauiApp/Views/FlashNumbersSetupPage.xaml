@@ -21,7 +21,7 @@
         <ScrollView Grid.Row="1">
             <!-- Main responsive grid layout -->
             <Grid x:Name="MainGrid" 
-                  Padding="{OnPlatform iOS='20,40,20,20', Default='20'}">
+                  Padding="{OnPlatform iOS='20,16,20,20', Android='20,16,20,20', Default='20'}">
                 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -33,22 +33,13 @@
                 <StackLayout Grid.Column="0" 
                              Spacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
                     
-                    <!-- Page Title with consistent sizing -->
-                    <Label Text="{localization:Localize FlashNumbers_Title}" 
-                           Style="{StaticResource SubHeadline}"
-                           HorizontalOptions="Center"
-                           FontAttributes="Bold"
-                           Margin="0,0,0,4" />
-                    
-                    <!-- Contextual Header - Always visible, elegant and informative -->
-                    <Label Text="{localization:Localize FlashNumbers_ContextualHeader}" 
-                           FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=16}"
-                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                           LineBreakMode="WordWrap"
-                           MaximumWidthRequest="{OnIdiom Phone=320, Tablet=500, Desktop=600}"
-                           Margin="0,0,0,20" />
+                    <!-- Enhanced Contextual Header - Primary page identifier -->
+                    <StackLayout Spacing="8" Margin="0,0,0,16">
+                        <Label Text="{localization:Localize FlashNumbers_ContextualHeader}" 
+                               Style="{StaticResource ContextualHeaderStyle}"
+                               HorizontalOptions="Start"
+                               HorizontalTextAlignment="Start" />
+                    </StackLayout>
 
                     <!-- Quick Start Component -->
                     <components:QuickStartComponent 

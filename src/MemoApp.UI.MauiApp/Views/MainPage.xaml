@@ -17,9 +17,8 @@
         <!-- Update Notification Banner at the top -->
         <views:UpdateNotificationBanner Grid.Row="0" />
         
-        <ScrollView Grid.Row="1">
-            <StackLayout Padding="{OnPlatform iOS='20,40,20,20', Default='20'}"
-                         Spacing="{OnIdiom Phone=30, Tablet=35, Desktop=40}">
+        <ScrollView Grid.Row="1" Padding="{OnPlatform iOS='20,16,20,20', Android='20,16,20,20', Default='20'}">
+            <StackLayout Spacing="{OnIdiom Phone=30, Tablet=35, Desktop=40}">
                 
                 <!-- Welcome Header -->
                 <StackLayout Spacing="15">
@@ -113,10 +112,9 @@
                         
                         <Button Text="{localization:Localize MainPage_LearnMajorSystem}"
                                 Command="{Binding ShowHelpCommand}"
+                                Style="{StaticResource PrimaryActionButtonStyle}"
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="White"
-                                CornerRadius="8"
-                                HeightRequest="{OnIdiom Phone=50, Tablet=55, Desktop=60}"
                                 AutomationProperties.Name="{localization:Localize Accessibility_HelpButton}"
                                 AutomationProperties.HelpText="{localization:Localize Accessibility_HelpButtonHelp}" />
                     </StackLayout>

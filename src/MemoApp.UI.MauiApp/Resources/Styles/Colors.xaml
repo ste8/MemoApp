@@ -39,6 +39,7 @@
     <Color x:Key="Gray400">#919191</Color>  <!-- ⚠️ Low contrast - avoid for text -->
     <Color x:Key="Gray500">#6E6E6E</Color>  <!-- Minimum for accessibility -->
     <Color x:Key="Gray600">#404040</Color>  <!-- Good contrast choice -->
+    <Color x:Key="Gray700">#333333</Color>  <!-- Better contrast for section headers -->
     <Color x:Key="Gray800">#2D2D2D</Color>
     <Color x:Key="Gray900">#212121</Color>
     <Color x:Key="Gray950">#141414</Color>
