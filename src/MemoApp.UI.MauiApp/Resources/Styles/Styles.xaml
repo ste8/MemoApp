@@ -522,6 +522,8 @@
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray800}, Dark={StaticResource Gray200}}" />
         <Setter Property="LineHeight" Value="1.3" />
         <Setter Property="MaximumWidthRequest" Value="{OnIdiom Phone=350, Tablet=500, Desktop=600}" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="HorizontalOptions" Value="Center" />
     </Style>
     
     <!-- Page Section Header Style -->

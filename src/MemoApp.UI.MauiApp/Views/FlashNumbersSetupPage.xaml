@@ -37,8 +37,8 @@
                     <StackLayout Spacing="8" Margin="0,0,0,16">
                         <Label Text="{localization:Localize FlashNumbers_ContextualHeader}" 
                                Style="{StaticResource ContextualHeaderStyle}"
-                               HorizontalOptions="Start"
-                               HorizontalTextAlignment="Start" />
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center" />
                     </StackLayout>
 
                     <!-- Quick Start Component -->
