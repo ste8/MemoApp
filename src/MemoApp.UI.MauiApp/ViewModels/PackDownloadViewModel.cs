@@ -37,10 +37,14 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
     [ObservableProperty]
     private bool showUpdateMessage;
 
+    [ObservableProperty]
+    private bool canDismissStatus;
+
     public ICommand RefreshCommand { get; }
     public ICommand DownloadPackCommand { get; }
     public ICommand CancelDownloadCommand { get; }
     public ICommand DeletePackCommand { get; }
+    public ICommand DismissStatusCommand { get; }
 
     public PackDownloadViewModel(
         IPackDownloadService downloadService,
@@ -61,6 +65,7 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
         DownloadPackCommand = new AsyncRelayCommand<PackItemViewModel>(DownloadPackAsync);
         CancelDownloadCommand = new RelayCommand(CancelDownload);
         DeletePackCommand = new AsyncRelayCommand<PackItemViewModel>(DeletePackAsync);
+        DismissStatusCommand = new RelayCommand(DismissStatusMessage);
     }
 
     public async Task InitializeAsync()
@@ -119,26 +124,24 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
             }
             else
             {
-                // Show update status message
+                // Show update status message based on UX recommendations
                 if (updateCount > 0)
                 {
+                    // Updates available - persistent message with dismiss option
                     UpdateCheckMessage = updateCount == 1 
                         ? _localizationService.GetString("Update_SinglePackAvailable")
                         : _localizationService.GetString("Update_MultiplePacksAvailable").Replace("{0}", updateCount.ToString());
+                    
+                    ShowUpdateMessage = true;
+                    CanDismissStatus = true; // Allow user to dismiss action-required messages
                 }
                 else
                 {
-                    UpdateCheckMessage = _localizationService.GetString("PackDownload_AllPacksUpToDate");
+                    // All up-to-date - persistent confirmation with dismiss option
+                    UpdateCheckMessage = _localizationService.GetString("PackDownload_RefreshCompleted");
+                    ShowUpdateMessage = true;
+                    CanDismissStatus = true; // Allow user to dismiss when they're ready
                 }
-                
-                ShowUpdateMessage = true;
-                
-                // Hide message after 5 seconds
-                _ = Task.Run(async () =>
-                {
-                    await Task.Delay(5000);
-                    await MainThread.InvokeOnMainThreadAsync(() => ShowUpdateMessage = false);
-                });
             }
         }
         catch (Exception ex)
@@ -304,6 +307,12 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
 
         // Refresh to update UI state
         await RefreshPacksAsync();
+    }
+    
+    private void DismissStatusMessage()
+    {
+        ShowUpdateMessage = false;
+        CanDismissStatus = false;
     }
 }
 

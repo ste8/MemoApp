@@ -868,6 +868,18 @@
     <value>All packs are up to date</value>
     <comment>Message when all packs are current</comment>
   </data>
+  <data name="PackDownload_CheckingForUpdates" xml:space="preserve">
+    <value>Checking for updates...</value>
+    <comment>Status while checking for pack updates</comment>
+  </data>
+  <data name="PackDownload_RefreshCompleted" xml:space="preserve">
+    <value>Pack status updated</value>
+    <comment>Brief confirmation after refresh</comment>
+  </data>
+  <data name="PackDownload_DismissStatus" xml:space="preserve">
+    <value>Dismiss</value>
+    <comment>Button to dismiss status message</comment>
+  </data>
   <data name="PackDownload_CancelButton" xml:space="preserve">
     <value>Cancel Download</value>
     <comment>Cancel download button</comment>

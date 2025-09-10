@@ -32,7 +32,7 @@
                     AutomationProperties.Name="{localization:Localize PackDownload_CheckForUpdatesButton}"/>
         </Grid>
         
-        <!-- Update Status Message -->
+        <!-- Enhanced Status Banner with User Control -->
         <Frame Grid.Row="1" 
                IsVisible="{Binding ShowUpdateMessage}"
                BackgroundColor="#E8F5E8"
@@ -41,10 +41,28 @@
                Padding="12,8"
                Margin="16,0,16,8"
                HasShadow="False">
-            <Label Text="{Binding UpdateCheckMessage}"
-                   TextColor="#2E7D32"
-                   HorizontalTextAlignment="Center"
-                   FontSize="14"/>
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Grid.Column="0"
+                       Text="{Binding UpdateCheckMessage}"
+                       TextColor="#2E7D32"
+                       HorizontalTextAlignment="Start"
+                       VerticalTextAlignment="Center"
+                       FontSize="14"/>
+                
+                <!-- User-controlled dismiss button -->
+                <Button Grid.Column="1"
+                        Text="✕"
+                        Command="{Binding DismissStatusCommand}"
+                        IsVisible="{Binding CanDismissStatus}"
+                        BackgroundColor="Transparent"
+                        TextColor="#2E7D32"
+                        FontSize="16"
+                        Padding="8,4"
+                        HeightRequest="32"
+                        WidthRequest="32"
+                        SemanticProperties.Description="{localization:Localize PackDownload_DismissStatus}"
+                        AutomationProperties.Name="{localization:Localize PackDownload_DismissStatus}"/>
+            </Grid>
         </Frame>
 
         <!-- Pack List with Pull-to-Refresh -->
