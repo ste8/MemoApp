@@ -19,18 +19,16 @@
                    VerticalOptions="Center"/>
             
             <Button Grid.Column="1"
-                    Text="{OnIdiom Phone='&#xf021;', Tablet='&#xf021; Update', Desktop='&#xf021; Update'}"
-                    FontFamily="{OnIdiom Phone='FontAwesomeSolid', Tablet='FontAwesomeSolid', Desktop='FontAwesomeSolid'}"
+                    Text="{OnIdiom Phone={StaticResource Icon_Refresh}, Tablet={StaticResource Icon_Refresh}, Desktop={StaticResource Icon_Refresh}}"
+                    FontFamily="{StaticResource IconFont_Solid}"
                     Command="{Binding RefreshCommand}"
                     IsEnabled="{Binding IsRefreshing, Converter={StaticResource InverseBoolConverter}}"
-                    BackgroundColor="#34C759"
-                    TextColor="White"
-                    CornerRadius="{OnIdiom Phone=6, Tablet=8, Desktop=8}"
+                    Style="{StaticResource IconButton_Success}"
                     HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}"
-                    WidthRequest="{OnIdiom Phone=44, Tablet=-1, Desktop=-1}"
-                    MinimumWidthRequest="{OnIdiom Phone=44, Tablet=140, Desktop=160}"
+                    WidthRequest="{OnIdiom Phone=44, Tablet=120, Desktop=140}"
+                    MinimumWidthRequest="{OnIdiom Phone=44, Tablet=120, Desktop=140}"
                     HorizontalOptions="End"
-                    FontSize="{OnIdiom Phone=16, Tablet=15, Desktop=16}"
+                    FontSize="{StaticResource IconSize_Responsive_Medium}"
                     SemanticProperties.Description="{localization:Localize PackDownload_CheckForUpdatesButton}"
                     AutomationProperties.Name="{localization:Localize PackDownload_CheckForUpdatesButton}"/>
         </Grid>

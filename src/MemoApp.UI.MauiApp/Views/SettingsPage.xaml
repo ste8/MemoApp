@@ -12,8 +12,8 @@
             
             <!-- Page Title -->
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10" Margin="0,0,0,20">
-                <Label Text="{x:Static utilities:FontAwesome+Solid.Cog}"
-                       FontFamily="{x:Static utilities:FontAwesome+FontFamilies.Solid}"
+                <Label Text="{StaticResource Icon_Settings}"
+                       FontFamily="{StaticResource IconFont_Solid}"
                        FontSize="28"
                        VerticalOptions="Center"
                        TextColor="{StaticResource Primary}" />
@@ -43,7 +43,7 @@
                                FontAttributes="Bold" />
                         
                         <Button Command="{Binding SelectLanguageCommand}"
-                                Text="🌎 Select Language"
+                                Text="🌐 Select Language"
                                 BackgroundColor="White"
                                 TextColor="Black"
                                 BorderColor="Gray"

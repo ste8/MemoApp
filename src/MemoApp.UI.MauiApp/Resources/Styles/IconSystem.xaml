@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:utilities="clr-namespace:MemoApp.UI.MauiApp.Utilities">
+
+    <!-- ===========================================
+         MEMOAPP UNIFIED ICON SYSTEM
+         Professional, accessible, and consistent
+         =========================================== -->
+
+    <!-- FONT FAMILIES -->
+    <x:String x:Key="IconFont_Solid">{x:Static utilities:FontAwesome+FontFamilies.Solid}</x:String>
+    <x:String x:Key="IconFont_Light">{x:Static utilities:FontAwesome+FontFamilies.Light}</x:String>
+
+    <!-- RESPONSIVE ICON SIZES -->
+    <OnIdiom x:Key="IconSize_Small" x:TypeArguments="x:Double">
+        <OnIdiom.Phone>18</OnIdiom.Phone>
+        <OnIdiom.Tablet>20</OnIdiom.Tablet>
+        <OnIdiom.Desktop>18</OnIdiom.Desktop>
+    </OnIdiom>
+
+    <OnIdiom x:Key="IconSize_Medium" x:TypeArguments="x:Double">
+        <OnIdiom.Phone>24</OnIdiom.Phone>
+        <OnIdiom.Tablet>26</OnIdiom.Tablet>
+        <OnIdiom.Desktop>24</OnIdiom.Desktop>
+    </OnIdiom>
+
+    <OnIdiom x:Key="IconSize_Large" x:TypeArguments="x:Double">
+        <OnIdiom.Phone>32</OnIdiom.Phone>
+        <OnIdiom.Tablet>36</OnIdiom.Tablet>
+        <OnIdiom.Desktop>32</OnIdiom.Desktop>
+    </OnIdiom>
+
+    <!-- RESPONSIVE ICON SIZES FOR COMPONENTS -->
+    <OnIdiom x:Key="IconSize_Responsive_Small" x:TypeArguments="x:Double">
+        <OnIdiom.Phone>14</OnIdiom.Phone>
+        <OnIdiom.Tablet>16</OnIdiom.Tablet>
+        <OnIdiom.Desktop>14</OnIdiom.Desktop>
+    </OnIdiom>
+
+    <OnIdiom x:Key="IconSize_Responsive_Medium" x:TypeArguments="x:Double">
+        <OnIdiom.Phone>18</OnIdiom.Phone>
+        <OnIdiom.Tablet>20</OnIdiom.Tablet>
+        <OnIdiom.Desktop>18</OnIdiom.Desktop>
+    </OnIdiom>
+
+    <OnIdiom x:Key="IconSize_Responsive_Large" x:TypeArguments="x:Double">
+        <OnIdiom.Phone>24</OnIdiom.Phone>
+        <OnIdiom.Tablet>26</OnIdiom.Tablet>
+        <OnIdiom.Desktop>24</OnIdiom.Desktop>
+    </OnIdiom>
+
+    <!-- SEMANTIC ICON COLORS -->
+    <Color x:Key="IconColor_Primary">#512BD4</Color>
+    <Color x:Key="IconColor_Secondary">#6C757D</Color>
+    <Color x:Key="IconColor_Success">#1E7E34</Color>
+    <Color x:Key="IconColor_Warning">#CC5500</Color>
+    <Color x:Key="IconColor_Danger">#DC3545</Color>
+    <Color x:Key="IconColor_Info">#17A2B8</Color>
+    
+    <!-- DARK THEME SEMANTIC COLORS -->
+    <Color x:Key="IconColor_SecondaryDark">#ADB5BD</Color>
+    <Color x:Key="IconColor_SuccessDark">#28A745</Color>
+    
+    <!-- ADAPTIVE ICON COLORS -->
+    <Color x:Key="IconColor_Default">#6B7280</Color>
+    <Color x:Key="IconColor_Muted">#9CA3AF</Color>
+
+    <!-- ===========================================
+         STANDARDIZED ICON DEFINITIONS
+         =========================================== -->
+
+    <!-- NAVIGATION ICONS -->
+    <x:String x:Key="Icon_Home">{x:Static utilities:FontAwesome+Solid.House}</x:String>
+    <x:String x:Key="Icon_Back">{x:Static utilities:FontAwesome+Solid.ChevronLeft}</x:String>
+    <x:String x:Key="Icon_Forward">{x:Static utilities:FontAwesome+Solid.ChevronRight}</x:String>
+    <x:String x:Key="Icon_ChevronDown">{x:Static utilities:FontAwesome+Solid.ChevronDown}</x:String>
+    <x:String x:Key="Icon_Down">{x:Static utilities:FontAwesome+Solid.ChevronDown}</x:String>
+    <x:String x:Key="Icon_Close">{x:Static utilities:FontAwesome+Solid.Xmark}</x:String>
+    <x:String x:Key="Icon_Menu">{x:Static utilities:FontAwesome+Solid.Bars}</x:String>
+
+    <!-- ACTION ICONS -->
+    <x:String x:Key="Icon_Refresh">{x:Static utilities:FontAwesome+Solid.ArrowsRotate}</x:String>
+    <x:String x:Key="Icon_Download">{x:Static utilities:FontAwesome+Solid.Download}</x:String>
+    <x:String x:Key="Icon_Upload">{x:Static utilities:FontAwesome+Solid.Upload}</x:String>
+    <x:String x:Key="Icon_Delete">{x:Static utilities:FontAwesome+Solid.Trash}</x:String>
+    <x:String x:Key="Icon_Edit">{x:Static utilities:FontAwesome+Solid.PenToSquare}</x:String>
+    <x:String x:Key="Icon_Add">{x:Static utilities:FontAwesome+Solid.Plus}</x:String>
+    <x:String x:Key="Icon_Search">{x:Static utilities:FontAwesome+Solid.MagnifyingGlass}</x:String>
+    <x:String x:Key="Icon_Share">{x:Static utilities:FontAwesome+Solid.Share}</x:String>
+
+    <!-- STATUS ICONS -->
+    <x:String x:Key="Icon_Success">{x:Static utilities:FontAwesome+Solid.CircleCheck}</x:String>
+    <x:String x:Key="Icon_Warning">{x:Static utilities:FontAwesome+Solid.TriangleExclamation}</x:String>
+    <x:String x:Key="Icon_Error">{x:Static utilities:FontAwesome+Solid.CircleXmark}</x:String>
+    <x:String x:Key="Icon_Info">{x:Static utilities:FontAwesome+Solid.CircleInfo}</x:String>
+    <x:String x:Key="Icon_Loading">{x:Static utilities:FontAwesome+Solid.Spinner}</x:String>
+
+    <!-- APP-SPECIFIC ICONS -->
+    <x:String x:Key="Icon_Settings">{x:Static utilities:FontAwesome+Solid.Cog}</x:String>
+    <x:String x:Key="Icon_Statistics">{x:Static utilities:FontAwesome+Solid.ChartLine}</x:String>
+    <x:String x:Key="Icon_Package">{x:Static utilities:FontAwesome+Solid.Box}</x:String>
+    <x:String x:Key="Icon_Language">{x:Static utilities:FontAwesome+Solid.Globe}</x:String>
+    <x:String x:Key="Icon_Numbers">{x:Static utilities:FontAwesome+Solid.Hashtag}</x:String>
+    <x:String x:Key="Icon_FlashNumbers">{x:Static utilities:FontAwesome+Solid.Bolt}</x:String>
+    <x:String x:Key="Icon_BigNumber">{x:Static utilities:FontAwesome+Solid.Brain}</x:String>
+    <x:String x:Key="Icon_Associations">{x:Static utilities:FontAwesome+Solid.Link}</x:String>
+
+    <!-- ===========================================
+         BASE ICON STYLES
+         =========================================== -->
+
+    <!-- Base icon label style -->
+    <Style x:Key="IconLabelBase" TargetType="Label">
+        <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}" />
+        <Setter Property="FontSize" Value="{StaticResource IconSize_Medium}" />
+        <Setter Property="TextColor" Value="{StaticResource IconColor_Default}" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="AutomationProperties.IsInAccessibleTree" Value="False" />
+    </Style>
+
+    <!-- Size variants -->
+    <Style x:Key="IconSmall" TargetType="Label" BasedOn="{StaticResource IconLabelBase}">
+        <Setter Property="FontSize" Value="{StaticResource IconSize_Small}" />
+    </Style>
+
+    <Style x:Key="IconMedium" TargetType="Label" BasedOn="{StaticResource IconLabelBase}">
+        <Setter Property="FontSize" Value="{StaticResource IconSize_Medium}" />
+    </Style>
+
+    <Style x:Key="IconLarge" TargetType="Label" BasedOn="{StaticResource IconLabelBase}">
+        <Setter Property="FontSize" Value="{StaticResource IconSize_Large}" />
+    </Style>
+
+    <!-- ===========================================
+         SEMANTIC ICON STYLES
+         =========================================== -->
+
+    <Style x:Key="SuccessIcon" TargetType="Label" BasedOn="{StaticResource IconMedium}">
+        <Setter Property="Text" Value="{StaticResource Icon_Success}" />
+        <Setter Property="TextColor" Value="{StaticResource IconColor_Success}" />
+        <Setter Property="AutomationProperties.Name" Value="Success" />
+        <Setter Property="AutomationProperties.IsInAccessibleTree" Value="True" />
+    </Style>
+
+    <Style x:Key="WarningIcon" TargetType="Label" BasedOn="{StaticResource IconMedium}">
+        <Setter Property="Text" Value="{StaticResource Icon_Warning}" />
+        <Setter Property="TextColor" Value="{StaticResource IconColor_Warning}" />
+        <Setter Property="AutomationProperties.Name" Value="Warning" />
+        <Setter Property="AutomationProperties.IsInAccessibleTree" Value="True" />
+    </Style>
+
+    <Style x:Key="ErrorIcon" TargetType="Label" BasedOn="{StaticResource IconMedium}">
+        <Setter Property="Text" Value="{StaticResource Icon_Error}" />
+        <Setter Property="TextColor" Value="{StaticResource IconColor_Danger}" />
+        <Setter Property="AutomationProperties.Name" Value="Error" />
+        <Setter Property="AutomationProperties.IsInAccessibleTree" Value="True" />
+    </Style>
+
+    <Style x:Key="InfoIcon" TargetType="Label" BasedOn="{StaticResource IconMedium}">
+        <Setter Property="Text" Value="{StaticResource Icon_Info}" />
+        <Setter Property="TextColor" Value="{StaticResource IconColor_Info}" />
+        <Setter Property="AutomationProperties.Name" Value="Information" />
+        <Setter Property="AutomationProperties.IsInAccessibleTree" Value="True" />
+    </Style>
+
+    <!-- ===========================================
+         ICON BUTTON STYLES
+         =========================================== -->
+
+    <!-- Base accessible icon button -->
+    <Style x:Key="AccessibleIconButton" TargetType="Button">
+        <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}" />
+        <Setter Property="FontSize" Value="{StaticResource IconSize_Medium}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="MinimumWidthRequest" Value="44" />
+        <Setter Property="Padding" Value="12" />
+        <Setter Property="TextColor" Value="{StaticResource IconColor_Default}" />
+        <Setter Property="AutomationProperties.IsInAccessibleTree" Value="True" />
+    </Style>
+
+    <!-- Primary icon button -->
+    <Style x:Key="IconButton_Primary" TargetType="Button" BasedOn="{StaticResource AccessibleIconButton}">
+        <Setter Property="TextColor" Value="{StaticResource IconColor_Primary}" />
+    </Style>
+
+    <!-- Success icon button -->
+    <Style x:Key="IconButton_Success" TargetType="Button" BasedOn="{StaticResource AccessibleIconButton}">
+        <Setter Property="TextColor" Value="{StaticResource IconColor_Success}" />
+    </Style>
+
+    <!-- Warning icon button -->
+    <Style x:Key="IconButton_Warning" TargetType="Button" BasedOn="{StaticResource AccessibleIconButton}">
+        <Setter Property="TextColor" Value="{StaticResource IconColor_Warning}" />
+    </Style>
+
+    <!-- Danger icon button -->
+    <Style x:Key="IconButton_Danger" TargetType="Button" BasedOn="{StaticResource AccessibleIconButton}">
+        <Setter Property="TextColor" Value="{StaticResource IconColor_Danger}" />
+    </Style>
+
+</ResourceDictionary>

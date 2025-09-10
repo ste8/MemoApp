@@ -41,13 +41,14 @@
                            VerticalOptions="Center"
                            HorizontalOptions="Start"
                            Margin="10,0,0,0" />
-                    <Label Text="{x:Static utilities:FontAwesome+Solid.ChevronDown}"
-                           FontFamily="{x:Static utilities:FontAwesome+FontFamilies.Solid}"
+                    <Label Text="{StaticResource Icon_Down}"
+                           FontFamily="{StaticResource IconFont_Solid}"
                            FontSize="12"
-                           TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                           TextColor="{AppThemeBinding Light={StaticResource IconColor_Secondary}, Dark={StaticResource IconColor_SecondaryDark}}"
                            VerticalOptions="Center"
                            HorizontalOptions="End"
-                           Margin="0,0,10,0" />
+                           Margin="0,0,10,0"
+                           AutomationProperties.IsInAccessibleTree="False" />
                 </Grid>
             </Border>
         </Grid>

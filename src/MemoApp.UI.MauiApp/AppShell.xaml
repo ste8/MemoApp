@@ -16,8 +16,8 @@
             ContentTemplate="{DataTemplate views:MainPage}">
             <ShellContent.Icon>
                 <FontImageSource
-                    FontFamily="FontAwesomeLight"
-                    Glyph="&#xf015;"
+                    FontFamily="{StaticResource IconFont_Solid}"
+                    Glyph="{StaticResource Icon_Home}"
                     Color="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}" />
             </ShellContent.Icon>
         </ShellContent>
@@ -29,8 +29,8 @@
             ContentTemplate="{DataTemplate views:AssociationsPage}">
             <ShellContent.Icon>
                 <FontImageSource
-                    FontFamily="FontAwesomeLight"
-                    Glyph="&#xe4a2;"
+                    FontFamily="{StaticResource IconFont_Solid}"
+                    Glyph="{StaticResource Icon_FlashNumbers}"
                     Color="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}" />
             </ShellContent.Icon>
         </ShellContent>
@@ -42,8 +42,8 @@
             ContentTemplate="{DataTemplate views:FlashNumbersSetupPage}">
             <ShellContent.Icon>
                 <FontImageSource
-                    FontFamily="FontAwesomeLight"
-                    Glyph="&#xf0e7;"
+                    FontFamily="{StaticResource IconFont_Solid}"
+                    Glyph="{StaticResource Icon_Statistics}"
                     Color="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}" />
             </ShellContent.Icon>
         </ShellContent>
@@ -55,8 +55,8 @@
             ContentTemplate="{DataTemplate views:BigNumberPage}">
             <ShellContent.Icon>
                 <FontImageSource
-                    FontFamily="FontAwesomeLight"
-                    Glyph="&#xe256;"
+                    FontFamily="{StaticResource IconFont_Solid}"
+                    Glyph="{StaticResource Icon_Associations}"
                     Color="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}" />
             </ShellContent.Icon>
         </ShellContent>
@@ -64,9 +64,15 @@
         <!-- Fifth Tab: Settings - App configuration and preferences -->
         <ShellContent
             Title="{localization:Localize Tab_Settings}"
-            Icon="settings"
             Route="settings"
-            ContentTemplate="{DataTemplate views:SettingsPage}" />
+            ContentTemplate="{DataTemplate views:SettingsPage}">
+            <ShellContent.Icon>
+                <FontImageSource
+                    FontFamily="{StaticResource IconFont_Solid}"
+                    Glyph="{StaticResource Icon_Settings}"
+                    Color="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}" />
+            </ShellContent.Icon>
+        </ShellContent>
     </TabBar>
 
 </Shell>

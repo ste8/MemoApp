@@ -17,10 +17,13 @@
         <Grid ColumnDefinitions="Auto,*,Auto">
             <!-- Icon -->
             <Label Grid.Column="0"
-                   Text="🔄"
+                   Text="{StaticResource Icon_Refresh}"
+                   FontFamily="{StaticResource IconFont_Solid}"
                    FontSize="20"
+                   TextColor="#1976D2"
                    VerticalOptions="Center"
-                   Margin="0,0,10,0" />
+                   Margin="0,0,10,0"
+                   AutomationProperties.IsInAccessibleTree="False" />
             
             <!-- Message -->
             <StackLayout Grid.Column="1" 

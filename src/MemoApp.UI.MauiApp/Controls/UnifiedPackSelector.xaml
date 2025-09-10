@@ -128,7 +128,8 @@
                     <!-- Refresh Button (only in management mode) -->
                     <Button Grid.Column="1"
                             IsVisible="{Binding ShowRefreshButton}"
-                            Text="🔄"
+                            Text="{StaticResource Icon_Refresh}"
+                            FontFamily="{StaticResource IconFont_Solid}"
                             Command="{Binding RefreshCommand}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White"

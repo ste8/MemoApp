@@ -152,9 +152,9 @@
                                HorizontalOptions="Center" />
                         
                         <Label Text="{Binding AssociationEmoji}"
-                               FontSize="{OnIdiom Phone=48, Tablet=60, Desktop=72}"
+                               FontSize="{OnIdiom Phone=80, Tablet=100, Desktop=120}"
                                HorizontalOptions="Center"
-                               Margin="0,10" />
+                               Margin="0,15,0,15" />
                         
                         <Label Text="{Binding AssociationText}"
                                TextColor="White"
