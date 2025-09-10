@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             xmlns:controls="clr-namespace:MemoApp.UI.MauiApp.Controls.Onboarding"
+             x:Class="MemoApp.UI.MauiApp.Controls.Onboarding.ResponsiveExampleLayout">
+    
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <!-- Responsive breakpoints and styles -->
+            <x:Double x:Key="PhoneBreakpoint">600</x:Double>
+            <x:Double x:Key="TabletBreakpoint">1024</x:Double>
+            
+            <!-- Mobile Card Style -->
+            <Style x:Key="MobileCard" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}" />
+                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}" />
+                <Setter Property="CornerRadius" Value="16" />
+                <Setter Property="HasShadow" Value="True" />
+                <Setter Property="Padding" Value="24" />
+                <Setter Property="Margin" Value="0,12" />
+            </Style>
+            
+            <!-- Tablet Card Style -->
+            <Style x:Key="TabletCard" TargetType="Frame" BasedOn="{StaticResource MobileCard}">
+                <Setter Property="Padding" Value="32" />
+                <Setter Property="Margin" Value="8,12" />
+            </Style>
+            
+            <!-- Desktop Card Style -->
+            <Style x:Key="DesktopCard" TargetType="Frame" BasedOn="{StaticResource TabletCard}">
+                <Setter Property="Padding" Value="40" />
+                <Setter Property="CornerRadius" Value="20" />
+            </Style>
+            
+            <!-- Progressive Enhancement Styles -->
+            <Style x:Key="StepTitle" TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0,0,0,12" />
+            </Style>
+            
+            <Style x:Key="TabletStepTitle" TargetType="Label" BasedOn="{StaticResource StepTitle}">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="Margin" Value="0,0,0,16" />
+            </Style>
+            
+            <Style x:Key="DesktopStepTitle" TargetType="Label" BasedOn="{StaticResource TabletStepTitle}">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="Margin" Value="0,0,0,20" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    
+    <!-- Main Layout Container -->
+    <Grid x:Name="MainLayoutGrid" RowDefinitions="*">
+        
+        <!-- Phone Layout (Default) -->
+        <ScrollView x:Name="PhoneLayout" 
+                    Padding="20">
+            <VerticalStackLayout Spacing="16">
+                <!-- Phone-specific vertical flow -->
+                <controls:MajorSystemStepCard 
+                    x:Name="PhoneStep1"
+                    StepNumber="1"
+                    Title="{localization:Localize Onboarding_Example_Step1}"
+                    Description="{localization:Localize Onboarding_Example_NumberExplain}"
+                    CardStyle="{StaticResource MobileCard}"
+                    TitleStyle="{StaticResource StepTitle}" />
+                
+                <controls:AnimatedArrow 
+                    Direction="Down"
+                    Size="32"
+                    Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                
+                <controls:MajorSystemStepCard 
+                    x:Name="PhoneStep2"
+                    StepNumber="2"
+                    Title="{localization:Localize Onboarding_Example_Step2}"
+                    Description="{localization:Localize Onboarding_Example_ConversionExplain}"
+                    CardStyle="{StaticResource MobileCard}"
+                    TitleStyle="{StaticResource StepTitle}" />
+                
+                <controls:AnimatedArrow 
+                    Direction="Down"
+                    Size="32"
+                    Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                
+                <controls:MajorSystemStepCard 
+                    x:Name="PhoneStep3"
+                    StepNumber="3"
+                    Title="{localization:Localize Onboarding_Example_Step3}"
+                    Description="{localization:Localize Onboarding_Example_Step3}"
+                    CardStyle="{StaticResource MobileCard}"
+                    TitleStyle="{StaticResource StepTitle}"
+                    IsHighlighted="True" />
+                
+                <controls:MajorSystemStepCard 
+                    x:Name="PhoneStep4"
+                    StepNumber="4"
+                    Title="{localization:Localize Onboarding_Example_Step4}"
+                    Description="{localization:Localize Onboarding_Example_Remember}"
+                    CardStyle="{StaticResource MobileCard}"
+                    TitleStyle="{StaticResource StepTitle}"
+                    IsEmoji="True" />
+            </VerticalStackLayout>
+        </ScrollView>
+        
+        <!-- Tablet Layout -->
+        <ScrollView x:Name="TabletLayout" 
+                    Padding="40"
+                    IsVisible="False">
+            <Grid ColumnDefinitions="*,*"
+                  RowDefinitions="Auto,Auto,Auto"
+                  ColumnSpacing="24"
+                  RowSpacing="24">
+                
+                <!-- Tablet two-column flow -->
+                <controls:MajorSystemStepCard 
+                    Grid.Column="0" Grid.Row="0"
+                    x:Name="TabletStep1"
+                    StepNumber="1"
+                    Title="{localization:Localize Onboarding_Example_Step1}"
+                    Description="{localization:Localize Onboarding_Example_NumberExplain}"
+                    CardStyle="{StaticResource TabletCard}"
+                    TitleStyle="{StaticResource TabletStepTitle}" />
+                
+                <controls:MajorSystemStepCard 
+                    Grid.Column="1" Grid.Row="0"
+                    x:Name="TabletStep2"
+                    StepNumber="2"
+                    Title="{localization:Localize Onboarding_Example_Step2}"
+                    Description="{localization:Localize Onboarding_Example_ConversionExplain}"
+                    CardStyle="{StaticResource TabletCard}"
+                    TitleStyle="{StaticResource TabletStepTitle}" />
+                
+                <controls:MajorSystemStepCard 
+                    Grid.Column="0" Grid.Row="1"
+                    x:Name="TabletStep3"
+                    StepNumber="3"
+                    Title="{localization:Localize Onboarding_Example_Step3}"
+                    Description="{localization:Localize Onboarding_Example_Step3}"
+                    CardStyle="{StaticResource TabletCard}"
+                    TitleStyle="{StaticResource TabletStepTitle}"
+                    IsHighlighted="True" />
+                
+                <controls:MajorSystemStepCard 
+                    Grid.Column="1" Grid.Row="1"
+                    x:Name="TabletStep4"
+                    StepNumber="4"
+                    Title="{localization:Localize Onboarding_Example_Step4}"
+                    Description="{localization:Localize Onboarding_Example_Remember}"
+                    CardStyle="{StaticResource TabletCard}"
+                    TitleStyle="{StaticResource TabletStepTitle}"
+                    IsEmoji="True" />
+                
+                <!-- Call to action spanning both columns -->
+                <Frame Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"
+                       BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                       BorderColor="Transparent"
+                       CornerRadius="16"
+                       Padding="32">
+                    <VerticalStackLayout Spacing="16">
+                        <Label Text="{localization:Localize Onboarding_Example_CallToAction}"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center" />
+                        
+                        <Label Text="{localization:Localize Onboarding_Example_Motivation}"
+                               FontSize="16"
+                               TextColor="White"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               Opacity="0.9" />
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+        </ScrollView>
+        
+        <!-- Desktop Layout -->
+        <ScrollView x:Name="DesktopLayout" 
+                    Padding="60"
+                    IsVisible="False">
+            <VerticalStackLayout Spacing="32">
+                
+                <!-- Desktop comparison layout -->
+                <Label Text="{localization:Localize Onboarding_Example_Title}"
+                       Style="{StaticResource Headline}"
+                       FontSize="36"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+                
+                <!-- Side-by-side comparison -->
+                <Grid ColumnDefinitions="*,40,*"
+                      RowDefinitions="Auto,*">
+                    
+                    <!-- Current Language Example -->
+                    <Label Grid.Column="0" Grid.Row="0"
+                           Text="Current Language Example"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           Margin="0,0,0,20" />
+                    
+                    <!-- Divider -->
+                    <BoxView Grid.Column="1" Grid.RowSpan="2"
+                             BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                             WidthRequest="2"
+                             VerticalOptions="Fill" />
+                    
+                    <!-- Alternative Language Example -->
+                    <Label Grid.Column="2" Grid.Row="0"
+                           Text="Alternative Language Example"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           Margin="0,0,0,20" />
+                    
+                    <!-- Current language steps -->
+                    <VerticalStackLayout Grid.Column="0" Grid.Row="1" 
+                                         Spacing="20">
+                        <controls:MajorSystemStepCard 
+                            x:Name="DesktopCurrentStep1"
+                            StepNumber="1"
+                            Title="{localization:Localize Onboarding_Example_Step1}"
+                            CardStyle="{StaticResource DesktopCard}"
+                            TitleStyle="{StaticResource DesktopStepTitle}" />
+                        
+                        <controls:MajorSystemStepCard 
+                            x:Name="DesktopCurrentStep2"
+                            StepNumber="2"
+                            Title="{localization:Localize Onboarding_Example_Step2}"
+                            CardStyle="{StaticResource DesktopCard}"
+                            TitleStyle="{StaticResource DesktopStepTitle}" />
+                    </VerticalStackLayout>
+                    
+                    <!-- Alternative language steps -->
+                    <VerticalStackLayout Grid.Column="2" Grid.Row="1" 
+                                         Spacing="20">
+                        <controls:MajorSystemStepCard 
+                            x:Name="DesktopAltStep1"
+                            StepNumber="1"
+                            Title="Alternative Example"
+                            CardStyle="{StaticResource DesktopCard}"
+                            TitleStyle="{StaticResource DesktopStepTitle}" />
+                        
+                        <controls:MajorSystemStepCard 
+                            x:Name="DesktopAltStep2"
+                            StepNumber="2"
+                            Title="Alternative Conversion"
+                            CardStyle="{StaticResource DesktopCard}"
+                            TitleStyle="{StaticResource DesktopStepTitle}" />
+                    </VerticalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentView>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             x:Class="MemoApp.UI.MauiApp.Controls.Onboarding.MajorSystemStepCard">
+    
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <!-- Default card styling -->
+            <Style x:Key="DefaultCard" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}" />
+                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}" />
+                <Setter Property="CornerRadius" Value="16" />
+                <Setter Property="HasShadow" Value="True" />
+                <Setter Property="Padding" Value="24" />
+            </Style>
+            
+            <!-- Highlighted card styling -->
+            <Style x:Key="HighlightedCard" TargetType="Frame" BasedOn="{StaticResource DefaultCard}">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource SuccessDark}}" />
+                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource SuccessDark}}" />
+            </Style>
+            
+            <!-- Emoji card styling -->
+            <Style x:Key="EmojiCard" TargetType="Frame" BasedOn="{StaticResource DefaultCard}">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Warning}, Dark={StaticResource WarningDark}}" />
+                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Warning}, Dark={StaticResource WarningDark}}" />
+            </Style>
+            
+            <!-- Step number circle -->
+            <Style x:Key="StepNumber" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="CornerRadius" Value="20" />
+                <Setter Property="WidthRequest" Value="40" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="HasShadow" Value="False" />
+                <Setter Property="Padding" Value="0" />
+            </Style>
+            
+            <!-- Content styling -->
+            <Style x:Key="StepTitle" TargetType="Label">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+            </Style>
+            
+            <Style x:Key="StepDescription" TargetType="Label">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                <Setter Property="LineBreakMode" Value="WordWrap" />
+            </Style>
+            
+            <!-- Highlighted text styles -->
+            <Style x:Key="HighlightedTitle" TargetType="Label" BasedOn="{StaticResource StepTitle}">
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+            
+            <Style x:Key="HighlightedDescription" TargetType="Label" BasedOn="{StaticResource StepDescription}">
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="Opacity" Value="0.9" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    
+    <!-- Main Card Frame -->
+    <Frame x:Name="MainFrame" 
+           Style="{StaticResource DefaultCard}">
+        
+        <VerticalStackLayout Spacing="16">
+            
+            <!-- Header with step number and title -->
+            <HorizontalStackLayout Spacing="16" VerticalOptions="Start">
+                
+                <!-- Step Number Circle -->
+                <Frame x:Name="StepNumberFrame" 
+                       Style="{StaticResource StepNumber}">
+                    <Label x:Name="StepNumberLabel"
+                           Text="{Binding StepNumber, Source={RelativeSource AncestorType={x:Type ContentView}}}"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+                </Frame>
+                
+                <!-- Title -->
+                <Label x:Name="TitleLabel"
+                       Text="{Binding Title, Source={RelativeSource AncestorType={x:Type ContentView}}}"
+                       Style="{StaticResource StepTitle}"
+                       VerticalOptions="Center"
+                       HorizontalOptions="StartAndExpand" />
+                
+            </HorizontalStackLayout>
+            
+            <!-- Content Area -->
+            <VerticalStackLayout x:Name="ContentArea" Spacing="12">
+                
+                <!-- Description -->
+                <Label x:Name="DescriptionLabel"
+                       Text="{Binding Description, Source={RelativeSource AncestorType={x:Type ContentView}}}"
+                       Style="{StaticResource StepDescription}"
+                       IsVisible="{Binding HasDescription, Source={RelativeSource AncestorType={x:Type ContentView}}}" />
+                
+                <!-- Number Display (for step 1) -->
+                <Label x:Name="NumberDisplay"
+                       Text="{Binding NumberText, Source={RelativeSource AncestorType={x:Type ContentView}}}"
+                       FontSize="56"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                       HorizontalOptions="Center"
+                       IsVisible="{Binding ShowNumber, Source={RelativeSource AncestorType={x:Type ContentView}}}" />
+                
+                <!-- Conversion Steps Container (for step 2) -->
+                <HorizontalStackLayout x:Name="ConversionContainer"
+                                       HorizontalOptions="Center"
+                                       Spacing="16"
+                                       IsVisible="{Binding ShowConversion, Source={RelativeSource AncestorType={x:Type ContentView}}}">
+                    <!-- Conversion steps will be populated dynamically -->
+                </HorizontalStackLayout>
+                
+                <!-- Word Formation (for step 3) -->
+                <VerticalStackLayout x:Name="WordFormationContainer"
+                                     Spacing="16"
+                                     IsVisible="{Binding ShowWordFormation, Source={RelativeSource AncestorType={x:Type ContentView}}}">
+                    
+                    <!-- Letter combination -->
+                    <HorizontalStackLayout x:Name="LetterCombination"
+                                           HorizontalOptions="Center"
+                                           Spacing="8">
+                        <!-- Letters will be populated dynamically -->
+                    </HorizontalStackLayout>
+                    
+                    <!-- Equals sign -->
+                    <Label Text="="
+                           FontSize="32"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center" />
+                    
+                    <!-- Final word -->
+                    <Label x:Name="FinalWordLabel"
+                           Text="{Binding FinalWord, Source={RelativeSource AncestorType={x:Type ContentView}}}"
+                           FontSize="42"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+                
+                <!-- Emoji Display (for step 4) -->
+                <VerticalStackLayout x:Name="EmojiContainer"
+                                     Spacing="16"
+                                     IsVisible="{Binding IsEmoji, Source={RelativeSource AncestorType={x:Type ContentView}}}">
+                    
+                    <Label x:Name="EmojiDisplay"
+                           Text="{Binding EmojiText, Source={RelativeSource AncestorType={x:Type ContentView}}}"
+                           FontSize="64"
+                           HorizontalOptions="Center" />
+                    
+                    <!-- Memory association text -->
+                    <Label x:Name="MemoryText"
+                           Text="{Binding MemoryAssociation, Source={RelativeSource AncestorType={x:Type ContentView}}}"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+                
+            </VerticalStackLayout>
+            
+            <!-- Interactive Elements (if any) -->
+            <VerticalStackLayout x:Name="InteractiveArea" 
+                                 Spacing="12"
+                                 IsVisible="False">
+                <!-- This area can be used for interactive elements like buttons or quiz options -->
+            </VerticalStackLayout>
+            
+        </VerticalStackLayout>
+    </Frame>
+</ContentView>

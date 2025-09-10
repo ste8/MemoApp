@@ -1399,7 +1399,51 @@
   </data>
   <data name="Onboarding_Example_Remember" xml:space="preserve">
     <value>Ricorda questa immagine!</value>
-    <comment>Remember this image text</comment>
+    <comment>Instruction to remember the visual association</comment>
+  </data>
+  <data name="Onboarding_Example_Step1" xml:space="preserve">
+    <value>Inizia con il numero</value>
+    <comment>First step in example demonstration</comment>
+  </data>
+  <data name="Onboarding_Example_Step2" xml:space="preserve">
+    <value>Converti ogni cifra in suoni</value>
+    <comment>Second step in example demonstration</comment>
+  </data>
+  <data name="Onboarding_Example_Step3" xml:space="preserve">
+    <value>Combina i suoni in una parola</value>
+    <comment>Third step in example demonstration</comment>
+  </data>
+  <data name="Onboarding_Example_Step4" xml:space="preserve">
+    <value>Crea un'immagine mentale vivida</value>
+    <comment>Fourth step in example demonstration</comment>
+  </data>
+  <data name="Onboarding_Example_NumberExplain" xml:space="preserve">
+    <value>Dobbiamo convertire questo numero in un'immagine che puoi ricordare</value>
+    <comment>Explanation of what we're doing with the number</comment>
+  </data>
+  <data name="Onboarding_Example_ConversionExplain" xml:space="preserve">
+    <value>Ogni cifra diventa un suono consonante usando il Sistema Maggiore</value>
+    <comment>Explanation of the digit-to-sound conversion</comment>
+  </data>
+  <data name="Onboarding_Example_CallToAction" xml:space="preserve">
+    <value>Pronto a provare tu stesso?</value>
+    <comment>Call to action after seeing the example</comment>
+  </data>
+  <data name="Onboarding_Example_Motivation" xml:space="preserve">
+    <value>Con la pratica, questo diventa automatico e incredibilmente potente per memorizzare i numeri!</value>
+    <comment>Motivational text about the technique</comment>
+  </data>
+  <data name="Onboarding_Example_Explanation" xml:space="preserve">
+    <value>Guarda come i numeri diventano immagini memorabili usando il Sistema Maggiore</value>
+    <comment>Explanation for the example demonstration step</comment>
+  </data>
+  <data name="Onboarding_TapToContinue" xml:space="preserve">
+    <value>Continua</value>
+    <comment>Button text to continue from example step</comment>
+  </data>
+  <data name="Onboarding_TapToSkipAnimation" xml:space="preserve">
+    <value>Tocca ovunque per saltare l'animazione</value>
+    <comment>Hint text to skip animation during demonstration</comment>
   </data>
   <data name="Onboarding_Practice_Title" xml:space="preserve">
     <value>Pratica</value>

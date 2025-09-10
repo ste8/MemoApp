@@ -1533,8 +1533,52 @@
     <comment>Example screen title</comment>
   </data>
   <data name="Onboarding_Example_Remember" xml:space="preserve">
-    <value>41 = Rat</value>
-    <comment>Example memory association</comment>
+    <value>Remember this image!</value>
+    <comment>Instruction to remember the visual association</comment>
+  </data>
+  <data name="Onboarding_Example_Step1" xml:space="preserve">
+    <value>Start with the number</value>
+    <comment>First step in example demonstration</comment>
+  </data>
+  <data name="Onboarding_Example_Step2" xml:space="preserve">
+    <value>Convert each digit to sounds</value>
+    <comment>Second step in example demonstration</comment>
+  </data>
+  <data name="Onboarding_Example_Step3" xml:space="preserve">
+    <value>Combine sounds into a word</value>
+    <comment>Third step in example demonstration</comment>
+  </data>
+  <data name="Onboarding_Example_Step4" xml:space="preserve">
+    <value>Create a vivid mental image</value>
+    <comment>Fourth step in example demonstration</comment>
+  </data>
+  <data name="Onboarding_Example_NumberExplain" xml:space="preserve">
+    <value>We need to convert this number into an image you can remember</value>
+    <comment>Explanation of what we're doing with the number</comment>
+  </data>
+  <data name="Onboarding_Example_ConversionExplain" xml:space="preserve">
+    <value>Each digit becomes a consonant sound using the Major System</value>
+    <comment>Explanation of the digit-to-sound conversion</comment>
+  </data>
+  <data name="Onboarding_Example_CallToAction" xml:space="preserve">
+    <value>Ready to try it yourself?</value>
+    <comment>Call to action after seeing the example</comment>
+  </data>
+  <data name="Onboarding_Example_Motivation" xml:space="preserve">
+    <value>With practice, this becomes automatic and incredibly powerful for memorizing numbers!</value>
+    <comment>Motivational text about the technique</comment>
+  </data>
+  <data name="Onboarding_Example_Explanation" xml:space="preserve">
+    <value>Watch how numbers become memorable images using the Major System</value>
+    <comment>Explanation for the example demonstration step</comment>
+  </data>
+  <data name="Onboarding_TapToContinue" xml:space="preserve">
+    <value>Continue</value>
+    <comment>Button text to continue from example step</comment>
+  </data>
+  <data name="Onboarding_TapToSkipAnimation" xml:space="preserve">
+    <value>Tap anywhere to skip animation</value>
+    <comment>Hint text to skip animation during demonstration</comment>
   </data>
   
   <!-- Practice Screen -->

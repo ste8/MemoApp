@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MemoApp.UI.MauiApp.Controls.Onboarding.AnimatedConversionStep">
+    
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <!-- Animated step styles -->
+            <Style x:Key="ConversionFrame" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray800}}" />
+                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                <Setter Property="CornerRadius" Value="12" />
+                <Setter Property="HasShadow" Value="True" />
+                <Setter Property="Padding" Value="16,12" />
+            </Style>
+            
+            <Style x:Key="HighlightedFrame" TargetType="Frame" BasedOn="{StaticResource ConversionFrame}">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+            </Style>
+            
+            <Style x:Key="ConversionLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+            
+            <Style x:Key="HighlightedLabel" TargetType="Label" BasedOn="{StaticResource ConversionLabel}">
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    
+    <!-- Bindable Properties -->
+    <ContentView.BindingContext>
+        <!-- This will be set from the parent control -->
+    </ContentView.BindingContext>
+    
+    <!-- Main Content -->
+    <Grid>
+        <!-- Normal State -->
+        <Frame x:Name="NormalFrame" 
+               Style="{StaticResource ConversionFrame}"
+               IsVisible="{Binding IsHighlighted, Converter={StaticResource InvertedBoolConverter}}">
+            <Label x:Name="NormalLabel"
+                   Text="{Binding DisplayText}"
+                   Style="{StaticResource ConversionLabel}" />
+        </Frame>
+        
+        <!-- Highlighted State -->
+        <Frame x:Name="HighlightedFrame" 
+               Style="{StaticResource HighlightedFrame}"
+               IsVisible="{Binding IsHighlighted}"
+               Opacity="{Binding Opacity}">
+            <Label x:Name="HighlightedLabel"
+                   Text="{Binding DisplayText}"
+                   Style="{StaticResource HighlightedLabel}" />
+        </Frame>
+    </Grid>
+</ContentView>

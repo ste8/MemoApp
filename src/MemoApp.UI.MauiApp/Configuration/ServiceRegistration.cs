@@ -362,6 +362,13 @@ public static class ServiceRegistration
             var logger = serviceProvider.GetRequiredService<ILogger<ViewModels.Onboarding.ExampleViewModel>>();
             return new ViewModels.Onboarding.ExampleViewModel(onboardingService, localizationService, logger);
         });
+        services.AddTransient<ViewModels.Onboarding.MajorSystemExampleViewModel>(serviceProvider =>
+        {
+            var majorSystemService = serviceProvider.GetRequiredService<IMajorSystemOnboardingService>();
+            var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+            var logger = serviceProvider.GetRequiredService<ILogger<ViewModels.Onboarding.MajorSystemExampleViewModel>>();
+            return new ViewModels.Onboarding.MajorSystemExampleViewModel(majorSystemService, localizationService, logger);
+        });
         services.AddTransient<ViewModels.Onboarding.InteractivePracticeViewModel>(serviceProvider =>
         {
             var onboardingService = serviceProvider.GetRequiredService<IMajorSystemOnboardingService>();
@@ -415,6 +422,7 @@ public static class ServiceRegistration
         services.AddTransient<Views.Onboarding.WelcomeChallengeView>();
         services.AddTransient<Views.Onboarding.MajorSystemIntroView>();
         services.AddTransient<Views.Onboarding.ExampleView>();
+        services.AddTransient<Views.Onboarding.MajorSystemExampleView>();
         services.AddTransient<Views.Onboarding.InteractivePracticeView>();
         services.AddTransient<Views.Onboarding.PackDownloadOnboardingView>();
         services.AddTransient<Views.Onboarding.PersonalizationView>();

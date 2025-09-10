@@ -50,22 +50,26 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
         {
             _logger.LogInformation("Initializing onboarding pages");
             
-            // Create streamlined 4-step onboarding pages
+            // Create comprehensive 5-step onboarding pages
             OnboardingPages.Clear();
             
             // Step 1: Welcome + Challenge (merged)
             var welcomeChallengeView = _serviceProvider.GetRequiredService<WelcomeChallengeView>();
             OnboardingPages.Add(welcomeChallengeView);
             
-            // Step 2: Major System Intro + Example (combined concept)
+            // Step 2: Major System Introduction (concept explanation)
             var majorSystemView = _serviceProvider.GetRequiredService<MajorSystemIntroView>();
             OnboardingPages.Add(majorSystemView);
             
-            // Step 3: Interactive Practice
+            // Step 3: Concrete Example (41→RAT, 31→MOTO demonstration)
+            var exampleView = _serviceProvider.GetRequiredService<MajorSystemExampleView>();
+            OnboardingPages.Add(exampleView);
+            
+            // Step 4: Interactive Practice (quiz)
             var practiceView = _serviceProvider.GetRequiredService<InteractivePracticeView>();
             OnboardingPages.Add(practiceView);
             
-            // Step 4: Pack Download (final step, leads directly to main app)
+            // Step 5: Pack Download (final step, leads directly to main app)
             _logger.LogInformation("Creating PackDownloadOnboardingView...");
             var packDownloadView = _serviceProvider.GetRequiredService<PackDownloadOnboardingView>();
             if (packDownloadView == null)
@@ -79,10 +83,10 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
             _logger.LogInformation("Total onboarding pages added: {PageCount}", OnboardingPages.Count);
             
             // Validate that all expected views were added
-            if (OnboardingPages.Count != 4)
+            if (OnboardingPages.Count != 5)
             {
-                _logger.LogError("Expected 4 onboarding pages but got {ActualCount}!", OnboardingPages.Count);
-                throw new InvalidOperationException($"Expected 4 onboarding pages but got {OnboardingPages.Count}");
+                _logger.LogError("Expected 5 onboarding pages but got {ActualCount}!", OnboardingPages.Count);
+                throw new InvalidOperationException($"Expected 5 onboarding pages but got {OnboardingPages.Count}");
             }
             
             // Log all view types for debugging
