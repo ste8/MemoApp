@@ -8,147 +8,159 @@
              Title="{localization:Localize Settings_Title}">
     
     <ScrollView>
-        <StackLayout Padding="20" Spacing="20">
+        <StackLayout Padding="{OnIdiom Phone=16, Tablet=24, Desktop=32}" 
+                     Spacing="{OnIdiom Phone=16, Tablet=20, Desktop=24}">
             
             <!-- Page Title -->
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10" Margin="0,0,0,20">
+            <StackLayout Orientation="Horizontal" 
+                         HorizontalOptions="Center" 
+                         Spacing="{OnIdiom Phone=8, Tablet=12, Desktop=16}" 
+                         Margin="{OnIdiom Phone='0,0,0,16', Tablet='0,0,0,20', Desktop='0,0,0,24'}"
+                         AutomationProperties.IsInAccessibleTree="True">
                 <Label Text="{StaticResource Icon_Settings}"
                        FontFamily="{StaticResource IconFont_Solid}"
-                       FontSize="28"
+                       FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
                        VerticalOptions="Center"
-                       TextColor="{StaticResource Primary}" />
+                       TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                       AutomationProperties.IsInAccessibleTree="False" />
                 <Label Text="{localization:Localize Settings_Title}"
-                       FontSize="32"
-                       FontAttributes="Bold"
-                       VerticalOptions="Center" />
+                       FontSize="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
+                       FontFamily="OpenSansSemiBold"
+                       VerticalOptions="Center"
+                       TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
             </StackLayout>
 
             <!-- General Settings Section -->
-            <Frame BackgroundColor="LightGray"
-                   CornerRadius="10"
-                   HasShadow="True"
-                   Padding="15">
-                
-                <StackLayout Spacing="15">
+            <Border Style="{StaticResource AssociationCardStyle}">
+                <StackLayout Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}"
+                             AutomationProperties.IsInAccessibleTree="True"
+                             AutomationProperties.Name="{localization:Localize Settings_General}">
                     
                     <!-- Section Title -->
                     <Label Text="{localization:Localize Settings_General}"
-                           FontSize="18"
-                           FontAttributes="Bold" />
+                           FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                           FontFamily="OpenSansSemiBold"
+                           TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                           AutomationProperties.IsInAccessibleTree="True" />
                     
                     <!-- Language Selection -->
-                    <StackLayout Spacing="10">
+                    <StackLayout Spacing="{OnIdiom Phone=8, Tablet=10, Desktop=12}">
                         <Label Text="{localization:Localize Language_Title}"
-                               FontSize="16"
-                               FontAttributes="Bold" />
+                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                               FontFamily="OpenSansSemiBold"
+                               TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                               AutomationProperties.IsInAccessibleTree="True" />
                         
                         <Button Command="{Binding SelectLanguageCommand}"
-                                Text="🌐 Select Language"
-                                BackgroundColor="White"
-                                TextColor="Black"
-                                BorderColor="Gray"
-                                BorderWidth="1"
-                                CornerRadius="8"
-                                FontSize="14"
-                                Padding="15,12"
+                                Text="{localization:Localize Language_SelectButton}"
+                                Style="{StaticResource CategoryButtonStyle}"
                                 HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
                                 HorizontalOptions="FillAndExpand"
                                 AutomationProperties.Name="{localization:Localize Accessibility_LanguageButton}"
                                 AutomationProperties.HelpText="{localization:Localize Accessibility_LanguageButtonHelp}" />
                         
                         <Label Text="{localization:Localize Language_Description}"
-                               FontSize="12"
-                               TextColor="Gray"
-                               LineBreakMode="WordWrap" />
+                               FontSize="{OnIdiom Phone=12, Tablet=13, Desktop=14}"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}"
+                               LineBreakMode="WordWrap"
+                               AutomationProperties.IsInAccessibleTree="True" />
                     </StackLayout>
                     
                     <!-- Number Format Selection -->
-                    <StackLayout Spacing="10">
+                    <StackLayout Spacing="{OnIdiom Phone=8, Tablet=10, Desktop=12}">
                         <Label Text="{localization:Localize NumberFormat_Title}"
-                               FontSize="16"
-                               FontAttributes="Bold" />
+                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                               FontFamily="OpenSansSemiBold"
+                               TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                               AutomationProperties.IsInAccessibleTree="True" />
                         
                         <Button Command="{Binding SelectNumberFormatCommand}"
-                                Text="# Number Format"
-                                BackgroundColor="White"
-                                TextColor="Black"
-                                BorderColor="Gray"
-                                BorderWidth="1"
-                                CornerRadius="8"
-                                FontSize="14"
-                                Padding="15,12"
+                                Text="{localization:Localize NumberFormat_SelectButton}"
+                                Style="{StaticResource CategoryButtonStyle}"
                                 HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
-                                HorizontalOptions="FillAndExpand" />
+                                HorizontalOptions="FillAndExpand"
+                                AutomationProperties.Name="{localization:Localize Accessibility_NumberFormatButton}"
+                                AutomationProperties.HelpText="{localization:Localize Accessibility_NumberFormatButtonHelp}" />
                         
                         <Label Text="{localization:Localize NumberFormat_Description}"
-                               FontSize="12"
-                               TextColor="Gray"
-                               LineBreakMode="WordWrap" />
+                               FontSize="{OnIdiom Phone=12, Tablet=13, Desktop=14}"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}"
+                               LineBreakMode="WordWrap"
+                               AutomationProperties.IsInAccessibleTree="True" />
                     </StackLayout>
                     
                 </StackLayout>
-            </Frame>
+            </Border>
 
             <!-- Pack Management Section -->
-            <Frame BackgroundColor="LightGray"
-                   CornerRadius="10"
-                   HasShadow="True"
-                   Padding="15">
-                
-                <StackLayout Spacing="15">
+            <Border Style="{StaticResource AssociationCardStyle}">
+                <StackLayout Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}"
+                             AutomationProperties.IsInAccessibleTree="True"
+                             AutomationProperties.Name="{localization:Localize Settings_PackManagement}">
                     
                     <!-- Section Title -->
                     <Label Text="{localization:Localize Settings_PackManagement}"
-                           FontSize="18"
-                           FontAttributes="Bold" />
+                           FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                           FontFamily="OpenSansSemiBold"
+                           TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                           AutomationProperties.IsInAccessibleTree="True" />
                     
                     <!-- Current Pack -->
-                    <StackLayout Spacing="10">
+                    <StackLayout Spacing="{OnIdiom Phone=8, Tablet=10, Desktop=12}">
                         <Label Text="{localization:Localize Settings_CurrentPack}"
-                               FontSize="16"
-                               FontAttributes="Bold" />
+                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                               FontFamily="OpenSansSemiBold"
+                               TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                               AutomationProperties.IsInAccessibleTree="True" />
                         
                         <Button Text="{Binding CurrentPackName}"
                                 Command="{Binding SelectPackCommand}"
-                                BackgroundColor="White"
-                                TextColor="Black"
-                                BorderColor="Gray"
-                                BorderWidth="1"
-                                CornerRadius="8"
-                                FontSize="14"
-                                Padding="15,12"
+                                Style="{StaticResource CategoryButtonStyle}"
                                 HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
-                                HorizontalOptions="FillAndExpand" />
+                                HorizontalOptions="FillAndExpand"
+                                AutomationProperties.Name="{localization:Localize Accessibility_PackSelectionButton}"
+                                AutomationProperties.HelpText="{localization:Localize Accessibility_PackSelectionButtonHelp}" />
                     </StackLayout>
                     
-                    <!-- Pack Management Buttons -->
-                    <!-- Single Download/Manage Packs Button -->
+                    <!-- Download Packs Button -->
                     <Button Command="{Binding DownloadPacksCommand}"
-                            Text="📦 Download Packs"
-                            BackgroundColor="#007AFF"
-                            TextColor="White"
-                            CornerRadius="8"
-                            FontSize="14"
-                            HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}" />
+                            Text="{localization:Localize Settings_DownloadPacks}"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                            TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource White}}"
+                            CornerRadius="12"
+                            FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                            FontFamily="OpenSansSemiBold"
+                            HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
+                            HorizontalOptions="FillAndExpand"
+                            AutomationProperties.Name="{localization:Localize Accessibility_DownloadPacksButton}"
+                            AutomationProperties.HelpText="{localization:Localize Accessibility_DownloadPacksButtonHelp}">
+                        <Button.Triggers>
+                            <Trigger TargetType="Button" Property="IsFocused" Value="True">
+                                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                                <Setter Property="BorderWidth" Value="2" />
+                            </Trigger>
+                        </Button.Triggers>
+                    </Button>
                     
                 </StackLayout>
-            </Frame>
+            </Border>
 
             <!-- About Section -->
-            <Frame BackgroundColor="LightGray"
-                   CornerRadius="10"
-                   HasShadow="True"
-                   Padding="15">
-                
-                <StackLayout Spacing="15">
+            <Border Style="{StaticResource AssociationCardStyle}">
+                <StackLayout Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}"
+                             AutomationProperties.IsInAccessibleTree="True"
+                             AutomationProperties.Name="{localization:Localize AppInfo_About}">
                     
                     <!-- Section Title -->
                     <Label Text="{localization:Localize AppInfo_About}"
-                           FontSize="18"
-                           FontAttributes="Bold" />
+                           FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                           FontFamily="OpenSansSemiBold"
+                           TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                           AutomationProperties.IsInAccessibleTree="True" />
                     
                     <!-- App Info Grid -->
-                    <Grid RowSpacing="10" ColumnSpacing="15">
+                    <Grid RowSpacing="{OnIdiom Phone=8, Tablet=10, Desktop=12}" 
+                          ColumnSpacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -161,24 +173,36 @@
                         <!-- App Name -->
                         <Label Grid.Row="0" Grid.Column="0"
                                Text="{localization:Localize AppInfo_AppName}"
-                               FontAttributes="Bold"
-                               VerticalOptions="Center" />
+                               FontFamily="OpenSansSemiBold"
+                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                               TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                               VerticalOptions="Center"
+                               AutomationProperties.IsInAccessibleTree="True" />
                         <Label Grid.Row="0" Grid.Column="1"
                                Text="{Binding AppName}"
-                               VerticalOptions="Center" />
+                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}"
+                               VerticalOptions="Center"
+                               AutomationProperties.IsInAccessibleTree="True" />
                         
                         <!-- Version -->
                         <Label Grid.Row="1" Grid.Column="0"
                                Text="{localization:Localize AppInfo_Version}"
-                               FontAttributes="Bold"
-                               VerticalOptions="Center" />
+                               FontFamily="OpenSansSemiBold"
+                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                               TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                               VerticalOptions="Center"
+                               AutomationProperties.IsInAccessibleTree="True" />
                         <Label Grid.Row="1" Grid.Column="1"
                                Text="{Binding Version}"
-                               VerticalOptions="Center" />
+                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}"
+                               VerticalOptions="Center"
+                               AutomationProperties.IsInAccessibleTree="True" />
                     </Grid>
                     
                 </StackLayout>
-            </Frame>
+            </Border>
 
         </StackLayout>
     </ScrollView>

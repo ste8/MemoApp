@@ -1998,4 +1998,44 @@ Download MemoRaise: {AppUrl}
     <value>Got it!</value>
     <comment>Dismiss button text for tooltips</comment>
   </data>
+  
+  <!-- Settings Page Missing Strings -->
+  <data name="Language_SelectButton" xml:space="preserve">
+    <value>Select Language</value>
+    <comment>Button text for language selection</comment>
+  </data>
+  <data name="NumberFormat_SelectButton" xml:space="preserve">
+    <value>Number Format</value>
+    <comment>Button text for number format selection</comment>
+  </data>
+  <data name="Settings_DownloadPacks" xml:space="preserve">
+    <value>Download Packs</value>
+    <comment>Button text for downloading content packs</comment>
+  </data>
+  
+  <!-- Settings Page Accessibility Strings -->
+  <data name="Accessibility_NumberFormatButton" xml:space="preserve">
+    <value>Select number format</value>
+    <comment>Accessibility name for number format selection button</comment>
+  </data>
+  <data name="Accessibility_NumberFormatButtonHelp" xml:space="preserve">
+    <value>Choose how numbers are displayed in the application</value>
+    <comment>Accessibility help text for number format selection button</comment>
+  </data>
+  <data name="Accessibility_PackSelectionButton" xml:space="preserve">
+    <value>Select content pack</value>
+    <comment>Accessibility name for pack selection button</comment>
+  </data>
+  <data name="Accessibility_PackSelectionButtonHelp" xml:space="preserve">
+    <value>Choose which content pack to use for associations</value>
+    <comment>Accessibility help text for pack selection button</comment>
+  </data>
+  <data name="Accessibility_DownloadPacksButton" xml:space="preserve">
+    <value>Download content packs</value>
+    <comment>Accessibility name for download packs button</comment>
+  </data>
+  <data name="Accessibility_DownloadPacksButtonHelp" xml:space="preserve">
+    <value>Download additional content packs with new associations and languages</value>
+    <comment>Accessibility help text for download packs button</comment>
+  </data>
 </root>

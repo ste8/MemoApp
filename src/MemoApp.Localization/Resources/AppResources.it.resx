@@ -1893,4 +1893,44 @@ Scarica MemoRaise: {AppUrl}
     <value>Puoi sempre scaricare i pacchetti più tardi dalle Impostazioni</value>
     <comment>Reassuring note about skipping pack download</comment>
   </data>
+  
+  <!-- Settings Page Missing Strings -->
+  <data name="Language_SelectButton" xml:space="preserve">
+    <value>Seleziona Lingua</value>
+    <comment>Button text for language selection</comment>
+  </data>
+  <data name="NumberFormat_SelectButton" xml:space="preserve">
+    <value>Formato Numero</value>
+    <comment>Button text for number format selection</comment>
+  </data>
+  <data name="Settings_DownloadPacks" xml:space="preserve">
+    <value>Scarica Pacchetti</value>
+    <comment>Button text for downloading content packs</comment>
+  </data>
+  
+  <!-- Settings Page Accessibility Strings -->
+  <data name="Accessibility_NumberFormatButton" xml:space="preserve">
+    <value>Seleziona formato numero</value>
+    <comment>Accessibility name for number format selection button</comment>
+  </data>
+  <data name="Accessibility_NumberFormatButtonHelp" xml:space="preserve">
+    <value>Scegli come vengono visualizzati i numeri nell'applicazione</value>
+    <comment>Accessibility help text for number format selection button</comment>
+  </data>
+  <data name="Accessibility_PackSelectionButton" xml:space="preserve">
+    <value>Seleziona pacchetto contenuti</value>
+    <comment>Accessibility name for pack selection button</comment>
+  </data>
+  <data name="Accessibility_PackSelectionButtonHelp" xml:space="preserve">
+    <value>Scegli quale pacchetto di contenuti usare per le associazioni</value>
+    <comment>Accessibility help text for pack selection button</comment>
+  </data>
+  <data name="Accessibility_DownloadPacksButton" xml:space="preserve">
+    <value>Scarica pacchetti contenuti</value>
+    <comment>Accessibility name for download packs button</comment>
+  </data>
+  <data name="Accessibility_DownloadPacksButtonHelp" xml:space="preserve">
+    <value>Scarica pacchetti aggiuntivi con nuove associazioni e lingue</value>
+    <comment>Accessibility help text for download packs button</comment>
+  </data>
 </root>
