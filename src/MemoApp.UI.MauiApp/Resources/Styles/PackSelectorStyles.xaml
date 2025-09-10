@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Pack Card Styles -->
+    <Style x:Key="PackCardStyle" TargetType="Border">
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#FFFFFF, Dark=#1E1E1E}"/>
+        <Setter Property="Stroke" Value="{AppThemeBinding Light=#E5E5E5, Dark=#3A3A3A}"/>
+        <Setter Property="Padding" Value="16"/>
+        <Style.Triggers>
+            <Trigger TargetType="Border" Property="IsFocused" Value="True">
+                <Setter Property="Stroke" Value="{StaticResource Primary}"/>
+                <Setter Property="StrokeThickness" Value="2"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Enhanced Button Styles for Pack Actions -->
+    <Style x:Key="PackPrimaryButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="HeightRequest" Value="{OnIdiom Phone=44, Tablet=48, Desktop=52}"/>
+        <Setter Property="MinimumWidthRequest" Value="120"/>
+        <Style.Triggers>
+            <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                <Setter Property="BackgroundColor" Value="{StaticResource Gray300}"/>
+                <Setter Property="TextColor" Value="{StaticResource Gray500}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="PackSecondaryButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+        <Setter Property="TextColor" Value="{StaticResource Primary}"/>
+        <Setter Property="BorderColor" Value="{StaticResource Primary}"/>
+        <Setter Property="BorderWidth" Value="1"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="HeightRequest" Value="{OnIdiom Phone=44, Tablet=48, Desktop=52}"/>
+    </Style>
+
+    <Style x:Key="PackDangerButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource Danger}"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="HeightRequest" Value="{OnIdiom Phone=44, Tablet=48, Desktop=52}"/>
+    </Style>
+
+    <!-- Typography Styles -->
+    <Style x:Key="PackTitleStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="{OnIdiom Phone=18, Tablet=20, Desktop=22}"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark=White}"/>
+        <Setter Property="LineBreakMode" Value="TailTruncation"/>
+        <Setter Property="MaxLines" Value="2"/>
+    </Style>
+
+    <Style x:Key="PackDescriptionStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="{OnIdiom Phone=13, Tablet=14, Desktop=15}"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}"/>
+        <Setter Property="LineBreakMode" Value="WordWrap"/>
+        <Setter Property="MaxLines" Value="3"/>
+    </Style>
+
+    <Style x:Key="PackMetadataStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="{OnIdiom Phone=11, Tablet=12, Desktop=13}"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+    </Style>
+
+    <!-- Badge Styles -->
+    <Style x:Key="PackBadgeStyle" TargetType="Border">
+        <Setter Property="Padding" Value="8,4"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
+        <Style.Triggers>
+            <DataTrigger TargetType="Border" Binding="{Binding BadgeType}" Value="Update">
+                <Setter Property="BackgroundColor" Value="{StaticResource Warning}"/>
+            </DataTrigger>
+            <DataTrigger TargetType="Border" Binding="{Binding BadgeType}" Value="New">
+                <Setter Property="BackgroundColor" Value="{StaticResource Success}"/>
+            </DataTrigger>
+            <DataTrigger TargetType="Border" Binding="{Binding BadgeType}" Value="Company">
+                <Setter Property="BackgroundColor" Value="{StaticResource Secondary}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Progress Bar Styles -->
+    <Style x:Key="PackProgressBarStyle" TargetType="ProgressBar">
+        <Setter Property="ProgressColor" Value="{StaticResource Primary}"/>
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray800}}"/>
+        <Setter Property="HeightRequest" Value="6"/>
+    </Style>
+
+    <!-- State Indicator Icons -->
+    <Style x:Key="StateIndicatorStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+
+    <!-- Animations and Visual States -->
+    <Style x:Key="AnimatedPackCard" TargetType="Border" BasedOn="{StaticResource PackCardStyle}">
+        <!-- Animation removed - using standard pack card style -->
+    </Style>
+
+    <!-- Responsive Grid Layouts -->
+    <OnPlatform x:Key="PackGridColumns" x:TypeArguments="ColumnDefinitionCollection">
+        <On Platform="iOS, Android">
+            <ColumnDefinitionCollection>
+                <ColumnDefinition Width="*"/>
+            </ColumnDefinitionCollection>
+        </On>
+        <On Platform="WinUI, MacCatalyst">
+            <ColumnDefinitionCollection>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="{OnIdiom Desktop='*', Tablet='0'}"/>
+            </ColumnDefinitionCollection>
+        </On>
+    </OnPlatform>
+
+    <!-- Touch Target Sizes (Accessibility) -->
+    <OnIdiom x:Key="MinTouchTargetSize" x:TypeArguments="x:Double">
+        <OnIdiom.Phone>44</OnIdiom.Phone>
+        <OnIdiom.Tablet>44</OnIdiom.Tablet>
+        <OnIdiom.Desktop>32</OnIdiom.Desktop>
+    </OnIdiom>
+
+    <!-- Semantic Properties Template -->
+    <Style x:Key="AccessiblePackCard" TargetType="Border">
+        <Setter Property="SemanticProperties.Description" Value="{Binding AccessibilityDescription}"/>
+        <Setter Property="SemanticProperties.Hint" Value="{Binding AccessibilityHint}"/>
+    </Style>
+
+</ResourceDictionary>

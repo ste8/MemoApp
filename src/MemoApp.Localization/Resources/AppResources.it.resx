@@ -1495,6 +1495,10 @@
     <value>Altri Pacchetti Disponibili</value>
     <comment>Title for alternative packs section</comment>
   </data>
+  <data name="OnboardingPackDownload_AvailablePacksTitle" xml:space="preserve">
+    <value>Pacchetti di Contenuto Disponibili</value>
+    <comment>Title for available packs section (no recommendations)</comment>
+  </data>
   <data name="OnboardingPackDownload_SkipTitle" xml:space="preserve">
     <value>Scarica Più Tardi</value>
     <comment>Title for skip option</comment>

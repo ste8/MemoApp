@@ -1696,6 +1696,10 @@
     <value>Other Available Packs</value>
     <comment>Title for alternative packs section</comment>
   </data>
+  <data name="OnboardingPackDownload_AvailablePacksTitle" xml:space="preserve">
+    <value>Available Content Packs</value>
+    <comment>Title for available packs section (no recommendations)</comment>
+  </data>
   <data name="OnboardingPackDownload_SkipTitle" xml:space="preserve">
     <value>Download Later</value>
     <comment>Title for skip option</comment>

@@ -23,8 +23,6 @@ public partial class PackDownloadOnboardingViewModel : BaseViewModel
     [ObservableProperty]
     private ObservableCollection<PackItemViewModel> availablePacks = new();
 
-    [ObservableProperty]
-    private PackItemViewModel? selectedPack;
 
     [ObservableProperty]
     private bool isLoading = true;
@@ -99,19 +97,11 @@ public partial class PackDownloadOnboardingViewModel : BaseViewModel
 
             // Populate available packs, focusing on default/recommended pack
             AvailablePacks.Clear();
-            PackItemViewModel? recommendedPack = null;
-
             foreach (var pack in packIndex.Packs.Where(p => !p.IsDownloaded))
             {
                 var packItem = new PackItemViewModel(pack, _localizationService);
                 AvailablePacks.Add(packItem);
-
-                // Select the first pack as recommended (typically the default pack)
-                recommendedPack ??= packItem;
             }
-
-            SelectedPack = recommendedPack;
-            OnPropertyChanged(nameof(HasMultiplePacks));
             
             _logger.LogInformation("Loaded {PackCount} available packs for onboarding", AvailablePacks.Count);
         }
@@ -127,14 +117,6 @@ public partial class PackDownloadOnboardingViewModel : BaseViewModel
         }
     }
 
-    [RelayCommand]
-    private async Task DownloadSelectedPack()
-    {
-        if (SelectedPack == null || IsDownloading)
-            return;
-
-        await DownloadPackAsync(SelectedPack);
-    }
 
     [RelayCommand]
     private async Task DownloadSpecificPack(PackItemViewModel packItem)
@@ -142,7 +124,6 @@ public partial class PackDownloadOnboardingViewModel : BaseViewModel
         if (packItem == null || IsDownloading)
             return;
 
-        SelectedPack = packItem;
         await DownloadPackAsync(packItem);
     }
 
