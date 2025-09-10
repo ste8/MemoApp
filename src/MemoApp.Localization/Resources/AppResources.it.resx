@@ -1899,6 +1899,20 @@ Scarica MemoRaise: {AppUrl}
     <value>Seleziona Lingua</value>
     <comment>Button text for language selection</comment>
   </data>
+  
+  <!-- Contextual Headers for Training Pages -->
+  <data name="FlashNumbers_ContextualHeader" xml:space="preserve">
+    <value>Pratica il riconoscimento rapido con intervalli numerici personalizzabili</value>
+    <comment>Subtle contextual header shown below Flash Numbers title</comment>
+  </data>
+  <data name="Associations_ContextualHeader" xml:space="preserve">
+    <value>Sfoglia e impara la tua libreria di riferimento numero-immagine</value>
+    <comment>Subtle contextual header shown below Associations title</comment>
+  </data>
+  <data name="BigNumber_ContextualHeader" xml:space="preserve">
+    <value>Sfida la tua memoria con sequenze numeriche cronometrate</value>
+    <comment>Subtle contextual header shown below Big Number title</comment>
+  </data>
   <data name="NumberFormat_SelectButton" xml:space="preserve">
     <value>Formato Numero</value>
     <comment>Button text for number format selection</comment>
@@ -1932,5 +1946,19 @@ Scarica MemoRaise: {AppUrl}
   <data name="Accessibility_DownloadPacksButtonHelp" xml:space="preserve">
     <value>Scarica pacchetti aggiuntivi con nuove associazioni e lingue</value>
     <comment>Accessibility help text for download packs button</comment>
+  </data>
+  
+  <!-- Contextual Page Headers -->
+  <data name="FlashNumbers_ContextualHeader" xml:space="preserve">
+    <value>Esercitati nel riconoscimento rapido con intervalli di numeri personalizzabili</value>
+    <comment>Contextual header for Flash Numbers setup page explaining its purpose</comment>
+  </data>
+  <data name="Associations_ContextualHeader" xml:space="preserve">
+    <value>Esplora e impara la tua libreria di associazioni numero-immagine</value>
+    <comment>Contextual header for Associations page explaining its purpose</comment>
+  </data>
+  <data name="BigNumber_ContextualHeader" xml:space="preserve">
+    <value>Metti alla prova la tua memoria con sequenze di numeri cronometrate</value>
+    <comment>Contextual header for Big Number page explaining its purpose</comment>
   </data>
 </root>

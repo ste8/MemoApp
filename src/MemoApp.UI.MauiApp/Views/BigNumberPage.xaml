@@ -16,6 +16,23 @@
             <StackLayout IsVisible="{Binding IsSetupSectionVisible}"
                          Spacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
                 
+                <!-- Page Title -->
+                <Label Text="{localization:Localize BigNumber_Title}" 
+                       Style="{StaticResource SubHeadline}"
+                       HorizontalOptions="Center"
+                       FontAttributes="Bold"
+                       Margin="0,0,0,4" />
+                
+                <!-- Contextual Header - Always visible, elegant and informative -->
+                <Label Text="{localization:Localize BigNumber_ContextualHeader}" 
+                       FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=16}"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       LineBreakMode="WordWrap"
+                       MaximumWidthRequest="{OnIdiom Phone=320, Tablet=500, Desktop=600}"
+                       Margin="0,0,0,20" />
+                
                 <!-- Settings Card -->
                 <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
                        Padding="20"

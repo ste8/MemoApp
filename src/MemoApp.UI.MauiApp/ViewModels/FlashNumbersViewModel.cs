@@ -26,7 +26,6 @@ public partial class FlashNumbersViewModel : BaseViewModel
     private readonly IShareService _shareService;
     private readonly IInterstitialAdManager? _interstitialAdManager;
     private readonly IExerciseCountService _exerciseCountService;
-    private readonly IFirstTimeTooltipService _tooltipService;
     private GameSession? _gameSession;
     
     // Analytics tracking
@@ -71,14 +70,12 @@ public partial class FlashNumbersViewModel : BaseViewModel
         IAnalyticsService analyticsService,
         IShareService shareService,
         IExerciseCountService exerciseCountService,
-        IFirstTimeTooltipService tooltipService,
         IInterstitialAdManager? interstitialAdManager = null)
     {
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
         _analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
         _shareService = shareService ?? throw new ArgumentNullException(nameof(shareService));
         _exerciseCountService = exerciseCountService ?? throw new ArgumentNullException(nameof(exerciseCountService));
-        _tooltipService = tooltipService ?? throw new ArgumentNullException(nameof(tooltipService));
         _interstitialAdManager = interstitialAdManager;
         Title = "Flash Numbers";
     }
@@ -92,9 +89,6 @@ public partial class FlashNumbersViewModel : BaseViewModel
         {
             IsBusy = true;
             Title = $"Flash Numbers: {RangeStart}-{RangeEnd}";
-            
-            // Show first-time tooltip
-            await ShowFirstTimeTooltipAsync();
             
             // Prepare interstitial ad for potential showing
             if (_interstitialAdManager != null)
@@ -115,23 +109,6 @@ public partial class FlashNumbersViewModel : BaseViewModel
         finally
         {
             IsBusy = false;
-        }
-    }
-    
-    private async Task ShowFirstTimeTooltipAsync()
-    {
-        try
-        {
-            var title = _localizationService.GetString("Tooltip_FlashNumbers_Title");
-            var message = _localizationService.GetString("Tooltip_FlashNumbers_Message");
-            var dismissText = _localizationService.GetString("Tooltip_Dismiss");
-            
-            await _tooltipService.ShowTooltipIfFirstTimeAsync("FlashNumbers", title, message, dismissText);
-        }
-        catch (Exception ex)
-        {
-            // Log but don't fail the initialization
-            System.Diagnostics.Debug.WriteLine($"Error showing tooltip: {ex.Message}");
         }
     }
 

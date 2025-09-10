@@ -123,7 +123,6 @@ public partial class BigNumberViewModel : BaseViewModel
         IAnalyticsService analyticsService,
         IExerciseCountService exerciseCountService,
         IPackAssociationsService packAssociationsService,
-        IFirstTimeTooltipService tooltipService,
         IInterstitialAdManager? interstitialAdManager = null)
     {
         _gameService = gameService ?? throw new ArgumentNullException(nameof(gameService));
@@ -135,7 +134,6 @@ public partial class BigNumberViewModel : BaseViewModel
         _analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
         _exerciseCountService = exerciseCountService ?? throw new ArgumentNullException(nameof(exerciseCountService));
         _packAssociationsService = packAssociationsService ?? throw new ArgumentNullException(nameof(packAssociationsService));
-        _tooltipService = tooltipService ?? throw new ArgumentNullException(nameof(tooltipService));
         _interstitialAdManager = interstitialAdManager;
         
         Title = _localizationService.GetString("BigNumber_Title");
@@ -151,9 +149,6 @@ public partial class BigNumberViewModel : BaseViewModel
 
     public async Task InitializeAsync()
     {
-        // Show first-time tooltip
-        await ShowFirstTimeTooltipAsync();
-        
         // Load settings
         var settings = await _settingsService.LoadSettingsAsync();
         NumberOfDigits = settings.NumberOfDigits;
@@ -169,22 +164,6 @@ public partial class BigNumberViewModel : BaseViewModel
         UpdateNumberFontSize();
     }
     
-    private async Task ShowFirstTimeTooltipAsync()
-    {
-        try
-        {
-            var title = _localizationService.GetString("Tooltip_BigNumbers_Title");
-            var message = _localizationService.GetString("Tooltip_BigNumbers_Message");
-            var dismissText = _localizationService.GetString("Tooltip_Dismiss");
-            
-            await _tooltipService.ShowTooltipIfFirstTimeAsync("BigNumbers", title, message, dismissText);
-        }
-        catch (Exception ex)
-        {
-            // Log but don't fail the initialization
-            System.Diagnostics.Debug.WriteLine($"Error showing tooltip: {ex.Message}");
-        }
-    }
 
     partial void OnNumberOfDigitsChanged(int value)
     {

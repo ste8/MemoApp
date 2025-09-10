@@ -47,12 +47,31 @@
         
         <!-- Main content -->
         <Grid IsVisible="{Binding HasPackAvailable}" 
-              RowDefinitions="Auto,Auto,*" 
+              RowDefinitions="Auto,Auto,Auto,*" 
               Padding="16">
+            
+            <!-- Page Title -->
+            <Label Grid.Row="0"
+                   Text="{localization:Localize Associations_Title}" 
+                   Style="{StaticResource SubHeadline}"
+                   HorizontalOptions="Center"
+                   FontAttributes="Bold"
+                   Margin="0,8,0,4" />
+            
+            <!-- Contextual Header - Always visible, elegant and informative -->
+            <Label Grid.Row="1"
+                   Text="{localization:Localize Associations_ContextualHeader}" 
+                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=16}"
+                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   LineBreakMode="WordWrap"
+                   MaximumWidthRequest="{OnIdiom Phone=320, Tablet=500, Desktop=600}"
+                   Margin="0,0,0,16" />
             
             <!-- Categories selector with enhanced visual design -->
             <!-- Mobile: Modern card-based picker design -->
-            <Border Grid.Row="0" 
+            <Border Grid.Row="2" 
                     BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundColorLight}, Dark={StaticResource CardBackgroundColorDark}}"
                     Stroke="{AppThemeBinding Light={StaticResource CardStrokeColorLight}, Dark={StaticResource CardStrokeColorDark}}"
                     StrokeThickness="1"
@@ -86,7 +105,7 @@
             </Border>
             
             <!-- Desktop: Elegant horizontal pill buttons with animations -->
-            <Border Grid.Row="0" 
+            <Border Grid.Row="2" 
                     BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundColorLight}, Dark={StaticResource CardBackgroundColorDark}}"
                     Stroke="{AppThemeBinding Light={StaticResource CardStrokeColorLight}, Dark={StaticResource CardStrokeColorDark}}"
                     StrokeThickness="1"
@@ -139,7 +158,7 @@
             </Border>
             
             <!-- Debug info - only visible in DEBUG builds -->
-            <Label Grid.Row="1" 
+            <Label Grid.Row="3" 
                    FontSize="Small"
                    TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
                    HorizontalOptions="Start"
@@ -155,7 +174,7 @@
             </Label>
             
             <!-- Associations grid -->
-            <CollectionView Grid.Row="2" 
+            <CollectionView Grid.Row="3" 
                           ItemsSource="{Binding Associations}"
                           SelectionMode="None"
                           RemainingItemsThreshold="10"

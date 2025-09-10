@@ -256,9 +256,8 @@ public static class ServiceRegistration
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
             var shareService = serviceProvider.GetRequiredService<IShareService>();
             var exerciseCountService = serviceProvider.GetRequiredService<IExerciseCountService>();
-            var tooltipService = serviceProvider.GetRequiredService<IFirstTimeTooltipService>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
-            return new FlashNumbersViewModel(localizationService, analyticsService, shareService, exerciseCountService, tooltipService, interstitialAdManager);
+            return new FlashNumbersViewModel(localizationService, analyticsService, shareService, exerciseCountService, interstitialAdManager);
         });
         
         services.AddTransient<StatisticsViewModel>();
@@ -276,8 +275,7 @@ public static class ServiceRegistration
             var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
             var logger = serviceProvider.GetRequiredService<ILogger<AssociationsViewModel>>();
             var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-            var tooltipService = serviceProvider.GetRequiredService<IFirstTimeTooltipService>();
-            return new AssociationsViewModel(categoryService, packAssociationsService, tokenDefaultsService, localizationService, messenger, imageCacheService, analyticsService, userNotificationService, logger, configuration, tooltipService);
+            return new AssociationsViewModel(categoryService, packAssociationsService, tokenDefaultsService, localizationService, messenger, imageCacheService, analyticsService, userNotificationService, logger, configuration);
         });
         
         services.AddTransient<PackDownloadViewModel>(serviceProvider =>
@@ -302,10 +300,9 @@ public static class ServiceRegistration
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
             var exerciseCountService = serviceProvider.GetRequiredService<IExerciseCountService>();
             var packAssociationsService = serviceProvider.GetRequiredService<IPackAssociationsService>();
-            var tooltipService = serviceProvider.GetRequiredService<IFirstTimeTooltipService>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
             var shareService = serviceProvider.GetRequiredService<IShareService>();
-            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, packAssociationsService, tooltipService, interstitialAdManager);
+            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, packAssociationsService, interstitialAdManager);
         });
         
         services.AddTransient<TokenDetailViewModel>(serviceProvider =>
