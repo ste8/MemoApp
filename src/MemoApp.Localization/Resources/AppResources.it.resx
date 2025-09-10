@@ -871,6 +871,22 @@
     <value>Annulla Download</value>
     <comment>Cancel download button</comment>
   </data>
+  <data name="PackDownload_ContentPacks" xml:space="preserve">
+    <value>Pacchetti Contenuti</value>
+    <comment>Updated page title for content pack management</comment>
+  </data>
+  <data name="PackDownload_Subtitle" xml:space="preserve">
+    <value>Scarica e gestisci i pacchetti contenuti per migliorare la tua esperienza di allenamento della memoria</value>
+    <comment>Descriptive subtitle explaining the page purpose</comment>
+  </data>
+  <data name="PackDownload_Downloading" xml:space="preserve">
+    <value>Scaricando</value>
+    <comment>Status label during download progress</comment>
+  </data>
+  <data name="PackDownload_ETA" xml:space="preserve">
+    <value>Tempo stimato: {0}</value>
+    <comment>Estimated time remaining format</comment>
+  </data>
   <data name="Settings_CurrentPack" xml:space="preserve">
     <value>Pacchetto Corrente</value>
     <comment>Current pack label in settings</comment>

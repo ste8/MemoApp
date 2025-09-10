@@ -10,25 +10,24 @@
 
     <Grid RowDefinitions="Auto,Auto,*,Auto">
         
-        <!-- Header with Enhanced Refresh Button -->
+        <!-- Enhanced Header with Title and Subtitle -->
         <Grid Grid.Row="0" Padding="16,8" ColumnDefinitions="*,Auto">
-            <Label Grid.Column="0" 
-                   Text="{localization:Localize PackDownload_Title}"
-                   FontSize="24"
-                   FontAttributes="Bold"
-                   VerticalOptions="Center"/>
+            <StackLayout Grid.Column="0" VerticalOptions="Center" Spacing="4">
+                <Label Text="{localization:Localize PackDownload_ContentPacks}"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Start"/>
+                <Label Text="{localization:Localize PackDownload_Subtitle}"
+                       Style="{StaticResource DescriptiveTextStyle}"
+                       HorizontalOptions="Start"/>
+            </StackLayout>
             
             <Button Grid.Column="1"
-                    Text="{OnIdiom Phone={StaticResource Icon_Refresh}, Tablet={StaticResource Icon_Refresh}, Desktop={StaticResource Icon_Refresh}}"
-                    FontFamily="{StaticResource IconFont_Solid}"
+                    Text="{localization:Localize PackDownload_CheckForUpdatesButton}"
                     Command="{Binding RefreshCommand}"
                     IsEnabled="{Binding IsRefreshing, Converter={StaticResource InvertedBoolConverter}}"
-                    Style="{StaticResource IconButton_Success}"
-                    HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}"
-                    WidthRequest="{OnIdiom Phone=44, Tablet=120, Desktop=140}"
-                    MinimumWidthRequest="{OnIdiom Phone=44, Tablet=120, Desktop=140}"
+                    Style="{StaticResource EnhancedActionButtonStyle}"
                     HorizontalOptions="End"
-                    FontSize="{StaticResource IconSize_Responsive_Medium}"
                     SemanticProperties.Description="{localization:Localize PackDownload_CheckForUpdatesButton}"
                     AutomationProperties.Name="{localization:Localize PackDownload_CheckForUpdatesButton}"/>
         </Grid>
@@ -53,7 +52,7 @@
                      Command="{Binding RefreshCommand}"
                      IsRefreshing="{Binding IsRefreshing}">
             <ScrollView>
-                <VerticalStackLayout Padding="16" Spacing="12">
+                <StackLayout Padding="16,8" Spacing="0">
                 
                 <!-- No Packs Message -->
                 <Label Text="{Binding StatusMessage}"
@@ -61,20 +60,25 @@
                        HorizontalOptions="Center"
                        VerticalOptions="Center"
                        HorizontalTextAlignment="Center"
-                       Margin="20"
+                       Margin="40,60"
                        FontSize="16"
                        TextColor="Gray"/>
                 
-                <!-- Pack Items -->
+                <!-- Pack Items with Enhanced Spacing -->
                 <CollectionView ItemsSource="{Binding Packs}"
-                                SelectionMode="None">
+                                SelectionMode="None"
+                                BackgroundColor="Transparent"
+                                ItemSizingStrategy="MeasureFirstItem">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="vm:PackCardViewModel">
                             <components:PackCardView />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="4"/>
+                    </CollectionView.ItemsLayout>
                 </CollectionView>
-                </VerticalStackLayout>
+                </StackLayout>
             </ScrollView>
         </RefreshView>
 
@@ -83,8 +87,7 @@
                 Text="{localization:Localize PackDownload_CancelButton}"
                 Command="{Binding CancelDownloadCommand}"
                 IsVisible="{Binding IsDownloading}"
-                Margin="16"
-                BackgroundColor="Red"
-                TextColor="White"/>
+                Style="{StaticResource SecondaryActionButtonStyle}"
+                Margin="16,8,16,16"/>
     </Grid>
 </ContentPage>

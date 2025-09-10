@@ -872,6 +872,22 @@
     <value>Cancel Download</value>
     <comment>Cancel download button</comment>
   </data>
+  <data name="PackDownload_ContentPacks" xml:space="preserve">
+    <value>Content Packs</value>
+    <comment>Updated page title for content pack management</comment>
+  </data>
+  <data name="PackDownload_Subtitle" xml:space="preserve">
+    <value>Download and manage content packs to enhance your memory training experience</value>
+    <comment>Descriptive subtitle explaining the page purpose</comment>
+  </data>
+  <data name="PackDownload_Downloading" xml:space="preserve">
+    <value>Downloading</value>
+    <comment>Status label during download progress</comment>
+  </data>
+  <data name="PackDownload_ETA" xml:space="preserve">
+    <value>ETA: {0}</value>
+    <comment>Estimated time remaining format</comment>
+  </data>
   <data name="Settings_CurrentPack" xml:space="preserve">
     <value>Current Pack</value>
     <comment>Current pack label in settings</comment>
