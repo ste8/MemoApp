@@ -54,6 +54,10 @@ public partial class PackCardViewModel : ObservableObject
     public bool CanDownload => !Pack.IsDownloaded || Pack.HasUpdate;
     public bool ShowUpdateBadge => Pack.IsDownloaded && Pack.HasUpdate;
     public bool ShowDownloadButton => !IsDownloading && (!Pack.IsDownloaded || Pack.HasUpdate);
+    
+    // Safe command execution checks
+    public bool CanExecuteDownload => DownloadCommand != null && CanDownload && !IsDownloading;
+    public bool CanExecuteDelete => DeleteCommand != null && Pack.IsDownloaded && !IsDownloading;
 
     // Commands (to be bound by parent ViewModels)
     public IRelayCommand<PackCardViewModel>? DownloadCommand { get; set; }
@@ -64,6 +68,11 @@ public partial class PackCardViewModel : ObservableObject
         Pack = pack;
         _localizationService = localizationService;
         _context = context;
+        
+        // Explicitly initialize download state
+        IsDownloading = false;
+        DownloadProgress = 0.0;
+        ProgressText = null;
     }
 
     private string GetDisplayName()
@@ -92,5 +101,7 @@ public partial class PackCardViewModel : ObservableObject
         OnPropertyChanged(nameof(CanDownload));
         OnPropertyChanged(nameof(ShowUpdateBadge));
         OnPropertyChanged(nameof(ShowDownloadButton));
+        OnPropertyChanged(nameof(CanExecuteDownload));
+        OnPropertyChanged(nameof(CanExecuteDelete));
     }
 }

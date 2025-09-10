@@ -98,8 +98,8 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
             foreach (var pack in index.Packs)
             {
                 var packCard = new PackCardViewModel(pack, _localizationService, PackCardContext.Management);
-                packCard.DownloadCommand = new RelayCommand<PackCardViewModel>(async (p) => await DownloadPackCardAsync(p));
-                packCard.DeleteCommand = new RelayCommand<PackCardViewModel>(async (p) => await DeletePackCardAsync(p));
+                packCard.DownloadCommand = new RelayCommand<PackCardViewModel>(p => { if (p != null) _ = DownloadPackCardAsync(p); });
+                packCard.DeleteCommand = new RelayCommand<PackCardViewModel>(p => { if (p != null) _ = DeletePackCardAsync(p); });
                 packCards.Add(packCard);
                 
                 if (pack.HasUpdate)
