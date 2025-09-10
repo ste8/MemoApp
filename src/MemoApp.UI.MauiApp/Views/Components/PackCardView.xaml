@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             xmlns:vm="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
+             x:Class="MemoApp.UI.MauiApp.Views.Components.PackCardView"
+             x:DataType="vm:PackCardViewModel">
+
+    <Frame Padding="16" 
+           Margin="0,4"
+           BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#2A2A2A}"
+           BorderColor="Transparent"
+           HasShadow="True"
+           CornerRadius="8">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" 
+              ColumnDefinitions="{OnIdiom Phone='*,Auto', Tablet='*,120', Desktop='*,120'}"
+              RowSpacing="8">
+            
+            <!-- Pack Name and Update Badge -->
+            <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="8">
+                <Label Text="{Binding DisplayName}"
+                       FontSize="18"
+                       FontAttributes="Bold"/>
+                <Frame IsVisible="{Binding ShowUpdateBadge}"
+                       BackgroundColor="Orange"
+                       Padding="4,2"
+                       CornerRadius="4"
+                       BorderColor="Transparent">
+                    <Label Text="{localization:Localize PackDownload_UpdateAvailable}"
+                           FontSize="12"
+                           TextColor="White"/>
+                </Frame>
+            </HorizontalStackLayout>
+
+            <!-- Action Buttons -->
+            <StackLayout Grid.Row="{OnIdiom Phone=1, Tablet=0, Desktop=0}" 
+                         Grid.Column="1" 
+                         Grid.RowSpan="{OnIdiom Phone=1, Tablet=2, Desktop=2}"
+                         Orientation="{OnIdiom Phone=Horizontal, Tablet=Vertical, Desktop=Vertical}"
+                         Spacing="8"
+                         HorizontalOptions="{OnIdiom Phone=End, Tablet=Center, Desktop=Center}"
+                         VerticalOptions="{OnIdiom Phone=Start, Tablet=Center, Desktop=Center}">
+                
+                <!-- Download/Update Button -->
+                <Button Text="{OnIdiom Phone='&#xf019;', Tablet='&#xf019;', Desktop='&#xf019;'}"
+                        FontFamily="FontAwesomeSolid"
+                        Command="{Binding DownloadCommand}"
+                        IsEnabled="{Binding CanDownload}"
+                        IsVisible="{Binding ShowDownloadButton}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        FontSize="{OnIdiom Phone=14, Tablet=13, Desktop=13}"
+                        HeightRequest="{OnIdiom Phone=48, Tablet=40, Desktop=40}"
+                        WidthRequest="{OnIdiom Phone=48, Tablet=-1, Desktop=-1}"
+                        MinimumWidthRequest="{OnIdiom Phone=48, Tablet=100, Desktop=100}"
+                        CornerRadius="6"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        SemanticProperties.Description="{Binding ButtonText}"
+                        AutomationProperties.Name="{Binding ButtonText}"/>
+
+                <!-- Downloaded/Up-to-Date Indicator -->
+                <Label Text="&#xf00c;"
+                       FontFamily="FontAwesomeSolid"
+                       IsVisible="{Binding ShowDownloadButton, Converter={StaticResource InvertedBoolConverter}}"
+                       TextColor="#34C759"
+                       FontSize="{OnIdiom Phone=18, Tablet=16, Desktop=16}"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       SemanticProperties.Description="{localization:Localize PackDownload_UpToDate}"
+                       AutomationProperties.Name="{localization:Localize PackDownload_UpToDate}"/>
+                
+                <!-- Delete Button (only for downloaded packs) -->
+                <Button Text="&#xf2ed;"
+                        FontFamily="FontAwesomeSolid"
+                        Command="{Binding DeleteCommand}"
+                        IsVisible="{Binding ShowDeleteButton}"
+                        BackgroundColor="#FF3B30"
+                        TextColor="White"
+                        FontSize="{OnIdiom Phone=14, Tablet=13, Desktop=13}"
+                        HeightRequest="{OnIdiom Phone=48, Tablet=40, Desktop=40}"
+                        WidthRequest="{OnIdiom Phone=48, Tablet=-1, Desktop=-1}"
+                        MinimumWidthRequest="{OnIdiom Phone=48, Tablet=100, Desktop=100}"
+                        CornerRadius="6"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        SemanticProperties.Description="{localization:Localize Common_Delete}"
+                        AutomationProperties.Name="{localization:Localize Common_Delete}"/>
+            </StackLayout>
+
+            <!-- Description -->
+            <Label Grid.Row="1" Grid.Column="0"
+                   Text="{Binding DisplayDescription}"
+                   FontSize="14"
+                   TextColor="Gray"
+                   LineBreakMode="WordWrap"
+                   IsVisible="{Binding ShowDescription}"/>
+
+            <!-- Pack Info -->
+            <HorizontalStackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
+                                   Spacing="16"
+                                   IsVisible="{Binding ShowPackInfo}">
+                <Label Text="{Binding VersionText}"
+                       FontSize="12"
+                       TextColor="Gray"/>
+                <Label Text="{Binding SizeText}"
+                       FontSize="12"
+                       TextColor="Gray"/>
+            </HorizontalStackLayout>
+
+            <!-- Progress Bar -->
+            <ProgressBar Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                         Progress="{Binding DownloadProgress, Converter={StaticResource PercentageConverter}}"
+                         IsVisible="{Binding IsDownloading}"
+                         Margin="0,8,0,0"/>
+            
+            <!-- Progress Text -->
+            <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                   Text="{Binding ProgressText}"
+                   IsVisible="{Binding IsDownloading}"
+                   FontSize="12"
+                   HorizontalOptions="Center"/>
+        </Grid>
+    </Frame>
+</ContentView>

@@ -2,6 +2,8 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels.Onboarding"
+             xmlns:vm="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
+             xmlns:components="clr-namespace:MemoApp.UI.MauiApp.Views.Components"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              x:Class="MemoApp.UI.MauiApp.Views.Onboarding.PackDownloadOnboardingView"
              x:DataType="viewmodels:PackDownloadOnboardingViewModel">
@@ -125,35 +127,8 @@
                                                ItemSpacing="10" />
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
-                                       BorderColor="Transparent"
-                                       CornerRadius="8"
-                                       Padding="15"
-                                       Margin="0,0,0,0">
-                                    <Grid ColumnDefinitions="*,Auto">
-                                        <VerticalStackLayout Grid.Column="0" Spacing="5">
-                                            <Label Text="{Binding DisplayName}"
-                                                   FontAttributes="Bold" />
-                                            <Label Text="{Binding DisplayDescription}"
-                                                   FontSize="12"
-                                                   Opacity="0.8" />
-                                            <Label Text="{Binding SizeText}"
-                                                   FontSize="10"
-                                                   Opacity="0.6" />
-                                        </VerticalStackLayout>
-                                        <Button Grid.Column="1"
-                                                Text="{localization:Localize OnboardingPackDownload_DownloadButton}"
-                                                Command="{Binding Source={x:RelativeSource AncestorType={x:Type viewmodels:PackDownloadOnboardingViewModel}}, Path=DownloadSpecificPackCommand}"
-                                                CommandParameter="{Binding .}"
-                                                BackgroundColor="{StaticResource Primary}"
-                                                TextColor="White"
-                                                FontSize="14"
-                                                MinimumWidthRequest="100"
-                                                HeightRequest="44"
-                                                CornerRadius="8" />
-                                    </Grid>
-                                </Frame>
+                            <DataTemplate x:DataType="vm:PackCardViewModel">
+                                <components:PackCardView />
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>

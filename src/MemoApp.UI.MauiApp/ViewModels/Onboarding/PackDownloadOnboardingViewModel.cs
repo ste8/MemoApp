@@ -21,7 +21,7 @@ public partial class PackDownloadOnboardingViewModel : BaseViewModel
     private CancellationTokenSource? _downloadCancellation;
 
     [ObservableProperty]
-    private ObservableCollection<PackItemViewModel> availablePacks = new();
+    private ObservableCollection<PackCardViewModel> availablePacks = new();
 
 
     [ObservableProperty]
@@ -95,12 +95,13 @@ public partial class PackDownloadOnboardingViewModel : BaseViewModel
                 return;
             }
 
-            // Populate available packs, focusing on default/recommended pack
+            // Populate available packs for onboarding context
             AvailablePacks.Clear();
             foreach (var pack in packIndex.Packs.Where(p => !p.IsDownloaded))
             {
-                var packItem = new PackItemViewModel(pack, _localizationService);
-                AvailablePacks.Add(packItem);
+                var packCard = new PackCardViewModel(pack, _localizationService, PackCardContext.Onboarding);
+                packCard.DownloadCommand = new RelayCommand<PackCardViewModel>(async (p) => await DownloadSpecificPackCard(p));
+                AvailablePacks.Add(packCard);
             }
             
             _logger.LogInformation("Loaded {PackCount} available packs for onboarding", AvailablePacks.Count);
@@ -125,6 +126,14 @@ public partial class PackDownloadOnboardingViewModel : BaseViewModel
             return;
 
         await DownloadPackAsync(packItem);
+    }
+
+    private async Task DownloadSpecificPackCard(PackCardViewModel? packCard)
+    {
+        if (packCard == null || IsDownloading)
+            return;
+
+        await DownloadPackCardAsync(packCard);
     }
 
     [RelayCommand]
@@ -234,6 +243,111 @@ public partial class PackDownloadOnboardingViewModel : BaseViewModel
             IsDownloading = false;
             ShowSkipOption = true;
             packItem.IsDownloading = false;
+            _downloadCancellation?.Dispose();
+            _downloadCancellation = null;
+        }
+    }
+
+    private async Task DownloadPackCardAsync(PackCardViewModel packCard)
+    {
+        var downloadStartTime = DateTime.UtcNow;
+        
+        try
+        {
+            // Track download start analytics
+            await _analyticsService.TrackEventAsync(
+                AnalyticsEvents.OnboardingPackDownloadStarted,
+                new Dictionary<string, object>
+                {
+                    [AnalyticsParameters.PackName] = packCard.Pack.InternationalName,
+                    [AnalyticsParameters.PackLanguage] = packCard.Pack.LanguageCode,
+                    [AnalyticsParameters.PackSizeMB] = Math.Round(packCard.Pack.FileSize / (1024.0 * 1024.0), 2)
+                });
+
+            IsDownloading = true;
+            ShowSkipOption = false;
+            packCard.IsDownloading = true;
+            _downloadCancellation = new CancellationTokenSource();
+
+            var progress = new Progress<DownloadProgress>(p =>
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    DownloadProgress = p.ProgressPercentage;
+                    packCard.DownloadProgress = p.ProgressPercentage;
+                    ProgressText = GetProgressText(p);
+                    packCard.ProgressText = ProgressText;
+                    
+                    if (p.State == DownloadState.Failed)
+                    {
+                        HandleDownloadError(p);
+                    }
+                });
+            });
+
+            var result = await _downloadService.DownloadPackAsync(
+                packCard.Pack, progress, _downloadCancellation.Token);
+
+            if (result.State == DownloadState.Completed)
+            {
+                var downloadEndTime = DateTime.UtcNow;
+                var downloadDuration = (downloadEndTime - downloadStartTime).TotalSeconds;
+
+                // Track successful download analytics
+                await _analyticsService.TrackEventAsync(
+                    AnalyticsEvents.OnboardingPackDownloadCompleted,
+                    new Dictionary<string, object>
+                    {
+                        [AnalyticsParameters.PackName] = packCard.Pack.InternationalName,
+                        [AnalyticsParameters.PackLanguage] = packCard.Pack.LanguageCode,
+                        [AnalyticsParameters.PackSizeMB] = Math.Round(packCard.Pack.FileSize / (1024.0 * 1024.0), 2),
+                        [AnalyticsParameters.DownloadDurationSeconds] = (int)downloadDuration,
+                        [AnalyticsParameters.DownloadSuccess] = true
+                    });
+
+                _logger.LogInformation("Pack {PackId} downloaded successfully during onboarding", packCard.Pack.Id);
+                
+                // Generate thumbnails after successful download
+                ProgressText = _localizationService.GetString("PackDownload_GeneratingThumbnailsLabel");
+                await _mauiPackService.GenerateThumbnailsForPackAsync(packCard.Pack.Id, null);
+
+                // Update state
+                packCard.Pack.IsDownloaded = true;
+                packCard.RefreshState();
+                HasDownloadedPack = true;
+                ProgressText = _localizationService.GetString("OnboardingPackDownload_CompletedMessage");
+            }
+            else
+            {
+                // Track failed download analytics
+                var downloadEndTime = DateTime.UtcNow;
+                var downloadDuration = (downloadEndTime - downloadStartTime).TotalSeconds;
+
+                await _analyticsService.TrackEventAsync(
+                    AnalyticsEvents.OnboardingPackDownloadCompleted,
+                    new Dictionary<string, object>
+                    {
+                        [AnalyticsParameters.PackName] = packCard.Pack.InternationalName,
+                        [AnalyticsParameters.PackLanguage] = packCard.Pack.LanguageCode,
+                        [AnalyticsParameters.DownloadDurationSeconds] = (int)downloadDuration,
+                        [AnalyticsParameters.DownloadSuccess] = false,
+                        [AnalyticsParameters.ErrorMessage] = result.ErrorMessage ?? "Unknown error"
+                    });
+
+                HandleDownloadError(result);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unexpected error downloading pack {PackId} during onboarding", packCard.Pack.Id);
+            HasError = true;
+            ErrorMessage = _localizationService.GetString("OnboardingPackDownload_DownloadError");
+        }
+        finally
+        {
+            IsDownloading = false;
+            ShowSkipOption = true;
+            packCard.IsDownloading = false;
             _downloadCancellation?.Dispose();
             _downloadCancellation = null;
         }
