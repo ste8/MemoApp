@@ -29,6 +29,12 @@ public partial class PackCardViewModel : ObservableObject
     [ObservableProperty]
     private string? progressText;
 
+    [ObservableProperty]
+    private string? etaText;
+
+    [ObservableProperty]
+    private bool showETA;
+
     public string DisplayName => GetDisplayName();
     public string DisplayDescription => GetDisplayDescription();
     public string SizeText => _localizationService.GetString("PackDownload_Size").Replace("{0}", Pack.GetFormattedFileSize());
@@ -73,6 +79,8 @@ public partial class PackCardViewModel : ObservableObject
         IsDownloading = false;
         DownloadProgress = 0.0;
         ProgressText = null;
+        EtaText = null;
+        ShowETA = false;
     }
 
     private string GetDisplayName()
@@ -103,5 +111,7 @@ public partial class PackCardViewModel : ObservableObject
         OnPropertyChanged(nameof(ShowDownloadButton));
         OnPropertyChanged(nameof(CanExecuteDownload));
         OnPropertyChanged(nameof(CanExecuteDelete));
+        OnPropertyChanged(nameof(EtaText));
+        OnPropertyChanged(nameof(ShowETA));
     }
 }

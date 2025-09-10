@@ -68,7 +68,7 @@
                 <CollectionView ItemsSource="{Binding Packs}"
                                 SelectionMode="None"
                                 BackgroundColor="Transparent"
-                                ItemSizingStrategy="MeasureFirstItem">
+                                ItemSizingStrategy="MeasureAllItems">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="vm:PackCardViewModel">
                             <components:PackCardView />
