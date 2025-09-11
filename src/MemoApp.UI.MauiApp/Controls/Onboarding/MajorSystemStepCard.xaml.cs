@@ -172,13 +172,13 @@ public partial class MajorSystemStepCard : ContentView
     {
         // Scale and glow effect
         var scaleTask = this.ScaleTo(1.05, 200, Easing.CubicOut);
-        var pulseTask = StepNumberFrame.ScaleTo(1.2, 200, Easing.CubicOut);
+        var pulseTask = StepNumberBorder.ScaleTo(1.2, 200, Easing.CubicOut);
         
         await Task.WhenAll(scaleTask, pulseTask);
         
         // Return to normal
         var returnScaleTask = this.ScaleTo(1.0, 200, Easing.CubicIn);
-        var returnPulseTask = StepNumberFrame.ScaleTo(1.0, 200, Easing.CubicIn);
+        var returnPulseTask = StepNumberBorder.ScaleTo(1.0, 200, Easing.CubicIn);
         
         await Task.WhenAll(returnScaleTask, returnPulseTask);
     }
@@ -248,19 +248,19 @@ public partial class MajorSystemStepCard : ContentView
         // Apply appropriate card style
         if (IsHighlighted)
         {
-            MainFrame.Style = (Style)Resources["HighlightedCard"];
+            MainBorder.Style = (Style)Resources["HighlightedCard"];
             TitleLabel.Style = (Style)Resources["HighlightedTitle"];
             DescriptionLabel.Style = (Style)Resources["HighlightedDescription"];
         }
         else if (IsEmoji)
         {
-            MainFrame.Style = (Style)Resources["EmojiCard"];
+            MainBorder.Style = (Style)Resources["EmojiCard"];
             TitleLabel.Style = (Style)Resources["HighlightedTitle"];
             DescriptionLabel.Style = (Style)Resources["HighlightedDescription"];
         }
         else
         {
-            MainFrame.Style = (Style)Resources["DefaultCard"];
+            MainBorder.Style = (Style)Resources["DefaultCard"];
             TitleLabel.Style = (Style)Resources["StepTitle"];
             DescriptionLabel.Style = (Style)Resources["StepDescription"];
         }
@@ -465,7 +465,7 @@ public partial class MajorSystemStepCard : ContentView
     {
         if (bindable is MajorSystemStepCard card && newValue is Style style)
         {
-            card.MainFrame.Style = style;
+            card.MainBorder.Style = style;
         }
     }
     

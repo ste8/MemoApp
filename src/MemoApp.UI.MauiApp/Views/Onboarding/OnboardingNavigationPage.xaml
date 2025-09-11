@@ -29,13 +29,12 @@
             
             <!-- Step 1: Learn -->
             <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                <Frame x:Name="PhaseIndicator0" 
-                       BackgroundColor="{StaticResource Primary}" 
-                       WidthRequest="30" 
-                       HeightRequest="6" 
-                       CornerRadius="3" 
-                       Padding="0" 
-                       BorderColor="Transparent" />
+                <Border x:Name="PhaseIndicator0" 
+                        BackgroundColor="{StaticResource Primary}" 
+                        WidthRequest="30" 
+                        HeightRequest="6" 
+                        StrokeShape="RoundRectangle 3" 
+                        Stroke="Transparent" />
                 <Label x:Name="PhaseLabel0"
                        Text="{localization:Localize Onboarding_Step_Learn}"
                        FontSize="11"
@@ -45,13 +44,12 @@
             
             <!-- Step 2: Practice -->
             <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                <Frame x:Name="PhaseIndicator1" 
-                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" 
-                       WidthRequest="30" 
-                       HeightRequest="6" 
-                       CornerRadius="3" 
-                       Padding="0" 
-                       BorderColor="Transparent" />
+                <Border x:Name="PhaseIndicator1" 
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" 
+                        WidthRequest="30" 
+                        HeightRequest="6" 
+                        StrokeShape="RoundRectangle 3" 
+                        Stroke="Transparent" />
                 <Label x:Name="PhaseLabel1"
                        Text="{localization:Localize Onboarding_Step_Practice}"
                        FontSize="11"
@@ -61,14 +59,13 @@
             
             <!-- Step 3: Content (CRITICAL) -->
             <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                <Frame x:Name="PhaseIndicator2" 
-                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" 
-                       WidthRequest="40" 
-                       HeightRequest="8" 
-                       CornerRadius="4" 
-                       Padding="0" 
-                       BorderColor="Transparent"
-                       HasShadow="True" />
+                <Border x:Name="PhaseIndicator2" 
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" 
+                        WidthRequest="40" 
+                        HeightRequest="8" 
+                        StrokeShape="RoundRectangle 4" 
+                        Stroke="Transparent"
+                        Shadow="{StaticResource CommonShadow}" />
                 <Label x:Name="PhaseLabel2"
                        Text="{localization:Localize Onboarding_Step_Content}"
                        FontSize="11"

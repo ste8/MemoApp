@@ -54,6 +54,9 @@ public static class ServiceRegistration
         // Share service for sharing exercise results
         services.AddSingleton<IShareService, MauiShareService>();
         
+        // Haptic feedback service for enhanced user interactions
+        services.AddSingleton<IHapticFeedbackService, HapticFeedbackService>();
+        
         // First-time tooltip service
         services.AddSingleton<IFirstTimeTooltipService, FirstTimeTooltipService>();
         
@@ -255,10 +258,11 @@ public static class ServiceRegistration
             var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
             var shareService = serviceProvider.GetRequiredService<IShareService>();
+            var hapticFeedbackService = serviceProvider.GetRequiredService<IHapticFeedbackService>();
             var exerciseCountService = serviceProvider.GetRequiredService<IExerciseCountService>();
             var packAssociationsService = serviceProvider.GetRequiredService<IPackAssociationsService>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
-            return new FlashNumbersViewModel(localizationService, analyticsService, shareService, exerciseCountService, packAssociationsService, interstitialAdManager);
+            return new FlashNumbersViewModel(localizationService, analyticsService, shareService, hapticFeedbackService, exerciseCountService, packAssociationsService, interstitialAdManager);
         });
         
         services.AddTransient<StatisticsViewModel>();

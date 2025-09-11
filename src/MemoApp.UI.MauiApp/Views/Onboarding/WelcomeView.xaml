@@ -25,32 +25,41 @@
             <Label Text="{localization:Localize Onboarding_Welcome_Title}"
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center"
-                   FontSize="28"
+                   Style="{StaticResource DisplayLarge}"
                    FontAttributes="Bold" />
             
             <Label Text="{localization:Localize Onboarding_Welcome_Subtitle}"
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center"
-                   FontSize="16"
-                   Opacity="0.8" />
+                   Style="{StaticResource BodyLarge}"
+                   Opacity="0.85" />
         </VerticalStackLayout>
 
-        <!-- Time Estimate -->
-        <Frame Grid.Row="3"
-               BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-               BorderColor="Transparent"
-               CornerRadius="15"
-               Padding="10,5"
-               HorizontalOptions="Center"
-               Margin="0,30,0,0">
-            <HorizontalStackLayout Spacing="8">
+        <!-- Enhanced Time Estimate -->
+        <Border Grid.Row="3"
+                StrokeShape="RoundRectangle 15"
+                Stroke="Transparent"
+                Padding="16,12"
+                HorizontalOptions="Center"
+                Margin="0,30,0,0"
+                Shadow="{StaticResource CommonShadow}">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="{StaticResource Primary}" Offset="0" />
+                    <GradientStop Color="{StaticResource PrimaryDark}" Offset="1" />
+                </LinearGradientBrush>
+            </Border.Background>
+            <HorizontalStackLayout Spacing="10">
                 <Label Text="⏱️"
+                       FontSize="18"
                        VerticalOptions="Center" />
                 <Label Text="{localization:Localize Onboarding_TimeEstimate}"
                        TextColor="White"
+                       Style="{StaticResource BodyMedium}"
+                       FontAttributes="Bold"
                        VerticalOptions="Center" />
             </HorizontalStackLayout>
-        </Frame>
+        </Border>
 
         <!-- Animated Numbers Background -->
         <AbsoluteLayout Grid.Row="0" Grid.RowSpan="5"

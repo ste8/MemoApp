@@ -50,23 +50,49 @@ public partial class FlashNumbersPage : ContentPage
 
     private void OnKeyboardTextChanged(object sender, TextChangedEventArgs e)
     {
-        if (string.IsNullOrEmpty(e.NewTextValue) || !_viewModel.IsSessionActive)
+        if (string.IsNullOrEmpty(e.NewTextValue))
             return;
 
         var lastChar = e.NewTextValue.LastOrDefault();
-        System.Diagnostics.Debug.WriteLine($"Key pressed: {lastChar}");
+        var upperChar = char.ToUpperInvariant(lastChar);
+        System.Diagnostics.Debug.WriteLine($"Key pressed: {upperChar}");
 
-        // Check if 'N' was pressed
-        if (char.ToUpperInvariant(lastChar) == 'N')
+        // Handle keyboard shortcuts for both active sessions and completed sessions
+        switch (upperChar)
         {
-            System.Diagnostics.Debug.WriteLine("Executing AdvanceToNextCommand");
-            _viewModel.AdvanceToNextCommand?.Execute(null);
-        }
-        // Check if 'H' was pressed (for revealing/hiding association)
-        else if (char.ToUpperInvariant(lastChar) == 'H')
-        {
-            System.Diagnostics.Debug.WriteLine("Executing ToggleAssociationRevealCommand");
-            _viewModel.ToggleAssociationRevealCommand?.Execute(null);
+            case 'N':
+            case ' ': // Space bar for next (more intuitive)
+                if (_viewModel.IsSessionActive && _viewModel.AdvanceToNextCommand?.CanExecute(null) == true)
+                {
+                    System.Diagnostics.Debug.WriteLine("Executing AdvanceToNextCommand");
+                    _viewModel.AdvanceToNextCommand.Execute(null);
+                }
+                break;
+                
+            case 'R':
+            case 'H': // Keep H for backward compatibility
+                if (_viewModel.IsSessionActive && _viewModel.ToggleAssociationRevealCommand?.CanExecute(null) == true)
+                {
+                    System.Diagnostics.Debug.WriteLine("Executing ToggleAssociationRevealCommand");
+                    _viewModel.ToggleAssociationRevealCommand.Execute(null);
+                }
+                break;
+                
+            case 'S':
+                if (_viewModel.IsSessionCompleted && _viewModel.ShowStatisticsCommand?.CanExecute(null) == true)
+                {
+                    System.Diagnostics.Debug.WriteLine("Executing ShowStatisticsCommand");
+                    _viewModel.ShowStatisticsCommand.Execute(null);
+                }
+                break;
+                
+            case (char)27: // ESC key
+                if (_viewModel.StartNewSessionCommand?.CanExecute(null) == true)
+                {
+                    System.Diagnostics.Debug.WriteLine("Executing StartNewSessionCommand (ESC pressed)");
+                    _viewModel.StartNewSessionCommand.Execute(null);
+                }
+                break;
         }
 
         // Clear the text to be ready for next input

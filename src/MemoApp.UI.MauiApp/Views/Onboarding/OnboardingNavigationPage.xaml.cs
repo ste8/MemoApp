@@ -6,7 +6,7 @@ public partial class OnboardingNavigationPage : ContentPage
 {
     private readonly OnboardingNavigationViewModel _viewModel;
     private readonly List<View> _onboardingViews = new();
-    private readonly List<Frame> _indicators = new();
+    private readonly List<Border> _indicators = new();
 
     public OnboardingNavigationPage(OnboardingNavigationViewModel viewModel)
     {

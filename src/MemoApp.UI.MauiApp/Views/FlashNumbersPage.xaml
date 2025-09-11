@@ -95,7 +95,7 @@
                         </Grid>
                     </Frame>
 
-                    <!-- Enhanced Current Number Display with Visual Impact -->
+                    <!-- Enhanced Current Number Display with Visual Impact and Swipe Gestures -->
                     <Border Stroke="Transparent"
                             StrokeThickness="0"
                             StrokeShape="RoundRectangle 24"
@@ -113,6 +113,15 @@
                                     Offset="0,8" 
                                     Radius="20" />
                         </Border.Shadow>
+                        <Border.GestureRecognizers>
+                            <!-- Mobile-friendly swipe gestures for navigation -->
+                            <SwipeGestureRecognizer Direction="Left" 
+                                                    Command="{Binding AdvanceToNextCommand}"
+                                                    Threshold="80" />
+                            <!-- Double tap gesture for revealing associations on mobile -->
+                            <TapGestureRecognizer Command="{Binding ToggleAssociationRevealCommand}"
+                                                  NumberOfTapsRequired="2" />
+                        </Border.GestureRecognizers>
                         
                         <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="16">
                             
@@ -132,22 +141,28 @@
                                        VerticalOptions="Center"
                                        Opacity="0.95" />
                                 
-                                <!-- Enhanced Reveal association button -->
+                                <!-- Enhanced Reveal association button with better discoverability -->
                                 <Border Grid.Column="1"
+                                        x:Name="RevealButton"
                                         BackgroundColor="Transparent"
                                         Stroke="White"
                                         StrokeThickness="2"
                                         StrokeShape="RoundRectangle 28"
                                         WidthRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
                                         HeightRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
-                                        Opacity="0.9">
+                                        Opacity="0.95">
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding ToggleAssociationRevealCommand}" />
                                     </Border.GestureRecognizers>
                                     <Border.Triggers>
                                         <DataTrigger TargetType="Border" Binding="{Binding IsAssociationRevealed}" Value="True">
-                                            <Setter Property="BackgroundColor" Value="#33FFFFFF" />
+                                            <Setter Property="BackgroundColor" Value="#44FFFFFF" />
                                             <Setter Property="Opacity" Value="1.0" />
+                                        </DataTrigger>
+                                        <!-- Enhanced visibility when association is hidden -->
+                                        <DataTrigger TargetType="Border" Binding="{Binding IsAssociationRevealed}" Value="False">
+                                            <Setter Property="Opacity" Value="1.0" />
+                                            <Setter Property="Scale" Value="1.05" />
                                         </DataTrigger>
                                     </Border.Triggers>
                                     
@@ -193,16 +208,36 @@
                                        AutomationProperties.HelpText="{Binding CurrentNumber, StringFormat='Current number to practice: {0}'}" />
                             </Grid>
 
-                            <!-- Enhanced Think instruction (hidden when association is revealed) -->
-                            <Label Grid.Row="2"
-                                   Text="{localization:Localize FlashNumbers_ThinkInstruction}"
-                                   TextColor="White"
-                                   Style="{StaticResource BodyLarge}"
-                                   FontAttributes="Italic"
-                                   Opacity="0.85"
-                                   HorizontalOptions="Center"
-                                   HorizontalTextAlignment="Center"
-                                   IsVisible="{Binding IsAssociationRevealed, Converter={StaticResource InvertedBoolConverter}}" />
+                            <!-- Enhanced Think instruction with reveal hint -->
+                            <StackLayout Grid.Row="2" 
+                                         Spacing="8"
+                                         IsVisible="{Binding IsAssociationRevealed, Converter={StaticResource InvertedBoolConverter}}">
+                                <Label Text="{localization:Localize FlashNumbers_ThinkInstruction}"
+                                       TextColor="White"
+                                       Style="{StaticResource BodyLarge}"
+                                       FontAttributes="Italic"
+                                       Opacity="0.85"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center" />
+                                       
+                                <!-- Helpful hint for first-time users -->
+                                <Label Text="{localization:Localize FlashNumbers_RevealHint}"
+                                       TextColor="White"
+                                       Style="{StaticResource BodyMedium}"
+                                       Opacity="0.7"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center"
+                                       IsVisible="{OnIdiom Phone=True, Tablet=True, Default=False}" />
+                                       
+                                <Label Text="{localization:Localize FlashNumbers_DoubleTapHint}"
+                                       TextColor="White"
+                                       Style="{StaticResource BodyMedium}"
+                                       Opacity="0.6"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center"
+                                       FontAttributes="Italic"
+                                       IsVisible="{OnIdiom Phone=True, Tablet=True, Default=False}" />
+                            </StackLayout>
 
                             <!-- Enhanced Revealed association section -->
                             <Border Grid.Row="3"

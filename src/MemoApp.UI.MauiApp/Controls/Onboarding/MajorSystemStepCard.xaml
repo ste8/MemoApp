@@ -7,34 +7,33 @@
     <ContentView.Resources>
         <ResourceDictionary>
             <!-- Default card styling -->
-            <Style x:Key="DefaultCard" TargetType="Frame">
+            <Style x:Key="DefaultCard" TargetType="Border">
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}" />
-                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}" />
-                <Setter Property="CornerRadius" Value="16" />
-                <Setter Property="HasShadow" Value="True" />
+                <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}" />
+                <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+                <Setter Property="Shadow" Value="{StaticResource CommonShadow}" />
                 <Setter Property="Padding" Value="24" />
             </Style>
             
             <!-- Highlighted card styling -->
-            <Style x:Key="HighlightedCard" TargetType="Frame" BasedOn="{StaticResource DefaultCard}">
+            <Style x:Key="HighlightedCard" TargetType="Border" BasedOn="{StaticResource DefaultCard}">
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource SuccessDark}}" />
-                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource SuccessDark}}" />
+                <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource SuccessDark}}" />
             </Style>
             
             <!-- Emoji card styling -->
-            <Style x:Key="EmojiCard" TargetType="Frame" BasedOn="{StaticResource DefaultCard}">
+            <Style x:Key="EmojiCard" TargetType="Border" BasedOn="{StaticResource DefaultCard}">
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Warning}, Dark={StaticResource WarningDark}}" />
-                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Warning}, Dark={StaticResource WarningDark}}" />
+                <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Warning}, Dark={StaticResource WarningDark}}" />
             </Style>
             
             <!-- Step number circle -->
-            <Style x:Key="StepNumber" TargetType="Frame">
+            <Style x:Key="StepNumber" TargetType="Border">
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
-                <Setter Property="BorderColor" Value="Transparent" />
-                <Setter Property="CornerRadius" Value="20" />
+                <Setter Property="Stroke" Value="Transparent" />
+                <Setter Property="StrokeShape" Value="RoundRectangle 20" />
                 <Setter Property="WidthRequest" Value="40" />
                 <Setter Property="HeightRequest" Value="40" />
-                <Setter Property="HasShadow" Value="False" />
                 <Setter Property="Padding" Value="0" />
             </Style>
             
@@ -63,9 +62,9 @@
         </ResourceDictionary>
     </ContentView.Resources>
     
-    <!-- Main Card Frame -->
-    <Frame x:Name="MainFrame" 
-           Style="{StaticResource DefaultCard}">
+    <!-- Main Card Border -->
+    <Border x:Name="MainBorder" 
+            Style="{StaticResource DefaultCard}">
         
         <VerticalStackLayout Spacing="16">
             
@@ -73,8 +72,8 @@
             <HorizontalStackLayout Spacing="16" VerticalOptions="Start">
                 
                 <!-- Step Number Circle -->
-                <Frame x:Name="StepNumberFrame" 
-                       Style="{StaticResource StepNumber}">
+                <Border x:Name="StepNumberBorder" 
+                        Style="{StaticResource StepNumber}">
                     <Label x:Name="StepNumberLabel"
                            Text="{Binding StepNumber, Source={RelativeSource AncestorType={x:Type ContentView}}}"
                            FontSize="18"
@@ -82,7 +81,7 @@
                            TextColor="White"
                            HorizontalOptions="Center"
                            VerticalOptions="Center" />
-                </Frame>
+                </Border>
                 
                 <!-- Title -->
                 <Label x:Name="TitleLabel"
@@ -177,5 +176,5 @@
             </VerticalStackLayout>
             
         </VerticalStackLayout>
-    </Frame>
+    </Border>
 </ContentView>

@@ -358,6 +358,14 @@
     <value>Pensa alla tua associazione parola/immagine</value>
     <comment>Flash Numbers instruction</comment>
   </data>
+  <data name="FlashNumbers_RevealHint" xml:space="preserve">
+    <value>👁️ Tocca l'icona dell'occhio sopra per rivelare l'associazione</value>
+    <comment>Suggerimento per gli utenti per scoprire la funzione di rivelazione dell'associazione</comment>
+  </data>
+  <data name="FlashNumbers_DoubleTapHint" xml:space="preserve">
+    <value>👁️ Tocca due volte il numero per rivelare l'associazione</value>
+    <comment>Suggerimento per utenti mobili sul gesto double-tap</comment>
+  </data>
   <data name="TrainingSession_ThinkInstruction" xml:space="preserve">
     <value>Pensa alla tua associazione parola/immagine</value>
     <comment>Training session instruction (deprecated - use FlashNumbers_ThinkInstruction)</comment>
@@ -453,7 +461,7 @@
     <comment>Cancel button text</comment>
   </data>
   <data name="FlashNumbers_KeyboardShortcutHint" xml:space="preserve">
-    <value>Premi N per andare al numero successivo</value>
+    <value>Premi Spazio o N per andare al numero successivo</value>
     <comment>Flash Numbers keyboard shortcut hint for Next button</comment>
   </data>
   <data name="TrainingSession_KeyboardShortcutHint" xml:space="preserve">
@@ -2008,8 +2016,8 @@ Scarica MemoRaise: {AppUrl}
     <comment>Header text when showing the revealed association</comment>
   </data>
   <data name="FlashNumbers_KeyboardHintReveal" xml:space="preserve">
-    <value>Premi H per rivelare l'associazione</value>
-    <comment>Keyboard shortcut hint for revealing associations on desktop</comment>
+    <value>Premi R o H per rivelare • Premi S per statistiche • Premi Esc per uscire</value>
+    <comment>Keyboard shortcut hints for all desktop actions</comment>
   </data>
   <data name="Accessibility_RevealAssociationButton" xml:space="preserve">
     <value>Rivela associazione</value>
