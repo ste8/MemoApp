@@ -1449,6 +1449,57 @@
     <value>Scorri per visualizzare tutte le associazioni visive del numero memorizzato</value>
     <comment>Accessibility hint for scrolling through associations</comment>
   </data>
+  
+  <!-- New BigNumber UI Architecture Resources -->
+  <data name="BigNumber_ChooseMode" xml:space="preserve">
+    <value>Scegli la Modalità di Allenamento</value>
+    <comment>Header for mode selection tabs</comment>
+  </data>
+  <data name="BigNumber_TraditionalMode" xml:space="preserve">
+    <value>Tradizionale</value>
+    <comment>Traditional mode tab title</comment>
+  </data>
+  <data name="BigNumber_TraditionalModeDescription" xml:space="preserve">
+    <value>Auto-verifica il tuo richiamo</value>
+    <comment>Traditional mode description</comment>
+  </data>
+  <data name="BigNumber_GuidedMode" xml:space="preserve">
+    <value>Pratica Guidata</value>
+    <comment>Guided mode tab title</comment>
+  </data>
+  <data name="BigNumber_GuidedModeDescription" xml:space="preserve">
+    <value>Verifica guidata dall'app</value>
+    <comment>Guided mode description</comment>
+  </data>
+  <data name="BigNumber_EssentialSettings" xml:space="preserve">
+    <value>Impostazioni Essenziali</value>
+    <comment>Essential settings section header</comment>
+  </data>
+  <data name="BigNumber_AdvancedSettings" xml:space="preserve">
+    <value>Impostazioni Avanzate</value>
+    <comment>Advanced settings section header</comment>
+  </data>
+  <data name="BigNumber_ShowAdvancedSettings" xml:space="preserve">
+    <value>Mostra Impostazioni Avanzate</value>
+    <comment>Button to show advanced settings</comment>
+  </data>
+  <data name="BigNumber_Show" xml:space="preserve">
+    <value>Mostra</value>
+    <comment>Generic show button text</comment>
+  </data>
+  <data name="BigNumber_Hide" xml:space="preserve">
+    <value>Nascondi</value>
+    <comment>Generic hide button text</comment>
+  </data>
+  <data name="BigNumber_TraditionalRecall" xml:space="preserve">
+    <value>Richiamo Tradizionale</value>
+    <comment>Traditional recall button text in guided mode</comment>
+  </data>
+  <data name="BigNumber_SettingsIcon" xml:space="preserve">
+    <value>⚙️</value>
+    <comment>Settings icon/emoji for advanced settings button</comment>
+  </data>
+  
   <data name="Onboarding_Title" xml:space="preserve">
     <value>Configurazione</value>
     <comment>Onboarding title</comment>

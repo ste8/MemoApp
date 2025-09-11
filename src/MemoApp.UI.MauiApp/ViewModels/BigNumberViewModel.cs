@@ -181,6 +181,77 @@ public partial class BigNumberViewModel : BaseViewModel
     [ObservableProperty]
     private int correctDigitsCount = 0;
 
+    // New UI Architecture Properties
+    
+    // Mode Selection Properties
+    [ObservableProperty]
+    private bool isTraditionalModeSelected = true;
+    
+    [ObservableProperty]
+    private bool isGuidedModeSelected = false;
+    
+    [ObservableProperty]
+    private Color traditionalModeBackgroundColor = Colors.Transparent;
+    
+    [ObservableProperty]
+    private Color traditionalModeBorderColor = Colors.Gray;
+    
+    [ObservableProperty]
+    private Color traditionalModeTextColor = Colors.Black;
+    
+    [ObservableProperty]
+    private Color traditionalModeSubtextColor = Colors.Gray;
+    
+    [ObservableProperty]
+    private Color guidedModeBackgroundColor = Colors.Transparent;
+    
+    [ObservableProperty]
+    private Color guidedModeBorderColor = Colors.Gray;
+    
+    [ObservableProperty]
+    private Color guidedModeTextColor = Colors.Black;
+    
+    [ObservableProperty]
+    private Color guidedModeSubtextColor = Colors.Gray;
+    
+    // Progressive Disclosure Properties
+    [ObservableProperty]
+    private bool showAdvancedSettings = true;
+    
+    [ObservableProperty]
+    private bool showAdvancedSettingsToggle = false;
+    
+    [ObservableProperty]
+    private bool isAdvancedSettingsExpanded = false;
+    
+    [ObservableProperty]
+    private string advancedSettingsToggleText = "Show";
+    
+    // Context-Aware Action Properties
+    [ObservableProperty]
+    private string primaryActionText = "Start";
+    
+    [ObservableProperty]
+    private Color primaryActionBackgroundColor = Colors.Blue;
+    
+    [ObservableProperty]
+    private bool showPrimaryAction = true;
+    
+    [ObservableProperty]
+    private string secondaryActionText = "Stop";
+    
+    [ObservableProperty]
+    private Color secondaryActionBackgroundColor = Colors.Orange;
+    
+    [ObservableProperty]
+    private bool showSecondaryAction = false;
+    
+    [ObservableProperty]
+    private bool isGuidedPracticeInputVisible = false;
+    
+    [ObservableProperty]
+    private bool showSessionActions = false;
+
     public string CurrentFormatExample => GenerateExampleNumber(ShowSeparated);
 
     public BigNumberViewModel(
@@ -235,6 +306,16 @@ public partial class BigNumberViewModel : BaseViewModel
         
         IsContinuousSelected = !settings.ShowSeparated;
         IsSeparatedSelected = settings.ShowSeparated;
+        
+        // Initialize new UI architecture
+        UpdateModeColors();
+        UpdateContextActions();
+        
+        // Initialize advanced settings state - start collapsed for mobile
+        ShowAdvancedSettings = false;
+        ShowAdvancedSettingsToggle = true;
+        IsAdvancedSettingsExpanded = false;
+        AdvancedSettingsToggleText = _localizationService.GetString("BigNumber_Show");
         
         UpdateNumberFontSize();
     }
@@ -329,6 +410,7 @@ public partial class BigNumberViewModel : BaseViewModel
     partial void OnCurrentPhaseChanged(GamePhase value)
     {
         UpdateUIState();
+        UpdateContextActions();
     }
 
     partial void OnEnableInputVerificationChanged(bool value)
@@ -1237,6 +1319,205 @@ public partial class BigNumberViewModel : BaseViewModel
         {
             // Return continuous digits
             return digits;
+        }
+    }
+    
+    // New UI Architecture Commands
+    
+    [RelayCommand]
+    private void SelectTraditionalMode()
+    {
+        IsTraditionalModeSelected = true;
+        IsGuidedModeSelected = false;
+        UpdateModeColors();
+        UpdateContextActions();
+    }
+    
+    [RelayCommand]
+    private void SelectGuidedMode()
+    {
+        IsTraditionalModeSelected = false;
+        IsGuidedModeSelected = true;
+        EnableInputVerification = true; // Guided mode always uses input verification
+        UpdateModeColors();
+        UpdateContextActions();
+    }
+    
+    [RelayCommand]
+    private void ToggleAdvancedSettings()
+    {
+        if (ShowAdvancedSettings)
+        {
+            // Collapse to toggle button
+            ShowAdvancedSettings = false;
+            ShowAdvancedSettingsToggle = true;
+            IsAdvancedSettingsExpanded = false;
+        }
+        else
+        {
+            // Show collapsed state first, then expand
+            ShowAdvancedSettings = true;
+            ShowAdvancedSettingsToggle = false;
+            IsAdvancedSettingsExpanded = !IsAdvancedSettingsExpanded;
+            AdvancedSettingsToggleText = IsAdvancedSettingsExpanded ? "Hide" : "Show";
+        }
+    }
+    
+    [RelayCommand]
+    private void PrimaryAction()
+    {
+        switch (CurrentPhase)
+        {
+            case GamePhase.Setup:
+                StartMemorizing();
+                break;
+            case GamePhase.Memorizing:
+                StopAndHide();
+                break;
+            case GamePhase.Stopped:
+                if (IsTraditionalModeSelected)
+                {
+                    StartRecall();
+                }
+                else if (IsGuidedModeSelected)
+                {
+                    StartInputVerification();
+                }
+                break;
+            case GamePhase.Recall:
+                StartNewGame();
+                break;
+        }
+    }
+    
+    [RelayCommand]
+    private void SecondaryAction()
+    {
+        switch (CurrentPhase)
+        {
+            case GamePhase.Memorizing:
+                // Quick restart for adjustments
+                StartNewGame();
+                break;
+            case GamePhase.Stopped:
+                if (IsTraditionalModeSelected)
+                {
+                    StartNewGame();
+                }
+                else if (IsGuidedModeSelected && !IsInputVerificationVisible)
+                {
+                    StartOnDemandInputVerification();
+                }
+                break;
+            case GamePhase.Recall:
+                StopAndHide();
+                break;
+        }
+    }
+    
+    private void StartInputVerification()
+    {
+        IsOnDemandVerificationActive = true;
+        IsVerificationPanelManuallyClosed = false; // Reset the manually closed flag when reopening
+        UpdateUIState(); // This will hide the on-demand button and show input verification interface
+    }
+    
+    private void UpdateModeColors()
+    {
+        var primaryColor = Application.Current?.Resources.TryGetValue("Primary", out var primary) == true ? (Color)primary : Colors.Blue;
+        var grayColor = Colors.Gray;
+        var lightGrayColor = Colors.LightGray;
+        var whiteColor = Colors.White;
+        var blackColor = Colors.Black;
+        
+        if (IsTraditionalModeSelected)
+        {
+            TraditionalModeBackgroundColor = lightGrayColor;
+            TraditionalModeBorderColor = primaryColor;
+            TraditionalModeTextColor = primaryColor;
+            TraditionalModeSubtextColor = blackColor;
+            
+            GuidedModeBackgroundColor = whiteColor;
+            GuidedModeBorderColor = grayColor;
+            GuidedModeTextColor = blackColor;
+            GuidedModeSubtextColor = grayColor;
+        }
+        else
+        {
+            TraditionalModeBackgroundColor = whiteColor;
+            TraditionalModeBorderColor = grayColor;
+            TraditionalModeTextColor = blackColor;
+            TraditionalModeSubtextColor = grayColor;
+            
+            GuidedModeBackgroundColor = lightGrayColor;
+            GuidedModeBorderColor = primaryColor;
+            GuidedModeTextColor = primaryColor;
+            GuidedModeSubtextColor = blackColor;
+        }
+    }
+    
+    private void UpdateContextActions()
+    {
+        var primaryColor = Application.Current?.Resources.TryGetValue("Primary", out var primary) == true ? (Color)primary : Colors.Blue;
+        var successColor = Application.Current?.Resources.TryGetValue("Success", out var success) == true ? (Color)success : Colors.Green;
+        var secondaryColor = Application.Current?.Resources.TryGetValue("Secondary", out var secondary) == true ? (Color)secondary : Colors.Orange;
+        
+        switch (CurrentPhase)
+        {
+            case GamePhase.Setup:
+                PrimaryActionText = _localizationService.GetString("BigNumber_StartMemorizing");
+                PrimaryActionBackgroundColor = primaryColor;
+                ShowPrimaryAction = true;
+                ShowSecondaryAction = false;
+                IsGuidedPracticeInputVisible = false;
+                ShowSessionActions = false;
+                break;
+                
+            case GamePhase.Memorizing:
+                PrimaryActionText = _localizationService.GetString("BigNumber_StopHide");
+                PrimaryActionBackgroundColor = secondaryColor;
+                SecondaryActionText = _localizationService.GetString("BigNumber_NewGame");
+                SecondaryActionBackgroundColor = Colors.Gray;
+                ShowPrimaryAction = true;
+                ShowSecondaryAction = true;
+                IsGuidedPracticeInputVisible = false;
+                ShowSessionActions = false;
+                break;
+                
+            case GamePhase.Stopped:
+                if (IsTraditionalModeSelected)
+                {
+                    PrimaryActionText = _localizationService.GetString("BigNumber_Recall");
+                    PrimaryActionBackgroundColor = successColor;
+                    SecondaryActionText = _localizationService.GetString("BigNumber_NewGame");
+                    SecondaryActionBackgroundColor = Colors.Gray;
+                    ShowPrimaryAction = true;
+                    ShowSecondaryAction = true;
+                    IsGuidedPracticeInputVisible = false;
+                }
+                else if (IsGuidedModeSelected)
+                {
+                    PrimaryActionText = _localizationService.GetString("BigNumber_VerifyInput");
+                    PrimaryActionBackgroundColor = primaryColor;
+                    SecondaryActionText = _localizationService.GetString("BigNumber_TraditionalRecall");
+                    SecondaryActionBackgroundColor = successColor;
+                    ShowPrimaryAction = true;
+                    ShowSecondaryAction = true;
+                    IsGuidedPracticeInputVisible = false;
+                }
+                ShowSessionActions = false;
+                break;
+                
+            case GamePhase.Recall:
+                PrimaryActionText = _localizationService.GetString("BigNumber_NewGame");
+                PrimaryActionBackgroundColor = Colors.Gray;
+                SecondaryActionText = _localizationService.GetString("BigNumber_StopHide");
+                SecondaryActionBackgroundColor = secondaryColor;
+                ShowPrimaryAction = true;
+                ShowSecondaryAction = true;
+                IsGuidedPracticeInputVisible = IsGuidedModeSelected && IsInputVerificationVisible;
+                ShowSessionActions = true;
+                break;
         }
     }
 }

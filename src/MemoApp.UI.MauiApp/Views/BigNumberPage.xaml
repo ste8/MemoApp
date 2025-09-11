@@ -24,10 +24,80 @@
                            HorizontalTextAlignment="Center" />
                 </StackLayout>
                 
-                <!-- Settings Card -->
+                <!-- Mode Selection Tabs -->
+                <Frame Style="{StaticResource ModernCardStyle}" Margin="0,0,0,16">
+                    <StackLayout Spacing="15">
+                        <Label Text="{localization:Localize BigNumber_ChooseMode}" 
+                               FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               Margin="0,0,0,8" />
+                        
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <!-- Traditional Mode Tab -->
+                            <Border Grid.Column="0"
+                                    BackgroundColor="{Binding TraditionalModeBackgroundColor}"
+                                    Stroke="{Binding TraditionalModeBorderColor}"
+                                    StrokeThickness="2"
+                                    Padding="16"
+                                    StrokeShape="RoundRectangle 12">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectTraditionalModeCommand}" />
+                                </Border.GestureRecognizers>
+                                
+                                <StackLayout Spacing="8">
+                                    <Label Text="{localization:Localize BigNumber_TraditionalMode}" 
+                                           FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                           FontAttributes="Bold"
+                                           HorizontalTextAlignment="Center"
+                                           TextColor="{Binding TraditionalModeTextColor}" />
+                                    
+                                    <Label Text="{localization:Localize BigNumber_TraditionalModeDescription}" 
+                                           FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                           HorizontalTextAlignment="Center"
+                                           LineBreakMode="WordWrap"
+                                           TextColor="{Binding TraditionalModeSubtextColor}" />
+                                </StackLayout>
+                            </Border>
+                            
+                            <!-- Guided Practice Mode Tab -->
+                            <Border Grid.Column="1"
+                                    BackgroundColor="{Binding GuidedModeBackgroundColor}"
+                                    Stroke="{Binding GuidedModeBorderColor}"
+                                    StrokeThickness="2"
+                                    Padding="16"
+                                    StrokeShape="RoundRectangle 12">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectGuidedModeCommand}" />
+                                </Border.GestureRecognizers>
+                                
+                                <StackLayout Spacing="8">
+                                    <Label Text="{localization:Localize BigNumber_GuidedMode}" 
+                                           FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                           FontAttributes="Bold"
+                                           HorizontalTextAlignment="Center"
+                                           TextColor="{Binding GuidedModeTextColor}" />
+                                    
+                                    <Label Text="{localization:Localize BigNumber_GuidedModeDescription}" 
+                                           FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                           HorizontalTextAlignment="Center"
+                                           LineBreakMode="WordWrap"
+                                           TextColor="{Binding GuidedModeSubtextColor}" />
+                                </StackLayout>
+                            </Border>
+                        </Grid>
+                    </StackLayout>
+                </Frame>
+                
+                <!-- Essential Settings Card -->
                 <Frame Style="{StaticResource ModernCardStyle}">
-                    
                     <StackLayout Spacing="20">
+                        <!-- Essential Settings Header -->
+                        <Label Text="{localization:Localize BigNumber_EssentialSettings}" 
+                               FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center" />
+                        
                         <!-- Number of Digits -->
                         <StackLayout Spacing="8">
                             <Label Text="{localization:Localize BigNumber_NumberOfDigits}"
@@ -80,60 +150,7 @@
                                    FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
                                    TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
                         </StackLayout>
-
-                        <!-- Max Pair Value -->
-                        <StackLayout Spacing="8">
-                            <Label Text="{localization:Localize BigNumber_MaxPairValue}"
-                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                   FontAttributes="Bold" />
-                            
-                            <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8">
-                                <Button Grid.Column="0"
-                                        Text="{localization:Localize Common_Minus}"
-                                        Command="{Binding DecrementMaxPairValueCommand}"
-                                        BackgroundColor="Transparent"
-                                        TextColor="{StaticResource Primary}"
-                                        BorderWidth="0"
-                                        FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
-                                        FontAttributes="Bold"
-                                        Padding="8,0"
-                                        MinimumWidthRequest="40"
-                                        SemanticProperties.Description="{localization:Localize Accessibility_DecrementMaxPairValue}" />
-                                        
-                                <Slider Grid.Column="1"
-                                        Value="{Binding MaxPairValue}"
-                                        Minimum="10"
-                                        Maximum="99"
-                                        MinimumTrackColor="{StaticResource Primary}"
-                                        MaximumTrackColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
-                                        ThumbColor="{StaticResource Primary}" />
-                                
-                                <Label Grid.Column="2"
-                                       Text="{Binding MaxPairValue}"
-                                       FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
-                                       FontAttributes="Bold"
-                                       WidthRequest="60"
-                                       HorizontalTextAlignment="Center"
-                                       VerticalOptions="Center" />
-                                       
-                                <Button Grid.Column="3"
-                                        Text="{localization:Localize Common_Plus}"
-                                        Command="{Binding IncrementMaxPairValueCommand}"
-                                        BackgroundColor="Transparent"
-                                        TextColor="{StaticResource Primary}"
-                                        BorderWidth="0"
-                                        FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
-                                        FontAttributes="Bold"
-                                        Padding="8,0"
-                                        MinimumWidthRequest="40"
-                                        SemanticProperties.Description="{localization:Localize Accessibility_IncrementMaxPairValue}" />
-                            </Grid>
-                            
-                            <Label Text="{localization:Localize BigNumber_MaxPairHelp}"
-                                   FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                   TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
-                        </StackLayout>
-
+                        
                         <!-- Display Format -->
                         <StackLayout Spacing="8">
                             <Label Text="{localization:Localize BigNumber_DisplayFormat}"
@@ -166,117 +183,183 @@
                                        VerticalOptions="Center" />
                             </StackLayout>
                         </StackLayout>
-
-                        <!-- Show Timer -->
-                        <Grid ColumnDefinitions="Auto,*" 
-                              Padding="{OnIdiom Phone='0,8', Tablet='0,10', Desktop='0,6'}">
+                    </StackLayout>
+                </Frame>
+                
+                <!-- Advanced Settings Card (Collapsible) -->
+                <Frame Style="{StaticResource ModernCardStyle}" IsVisible="{Binding ShowAdvancedSettings}">
+                    <StackLayout Spacing="20">
+                        <!-- Advanced Settings Header -->
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                            <Label Grid.Column="0"
+                                   Text="{localization:Localize BigNumber_AdvancedSettings}" 
+                                   FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center" />
                             
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding ToggleShowTimerCommand}" />
-                            </Grid.GestureRecognizers>
-                            
-                            <!-- iOS: Platform-native Switch -->
-                            <Switch Grid.Column="0"
-                                    IsToggled="{Binding ShowTimer}"
-                                    OnColor="{StaticResource Primary}"
-                                    VerticalOptions="Center"
-                                    IsVisible="{OnPlatform iOS=True, Default=False}"
-                                    InputTransparent="True" />
-                            
-                            <!-- Android/Windows/macOS: Properly sized CheckBox -->
-                            <CheckBox Grid.Column="0"
-                                      IsChecked="{Binding ShowTimer}"
-                                      Color="{StaticResource Primary}"
-                                      VerticalOptions="Center"
-                                      MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
-                                      MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
-                                      IsVisible="{OnPlatform iOS=False, Default=True}"
-                                      InputTransparent="True" />
-                            
-                            <!-- Optimally spaced label -->
-                            <Label Grid.Column="1"
-                                   Text="{localization:Localize BigNumber_ShowTimer}"
-                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                   VerticalOptions="Center"
-                                   Margin="{OnIdiom Phone='12,0,0,0', Tablet='16,0,0,0', Desktop='8,0,0,0'}"
-                                   InputTransparent="True" />
+                            <Button Grid.Column="1"
+                                    Text="{Binding AdvancedSettingsToggleText}"
+                                    Command="{Binding ToggleAdvancedSettingsCommand}"
+                                    BackgroundColor="{StaticResource Primary}"
+                                    TextColor="White"
+                                    FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                    Padding="12,8"
+                                    CornerRadius="8" />
                         </Grid>
-
-                        <!-- Show Associations -->
-                        <Grid ColumnDefinitions="Auto,*" 
-                              Padding="{OnIdiom Phone='0,8', Tablet='0,10', Desktop='0,6'}">
-                            
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding ToggleAssociationsCommand}" />
-                            </Grid.GestureRecognizers>
-                            
-                            <!-- iOS: Platform-native Switch -->
-                            <Switch Grid.Column="0"
-                                    IsToggled="{Binding ShowAssociations}"
-                                    OnColor="{StaticResource Primary}"
-                                    VerticalOptions="Center"
-                                    IsVisible="{OnPlatform iOS=True, Default=False}"
-                                    InputTransparent="True" />
-                            
-                            <!-- Android/Windows/macOS: Properly sized CheckBox -->
-                            <CheckBox Grid.Column="0"
-                                      IsChecked="{Binding ShowAssociations}"
-                                      Color="{StaticResource Primary}"
-                                      VerticalOptions="Center"
-                                      MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
-                                      MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
-                                      IsVisible="{OnPlatform iOS=False, Default=True}"
-                                      InputTransparent="True" />
-                            
-                            <!-- Optimally spaced label -->
-                            <Label Grid.Column="1"
-                                   Text="{localization:Localize BigNumber_ShowAssociations}"
-                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                   VerticalOptions="Center"
-                                   Margin="{OnIdiom Phone='12,0,0,0', Tablet='16,0,0,0', Desktop='8,0,0,0'}"
-                                   InputTransparent="True" />
-                        </Grid>
-
-                        <!-- Enable Input Verification -->
-                        <Grid ColumnDefinitions="Auto,*" 
-                              Padding="{OnIdiom Phone='0,8', Tablet='0,10', Desktop='0,6'}">
-                            
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding ToggleInputVerificationCommand}" />
-                            </Grid.GestureRecognizers>
-                            
-                            <!-- iOS: Platform-native Switch -->
-                            <Switch Grid.Column="0"
-                                    IsToggled="{Binding EnableInputVerification}"
-                                    OnColor="{StaticResource Primary}"
-                                    VerticalOptions="Center"
-                                    IsVisible="{OnPlatform iOS=True, Default=False}"
-                                    InputTransparent="True" />
-                            
-                            <!-- Android/Windows/macOS: Properly sized CheckBox -->
-                            <CheckBox Grid.Column="0"
-                                      IsChecked="{Binding EnableInputVerification}"
-                                      Color="{StaticResource Primary}"
-                                      VerticalOptions="Center"
-                                      MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
-                                      MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
-                                      IsVisible="{OnPlatform iOS=False, Default=True}"
-                                      InputTransparent="True" />
-                            
-                            <!-- Optimally spaced label with help text -->
-                            <StackLayout Grid.Column="1"
-                                         VerticalOptions="Center"
-                                         Margin="{OnIdiom Phone='12,0,0,0', Tablet='16,0,0,0', Desktop='8,0,0,0'}"
-                                         InputTransparent="True">
-                                <Label Text="{localization:Localize BigNumber_EnableInputVerification}"
-                                       FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}" />
-                                <Label Text="{localization:Localize BigNumber_InputVerificationHelp}"
+                        
+                        <!-- Advanced Settings Content -->
+                        <StackLayout IsVisible="{Binding IsAdvancedSettingsExpanded}" Spacing="20">
+                            <!-- Max Pair Value -->
+                            <StackLayout Spacing="8">
+                                <Label Text="{localization:Localize BigNumber_MaxPairValue}"
+                                       FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                       FontAttributes="Bold" />
+                                
+                                <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8">
+                                    <Button Grid.Column="0"
+                                            Text="{localization:Localize Common_Minus}"
+                                            Command="{Binding DecrementMaxPairValueCommand}"
+                                            BackgroundColor="Transparent"
+                                            TextColor="{StaticResource Primary}"
+                                            BorderWidth="0"
+                                            FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
+                                            FontAttributes="Bold"
+                                            Padding="8,0"
+                                            MinimumWidthRequest="40"
+                                            SemanticProperties.Description="{localization:Localize Accessibility_DecrementMaxPairValue}" />
+                                            
+                                    <Slider Grid.Column="1"
+                                            Value="{Binding MaxPairValue}"
+                                            Minimum="10"
+                                            Maximum="99"
+                                            MinimumTrackColor="{StaticResource Primary}"
+                                            MaximumTrackColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                            ThumbColor="{StaticResource Primary}" />
+                                    
+                                    <Label Grid.Column="2"
+                                           Text="{Binding MaxPairValue}"
+                                           FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                           FontAttributes="Bold"
+                                           WidthRequest="60"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalOptions="Center" />
+                                           
+                                    <Button Grid.Column="3"
+                                            Text="{localization:Localize Common_Plus}"
+                                            Command="{Binding IncrementMaxPairValueCommand}"
+                                            BackgroundColor="Transparent"
+                                            TextColor="{StaticResource Primary}"
+                                            BorderWidth="0"
+                                            FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
+                                            FontAttributes="Bold"
+                                            Padding="8,0"
+                                            MinimumWidthRequest="40"
+                                            SemanticProperties.Description="{localization:Localize Accessibility_IncrementMaxPairValue}" />
+                                </Grid>
+                                
+                                <Label Text="{localization:Localize BigNumber_MaxPairHelp}"
                                        FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
                                        TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
                             </StackLayout>
-                        </Grid>
+
+                            <!-- Show Timer -->
+                            <Grid ColumnDefinitions="Auto,*" 
+                                  Padding="{OnIdiom Phone='0,8', Tablet='0,10', Desktop='0,6'}">
+                                
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ToggleShowTimerCommand}" />
+                                </Grid.GestureRecognizers>
+                                
+                                <!-- iOS: Platform-native Switch -->
+                                <Switch Grid.Column="0"
+                                        IsToggled="{Binding ShowTimer}"
+                                        OnColor="{StaticResource Primary}"
+                                        VerticalOptions="Center"
+                                        IsVisible="{OnPlatform iOS=True, Default=False}"
+                                        InputTransparent="True" />
+                                
+                                <!-- Android/Windows/macOS: Properly sized CheckBox -->
+                                <CheckBox Grid.Column="0"
+                                          IsChecked="{Binding ShowTimer}"
+                                          Color="{StaticResource Primary}"
+                                          VerticalOptions="Center"
+                                          MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
+                                          MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
+                                          IsVisible="{OnPlatform iOS=False, Default=True}"
+                                          InputTransparent="True" />
+                                
+                                <!-- Optimally spaced label -->
+                                <Label Grid.Column="1"
+                                       Text="{localization:Localize BigNumber_ShowTimer}"
+                                       FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                       VerticalOptions="Center"
+                                       Margin="{OnIdiom Phone='12,0,0,0', Tablet='16,0,0,0', Desktop='8,0,0,0'}"
+                                       InputTransparent="True" />
+                            </Grid>
+
+                            <!-- Show Associations -->
+                            <Grid ColumnDefinitions="Auto,*" 
+                                  Padding="{OnIdiom Phone='0,8', Tablet='0,10', Desktop='0,6'}">
+                                
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ToggleAssociationsCommand}" />
+                                </Grid.GestureRecognizers>
+                                
+                                <!-- iOS: Platform-native Switch -->
+                                <Switch Grid.Column="0"
+                                        IsToggled="{Binding ShowAssociations}"
+                                        OnColor="{StaticResource Primary}"
+                                        VerticalOptions="Center"
+                                        IsVisible="{OnPlatform iOS=True, Default=False}"
+                                        InputTransparent="True" />
+                                
+                                <!-- Android/Windows/macOS: Properly sized CheckBox -->
+                                <CheckBox Grid.Column="0"
+                                          IsChecked="{Binding ShowAssociations}"
+                                          Color="{StaticResource Primary}"
+                                          VerticalOptions="Center"
+                                          MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
+                                          MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
+                                          IsVisible="{OnPlatform iOS=False, Default=True}"
+                                          InputTransparent="True" />
+                                
+                                <!-- Optimally spaced label -->
+                                <Label Grid.Column="1"
+                                       Text="{localization:Localize BigNumber_ShowAssociations}"
+                                       FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                       VerticalOptions="Center"
+                                       Margin="{OnIdiom Phone='12,0,0,0', Tablet='16,0,0,0', Desktop='8,0,0,0'}"
+                                       InputTransparent="True" />
+                            </Grid>
+                        </StackLayout>
                     </StackLayout>
                 </Frame>
+                
+                <!-- Advanced Settings Toggle Button (When Collapsed) -->
+                <Border IsVisible="{Binding ShowAdvancedSettingsToggle}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                        Stroke="{StaticResource Primary}"
+                        StrokeThickness="1"
+                        Padding="16"
+                        StrokeShape="RoundRectangle 12">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToggleAdvancedSettingsCommand}" />
+                    </Border.GestureRecognizers>
+                    
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Grid.Column="0"
+                               Text="{localization:Localize BigNumber_ShowAdvancedSettings}" 
+                               FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               TextColor="{StaticResource Primary}" />
+                        
+                        <Label Grid.Column="1"
+                               Text="{localization:Localize BigNumber_SettingsIcon}"
+                               FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
+                               VerticalOptions="Center" />
+                    </Grid>
+                </Border>
 
                 <!-- Start Button -->
                 <Button Command="{Binding StartMemorizingCommand}"
@@ -498,21 +581,32 @@
                 </StackLayout>
                 </Frame>
 
-                <!-- Action Buttons -->
+                <!-- Context-Aware Action Buttons -->
                 <StackLayout Spacing="15">
-                    <!-- Stop & Hide Button -->
-                    <Button Command="{Binding StopAndHideCommand}"
-                            IsVisible="{Binding IsStopButtonVisible}"
-                            Text="{localization:Localize BigNumber_StopHide}"
-                            BackgroundColor="{StaticResource Secondary}"
+                    
+                    <!-- Primary Action Button (Context-Aware) -->
+                    <Button Command="{Binding PrimaryActionCommand}"
+                            Text="{Binding PrimaryActionText}"
+                            BackgroundColor="{Binding PrimaryActionBackgroundColor}"
                             TextColor="White"
                             FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                             FontAttributes="Bold"
                             CornerRadius="15"
-                            HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}" />
+                            HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
+                            IsVisible="{Binding ShowPrimaryAction}" />
 
-                    <!-- Input Verification Section -->
-                    <StackLayout IsVisible="{Binding IsInputVerificationVisible}"
+                    <!-- Secondary Action Button (Context-Aware) -->
+                    <Button Command="{Binding SecondaryActionCommand}"
+                            Text="{Binding SecondaryActionText}"
+                            BackgroundColor="{Binding SecondaryActionBackgroundColor}"
+                            TextColor="White"
+                            FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                            CornerRadius="12"
+                            HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
+                            IsVisible="{Binding ShowSecondaryAction}" />
+
+                    <!-- Guided Practice Input Section (Only for Guided Mode) -->
+                    <StackLayout IsVisible="{Binding IsGuidedPracticeInputVisible}"
                                  Spacing="20">
                         
                         <!-- Input Field Section -->
@@ -674,32 +768,11 @@
                             </StackLayout>
                         </Border>
                     </StackLayout>
-                    
-                    <!-- Traditional Recall Button -->
-                    <Button Command="{Binding StartRecallCommand}"
-                            IsVisible="{Binding IsRecallButtonVisible}"
-                            Text="{localization:Localize BigNumber_Recall}"
-                            BackgroundColor="{StaticResource Success}"
-                            TextColor="White"
-                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
-                            FontAttributes="Bold"
-                            CornerRadius="15"
-                            HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}" />
 
-                    <!-- On-demand Input Verification Button -->
-                    <Button Command="{Binding StartOnDemandInputVerificationCommand}"
-                            IsVisible="{Binding ShowOnDemandVerifyButton}"
-                            Text="{localization:Localize BigNumber_VerifyInput}"
-                            BackgroundColor="{StaticResource Primary}"
-                            TextColor="White"
-                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
-                            FontAttributes="Bold"
-                            CornerRadius="15"
-                            HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
-                            Margin="0,10,0,0" />
-
-                    <!-- Action buttons -->
-                    <Grid ColumnDefinitions="*,*" ColumnSpacing="15" Margin="20,10">
+                    <!-- Session Actions (Share/New Game) -->
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="15" 
+                          Margin="20,10"
+                          IsVisible="{Binding ShowSessionActions}">
                         <Button Grid.Column="0"
                                 Command="{Binding ShareResultsCommand}"
                                 Text="{localization:Localize Share_Results}"

@@ -1451,6 +1451,56 @@
     <comment>Accessibility hint for scrolling through associations</comment>
   </data>
   
+  <!-- New BigNumber UI Architecture Resources -->
+  <data name="BigNumber_ChooseMode" xml:space="preserve">
+    <value>Choose Your Training Mode</value>
+    <comment>Header for mode selection tabs</comment>
+  </data>
+  <data name="BigNumber_TraditionalMode" xml:space="preserve">
+    <value>Traditional</value>
+    <comment>Traditional mode tab title</comment>
+  </data>
+  <data name="BigNumber_TraditionalModeDescription" xml:space="preserve">
+    <value>Self-verify your recall</value>
+    <comment>Traditional mode description</comment>
+  </data>
+  <data name="BigNumber_GuidedMode" xml:space="preserve">
+    <value>Guided Practice</value>
+    <comment>Guided mode tab title</comment>
+  </data>
+  <data name="BigNumber_GuidedModeDescription" xml:space="preserve">
+    <value>App-guided verification</value>
+    <comment>Guided mode description</comment>
+  </data>
+  <data name="BigNumber_EssentialSettings" xml:space="preserve">
+    <value>Essential Settings</value>
+    <comment>Essential settings section header</comment>
+  </data>
+  <data name="BigNumber_AdvancedSettings" xml:space="preserve">
+    <value>Advanced Settings</value>
+    <comment>Advanced settings section header</comment>
+  </data>
+  <data name="BigNumber_ShowAdvancedSettings" xml:space="preserve">
+    <value>Show Advanced Settings</value>
+    <comment>Button to show advanced settings</comment>
+  </data>
+  <data name="BigNumber_Show" xml:space="preserve">
+    <value>Show</value>
+    <comment>Generic show button text</comment>
+  </data>
+  <data name="BigNumber_Hide" xml:space="preserve">
+    <value>Hide</value>
+    <comment>Generic hide button text</comment>
+  </data>
+  <data name="BigNumber_TraditionalRecall" xml:space="preserve">
+    <value>Traditional Recall</value>
+    <comment>Traditional recall button text in guided mode</comment>
+  </data>
+  <data name="BigNumber_SettingsIcon" xml:space="preserve">
+    <value>⚙️</value>
+    <comment>Settings icon/emoji for advanced settings button</comment>
+  </data>
+  
   <!-- Onboarding Resources -->
   <data name="Onboarding_Title" xml:space="preserve">
     <value>Getting Started</value>
