@@ -36,7 +36,7 @@
                             
                             <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8">
                                 <Button Grid.Column="0"
-                                        Text="-"
+                                        Text="{localization:Localize Common_Minus}"
                                         Command="{Binding DecrementNumberOfDigitsCommand}"
                                         BackgroundColor="Transparent"
                                         TextColor="{StaticResource Primary}"
@@ -64,7 +64,7 @@
                                        VerticalOptions="Center" />
                                        
                                 <Button Grid.Column="3"
-                                        Text="+"
+                                        Text="{localization:Localize Common_Plus}"
                                         Command="{Binding IncrementNumberOfDigitsCommand}"
                                         BackgroundColor="Transparent"
                                         TextColor="{StaticResource Primary}"
@@ -89,7 +89,7 @@
                             
                             <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8">
                                 <Button Grid.Column="0"
-                                        Text="-"
+                                        Text="{localization:Localize Common_Minus}"
                                         Command="{Binding DecrementMaxPairValueCommand}"
                                         BackgroundColor="Transparent"
                                         TextColor="{StaticResource Primary}"
@@ -117,7 +117,7 @@
                                        VerticalOptions="Center" />
                                        
                                 <Button Grid.Column="3"
-                                        Text="+"
+                                        Text="{localization:Localize Common_Plus}"
                                         Command="{Binding IncrementMaxPairValueCommand}"
                                         BackgroundColor="Transparent"
                                         TextColor="{StaticResource Primary}"
@@ -280,7 +280,7 @@
 
                 <!-- Start Button -->
                 <Button Command="{Binding StartMemorizingCommand}"
-                        Text="[Start] Start Memorizing"
+                        Text="{localization:Localize BigNumber_StartMemorizing}"
                         Style="{StaticResource PrimaryActionButtonStyle}"
                         BackgroundColor="{StaticResource Primary}"
                         TextColor="White"
@@ -503,7 +503,7 @@
                     <!-- Stop & Hide Button -->
                     <Button Command="{Binding StopAndHideCommand}"
                             IsVisible="{Binding IsStopButtonVisible}"
-                            Text="[Stop] Stop &amp; Hide"
+                            Text="{localization:Localize BigNumber_StopHide}"
                             BackgroundColor="{StaticResource Secondary}"
                             TextColor="White"
                             FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
@@ -563,17 +563,17 @@
                                        Margin="0,5,0,0" />
                                 
                                 <!-- Action buttons -->
-                                <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="15">
+                                <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
                                     <Button Grid.Column="0"
-                                            Text="{localization:Localize BigNumber_ClearInput}"
-                                            Command="{Binding ClearInputCommand}"
-                                            BackgroundColor="{StaticResource Secondary}"
+                                            Text="{localization:Localize BigNumber_CancelVerification}"
+                                            Command="{Binding CancelVerificationCommand}"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
                                             TextColor="White"
                                             FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                             HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
                                             CornerRadius="12" />
                                     
-                                    <Button Grid.Column="2"
+                                    <Button Grid.Column="1"
                                             Text="{localization:Localize BigNumber_CheckAnswer}"
                                             Command="{Binding VerifyInputCommand}"
                                             BackgroundColor="{StaticResource Success}"
@@ -674,7 +674,7 @@
                     <!-- Traditional Recall Button -->
                     <Button Command="{Binding StartRecallCommand}"
                             IsVisible="{Binding IsRecallButtonVisible}"
-                            Text="[Recall] Recall"
+                            Text="{localization:Localize BigNumber_Recall}"
                             BackgroundColor="{StaticResource Success}"
                             TextColor="White"
                             FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
@@ -711,7 +711,7 @@
 
                         <Button Grid.Column="1"
                                 Command="{Binding StartNewGameCommand}"
-                                Text="[New] New Game"
+                                Text="{localization:Localize BigNumber_NewGame}"
                                 BackgroundColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
                                 TextColor="White"
                                 FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"

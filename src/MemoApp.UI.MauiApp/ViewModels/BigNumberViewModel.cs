@@ -130,6 +130,9 @@ public partial class BigNumberViewModel : BaseViewModel
     private bool isOnDemandVerificationActive = false;
 
     [ObservableProperty]
+    private bool isVerificationPanelManuallyClosed = false;
+
+    [ObservableProperty]
     private string userInput = string.Empty;
 
     [ObservableProperty]
@@ -499,6 +502,7 @@ public partial class BigNumberViewModel : BaseViewModel
         
         // Reset transient UI state for consistent user experience
         ClearInputVerificationState();
+        IsVerificationPanelManuallyClosed = false; // Reset for new game
         
         // Update UI state to reflect cleared verification state
         UpdateUIState();
@@ -520,11 +524,11 @@ public partial class BigNumberViewModel : BaseViewModel
         // - When stopped or recall: ALWAYS show the final time regardless of setting
         IsTimerVisible = (ShowTimer && CurrentPhase == GamePhase.Memorizing) || CurrentPhase == GamePhase.Stopped || CurrentPhase == GamePhase.Recall;
         
-        // Input verification visibility: show when enabled OR on-demand active, and in stopped phase
-        IsInputVerificationVisible = (EnableInputVerification || IsOnDemandVerificationActive) && CurrentPhase == GamePhase.Stopped;
+        // Input verification visibility: show when (enabled OR on-demand active) AND NOT manually closed, and in stopped phase
+        IsInputVerificationVisible = (EnableInputVerification || IsOnDemandVerificationActive) && !IsVerificationPanelManuallyClosed && CurrentPhase == GamePhase.Stopped;
         
-        // On-demand verify button: show when NOT pre-enabled, in stopped phase, and not already active
-        ShowOnDemandVerifyButton = !EnableInputVerification && CurrentPhase == GamePhase.Stopped && !IsOnDemandVerificationActive;
+        // On-demand verify button: show when verification is not visible but could be activated, in stopped phase
+        ShowOnDemandVerifyButton = ((EnableInputVerification && IsVerificationPanelManuallyClosed) || (!EnableInputVerification && !IsOnDemandVerificationActive)) && CurrentPhase == GamePhase.Stopped;
         
         UpdateDisplayedNumber();
         UpdateAssociationsVisibility();
@@ -1070,16 +1074,10 @@ public partial class BigNumberViewModel : BaseViewModel
     private void StartOnDemandInputVerification()
     {
         IsOnDemandVerificationActive = true;
+        IsVerificationPanelManuallyClosed = false; // Reset the manually closed flag when reopening
         UpdateUIState(); // This will hide the on-demand button and show input verification interface
     }
 
-    [RelayCommand]
-    private void ClearInput()
-    {
-        UserInput = string.Empty;
-        ShowVerificationResults = false;
-        ShowRetryButton = false;
-    }
 
     [RelayCommand]
     private async Task VerifyInput()
@@ -1168,6 +1166,15 @@ public partial class BigNumberViewModel : BaseViewModel
         ShowRetryButton = false;
     }
 
+    [RelayCommand]
+    private void CancelVerification()
+    {
+        // Always close the verification panel and show the reopen button
+        ClearInputVerificationState();
+        IsVerificationPanelManuallyClosed = true;
+        UpdateUIState();
+    }
+
     // Helper methods
     private void ClearInputVerificationState()
     {
@@ -1180,6 +1187,7 @@ public partial class BigNumberViewModel : BaseViewModel
         CanVerifyInput = false;
         IsOnDemandVerificationActive = false;
     }
+
 
     private string FormatNumberInput(string input)
     {

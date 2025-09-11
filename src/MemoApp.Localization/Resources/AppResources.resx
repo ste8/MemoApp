@@ -2200,4 +2200,16 @@ Download MemoRaise: {AppUrl}
     <value>Verify Input</value>
     <comment>Button to start on-demand input verification</comment>
   </data>
+  <data name="BigNumber_CancelVerification" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>Button to cancel input verification and exit verification mode</comment>
+  </data>
+  <data name="Common_Minus" xml:space="preserve">
+    <value>-</value>
+    <comment>Minus symbol for decrement buttons</comment>
+  </data>
+  <data name="Common_Plus" xml:space="preserve">
+    <value>+</value>
+    <comment>Plus symbol for increment buttons</comment>
+  </data>
 </root>
