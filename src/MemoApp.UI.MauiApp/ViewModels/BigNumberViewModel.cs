@@ -496,6 +496,12 @@ public partial class BigNumberViewModel : BaseViewModel
         _gameService.ResetGame(_currentGame);
         CurrentPhase = _currentGame.Phase;
         TimerText = "00:00";
+        
+        // Reset transient UI state for consistent user experience
+        ClearInputVerificationState();
+        
+        // Update UI state to reflect cleared verification state
+        UpdateUIState();
     }
 
     private void UpdateUIState()
