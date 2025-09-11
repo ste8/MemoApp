@@ -12,6 +12,8 @@ using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Services.Freemium;
 using System.Collections.ObjectModel;
 using Microsoft.Maui.Graphics;
+using System.Globalization;
+using System.Text;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
 
@@ -28,8 +30,11 @@ public partial class BigNumberViewModel : BaseViewModel
     private readonly IExerciseCountService _exerciseCountService;
     private readonly IPackAssociationsService _packAssociationsService;
     private readonly IFirstTimeTooltipService _tooltipService;
+    private readonly IHapticFeedbackService? _hapticFeedbackService;
+    private readonly IUserNotificationService _userNotificationService;
     private IDispatcherTimer? _timer;
     private BigNumberGame _currentGame = new();
+    private string _originalNumber = string.Empty;
     
     // Analytics tracking
     private DateTime _exerciseStartTime;
@@ -111,6 +116,55 @@ public partial class BigNumberViewModel : BaseViewModel
     [ObservableProperty]
     private bool canShareResults = false;
 
+    // Input Verification Properties
+    [ObservableProperty]
+    private bool enableInputVerification = false;
+
+    [ObservableProperty]
+    private bool isInputVerificationVisible = false;
+
+    [ObservableProperty]
+    private string userInput = string.Empty;
+
+    [ObservableProperty]
+    private string formattedUserInput = string.Empty;
+
+    [ObservableProperty]
+    private double inputProgress = 0.0;
+
+    [ObservableProperty]
+    private string inputProgressText = string.Empty;
+
+    [ObservableProperty]
+    private bool showFormattedInput = false;
+
+    [ObservableProperty]
+    private bool canVerifyInput = false;
+
+    [ObservableProperty]
+    private bool showVerificationResults = false;
+
+    [ObservableProperty]
+    private bool showRetryButton = false;
+
+    [ObservableProperty]
+    private string accuracyTitle = string.Empty;
+
+    [ObservableProperty]
+    private string accuracyPercentageText = string.Empty;
+
+    [ObservableProperty]
+    private Color accuracyColor = Colors.Black;
+
+    [ObservableProperty]
+    private Color accuracyBorderColor = Colors.Gray;
+
+    [ObservableProperty]
+    private string accuracyIcon = string.Empty;
+
+    [ObservableProperty]
+    private int correctDigitsCount = 0;
+
     public string CurrentFormatExample => GenerateExampleNumber(ShowSeparated);
 
     public BigNumberViewModel(
@@ -123,7 +177,9 @@ public partial class BigNumberViewModel : BaseViewModel
         IAnalyticsService analyticsService,
         IExerciseCountService exerciseCountService,
         IPackAssociationsService packAssociationsService,
-        IInterstitialAdManager? interstitialAdManager = null)
+        IUserNotificationService userNotificationService,
+        IInterstitialAdManager? interstitialAdManager = null,
+        IHapticFeedbackService? hapticFeedbackService = null)
     {
         _gameService = gameService ?? throw new ArgumentNullException(nameof(gameService));
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
@@ -134,7 +190,9 @@ public partial class BigNumberViewModel : BaseViewModel
         _analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
         _exerciseCountService = exerciseCountService ?? throw new ArgumentNullException(nameof(exerciseCountService));
         _packAssociationsService = packAssociationsService ?? throw new ArgumentNullException(nameof(packAssociationsService));
+        _userNotificationService = userNotificationService ?? throw new ArgumentNullException(nameof(userNotificationService));
         _interstitialAdManager = interstitialAdManager;
+        _hapticFeedbackService = hapticFeedbackService;
         
         Title = _localizationService.GetString("BigNumber_Title");
         
@@ -157,6 +215,7 @@ public partial class BigNumberViewModel : BaseViewModel
         ShowTimer = settings.ShowTimer;
         FontSizePreference = settings.FontSize;
         ShowAssociations = settings.ShowAssociations;
+        EnableInputVerification = settings.EnableInputVerification;
         
         IsContinuousSelected = !settings.ShowSeparated;
         IsSeparatedSelected = settings.ShowSeparated;
@@ -256,6 +315,37 @@ public partial class BigNumberViewModel : BaseViewModel
         UpdateUIState();
     }
 
+    partial void OnEnableInputVerificationChanged(bool value)
+    {
+        _ = SaveSettingsAsync();
+        UpdateUIState();
+        
+        if (!value)
+        {
+            // Clear input verification state when disabled
+            ClearInputVerificationState();
+        }
+    }
+
+    partial void OnUserInputChanged(string value)
+    {
+        // Format input in real-time
+        FormattedUserInput = FormatNumberInput(value);
+        ShowFormattedInput = !string.IsNullOrEmpty(value);
+        
+        // Update progress
+        var digitsEntered = value?.Where(char.IsDigit).Count() ?? 0;
+        InputProgress = NumberOfDigits > 0 ? (double)digitsEntered / NumberOfDigits : 0;
+        InputProgressText = string.Format(
+            CultureInfo.CurrentCulture,
+            _localizationService.GetString("BigNumber_InputProgress"),
+            digitsEntered,
+            NumberOfDigits);
+        
+        // Update verification button state
+        CanVerifyInput = digitsEntered > 0;
+    }
+
     /// <summary>
     /// Sets the container element reference for accurate size measurement
     /// </summary>
@@ -296,6 +386,7 @@ public partial class BigNumberViewModel : BaseViewModel
         };
 
         _currentGame = _gameService.CreateNewGame(settings);
+        _originalNumber = _currentGame.GeneratedNumber;
         _gameService.StartGame(_currentGame);
         
         CurrentPhase = _currentGame.Phase;
@@ -416,6 +507,9 @@ public partial class BigNumberViewModel : BaseViewModel
         // - During memorizing: only show if ShowTimer setting is enabled
         // - When stopped or recall: ALWAYS show the final time regardless of setting
         IsTimerVisible = (ShowTimer && CurrentPhase == GamePhase.Memorizing) || CurrentPhase == GamePhase.Stopped || CurrentPhase == GamePhase.Recall;
+        
+        // Input verification visibility: show when enabled and in stopped phase
+        IsInputVerificationVisible = EnableInputVerification && CurrentPhase == GamePhase.Stopped;
         
         UpdateDisplayedNumber();
         UpdateAssociationsVisibility();
@@ -744,7 +838,8 @@ public partial class BigNumberViewModel : BaseViewModel
             ShowSeparated = ShowSeparated,
             ShowTimer = ShowTimer,
             FontSize = FontSizePreference,
-            ShowAssociations = ShowAssociations
+            ShowAssociations = ShowAssociations,
+            EnableInputVerification = EnableInputVerification
         };
 
         await _settingsService.SaveSettingsAsync(settings);
@@ -883,10 +978,9 @@ public partial class BigNumberViewModel : BaseViewModel
         {
             if (_memorizationStartTime == default || _recallStartTime == default)
             {
-                await Shell.Current.DisplayAlert(
+                await _userNotificationService.ShowErrorDialogAsync(
                     _localizationService.GetString("Error_Title"), 
-                    "No results to share", 
-                    _localizationService.GetString("Common_OK"));
+                    _localizationService.GetString("Error_NoResultsToShare"));
                 return;
             }
 
@@ -937,10 +1031,9 @@ public partial class BigNumberViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert(
+            await _userNotificationService.ShowErrorDialogAsync(
                 _localizationService.GetString("Error_Title"), 
-                $"Failed to share results: {ex.Message}", 
-                _localizationService.GetString("Common_OK"));
+                $"Failed to share results: {ex.Message}");
 
             // Track share error
             await _analyticsService.TrackEventAsync(AnalyticsEvents.ShareFailed, new Dictionary<string, object>
@@ -948,6 +1041,158 @@ public partial class BigNumberViewModel : BaseViewModel
                 [AnalyticsParameters.ExerciseType] = "BigNumber",
                 ["error"] = ex.Message
             });
+        }
+    }
+
+    // Input Verification Commands
+    [RelayCommand]
+    private void ToggleInputVerification()
+    {
+        EnableInputVerification = !EnableInputVerification;
+    }
+
+    [RelayCommand]
+    private void ClearInput()
+    {
+        UserInput = string.Empty;
+        ShowVerificationResults = false;
+        ShowRetryButton = false;
+    }
+
+    [RelayCommand]
+    private async Task VerifyInput()
+    {
+        if (string.IsNullOrEmpty(UserInput) || string.IsNullOrEmpty(_originalNumber))
+            return;
+
+        try
+        {
+            // Extract digits from user input
+            var userDigits = new string(UserInput.Where(char.IsDigit).ToArray());
+            var originalDigits = new string(_originalNumber.Where(char.IsDigit).ToArray());
+
+            // Calculate accuracy
+            var correctDigits = 0;
+            var minLength = Math.Min(userDigits.Length, originalDigits.Length);
+            
+            for (int i = 0; i < minLength; i++)
+            {
+                if (userDigits[i] == originalDigits[i])
+                    correctDigits++;
+            }
+
+            CorrectDigitsCount = correctDigits;
+            var accuracy = originalDigits.Length > 0 ? (double)correctDigits / originalDigits.Length * 100 : 0;
+            AccuracyPercentageText = $"{accuracy:F1}%";
+
+            // Set colors and icons based on accuracy
+            if (accuracy >= 95)
+            {
+                AccuracyColor = Color.FromArgb("#4CAF50"); // Green
+                AccuracyBorderColor = Color.FromArgb("#4CAF50");
+                AccuracyIcon = "✅";
+                AccuracyTitle = _localizationService.GetString("BigNumber_AccuracyExcellent");
+            }
+            else if (accuracy >= 80)
+            {
+                AccuracyColor = Color.FromArgb("#FF9800"); // Orange
+                AccuracyBorderColor = Color.FromArgb("#FF9800");
+                AccuracyIcon = "👍";
+                AccuracyTitle = _localizationService.GetString("BigNumber_AccuracyGood");
+            }
+            else
+            {
+                AccuracyColor = Color.FromArgb("#F44336"); // Red
+                AccuracyBorderColor = Color.FromArgb("#F44336");
+                AccuracyIcon = "💪";
+                AccuracyTitle = _localizationService.GetString("BigNumber_AccuracyKeepPracticing");
+            }
+
+            ShowVerificationResults = true;
+            ShowRetryButton = accuracy < 100;
+
+            // Haptic feedback
+            if (_hapticFeedbackService?.IsSupported == true)
+            {
+                if (accuracy >= 95)
+                    _hapticFeedbackService.PerformSuccessFeedback();
+                else
+                    _hapticFeedbackService.PerformSelectionFeedback();
+            }
+
+            // Track analytics
+            await _analyticsService.TrackEventAsync("input_verification_completed", new Dictionary<string, object>
+            {
+                ["exercise_type"] = "BigNumber",
+                ["accuracy_percentage"] = accuracy,
+                ["correct_digits"] = correctDigits,
+                ["total_digits"] = originalDigits.Length,
+                ["user_input_length"] = userDigits.Length
+            });
+        }
+        catch (Exception ex)
+        {
+            await _userNotificationService.ShowErrorDialogAsync(
+                _localizationService.GetString("Error_Title"), 
+                $"Failed to verify input: {ex.Message}");
+        }
+    }
+
+    [RelayCommand]
+    private void RetryInput()
+    {
+        UserInput = string.Empty;
+        ShowVerificationResults = false;
+        ShowRetryButton = false;
+    }
+
+    // Helper methods
+    private void ClearInputVerificationState()
+    {
+        UserInput = string.Empty;
+        ShowVerificationResults = false;
+        ShowRetryButton = false;
+        InputProgress = 0;
+        InputProgressText = string.Empty;
+        ShowFormattedInput = false;
+        CanVerifyInput = false;
+    }
+
+    private string FormatNumberInput(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+            return string.Empty;
+
+        // Extract only digits
+        var digits = new string(input.Where(char.IsDigit).ToArray());
+        
+        if (string.IsNullOrEmpty(digits))
+            return string.Empty;
+
+        // Apply same formatting as displayed number
+        if (ShowSeparated)
+        {
+            // Format as pairs: "12 34 56 78"
+            var formatted = new StringBuilder();
+            for (int i = 0; i < digits.Length; i += 2)
+            {
+                if (i > 0) formatted.Append(" ");
+                
+                if (i + 1 < digits.Length)
+                {
+                    formatted.Append(digits[i]).Append(digits[i + 1]);
+                }
+                else
+                {
+                    formatted.Append(digits[i]);
+                }
+            }
+            return formatted.ToString();
+        }
+        else
+        {
+            // Return continuous digits
+            return digits;
         }
     }
 }

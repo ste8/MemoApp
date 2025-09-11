@@ -236,6 +236,45 @@
                                    Margin="{OnIdiom Phone='12,0,0,0', Tablet='16,0,0,0', Desktop='8,0,0,0'}"
                                    InputTransparent="True" />
                         </Grid>
+
+                        <!-- Enable Input Verification -->
+                        <Grid ColumnDefinitions="Auto,*" 
+                              Padding="{OnIdiom Phone='0,8', Tablet='0,10', Desktop='0,6'}">
+                            
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ToggleInputVerificationCommand}" />
+                            </Grid.GestureRecognizers>
+                            
+                            <!-- iOS: Platform-native Switch -->
+                            <Switch Grid.Column="0"
+                                    IsToggled="{Binding EnableInputVerification}"
+                                    OnColor="{StaticResource Primary}"
+                                    VerticalOptions="Center"
+                                    IsVisible="{OnPlatform iOS=True, Default=False}"
+                                    InputTransparent="True" />
+                            
+                            <!-- Android/Windows/macOS: Properly sized CheckBox -->
+                            <CheckBox Grid.Column="0"
+                                      IsChecked="{Binding EnableInputVerification}"
+                                      Color="{StaticResource Primary}"
+                                      VerticalOptions="Center"
+                                      MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
+                                      MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
+                                      IsVisible="{OnPlatform iOS=False, Default=True}"
+                                      InputTransparent="True" />
+                            
+                            <!-- Optimally spaced label with help text -->
+                            <StackLayout Grid.Column="1"
+                                         VerticalOptions="Center"
+                                         Margin="{OnIdiom Phone='12,0,0,0', Tablet='16,0,0,0', Desktop='8,0,0,0'}"
+                                         InputTransparent="True">
+                                <Label Text="{localization:Localize BigNumber_EnableInputVerification}"
+                                       FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}" />
+                                <Label Text="{localization:Localize BigNumber_InputVerificationHelp}"
+                                       FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
+                            </StackLayout>
+                        </Grid>
                     </StackLayout>
                 </Frame>
 
@@ -472,7 +511,167 @@
                             CornerRadius="15"
                             HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}" />
 
-                    <!-- Recall Button -->
+                    <!-- Input Verification Section -->
+                    <StackLayout IsVisible="{Binding IsInputVerificationVisible}"
+                                 Spacing="20">
+                        
+                        <!-- Input Field Section -->
+                        <Border BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray900}}"
+                                Stroke="{StaticResource Primary}"
+                                StrokeThickness="2"
+                                Padding="20"
+                                StrokeShape="RoundRectangle 15">
+                            
+                            <StackLayout Spacing="15">
+                                <!-- Input progress indicator -->
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <ProgressBar Grid.Column="0"
+                                                Progress="{Binding InputProgress}"
+                                                ProgressColor="{StaticResource Primary}"
+                                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                                                HeightRequest="6"
+                                                VerticalOptions="Center" />
+                                    <Label Grid.Column="1"
+                                           Text="{Binding InputProgressText}"
+                                           FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                           Margin="12,0,0,0"
+                                           VerticalOptions="Center" />
+                                </Grid>
+                                
+                                <!-- Number input field -->
+                                <Entry x:Name="NumberInput"
+                                       Text="{Binding UserInput, Mode=TwoWay}"
+                                       Placeholder="{localization:Localize BigNumber_EnterNumber}"
+                                       Keyboard="Numeric"
+                                       FontFamily="Courier"
+                                       FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                       MinimumHeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=50}"
+                                       HorizontalTextAlignment="Center"
+                                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                                       TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                                       MaxLength="{Binding NumberOfDigits}"
+                                       ReturnType="Done" />
+                                
+                                <!-- Formatted display -->
+                                <Label Text="{Binding FormattedUserInput}"
+                                       FontFamily="Courier"
+                                       FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                       HorizontalTextAlignment="Center"
+                                       TextColor="{StaticResource Primary}"
+                                       IsVisible="{Binding ShowFormattedInput}"
+                                       Margin="0,5,0,0" />
+                                
+                                <!-- Action buttons -->
+                                <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="15">
+                                    <Button Grid.Column="0"
+                                            Text="{localization:Localize BigNumber_ClearInput}"
+                                            Command="{Binding ClearInputCommand}"
+                                            BackgroundColor="{StaticResource Secondary}"
+                                            TextColor="White"
+                                            FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                            HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
+                                            CornerRadius="12" />
+                                    
+                                    <Button Grid.Column="2"
+                                            Text="{localization:Localize BigNumber_CheckAnswer}"
+                                            Command="{Binding VerifyInputCommand}"
+                                            BackgroundColor="{StaticResource Success}"
+                                            TextColor="White"
+                                            FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                            FontAttributes="Bold"
+                                            HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
+                                            CornerRadius="12"
+                                            IsEnabled="{Binding CanVerifyInput}" />
+                                </Grid>
+                            </StackLayout>
+                        </Border>
+                        
+                        <!-- Verification Results -->
+                        <Border IsVisible="{Binding ShowVerificationResults}"
+                                BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray900}}"
+                                Stroke="{Binding AccuracyBorderColor}"
+                                StrokeThickness="3"
+                                Padding="20"
+                                StrokeShape="RoundRectangle 15">
+                            
+                            <StackLayout Spacing="20">
+                                <!-- Results header -->
+                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                    <Image Grid.Column="0"
+                                           Source="{Binding AccuracyIcon}"
+                                           WidthRequest="{OnIdiom Phone=32, Tablet=36, Desktop=40}"
+                                           HeightRequest="{OnIdiom Phone=32, Tablet=36, Desktop=40}"
+                                           VerticalOptions="Center" />
+                                    
+                                    <Label Grid.Column="1"
+                                           Text="{Binding AccuracyTitle}"
+                                           FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
+                                           FontAttributes="Bold"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                    
+                                    <Label Grid.Column="2"
+                                           Text="{Binding AccuracyPercentageText}"
+                                           FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                                           FontAttributes="Bold"
+                                           TextColor="{Binding AccuracyColor}"
+                                           VerticalOptions="Center" />
+                                </Grid>
+                                
+                                <!-- Statistics -->
+                                <Grid ColumnDefinitions="*,*,*" RowSpacing="8">
+                                    <StackLayout Grid.Column="0">
+                                        <Label Text="{localization:Localize BigNumber_CorrectDigits}"
+                                               FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                               TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                               HorizontalTextAlignment="Center" />
+                                        <Label Text="{Binding CorrectDigitsCount}"
+                                               FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource Success}"
+                                               HorizontalTextAlignment="Center" />
+                                    </StackLayout>
+                                    
+                                    <StackLayout Grid.Column="1">
+                                        <Label Text="{localization:Localize BigNumber_TotalDigits}"
+                                               FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                               TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                               HorizontalTextAlignment="Center" />
+                                        <Label Text="{Binding NumberOfDigits}"
+                                               FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
+                                               FontAttributes="Bold"
+                                               HorizontalTextAlignment="Center" />
+                                    </StackLayout>
+                                    
+                                    <StackLayout Grid.Column="2">
+                                        <Label Text="{localization:Localize BigNumber_Accuracy}"
+                                               FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                               TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                               HorizontalTextAlignment="Center" />
+                                        <Label Text="{Binding AccuracyPercentageText}"
+                                               FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
+                                               FontAttributes="Bold"
+                                               TextColor="{Binding AccuracyColor}"
+                                               HorizontalTextAlignment="Center" />
+                                    </StackLayout>
+                                </Grid>
+                                
+                                <!-- Try again button -->
+                                <Button Text="{localization:Localize BigNumber_VerifyAgain}"
+                                        Command="{Binding RetryInputCommand}"
+                                        BackgroundColor="{StaticResource Primary}"
+                                        TextColor="White"
+                                        FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                        HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
+                                        CornerRadius="12"
+                                        IsVisible="{Binding ShowRetryButton}"
+                                        Margin="0,10,0,0" />
+                            </StackLayout>
+                        </Border>
+                    </StackLayout>
+                    
+                    <!-- Traditional Recall Button -->
                     <Button Command="{Binding StartRecallCommand}"
                             IsVisible="{Binding IsRecallButtonVisible}"
                             Text="[Recall] Recall"

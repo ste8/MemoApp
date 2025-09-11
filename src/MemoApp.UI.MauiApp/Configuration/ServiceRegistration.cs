@@ -305,9 +305,11 @@ public static class ServiceRegistration
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
             var exerciseCountService = serviceProvider.GetRequiredService<IExerciseCountService>();
             var packAssociationsService = serviceProvider.GetRequiredService<IPackAssociationsService>();
+            var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
             var shareService = serviceProvider.GetRequiredService<IShareService>();
-            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, packAssociationsService, interstitialAdManager);
+            var hapticFeedbackService = serviceProvider.GetRequiredService<IHapticFeedbackService>();
+            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, packAssociationsService, userNotificationService, interstitialAdManager, hapticFeedbackService);
         });
         
         services.AddTransient<TokenDetailViewModel>(serviceProvider =>

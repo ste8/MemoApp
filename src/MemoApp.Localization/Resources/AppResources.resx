@@ -1398,6 +1398,46 @@
     <value>Show</value>
     <comment>Button text to show associations during recall</comment>
   </data>
+  <data name="BigNumber_EnableInputVerification" xml:space="preserve">
+    <value>Enable Input Verification</value>
+    <comment>BigNumber settings toggle for enabling input verification</comment>
+  </data>
+  <data name="BigNumber_InputVerificationHelp" xml:space="preserve">
+    <value>Type what you memorized to verify accuracy</value>
+    <comment>Help text for input verification setting</comment>
+  </data>
+  <data name="BigNumber_EnterNumber" xml:space="preserve">
+    <value>Enter the number you memorized...</value>
+    <comment>Placeholder text for number input field</comment>
+  </data>
+  <data name="BigNumber_CheckAnswer" xml:space="preserve">
+    <value>Check Answer</value>
+    <comment>Button text to verify input against original number</comment>
+  </data>
+  <data name="BigNumber_ClearInput" xml:space="preserve">
+    <value>Clear</value>
+    <comment>Button text to clear input field</comment>
+  </data>
+  <data name="BigNumber_Accuracy" xml:space="preserve">
+    <value>Accuracy</value>
+    <comment>Label for accuracy percentage display</comment>
+  </data>
+  <data name="BigNumber_CorrectDigits" xml:space="preserve">
+    <value>Correct</value>
+    <comment>Label for number of correct digits</comment>
+  </data>
+  <data name="BigNumber_TotalDigits" xml:space="preserve">
+    <value>Total</value>
+    <comment>Label for total number of digits</comment>
+  </data>
+  <data name="BigNumber_InputProgress" xml:space="preserve">
+    <value>{0} of {1} digits entered</value>
+    <comment>Progress indicator for input field</comment>
+  </data>
+  <data name="BigNumber_VerifyAgain" xml:space="preserve">
+    <value>Try Again</value>
+    <comment>Button text to retry input verification</comment>
+  </data>
   <data name="BigNumber_HideAssociations" xml:space="preserve">
     <value>Hide</value>
     <comment>Button text to hide associations during recall</comment>
@@ -2143,5 +2183,17 @@ Download MemoRaise: {AppUrl}
   <data name="Error_NoResultsToShare" xml:space="preserve">
     <value>No results to share</value>
     <comment>Error message when trying to share but no results available</comment>
+  </data>
+  <data name="BigNumber_AccuracyExcellent" xml:space="preserve">
+    <value>Excellent!</value>
+    <comment>Title for excellent accuracy results (95%+)</comment>
+  </data>
+  <data name="BigNumber_AccuracyGood" xml:space="preserve">
+    <value>Good!</value>
+    <comment>Title for good accuracy results (80-94%)</comment>
+  </data>
+  <data name="BigNumber_AccuracyKeepPracticing" xml:space="preserve">
+    <value>Keep practicing!</value>
+    <comment>Title for lower accuracy results (below 80%)</comment>
   </data>
 </root>
