@@ -20,18 +20,19 @@
         <ScrollView Grid.Row="1" Padding="{OnPlatform iOS='20,16,20,20', Android='20,16,20,20', Default='20'}">
             <StackLayout Spacing="{OnIdiom Phone=30, Tablet=35, Desktop=40}">
                 
-                <!-- Welcome Header -->
-                <StackLayout Spacing="15">
+                <!-- Welcome Header - Enhanced -->
+                <StackLayout Spacing="12">
                     <Label Text="{localization:Localize MainPage_Welcome}" 
-                           Style="{StaticResource Headline}"
+                           Style="{StaticResource DisplayMedium}"
                            HorizontalOptions="Center"
-                           Margin="0,0,0,10" />
+                           Margin="0,8,0,4" />
                     
                     <Label Text="{localization:Localize MainPage_WelcomeSubtitle}" 
-                           Style="{StaticResource SubHeadline}"
+                           Style="{StaticResource BodyLarge}"
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
-                           Margin="0,0,0,20" />
+                           Opacity="0.8"
+                           Margin="0,0,0,24" />
                 </StackLayout>
 
                 <!-- Quick Navigation Cards -->
@@ -45,80 +46,157 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <!-- Flash Numbers Card -->
-                    <Frame Grid.Column="0" Grid.Row="0"
-                           BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                           Padding="20"
-                           CornerRadius="12"
-                           HasShadow="True">
+                    <!-- Flash Numbers Card - Enhanced with Gradient -->
+                    <Border Grid.Column="0" Grid.Row="0"
+                            Stroke="Transparent"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 16"
+                            Padding="24"
+                            Margin="0,4">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="{StaticResource PrimaryGradientStart}" Offset="0" />
+                                <GradientStop Color="{StaticResource PrimaryGradientEnd}" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.Shadow>
+                            <Shadow Brush="{StaticResource Primary}" 
+                                    Opacity="0.3" 
+                                    Offset="0,6" 
+                                    Radius="16" />
+                        </Border.Shadow>
                         
-                        <Frame.GestureRecognizers>
+                        <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding NavigateToFlashNumbersCommand}" />
-                        </Frame.GestureRecognizers>
+                        </Border.GestureRecognizers>
 
-                        <StackLayout Spacing="10">
-                            <Label Text="{localization:Localize Tab_FlashNumbers}" 
-                                   Style="{StaticResource SubHeadline}"
+                        <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="12">
+                            <!-- Icon -->
+                            <Label Grid.Row="0"
+                                   Text="{StaticResource Icon_FlashNumbers}"
+                                   FontFamily="{StaticResource IconFont_Solid}"
+                                   FontSize="{OnIdiom Phone=32, Tablet=36, Desktop=40}"
                                    TextColor="White"
+                                   HorizontalOptions="Center"
+                                   Opacity="0.9" />
+                            
+                            <!-- Title -->
+                            <Label Grid.Row="1"
+                                   Text="{localization:Localize Tab_FlashNumbers}" 
+                                   Style="{StaticResource TitleLarge}"
+                                   TextColor="White"
+                                   FontAttributes="Bold"
                                    HorizontalOptions="Center" />
                             
-                            <Label Text="{localization:Localize MainPage_FlashNumbersDescription}" 
+                            <!-- Description -->
+                            <Label Grid.Row="2"
+                                   Text="{localization:Localize MainPage_FlashNumbersDescription}" 
+                                   Style="{StaticResource BodyMedium}"
                                    TextColor="White"
-                                   FontSize="14"
+                                   Opacity="0.9"
                                    HorizontalOptions="Center"
                                    HorizontalTextAlignment="Center"
                                    LineBreakMode="WordWrap" />
-                        </StackLayout>
-                    </Frame>
+                        </Grid>
+                    </Border>
 
-                    <!-- Big Number Card -->
-                    <Frame Grid.Column="{OnIdiom Phone=0, Tablet=1, Desktop=1}" 
-                           Grid.Row="{OnIdiom Phone=1, Tablet=0, Desktop=0}"
-                           BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDark}}"
-                           Padding="20"
-                           CornerRadius="12"
-                           HasShadow="True">
+                    <!-- Big Number Card - Enhanced with Gradient -->
+                    <Border Grid.Column="{OnIdiom Phone=0, Tablet=1, Desktop=1}" 
+                            Grid.Row="{OnIdiom Phone=1, Tablet=0, Desktop=0}"
+                            Stroke="Transparent"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 16"
+                            Padding="24"
+                            Margin="0,4">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="{StaticResource SecondaryGradientStart}" Offset="0" />
+                                <GradientStop Color="{StaticResource SecondaryGradientEnd}" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.Shadow>
+                            <Shadow Brush="{StaticResource Secondary}" 
+                                    Opacity="0.3" 
+                                    Offset="0,6" 
+                                    Radius="16" />
+                        </Border.Shadow>
                         
-                        <Frame.GestureRecognizers>
+                        <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding NavigateToBigNumberCommand}" />
-                        </Frame.GestureRecognizers>
+                        </Border.GestureRecognizers>
 
-                        <StackLayout Spacing="10">
-                            <Label Text="{localization:Localize BigNumber_Title}" 
-                                   Style="{StaticResource SubHeadline}"
+                        <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="12">
+                            <!-- Icon -->
+                            <Label Grid.Row="0"
+                                   Text="{StaticResource Icon_Statistics}"
+                                   FontFamily="{StaticResource IconFont_Solid}"
+                                   FontSize="{OnIdiom Phone=32, Tablet=36, Desktop=40}"
                                    TextColor="White"
+                                   HorizontalOptions="Center"
+                                   Opacity="0.9" />
+                            
+                            <!-- Title -->
+                            <Label Grid.Row="1"
+                                   Text="{localization:Localize BigNumber_Title}" 
+                                   Style="{StaticResource TitleLarge}"
+                                   TextColor="White"
+                                   FontAttributes="Bold"
                                    HorizontalOptions="Center" />
                             
-                            <Label Text="{localization:Localize MainPage_BigNumberDescription}" 
+                            <!-- Description -->
+                            <Label Grid.Row="2"
+                                   Text="{localization:Localize MainPage_BigNumberDescription}" 
+                                   Style="{StaticResource BodyMedium}"
                                    TextColor="White"
-                                   FontSize="14"
+                                   Opacity="0.9"
                                    HorizontalOptions="Center"
                                    HorizontalTextAlignment="Center"
                                    LineBreakMode="WordWrap" />
-                        </StackLayout>
-                    </Frame>
+                        </Grid>
+                    </Border>
                 </Grid>
 
-                <!-- Help Section -->
-                <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
-                       Padding="20"
-                       CornerRadius="12"
-                       HasShadow="True">
+                <!-- Help Section - Enhanced -->
+                <Border BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundColorLight}, Dark={StaticResource CardBackgroundColorDark}}"
+                        Stroke="{AppThemeBinding Light={StaticResource CardStrokeColorLight}, Dark={StaticResource CardStrokeColorDark}}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 16"
+                        Padding="28"
+                        Margin="0,4">
+                    <Border.Shadow>
+                        <Shadow Brush="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Black}}" 
+                                Opacity="0.15" 
+                                Offset="0,4" 
+                                Radius="12" />
+                    </Border.Shadow>
                     
-                    <StackLayout Spacing="15">
-                        <Label Text="{localization:Localize MainPage_GetStarted}" 
-                               Style="{StaticResource SubHeadline}"
-                               HorizontalOptions="Center" />
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="16">
+                        <!-- Icon -->
+                        <Label Grid.Row="0"
+                               Text="{StaticResource Icon_Info}"
+                               FontFamily="{StaticResource IconFont_Solid}"
+                               FontSize="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
+                               TextColor="{StaticResource Tertiary}"
+                               HorizontalOptions="Center"
+                               Opacity="0.8" />
                         
-                        <Button Text="{localization:Localize MainPage_LearnMajorSystem}"
+                        <!-- Title -->
+                        <Label Grid.Row="1"
+                               Text="{localization:Localize MainPage_GetStarted}" 
+                               Style="{StaticResource TitleLarge}"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center" />
+                        
+                        <!-- Action Button -->
+                        <Button Grid.Row="2"
+                                Text="{localization:Localize MainPage_LearnMajorSystem}"
                                 Command="{Binding ShowHelpCommand}"
-                                Style="{StaticResource PrimaryActionButtonStyle}"
-                                BackgroundColor="{StaticResource Primary}"
-                                TextColor="White"
+                                Style="{StaticResource ModernSecondaryButton}"
+                                HorizontalOptions="Center"
                                 AutomationProperties.Name="{localization:Localize Accessibility_HelpButton}"
                                 AutomationProperties.HelpText="{localization:Localize Accessibility_HelpButtonHelp}" />
-                    </StackLayout>
-                </Frame>
+                    </Grid>
+                </Border>
 
             </StackLayout>
         </ScrollView>

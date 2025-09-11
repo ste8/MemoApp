@@ -6,13 +6,16 @@
 
     <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
 
-    <Color x:Key="Primary">#512BD4</Color>
-    <Color x:Key="PrimaryDark">#ac99ea</Color>
-    <Color x:Key="PrimaryDarkText">#242424</Color>
-    <Color x:Key="Secondary">#FF6B35</Color>
-    <Color x:Key="SecondaryDark">#CC5429</Color>
-    <Color x:Key="SecondaryDarkText">#9880e5</Color>
-    <Color x:Key="Tertiary">#2B0B98</Color>
+    <!-- Modernized primary colors for better accessibility and visual appeal -->
+    <Color x:Key="Primary">#6366F1</Color>          <!-- Indigo-500: Modern, accessible indigo -->
+    <Color x:Key="PrimaryDark">#8B5CF6</Color>      <!-- Violet-500: Enhanced for dark mode -->
+    <Color x:Key="PrimaryLight">#A5B4FC</Color>     <!-- Indigo-300: Light variant -->
+    <Color x:Key="PrimaryDarkText">#1E1B4B</Color>  <!-- Indigo-900: Better contrast -->
+    <Color x:Key="Secondary">#F59E0B</Color>        <!-- Amber-500: Warmer, more engaging -->
+    <Color x:Key="SecondaryDark">#F97316</Color>    <!-- Orange-500: Enhanced warmth -->
+    <Color x:Key="SecondaryLight">#FCD34D</Color>   <!-- Amber-300: Light variant -->
+    <Color x:Key="SecondaryDarkText">#7C2D12</Color> <!-- Orange-900: Better contrast -->
+    <Color x:Key="Tertiary">#10B981</Color>         <!-- Emerald-500: Memory/growth theme -->
     
     <!-- App-specific colors -->
     <Color x:Key="Success">#28A745</Color>
@@ -32,17 +35,18 @@
     <Color x:Key="MidnightBlue">#190649</Color>
     <Color x:Key="OffBlack">#1f1f1f</Color>
 
-    <Color x:Key="Gray50">#F9F9F9</Color>
-    <Color x:Key="Gray100">#E1E1E1</Color>
-    <Color x:Key="Gray200">#C8C8C8</Color>
-    <Color x:Key="Gray300">#ACACAC</Color>
-    <Color x:Key="Gray400">#919191</Color>  <!-- ⚠️ Low contrast - avoid for text -->
-    <Color x:Key="Gray500">#6E6E6E</Color>  <!-- Minimum for accessibility -->
-    <Color x:Key="Gray600">#404040</Color>  <!-- Good contrast choice -->
-    <Color x:Key="Gray700">#333333</Color>  <!-- Better contrast for section headers -->
-    <Color x:Key="Gray800">#2D2D2D</Color>
-    <Color x:Key="Gray900">#212121</Color>
-    <Color x:Key="Gray950">#141414</Color>
+    <!-- Enhanced surface colors for better visual hierarchy -->
+    <Color x:Key="Gray50">#FAFAFA</Color>   <!-- Better than pure white -->
+    <Color x:Key="Gray100">#F4F4F5</Color> <!-- Neutral-100: Subtle surface -->
+    <Color x:Key="Gray200">#E4E4E7</Color> <!-- Neutral-200: Enhanced border -->
+    <Color x:Key="Gray300">#D4D4D8</Color> <!-- Neutral-300: Better separation -->
+    <Color x:Key="Gray400">#A1A1AA</Color> <!-- Neutral-400: Improved accessibility -->
+    <Color x:Key="Gray500">#71717A</Color> <!-- Neutral-500: Better text contrast -->
+    <Color x:Key="Gray600">#52525B</Color> <!-- Neutral-600: Strong text -->
+    <Color x:Key="Gray700">#3F3F46</Color> <!-- Neutral-700: Header text -->
+    <Color x:Key="Gray800">#27272A</Color> <!-- Neutral-800: Dark surface -->
+    <Color x:Key="Gray900">#18181B</Color> <!-- Neutral-900: Almost black -->
+    <Color x:Key="Gray950">#09090B</Color> <!-- Neutral-950: True dark -->
     
     <!-- Accessibility-focused colors -->
     <Color x:Key="TextSubtle">#404040</Color>      <!-- Replaces Gray400 for better contrast -->

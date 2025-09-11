@@ -95,19 +95,26 @@
                         </Grid>
                     </Frame>
 
-                    <!-- Current number display with large, responsive typography -->
-                    <Frame BackgroundColor="{StaticResource Primary}"
-                           Padding="{OnIdiom Phone=30, Tablet=40, Desktop=50}"
-                           CornerRadius="20"
-                           HasShadow="True">
+                    <!-- Enhanced Current Number Display with Visual Impact -->
+                    <Border Stroke="Transparent"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 24"
+                            Padding="{OnIdiom Phone=32, Tablet=40, Desktop=48}"
+                            Margin="0,8">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="{StaticResource PrimaryGradientStart}" Offset="0" />
+                                <GradientStop Color="{StaticResource PrimaryGradientEnd}" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.Shadow>
+                            <Shadow Brush="{StaticResource Primary}" 
+                                    Opacity="0.4" 
+                                    Offset="0,8" 
+                                    Radius="20" />
+                        </Border.Shadow>
                         
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
+                        <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="16">
                             
                             <!-- Header with reveal button -->
                             <Grid Grid.Row="0">
@@ -119,70 +126,99 @@
                                 <Label Grid.Column="0"
                                        Text="{localization:Localize FlashNumbers_CurrentNumber}"
                                        TextColor="White"
-                                       FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
+                                       Style="{StaticResource TitleLarge}"
+                                       FontAttributes="Bold"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center"
-                                       FontAttributes="Bold" />
+                                       Opacity="0.95" />
                                 
-                                <!-- Reveal association button -->
-                                <Button Grid.Column="1"
-                                        Command="{Binding ToggleAssociationRevealCommand}"
-                                        Text="{StaticResource Icon_Eye}"
-                                        FontFamily="{StaticResource IconFont_Solid}"
+                                <!-- Enhanced Reveal association button -->
+                                <Border Grid.Column="1"
                                         BackgroundColor="Transparent"
-                                        TextColor="White"
-                                        FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
-                                        WidthRequest="{OnIdiom Phone=48, Tablet=56, Desktop=64}"
-                                        HeightRequest="{OnIdiom Phone=48, Tablet=56, Desktop=64}"
-                                        CornerRadius="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
-                                        BorderWidth="2"
-                                        BorderColor="White"
-                                        Margin="0,0,0,0"
-                                        Opacity="0.9"
-                                        AutomationProperties.Name="{localization:Localize Accessibility_RevealAssociationButton}"
-                                        AutomationProperties.HelpText="{localization:Localize Accessibility_RevealAssociationButtonHelp}">
-                                    <Button.Triggers>
-                                        <DataTrigger TargetType="Button" Binding="{Binding IsAssociationRevealed}" Value="True">
-                                            <Setter Property="Text" Value="{StaticResource Icon_EyeSlash}" />
+                                        Stroke="White"
+                                        StrokeThickness="2"
+                                        StrokeShape="RoundRectangle 28"
+                                        WidthRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
+                                        HeightRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
+                                        Opacity="0.9">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ToggleAssociationRevealCommand}" />
+                                    </Border.GestureRecognizers>
+                                    <Border.Triggers>
+                                        <DataTrigger TargetType="Border" Binding="{Binding IsAssociationRevealed}" Value="True">
+                                            <Setter Property="BackgroundColor" Value="#33FFFFFF" />
                                             <Setter Property="Opacity" Value="1.0" />
                                         </DataTrigger>
-                                    </Button.Triggers>
-                                </Button>
+                                    </Border.Triggers>
+                                    
+                                    <Label Text="{StaticResource Icon_Eye}"
+                                           FontFamily="{StaticResource IconFont_Solid}"
+                                           TextColor="White"
+                                           FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"
+                                           AutomationProperties.Name="{localization:Localize Accessibility_RevealAssociationButton}"
+                                           AutomationProperties.HelpText="{localization:Localize Accessibility_RevealAssociationButtonHelp}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsAssociationRevealed}" Value="True">
+                                                <Setter Property="Text" Value="{StaticResource Icon_EyeSlash}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </Border>
                             </Grid>
 
-                            <!-- Large number display with responsive sizing -->
-                            <Label Grid.Row="1"
-                                   Text="{Binding CurrentNumber}"
-                                   TextColor="White"
-                                   FontSize="{OnIdiom Phone=80, Tablet=120, Desktop=160}"
-                                   FontAttributes="Bold"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"
-                                   HorizontalTextAlignment="Center"
-                                   MinimumHeightRequest="{OnIdiom Phone=120, Tablet=160, Desktop=200}"
-                                   Margin="0,20,0,20"
-                                   AutomationProperties.Name="{localization:Localize Accessibility_CurrentNumber}"
-                                   AutomationProperties.HelpText="{Binding CurrentNumber, StringFormat='Current number to practice: {0}'}" />
+                            <!-- Enhanced Number Display with Visual Elements -->
+                            <Grid Grid.Row="1">
+                                <!-- Subtle background decoration -->
+                                <Ellipse Fill="#22FFFFFF" 
+                                         WidthRequest="{OnIdiom Phone=180, Tablet=240, Desktop=300}" 
+                                         HeightRequest="{OnIdiom Phone=180, Tablet=240, Desktop=300}"
+                                         HorizontalOptions="Center" 
+                                         VerticalOptions="Center"
+                                         Opacity="0.3" />
+                                
+                                <!-- Large number display with enhanced styling -->
+                                <Label Text="{Binding CurrentNumber}"
+                                       TextColor="White"
+                                       FontFamily="OpenSansExtraBold"
+                                       FontSize="{OnIdiom Phone=88, Tablet=128, Desktop=168}"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       HorizontalTextAlignment="Center"
+                                       MinimumHeightRequest="{OnIdiom Phone=140, Tablet=180, Desktop=220}"
+                                       Margin="0,16,0,16"
+                                       AutomationProperties.Name="{localization:Localize Accessibility_CurrentNumber}"
+                                       AutomationProperties.HelpText="{Binding CurrentNumber, StringFormat='Current number to practice: {0}'}" />
+                            </Grid>
 
-                            <!-- Think instruction (hidden when association is revealed) -->
+                            <!-- Enhanced Think instruction (hidden when association is revealed) -->
                             <Label Grid.Row="2"
                                    Text="{localization:Localize FlashNumbers_ThinkInstruction}"
                                    TextColor="White"
-                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   Style="{StaticResource BodyLarge}"
+                                   FontAttributes="Italic"
+                                   Opacity="0.85"
                                    HorizontalOptions="Center"
                                    HorizontalTextAlignment="Center"
-                                   FontAttributes="Italic"
-                                   Opacity="0.95"
                                    IsVisible="{Binding IsAssociationRevealed, Converter={StaticResource InvertedBoolConverter}}" />
 
-                            <!-- Revealed association section -->
-                            <Frame Grid.Row="3"
-                                   BackgroundColor="{StaticResource Gray900}"
-                                   Padding="20"
-                                   CornerRadius="15"
-                                   HasShadow="False"
-                                   Margin="0,10,0,0"
-                                   IsVisible="{Binding IsAssociationRevealed}">
+                            <!-- Enhanced Revealed association section -->
+                            <Border Grid.Row="3"
+                                    BackgroundColor="#1A1A1A"
+                                    Stroke="#33FFFFFF"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 18"
+                                    Padding="24"
+                                    Margin="0,12,0,0"
+                                    IsVisible="{Binding IsAssociationRevealed}">
+                                <Border.Shadow>
+                                    <Shadow Brush="Black" 
+                                            Opacity="0.5" 
+                                            Offset="0,4" 
+                                            Radius="12" />
+                                </Border.Shadow>
                                 
                                 <StackLayout Spacing="15">
                                     <!-- Association content -->
@@ -223,18 +259,17 @@
                                            HorizontalTextAlignment="Center"
                                            IsVisible="{Binding CurrentAssociation, Converter={StaticResource IsNullConverter}}" />
                                 </StackLayout>
-                            </Frame>
+                            </Border>
                         </Grid>
-                    </Frame>
+                    </Border>
 
-                    <!-- Action button with responsive sizing -->
-                    <StackLayout Spacing="8">
+                    <!-- Enhanced Action buttons with responsive sizing -->
+                    <StackLayout Spacing="12">
                         <Button x:Name="NextButton"
                                 Command="{Binding AdvanceToNextCommand}"
                                 Text="Next Number →"
+                                Style="{StaticResource ModernPrimaryButton}"
                                 BackgroundColor="{StaticResource Secondary}"
-                                TextColor="White"
-                                FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                                 FontAttributes="Bold"
                                 CornerRadius="15"
                                 HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
