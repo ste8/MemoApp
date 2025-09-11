@@ -9,7 +9,7 @@
              x:DataType="viewmodels:BigNumberViewModel"
              Title="{Binding Title}">
 
-    <ScrollView Padding="{OnPlatform iOS='20,16,20,20', Android='20,16,20,20', Default='20'}">
+    <ScrollView x:Name="MainScrollView" Padding="{OnPlatform iOS='20,16,20,20', Android='20,16,20,20', Default='20'}">
         <StackLayout Spacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
             
             <!-- Setup Section -->
@@ -588,7 +588,8 @@
                         </Border>
                         
                         <!-- Verification Results -->
-                        <Border IsVisible="{Binding ShowVerificationResults}"
+                        <Border x:Name="VerificationResultsSection"
+                                IsVisible="{Binding ShowVerificationResults}"
                                 BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray900}}"
                                 Stroke="{Binding AccuracyBorderColor}"
                                 StrokeThickness="3"

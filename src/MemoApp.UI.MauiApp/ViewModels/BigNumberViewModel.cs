@@ -33,6 +33,10 @@ public partial class BigNumberViewModel : BaseViewModel
     private readonly IHapticFeedbackService? _hapticFeedbackService;
     private readonly IUserNotificationService _userNotificationService;
     private IDispatcherTimer? _timer;
+    
+    // Event for auto-scrolling to verification results
+    public event EventHandler? ScrollToVerificationResults;
+    
     private BigNumberGame _currentGame = new();
     private string _originalNumber = string.Empty;
     
@@ -1130,6 +1134,9 @@ public partial class BigNumberViewModel : BaseViewModel
 
             ShowVerificationResults = true;
             ShowRetryButton = accuracy < 100;
+            
+            // Trigger auto-scroll to bring results into view
+            ScrollToVerificationResults?.Invoke(this, EventArgs.Empty);
 
             // Haptic feedback
             if (_hapticFeedbackService?.IsSupported == true)
