@@ -36,6 +36,7 @@ public partial class BigNumberViewModel : BaseViewModel
     
     // Event for auto-scrolling to verification results
     public event EventHandler? ScrollToVerificationResults;
+    public event EventHandler? FocusUserInputRequested;
     
     private BigNumberGame _currentGame = new();
     private string _originalNumber = string.Empty;
@@ -517,6 +518,19 @@ public partial class BigNumberViewModel : BaseViewModel
         // Stop timer
         _timer?.Stop();
         UpdateTimerDisplay();
+        
+        // In guided mode, automatically activate input verification after memorization
+        if (IsGuidedModeSelected && CurrentPhase == GamePhase.Stopped)
+        {
+            // Automatically show input verification panel for guided practice
+            IsOnDemandVerificationActive = true;
+            IsVerificationPanelManuallyClosed = false;
+            UserInput = string.Empty; // Clear any previous input
+            UpdateUIState();
+            
+            // Request focus on the input field (this will be handled by the view)
+            RequestUserInputFocus();
+        }
     }
 
     [RelayCommand]
@@ -616,8 +630,12 @@ public partial class BigNumberViewModel : BaseViewModel
         // Input verification visibility: show when (enabled OR on-demand active) AND NOT manually closed, and in stopped phase
         IsInputVerificationVisible = (EnableInputVerification || IsOnDemandVerificationActive) && !IsVerificationPanelManuallyClosed && CurrentPhase == GamePhase.Stopped;
         
-        // On-demand verify button: show when verification is not visible but could be activated, in stopped phase
-        ShowOnDemandVerifyButton = ((EnableInputVerification && IsVerificationPanelManuallyClosed) || (!EnableInputVerification && !IsOnDemandVerificationActive)) && CurrentPhase == GamePhase.Stopped;
+        // On-demand verify button: Never show in guided mode - input should be automatic
+        // Only show in traditional mode when verification is not visible but could be activated
+        ShowOnDemandVerifyButton = IsTraditionalModeSelected && 
+            ((EnableInputVerification && IsVerificationPanelManuallyClosed) || 
+             (!EnableInputVerification && !IsOnDemandVerificationActive)) && 
+            CurrentPhase == GamePhase.Stopped;
         
         UpdateDisplayedNumber();
         UpdateAssociationsVisibility();
@@ -1017,6 +1035,13 @@ public partial class BigNumberViewModel : BaseViewModel
             _allAssociations.Clear();
         }
     }
+    
+    private void RequestUserInputFocus()
+    {
+        // Raise event to request focus on the user input field
+        // The view will handle this to set focus on the Entry control
+        FocusUserInputRequested?.Invoke(this, EventArgs.Empty);
+    }
 
 
     private async Task LoadNumberAssociationsAsync()
@@ -1329,8 +1354,12 @@ public partial class BigNumberViewModel : BaseViewModel
     {
         IsTraditionalModeSelected = true;
         IsGuidedModeSelected = false;
+        // Reset verification flags when switching to traditional mode
+        IsOnDemandVerificationActive = false;
+        IsVerificationPanelManuallyClosed = false;
         UpdateModeColors();
         UpdateContextActions();
+        UpdateUIState(); // Ensure UI state is properly updated
     }
     
     [RelayCommand]
@@ -1339,8 +1368,11 @@ public partial class BigNumberViewModel : BaseViewModel
         IsTraditionalModeSelected = false;
         IsGuidedModeSelected = true;
         EnableInputVerification = true; // Guided mode always uses input verification
+        IsOnDemandVerificationActive = false; // Reset this flag when switching modes
+        IsVerificationPanelManuallyClosed = false; // Ensure panel isn't marked as closed
         UpdateModeColors();
         UpdateContextActions();
+        UpdateUIState(); // Ensure UI state is properly updated
     }
     
     [RelayCommand]
@@ -1404,9 +1436,11 @@ public partial class BigNumberViewModel : BaseViewModel
                 {
                     StartNewGame();
                 }
-                else if (IsGuidedModeSelected && !IsInputVerificationVisible)
+                else if (IsGuidedModeSelected)
                 {
-                    StartOnDemandInputVerification();
+                    // In guided mode, secondary action should just start a new game
+                    // Input verification should already be visible automatically
+                    StartNewGame();
                 }
                 break;
             case GamePhase.Recall:
@@ -1497,13 +1531,15 @@ public partial class BigNumberViewModel : BaseViewModel
                 }
                 else if (IsGuidedModeSelected)
                 {
-                    PrimaryActionText = _localizationService.GetString("BigNumber_VerifyInput");
-                    PrimaryActionBackgroundColor = primaryColor;
-                    SecondaryActionText = _localizationService.GetString("BigNumber_TraditionalRecall");
-                    SecondaryActionBackgroundColor = successColor;
+                    // In guided mode, only show New Game button - input panel should already be visible
+                    PrimaryActionText = _localizationService.GetString("BigNumber_NewGame");
+                    PrimaryActionBackgroundColor = Colors.Gray;
+                    SecondaryActionText = string.Empty;
+                    SecondaryActionBackgroundColor = Colors.Transparent;
                     ShowPrimaryAction = true;
-                    ShowSecondaryAction = true;
-                    IsGuidedPracticeInputVisible = false;
+                    ShowSecondaryAction = false; // No secondary action in guided mode stopped state
+                    // The input panel should be automatically visible via UpdateUIState
+                    IsGuidedPracticeInputVisible = IsInputVerificationVisible;
                 }
                 ShowSessionActions = false;
                 break;

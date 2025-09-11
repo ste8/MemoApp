@@ -12,6 +12,9 @@ public partial class BigNumberPage : ContentPage
         // Subscribe to auto-scroll events from ViewModel
         viewModel.ScrollToVerificationResults += OnScrollToVerificationResults;
         
+        // Subscribe to focus request events from ViewModel
+        viewModel.FocusUserInputRequested += OnFocusUserInputRequested;
+        
         // Subscribe to property changes to reset animation state when results are hidden
         viewModel.PropertyChanged += OnViewModelPropertyChanged;
     }
@@ -133,6 +136,25 @@ public partial class BigNumberPage : ContentPage
         VerificationResultsSection.Scale = 0.9;
         VerificationResultsSection.TranslationY = -20;
     }
+    
+    private async void OnFocusUserInputRequested(object? sender, EventArgs e)
+    {
+        try
+        {
+            // Small delay to ensure the UI has updated and the input field is visible
+            await Task.Delay(100);
+            
+            // Focus on the number input field
+            if (NumberInput != null && NumberInput.IsVisible)
+            {
+                NumberInput.Focus();
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Focus input error: {ex.Message}");
+        }
+    }
 
     protected override async void OnAppearing()
     {
@@ -155,6 +177,7 @@ public partial class BigNumberPage : ContentPage
         if (BindingContext is BigNumberViewModel viewModel)
         {
             viewModel.ScrollToVerificationResults -= OnScrollToVerificationResults;
+            viewModel.FocusUserInputRequested -= OnFocusUserInputRequested;
             viewModel.PropertyChanged -= OnViewModelPropertyChanged;
         }
     }
