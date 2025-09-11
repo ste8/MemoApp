@@ -124,6 +124,12 @@ public partial class BigNumberViewModel : BaseViewModel
     private bool isInputVerificationVisible = false;
 
     [ObservableProperty]
+    private bool showOnDemandVerifyButton = false;
+
+    [ObservableProperty]
+    private bool isOnDemandVerificationActive = false;
+
+    [ObservableProperty]
     private string userInput = string.Empty;
 
     [ObservableProperty]
@@ -508,8 +514,11 @@ public partial class BigNumberViewModel : BaseViewModel
         // - When stopped or recall: ALWAYS show the final time regardless of setting
         IsTimerVisible = (ShowTimer && CurrentPhase == GamePhase.Memorizing) || CurrentPhase == GamePhase.Stopped || CurrentPhase == GamePhase.Recall;
         
-        // Input verification visibility: show when enabled and in stopped phase
-        IsInputVerificationVisible = EnableInputVerification && CurrentPhase == GamePhase.Stopped;
+        // Input verification visibility: show when enabled OR on-demand active, and in stopped phase
+        IsInputVerificationVisible = (EnableInputVerification || IsOnDemandVerificationActive) && CurrentPhase == GamePhase.Stopped;
+        
+        // On-demand verify button: show when NOT pre-enabled, in stopped phase, and not already active
+        ShowOnDemandVerifyButton = !EnableInputVerification && CurrentPhase == GamePhase.Stopped && !IsOnDemandVerificationActive;
         
         UpdateDisplayedNumber();
         UpdateAssociationsVisibility();
@@ -1052,6 +1061,13 @@ public partial class BigNumberViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    private void StartOnDemandInputVerification()
+    {
+        IsOnDemandVerificationActive = true;
+        UpdateUIState(); // This will hide the on-demand button and show input verification interface
+    }
+
+    [RelayCommand]
     private void ClearInput()
     {
         UserInput = string.Empty;
@@ -1156,6 +1172,7 @@ public partial class BigNumberViewModel : BaseViewModel
         InputProgressText = string.Empty;
         ShowFormattedInput = false;
         CanVerifyInput = false;
+        IsOnDemandVerificationActive = false;
     }
 
     private string FormatNumberInput(string input)

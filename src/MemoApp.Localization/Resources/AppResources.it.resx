@@ -2091,4 +2091,8 @@ Scarica MemoRaise: {AppUrl}
     <value>Continua a praticare!</value>
     <comment>Title for lower accuracy results (below 80%)</comment>
   </data>
+  <data name="BigNumber_VerifyInput" xml:space="preserve">
+    <value>Verifica Input</value>
+    <comment>Button to start on-demand input verification</comment>
+  </data>
 </root>

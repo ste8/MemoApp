@@ -682,6 +682,18 @@
                             CornerRadius="15"
                             HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}" />
 
+                    <!-- On-demand Input Verification Button -->
+                    <Button Command="{Binding StartOnDemandInputVerificationCommand}"
+                            IsVisible="{Binding ShowOnDemandVerifyButton}"
+                            Text="{localization:Localize BigNumber_VerifyInput}"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White"
+                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                            FontAttributes="Bold"
+                            CornerRadius="15"
+                            HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
+                            Margin="0,10,0,0" />
+
                     <!-- Action buttons -->
                     <Grid ColumnDefinitions="*,*" ColumnSpacing="15" Margin="20,10">
                         <Button Grid.Column="0"
