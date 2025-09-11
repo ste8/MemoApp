@@ -590,6 +590,9 @@
                         <!-- Verification Results -->
                         <Border x:Name="VerificationResultsSection"
                                 IsVisible="{Binding ShowVerificationResults}"
+                                Opacity="0"
+                                Scale="0.9"
+                                TranslationY="-20"
                                 BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray900}}"
                                 Stroke="{Binding AccuracyBorderColor}"
                                 StrokeThickness="3"

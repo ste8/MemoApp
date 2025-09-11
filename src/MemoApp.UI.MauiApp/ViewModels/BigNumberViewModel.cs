@@ -167,6 +167,9 @@ public partial class BigNumberViewModel : BaseViewModel
     private string accuracyPercentageText = string.Empty;
 
     [ObservableProperty]
+    private double accuracyPercentage = 0;
+
+    [ObservableProperty]
     private Color accuracyColor = Colors.Black;
 
     [ObservableProperty]
@@ -1107,6 +1110,7 @@ public partial class BigNumberViewModel : BaseViewModel
 
             CorrectDigitsCount = correctDigits;
             var accuracy = originalDigits.Length > 0 ? (double)correctDigits / originalDigits.Length * 100 : 0;
+            AccuracyPercentage = accuracy;
             AccuracyPercentageText = $"{accuracy:F1}%";
 
             // Set colors and icons based on accuracy
@@ -1193,6 +1197,8 @@ public partial class BigNumberViewModel : BaseViewModel
         ShowFormattedInput = false;
         CanVerifyInput = false;
         IsOnDemandVerificationActive = false;
+        AccuracyPercentage = 0;
+        AccuracyPercentageText = string.Empty;
     }
 
 

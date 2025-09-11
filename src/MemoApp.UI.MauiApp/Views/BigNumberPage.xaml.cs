@@ -11,17 +11,26 @@ public partial class BigNumberPage : ContentPage
         
         // Subscribe to auto-scroll events from ViewModel
         viewModel.ScrollToVerificationResults += OnScrollToVerificationResults;
+        
+        // Subscribe to property changes to reset animation state when results are hidden
+        viewModel.PropertyChanged += OnViewModelPropertyChanged;
     }
     
     private async void OnScrollToVerificationResults(object? sender, EventArgs e)
     {
         try
         {
-            // Wait a brief moment for the results section to become visible
-            await Task.Delay(100);
+            // Start entrance animation
+            await AnimateResultsEntrance();
             
-            // Auto-scroll to bring verification results into view
+            // Auto-scroll to bring verification results into view (after animation starts)
             await MainScrollView.ScrollToAsync(VerificationResultsSection, ScrollToPosition.Start, true);
+            
+            // Add celebration animation for perfect scores (100%)
+            if (sender is BigNumberViewModel viewModel && viewModel.AccuracyPercentage == 100.0)
+            {
+                await AnimatePerfectScoreCelebration();
+            }
             
             // Add haptic feedback on mobile platforms
 #if ANDROID || IOS
@@ -43,6 +52,86 @@ public partial class BigNumberPage : ContentPage
             // Log error but don't crash the app
             System.Diagnostics.Debug.WriteLine($"Auto-scroll error: {ex.Message}");
         }
+    }
+    
+    private async Task AnimateResultsEntrance()
+    {
+        // Reset to initial animation state
+        VerificationResultsSection.Opacity = 0;
+        VerificationResultsSection.Scale = 0.9;
+        VerificationResultsSection.TranslationY = -20;
+        
+        // Entrance animation sequence
+        var fadeIn = VerificationResultsSection.FadeTo(1, 400, Easing.CubicOut);
+        var scaleUp = VerificationResultsSection.ScaleTo(1.0, 400, Easing.CubicOut);
+        var slideUp = VerificationResultsSection.TranslateTo(0, 0, 400, Easing.CubicOut);
+        
+        // Run animations simultaneously
+        await Task.WhenAll(fadeIn, scaleUp, slideUp);
+        
+        // Add subtle pulse highlight for attention
+        await AnimatePulseHighlight();
+    }
+    
+    private async Task AnimatePulseHighlight()
+    {
+        // Brief scale pulse to draw attention
+        await VerificationResultsSection.ScaleTo(1.02, 200, Easing.CubicOut);
+        await VerificationResultsSection.ScaleTo(1.0, 200, Easing.CubicIn);
+    }
+    
+    private async Task AnimatePerfectScoreCelebration()
+    {
+        // Enhanced celebration for 100% accuracy
+        try
+        {
+            // Double bounce celebration
+            await VerificationResultsSection.ScaleTo(1.08, 150, Easing.CubicOut);
+            await VerificationResultsSection.ScaleTo(0.98, 150, Easing.CubicIn);
+            await VerificationResultsSection.ScaleTo(1.05, 150, Easing.CubicOut);
+            await VerificationResultsSection.ScaleTo(1.0, 150, Easing.CubicIn);
+            
+            // Enhanced haptic feedback for perfect score
+#if ANDROID || IOS
+            if (DeviceInfo.Platform == DevicePlatform.Android || DeviceInfo.Platform == DevicePlatform.iOS)
+            {
+                try 
+                {
+                    // Double haptic pulse for celebration
+                    HapticFeedback.Default.Perform(HapticFeedbackType.Click);
+                    await Task.Delay(100);
+                    HapticFeedback.Default.Perform(HapticFeedbackType.Click);
+                }
+                catch 
+                {
+                    // Haptic feedback not available, continue without it
+                }
+            }
+#endif
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Celebration animation error: {ex.Message}");
+        }
+    }
+    
+    private void OnViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        // Reset animation state when results become hidden
+        if (e.PropertyName == nameof(BigNumberViewModel.ShowVerificationResults) && 
+            sender is BigNumberViewModel viewModel && 
+            !viewModel.ShowVerificationResults)
+        {
+            ResetResultsAnimationState();
+        }
+    }
+    
+    private void ResetResultsAnimationState()
+    {
+        // Reset to initial animation state for next time
+        VerificationResultsSection.Opacity = 0;
+        VerificationResultsSection.Scale = 0.9;
+        VerificationResultsSection.TranslationY = -20;
     }
 
     protected override async void OnAppearing()
@@ -66,6 +155,7 @@ public partial class BigNumberPage : ContentPage
         if (BindingContext is BigNumberViewModel viewModel)
         {
             viewModel.ScrollToVerificationResults -= OnScrollToVerificationResults;
+            viewModel.PropertyChanged -= OnViewModelPropertyChanged;
         }
     }
 }
