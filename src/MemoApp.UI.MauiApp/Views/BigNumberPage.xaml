@@ -1000,6 +1000,7 @@
                                             BackgroundColor="Transparent"
                                             HorizontalScrollBarVisibility="Never"
                                             ItemSizingStrategy="MeasureAllItems"
+                                            Scrolled="OnOriginalNumberScrolled"
                                             SemanticProperties.Description="{localization:Localize Accessibility_ComparisonArea}"
                                             SemanticProperties.Hint="{localization:Localize Accessibility_ScrollComparisonHint}">
                                 <CollectionView.ItemsLayout>
@@ -1043,7 +1044,8 @@
                                             HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
                                             BackgroundColor="Transparent"
                                             HorizontalScrollBarVisibility="Default"
-                                            ItemSizingStrategy="MeasureAllItems">
+                                            ItemSizingStrategy="MeasureAllItems"
+                                            Scrolled="OnUserAnswerScrolled">
                                 <CollectionView.ItemsLayout>
                                     <LinearItemsLayout Orientation="Horizontal" 
                                                      ItemSpacing="4"
