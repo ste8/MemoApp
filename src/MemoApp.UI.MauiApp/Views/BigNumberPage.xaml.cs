@@ -164,6 +164,30 @@ public partial class BigNumberPage : ContentPage
         }
     }
     
+    /// <summary>
+    /// Gets the total item width including margins and spacing to match XAML layout
+    /// This must match the calculation in BigNumberViewModel.GetTotalItemWidth()
+    /// </summary>
+    private double GetTotalItemWidth()
+    {
+        // Base width from XAML OnIdiom values
+        double baseWidth;
+        if (DeviceInfo.Idiom == DeviceIdiom.Phone)
+            baseWidth = 40.0;
+        else if (DeviceInfo.Idiom == DeviceIdiom.Tablet)
+            baseWidth = 50.0;
+        else if (DeviceInfo.Idiom == DeviceIdiom.Desktop)
+            baseWidth = 60.0;
+        else
+            baseWidth = 40.0;
+        
+        // XAML: Margin="2" (2px on all sides) + Spacing="4"
+        const double margin = 2.0 * 2; // Left + Right margins
+        const double spacing = 4.0;    // Spacing between items
+        
+        return baseWidth + margin + spacing;
+    }
+
     private async void OnScrollToPositionRequested(object? sender, int position)
     {
         try
@@ -171,21 +195,8 @@ public partial class BigNumberPage : ContentPage
             // Temporarily disable synchronization to prevent interference with programmatic scrolling
             _isScrollSynchronizing = true;
             
-            // Calculate pixel offset based on position index
-            double itemWidth;
-            if (DeviceInfo.Idiom == DeviceIdiom.Phone)
-                itemWidth = 40.0;
-            else if (DeviceInfo.Idiom == DeviceIdiom.Tablet)
-                itemWidth = 50.0;
-            else if (DeviceInfo.Idiom == DeviceIdiom.Desktop)
-                itemWidth = 60.0;
-            else
-                itemWidth = 44.0; // Default fallback
-            
-            // Add margins (2px on each side) and spacing (4px between items)
-            const double itemMargin = 4.0; // 2px margin on each side
-            const double itemSpacing = 4.0;
-            double totalItemWidth = itemWidth + itemMargin + itemSpacing;
+            // Use unified width calculation to match ViewModel position tracking
+            double totalItemWidth = GetTotalItemWidth();
             
             // Calculate target pixel position
             double targetScrollX = position * totalItemWidth;

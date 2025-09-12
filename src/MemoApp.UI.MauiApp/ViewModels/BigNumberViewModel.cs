@@ -1819,6 +1819,45 @@ public partial class BigNumberViewModel : BaseViewModel
     }
     
     /// <summary>
+    /// Gets the total item width including margins and spacing to match XAML layout
+    /// This ensures consistent calculations between position tracking and scroll navigation
+    /// </summary>
+    private double GetTotalItemWidth()
+    {
+        // Base width from XAML OnIdiom values
+        double baseWidth;
+        if (DeviceInfo.Idiom == DeviceIdiom.Phone)
+            baseWidth = 40.0;
+        else if (DeviceInfo.Idiom == DeviceIdiom.Tablet)
+            baseWidth = 50.0;
+        else if (DeviceInfo.Idiom == DeviceIdiom.Desktop)
+            baseWidth = 60.0;
+        else
+            baseWidth = 40.0;
+        
+        // XAML: Margin="2" (2px on all sides) + Spacing="4"
+        const double margin = 2.0 * 2; // Left + Right margins
+        const double spacing = 4.0;    // Spacing between items
+        
+        return baseWidth + margin + spacing;
+    }
+    
+    /// <summary>
+    /// Gets the approximate number of tiles visible per screen based on device type
+    /// </summary>
+    private int GetTilesPerScreen()
+    {
+        if (DeviceInfo.Idiom == DeviceIdiom.Phone)
+            return 8;
+        else if (DeviceInfo.Idiom == DeviceIdiom.Tablet)
+            return 12;
+        else if (DeviceInfo.Idiom == DeviceIdiom.Desktop)
+            return 15;
+        else
+            return 10;
+    }
+    
+    /// <summary>
     /// Updates the dynamic position indicator based on current scroll position
     /// Called in real-time during scroll events
     /// </summary>
@@ -1828,27 +1867,9 @@ public partial class BigNumberViewModel : BaseViewModel
         
         var totalDigits = _comparisonResult.DigitResults.Count;
         
-        // Calculate tile width based on device
-        double itemWidth;
-        if (DeviceInfo.Idiom == DeviceIdiom.Phone)
-            itemWidth = 44.0;   // 40px tile + 4px spacing
-        else if (DeviceInfo.Idiom == DeviceIdiom.Tablet)
-            itemWidth = 54.0;  // 50px tile + 4px spacing
-        else if (DeviceInfo.Idiom == DeviceIdiom.Desktop)
-            itemWidth = 64.0; // 60px tile + 4px spacing
-        else
-            itemWidth = 48.0;
-        
-        // Calculate tiles per screen
-        int tilesPerScreen;
-        if (DeviceInfo.Idiom == DeviceIdiom.Phone)
-            tilesPerScreen = 8;
-        else if (DeviceInfo.Idiom == DeviceIdiom.Tablet)
-            tilesPerScreen = 12;
-        else if (DeviceInfo.Idiom == DeviceIdiom.Desktop)
-            tilesPerScreen = 15;
-        else
-            tilesPerScreen = 10;
+        // Use unified width calculation to match scroll navigation
+        double itemWidth = GetTotalItemWidth();
+        int tilesPerScreen = GetTilesPerScreen();
         
         // Calculate current visible range
         int startPosition = Math.Max(1, (int)(scrollX / itemWidth) + 1);
