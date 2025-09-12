@@ -829,7 +829,7 @@
                                 Padding="16,8"
                                 StrokeShape="RoundRectangle 6"
                                 Margin="0,0,0,8">
-                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16">
                                 <!-- Dynamic Position Indicator -->
                                 <Label Grid.Column="0"
                                        Text="{Binding DynamicPositionText}"
@@ -840,14 +840,9 @@
                                        SemanticProperties.Description="{localization:Localize Accessibility_DynamicPositionDescription}"
                                        SemanticProperties.Hint="{localization:Localize Accessibility_ScrollToViewMore}" />
                                 
-                                <!-- Progress Indicator Bar -->
-                                <ProgressBar Grid.Column="1"
-                                             Progress="{Binding ScrollProgress}"
-                                             ProgressColor="{StaticResource Primary}"
-                                             BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}"
-                                             HeightRequest="3"
-                                             VerticalOptions="Center"
-                                             Margin="8,0" />
+                                <!-- Spacer for better layout -->
+                                <BoxView Grid.Column="1" 
+                                         IsVisible="False" />
                                 
                                 <!-- Accuracy Summary -->
                                 <Label Grid.Column="2"
@@ -855,6 +850,7 @@
                                        FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
                                        FontAttributes="Bold"
                                        VerticalOptions="Center"
+                                       HorizontalOptions="End"
                                        TextColor="{Binding AccuracyColor}" />
                             </Grid>
                         </Border>

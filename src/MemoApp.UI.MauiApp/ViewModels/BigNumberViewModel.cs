@@ -326,9 +326,6 @@ public partial class BigNumberViewModel : BaseViewModel
     [ObservableProperty]
     private string dynamicPositionText = string.Empty;
     
-    [ObservableProperty]
-    private double scrollProgress = 0.0;
-    
     private NumberComparisonResult? _comparisonResult;
     private int _currentScrollPosition = 0;
     private const int DIGITS_PER_CHUNK = 20;
@@ -1881,17 +1878,6 @@ public partial class BigNumberViewModel : BaseViewModel
             startPosition,
             endPosition,
             totalDigits);
-        
-        // Update progress bar (0.0 to 1.0)
-        if (totalDigits <= tilesPerScreen)
-        {
-            ScrollProgress = 1.0;
-        }
-        else
-        {
-            double maxScroll = (totalDigits - tilesPerScreen) * itemWidth;
-            ScrollProgress = Math.Min(1.0, Math.Max(0.0, scrollX / maxScroll));
-        }
     }
 
     /// <summary>
