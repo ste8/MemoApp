@@ -1644,16 +1644,7 @@ public partial class BigNumberViewModel : BaseViewModel
         }
     }
 
-    [RelayCommand]
-    private void ToggleDigitComparison()
-    {
-        IsDigitComparisonExpanded = !IsDigitComparisonExpanded;
-        
-        // Update toggle button text
-        ComparisonToggleText = IsDigitComparisonExpanded
-            ? _localizationService.GetString("BigNumber_HideComparison")
-            : _localizationService.GetString("BigNumber_ShowComparison");
-    }
+    // Toggle command removed - comparison is always visible after verification
 
     /// <summary>
     /// Generates and displays the Wordle-style comparison between original number and user's answer
@@ -1690,10 +1681,10 @@ public partial class BigNumberViewModel : BaseViewModel
                 UserAnswerTiles.Add(userTile);
             }
 
-            // Show the comparison section and initialize toggle text
+            // Show the comparison section immediately when verification happens
             ShowDigitComparison = true;
-            ComparisonToggleText = _localizationService.GetString("BigNumber_ShowComparison");
-            IsDigitComparisonExpanded = false; // Start collapsed by default
+            IsDigitComparisonExpanded = true; // Always show expanded
+            ComparisonToggleText = string.Empty; // No toggle needed anymore
 
         }
         catch (Exception ex)
@@ -1712,8 +1703,7 @@ public partial class BigNumberViewModel : BaseViewModel
         OriginalNumberTiles.Clear();
         UserAnswerTiles.Clear();
         ShowDigitComparison = false;
-        IsDigitComparisonExpanded = false;
-        ComparisonToggleText = string.Empty;
+        IsDigitComparisonExpanded = true; // Always expanded when shown
         _comparisonResult = null;
     }
 }
