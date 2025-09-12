@@ -1452,24 +1452,41 @@
   
   <!-- New BigNumber UI Architecture Resources -->
   <data name="BigNumber_ChooseMode" xml:space="preserve">
-    <value>Scegli la Modalità di Allenamento</value>
-    <comment>Header for mode selection tabs</comment>
+    <value>Come vuoi verificare la tua memoria?</value>
+    <comment>Header for verification mode selection</comment>
   </data>
+  <data name="BigNumber_ManualVerification" xml:space="preserve">
+    <value>Verifica Manuale</value>
+    <comment>Manual verification mode where user checks their own recall</comment>
+  </data>
+  <data name="BigNumber_ManualVerificationDescription" xml:space="preserve">
+    <value>Rivela il numero per controllare da solo la memoria</value>
+    <comment>Description of manual verification mode</comment>
+  </data>
+  <data name="BigNumber_AppVerification" xml:space="preserve">
+    <value>Verifica App</value>
+    <comment>App verification mode where app scores user input</comment>
+  </data>
+  <data name="BigNumber_AppVerificationDescription" xml:space="preserve">
+    <value>Digita la risposta per un feedback immediato</value>
+    <comment>Description of app verification mode</comment>
+  </data>
+  <!-- Legacy keys for backward compatibility - will be removed in future -->
   <data name="BigNumber_TraditionalMode" xml:space="preserve">
-    <value>Tradizionale</value>
-    <comment>Traditional mode tab title</comment>
+    <value>Verifica Manuale</value>
+    <comment>DEPRECATED: Use BigNumber_ManualVerification instead</comment>
   </data>
   <data name="BigNumber_TraditionalModeDescription" xml:space="preserve">
-    <value>Auto-verifica il tuo richiamo</value>
-    <comment>Traditional mode description</comment>
+    <value>Rivela il numero per controllare da solo la memoria</value>
+    <comment>DEPRECATED: Use BigNumber_ManualVerificationDescription instead</comment>
   </data>
   <data name="BigNumber_GuidedMode" xml:space="preserve">
-    <value>Pratica Guidata</value>
-    <comment>Guided mode tab title</comment>
+    <value>Verifica App</value>
+    <comment>DEPRECATED: Use BigNumber_AppVerification instead</comment>
   </data>
   <data name="BigNumber_GuidedModeDescription" xml:space="preserve">
-    <value>Verifica guidata dall'app</value>
-    <comment>Guided mode description</comment>
+    <value>Digita la risposta per un feedback immediato</value>
+    <comment>DEPRECATED: Use BigNumber_AppVerificationDescription instead</comment>
   </data>
   <data name="BigNumber_EssentialSettings" xml:space="preserve">
     <value>Impostazioni Essenziali</value>

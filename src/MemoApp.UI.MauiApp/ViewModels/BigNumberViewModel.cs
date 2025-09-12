@@ -186,34 +186,48 @@ public partial class BigNumberViewModel : BaseViewModel
     
     // Mode Selection Properties
     [ObservableProperty]
-    private bool isTraditionalModeSelected = true;
+    private bool isManualVerificationSelected = true;
     
     [ObservableProperty]
-    private bool isGuidedModeSelected = false;
+    private bool isAppVerificationSelected = false;
+    
+    // Legacy properties for backward compatibility
+    public bool IsTraditionalModeSelected => IsManualVerificationSelected;
+    public bool IsGuidedModeSelected => IsAppVerificationSelected;
     
     [ObservableProperty]
-    private Color traditionalModeBackgroundColor = Colors.Transparent;
+    private Color manualVerificationBackgroundColor = Colors.Transparent;
     
     [ObservableProperty]
-    private Color traditionalModeBorderColor = Colors.Gray;
+    private Color manualVerificationBorderColor = Colors.Gray;
     
     [ObservableProperty]
-    private Color traditionalModeTextColor = Colors.Black;
+    private Color manualVerificationTextColor = Colors.Black;
     
     [ObservableProperty]
-    private Color traditionalModeSubtextColor = Colors.Gray;
+    private Color manualVerificationSubtextColor = Colors.Gray;
     
     [ObservableProperty]
-    private Color guidedModeBackgroundColor = Colors.Transparent;
+    private Color appVerificationBackgroundColor = Colors.Transparent;
     
     [ObservableProperty]
-    private Color guidedModeBorderColor = Colors.Gray;
+    private Color appVerificationBorderColor = Colors.Gray;
     
     [ObservableProperty]
-    private Color guidedModeTextColor = Colors.Black;
+    private Color appVerificationTextColor = Colors.Black;
     
     [ObservableProperty]
-    private Color guidedModeSubtextColor = Colors.Gray;
+    private Color appVerificationSubtextColor = Colors.Gray;
+    
+    // Legacy properties for backward compatibility
+    public Color TraditionalModeBackgroundColor => ManualVerificationBackgroundColor;
+    public Color TraditionalModeBorderColor => ManualVerificationBorderColor;
+    public Color TraditionalModeTextColor => ManualVerificationTextColor;
+    public Color TraditionalModeSubtextColor => ManualVerificationSubtextColor;
+    public Color GuidedModeBackgroundColor => AppVerificationBackgroundColor;
+    public Color GuidedModeBorderColor => AppVerificationBorderColor;
+    public Color GuidedModeTextColor => AppVerificationTextColor;
+    public Color GuidedModeSubtextColor => AppVerificationSubtextColor;
     
     // Progressive Disclosure Properties
     [ObservableProperty]
@@ -519,8 +533,8 @@ public partial class BigNumberViewModel : BaseViewModel
         _timer?.Stop();
         UpdateTimerDisplay();
         
-        // In guided mode, automatically activate input verification after memorization
-        if (IsGuidedModeSelected && CurrentPhase == GamePhase.Stopped)
+        // In app verification mode, automatically activate input verification after memorization
+        if (IsAppVerificationSelected && CurrentPhase == GamePhase.Stopped)
         {
             // Automatically show input verification panel for guided practice
             IsOnDemandVerificationActive = true;
@@ -630,9 +644,9 @@ public partial class BigNumberViewModel : BaseViewModel
         // Input verification visibility: show when (enabled OR on-demand active) AND NOT manually closed, and in stopped phase
         IsInputVerificationVisible = (EnableInputVerification || IsOnDemandVerificationActive) && !IsVerificationPanelManuallyClosed && CurrentPhase == GamePhase.Stopped;
         
-        // On-demand verify button: Never show in guided mode - input should be automatic
-        // Only show in traditional mode when verification is not visible but could be activated
-        ShowOnDemandVerifyButton = IsTraditionalModeSelected && 
+        // On-demand verify button: Never show in app verification mode - input should be automatic
+        // Only show in manual verification mode when verification is not visible but could be activated
+        ShowOnDemandVerifyButton = IsManualVerificationSelected && 
             ((EnableInputVerification && IsVerificationPanelManuallyClosed) || 
              (!EnableInputVerification && !IsOnDemandVerificationActive)) && 
             CurrentPhase == GamePhase.Stopped;
@@ -1350,11 +1364,11 @@ public partial class BigNumberViewModel : BaseViewModel
     // New UI Architecture Commands
     
     [RelayCommand]
-    private void SelectTraditionalMode()
+    private void SelectManualVerification()
     {
-        IsTraditionalModeSelected = true;
-        IsGuidedModeSelected = false;
-        // Reset verification flags when switching to traditional mode
+        IsManualVerificationSelected = true;
+        IsAppVerificationSelected = false;
+        // Reset verification flags when switching to manual verification mode
         IsOnDemandVerificationActive = false;
         IsVerificationPanelManuallyClosed = false;
         UpdateModeColors();
@@ -1362,17 +1376,31 @@ public partial class BigNumberViewModel : BaseViewModel
         UpdateUIState(); // Ensure UI state is properly updated
     }
     
+    // Legacy command for backward compatibility
     [RelayCommand]
-    private void SelectGuidedMode()
+    private void SelectTraditionalMode()
     {
-        IsTraditionalModeSelected = false;
-        IsGuidedModeSelected = true;
-        EnableInputVerification = true; // Guided mode always uses input verification
+        SelectManualVerification();
+    }
+    
+    [RelayCommand]
+    private void SelectAppVerification()
+    {
+        IsManualVerificationSelected = false;
+        IsAppVerificationSelected = true;
+        EnableInputVerification = true; // App verification mode always uses input verification
         IsOnDemandVerificationActive = false; // Reset this flag when switching modes
         IsVerificationPanelManuallyClosed = false; // Ensure panel isn't marked as closed
         UpdateModeColors();
         UpdateContextActions();
         UpdateUIState(); // Ensure UI state is properly updated
+    }
+    
+    // Legacy command for backward compatibility
+    [RelayCommand]
+    private void SelectGuidedMode()
+    {
+        SelectAppVerification();
     }
     
     [RelayCommand]
@@ -1407,11 +1435,11 @@ public partial class BigNumberViewModel : BaseViewModel
                 StopAndHide();
                 break;
             case GamePhase.Stopped:
-                if (IsTraditionalModeSelected)
+                if (IsManualVerificationSelected)
                 {
                     StartRecall();
                 }
-                else if (IsGuidedModeSelected)
+                else if (IsAppVerificationSelected)
                 {
                     StartInputVerification();
                 }
@@ -1432,13 +1460,13 @@ public partial class BigNumberViewModel : BaseViewModel
                 StartNewGame();
                 break;
             case GamePhase.Stopped:
-                if (IsTraditionalModeSelected)
+                if (IsManualVerificationSelected)
                 {
                     StartNewGame();
                 }
-                else if (IsGuidedModeSelected)
+                else if (IsAppVerificationSelected)
                 {
-                    // In guided mode, secondary action should just start a new game
+                    // In app verification mode, secondary action should just start a new game
                     // Input verification should already be visible automatically
                     StartNewGame();
                 }
@@ -1464,29 +1492,29 @@ public partial class BigNumberViewModel : BaseViewModel
         var whiteColor = Colors.White;
         var blackColor = Colors.Black;
         
-        if (IsTraditionalModeSelected)
+        if (IsManualVerificationSelected)
         {
-            TraditionalModeBackgroundColor = lightGrayColor;
-            TraditionalModeBorderColor = primaryColor;
-            TraditionalModeTextColor = primaryColor;
-            TraditionalModeSubtextColor = blackColor;
+            ManualVerificationBackgroundColor = lightGrayColor;
+            ManualVerificationBorderColor = primaryColor;
+            ManualVerificationTextColor = primaryColor;
+            ManualVerificationSubtextColor = blackColor;
             
-            GuidedModeBackgroundColor = whiteColor;
-            GuidedModeBorderColor = grayColor;
-            GuidedModeTextColor = blackColor;
-            GuidedModeSubtextColor = grayColor;
+            AppVerificationBackgroundColor = whiteColor;
+            AppVerificationBorderColor = grayColor;
+            AppVerificationTextColor = blackColor;
+            AppVerificationSubtextColor = grayColor;
         }
         else
         {
-            TraditionalModeBackgroundColor = whiteColor;
-            TraditionalModeBorderColor = grayColor;
-            TraditionalModeTextColor = blackColor;
-            TraditionalModeSubtextColor = grayColor;
+            ManualVerificationBackgroundColor = whiteColor;
+            ManualVerificationBorderColor = grayColor;
+            ManualVerificationTextColor = blackColor;
+            ManualVerificationSubtextColor = grayColor;
             
-            GuidedModeBackgroundColor = lightGrayColor;
-            GuidedModeBorderColor = primaryColor;
-            GuidedModeTextColor = primaryColor;
-            GuidedModeSubtextColor = blackColor;
+            AppVerificationBackgroundColor = lightGrayColor;
+            AppVerificationBorderColor = primaryColor;
+            AppVerificationTextColor = primaryColor;
+            AppVerificationSubtextColor = blackColor;
         }
     }
     
@@ -1519,7 +1547,7 @@ public partial class BigNumberViewModel : BaseViewModel
                 break;
                 
             case GamePhase.Stopped:
-                if (IsTraditionalModeSelected)
+                if (IsManualVerificationSelected)
                 {
                     PrimaryActionText = _localizationService.GetString("BigNumber_Recall");
                     PrimaryActionBackgroundColor = successColor;
@@ -1529,9 +1557,9 @@ public partial class BigNumberViewModel : BaseViewModel
                     ShowSecondaryAction = true;
                     IsGuidedPracticeInputVisible = false;
                 }
-                else if (IsGuidedModeSelected)
+                else if (IsAppVerificationSelected)
                 {
-                    // In guided mode, only show New Game button - input panel should already be visible
+                    // In app verification mode, only show New Game button - input panel should already be visible
                     PrimaryActionText = _localizationService.GetString("BigNumber_NewGame");
                     PrimaryActionBackgroundColor = Colors.Gray;
                     SecondaryActionText = string.Empty;
@@ -1551,7 +1579,7 @@ public partial class BigNumberViewModel : BaseViewModel
                 SecondaryActionBackgroundColor = secondaryColor;
                 ShowPrimaryAction = true;
                 ShowSecondaryAction = true;
-                IsGuidedPracticeInputVisible = IsGuidedModeSelected && IsInputVerificationVisible;
+                IsGuidedPracticeInputVisible = IsAppVerificationSelected && IsInputVerificationVisible;
                 ShowSessionActions = true;
                 break;
         }

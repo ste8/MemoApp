@@ -34,55 +34,69 @@
                                Margin="0,0,0,8" />
                         
                         <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
-                            <!-- Traditional Mode Tab -->
+                            <!-- Manual Verification Mode Tab -->
                             <Border Grid.Column="0"
-                                    BackgroundColor="{Binding TraditionalModeBackgroundColor}"
-                                    Stroke="{Binding TraditionalModeBorderColor}"
+                                    BackgroundColor="{Binding ManualVerificationBackgroundColor}"
+                                    Stroke="{Binding ManualVerificationBorderColor}"
                                     StrokeThickness="2"
                                     Padding="16"
                                     StrokeShape="RoundRectangle 12">
                                 <Border.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding SelectTraditionalModeCommand}" />
+                                    <TapGestureRecognizer Command="{Binding SelectManualVerificationCommand}" />
                                 </Border.GestureRecognizers>
                                 
                                 <StackLayout Spacing="8">
-                                    <Label Text="{localization:Localize BigNumber_TraditionalMode}" 
+                                    <!-- Icon for Manual Verification -->
+                                    <Label Text="&#xf06e;" 
+                                           FontFamily="FontAwesomePro-Solid"
+                                           FontSize="24"
+                                           HorizontalOptions="Center"
+                                           TextColor="{Binding ManualVerificationTextColor}" />
+                                    
+                                    <Label Text="{localization:Localize BigNumber_ManualVerification}" 
                                            FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                            FontAttributes="Bold"
                                            HorizontalTextAlignment="Center"
-                                           TextColor="{Binding TraditionalModeTextColor}" />
+                                           TextColor="{Binding ManualVerificationTextColor}" />
                                     
-                                    <Label Text="{localization:Localize BigNumber_TraditionalModeDescription}" 
+                                    <Label Text="{localization:Localize BigNumber_ManualVerificationDescription}" 
                                            FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
                                            HorizontalTextAlignment="Center"
                                            LineBreakMode="WordWrap"
-                                           TextColor="{Binding TraditionalModeSubtextColor}" />
+                                           TextColor="{Binding ManualVerificationSubtextColor}" />
                                 </StackLayout>
                             </Border>
                             
-                            <!-- Guided Practice Mode Tab -->
+                            <!-- App Verification Mode Tab -->
                             <Border Grid.Column="1"
-                                    BackgroundColor="{Binding GuidedModeBackgroundColor}"
-                                    Stroke="{Binding GuidedModeBorderColor}"
+                                    BackgroundColor="{Binding AppVerificationBackgroundColor}"
+                                    Stroke="{Binding AppVerificationBorderColor}"
                                     StrokeThickness="2"
                                     Padding="16"
                                     StrokeShape="RoundRectangle 12">
                                 <Border.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding SelectGuidedModeCommand}" />
+                                    <TapGestureRecognizer Command="{Binding SelectAppVerificationCommand}" />
                                 </Border.GestureRecognizers>
                                 
                                 <StackLayout Spacing="8">
-                                    <Label Text="{localization:Localize BigNumber_GuidedMode}" 
+                                    <!-- Icon for App Verification -->
+                                    <Label Text="&#xf11c;" 
+                                           FontFamily="FontAwesomePro-Solid"
+                                           FontSize="24"
+                                           HorizontalOptions="Center"
+                                           TextColor="{Binding AppVerificationTextColor}" />
+                                    
+                                    <Label Text="{localization:Localize BigNumber_AppVerification}" 
                                            FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                            FontAttributes="Bold"
                                            HorizontalTextAlignment="Center"
-                                           TextColor="{Binding GuidedModeTextColor}" />
+                                           TextColor="{Binding AppVerificationTextColor}" />
                                     
-                                    <Label Text="{localization:Localize BigNumber_GuidedModeDescription}" 
+                                    <Label Text="{localization:Localize BigNumber_AppVerificationDescription}" 
                                            FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
                                            HorizontalTextAlignment="Center"
                                            LineBreakMode="WordWrap"
-                                           TextColor="{Binding GuidedModeSubtextColor}" />
+                                           TextColor="{Binding AppVerificationSubtextColor}" />
                                 </StackLayout>
                             </Border>
                         </Grid>
