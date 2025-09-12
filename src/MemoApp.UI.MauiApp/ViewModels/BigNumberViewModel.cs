@@ -1659,9 +1659,9 @@ public partial class BigNumberViewModel : BaseViewModel
             // Generate comparison results using the comparison service
             _comparisonResult = _digitComparisonService.CompareNumbers(originalNumber, userAnswer);
 
-            // Clear existing collections
-            OriginalNumberTiles.Clear();
-            UserAnswerTiles.Clear();
+            // Build tile collections in temporary lists to avoid iOS CollectionView issues
+            var originalTiles = new List<DigitComparisonTileViewModel>();
+            var userTiles = new List<DigitComparisonTileViewModel>();
 
             // Generate tile view models for both rows
             foreach (var digitResult in _comparisonResult.DigitResults)
@@ -1671,15 +1671,19 @@ public partial class BigNumberViewModel : BaseViewModel
                     digitResult, 
                     true, // isOriginalRow
                     key => _localizationService.GetString(key));
-                OriginalNumberTiles.Add(originalTile);
+                originalTiles.Add(originalTile);
 
                 // Create user answer tile
                 var userTile = DigitComparisonTileViewModel.FromComparisonResult(
                     digitResult, 
                     false, // isOriginalRow
                     key => _localizationService.GetString(key));
-                UserAnswerTiles.Add(userTile);
+                userTiles.Add(userTile);
             }
+
+            // Replace collections in one operation to avoid iOS CollectionView invalidation issues
+            OriginalNumberTiles = new ObservableCollection<DigitComparisonTileViewModel>(originalTiles);
+            UserAnswerTiles = new ObservableCollection<DigitComparisonTileViewModel>(userTiles);
 
             // Show the comparison section immediately when verification happens
             ShowDigitComparison = true;
@@ -1700,8 +1704,9 @@ public partial class BigNumberViewModel : BaseViewModel
     /// </summary>
     private void ClearDigitComparison()
     {
-        OriginalNumberTiles.Clear();
-        UserAnswerTiles.Clear();
+        // Replace with empty collections to avoid iOS CollectionView issues
+        OriginalNumberTiles = new ObservableCollection<DigitComparisonTileViewModel>();
+        UserAnswerTiles = new ObservableCollection<DigitComparisonTileViewModel>();
         ShowDigitComparison = false;
         IsDigitComparisonExpanded = true; // Always expanded when shown
         _comparisonResult = null;
