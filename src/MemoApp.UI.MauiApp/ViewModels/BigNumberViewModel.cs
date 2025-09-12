@@ -266,6 +266,16 @@ public partial class BigNumberViewModel : BaseViewModel
     
     [ObservableProperty]
     private bool showSessionActions = false;
+    
+    // Dynamic Display Visibility Properties
+    [ObservableProperty]
+    private bool isNumberDisplayVisible = true;
+    
+    [ObservableProperty]
+    private bool isFontControlsVisible = true;
+    
+    [ObservableProperty]
+    private bool isManualVerificationGuidanceVisible = false;
 
     public string CurrentFormatExample => GenerateExampleNumber(ShowSeparated);
 
@@ -640,6 +650,19 @@ public partial class BigNumberViewModel : BaseViewModel
         // - During memorizing: only show if ShowTimer setting is enabled
         // - When stopped or recall: ALWAYS show the final time regardless of setting
         IsTimerVisible = (ShowTimer && CurrentPhase == GamePhase.Memorizing) || CurrentPhase == GamePhase.Stopped || CurrentPhase == GamePhase.Recall;
+        
+        // Dynamic Display Visibility Logic
+        // Number display should only be visible when:
+        // 1. Number should be shown to user (memorizing or recall phases)
+        // 2. Not in stopped phase (where number is hidden for recall)
+        IsNumberDisplayVisible = IsGameSectionVisible && 
+            (CurrentPhase == GamePhase.Memorizing || (CurrentPhase == GamePhase.Recall && _currentGame.IsNumberVisible));
+        
+        // Font controls only needed when number display is visible
+        IsFontControlsVisible = IsNumberDisplayVisible;
+        
+        // Manual verification guidance: show in stopped phase for manual verification mode
+        IsManualVerificationGuidanceVisible = IsManualVerificationSelected && CurrentPhase == GamePhase.Stopped;
         
         // Input verification visibility: show when (enabled OR on-demand active) AND NOT manually closed, and in stopped phase
         IsInputVerificationVisible = (EnableInputVerification || IsOnDemandVerificationActive) && !IsVerificationPanelManuallyClosed && CurrentPhase == GamePhase.Stopped;

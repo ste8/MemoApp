@@ -1488,6 +1488,23 @@
     <value>Digita la risposta per un feedback immediato</value>
     <comment>DEPRECATED: Use BigNumber_AppVerificationDescription instead</comment>
   </data>
+  <!-- Manual Verification Guidance -->
+  <data name="BigNumber_RecallGuidanceHeader" xml:space="preserve">
+    <value>Prenditi il Tempo per Ricordare</value>
+    <comment>Header for guidance card shown during stopped phase</comment>
+  </data>
+  <data name="BigNumber_RecallGuidanceBody" xml:space="preserve">
+    <value>Il numero è ora nascosto. Prenditi un momento per ripassare mentalmente quello che hai memorizzato. Quando sei pronto per metterti alla prova, tocca il pulsante 'Richiama' qui sotto.</value>
+    <comment>Main guidance text for manual verification mode</comment>
+  </data>
+  <data name="BigNumber_RecallTip" xml:space="preserve">
+    <value>💡 Consiglio: Prova prima a scriverlo per organizzare i tuoi pensieri!</value>
+    <comment>Helpful tip for memory recall process</comment>
+  </data>
+  <data name="Accessibility_GuidanceCardDescription" xml:space="preserve">
+    <value>Scheda guida memoria con suggerimenti utili per il richiamo</value>
+    <comment>Screen reader description for guidance card</comment>
+  </data>
   <data name="BigNumber_EssentialSettings" xml:space="preserve">
     <value>Impostazioni Essenziali</value>
     <comment>Essential settings section header</comment>

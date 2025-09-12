@@ -415,7 +415,8 @@
                        Padding="{OnIdiom Phone=20, Tablet=30, Desktop=40}"
                        CornerRadius="20"
                        HasShadow="True"
-                       MinimumHeightRequest="{OnIdiom Phone=200, Tablet=300, Desktop=400}">
+                       MinimumHeightRequest="{OnIdiom Phone=200, Tablet=300, Desktop=400}"
+                       IsVisible="{Binding IsNumberDisplayVisible}">
                     
                     <Label Text="{Binding DisplayedNumber}"
                            IsVisible="{Binding IsNumberVisible}"
@@ -427,8 +428,40 @@
                            HorizontalTextAlignment="Center" />
                 </Frame>
 
+                <!-- Manual Verification Guidance Card -->
+                <Frame IsVisible="{Binding IsManualVerificationGuidanceVisible}"
+                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                       Padding="20"
+                       CornerRadius="15"
+                       HasShadow="True"
+                       Margin="0,10,0,10"
+                       SemanticProperties.Description="{localization:Localize Accessibility_GuidanceCardDescription}">
+                    
+                    <StackLayout Spacing="15">
+                        <!-- Guidance Header -->
+                        <Label Text="{localization:Localize BigNumber_RecallGuidanceHeader}"
+                               FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{StaticResource Primary}" />
+                        
+                        <!-- Guidance Body Text -->
+                        <Label Text="{localization:Localize BigNumber_RecallGuidanceBody}"
+                               FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                               HorizontalTextAlignment="Center"
+                               LineBreakMode="WordWrap" />
+                        
+                        <!-- Helpful Tip -->
+                        <Label Text="{localization:Localize BigNumber_RecallTip}"
+                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                               LineBreakMode="WordWrap" />
+                    </StackLayout>
+                </Frame>
+                
                 <!-- Font Size Controls - Moved above associations -->
-                <Frame IsVisible="{Binding IsGameSectionVisible}"
+                <Frame IsVisible="{Binding IsFontControlsVisible}"
                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
                        Padding="10"
                        CornerRadius="8"
