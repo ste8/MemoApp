@@ -32,6 +32,7 @@ public partial class BigNumberViewModel : BaseViewModel
     private readonly IFirstTimeTooltipService _tooltipService;
     private readonly IHapticFeedbackService? _hapticFeedbackService;
     private readonly IUserNotificationService _userNotificationService;
+    private readonly IDigitComparisonService _digitComparisonService;
     private IDispatcherTimer? _timer;
     
     // Event for auto-scrolling to verification results
@@ -182,6 +183,24 @@ public partial class BigNumberViewModel : BaseViewModel
     [ObservableProperty]
     private int correctDigitsCount = 0;
 
+    // Digit Comparison Properties
+    [ObservableProperty]
+    private bool showDigitComparison = false;
+
+    [ObservableProperty]
+    private bool isDigitComparisonExpanded = false;
+
+    [ObservableProperty]
+    private string comparisonToggleText = string.Empty;
+
+    [ObservableProperty]
+    private ObservableCollection<string> originalNumberDigits = new();
+
+    [ObservableProperty]
+    private ObservableCollection<DigitComparisonTileViewModel> comparisonResults = new();
+
+    private NumberComparisonResult? _currentComparisonResult;
+
     // New UI Architecture Properties
     
     // Mode Selection Properties
@@ -276,6 +295,15 @@ public partial class BigNumberViewModel : BaseViewModel
     
     [ObservableProperty]
     private bool isManualVerificationGuidanceVisible = false;
+    
+    // Wordle-style Digit Comparison Properties
+    [ObservableProperty]
+    private ObservableCollection<DigitComparisonTileViewModel> originalNumberTiles = new();
+    
+    [ObservableProperty]
+    private ObservableCollection<DigitComparisonTileViewModel> userAnswerTiles = new();
+    
+    private NumberComparisonResult? _comparisonResult;
 
     public string CurrentFormatExample => GenerateExampleNumber(ShowSeparated);
 
@@ -290,6 +318,7 @@ public partial class BigNumberViewModel : BaseViewModel
         IExerciseCountService exerciseCountService,
         IPackAssociationsService packAssociationsService,
         IUserNotificationService userNotificationService,
+        IDigitComparisonService digitComparisonService,
         IInterstitialAdManager? interstitialAdManager = null,
         IHapticFeedbackService? hapticFeedbackService = null)
     {
@@ -303,6 +332,7 @@ public partial class BigNumberViewModel : BaseViewModel
         _exerciseCountService = exerciseCountService ?? throw new ArgumentNullException(nameof(exerciseCountService));
         _packAssociationsService = packAssociationsService ?? throw new ArgumentNullException(nameof(packAssociationsService));
         _userNotificationService = userNotificationService ?? throw new ArgumentNullException(nameof(userNotificationService));
+        _digitComparisonService = digitComparisonService ?? throw new ArgumentNullException(nameof(digitComparisonService));
         _interstitialAdManager = interstitialAdManager;
         _hapticFeedbackService = hapticFeedbackService;
         
@@ -1283,6 +1313,9 @@ public partial class BigNumberViewModel : BaseViewModel
             ShowVerificationResults = true;
             ShowRetryButton = accuracy < 100;
             
+            // Generate the Wordle-style digit comparison
+            GenerateDigitComparison(_originalNumber, UserInput);
+            
             // Trigger auto-scroll to bring results into view
             ScrollToVerificationResults?.Invoke(this, EventArgs.Empty);
 
@@ -1343,6 +1376,9 @@ public partial class BigNumberViewModel : BaseViewModel
         IsOnDemandVerificationActive = false;
         AccuracyPercentage = 0;
         AccuracyPercentageText = string.Empty;
+        
+        // Clear digit comparison
+        ClearDigitComparison();
     }
 
 
@@ -1606,5 +1642,78 @@ public partial class BigNumberViewModel : BaseViewModel
                 ShowSessionActions = true;
                 break;
         }
+    }
+
+    [RelayCommand]
+    private void ToggleDigitComparison()
+    {
+        IsDigitComparisonExpanded = !IsDigitComparisonExpanded;
+        
+        // Update toggle button text
+        ComparisonToggleText = IsDigitComparisonExpanded
+            ? _localizationService.GetString("BigNumber_HideComparison")
+            : _localizationService.GetString("BigNumber_ShowComparison");
+    }
+
+    /// <summary>
+    /// Generates and displays the Wordle-style comparison between original number and user's answer
+    /// </summary>
+    private void GenerateDigitComparison(string originalNumber, string userAnswer)
+    {
+        if (string.IsNullOrEmpty(originalNumber) || string.IsNullOrEmpty(userAnswer))
+            return;
+
+        try
+        {
+            // Generate comparison results using the comparison service
+            _comparisonResult = _digitComparisonService.CompareNumbers(originalNumber, userAnswer);
+
+            // Clear existing collections
+            OriginalNumberTiles.Clear();
+            UserAnswerTiles.Clear();
+
+            // Generate tile view models for both rows
+            foreach (var digitResult in _comparisonResult.DigitResults)
+            {
+                // Create original number tile
+                var originalTile = DigitComparisonTileViewModel.FromComparisonResult(
+                    digitResult, 
+                    true, // isOriginalRow
+                    key => _localizationService.GetString(key));
+                OriginalNumberTiles.Add(originalTile);
+
+                // Create user answer tile
+                var userTile = DigitComparisonTileViewModel.FromComparisonResult(
+                    digitResult, 
+                    false, // isOriginalRow
+                    key => _localizationService.GetString(key));
+                UserAnswerTiles.Add(userTile);
+            }
+
+            // Show the comparison section and initialize toggle text
+            ShowDigitComparison = true;
+            ComparisonToggleText = _localizationService.GetString("BigNumber_ShowComparison");
+            IsDigitComparisonExpanded = false; // Start collapsed by default
+
+        }
+        catch (Exception ex)
+        {
+            // Handle any errors gracefully
+            System.Diagnostics.Debug.WriteLine($"Error generating digit comparison: {ex.Message}");
+            ShowDigitComparison = false;
+        }
+    }
+
+    /// <summary>
+    /// Clears the digit comparison results and UI state
+    /// </summary>
+    private void ClearDigitComparison()
+    {
+        OriginalNumberTiles.Clear();
+        UserAnswerTiles.Clear();
+        ShowDigitComparison = false;
+        IsDigitComparisonExpanded = false;
+        ComparisonToggleText = string.Empty;
+        _comparisonResult = null;
     }
 }

@@ -2192,4 +2192,98 @@ Scarica MemoRaise: {AppUrl}
     <value>+</value>
     <comment>Plus symbol for increment buttons</comment>
   </data>
+  
+  <!-- Big Number Comparison Feature -->
+  <data name="BigNumber_ComparisonTitle" xml:space="preserve">
+    <value>Confronto Cifra per Cifra</value>
+    <comment>Title for the Wordle-style digit comparison section</comment>
+  </data>
+  <data name="BigNumber_ComparisonDescription" xml:space="preserve">
+    <value>Vedi come la tua risposta si confronta con il numero originale</value>
+    <comment>Description explaining the comparison feature</comment>
+  </data>
+  <data name="BigNumber_OriginalNumber" xml:space="preserve">
+    <value>Numero Originale</value>
+    <comment>Label for the original number row in comparison</comment>
+  </data>
+  <data name="BigNumber_YourAnswer" xml:space="preserve">
+    <value>La Tua Risposta</value>
+    <comment>Label for the user's answer row in comparison</comment>
+  </data>
+  <data name="BigNumber_CorrectPosition" xml:space="preserve">
+    <value>Posizione Corretta</value>
+    <comment>Label for digits in correct position (green)</comment>
+  </data>
+  <data name="BigNumber_WrongPosition" xml:space="preserve">
+    <value>Posizione Sbagliata</value>
+    <comment>Label for digits that exist but are in wrong position (orange)</comment>
+  </data>
+  <data name="BigNumber_IncorrectDigit" xml:space="preserve">
+    <value>Errata</value>
+    <comment>Label for digits that don't exist in original (gray)</comment>
+  </data>
+  <data name="BigNumber_MissingDigit" xml:space="preserve">
+    <value>Mancante</value>
+    <comment>Label for positions where user didn't provide a digit (red)</comment>
+  </data>
+  <data name="BigNumber_ComparisonLegend" xml:space="preserve">
+    <value>Guida Colori</value>
+    <comment>Title for the color legend explaining comparison colors</comment>
+  </data>
+  <data name="BigNumber_ShowComparison" xml:space="preserve">
+    <value>Mostra Confronto</value>
+    <comment>Button to show the digit-by-digit comparison</comment>
+  </data>
+  <data name="BigNumber_HideComparison" xml:space="preserve">
+    <value>Nascondi Confronto</value>
+    <comment>Button to hide the digit-by-digit comparison</comment>
+  </data>
+  
+  <!-- Accessibility labels for comparison -->
+  <data name="Accessibility_ComparisonArea" xml:space="preserve">
+    <value>Area di confronto cifre che mostra il numero originale e la tua risposta</value>
+    <comment>Accessibility description for the comparison area</comment>
+  </data>
+  <data name="Accessibility_DigitCorrect" xml:space="preserve">
+    <value>La cifra {0} è corretta</value>
+    <comment>Accessibility description for correct digit, {0} is the digit value</comment>
+  </data>
+  <data name="Accessibility_DigitWrongPosition" xml:space="preserve">
+    <value>La cifra {0} esiste ma è nella posizione sbagliata</value>
+    <comment>Accessibility description for wrong position digit, {0} is the digit value</comment>
+  </data>
+  <data name="Accessibility_DigitIncorrect" xml:space="preserve">
+    <value>La cifra {0} è errata</value>
+    <comment>Accessibility description for incorrect digit, {0} is the digit value</comment>
+  </data>
+  <data name="Accessibility_DigitMissing" xml:space="preserve">
+    <value>Cifra mancante alla posizione {0}</value>
+    <comment>Accessibility description for missing digit, {0} is the position</comment>
+  </data>
+  <data name="Accessibility_ScrollComparisonHint" xml:space="preserve">
+    <value>Scorri orizzontalmente per vedere tutte le cifre</value>
+    <comment>Accessibility hint for scrolling through digit comparison</comment>
+  </data>
+  
+  <!-- Additional Accessibility strings for Wordle-style comparison -->
+  <data name="BigNumber_OriginalDigitAccessibility" xml:space="preserve">
+    <value>Cifra originale {0} alla posizione {1}</value>
+    <comment>Accessibility description for original digit tiles, {0} is the digit, {1} is the position</comment>
+  </data>
+  <data name="BigNumber_CorrectDigitAccessibility" xml:space="preserve">
+    <value>La tua cifra {0} alla posizione {1} è corretta</value>
+    <comment>Accessibility description for correct user digit, {0} is the digit, {1} is the position</comment>
+  </data>
+  <data name="BigNumber_WrongPositionDigitAccessibility" xml:space="preserve">
+    <value>La tua cifra {0} alla posizione {1} esiste nel numero ma è nella posizione sbagliata</value>
+    <comment>Accessibility description for wrong position user digit, {0} is the digit, {1} is the position</comment>
+  </data>
+  <data name="BigNumber_IncorrectDigitAccessibility" xml:space="preserve">
+    <value>La tua cifra {0} alla posizione {1} non è nel numero originale</value>
+    <comment>Accessibility description for incorrect user digit, {0} is the digit, {1} is the position</comment>
+  </data>
+  <data name="BigNumber_MissingDigitAccessibility" xml:space="preserve">
+    <value>Cifra mancante alla posizione {0}</value>
+    <comment>Accessibility description for missing user digit, {0} is the position</comment>
+  </data>
 </root>

@@ -2296,4 +2296,98 @@ Download MemoRaise: {AppUrl}
     <value>+</value>
     <comment>Plus symbol for increment buttons</comment>
   </data>
+  
+  <!-- Big Number Comparison Feature -->
+  <data name="BigNumber_ComparisonTitle" xml:space="preserve">
+    <value>Digit-by-Digit Comparison</value>
+    <comment>Title for the Wordle-style digit comparison section</comment>
+  </data>
+  <data name="BigNumber_ComparisonDescription" xml:space="preserve">
+    <value>See how your answer compares to the original number</value>
+    <comment>Description explaining the comparison feature</comment>
+  </data>
+  <data name="BigNumber_OriginalNumber" xml:space="preserve">
+    <value>Original Number</value>
+    <comment>Label for the original number row in comparison</comment>
+  </data>
+  <data name="BigNumber_YourAnswer" xml:space="preserve">
+    <value>Your Answer</value>
+    <comment>Label for the user's answer row in comparison</comment>
+  </data>
+  <data name="BigNumber_CorrectPosition" xml:space="preserve">
+    <value>Correct Position</value>
+    <comment>Label for digits in correct position (green)</comment>
+  </data>
+  <data name="BigNumber_WrongPosition" xml:space="preserve">
+    <value>Wrong Position</value>
+    <comment>Label for digits that exist but are in wrong position (orange)</comment>
+  </data>
+  <data name="BigNumber_IncorrectDigit" xml:space="preserve">
+    <value>Incorrect</value>
+    <comment>Label for digits that don't exist in original (gray)</comment>
+  </data>
+  <data name="BigNumber_MissingDigit" xml:space="preserve">
+    <value>Missing</value>
+    <comment>Label for positions where user didn't provide a digit (red)</comment>
+  </data>
+  <data name="BigNumber_ComparisonLegend" xml:space="preserve">
+    <value>Color Guide</value>
+    <comment>Title for the color legend explaining comparison colors</comment>
+  </data>
+  <data name="BigNumber_ShowComparison" xml:space="preserve">
+    <value>Show Comparison</value>
+    <comment>Button to show the digit-by-digit comparison</comment>
+  </data>
+  <data name="BigNumber_HideComparison" xml:space="preserve">
+    <value>Hide Comparison</value>
+    <comment>Button to hide the digit-by-digit comparison</comment>
+  </data>
+  
+  <!-- Accessibility labels for comparison -->
+  <data name="Accessibility_ComparisonArea" xml:space="preserve">
+    <value>Digit comparison area showing original number and your answer</value>
+    <comment>Accessibility description for the comparison area</comment>
+  </data>
+  <data name="Accessibility_DigitCorrect" xml:space="preserve">
+    <value>Digit {0} is correct</value>
+    <comment>Accessibility description for correct digit, {0} is the digit value</comment>
+  </data>
+  <data name="Accessibility_DigitWrongPosition" xml:space="preserve">
+    <value>Digit {0} exists but is in wrong position</value>
+    <comment>Accessibility description for wrong position digit, {0} is the digit value</comment>
+  </data>
+  <data name="Accessibility_DigitIncorrect" xml:space="preserve">
+    <value>Digit {0} is incorrect</value>
+    <comment>Accessibility description for incorrect digit, {0} is the digit value</comment>
+  </data>
+  <data name="Accessibility_DigitMissing" xml:space="preserve">
+    <value>Missing digit at position {0}</value>
+    <comment>Accessibility description for missing digit, {0} is the position</comment>
+  </data>
+  <data name="Accessibility_ScrollComparisonHint" xml:space="preserve">
+    <value>Scroll horizontally to see all digits</value>
+    <comment>Accessibility hint for scrolling through digit comparison</comment>
+  </data>
+  
+  <!-- Additional Accessibility strings for Wordle-style comparison -->
+  <data name="BigNumber_OriginalDigitAccessibility" xml:space="preserve">
+    <value>Original digit {0} at position {1}</value>
+    <comment>Accessibility description for original digit tiles, {0} is the digit, {1} is the position</comment>
+  </data>
+  <data name="BigNumber_CorrectDigitAccessibility" xml:space="preserve">
+    <value>Your digit {0} at position {1} is correct</value>
+    <comment>Accessibility description for correct user digit, {0} is the digit, {1} is the position</comment>
+  </data>
+  <data name="BigNumber_WrongPositionDigitAccessibility" xml:space="preserve">
+    <value>Your digit {0} at position {1} exists in the number but is in wrong position</value>
+    <comment>Accessibility description for wrong position user digit, {0} is the digit, {1} is the position</comment>
+  </data>
+  <data name="BigNumber_IncorrectDigitAccessibility" xml:space="preserve">
+    <value>Your digit {0} at position {1} is not in the original number</value>
+    <comment>Accessibility description for incorrect user digit, {0} is the digit, {1} is the position</comment>
+  </data>
+  <data name="BigNumber_MissingDigitAccessibility" xml:space="preserve">
+    <value>Missing digit at position {0}</value>
+    <comment>Accessibility description for missing user digit, {0} is the position</comment>
+  </data>
 </root>

@@ -164,8 +164,9 @@ public static class ServiceRegistration
             return new TokenDefaultsService(logger, packManager);
         });
         
-        // Big Number service
+        // Big Number services
         services.AddSingleton<IBigNumberService, BigNumberService>();
+        services.AddSingleton<IDigitComparisonService, DigitComparisonService>();
         
         // Onboarding service
         services.AddSingleton<IMajorSystemOnboardingService, MajorSystemOnboardingService>();
@@ -306,10 +307,11 @@ public static class ServiceRegistration
             var exerciseCountService = serviceProvider.GetRequiredService<IExerciseCountService>();
             var packAssociationsService = serviceProvider.GetRequiredService<IPackAssociationsService>();
             var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
+            var digitComparisonService = serviceProvider.GetRequiredService<IDigitComparisonService>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
             var shareService = serviceProvider.GetRequiredService<IShareService>();
             var hapticFeedbackService = serviceProvider.GetRequiredService<IHapticFeedbackService>();
-            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, packAssociationsService, userNotificationService, interstitialAdManager, hapticFeedbackService);
+            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, packAssociationsService, userNotificationService, digitComparisonService, interstitialAdManager, hapticFeedbackService);
         });
         
         services.AddTransient<TokenDetailViewModel>(serviceProvider =>

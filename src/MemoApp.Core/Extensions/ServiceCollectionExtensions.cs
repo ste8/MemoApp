@@ -1,4 +1,5 @@
 using MemoApp.Core.Services.ImageGenerators;
+using MemoApp.Core.BigNumber;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using OpenAI;
@@ -69,5 +70,17 @@ public static class ServiceCollectionExtensions
             options.ApiKey = apiKey;
             options.OrganizationId = organizationId;
         });
+    }
+
+    /// <summary>
+    /// Adds BigNumber services to the dependency injection container
+    /// </summary>
+    /// <param name="services">The service collection</param>
+    /// <returns>The service collection for chaining</returns>
+    public static IServiceCollection AddBigNumberServices(this IServiceCollection services)
+    {
+        services.AddScoped<IDigitComparisonService, DigitComparisonService>();
+        
+        return services;
     }
 }
