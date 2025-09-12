@@ -821,70 +821,41 @@
                                  Spacing="15"
                                  Margin="0,15,0,0">
                         
-                        <!-- Comparison Navigation Header (for long numbers) -->
+                        <!-- Dynamic Position Indicator (replaces navigation buttons) -->
                         <Border IsVisible="{Binding ShowComparisonNavigation}"
-                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
-                                Stroke="{StaticResource Primary}"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
+                                Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
                                 StrokeThickness="1"
-                                Padding="12"
-                                StrokeShape="RoundRectangle 8">
-                            <Grid ColumnDefinitions="Auto,*,Auto,*,Auto" ColumnSpacing="12">
-                                <!-- Navigation Left -->
-                                <Button Grid.Column="0"
-                                        Text="‹"
-                                        Command="{Binding NavigateComparisonLeftCommand}"
-                                        BackgroundColor="Transparent"
-                                        TextColor="{StaticResource Primary}"
-                                        FontSize="24"
-                                        FontAttributes="Bold"
-                                        WidthRequest="40"
-                                        HeightRequest="40"
-                                        CornerRadius="20"
-                                        IsEnabled="{Binding CanNavigateLeft}"
-                                        SemanticProperties.Description="{localization:Localize BigNumber_ScrollLeft}" />
-                                
-                                <!-- Position Indicator -->
-                                <Label Grid.Column="1"
-                                       Text="{Binding ComparisonPositionText}"
-                                       FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="Center"
-                                       TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
-                                
-                                <!-- Center/Focus Button -->
-                                <Button Grid.Column="2"
-                                        Text="⌖"
-                                        Command="{Binding CenterComparisonCommand}"
-                                        BackgroundColor="{StaticResource Primary}"
-                                        TextColor="White"
-                                        FontSize="18"
-                                        WidthRequest="36"
-                                        HeightRequest="36"
-                                        CornerRadius="18"
-                                        SemanticProperties.Description="{localization:Localize BigNumber_CenterView}" />
-                                
-                                <!-- Accuracy Summary -->
-                                <Label Grid.Column="3"
-                                       Text="{Binding ComparisonSummaryText}"
-                                       FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                Padding="16,8"
+                                StrokeShape="RoundRectangle 6"
+                                Margin="0,0,0,8">
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                <!-- Dynamic Position Indicator -->
+                                <Label Grid.Column="0"
+                                       Text="{Binding DynamicPositionText}"
+                                       FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
                                        FontAttributes="Bold"
                                        VerticalOptions="Center"
-                                       HorizontalOptions="Center"
-                                       TextColor="{Binding AccuracyColor}" />
+                                       TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                       SemanticProperties.Description="{localization:Localize Accessibility_DynamicPositionDescription}"
+                                       SemanticProperties.Hint="{localization:Localize Accessibility_ScrollToViewMore}" />
                                 
-                                <!-- Navigation Right -->
-                                <Button Grid.Column="4"
-                                        Text="›"
-                                        Command="{Binding NavigateComparisonRightCommand}"
-                                        BackgroundColor="Transparent"
-                                        TextColor="{StaticResource Primary}"
-                                        FontSize="24"
-                                        FontAttributes="Bold"
-                                        WidthRequest="40"
-                                        HeightRequest="40"
-                                        CornerRadius="20"
-                                        IsEnabled="{Binding CanNavigateRight}"
-                                        SemanticProperties.Description="{localization:Localize BigNumber_ScrollRight}" />
+                                <!-- Progress Indicator Bar -->
+                                <ProgressBar Grid.Column="1"
+                                             Progress="{Binding ScrollProgress}"
+                                             ProgressColor="{StaticResource Primary}"
+                                             BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}"
+                                             HeightRequest="3"
+                                             VerticalOptions="Center"
+                                             Margin="8,0" />
+                                
+                                <!-- Accuracy Summary -->
+                                <Label Grid.Column="2"
+                                       Text="{Binding ComparisonSummaryText}"
+                                       FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="Center"
+                                       TextColor="{Binding AccuracyColor}" />
                             </Grid>
                         </Border>
                         

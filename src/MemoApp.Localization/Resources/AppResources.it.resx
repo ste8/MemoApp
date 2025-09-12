@@ -2338,4 +2338,18 @@ Scarica MemoRaise: {AppUrl}
     <value>Successivo</value>
     <comment>Next navigation button text</comment>
   </data>
+  
+  <!-- Dynamic Position Indicator strings -->
+  <data name="BigNumber_DynamicPosition" xml:space="preserve">
+    <value>Posizione {0}-{1} di {2}</value>
+    <comment>Dynamic position indicator showing current scroll position in real-time</comment>
+  </data>
+  <data name="Accessibility_DynamicPositionDescription" xml:space="preserve">
+    <value>Posizione corrente nella comparazione delle cifre</value>
+    <comment>Accessibility description for dynamic position indicator</comment>
+  </data>
+  <data name="Accessibility_ScrollToViewMore" xml:space="preserve">
+    <value>Scorri orizzontalmente per visualizzare più cifre</value>
+    <comment>Accessibility hint for scrolling</comment>
+  </data>
 </root>

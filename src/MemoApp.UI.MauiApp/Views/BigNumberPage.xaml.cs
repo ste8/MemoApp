@@ -265,6 +265,12 @@ public partial class BigNumberPage : ContentPage
             
         // Synchronize with pixel-perfect accuracy
         SynchronizeScrollViewScroll(UserAnswerScrollView, e.ScrollX);
+        
+        // Update dynamic position indicator
+        if (BindingContext is BigNumberViewModel viewModel)
+        {
+            viewModel.UpdateDynamicPosition(e.ScrollX);
+        }
     }
     
     /// <summary>
@@ -279,6 +285,12 @@ public partial class BigNumberPage : ContentPage
             
         // Synchronize with pixel-perfect accuracy
         SynchronizeScrollViewScroll(OriginalNumberScrollView, e.ScrollX);
+        
+        // Update dynamic position indicator
+        if (BindingContext is BigNumberViewModel viewModel)
+        {
+            viewModel.UpdateDynamicPosition(e.ScrollX);
+        }
     }
     
     /// <summary>

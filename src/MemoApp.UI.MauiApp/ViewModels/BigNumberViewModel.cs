@@ -323,6 +323,12 @@ public partial class BigNumberViewModel : BaseViewModel
     [ObservableProperty]
     private bool canNavigateRight = false;
     
+    [ObservableProperty]
+    private string dynamicPositionText = string.Empty;
+    
+    [ObservableProperty]
+    private double scrollProgress = 0.0;
+    
     private NumberComparisonResult? _comparisonResult;
     private int _currentScrollPosition = 0;
     private const int DIGITS_PER_CHUNK = 20;
@@ -1776,6 +1782,9 @@ public partial class BigNumberViewModel : BaseViewModel
         UpdateNavigationState();
         UpdateComparisonSummary();
         
+        // Initialize dynamic position indicator
+        UpdateDynamicPosition(0);
+        
         // Set accuracy color
         var accuracy = _comparisonResult.AccuracyPercentage;
         AccuracyColor = accuracy >= 90 ? Color.FromArgb("#28A745") : // Green
@@ -1807,6 +1816,61 @@ public partial class BigNumberViewModel : BaseViewModel
             _currentScrollPosition + 1,
             endPosition,
             totalDigits);
+    }
+    
+    /// <summary>
+    /// Updates the dynamic position indicator based on current scroll position
+    /// Called in real-time during scroll events
+    /// </summary>
+    public void UpdateDynamicPosition(double scrollX)
+    {
+        if (_comparisonResult == null) return;
+        
+        var totalDigits = _comparisonResult.DigitResults.Count;
+        
+        // Calculate tile width based on device
+        double itemWidth;
+        if (DeviceInfo.Idiom == DeviceIdiom.Phone)
+            itemWidth = 44.0;   // 40px tile + 4px spacing
+        else if (DeviceInfo.Idiom == DeviceIdiom.Tablet)
+            itemWidth = 54.0;  // 50px tile + 4px spacing
+        else if (DeviceInfo.Idiom == DeviceIdiom.Desktop)
+            itemWidth = 64.0; // 60px tile + 4px spacing
+        else
+            itemWidth = 48.0;
+        
+        // Calculate tiles per screen
+        int tilesPerScreen;
+        if (DeviceInfo.Idiom == DeviceIdiom.Phone)
+            tilesPerScreen = 8;
+        else if (DeviceInfo.Idiom == DeviceIdiom.Tablet)
+            tilesPerScreen = 12;
+        else if (DeviceInfo.Idiom == DeviceIdiom.Desktop)
+            tilesPerScreen = 15;
+        else
+            tilesPerScreen = 10;
+        
+        // Calculate current visible range
+        int startPosition = Math.Max(1, (int)(scrollX / itemWidth) + 1);
+        int endPosition = Math.Min(totalDigits, startPosition + tilesPerScreen - 1);
+        
+        // Update position text with real-time values
+        DynamicPositionText = string.Format(
+            _localizationService.GetString("BigNumber_DynamicPosition"),
+            startPosition,
+            endPosition,
+            totalDigits);
+        
+        // Update progress bar (0.0 to 1.0)
+        if (totalDigits <= tilesPerScreen)
+        {
+            ScrollProgress = 1.0;
+        }
+        else
+        {
+            double maxScroll = (totalDigits - tilesPerScreen) * itemWidth;
+            ScrollProgress = Math.Min(1.0, Math.Max(0.0, scrollX / maxScroll));
+        }
     }
 
     /// <summary>
