@@ -38,6 +38,7 @@ public partial class BigNumberViewModel : BaseViewModel
     // Event for auto-scrolling to verification results
     public event EventHandler? ScrollToVerificationResults;
     public event EventHandler? FocusUserInputRequested;
+    public event EventHandler<int>? ScrollToPositionRequested;
     
     private BigNumberGame _currentGame = new();
     private string _originalNumber = string.Empty;
@@ -1750,11 +1751,24 @@ public partial class BigNumberViewModel : BaseViewModel
 
         var digitCount = _comparisonResult.DigitResults.Count;
         
-        // Show navigation for numbers longer than what fits on screen
-        var screenWidthDp = DeviceDisplay.Current.MainDisplayInfo.Width / DeviceDisplay.Current.MainDisplayInfo.Density;
-        var tilesPerScreen = (int)(screenWidthDp / 65); // Approximate tile width + spacing
+        // Use a more conservative estimate for tiles per screen
+        // Account for padding, margins, and varying screen sizes
+        int estimatedTilesPerScreen;
         
-        ShowComparisonNavigation = digitCount > tilesPerScreen;
+        if (DeviceInfo.Idiom == DeviceIdiom.Phone)
+        {
+            estimatedTilesPerScreen = 8;
+        }
+        else if (DeviceInfo.Idiom == DeviceIdiom.Tablet)
+        {
+            estimatedTilesPerScreen = 12;
+        }
+        else
+        {
+            estimatedTilesPerScreen = 15; // Desktop/other platforms
+        }
+        
+        ShowComparisonNavigation = digitCount > estimatedTilesPerScreen;
         ShowComparisonLegend = digitCount > 10; // Show legend for non-trivial comparisons
         
         // Initialize navigation state
@@ -1828,10 +1842,11 @@ public partial class BigNumberViewModel : BaseViewModel
     [RelayCommand]
     private void NavigateComparisonLeft()
     {
-        if (_currentScrollPosition > 0)
+        if (_comparisonResult != null && _currentScrollPosition > 0)
         {
             _currentScrollPosition = Math.Max(0, _currentScrollPosition - DIGITS_PER_CHUNK);
             UpdateNavigationState();
+            ScrollToPositionRequested?.Invoke(this, _currentScrollPosition);
         }
     }
 
@@ -1844,8 +1859,17 @@ public partial class BigNumberViewModel : BaseViewModel
         if (_comparisonResult != null)
         {
             var totalDigits = _comparisonResult.DigitResults.Count;
-            _currentScrollPosition = Math.Min(totalDigits - DIGITS_PER_CHUNK, _currentScrollPosition + DIGITS_PER_CHUNK);
+            if (totalDigits <= DIGITS_PER_CHUNK)
+            {
+                // All digits fit in one chunk, no need to navigate
+                return;
+            }
+            
+            var maxPosition = totalDigits - DIGITS_PER_CHUNK;
+            _currentScrollPosition = Math.Min(maxPosition, _currentScrollPosition + DIGITS_PER_CHUNK);
+            _currentScrollPosition = Math.Max(0, _currentScrollPosition); // Additional safeguard
             UpdateNavigationState();
+            ScrollToPositionRequested?.Invoke(this, _currentScrollPosition);
         }
     }
 
@@ -1855,8 +1879,12 @@ public partial class BigNumberViewModel : BaseViewModel
     [RelayCommand]
     private void CenterComparison()
     {
-        _currentScrollPosition = 0;
-        UpdateNavigationState();
+        if (_comparisonResult != null)
+        {
+            _currentScrollPosition = 0;
+            UpdateNavigationState();
+            ScrollToPositionRequested?.Invoke(this, _currentScrollPosition);
+        }
     }
 
     /// <summary>

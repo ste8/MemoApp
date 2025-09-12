@@ -1,3 +1,4 @@
+using System.Collections;
 using MemoApp.UI.MauiApp.ViewModels;
 
 namespace MemoApp.UI.MauiApp.Views;
@@ -14,6 +15,9 @@ public partial class BigNumberPage : ContentPage
         
         // Subscribe to focus request events from ViewModel
         viewModel.FocusUserInputRequested += OnFocusUserInputRequested;
+        
+        // Subscribe to navigation scroll requests from ViewModel
+        viewModel.ScrollToPositionRequested += OnScrollToPositionRequested;
         
         // Subscribe to property changes to reset animation state when results are hidden
         viewModel.PropertyChanged += OnViewModelPropertyChanged;
@@ -155,6 +159,33 @@ public partial class BigNumberPage : ContentPage
             System.Diagnostics.Debug.WriteLine($"Focus input error: {ex.Message}");
         }
     }
+    
+    private async void OnScrollToPositionRequested(object? sender, int position)
+    {
+        try
+        {
+            // Scroll both CollectionViews to the specified position
+            // CollectionView uses ScrollTo method with item index, not position
+            if (OriginalNumberCollectionView?.ItemsSource is IList originalList && position < originalList.Count)
+            {
+                var originalItem = originalList[position];
+                OriginalNumberCollectionView.ScrollTo(originalItem, position: ScrollToPosition.Start, animate: true);
+            }
+            
+            if (UserAnswerCollectionView?.ItemsSource is IList userList && position < userList.Count)
+            {
+                var userItem = userList[position];
+                UserAnswerCollectionView.ScrollTo(userItem, position: ScrollToPosition.Start, animate: true);
+            }
+            
+            // Add small delay to ensure smooth scrolling
+            await Task.Delay(50);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Scroll to position error: {ex.Message}");
+        }
+    }
 
     protected override async void OnAppearing()
     {
@@ -178,6 +209,7 @@ public partial class BigNumberPage : ContentPage
         {
             viewModel.ScrollToVerificationResults -= OnScrollToVerificationResults;
             viewModel.FocusUserInputRequested -= OnFocusUserInputRequested;
+            viewModel.ScrollToPositionRequested -= OnScrollToPositionRequested;
             viewModel.PropertyChanged -= OnViewModelPropertyChanged;
         }
     }
