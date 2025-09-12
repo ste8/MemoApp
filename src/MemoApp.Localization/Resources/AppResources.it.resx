@@ -2286,4 +2286,56 @@ Scarica MemoRaise: {AppUrl}
     <value>Cifra mancante alla posizione {0}</value>
     <comment>Accessibility description for missing user digit, {0} is the position</comment>
   </data>
+  
+  <!-- Enhanced Digit Comparison UI strings -->
+  <data name="BigNumber_ScrollLeft" xml:space="preserve">
+    <value>Scorri a sinistra per vedere le cifre precedenti</value>
+    <comment>Accessibility description for scroll left button in digit comparison</comment>
+  </data>
+  <data name="BigNumber_ScrollRight" xml:space="preserve">
+    <value>Scorri a destra per vedere le cifre successive</value>
+    <comment>Accessibility description for scroll right button in digit comparison</comment>
+  </data>
+  <data name="BigNumber_CenterView" xml:space="preserve">
+    <value>Centra la vista sull'area di confronto</value>
+    <comment>Accessibility description for center view button in digit comparison</comment>
+  </data>
+  <data name="BigNumber_LegendCorrect" xml:space="preserve">
+    <value>Corretta</value>
+    <comment>Label for correct digit in comparison legend</comment>
+  </data>
+  <data name="BigNumber_LegendWrongPosition" xml:space="preserve">
+    <value>Posizione sbagliata</value>
+    <comment>Label for wrong position digit in comparison legend</comment>
+  </data>
+  <data name="BigNumber_LegendIncorrect" xml:space="preserve">
+    <value>Non nel numero</value>
+    <comment>Label for incorrect digit in comparison legend</comment>
+  </data>
+  <data name="BigNumber_LegendMissing" xml:space="preserve">
+    <value>Mancante</value>
+    <comment>Label for missing digit in comparison legend</comment>
+  </data>
+  
+  <!-- Navigation Control strings -->
+  <data name="BigNumber_PositionIndicator" xml:space="preserve">
+    <value>Cifre {0}-{1} di {2}</value>
+    <comment>Position indicator text for navigation, {0} is start position, {1} is end position, {2} is total</comment>
+  </data>
+  <data name="BigNumber_PerfectScore" xml:space="preserve">
+    <value>Perfetto! Precisione al 100%</value>
+    <comment>Message shown when user achieves perfect accuracy</comment>
+  </data>
+  <data name="BigNumber_AccuracyWithErrors" xml:space="preserve">
+    <value>Precisione {0}% ({1} errori)</value>
+    <comment>Accuracy message with error count, {0} is percentage, {1} is error count</comment>
+  </data>
+  <data name="BigNumber_NavigatePrevious" xml:space="preserve">
+    <value>Precedente</value>
+    <comment>Previous navigation button text</comment>
+  </data>
+  <data name="BigNumber_NavigateNext" xml:space="preserve">
+    <value>Successivo</value>
+    <comment>Next navigation button text</comment>
+  </data>
 </root>

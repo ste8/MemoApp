@@ -303,7 +303,28 @@ public partial class BigNumberViewModel : BaseViewModel
     [ObservableProperty]
     private ObservableCollection<DigitComparisonTileViewModel> userAnswerTiles = new();
     
+    // Navigation Enhancement Properties
+    [ObservableProperty]
+    private bool showComparisonNavigation = false;
+    
+    [ObservableProperty]
+    private bool showComparisonLegend = false;
+    
+    [ObservableProperty]
+    private string comparisonPositionText = string.Empty;
+    
+    [ObservableProperty]
+    private string comparisonSummaryText = string.Empty;
+    
+    [ObservableProperty]
+    private bool canNavigateLeft = false;
+    
+    [ObservableProperty]
+    private bool canNavigateRight = false;
+    
     private NumberComparisonResult? _comparisonResult;
+    private int _currentScrollPosition = 0;
+    private const int DIGITS_PER_CHUNK = 20;
 
     public string CurrentFormatExample => GenerateExampleNumber(ShowSeparated);
 
@@ -1689,6 +1710,9 @@ public partial class BigNumberViewModel : BaseViewModel
             ShowDigitComparison = true;
             IsDigitComparisonExpanded = true; // Always show expanded
             ComparisonToggleText = string.Empty; // No toggle needed anymore
+            
+            // Setup navigation for long numbers
+            SetupNavigationControls();
 
         }
         catch (Exception ex)
@@ -1710,5 +1734,134 @@ public partial class BigNumberViewModel : BaseViewModel
         ShowDigitComparison = false;
         IsDigitComparisonExpanded = true; // Always expanded when shown
         _comparisonResult = null;
+        
+        // Clear navigation state
+        ShowComparisonNavigation = false;
+        ShowComparisonLegend = false;
+        _currentScrollPosition = 0;
     }
+
+    /// <summary>
+    /// Sets up navigation controls and indicators based on number length
+    /// </summary>
+    private void SetupNavigationControls()
+    {
+        if (_comparisonResult == null) return;
+
+        var digitCount = _comparisonResult.DigitResults.Count;
+        
+        // Show navigation for numbers longer than what fits on screen
+        var screenWidthDp = DeviceDisplay.Current.MainDisplayInfo.Width / DeviceDisplay.Current.MainDisplayInfo.Density;
+        var tilesPerScreen = (int)(screenWidthDp / 65); // Approximate tile width + spacing
+        
+        ShowComparisonNavigation = digitCount > tilesPerScreen;
+        ShowComparisonLegend = digitCount > 10; // Show legend for non-trivial comparisons
+        
+        // Initialize navigation state
+        _currentScrollPosition = 0;
+        UpdateNavigationState();
+        UpdateComparisonSummary();
+        
+        // Set accuracy color
+        var accuracy = _comparisonResult.AccuracyPercentage;
+        AccuracyColor = accuracy >= 90 ? Color.FromArgb("#28A745") : // Green
+                       accuracy >= 70 ? Color.FromArgb("#FD7E14") : // Orange  
+                                       Color.FromArgb("#DC3545");   // Red
+    }
+
+    /// <summary>
+    /// Updates navigation button states and position text
+    /// </summary>
+    private void UpdateNavigationState()
+    {
+        if (_comparisonResult == null)
+        {
+            CanNavigateLeft = false;
+            CanNavigateRight = false;
+            ComparisonPositionText = string.Empty;
+            return;
+        }
+
+        var totalDigits = _comparisonResult.DigitResults.Count;
+        var endPosition = Math.Min(_currentScrollPosition + DIGITS_PER_CHUNK, totalDigits);
+        
+        CanNavigateLeft = _currentScrollPosition > 0;
+        CanNavigateRight = endPosition < totalDigits;
+        
+        ComparisonPositionText = string.Format(
+            _localizationService.GetString("BigNumber_PositionIndicator"),
+            _currentScrollPosition + 1,
+            endPosition,
+            totalDigits);
+    }
+
+    /// <summary>
+    /// Updates the comparison summary text with accuracy and error info
+    /// </summary>
+    private void UpdateComparisonSummary()
+    {
+        if (_comparisonResult == null)
+        {
+            ComparisonSummaryText = string.Empty;
+            return;
+        }
+
+        var accuracy = _comparisonResult.AccuracyPercentage;
+        var errorCount = _comparisonResult.IncorrectCount + _comparisonResult.WrongPositionCount + _comparisonResult.MissingCount;
+        
+        if (errorCount == 0)
+        {
+            ComparisonSummaryText = _localizationService.GetString("BigNumber_PerfectScore");
+        }
+        else
+        {
+            ComparisonSummaryText = string.Format(
+                _localizationService.GetString("BigNumber_AccuracyWithErrors"),
+                accuracy.ToString("F1"),
+                errorCount);
+        }
+    }
+
+    /// <summary>
+    /// Navigation command to scroll left in comparison
+    /// </summary>
+    [RelayCommand]
+    private void NavigateComparisonLeft()
+    {
+        if (_currentScrollPosition > 0)
+        {
+            _currentScrollPosition = Math.Max(0, _currentScrollPosition - DIGITS_PER_CHUNK);
+            UpdateNavigationState();
+        }
+    }
+
+    /// <summary>
+    /// Navigation command to scroll right in comparison
+    /// </summary>
+    [RelayCommand]
+    private void NavigateComparisonRight()
+    {
+        if (_comparisonResult != null)
+        {
+            var totalDigits = _comparisonResult.DigitResults.Count;
+            _currentScrollPosition = Math.Min(totalDigits - DIGITS_PER_CHUNK, _currentScrollPosition + DIGITS_PER_CHUNK);
+            UpdateNavigationState();
+        }
+    }
+
+    /// <summary>
+    /// Command to center/reset the comparison view
+    /// </summary>
+    [RelayCommand]
+    private void CenterComparison()
+    {
+        _currentScrollPosition = 0;
+        UpdateNavigationState();
+    }
+
+    /// <summary>
+    /// Computed property to check if there are errors in the comparison
+    /// </summary>
+    public bool HasErrors => _comparisonResult != null && 
+                            (_comparisonResult.IncorrectCount + _comparisonResult.WrongPositionCount + _comparisonResult.MissingCount) > 0;
 }

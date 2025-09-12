@@ -816,86 +816,262 @@
                         </Border>
                     </StackLayout>
 
-                    <!-- Wordle-Style Digit Comparison -->
+                    <!-- Enhanced Wordle-Style Digit Comparison with Navigation -->
                     <StackLayout IsVisible="{Binding ShowDigitComparison}"
                                  Spacing="15"
                                  Margin="0,15,0,0">
                         
-                        <!-- Comparison Rows -->
+                        <!-- Comparison Navigation Header (for long numbers) -->
+                        <Border IsVisible="{Binding ShowComparisonNavigation}"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                                Stroke="{StaticResource Primary}"
+                                StrokeThickness="1"
+                                Padding="12"
+                                StrokeShape="RoundRectangle 8">
+                            <Grid ColumnDefinitions="Auto,*,Auto,*,Auto" ColumnSpacing="12">
+                                <!-- Navigation Left -->
+                                <Button Grid.Column="0"
+                                        Text="‹"
+                                        Command="{Binding NavigateComparisonLeftCommand}"
+                                        BackgroundColor="Transparent"
+                                        TextColor="{StaticResource Primary}"
+                                        FontSize="24"
+                                        FontAttributes="Bold"
+                                        WidthRequest="40"
+                                        HeightRequest="40"
+                                        CornerRadius="20"
+                                        IsEnabled="{Binding CanNavigateLeft}"
+                                        SemanticProperties.Description="{localization:Localize BigNumber_ScrollLeft}" />
+                                
+                                <!-- Position Indicator -->
+                                <Label Grid.Column="1"
+                                       Text="{Binding ComparisonPositionText}"
+                                       FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
+                                
+                                <!-- Center/Focus Button -->
+                                <Button Grid.Column="2"
+                                        Text="⌖"
+                                        Command="{Binding CenterComparisonCommand}"
+                                        BackgroundColor="{StaticResource Primary}"
+                                        TextColor="White"
+                                        FontSize="18"
+                                        WidthRequest="36"
+                                        HeightRequest="36"
+                                        CornerRadius="18"
+                                        SemanticProperties.Description="{localization:Localize BigNumber_CenterView}" />
+                                
+                                <!-- Accuracy Summary -->
+                                <Label Grid.Column="3"
+                                       Text="{Binding ComparisonSummaryText}"
+                                       FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center"
+                                       TextColor="{Binding AccuracyColor}" />
+                                
+                                <!-- Navigation Right -->
+                                <Button Grid.Column="4"
+                                        Text="›"
+                                        Command="{Binding NavigateComparisonRightCommand}"
+                                        BackgroundColor="Transparent"
+                                        TextColor="{StaticResource Primary}"
+                                        FontSize="24"
+                                        FontAttributes="Bold"
+                                        WidthRequest="40"
+                                        HeightRequest="40"
+                                        CornerRadius="20"
+                                        IsEnabled="{Binding CanNavigateRight}"
+                                        SemanticProperties.Description="{localization:Localize BigNumber_ScrollRight}" />
+                            </Grid>
+                        </Border>
+                        
+                        <!-- Comparison Legend (for first-time users) -->
+                        <Border IsVisible="{Binding ShowComparisonLegend}"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                                Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                                StrokeThickness="1"
+                                Padding="16"
+                                StrokeShape="RoundRectangle 12">
+                            <StackLayout Orientation="Horizontal" Spacing="20" HorizontalOptions="Center">
+                                <!-- Correct -->
+                                <StackLayout Orientation="Horizontal" Spacing="6">
+                                    <Border BackgroundColor="#28A745"
+                                            WidthRequest="24"
+                                            HeightRequest="24"
+                                            StrokeShape="RoundRectangle 4">
+                                        <Label Text="5"
+                                               TextColor="White"
+                                               FontFamily="Courier"
+                                               FontSize="12"
+                                               FontAttributes="Bold"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center" />
+                                    </Border>
+                                    <Label Text="{localization:Localize BigNumber_LegendCorrect}"
+                                           FontSize="12"
+                                           VerticalOptions="Center" />
+                                </StackLayout>
+                                
+                                <!-- Wrong Position -->
+                                <StackLayout Orientation="Horizontal" Spacing="6">
+                                    <Border BackgroundColor="#CC5500"
+                                            WidthRequest="24"
+                                            HeightRequest="24"
+                                            StrokeShape="RoundRectangle 4">
+                                        <Label Text="3"
+                                               TextColor="White"
+                                               FontFamily="Courier"
+                                               FontSize="12"
+                                               FontAttributes="Bold"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center" />
+                                    </Border>
+                                    <Label Text="{localization:Localize BigNumber_LegendWrongPosition}"
+                                           FontSize="12"
+                                           VerticalOptions="Center" />
+                                </StackLayout>
+                                
+                                <!-- Incorrect -->
+                                <StackLayout Orientation="Horizontal" Spacing="6">
+                                    <Border BackgroundColor="#71717A"
+                                            WidthRequest="24"
+                                            HeightRequest="24"
+                                            StrokeShape="RoundRectangle 4">
+                                        <Label Text="8"
+                                               TextColor="White"
+                                               FontFamily="Courier"
+                                               FontSize="12"
+                                               FontAttributes="Bold"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center" />
+                                    </Border>
+                                    <Label Text="{localization:Localize BigNumber_LegendIncorrect}"
+                                           FontSize="12"
+                                           VerticalOptions="Center" />
+                                </StackLayout>
+                                
+                                <!-- Missing -->
+                                <StackLayout Orientation="Horizontal" Spacing="6">
+                                    <Border BackgroundColor="White"
+                                            Stroke="#DC3545"
+                                            StrokeThickness="2"
+                                            WidthRequest="24"
+                                            HeightRequest="24"
+                                            StrokeShape="RoundRectangle 4">
+                                        <Label Text="?"
+                                               TextColor="#DC3545"
+                                               FontFamily="Courier"
+                                               FontSize="12"
+                                               FontAttributes="Bold"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center" />
+                                    </Border>
+                                    <Label Text="{localization:Localize BigNumber_LegendMissing}"
+                                           FontSize="12"
+                                           VerticalOptions="Center" />
+                                </StackLayout>
+                            </StackLayout>
+                        </Border>
+                        
+                        <!-- Comparison Rows with Enhanced Scrolling -->
                         <StackLayout Spacing="12">
-                                    <!-- Original Number Row Header -->
-                                    <Label Text="{localization:Localize BigNumber_OriginalNumber}"
-                                           FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                           FontAttributes="Bold"
-                                           Margin="8,0,0,0" />
+                            <!-- Original Number Row Header with Position Info -->
+                            <Grid ColumnDefinitions="*,Auto" Margin="8,0">
+                                <Label Grid.Column="0"
+                                       Text="{localization:Localize BigNumber_OriginalNumber}"
+                                       FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="Center" />
+                                <Label Grid.Column="1"
+                                       Text="{Binding VisibleRangeText}"
+                                       FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                       VerticalOptions="Center"
+                                       IsVisible="{Binding ShowVisibleRange}" />
+                            </Grid>
                                     
-                                    <!-- Original Number Tiles -->
-                                    <CollectionView ItemsSource="{Binding OriginalNumberTiles}"
-                                                    HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
-                                                    BackgroundColor="Transparent"
-                                                    SemanticProperties.Description="{localization:Localize Accessibility_ComparisonArea}"
-                                                    SemanticProperties.Hint="{localization:Localize Accessibility_ScrollComparisonHint}">
-                                        <CollectionView.ItemsLayout>
-                                            <LinearItemsLayout Orientation="Horizontal" ItemSpacing="4" />
-                                        </CollectionView.ItemsLayout>
+                            <!-- Original Number Tiles with Synchronized Scrolling -->
+                            <CollectionView x:Name="OriginalNumberCollectionView"
+                                            ItemsSource="{Binding OriginalNumberTiles}"
+                                            HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
+                                            BackgroundColor="Transparent"
+                                            HorizontalScrollBarVisibility="Never"
+                                            ItemSizingStrategy="MeasureAllItems"
+                                            SemanticProperties.Description="{localization:Localize Accessibility_ComparisonArea}"
+                                            SemanticProperties.Hint="{localization:Localize Accessibility_ScrollComparisonHint}">
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout Orientation="Horizontal" 
+                                                     ItemSpacing="4" 
+                                                     SnapPointsType="MandatorySingle"
+                                                     SnapPointsAlignment="Start" />
+                                </CollectionView.ItemsLayout>
                                         
-                                        <CollectionView.ItemTemplate>
-                                            <DataTemplate x:DataType="viewmodels:DigitComparisonTileViewModel">
-                                                <Border BackgroundColor="{Binding BackgroundColor}"
-                                                        Stroke="{Binding BorderColor}"
-                                                        StrokeThickness="{Binding BorderThickness}"
-                                                        WidthRequest="{OnIdiom Phone=40, Tablet=50, Desktop=60}"
-                                                        HeightRequest="{OnIdiom Phone=40, Tablet=50, Desktop=60}"
-                                                        StrokeShape="RoundRectangle 8"
-                                                        Margin="2"
-                                                        SemanticProperties.Description="{Binding AccessibilityDescription}">
-                                                    <Label Text="{Binding DisplayText}"
-                                                           TextColor="{Binding TextColor}"
-                                                           FontFamily="Courier"
-                                                           FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
-                                                           FontAttributes="Bold"
-                                                           HorizontalOptions="Center"
-                                                           VerticalOptions="Center" />
-                                                </Border>
-                                            </DataTemplate>
-                                        </CollectionView.ItemTemplate>
-                                    </CollectionView>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="viewmodels:DigitComparisonTileViewModel">
+                                        <Border BackgroundColor="{Binding BackgroundColor}"
+                                                Stroke="{Binding BorderColor}"
+                                                StrokeThickness="{Binding BorderThickness}"
+                                                WidthRequest="{OnIdiom Phone=40, Tablet=50, Desktop=60}"
+                                                HeightRequest="{OnIdiom Phone=40, Tablet=50, Desktop=60}"
+                                                StrokeShape="RoundRectangle 8"
+                                                Margin="2"
+                                                SemanticProperties.Description="{Binding AccessibilityDescription}">
+                                            <Label Text="{Binding DisplayText}"
+                                                   TextColor="{Binding TextColor}"
+                                                   FontFamily="Courier"
+                                                   FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
+                                                   FontAttributes="Bold"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
                                     
-                                    <!-- User Answer Row Header -->
-                                    <Label Text="{localization:Localize BigNumber_YourAnswer}"
-                                           FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                           FontAttributes="Bold"
-                                           Margin="8,12,0,0" />
+                            <!-- User Answer Row Header -->
+                            <Label Text="{localization:Localize BigNumber_YourAnswer}"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   FontAttributes="Bold"
+                                   Margin="8,12,0,0" />
                                     
-                                    <!-- User Answer Tiles with Color Coding -->
-                                    <CollectionView ItemsSource="{Binding UserAnswerTiles}"
-                                                    HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
-                                                    BackgroundColor="Transparent">
-                                        <CollectionView.ItemsLayout>
-                                            <LinearItemsLayout Orientation="Horizontal" ItemSpacing="4" />
-                                        </CollectionView.ItemsLayout>
+                            <!-- User Answer Tiles with Synchronized Scrolling -->
+                            <CollectionView x:Name="UserAnswerCollectionView"
+                                            ItemsSource="{Binding UserAnswerTiles}"
+                                            HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
+                                            BackgroundColor="Transparent"
+                                            HorizontalScrollBarVisibility="Default"
+                                            ItemSizingStrategy="MeasureAllItems">
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout Orientation="Horizontal" 
+                                                     ItemSpacing="4"
+                                                     SnapPointsType="MandatorySingle"
+                                                     SnapPointsAlignment="Start" />
+                                </CollectionView.ItemsLayout>
                                         
-                                        <CollectionView.ItemTemplate>
-                                            <DataTemplate x:DataType="viewmodels:DigitComparisonTileViewModel">
-                                                <Border BackgroundColor="{Binding BackgroundColor}"
-                                                        Stroke="{Binding BorderColor}"
-                                                        StrokeThickness="{Binding BorderThickness}"
-                                                        WidthRequest="{OnIdiom Phone=40, Tablet=50, Desktop=60}"
-                                                        HeightRequest="{OnIdiom Phone=40, Tablet=50, Desktop=60}"
-                                                        StrokeShape="RoundRectangle 8"
-                                                        Margin="2"
-                                                        SemanticProperties.Description="{Binding AccessibilityDescription}">
-                                                    <Label Text="{Binding DisplayText}"
-                                                           TextColor="{Binding TextColor}"
-                                                           FontFamily="Courier"
-                                                           FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
-                                                           FontAttributes="Bold"
-                                                           HorizontalOptions="Center"
-                                                           VerticalOptions="Center" />
-                                                </Border>
-                                            </DataTemplate>
-                                        </CollectionView.ItemTemplate>
-                                    </CollectionView>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="viewmodels:DigitComparisonTileViewModel">
+                                        <Border BackgroundColor="{Binding BackgroundColor}"
+                                                Stroke="{Binding BorderColor}"
+                                                StrokeThickness="{Binding BorderThickness}"
+                                                WidthRequest="{OnIdiom Phone=40, Tablet=50, Desktop=60}"
+                                                HeightRequest="{OnIdiom Phone=40, Tablet=50, Desktop=60}"
+                                                StrokeShape="RoundRectangle 8"
+                                                Margin="2"
+                                                SemanticProperties.Description="{Binding AccessibilityDescription}">
+                                            <Label Text="{Binding DisplayText}"
+                                                   TextColor="{Binding TextColor}"
+                                                   FontFamily="Courier"
+                                                   FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
+                                                   FontAttributes="Bold"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
                         </StackLayout>
                     </StackLayout>
 
