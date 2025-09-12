@@ -5,6 +5,8 @@ namespace MemoApp.UI.MauiApp.Views;
 
 public partial class BigNumberPage : ContentPage
 {
+    private bool _isScrollSynchronizing = false;
+    
     public BigNumberPage(BigNumberViewModel viewModel)
     {
         InitializeComponent();
@@ -164,6 +166,9 @@ public partial class BigNumberPage : ContentPage
     {
         try
         {
+            // Temporarily disable synchronization to prevent interference with programmatic scrolling
+            _isScrollSynchronizing = true;
+            
             // Scroll both CollectionViews to the specified position
             // CollectionView uses ScrollTo method with item index, not position
             if (OriginalNumberCollectionView?.ItemsSource is IList originalList && position < originalList.Count)
@@ -178,12 +183,16 @@ public partial class BigNumberPage : ContentPage
                 UserAnswerCollectionView.ScrollTo(userItem, position: ScrollToPosition.Start, animate: true);
             }
             
-            // Add small delay to ensure smooth scrolling
-            await Task.Delay(50);
+            // Add small delay to ensure smooth scrolling and re-enable synchronization
+            await Task.Delay(200); // Slightly longer delay to allow animation to complete
         }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Scroll to position error: {ex.Message}");
+        }
+        finally
+        {
+            _isScrollSynchronizing = false;
         }
     }
 
@@ -213,4 +222,121 @@ public partial class BigNumberPage : ContentPage
             viewModel.PropertyChanged -= OnViewModelPropertyChanged;
         }
     }
+    
+    #region Scroll Synchronization
+    
+    /// <summary>
+    /// Handles scroll events from the original number CollectionView to synchronize with user answer CollectionView
+    /// </summary>
+    private void OnOriginalNumberScrolled(object? sender, ItemsViewScrolledEventArgs e)
+    {
+        System.Diagnostics.Debug.WriteLine($"OnOriginalNumberScrolled called: HorizontalOffset={e.HorizontalOffset}, Synchronizing={_isScrollSynchronizing}");
+        
+        if (_isScrollSynchronizing)
+            return;
+            
+        try
+        {
+            _isScrollSynchronizing = true;
+            
+            // Synchronize the user answer CollectionView to match the original number scroll position
+            SynchronizeCollectionViewScroll(UserAnswerCollectionView, e.HorizontalOffset);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Original number scroll synchronization error: {ex.Message}");
+        }
+        finally
+        {
+            _isScrollSynchronizing = false;
+        }
+    }
+    
+    /// <summary>
+    /// Handles scroll events from the user answer CollectionView to synchronize with original number CollectionView
+    /// </summary>
+    private void OnUserAnswerScrolled(object? sender, ItemsViewScrolledEventArgs e)
+    {
+        System.Diagnostics.Debug.WriteLine($"OnUserAnswerScrolled called: HorizontalOffset={e.HorizontalOffset}, Synchronizing={_isScrollSynchronizing}");
+        
+        if (_isScrollSynchronizing)
+            return;
+            
+        try
+        {
+            _isScrollSynchronizing = true;
+            
+            // Synchronize the original number CollectionView to match the user answer scroll position
+            SynchronizeCollectionViewScroll(OriginalNumberCollectionView, e.HorizontalOffset);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"User answer scroll synchronization error: {ex.Message}");
+        }
+        finally
+        {
+            _isScrollSynchronizing = false;
+        }
+    }
+    
+    /// <summary>
+    /// Synchronizes the target CollectionView to the specified horizontal offset
+    /// </summary>
+    /// <param name="targetCollectionView">The CollectionView to synchronize</param>
+    /// <param name="horizontalOffset">The target horizontal scroll offset</param>
+    private void SynchronizeCollectionViewScroll(CollectionView? targetCollectionView, double horizontalOffset)
+    {
+        System.Diagnostics.Debug.WriteLine($"SynchronizeCollectionViewScroll called: target={targetCollectionView?.GetHashCode()}, offset={horizontalOffset}");
+        
+        if (targetCollectionView == null || !targetCollectionView.IsVisible)
+        {
+            System.Diagnostics.Debug.WriteLine($"Target CollectionView is null or not visible");
+            return;
+        }
+            
+        try
+        {
+            if (targetCollectionView.ItemsSource is IList items && items.Count > 0)
+            {
+                // Calculate item width based on device idiom (matching XAML values)
+                double itemWidth;
+                if (DeviceInfo.Idiom == DeviceIdiom.Phone)
+                    itemWidth = 40.0;
+                else if (DeviceInfo.Idiom == DeviceIdiom.Tablet)
+                    itemWidth = 50.0;
+                else if (DeviceInfo.Idiom == DeviceIdiom.Desktop)
+                    itemWidth = 60.0;
+                else
+                    itemWidth = 44.0; // Default fallback
+                
+                // Add ItemSpacing (4 pixels as defined in XAML)
+                const double itemSpacing = 4.0;
+                double totalItemWidth = itemWidth + itemSpacing;
+                
+                // Calculate target item index based on horizontal offset
+                int targetIndex = Math.Max(0, Math.Min((int)(horizontalOffset / totalItemWidth), items.Count - 1));
+                
+                System.Diagnostics.Debug.WriteLine($"Calculated targetIndex={targetIndex} from offset={horizontalOffset}, totalItemWidth={totalItemWidth}");
+                
+                if (targetIndex < items.Count)
+                {
+                    var targetItem = items[targetIndex];
+                    
+                    System.Diagnostics.Debug.WriteLine($"Scrolling to item at index {targetIndex}");
+                    // Use non-animated scrolling to avoid visual lag during synchronization
+                    targetCollectionView.ScrollTo(targetItem, position: ScrollToPosition.Start, animate: false);
+                }
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($"ItemsSource is null or empty: {targetCollectionView.ItemsSource?.GetType()}");
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"CollectionView synchronization error: {ex.Message}");
+        }
+    }
+    
+    #endregion
 }
