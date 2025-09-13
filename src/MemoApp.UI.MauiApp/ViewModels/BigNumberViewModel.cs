@@ -530,13 +530,25 @@ public partial class BigNumberViewModel : BaseViewModel
 
     partial void OnUserInputChanged(string value)
     {
-        // Enforce max length for Editor (since Editor doesn't have MaxLength property)
+        // Enforce digits-only input and max length for Editor
         if (!string.IsNullOrEmpty(value))
         {
+            // Extract only digits from input (removes any non-digit characters)
             var digitsOnly = new string(value.Where(char.IsDigit).ToArray());
+            
+            // If input contains non-digit characters, replace with digits-only version
+            if (digitsOnly != value)
+            {
+                UserInput = digitsOnly.Length > NumberOfDigits 
+                    ? digitsOnly.Substring(0, NumberOfDigits)
+                    : digitsOnly;
+                return; // Prevent recursive call
+            }
+            
+            // If input exceeds digit limit, truncate to limit
             if (digitsOnly.Length > NumberOfDigits)
             {
-                UserInput = new string(value.Where(char.IsDigit).Take(NumberOfDigits).ToArray());
+                UserInput = digitsOnly.Substring(0, NumberOfDigits);
                 return; // Prevent recursive call
             }
         }
