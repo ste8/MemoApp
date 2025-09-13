@@ -575,6 +575,7 @@ public partial class BigNumberViewModel : BaseViewModel
         
         // Update verification button state
         CanVerifyInput = digitsEntered > 0;
+        VerifyInputCommand.NotifyCanExecuteChanged();
     }
 
     /// <summary>
@@ -1432,7 +1433,7 @@ public partial class BigNumberViewModel : BaseViewModel
     }
 
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanVerifyInput))]
     private async Task VerifyInput()
     {
         if (string.IsNullOrEmpty(UserInput) || string.IsNullOrEmpty(_originalNumber))
@@ -1542,6 +1543,7 @@ public partial class BigNumberViewModel : BaseViewModel
             0,
             NumberOfDigits);
         CanVerifyInput = false;
+        VerifyInputCommand.NotifyCanExecuteChanged();
         IsOnDemandVerificationActive = false;
         AccuracyPercentage = 0;
         AccuracyPercentageText = string.Empty;

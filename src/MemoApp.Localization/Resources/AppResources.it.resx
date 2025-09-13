@@ -2372,6 +2372,37 @@ Scarica MemoRaise: {AppUrl}
     <comment>Celebration text shown after completing a challenge</comment>
   </data>
 
+  <!-- Enhanced Accessibility Descriptions for Color-Blind Support -->
+  <data name="BigNumber_CorrectDigitEnhancedAccessibility" xml:space="preserve">
+    <value>{0} alla posizione {1}: Corretto - sfondo verde con spunta</value>
+    <comment>Enhanced accessibility description for correct digits including visual indicators</comment>
+  </data>
+
+  <data name="BigNumber_WrongPositionDigitEnhancedAccessibility" xml:space="preserve">
+    <value>{0} alla posizione {1}: Cifra giusta, posizione sbagliata - sfondo arancione con doppia freccia</value>
+    <comment>Enhanced accessibility description for wrong position digits including visual indicators</comment>
+  </data>
+
+  <data name="BigNumber_IncorrectDigitEnhancedAccessibility" xml:space="preserve">
+    <value>{0} alla posizione {1}: Sbagliato - sfondo grigio con X</value>
+    <comment>Enhanced accessibility description for incorrect digits including visual indicators</comment>
+  </data>
+
+  <data name="BigNumber_MissingDigitEnhancedAccessibility" xml:space="preserve">
+    <value>Posizione {0}: Cifra mancante - sfondo bianco con bordo rosso tratteggiato e punto interrogativo</value>
+    <comment>Enhanced accessibility description for missing digits including visual indicators</comment>
+  </data>
+
+  <data name="BigNumber_ColorBlindFriendlyLegendTitle" xml:space="preserve">
+    <value>Guida Visiva (Accessibile ai Daltonici)</value>
+    <comment>Updated legend title emphasizing color-blind accessibility</comment>
+  </data>
+
+  <data name="BigNumber_PatternExplanation" xml:space="preserve">
+    <value>Colori + bordi distintivi per l'accessibilità</value>
+    <comment>Brief explanation of the color-blind friendly border pattern approach</comment>
+  </data>
+
   <!-- Navigation Control strings -->
   <data name="BigNumber_PositionIndicator" xml:space="preserve">
     <value>Cifre {0}-{1} di {2}</value>
@@ -2412,5 +2443,31 @@ Scarica MemoRaise: {AppUrl}
   <data name="BigNumber_DigitCount" xml:space="preserve">
     <value>{0} di {1} cifre</value>
     <comment>Digit count indicator showing current vs target digits (e.g., "45 di 100 cifre")</comment>
+  </data>
+
+  <!-- Enhanced accessibility strings for color-blind users -->
+  <data name="BigNumber_CorrectDigitEnhancedAccessibility" xml:space="preserve">
+    <value>{0} alla posizione {1}: Corretto - sfondo verde con simbolo di spunta</value>
+    <comment>Enhanced accessibility description for correct digits including visual indicators</comment>
+  </data>
+  <data name="BigNumber_WrongPositionDigitEnhancedAccessibility" xml:space="preserve">
+    <value>{0} alla posizione {1}: Cifra giusta, posizione sbagliata - sfondo arancione a righe con simbolo freccia doppia</value>
+    <comment>Enhanced accessibility description for wrong position digits including visual indicators</comment>
+  </data>
+  <data name="BigNumber_IncorrectDigitEnhancedAccessibility" xml:space="preserve">
+    <value>{0} alla posizione {1}: Sbagliato - sfondo grigio punteggiato con simbolo X</value>
+    <comment>Enhanced accessibility description for incorrect digits including visual indicators</comment>
+  </data>
+  <data name="BigNumber_MissingDigitEnhancedAccessibility" xml:space="preserve">
+    <value>Posizione {0}: Cifra mancante - sfondo bianco con bordo rosso tratteggiato e simbolo punto interrogativo</value>
+    <comment>Enhanced accessibility description for missing digits including visual indicators</comment>
+  </data>
+  <data name="BigNumber_ColorBlindLegendTitle" xml:space="preserve">
+    <value>Guida Visiva (Adatta ai Daltonici)</value>
+    <comment>Title for enhanced legend that includes symbols and patterns</comment>
+  </data>
+  <data name="BigNumber_PatternExplanation" xml:space="preserve">
+    <value>Ogni risultato usa colore, simboli e pattern per maggiore chiarezza</value>
+    <comment>Explanation text for pattern-based visual indicators</comment>
   </data>
 </root>

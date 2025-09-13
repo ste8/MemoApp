@@ -976,24 +976,28 @@
                                         SemanticProperties.Description="{localization:Localize Accessibility_ComparisonArea}"
                                         SemanticProperties.Hint="{localization:Localize Accessibility_ScrollComparisonHint}">
                                 <StackLayout x:Name="OriginalNumberContainer"
-                                             Orientation="Horizontal" 
+                                             Orientation="Horizontal"
                                              Spacing="4"
                                              BindableLayout.ItemsSource="{Binding OriginalNumberTiles}">
                                     <BindableLayout.ItemTemplate>
                                         <DataTemplate x:DataType="viewmodels:DigitComparisonTileViewModel">
+                                            <!-- Color-blind friendly border pattern system -->
                                             <Border BackgroundColor="{Binding BackgroundColor}"
                                                     Stroke="{Binding BorderColor}"
                                                     StrokeThickness="{Binding BorderThickness}"
+                                                    StrokeDashArray="{Binding BorderPattern}"
+                                                    StrokeDashOffset="1"
                                                     WidthRequest="{OnIdiom Phone=40, Tablet=50, Desktop=60}"
                                                     HeightRequest="{OnIdiom Phone=40, Tablet=50, Desktop=60}"
                                                     StrokeShape="RoundRectangle 8"
                                                     Margin="2"
-                                                    SemanticProperties.Description="{Binding AccessibilityDescription}">
+                                                    SemanticProperties.Description="{Binding EnhancedAccessibilityDescription}">
+                                                <!-- Main digit display with enhanced contrast -->
                                                 <Label Text="{Binding DisplayText}"
                                                        TextColor="{Binding TextColor}"
                                                        FontFamily="Courier"
                                                        FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
-                                                       FontAttributes="Bold"
+                                                       FontAttributes="{Binding FontWeight}"
                                                        HorizontalOptions="Center"
                                                        VerticalOptions="Center" />
                                             </Border>
@@ -1016,24 +1020,28 @@
                                         BackgroundColor="Transparent"
                                         Scrolled="OnUserAnswerScrolled">
                                 <StackLayout x:Name="UserAnswerContainer"
-                                             Orientation="Horizontal" 
+                                             Orientation="Horizontal"
                                              Spacing="4"
                                              BindableLayout.ItemsSource="{Binding UserAnswerTiles}">
                                     <BindableLayout.ItemTemplate>
                                         <DataTemplate x:DataType="viewmodels:DigitComparisonTileViewModel">
+                                            <!-- Color-blind friendly border pattern system -->
                                             <Border BackgroundColor="{Binding BackgroundColor}"
                                                     Stroke="{Binding BorderColor}"
                                                     StrokeThickness="{Binding BorderThickness}"
+                                                    StrokeDashArray="{Binding BorderPattern}"
+                                                    StrokeDashOffset="1"
                                                     WidthRequest="{OnIdiom Phone=40, Tablet=50, Desktop=60}"
                                                     HeightRequest="{OnIdiom Phone=40, Tablet=50, Desktop=60}"
                                                     StrokeShape="RoundRectangle 8"
                                                     Margin="2"
-                                                    SemanticProperties.Description="{Binding AccessibilityDescription}">
+                                                    SemanticProperties.Description="{Binding EnhancedAccessibilityDescription}">
+                                                <!-- Main digit display with enhanced contrast -->
                                                 <Label Text="{Binding DisplayText}"
                                                        TextColor="{Binding TextColor}"
                                                        FontFamily="Courier"
                                                        FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
-                                                       FontAttributes="Bold"
+                                                       FontAttributes="{Binding FontWeight}"
                                                        HorizontalOptions="Center"
                                                        VerticalOptions="Center" />
                                             </Border>
@@ -1058,16 +1066,21 @@
                                 <!-- Legend Header with Toggle -->
                                 <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
                                     <Label Grid.Column="0"
-                                           Text="💡"
+                                           Text="🎯"
                                            FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                            VerticalOptions="Center" />
 
-                                    <Label Grid.Column="1"
-                                           Text="{localization:Localize BigNumber_LegendTitle}"
-                                           FontSize="{OnIdiom Phone=13, Tablet=15, Desktop=16}"
-                                           FontAttributes="Bold"
-                                           VerticalOptions="Center"
-                                           TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray300}}" />
+                                    <StackLayout Grid.Column="1" Spacing="2">
+                                        <Label Text="{localization:Localize BigNumber_ColorBlindFriendlyLegendTitle}"
+                                               FontSize="{OnIdiom Phone=13, Tablet=15, Desktop=16}"
+                                               FontAttributes="Bold"
+                                               VerticalOptions="Center"
+                                               TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray300}}" />
+                                        <Label Text="{localization:Localize BigNumber_PatternExplanation}"
+                                               FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}"
+                                               VerticalOptions="Center"
+                                               TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
+                                    </StackLayout>
 
                                     <Button Grid.Column="2"
                                             Text="{Binding LegendToggleText}"
@@ -1087,82 +1100,123 @@
 
                                         <!-- Row 1: Correct and Wrong Position -->
                                         <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
-                                            <!-- Correct -->
+                                            <!-- Correct: Solid border -->
                                             <StackLayout Grid.Column="0" Orientation="Horizontal" Spacing="8">
                                                 <Border BackgroundColor="#28A745"
-                                                        WidthRequest="20"
-                                                        HeightRequest="20"
+                                                        Stroke="#1E7E34"
+                                                        StrokeThickness="3"
+                                                        WidthRequest="24"
+                                                        HeightRequest="24"
                                                         StrokeShape="RoundRectangle 4">
-                                                    <Label Text="✓"
+                                                    <Label Text="7"
                                                            TextColor="White"
                                                            FontSize="13"
+                                                           FontFamily="Courier"
                                                            FontAttributes="Bold"
                                                            HorizontalOptions="Center"
                                                            VerticalOptions="Center" />
                                                 </Border>
-                                                <Label Text="{localization:Localize BigNumber_LegendCorrect}"
-                                                       FontSize="11"
-                                                       VerticalOptions="Center" />
-                                            </StackLayout>
-
-                                            <!-- Wrong Position -->
-                                            <StackLayout Grid.Column="1" Orientation="Horizontal" Spacing="8">
-                                                <Border BackgroundColor="#CC5500"
-                                                        WidthRequest="20"
-                                                        HeightRequest="20"
-                                                        StrokeShape="RoundRectangle 4">
-                                                    <Label Text="↔"
-                                                           TextColor="White"
+                                                <StackLayout Spacing="1">
+                                                    <Label Text="{localization:Localize BigNumber_LegendCorrect}"
                                                            FontSize="11"
                                                            FontAttributes="Bold"
+                                                           VerticalOptions="Center" />
+                                                    <Label Text="Solid border"
+                                                           FontSize="9"
+                                                           TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                                           VerticalOptions="Center" />
+                                                </StackLayout>
+                                            </StackLayout>
+
+                                            <!-- Wrong Position: Dashed border -->
+                                            <StackLayout Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                                                <Border BackgroundColor="#CC5500"
+                                                        Stroke="#A0430D"
+                                                        StrokeThickness="3"
+                                                        StrokeDashArray="6,3"
+                                                        StrokeDashOffset="1"
+                                                        WidthRequest="24"
+                                                        HeightRequest="24"
+                                                        StrokeShape="RoundRectangle 4">
+                                                    <Label Text="3"
+                                                           TextColor="White"
+                                                           FontSize="13"
+                                                           FontFamily="Courier"
+                                                           FontAttributes="Bold"
                                                            HorizontalOptions="Center"
                                                            VerticalOptions="Center" />
                                                 </Border>
-                                                <Label Text="{localization:Localize BigNumber_LegendWrongPosition}"
-                                                       FontSize="11"
-                                                       VerticalOptions="Center" />
+                                                <StackLayout Spacing="1">
+                                                    <Label Text="{localization:Localize BigNumber_LegendWrongPosition}"
+                                                           FontSize="11"
+                                                           FontAttributes="Bold"
+                                                           VerticalOptions="Center" />
+                                                    <Label Text="Dashed border"
+                                                           FontSize="9"
+                                                           TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                                           VerticalOptions="Center" />
+                                                </StackLayout>
                                             </StackLayout>
                                         </Grid>
 
                                         <!-- Row 2: Incorrect and Missing -->
                                         <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
-                                            <!-- Incorrect -->
+                                            <!-- Incorrect: Dotted border -->
                                             <StackLayout Grid.Column="0" Orientation="Horizontal" Spacing="8">
                                                 <Border BackgroundColor="#71717A"
-                                                        WidthRequest="20"
-                                                        HeightRequest="20"
+                                                        Stroke="#52525B"
+                                                        StrokeThickness="3"
+                                                        StrokeDashArray="2,3"
+                                                        StrokeDashOffset="1"
+                                                        WidthRequest="24"
+                                                        HeightRequest="24"
                                                         StrokeShape="RoundRectangle 4">
-                                                    <Label Text="✗"
+                                                    <Label Text="9"
                                                            TextColor="White"
                                                            FontSize="13"
+                                                           FontFamily="Courier"
                                                            FontAttributes="Bold"
                                                            HorizontalOptions="Center"
                                                            VerticalOptions="Center" />
                                                 </Border>
-                                                <Label Text="{localization:Localize BigNumber_LegendIncorrect}"
-                                                       FontSize="11"
-                                                       VerticalOptions="Center" />
+                                                <StackLayout Spacing="1">
+                                                    <Label Text="{localization:Localize BigNumber_LegendIncorrect}"
+                                                           FontSize="11"
+                                                           FontAttributes="Bold"
+                                                           VerticalOptions="Center" />
+                                                    <Label Text="Dotted border"
+                                                           FontSize="9"
+                                                           TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                                           VerticalOptions="Center" />
+                                                </StackLayout>
                                             </StackLayout>
 
-                                            <!-- Missing -->
+                                            <!-- Missing: Double border (already distinct) -->
                                             <StackLayout Grid.Column="1" Orientation="Horizontal" Spacing="8">
                                                 <Border BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray700}}"
                                                         Stroke="#DC3545"
-                                                        StrokeThickness="2"
-                                                        WidthRequest="20"
-                                                        HeightRequest="20"
+                                                        StrokeThickness="3"
+                                                        WidthRequest="24"
+                                                        HeightRequest="24"
                                                         StrokeShape="RoundRectangle 4">
                                                     <Label Text="?"
                                                            TextColor="#DC3545"
+                                                           FontSize="13"
                                                            FontFamily="Courier"
-                                                           FontSize="11"
                                                            FontAttributes="Bold"
                                                            HorizontalOptions="Center"
                                                            VerticalOptions="Center" />
                                                 </Border>
-                                                <Label Text="{localization:Localize BigNumber_LegendMissing}"
-                                                       FontSize="11"
-                                                       VerticalOptions="Center" />
+                                                <StackLayout Spacing="1">
+                                                    <Label Text="{localization:Localize BigNumber_LegendMissing}"
+                                                           FontSize="11"
+                                                           FontAttributes="Bold"
+                                                           VerticalOptions="Center" />
+                                                    <Label Text="Thick border"
+                                                           FontSize="9"
+                                                           TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                                           VerticalOptions="Center" />
+                                                </StackLayout>
                                             </StackLayout>
                                         </Grid>
                                     </StackLayout>
@@ -1170,79 +1224,120 @@
                                     <!-- Tablet/Desktop: Horizontal layout -->
                                     <StackLayout Orientation="Horizontal" Spacing="16" HorizontalOptions="Center"
                                                  IsVisible="{OnIdiom Phone=False, Default=True}">
-                                        <!-- Correct -->
-                                        <StackLayout Orientation="Horizontal" Spacing="6">
+                                        <!-- Correct: Solid border -->
+                                        <StackLayout Orientation="Horizontal" Spacing="8">
                                             <Border BackgroundColor="#28A745"
-                                                    WidthRequest="24"
-                                                    HeightRequest="24"
+                                                    Stroke="#1E7E34"
+                                                    StrokeThickness="3"
+                                                    WidthRequest="28"
+                                                    HeightRequest="28"
                                                     StrokeShape="RoundRectangle 4">
-                                                <Label Text="✓"
+                                                <Label Text="7"
                                                        TextColor="White"
-                                                       FontSize="14"
+                                                       FontSize="15"
+                                                       FontFamily="Courier"
                                                        FontAttributes="Bold"
                                                        HorizontalOptions="Center"
                                                        VerticalOptions="Center" />
                                             </Border>
-                                            <Label Text="{localization:Localize BigNumber_LegendCorrect}"
-                                                   FontSize="12"
-                                                   VerticalOptions="Center" />
-                                        </StackLayout>
-
-                                        <!-- Wrong Position -->
-                                        <StackLayout Orientation="Horizontal" Spacing="6">
-                                            <Border BackgroundColor="#CC5500"
-                                                    WidthRequest="24"
-                                                    HeightRequest="24"
-                                                    StrokeShape="RoundRectangle 4">
-                                                <Label Text="↔"
-                                                       TextColor="White"
+                                            <StackLayout Spacing="1">
+                                                <Label Text="{localization:Localize BigNumber_LegendCorrect}"
                                                        FontSize="12"
                                                        FontAttributes="Bold"
-                                                       HorizontalOptions="Center"
                                                        VerticalOptions="Center" />
-                                            </Border>
-                                            <Label Text="{localization:Localize BigNumber_LegendWrongPosition}"
-                                                   FontSize="12"
-                                                   VerticalOptions="Center" />
+                                                <Label Text="Solid border"
+                                                       FontSize="10"
+                                                       TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                                       VerticalOptions="Center" />
+                                            </StackLayout>
                                         </StackLayout>
 
-                                        <!-- Incorrect -->
-                                        <StackLayout Orientation="Horizontal" Spacing="6">
-                                            <Border BackgroundColor="#71717A"
-                                                    WidthRequest="24"
-                                                    HeightRequest="24"
+                                        <!-- Wrong Position: Dashed border -->
+                                        <StackLayout Orientation="Horizontal" Spacing="8">
+                                            <Border BackgroundColor="#CC5500"
+                                                    Stroke="#A0430D"
+                                                    StrokeThickness="3"
+                                                    StrokeDashArray="6,3"
+                                                    StrokeDashOffset="1"
+                                                    WidthRequest="28"
+                                                    HeightRequest="28"
                                                     StrokeShape="RoundRectangle 4">
-                                                <Label Text="✗"
+                                                <Label Text="3"
                                                        TextColor="White"
-                                                       FontSize="14"
+                                                       FontSize="15"
+                                                       FontFamily="Courier"
                                                        FontAttributes="Bold"
                                                        HorizontalOptions="Center"
                                                        VerticalOptions="Center" />
                                             </Border>
-                                            <Label Text="{localization:Localize BigNumber_LegendIncorrect}"
-                                                   FontSize="12"
-                                                   VerticalOptions="Center" />
+                                            <StackLayout Spacing="1">
+                                                <Label Text="{localization:Localize BigNumber_LegendWrongPosition}"
+                                                       FontSize="12"
+                                                       FontAttributes="Bold"
+                                                       VerticalOptions="Center" />
+                                                <Label Text="Dashed border"
+                                                       FontSize="10"
+                                                       TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                                       VerticalOptions="Center" />
+                                            </StackLayout>
                                         </StackLayout>
 
-                                        <!-- Missing -->
-                                        <StackLayout Orientation="Horizontal" Spacing="6">
+                                        <!-- Incorrect: Dotted border -->
+                                        <StackLayout Orientation="Horizontal" Spacing="8">
+                                            <Border BackgroundColor="#71717A"
+                                                    Stroke="#52525B"
+                                                    StrokeThickness="3"
+                                                    StrokeDashArray="2,3"
+                                                    StrokeDashOffset="1"
+                                                    WidthRequest="28"
+                                                    HeightRequest="28"
+                                                    StrokeShape="RoundRectangle 4">
+                                                <Label Text="9"
+                                                       TextColor="White"
+                                                       FontSize="15"
+                                                       FontFamily="Courier"
+                                                       FontAttributes="Bold"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center" />
+                                            </Border>
+                                            <StackLayout Spacing="1">
+                                                <Label Text="{localization:Localize BigNumber_LegendIncorrect}"
+                                                       FontSize="12"
+                                                       FontAttributes="Bold"
+                                                       VerticalOptions="Center" />
+                                                <Label Text="Dotted border"
+                                                       FontSize="10"
+                                                       TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                                       VerticalOptions="Center" />
+                                            </StackLayout>
+                                        </StackLayout>
+
+                                        <!-- Missing: Thick border (already distinct) -->
+                                        <StackLayout Orientation="Horizontal" Spacing="8">
                                             <Border BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray700}}"
                                                     Stroke="#DC3545"
-                                                    StrokeThickness="2"
-                                                    WidthRequest="24"
-                                                    HeightRequest="24"
+                                                    StrokeThickness="3"
+                                                    WidthRequest="28"
+                                                    HeightRequest="28"
                                                     StrokeShape="RoundRectangle 4">
                                                 <Label Text="?"
                                                        TextColor="#DC3545"
                                                        FontFamily="Courier"
-                                                       FontSize="12"
+                                                       FontSize="15"
                                                        FontAttributes="Bold"
                                                        HorizontalOptions="Center"
                                                        VerticalOptions="Center" />
                                             </Border>
-                                            <Label Text="{localization:Localize BigNumber_LegendMissing}"
-                                                   FontSize="12"
-                                                   VerticalOptions="Center" />
+                                            <StackLayout Spacing="1">
+                                                <Label Text="{localization:Localize BigNumber_LegendMissing}"
+                                                       FontSize="12"
+                                                       FontAttributes="Bold"
+                                                       VerticalOptions="Center" />
+                                                <Label Text="Thick border"
+                                                       FontSize="10"
+                                                       TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                                       VerticalOptions="Center" />
+                                            </StackLayout>
                                         </StackLayout>
                                     </StackLayout>
                                 </StackLayout>

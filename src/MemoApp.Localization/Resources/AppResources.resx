@@ -2476,6 +2476,37 @@ Download MemoRaise: {AppUrl}
     <comment>Celebration text shown after completing a challenge</comment>
   </data>
 
+  <!-- Enhanced Accessibility Descriptions for Color-Blind Support -->
+  <data name="BigNumber_CorrectDigitEnhancedAccessibility" xml:space="preserve">
+    <value>{0} at position {1}: Correct - green background with checkmark</value>
+    <comment>Enhanced accessibility description for correct digits including visual indicators</comment>
+  </data>
+
+  <data name="BigNumber_WrongPositionDigitEnhancedAccessibility" xml:space="preserve">
+    <value>{0} at position {1}: Right digit, wrong position - orange background with double arrow</value>
+    <comment>Enhanced accessibility description for wrong position digits including visual indicators</comment>
+  </data>
+
+  <data name="BigNumber_IncorrectDigitEnhancedAccessibility" xml:space="preserve">
+    <value>{0} at position {1}: Incorrect - gray background with X mark</value>
+    <comment>Enhanced accessibility description for incorrect digits including visual indicators</comment>
+  </data>
+
+  <data name="BigNumber_MissingDigitEnhancedAccessibility" xml:space="preserve">
+    <value>Position {0}: Missing digit - white background with red dashed border and question mark</value>
+    <comment>Enhanced accessibility description for missing digits including visual indicators</comment>
+  </data>
+
+  <data name="BigNumber_ColorBlindFriendlyLegendTitle" xml:space="preserve">
+    <value>Visual Guide (Color-Blind Friendly)</value>
+    <comment>Updated legend title emphasizing color-blind accessibility</comment>
+  </data>
+
+  <data name="BigNumber_PatternExplanation" xml:space="preserve">
+    <value>Colors + border patterns for accessibility</value>
+    <comment>Brief explanation of the color-blind friendly border pattern approach</comment>
+  </data>
+
   <!-- Navigation Control strings -->
   <data name="BigNumber_PositionIndicator" xml:space="preserve">
     <value>Digits {0}-{1} of {2}</value>
@@ -2516,5 +2547,31 @@ Download MemoRaise: {AppUrl}
   <data name="BigNumber_DigitCount" xml:space="preserve">
     <value>{0} of {1} digits</value>
     <comment>Digit count indicator showing current vs target digits (e.g., "45 of 100 digits")</comment>
+  </data>
+
+  <!-- Enhanced accessibility strings for color-blind users -->
+  <data name="BigNumber_CorrectDigitEnhancedAccessibility" xml:space="preserve">
+    <value>{0} at position {1}: Correct - green background with checkmark symbol</value>
+    <comment>Enhanced accessibility description for correct digits including visual indicators</comment>
+  </data>
+  <data name="BigNumber_WrongPositionDigitEnhancedAccessibility" xml:space="preserve">
+    <value>{0} at position {1}: Right digit, wrong position - orange striped background with double arrow symbol</value>
+    <comment>Enhanced accessibility description for wrong position digits including visual indicators</comment>
+  </data>
+  <data name="BigNumber_IncorrectDigitEnhancedAccessibility" xml:space="preserve">
+    <value>{0} at position {1}: Incorrect - gray dotted background with X mark symbol</value>
+    <comment>Enhanced accessibility description for incorrect digits including visual indicators</comment>
+  </data>
+  <data name="BigNumber_MissingDigitEnhancedAccessibility" xml:space="preserve">
+    <value>Position {0}: Missing digit - white background with red dashed border and question mark symbol</value>
+    <comment>Enhanced accessibility description for missing digits including visual indicators</comment>
+  </data>
+  <data name="BigNumber_ColorBlindLegendTitle" xml:space="preserve">
+    <value>Visual Guide (Color-Blind Friendly)</value>
+    <comment>Title for enhanced legend that includes symbols and patterns</comment>
+  </data>
+  <data name="BigNumber_PatternExplanation" xml:space="preserve">
+    <value>Each result uses color, symbols, and patterns for clarity</value>
+    <comment>Explanation text for pattern-based visual indicators</comment>
   </data>
 </root>
