@@ -708,28 +708,24 @@
                                     </Grid>
                                 </Border>
                                 
-                                <!-- Action buttons -->
-                                <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
-                                    <Button Grid.Column="0"
-                                            Text="{localization:Localize BigNumber_CancelVerification}"
-                                            Command="{Binding CancelVerificationCommand}"
-                                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
-                                            TextColor="White"
-                                            FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                            HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
-                                            CornerRadius="12" />
-                                    
-                                    <Button Grid.Column="1"
-                                            Text="{localization:Localize BigNumber_CheckAnswer}"
-                                            Command="{Binding VerifyInputCommand}"
-                                            BackgroundColor="{StaticResource Success}"
-                                            TextColor="White"
-                                            FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                            FontAttributes="Bold"
-                                            HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
-                                            CornerRadius="12"
-                                            IsEnabled="{Binding CanVerifyInput}" />
-                                </Grid>
+                                <!-- Primary Action: Single Prominent Verify Button -->
+                                <Button Text="{localization:Localize BigNumber_CheckAnswer}"
+                                        Command="{Binding VerifyInputCommand}"
+                                        BackgroundColor="{StaticResource Success}"
+                                        TextColor="White"
+                                        FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                        FontAttributes="Bold"
+                                        HeightRequest="{OnIdiom Phone=64, Tablet=72, Desktop=80}"
+                                        CornerRadius="16"
+                                        IsEnabled="{Binding CanVerifyInput}"
+                                        Margin="0,8,0,0">
+                                    <Button.Shadow>
+                                        <Shadow Brush="{StaticResource Success}" 
+                                                Opacity="0.3" 
+                                                Offset="0,4" 
+                                                Radius="12" />
+                                    </Button.Shadow>
+                                </Button>
                             </StackLayout>
                         </Border>
                         
