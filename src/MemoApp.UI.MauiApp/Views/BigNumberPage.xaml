@@ -830,13 +830,15 @@
                                             BackgroundColor="#1DA1F2"
                                             TextColor="White"
                                             FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                            FontFamily="FontAwesome6Pro-Solid"
                                             HeightRequest="{OnIdiom Phone=48, Tablet=56, Desktop=64}"
                                             CornerRadius="14"
                                             IsVisible="{Binding CanShareResults}">
                                         <Button.Text>
-                                            <MultiBinding StringFormat="📤  {0}">
-                                                <Binding Source="{localization:Localize Share_Results}" />
-                                            </MultiBinding>
+                                            <OnPlatform x:TypeArguments="x:String">
+                                                <On Platform="iOS,Android">&#xf1e0;</On>
+                                                <On Platform="WinUI,MacCatalyst">&#xf1e0;  {localization:Localize Share_Results}</On>
+                                            </OnPlatform>
                                         </Button.Text>
                                         <Button.Shadow>
                                             <Shadow Brush="#1DA1F2" 
@@ -877,13 +879,15 @@
                                             BackgroundColor="#1DA1F2"
                                             TextColor="White"
                                             FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                            FontFamily="FontAwesome6Pro-Solid"
                                             HeightRequest="{OnIdiom Phone=48, Tablet=56, Desktop=64}"
                                             CornerRadius="14"
                                             IsVisible="{Binding CanShareResults}">
                                         <Button.Text>
-                                            <MultiBinding StringFormat="📤  {0}">
-                                                <Binding Source="{localization:Localize Share_Results}" />
-                                            </MultiBinding>
+                                            <OnPlatform x:TypeArguments="x:String">
+                                                <On Platform="iOS,Android">&#xf1e0;</On>
+                                                <On Platform="WinUI,MacCatalyst">&#xf1e0;  {localization:Localize Share_Results}</On>
+                                            </OnPlatform>
                                         </Button.Text>
                                         <Button.Shadow>
                                             <Shadow Brush="#1DA1F2" 

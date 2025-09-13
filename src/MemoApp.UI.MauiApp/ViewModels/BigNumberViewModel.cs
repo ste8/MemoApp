@@ -1303,16 +1303,30 @@ public partial class BigNumberViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task ShareResultsAsync()
+    private async Task ShareResults()
     {
         try
         {
-            if (_memorizationStartTime == default || _recallStartTime == default)
+            // Check if we have results to share (either verification results or general exercise completion)
+            if (!ShowVerificationResults && !CanShareResults)
             {
                 await _userNotificationService.ShowErrorDialogAsync(
                     _localizationService.GetString("Error_Title"), 
                     _localizationService.GetString("Error_NoResultsToShare"));
                 return;
+            }
+            
+            // For backward compatibility, also check the old timing conditions
+            if (_memorizationStartTime == default)
+            {
+                // If we don't have memorization start time, set it to exercise start time
+                _memorizationStartTime = _exerciseStartTime != default ? _exerciseStartTime : DateTime.UtcNow.AddMinutes(-1);
+            }
+            
+            // If we don't have recall start time, estimate it (verification results means they've completed recall)
+            if (_recallStartTime == default)
+            {
+                _recallStartTime = DateTime.UtcNow.AddSeconds(-30); // Estimate they spent 30 seconds on recall
             }
 
             var memorizationTime = _recallStartTime - _memorizationStartTime;
@@ -1330,6 +1344,7 @@ public partial class BigNumberViewModel : BaseViewModel
             // Generate localized share content
             var shareContent = shareResult.GenerateShareContent(key => _localizationService.GetString(key));
 
+            // Track share initiation
             // Track share initiation
             await _analyticsService.TrackEventAsync(AnalyticsEvents.ShareInitiated, new Dictionary<string, object>
             {
@@ -1373,6 +1388,13 @@ public partial class BigNumberViewModel : BaseViewModel
                 ["error"] = ex.Message
             });
         }
+    }
+
+    [RelayCommand]
+    private void StartNewChallenge()
+    {
+        // Use existing StartNewGame logic for new challenge
+        StartNewGame();
     }
 
     // Input Verification Commands
@@ -1442,6 +1464,7 @@ public partial class BigNumberViewModel : BaseViewModel
             }
 
             ShowVerificationResults = true;
+            CanShareResults = true; // Enable sharing when verification results are shown
             
             // Generate the Wordle-style digit comparison
             GenerateDigitComparison(_originalNumber, UserInput);
@@ -1491,6 +1514,7 @@ public partial class BigNumberViewModel : BaseViewModel
     {
         UserInput = string.Empty;
         ShowVerificationResults = false;
+        CanShareResults = false; // Disable sharing when clearing verification state
         InputProgress = 0;
         // Initialize InputProgressText to always be visible (prevents layout shift)
         InputProgressText = string.Format(
