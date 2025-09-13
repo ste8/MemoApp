@@ -695,7 +695,7 @@
                                                HorizontalOptions="End"
                                                TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
                                         
-                                        <!-- Multi-line Editor -->
+                                        <!-- Multi-line Editor with Adaptive Sizing -->
                                         <Editor Grid.Row="1"
                                                 x:Name="NumberInput"
                                                 Text="{Binding UserInput, Mode=TwoWay}"
@@ -703,8 +703,8 @@
                                                 Keyboard="Numeric"
                                                 FontFamily="Courier"
                                                 FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=16}"
-                                                MinimumHeightRequest="{OnIdiom Phone=80, Tablet=120, Desktop=60}"
-                                                MaximumHeightRequest="{OnIdiom Phone=200, Tablet=280, Desktop=300}"
+                                                MinimumHeightRequest="{Binding DynamicMinimumHeight}"
+                                                MaximumHeightRequest="{OnIdiom Phone=240, Tablet=320, Desktop=360}"
                                                 AutoSize="TextChanges"
                                                 HorizontalTextAlignment="Start"
                                                 IsSpellCheckEnabled="False"

@@ -51,6 +51,13 @@ public partial class BigNumberViewModel : BaseViewModel
     [ObservableProperty]
     private int numberOfDigits = 20;
 
+    /// <summary>
+    /// Dynamic minimum height for the input Editor based on expected number length
+    /// Optimizes mobile screen space usage for short sequences while maintaining usability
+    /// </summary>
+    [ObservableProperty]
+    private double dynamicMinimumHeight = 50;
+
     [ObservableProperty]
     private int maxPairValue = 99;
 
@@ -395,6 +402,9 @@ public partial class BigNumberViewModel : BaseViewModel
         AdvancedSettingsToggleText = _localizationService.GetString("BigNumber_Show");
         
         UpdateNumberFontSize();
+        
+        // Initialize dynamic minimum height based on current settings
+        UpdateDynamicMinimumHeight();
     }
     
 
@@ -410,6 +420,9 @@ public partial class BigNumberViewModel : BaseViewModel
         
         // Update examples
         UpdateExamples();
+        
+        // Update dynamic minimum height based on expected content length
+        UpdateDynamicMinimumHeight();
         
         _ = SaveSettingsAsync();
     }
@@ -1139,6 +1152,69 @@ public partial class BigNumberViewModel : BaseViewModel
             NumberAssociations.Clear();
             _allAssociations.Clear();
         }
+    }
+
+    /// <summary>
+    /// Updates the dynamic minimum height for the Editor based on expected content length.
+    /// Optimizes mobile screen space usage by starting compact for short sequences
+    /// while ensuring adequate space for longer numbers.
+    /// </summary>
+    private void UpdateDynamicMinimumHeight()
+    {
+        // Calculate optimal minimum height based on content length and platform
+        double baseHeight;
+        double platformMultiplier;
+
+        // Get platform-specific base values
+        if (DeviceInfo.Idiom == DeviceIdiom.Phone)
+        {
+            baseHeight = 44; // Standard mobile touch target
+            platformMultiplier = 1.0;
+        }
+        else if (DeviceInfo.Idiom == DeviceIdiom.Tablet)
+        {
+            baseHeight = 56;
+            platformMultiplier = 1.2;
+        }
+        else // Desktop
+        {
+            baseHeight = 40;
+            platformMultiplier = 0.9;
+        }
+
+        // Smart sizing based on expected content length
+        double calculatedHeight;
+        
+        if (NumberOfDigits <= 25)
+        {
+            // Short sequences (20-25 digits): Start compact
+            // Most mobile users can see this in 1-2 lines, save screen space
+            calculatedHeight = baseHeight * platformMultiplier;
+        }
+        else if (NumberOfDigits <= 50)
+        {
+            // Medium sequences (26-50 digits): Moderate height
+            // Give more initial space as content will likely wrap
+            calculatedHeight = baseHeight * 1.4 * platformMultiplier;
+        }
+        else if (NumberOfDigits <= 100)
+        {
+            // Long sequences (51-100 digits): Generous initial height
+            // User will definitely need multi-line editing
+            calculatedHeight = baseHeight * 1.8 * platformMultiplier;
+        }
+        else
+        {
+            // Very long sequences (100+ digits): Maximum initial height
+            // Provide ample space for extensive multi-line content
+            calculatedHeight = baseHeight * 2.2 * platformMultiplier;
+        }
+
+        // Apply minimum thresholds for touch targets and usability
+        var minThreshold = DeviceInfo.Idiom == DeviceIdiom.Phone ? 40 : 
+                          DeviceInfo.Idiom == DeviceIdiom.Tablet ? 50 : 36;
+        
+        DynamicMinimumHeight = Math.Max(calculatedHeight, minThreshold);
     }
     
     private void RequestUserInputFocus()
