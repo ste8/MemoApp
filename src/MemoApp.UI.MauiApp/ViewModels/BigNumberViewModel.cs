@@ -161,8 +161,6 @@ public partial class BigNumberViewModel : BaseViewModel
     [ObservableProperty]
     private bool showVerificationResults = false;
 
-    [ObservableProperty]
-    private bool showRetryButton = false;
 
     [ObservableProperty]
     private string accuracyTitle = string.Empty;
@@ -1444,7 +1442,6 @@ public partial class BigNumberViewModel : BaseViewModel
             }
 
             ShowVerificationResults = true;
-            ShowRetryButton = accuracy < 100;
             
             // Generate the Wordle-style digit comparison
             GenerateDigitComparison(_originalNumber, UserInput);
@@ -1479,13 +1476,6 @@ public partial class BigNumberViewModel : BaseViewModel
         }
     }
 
-    [RelayCommand]
-    private void RetryInput()
-    {
-        UserInput = string.Empty;
-        ShowVerificationResults = false;
-        ShowRetryButton = false;
-    }
 
     [RelayCommand]
     private void CancelVerification()
@@ -1501,7 +1491,6 @@ public partial class BigNumberViewModel : BaseViewModel
     {
         UserInput = string.Empty;
         ShowVerificationResults = false;
-        ShowRetryButton = false;
         InputProgress = 0;
         // Initialize InputProgressText to always be visible (prevents layout shift)
         InputProgressText = string.Format(

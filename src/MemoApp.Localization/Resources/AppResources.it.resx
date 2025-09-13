@@ -671,6 +671,26 @@
     <value>Nuova Partita</value>
     <comment>New game button text</comment>
   </data>
+  <data name="BigNumber_NewChallenge" xml:space="preserve">
+    <value>Nuova Sfida</value>
+    <comment>New challenge button text for starting a fresh exercise</comment>
+  </data>
+  <data name="BigNumber_PerfectScore" xml:space="preserve">
+    <value>Punteggio Perfetto!</value>
+    <comment>Celebration text for 100% accuracy</comment>
+  </data>
+  <data name="BigNumber_YourResult" xml:space="preserve">
+    <value>Il Tuo Risultato:</value>
+    <comment>Label for results summary</comment>
+  </data>
+  <data name="BigNumber_ViewStats" xml:space="preserve">
+    <value>Vedi Statistiche</value>
+    <comment>Button text for viewing detailed statistics</comment>
+  </data>
+  <data name="Common_BackToMenu" xml:space="preserve">
+    <value>Torna al Menu</value>
+    <comment>Button text for returning to main menu</comment>
+  </data>
   <data name="BigNumber_DigitsHelp" xml:space="preserve">
     <value>Scegli tra 1 e 500 cifre</value>
     <comment>Help text for number of digits</comment>

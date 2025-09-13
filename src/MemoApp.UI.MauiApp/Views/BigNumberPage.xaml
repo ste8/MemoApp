@@ -803,16 +803,96 @@
                                     </StackLayout>
                                 </Grid>
                                 
-                                <!-- Try again button -->
-                                <Button Text="{localization:Localize BigNumber_VerifyAgain}"
-                                        Command="{Binding RetryInputCommand}"
-                                        BackgroundColor="{StaticResource Primary}"
-                                        TextColor="White"
-                                        FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                        HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
-                                        CornerRadius="12"
-                                        IsVisible="{Binding ShowRetryButton}"
-                                        Margin="0,10,0,0" />
+                                <!-- Post-completion action buttons -->
+                                <StackLayout IsVisible="{OnIdiom Phone=True, Default=False}" 
+                                             Spacing="12" 
+                                             Margin="0,16,0,0">
+                                    <!-- Mobile: Stacked layout -->
+                                    <!-- Primary: New Challenge -->
+                                    <Button Text="{localization:Localize BigNumber_NewChallenge}"
+                                            Command="{Binding StartNewChallengeCommand}"
+                                            BackgroundColor="{StaticResource Success}"
+                                            TextColor="White"
+                                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                            FontAttributes="Bold"
+                                            HeightRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
+                                            CornerRadius="16">
+                                        <Button.Shadow>
+                                            <Shadow Brush="{StaticResource Success}" 
+                                                    Opacity="0.3" 
+                                                    Offset="0,4" 
+                                                    Radius="12" />
+                                        </Button.Shadow>
+                                    </Button>
+                                    
+                                    <!-- Secondary: Share -->
+                                    <Button Command="{Binding ShareResultsCommand}"
+                                            BackgroundColor="#1DA1F2"
+                                            TextColor="White"
+                                            FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                            HeightRequest="{OnIdiom Phone=48, Tablet=56, Desktop=64}"
+                                            CornerRadius="14"
+                                            IsVisible="{Binding CanShareResults}">
+                                        <Button.Text>
+                                            <MultiBinding StringFormat="📤  {0}">
+                                                <Binding Source="{localization:Localize Share_Results}" />
+                                            </MultiBinding>
+                                        </Button.Text>
+                                        <Button.Shadow>
+                                            <Shadow Brush="#1DA1F2" 
+                                                    Opacity="0.2" 
+                                                    Offset="0,3" 
+                                                    Radius="8" />
+                                        </Button.Shadow>
+                                    </Button>
+                                </StackLayout>
+                                
+                                <!-- Tablet/Desktop: Side-by-side layout -->
+                                <Grid ColumnDefinitions="3*,2*" 
+                                      ColumnSpacing="12" 
+                                      Margin="0,16,0,0"
+                                      IsVisible="{OnIdiom Phone=False, Default=True}">
+                                    
+                                    <!-- Primary: New Challenge (larger) -->
+                                    <Button Grid.Column="0"
+                                            Text="{localization:Localize BigNumber_NewChallenge}"
+                                            Command="{Binding StartNewChallengeCommand}"
+                                            BackgroundColor="{StaticResource Success}"
+                                            TextColor="White"
+                                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                            FontAttributes="Bold"
+                                            HeightRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
+                                            CornerRadius="16">
+                                        <Button.Shadow>
+                                            <Shadow Brush="{StaticResource Success}" 
+                                                    Opacity="0.3" 
+                                                    Offset="0,4" 
+                                                    Radius="12" />
+                                        </Button.Shadow>
+                                    </Button>
+                                    
+                                    <!-- Secondary: Share (smaller but prominent) -->
+                                    <Button Grid.Column="1"
+                                            Command="{Binding ShareResultsCommand}"
+                                            BackgroundColor="#1DA1F2"
+                                            TextColor="White"
+                                            FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                            HeightRequest="{OnIdiom Phone=48, Tablet=56, Desktop=64}"
+                                            CornerRadius="14"
+                                            IsVisible="{Binding CanShareResults}">
+                                        <Button.Text>
+                                            <MultiBinding StringFormat="📤  {0}">
+                                                <Binding Source="{localization:Localize Share_Results}" />
+                                            </MultiBinding>
+                                        </Button.Text>
+                                        <Button.Shadow>
+                                            <Shadow Brush="#1DA1F2" 
+                                                    Opacity="0.2" 
+                                                    Offset="0,3" 
+                                                    Radius="8" />
+                                        </Button.Shadow>
+                                    </Button>
+                                </Grid>
                             </StackLayout>
                         </Border>
                     </StackLayout>
@@ -1039,32 +1119,103 @@
                         </StackLayout>
                     </StackLayout>
 
-                    <!-- Session Actions (Share/New Game) -->
-                    <Grid ColumnDefinitions="*,*" ColumnSpacing="15" 
-                          Margin="20,10"
-                          IsVisible="{Binding ShowSessionActions}">
-                        <Button Grid.Column="0"
-                                Command="{Binding ShareResultsCommand}"
-                                Text="{localization:Localize Share_Results}"
-                                BackgroundColor="#1DA1F2"
-                                TextColor="White"
-                                FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                CornerRadius="15"
-                                HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
-                                AutomationProperties.Name="{localization:Localize Accessibility_ShareButton}"
-                                AutomationProperties.HelpText="{localization:Localize Accessibility_ShareButtonHelp}"
-                                SemanticProperties.Description="{localization:Localize Share_ResultsDescription}"
-                                IsVisible="{Binding CanShareResults}" />
-
-                        <Button Grid.Column="1"
-                                Command="{Binding StartNewGameCommand}"
-                                Text="{localization:Localize BigNumber_NewGame}"
-                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
-                                TextColor="White"
-                                FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                CornerRadius="15"
-                                HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}" />
-                    </Grid>
+                    <!-- Enhanced Celebration Results Actions -->
+                    <StackLayout IsVisible="{Binding ShowSessionActions}"
+                                 Spacing="0"
+                                 Margin="{OnIdiom Phone='16,20,16,16', Tablet='24,24,24,20', Desktop='32,24,32,20'}">
+                        
+                        <!-- Primary Actions Container -->
+                        <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
+                                Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}"
+                                StrokeThickness="1"
+                                Padding="{OnIdiom Phone='16,20', Tablet='20,24', Desktop='24,28'}"
+                                StrokeShape="RoundRectangle 20">
+                            
+                            <StackLayout Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=16}">
+                                
+                                <!-- Mobile Layout: Stacked buttons for better touch targets -->
+                                <StackLayout IsVisible="{OnIdiom Phone=True, Tablet=False, Desktop=False}"
+                                             Spacing="12">
+                                    
+                                    <!-- New Challenge Button (Primary action) -->
+                                    <Button Command="{Binding StartNewGameCommand}"
+                                            Text="{localization:Localize BigNumber_NewChallenge}"
+                                            Style="{StaticResource CelebrationNewChallengeButton}"
+                                            HorizontalOptions="FillAndExpand"
+                                            AutomationProperties.Name="{localization:Localize BigNumber_NewChallenge}"
+                                            AutomationProperties.HelpText="Start a new Big Number challenge with your current settings">
+                                        <Button.ImageSource>
+                                            <FontImageSource FontFamily="FontAwesomePro-Solid"
+                                                             Glyph="&#xf01e;"
+                                                             Size="18"
+                                                             Color="White" />
+                                        </Button.ImageSource>
+                                    </Button>
+                                    
+                                    <!-- Share Button (Celebration action) -->
+                                    <Button Command="{Binding ShareResultsCommand}"
+                                            Text="{localization:Localize Share_Results}"
+                                            Style="{StaticResource CelebrationShareButton}"
+                                            HorizontalOptions="FillAndExpand"
+                                            IsVisible="{Binding CanShareResults}"
+                                            AutomationProperties.Name="{localization:Localize Accessibility_ShareButton}"
+                                            AutomationProperties.HelpText="{localization:Localize Accessibility_ShareButtonHelp}">
+                                        <Button.ImageSource>
+                                            <FontImageSource FontFamily="FontAwesomePro-Solid"
+                                                             Glyph="&#xf1e0;"
+                                                             Size="18"
+                                                             Color="White" />
+                                        </Button.ImageSource>
+                                    </Button>
+                                </StackLayout>
+                                
+                                <!-- Tablet/Desktop Layout: Side-by-side for efficiency -->
+                                <Grid ColumnDefinitions="*,*" 
+                                      ColumnSpacing="{OnIdiom Tablet=16, Desktop=20}"
+                                      IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}">
+                                    
+                                    <!-- Share Button (Left - social reward first in visual flow) -->
+                                    <Button Grid.Column="0"
+                                            Command="{Binding ShareResultsCommand}"
+                                            Text="{localization:Localize Share_Results}"
+                                            Style="{StaticResource CelebrationShareButton}"
+                                            IsVisible="{Binding CanShareResults}"
+                                            AutomationProperties.Name="{localization:Localize Accessibility_ShareButton}"
+                                            AutomationProperties.HelpText="{localization:Localize Accessibility_ShareButtonHelp}">
+                                        <Button.ImageSource>
+                                            <FontImageSource FontFamily="FontAwesomePro-Solid"
+                                                             Glyph="&#xf1e0;"
+                                                             Size="20"
+                                                             Color="White" />
+                                        </Button.ImageSource>
+                                    </Button>
+                                    
+                                    <!-- New Challenge Button (Right - natural next action) -->
+                                    <Button Grid.Column="1"
+                                            Command="{Binding StartNewGameCommand}"
+                                            Text="{localization:Localize BigNumber_NewChallenge}"
+                                            Style="{StaticResource CelebrationNewChallengeButton}"
+                                            AutomationProperties.Name="{localization:Localize BigNumber_NewChallenge}"
+                                            AutomationProperties.HelpText="Start a new Big Number challenge with your current settings">
+                                        <Button.ImageSource>
+                                            <FontImageSource FontFamily="FontAwesomePro-Solid"
+                                                             Glyph="&#xf01e;"
+                                                             Size="20"
+                                                             Color="White" />
+                                        </Button.ImageSource>
+                                    </Button>
+                                </Grid>
+                                
+                                <!-- Achievement Celebration Text -->
+                                <Label Text="Great job! Ready for the next challenge?"
+                                       FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=15}"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                       Margin="0,8,0,0" />
+                            </StackLayout>
+                        </Border>
+                    </StackLayout>
                 </StackLayout>
             </StackLayout>
         </StackLayout>
