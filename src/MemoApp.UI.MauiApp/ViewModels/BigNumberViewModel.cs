@@ -577,7 +577,7 @@ public partial class BigNumberViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async void StartMemorizing()
+    private async Task StartMemorizing()
     {
         // Prepare ad for potential display
         if (_interstitialAdManager != null)
@@ -618,7 +618,7 @@ public partial class BigNumberViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async void StopAndHide()
+    private async Task StopAndHide()
     {
         // Track exercise abandonment
         var currentTime = DateTime.UtcNow;
@@ -656,7 +656,7 @@ public partial class BigNumberViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async void StartRecall()
+    private async Task StartRecall()
     {
         if (_currentGame.Phase == GamePhase.Stopped)
         {
@@ -688,7 +688,7 @@ public partial class BigNumberViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async void StartNewGame()
+    private async Task StartNewGame()
     {
         // Track exercise completion if user finished a previous game
         if (_currentGame.Phase != GamePhase.Setup)
@@ -1650,7 +1650,8 @@ public partial class BigNumberViewModel : BaseViewModel
                 }
                 else if (IsAppVerificationSelected)
                 {
-                    StartInputVerification();
+                    // In app verification mode, primary action should start new game (as indicated by button text)
+                    StartNewGame();
                 }
                 break;
             case GamePhase.Recall:
