@@ -327,8 +327,6 @@ public partial class BigNumberViewModel : BaseViewModel
     [ObservableProperty]
     private string dynamicPositionText = string.Empty;
     
-    [ObservableProperty]
-    private string digitCountText = "0/20 digits";
     
     private NumberComparisonResult? _comparisonResult;
     private int _currentScrollPosition = 0;
@@ -405,6 +403,13 @@ public partial class BigNumberViewModel : BaseViewModel
         
         // Initialize dynamic minimum height based on current settings
         UpdateDynamicMinimumHeight();
+        
+        // Initialize InputProgressText to always be visible (prevents layout shift)
+        InputProgressText = string.Format(
+            CultureInfo.CurrentCulture,
+            _localizationService.GetString("BigNumber_DigitCount"),
+            0,
+            NumberOfDigits);
     }
     
 
@@ -423,6 +428,14 @@ public partial class BigNumberViewModel : BaseViewModel
         
         // Update dynamic minimum height based on expected content length
         UpdateDynamicMinimumHeight();
+        
+        // Update InputProgressText with new target digit count
+        var currentDigits = UserInput?.Where(char.IsDigit).Count() ?? 0;
+        InputProgressText = string.Format(
+            CultureInfo.CurrentCulture,
+            _localizationService.GetString("BigNumber_DigitCount"),
+            currentDigits,
+            NumberOfDigits);
         
         _ = SaveSettingsAsync();
     }
@@ -531,12 +544,6 @@ public partial class BigNumberViewModel : BaseViewModel
         // Update digit count and progress
         var digitsEntered = value?.Where(char.IsDigit).Count() ?? 0;
         
-        // Update digit count text
-        DigitCountText = string.Format(
-            CultureInfo.CurrentCulture,
-            _localizationService.GetString("BigNumber_DigitCount"),
-            digitsEntered,
-            NumberOfDigits);
         
         // Update progress
         InputProgress = NumberOfDigits > 0 ? (double)digitsEntered / NumberOfDigits : 0;
@@ -1484,8 +1491,8 @@ public partial class BigNumberViewModel : BaseViewModel
         ShowVerificationResults = false;
         ShowRetryButton = false;
         InputProgress = 0;
-        InputProgressText = string.Empty;
-        DigitCountText = string.Format(
+        // Initialize InputProgressText to always be visible (prevents layout shift)
+        InputProgressText = string.Format(
             CultureInfo.CurrentCulture,
             _localizationService.GetString("BigNumber_DigitCount"),
             0,

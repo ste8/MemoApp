@@ -2355,7 +2355,7 @@ Scarica MemoRaise: {AppUrl}
   
   <!-- Digit count indicator for multi-line input -->
   <data name="BigNumber_DigitCount" xml:space="preserve">
-    <value>{0}/{1} cifre</value>
-    <comment>Digit count indicator showing current vs target digits (e.g., "45/100 cifre")</comment>
+    <value>{0} di {1} cifre</value>
+    <comment>Digit count indicator showing current vs target digits (e.g., "45 di 100 cifre")</comment>
   </data>
 </root>

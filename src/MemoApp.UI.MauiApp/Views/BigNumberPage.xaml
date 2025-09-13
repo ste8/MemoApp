@@ -687,16 +687,10 @@
                                         Padding="8"
                                         StrokeShape="RoundRectangle 8"
                                         Margin="0,8,0,8">
-                                    <Grid RowDefinitions="Auto,*,Auto" RowSpacing="8">
-                                        <!-- Digit counter -->
-                                        <Label Grid.Row="0"
-                                               Text="{Binding DigitCountText}"
-                                               FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=14}"
-                                               HorizontalOptions="End"
-                                               TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
+                                    <Grid RowDefinitions="*,Auto" RowSpacing="8">
                                         
                                         <!-- Multi-line Editor with Adaptive Sizing -->
-                                        <Editor Grid.Row="1"
+                                        <Editor Grid.Row="0"
                                                 x:Name="NumberInput"
                                                 Text="{Binding UserInput, Mode=TwoWay}"
                                                 Placeholder="{localization:Localize BigNumber_EnterNumber}"
