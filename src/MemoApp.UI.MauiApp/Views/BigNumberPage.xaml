@@ -941,6 +941,14 @@
                         </Border>
                         
                         
+                        <!-- Contextual Explanation for Color Coding -->
+                        <Label Text="{localization:Localize BigNumber_LegendExplanation}"
+                               FontSize="{OnIdiom Phone=13, Tablet=15, Desktop=16}"
+                               TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                               Margin="8,8,8,4"
+                               HorizontalOptions="Start"
+                               IsVisible="{Binding ShowDigitComparison}" />
+
                         <!-- Comparison Rows with Enhanced Scrolling -->
                         <StackLayout Spacing="12">
                             <!-- Original Number Row Header with Position Info -->
@@ -1085,10 +1093,9 @@
                                                         WidthRequest="20"
                                                         HeightRequest="20"
                                                         StrokeShape="RoundRectangle 4">
-                                                    <Label Text="5"
+                                                    <Label Text="✓"
                                                            TextColor="White"
-                                                           FontFamily="Courier"
-                                                           FontSize="11"
+                                                           FontSize="13"
                                                            FontAttributes="Bold"
                                                            HorizontalOptions="Center"
                                                            VerticalOptions="Center" />
@@ -1104,9 +1111,8 @@
                                                         WidthRequest="20"
                                                         HeightRequest="20"
                                                         StrokeShape="RoundRectangle 4">
-                                                    <Label Text="3"
+                                                    <Label Text="↔"
                                                            TextColor="White"
-                                                           FontFamily="Courier"
                                                            FontSize="11"
                                                            FontAttributes="Bold"
                                                            HorizontalOptions="Center"
@@ -1126,10 +1132,9 @@
                                                         WidthRequest="20"
                                                         HeightRequest="20"
                                                         StrokeShape="RoundRectangle 4">
-                                                    <Label Text="8"
+                                                    <Label Text="✗"
                                                            TextColor="White"
-                                                           FontFamily="Courier"
-                                                           FontSize="11"
+                                                           FontSize="13"
                                                            FontAttributes="Bold"
                                                            HorizontalOptions="Center"
                                                            VerticalOptions="Center" />
@@ -1171,10 +1176,9 @@
                                                     WidthRequest="24"
                                                     HeightRequest="24"
                                                     StrokeShape="RoundRectangle 4">
-                                                <Label Text="5"
+                                                <Label Text="✓"
                                                        TextColor="White"
-                                                       FontFamily="Courier"
-                                                       FontSize="12"
+                                                       FontSize="14"
                                                        FontAttributes="Bold"
                                                        HorizontalOptions="Center"
                                                        VerticalOptions="Center" />
@@ -1190,9 +1194,8 @@
                                                     WidthRequest="24"
                                                     HeightRequest="24"
                                                     StrokeShape="RoundRectangle 4">
-                                                <Label Text="3"
+                                                <Label Text="↔"
                                                        TextColor="White"
-                                                       FontFamily="Courier"
                                                        FontSize="12"
                                                        FontAttributes="Bold"
                                                        HorizontalOptions="Center"
@@ -1209,10 +1212,9 @@
                                                     WidthRequest="24"
                                                     HeightRequest="24"
                                                     StrokeShape="RoundRectangle 4">
-                                                <Label Text="8"
+                                                <Label Text="✗"
                                                        TextColor="White"
-                                                       FontFamily="Courier"
-                                                       FontSize="12"
+                                                       FontSize="14"
                                                        FontAttributes="Bold"
                                                        HorizontalOptions="Center"
                                                        VerticalOptions="Center" />
@@ -1336,7 +1338,7 @@
                                 </Grid>
                                 
                                 <!-- Achievement Celebration Text -->
-                                <Label Text="Great job! Ready for the next challenge?"
+                                <Label Text="{localization:Localize BigNumber_AchievementCelebration}"
                                        FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=15}"
                                        HorizontalOptions="Center"
                                        HorizontalTextAlignment="Center"

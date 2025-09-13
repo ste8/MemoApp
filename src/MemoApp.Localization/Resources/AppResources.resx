@@ -2462,8 +2462,18 @@ Download MemoRaise: {AppUrl}
   </data>
 
   <data name="BigNumber_LegendTitle" xml:space="preserve">
-    <value>Color Guide</value>
+    <value>How to read your results</value>
     <comment>Title for the comparison legend section</comment>
+  </data>
+
+  <data name="BigNumber_LegendExplanation" xml:space="preserve">
+    <value>Your digits are color-coded below:</value>
+    <comment>Contextual explanation text shown above comparison results</comment>
+  </data>
+
+  <data name="BigNumber_AchievementCelebration" xml:space="preserve">
+    <value>Great job! Ready for the next challenge?</value>
+    <comment>Celebration text shown after completing a challenge</comment>
   </data>
 
   <!-- Navigation Control strings -->
