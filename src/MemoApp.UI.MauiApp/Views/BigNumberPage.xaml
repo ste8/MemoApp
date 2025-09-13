@@ -940,93 +940,6 @@
                             </Grid>
                         </Border>
                         
-                        <!-- Comparison Legend (for first-time users) -->
-                        <Border IsVisible="{Binding ShowComparisonLegend}"
-                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
-                                Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
-                                StrokeThickness="1"
-                                Padding="16"
-                                StrokeShape="RoundRectangle 12">
-                            <StackLayout Orientation="Horizontal" Spacing="20" HorizontalOptions="Center">
-                                <!-- Correct -->
-                                <StackLayout Orientation="Horizontal" Spacing="6">
-                                    <Border BackgroundColor="#28A745"
-                                            WidthRequest="24"
-                                            HeightRequest="24"
-                                            StrokeShape="RoundRectangle 4">
-                                        <Label Text="5"
-                                               TextColor="White"
-                                               FontFamily="Courier"
-                                               FontSize="12"
-                                               FontAttributes="Bold"
-                                               HorizontalOptions="Center"
-                                               VerticalOptions="Center" />
-                                    </Border>
-                                    <Label Text="{localization:Localize BigNumber_LegendCorrect}"
-                                           FontSize="12"
-                                           VerticalOptions="Center" />
-                                </StackLayout>
-                                
-                                <!-- Wrong Position -->
-                                <StackLayout Orientation="Horizontal" Spacing="6">
-                                    <Border BackgroundColor="#CC5500"
-                                            WidthRequest="24"
-                                            HeightRequest="24"
-                                            StrokeShape="RoundRectangle 4">
-                                        <Label Text="3"
-                                               TextColor="White"
-                                               FontFamily="Courier"
-                                               FontSize="12"
-                                               FontAttributes="Bold"
-                                               HorizontalOptions="Center"
-                                               VerticalOptions="Center" />
-                                    </Border>
-                                    <Label Text="{localization:Localize BigNumber_LegendWrongPosition}"
-                                           FontSize="12"
-                                           VerticalOptions="Center" />
-                                </StackLayout>
-                                
-                                <!-- Incorrect -->
-                                <StackLayout Orientation="Horizontal" Spacing="6">
-                                    <Border BackgroundColor="#71717A"
-                                            WidthRequest="24"
-                                            HeightRequest="24"
-                                            StrokeShape="RoundRectangle 4">
-                                        <Label Text="8"
-                                               TextColor="White"
-                                               FontFamily="Courier"
-                                               FontSize="12"
-                                               FontAttributes="Bold"
-                                               HorizontalOptions="Center"
-                                               VerticalOptions="Center" />
-                                    </Border>
-                                    <Label Text="{localization:Localize BigNumber_LegendIncorrect}"
-                                           FontSize="12"
-                                           VerticalOptions="Center" />
-                                </StackLayout>
-                                
-                                <!-- Missing -->
-                                <StackLayout Orientation="Horizontal" Spacing="6">
-                                    <Border BackgroundColor="White"
-                                            Stroke="#DC3545"
-                                            StrokeThickness="2"
-                                            WidthRequest="24"
-                                            HeightRequest="24"
-                                            StrokeShape="RoundRectangle 4">
-                                        <Label Text="?"
-                                               TextColor="#DC3545"
-                                               FontFamily="Courier"
-                                               FontSize="12"
-                                               FontAttributes="Bold"
-                                               HorizontalOptions="Center"
-                                               VerticalOptions="Center" />
-                                    </Border>
-                                    <Label Text="{localization:Localize BigNumber_LegendMissing}"
-                                           FontSize="12"
-                                           VerticalOptions="Center" />
-                                </StackLayout>
-                            </StackLayout>
-                        </Border>
                         
                         <!-- Comparison Rows with Enhanced Scrolling -->
                         <StackLayout Spacing="12">
@@ -1121,6 +1034,218 @@
                                 </StackLayout>
                             </ScrollView>
                         </StackLayout>
+
+                        <!-- Legend Section - Moved below comparison for better visual hierarchy -->
+                        <Border IsVisible="{Binding ShowDigitComparison}"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                                Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                                StrokeThickness="1"
+                                Padding="{OnIdiom Phone='12,10', Tablet='16,12', Desktop='20,16'}"
+                                StrokeShape="RoundRectangle 8"
+                                Margin="0,12,0,0">
+
+                            <!-- Collapsible Legend with Modern Design -->
+                            <StackLayout Spacing="10">
+
+                                <!-- Legend Header with Toggle -->
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                                    <Label Grid.Column="0"
+                                           Text="💡"
+                                           FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                           VerticalOptions="Center" />
+
+                                    <Label Grid.Column="1"
+                                           Text="{localization:Localize BigNumber_LegendTitle}"
+                                           FontSize="{OnIdiom Phone=13, Tablet=15, Desktop=16}"
+                                           FontAttributes="Bold"
+                                           VerticalOptions="Center"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray300}}" />
+
+                                    <Button Grid.Column="2"
+                                            Text="{Binding LegendToggleText}"
+                                            Command="{Binding ToggleLegendCommand}"
+                                            BackgroundColor="Transparent"
+                                            TextColor="{StaticResource Primary}"
+                                            FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=15}"
+                                            Padding="8,4"
+                                            BorderWidth="0" />
+                                </Grid>
+
+                                <!-- Expandable Legend Content -->
+                                <StackLayout IsVisible="{Binding IsLegendVisible}" Spacing="8">
+
+                                    <!-- Mobile: Stacked layout for better touch targets -->
+                                    <StackLayout IsVisible="{OnIdiom Phone=True, Default=False}" Spacing="8">
+
+                                        <!-- Row 1: Correct and Wrong Position -->
+                                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                                            <!-- Correct -->
+                                            <StackLayout Grid.Column="0" Orientation="Horizontal" Spacing="8">
+                                                <Border BackgroundColor="#28A745"
+                                                        WidthRequest="20"
+                                                        HeightRequest="20"
+                                                        StrokeShape="RoundRectangle 4">
+                                                    <Label Text="5"
+                                                           TextColor="White"
+                                                           FontFamily="Courier"
+                                                           FontSize="11"
+                                                           FontAttributes="Bold"
+                                                           HorizontalOptions="Center"
+                                                           VerticalOptions="Center" />
+                                                </Border>
+                                                <Label Text="{localization:Localize BigNumber_LegendCorrect}"
+                                                       FontSize="11"
+                                                       VerticalOptions="Center" />
+                                            </StackLayout>
+
+                                            <!-- Wrong Position -->
+                                            <StackLayout Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                                                <Border BackgroundColor="#CC5500"
+                                                        WidthRequest="20"
+                                                        HeightRequest="20"
+                                                        StrokeShape="RoundRectangle 4">
+                                                    <Label Text="3"
+                                                           TextColor="White"
+                                                           FontFamily="Courier"
+                                                           FontSize="11"
+                                                           FontAttributes="Bold"
+                                                           HorizontalOptions="Center"
+                                                           VerticalOptions="Center" />
+                                                </Border>
+                                                <Label Text="{localization:Localize BigNumber_LegendWrongPosition}"
+                                                       FontSize="11"
+                                                       VerticalOptions="Center" />
+                                            </StackLayout>
+                                        </Grid>
+
+                                        <!-- Row 2: Incorrect and Missing -->
+                                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                                            <!-- Incorrect -->
+                                            <StackLayout Grid.Column="0" Orientation="Horizontal" Spacing="8">
+                                                <Border BackgroundColor="#71717A"
+                                                        WidthRequest="20"
+                                                        HeightRequest="20"
+                                                        StrokeShape="RoundRectangle 4">
+                                                    <Label Text="8"
+                                                           TextColor="White"
+                                                           FontFamily="Courier"
+                                                           FontSize="11"
+                                                           FontAttributes="Bold"
+                                                           HorizontalOptions="Center"
+                                                           VerticalOptions="Center" />
+                                                </Border>
+                                                <Label Text="{localization:Localize BigNumber_LegendIncorrect}"
+                                                       FontSize="11"
+                                                       VerticalOptions="Center" />
+                                            </StackLayout>
+
+                                            <!-- Missing -->
+                                            <StackLayout Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                                                <Border BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray700}}"
+                                                        Stroke="#DC3545"
+                                                        StrokeThickness="2"
+                                                        WidthRequest="20"
+                                                        HeightRequest="20"
+                                                        StrokeShape="RoundRectangle 4">
+                                                    <Label Text="?"
+                                                           TextColor="#DC3545"
+                                                           FontFamily="Courier"
+                                                           FontSize="11"
+                                                           FontAttributes="Bold"
+                                                           HorizontalOptions="Center"
+                                                           VerticalOptions="Center" />
+                                                </Border>
+                                                <Label Text="{localization:Localize BigNumber_LegendMissing}"
+                                                       FontSize="11"
+                                                       VerticalOptions="Center" />
+                                            </StackLayout>
+                                        </Grid>
+                                    </StackLayout>
+
+                                    <!-- Tablet/Desktop: Horizontal layout -->
+                                    <StackLayout Orientation="Horizontal" Spacing="16" HorizontalOptions="Center"
+                                                 IsVisible="{OnIdiom Phone=False, Default=True}">
+                                        <!-- Correct -->
+                                        <StackLayout Orientation="Horizontal" Spacing="6">
+                                            <Border BackgroundColor="#28A745"
+                                                    WidthRequest="24"
+                                                    HeightRequest="24"
+                                                    StrokeShape="RoundRectangle 4">
+                                                <Label Text="5"
+                                                       TextColor="White"
+                                                       FontFamily="Courier"
+                                                       FontSize="12"
+                                                       FontAttributes="Bold"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center" />
+                                            </Border>
+                                            <Label Text="{localization:Localize BigNumber_LegendCorrect}"
+                                                   FontSize="12"
+                                                   VerticalOptions="Center" />
+                                        </StackLayout>
+
+                                        <!-- Wrong Position -->
+                                        <StackLayout Orientation="Horizontal" Spacing="6">
+                                            <Border BackgroundColor="#CC5500"
+                                                    WidthRequest="24"
+                                                    HeightRequest="24"
+                                                    StrokeShape="RoundRectangle 4">
+                                                <Label Text="3"
+                                                       TextColor="White"
+                                                       FontFamily="Courier"
+                                                       FontSize="12"
+                                                       FontAttributes="Bold"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center" />
+                                            </Border>
+                                            <Label Text="{localization:Localize BigNumber_LegendWrongPosition}"
+                                                   FontSize="12"
+                                                   VerticalOptions="Center" />
+                                        </StackLayout>
+
+                                        <!-- Incorrect -->
+                                        <StackLayout Orientation="Horizontal" Spacing="6">
+                                            <Border BackgroundColor="#71717A"
+                                                    WidthRequest="24"
+                                                    HeightRequest="24"
+                                                    StrokeShape="RoundRectangle 4">
+                                                <Label Text="8"
+                                                       TextColor="White"
+                                                       FontFamily="Courier"
+                                                       FontSize="12"
+                                                       FontAttributes="Bold"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center" />
+                                            </Border>
+                                            <Label Text="{localization:Localize BigNumber_LegendIncorrect}"
+                                                   FontSize="12"
+                                                   VerticalOptions="Center" />
+                                        </StackLayout>
+
+                                        <!-- Missing -->
+                                        <StackLayout Orientation="Horizontal" Spacing="6">
+                                            <Border BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray700}}"
+                                                    Stroke="#DC3545"
+                                                    StrokeThickness="2"
+                                                    WidthRequest="24"
+                                                    HeightRequest="24"
+                                                    StrokeShape="RoundRectangle 4">
+                                                <Label Text="?"
+                                                       TextColor="#DC3545"
+                                                       FontFamily="Courier"
+                                                       FontSize="12"
+                                                       FontAttributes="Bold"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center" />
+                                            </Border>
+                                            <Label Text="{localization:Localize BigNumber_LegendMissing}"
+                                                   FontSize="12"
+                                                   VerticalOptions="Center" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                            </StackLayout>
+                        </Border>
                     </StackLayout>
 
                     <!-- Enhanced Celebration Results Actions -->

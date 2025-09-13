@@ -328,8 +328,14 @@ public partial class BigNumberViewModel : BaseViewModel
     
     [ObservableProperty]
     private string dynamicPositionText = string.Empty;
-    
-    
+
+    // Legend Visibility Properties
+    [ObservableProperty]
+    private bool isLegendVisible = false;
+
+    [ObservableProperty]
+    private string legendToggleText = string.Empty;
+
     private NumberComparisonResult? _comparisonResult;
     private int _currentScrollPosition = 0;
     private const int DIGITS_PER_CHUNK = 20;
@@ -1997,6 +2003,10 @@ public partial class BigNumberViewModel : BaseViewModel
         ShowComparisonNavigation = false;
         ShowComparisonLegend = false;
         _currentScrollPosition = 0;
+
+        // Clear legend state
+        IsLegendVisible = false;
+        LegendToggleText = string.Empty;
     }
 
     /// <summary>
@@ -2026,8 +2036,12 @@ public partial class BigNumberViewModel : BaseViewModel
         }
         
         ShowComparisonNavigation = digitCount > estimatedTilesPerScreen;
-        ShowComparisonLegend = digitCount > 10; // Show legend for non-trivial comparisons
-        
+        ShowComparisonLegend = true; // Always show legend option regardless of number length
+
+        // Initialize legend state - start collapsed to save screen space
+        IsLegendVisible = false;
+        LegendToggleText = _localizationService.GetString("BigNumber_Show");
+
         // Initialize navigation state
         _currentScrollPosition = 0;
         UpdateNavigationState();
@@ -2213,8 +2227,20 @@ public partial class BigNumberViewModel : BaseViewModel
     }
 
     /// <summary>
+    /// Toggles the visibility of the comparison legend
+    /// </summary>
+    [RelayCommand]
+    private void ToggleLegend()
+    {
+        IsLegendVisible = !IsLegendVisible;
+        LegendToggleText = IsLegendVisible
+            ? _localizationService.GetString("BigNumber_Hide")
+            : _localizationService.GetString("BigNumber_Show");
+    }
+
+    /// <summary>
     /// Computed property to check if there are errors in the comparison
     /// </summary>
-    public bool HasErrors => _comparisonResult != null && 
+    public bool HasErrors => _comparisonResult != null &&
                             (_comparisonResult.IncorrectCount + _comparisonResult.WrongPositionCount + _comparisonResult.MissingCount) > 0;
 }

@@ -2356,7 +2356,12 @@ Scarica MemoRaise: {AppUrl}
     <value>Mancante</value>
     <comment>Label for missing digit in comparison legend</comment>
   </data>
-  
+
+  <data name="BigNumber_LegendTitle" xml:space="preserve">
+    <value>Guida Colori</value>
+    <comment>Title for the comparison legend section</comment>
+  </data>
+
   <!-- Navigation Control strings -->
   <data name="BigNumber_PositionIndicator" xml:space="preserve">
     <value>Cifre {0}-{1} di {2}</value>
