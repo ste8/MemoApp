@@ -2456,4 +2456,10 @@ Download MemoRaise: {AppUrl}
     <value>Scroll horizontally to view more digits</value>
     <comment>Accessibility hint for scrolling</comment>
   </data>
+  
+  <!-- Digit count indicator for multi-line input -->
+  <data name="BigNumber_DigitCount" xml:space="preserve">
+    <value>{0}/{1} digits</value>
+    <comment>Digit count indicator showing current vs target digits (e.g., "45/100 digits")</comment>
+  </data>
 </root>

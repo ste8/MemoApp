@@ -14,7 +14,22 @@ public static class MauiConfiguration
     {
         return builder
             .UseMauiApp<App>()
-            .ConfigureFonts(ConfigureFonts);
+            .ConfigureFonts(ConfigureFonts)
+            .ConfigureMauiHandlers(handlers =>
+            {
+                // Configure Editor to support numeric keyboard on mobile platforms
+                Microsoft.Maui.Handlers.EditorHandler.Mapper.AppendToMapping("NumericKeyboard", (handler, view) =>
+                {
+                    if (view is Editor editor && editor.Keyboard == Keyboard.Numeric)
+                    {
+#if IOS || MACCATALYST
+                        handler.PlatformView.KeyboardType = UIKit.UIKeyboardType.NumberPad;
+#elif ANDROID
+                        handler.PlatformView.InputType = Android.Text.InputTypes.ClassNumber;
+#endif
+                    }
+                });
+            });
     }
 
     /// <summary>
