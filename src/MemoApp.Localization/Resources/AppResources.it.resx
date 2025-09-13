@@ -675,6 +675,26 @@
     <value>Nuova Sfida</value>
     <comment>New challenge button text for starting a fresh exercise</comment>
   </data>
+  <data name="BigNumber_ConfirmNewGame_Title" xml:space="preserve">
+    <value>Iniziare Nuova Sfida?</value>
+    <comment>Confirmation dialog title when starting a new Big Number challenge</comment>
+  </data>
+  <data name="BigNumber_ConfirmNewGame_MemorizingMessage" xml:space="preserve">
+    <value>Stai memorizzando un numero. Iniziare una nuova sfida farà perdere i tuoi progressi attuali.</value>
+    <comment>Confirmation message when user tries to start new game during memorization</comment>
+  </data>
+  <data name="BigNumber_ConfirmNewGame_RecallMessage" xml:space="preserve">
+    <value>Hai finito di memorizzare e sei pronto a testare il tuo ricordo. Iniziare invece una nuova sfida?</value>
+    <comment>Confirmation message when user tries to start new game after memorization</comment>
+  </data>
+  <data name="BigNumber_ConfirmNewGame_Cancel" xml:space="preserve">
+    <value>Mantieni Attuale</value>
+    <comment>Cancel button for new game confirmation - keeps current progress</comment>
+  </data>
+  <data name="BigNumber_ConfirmNewGame_Confirm" xml:space="preserve">
+    <value>Inizia Nuovo</value>
+    <comment>Confirm button for new game confirmation - starts fresh</comment>
+  </data>
   <data name="BigNumber_PerfectScore" xml:space="preserve">
     <value>Punteggio Perfetto!</value>
     <comment>Celebration text for 100% accuracy</comment>

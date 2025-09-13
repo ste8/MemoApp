@@ -32,6 +32,10 @@ public partial class BigNumberViewModel : BaseViewModel
     private readonly IFirstTimeTooltipService _tooltipService;
     private readonly IHapticFeedbackService? _hapticFeedbackService;
     private readonly IUserNotificationService _userNotificationService;
+
+    // Confirmation dialog thresholds (based on UX agent recommendations)
+    private const int MOBILE_RECALL_THRESHOLD_SECONDS = 5;
+    private const int DESKTOP_RECALL_THRESHOLD_SECONDS = 15;
     private readonly IDigitComparisonService _digitComparisonService;
     private IDispatcherTimer? _timer;
     
@@ -690,6 +694,15 @@ public partial class BigNumberViewModel : BaseViewModel
     [RelayCommand]
     private async Task StartNewGame()
     {
+        // Smart confirmation logic - only show when there's risk of losing progress
+        if (ShouldShowNewGameConfirmation())
+        {
+            var confirmed = await ShowNewGameConfirmationAsync();
+            if (!confirmed)
+            {
+                return; // User cancelled
+            }
+        }
         // Track exercise completion if user finished a previous game
         if (_currentGame.Phase != GamePhase.Setup)
         {
@@ -1727,7 +1740,122 @@ public partial class BigNumberViewModel : BaseViewModel
             AppVerificationSubtextColor = blackColor;
         }
     }
-    
+
+    /// <summary>
+    /// Determines if we should show confirmation dialog before starting new game.
+    /// Based on UI/UX agent recommendations for smart contextual confirmation.
+    /// </summary>
+    private bool ShouldShowNewGameConfirmation()
+    {
+        return CurrentPhase switch
+        {
+            GamePhase.Memorizing => true, // Always confirm during memorization (high risk)
+            GamePhase.Stopped => true,   // Always confirm when stopped (user made progress)
+            GamePhase.Recall => ShouldConfirmDuringRecall(), // Context-dependent
+            GamePhase.Setup => false,    // No progress to lose
+            _ => false
+        };
+    }
+
+    /// <summary>
+    /// Platform-aware logic for recall phase confirmation.
+    /// Mobile users get more aggressive confirmation due to higher accidental tap risk.
+    /// </summary>
+    private bool ShouldConfirmDuringRecall()
+    {
+        if (_recallStartTime == default) return false; // Just entered recall, no time invested
+
+        var recallDuration = (DateTime.UtcNow - _recallStartTime).TotalSeconds;
+
+        // Platform-specific thresholds based on UX agent recommendations
+        var thresholdSeconds = DeviceInfo.Idiom == DeviceIdiom.Phone || DeviceInfo.Idiom == DeviceIdiom.Tablet
+            ? MOBILE_RECALL_THRESHOLD_SECONDS
+            : DESKTOP_RECALL_THRESHOLD_SECONDS;
+
+        return recallDuration > thresholdSeconds;
+    }
+
+    /// <summary>
+    /// Shows context-aware confirmation dialog with proper localization and analytics.
+    /// </summary>
+    private async Task<bool> ShowNewGameConfirmationAsync()
+    {
+        try
+        {
+            var title = _localizationService.GetString("BigNumber_ConfirmNewGame_Title");
+            var message = GetContextualConfirmationMessage();
+            var cancelText = _localizationService.GetString("BigNumber_ConfirmNewGame_Cancel");
+            var confirmText = _localizationService.GetString("BigNumber_ConfirmNewGame_Confirm");
+
+            // Track confirmation dialog display for analytics (fire-and-forget)
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    await _analyticsService.TrackEventAsync("big_number_confirmation_shown", new Dictionary<string, object>
+                    {
+                        ["current_phase"] = CurrentPhase.ToString(),
+                        ["platform"] = DeviceInfo.Idiom.ToString()
+                    });
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Analytics error: {ex.Message}");
+                }
+            });
+
+            var result = await _userNotificationService.ShowConfirmationDialogAsync(
+                title, message, confirmText, cancelText);
+
+            // Track user decision (fire-and-forget)
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    await _analyticsService.TrackEventAsync("big_number_confirmation_result", new Dictionary<string, object>
+                    {
+                        ["user_action"] = result ? "confirmed" : "cancelled",
+                        ["current_phase"] = CurrentPhase.ToString()
+                    });
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Analytics error: {ex.Message}");
+                }
+            });
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+            // Log error but don't block the flow - default to showing confirmation for safety
+            System.Diagnostics.Debug.WriteLine($"Error showing confirmation dialog: {ex.Message}");
+            return true; // Safer default - show confirmation
+        }
+    }
+
+    /// <summary>
+    /// Returns context-aware confirmation message based on current game phase.
+    /// </summary>
+    private string GetContextualConfirmationMessage()
+    {
+        try
+        {
+            return CurrentPhase switch
+            {
+                GamePhase.Memorizing => _localizationService.GetString("BigNumber_ConfirmNewGame_MemorizingMessage"),
+                GamePhase.Recall or GamePhase.Stopped => _localizationService.GetString("BigNumber_ConfirmNewGame_RecallMessage"),
+                _ => _localizationService.GetString("BigNumber_ConfirmNewGame_MemorizingMessage") // Fallback
+            };
+        }
+        catch (Exception ex)
+        {
+            // Fallback for any localization issues
+            System.Diagnostics.Debug.WriteLine($"Localization error: {ex.Message}");
+            return "Are you sure you want to start a new challenge?";
+        }
+    }
+
     private void UpdateContextActions()
     {
         var primaryColor = Application.Current?.Resources.TryGetValue("Primary", out var primary) == true ? (Color)primary : Colors.Blue;
