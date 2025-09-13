@@ -37,7 +37,7 @@ public class DigitComparisonTileViewModel
 
     /// <summary>
     /// Border pattern for color-blind accessibility
-    /// Controls StrokeDashArray: null=solid, DoubleCollection{4,2}=dashed, DoubleCollection{2,2}=dotted
+    /// Controls StrokeDashArray: null=solid, DoubleCollection{6,3}=dashed, DoubleCollection{1,3}=sparse fine dotted
     /// </summary>
     public DoubleCollection BorderPattern { get; set; } = null;
 
@@ -151,7 +151,7 @@ public class DigitComparisonTileViewModel
                     tile.TextColor = Colors.White;
                     tile.BorderColor = Color.FromArgb("#52525B"); // Darker gray border
                     tile.BorderThickness = 3;
-                    tile.BorderPattern = new DoubleCollection { 2, 3 }; // Dotted border - larger for visibility
+                    tile.BorderPattern = new DoubleCollection { 1, 3 }; // Sparse fine dotted - better texture contrast vs dashed pattern
                     tile.FontWeight = "Bold";
                     tile.AccessibilityDescription = string.Format(
                         getLocalizedString("BigNumber_IncorrectDigitAccessibility"),
