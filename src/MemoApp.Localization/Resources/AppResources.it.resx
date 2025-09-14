@@ -2370,11 +2370,6 @@ Scarica MemoRaise: {AppUrl}
     <comment>Title for the comparison legend section</comment>
   </data>
 
-  <data name="BigNumber_LegendExplanation" xml:space="preserve">
-    <value>Le tue cifre sono codificate a colori qui sotto:</value>
-    <comment>Contextual explanation text shown above comparison results</comment>
-  </data>
-
   <data name="BigNumber_AchievementCelebration" xml:space="preserve">
     <value>Ottimo lavoro! Pronto per la prossima sfida?</value>
     <comment>Celebration text shown after completing a challenge</comment>
