@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             x:Class="MemoApp.UI.MauiApp.Views.Components.ShareButtonComponent"
+             x:Name="ShareButtonRoot">
+
+    <Grid IsVisible="{Binding IsVisible}">
+        <Button x:Name="ShareButton"
+                Text="{Binding ButtonText}"
+                Command="{Binding ShareCommand}"
+                BackgroundColor="{Binding BackgroundColor}"
+                TextColor="{Binding TextColor}"
+                FontFamily="MaterialDesignIcons"
+                FontSize="{Binding FontSize}"
+                Padding="{Binding Padding}"
+                CornerRadius="{Binding CornerRadius}"
+                WidthRequest="{Binding WidthRequest}"
+                HeightRequest="{Binding HeightRequest}"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                IsEnabled="{Binding IsShareEnabled}"
+                Opacity="{Binding ButtonOpacity}"
+                SemanticProperties.Hint="{localization:Localize Share_AccessibilityHint}"
+                SemanticProperties.Description="{Binding AccessibilityDescription}">
+
+            <!-- Platform-specific styling -->
+            <Button.Triggers>
+                <DataTrigger TargetType="Button" Binding="{Binding DisplayStyle}" Value="Prominent">
+                    <Setter Property="Scale" Value="1.1" />
+                    <Setter Property="Shadow">
+                        <Shadow Brush="{Binding ShadowColor}"
+                                Offset="2,2"
+                                Radius="4"
+                                Opacity="0.3" />
+                    </Setter>
+                </DataTrigger>
+
+                <DataTrigger TargetType="Button" Binding="{Binding IsShareEnabled}" Value="False">
+                    <Setter Property="Opacity" Value="0.5" />
+                </DataTrigger>
+            </Button.Triggers>
+        </Button>
+
+        <!-- Loading indicator for share action -->
+        <ActivityIndicator x:Name="LoadingIndicator"
+                          IsVisible="{Binding IsSharing}"
+                          IsRunning="{Binding IsSharing}"
+                          Color="{Binding TextColor}"
+                          VerticalOptions="Center"
+                          HorizontalOptions="Center"
+                          Scale="0.8" />
+    </Grid>
+
+</ContentView>

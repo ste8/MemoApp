@@ -1,5 +1,6 @@
 using System.Collections;
 using MemoApp.UI.MauiApp.ViewModels;
+using MemoApp.UI.MauiApp.ViewModels.Components;
 
 namespace MemoApp.UI.MauiApp.Views;
 
@@ -9,25 +10,105 @@ public partial class BigNumberPage : ContentPage
     private DateTime _lastScrollSync = DateTime.MinValue;
     private const int ScrollSyncThrottleMs = 16; // ~60fps throttling
     
-    public BigNumberPage(BigNumberViewModel viewModel)
+    public BigNumberPage(BigNumberViewModel viewModel, IServiceProvider serviceProvider)
     {
         InitializeComponent();
         BindingContext = viewModel;
-        
+
+        // Initialize ShareButton components with their ViewModels
+        InitializeShareButtonComponents(serviceProvider, viewModel);
+
         // Subscribe to auto-scroll events from ViewModel
         viewModel.ScrollToVerificationResults += OnScrollToVerificationResults;
-        
+
         // Subscribe to focus request events from ViewModel
         viewModel.FocusUserInputRequested += OnFocusUserInputRequested;
-        
+
         // Subscribe to navigation scroll requests from ViewModel
         viewModel.ScrollToPositionRequested += OnScrollToPositionRequested;
 
         // Subscribe to legend scroll requests from ViewModel
         viewModel.ScrollToLegendRequested += OnScrollToLegendRequested;
-        
+
         // Subscribe to property changes to reset animation state when results are hidden
         viewModel.PropertyChanged += OnViewModelPropertyChanged;
+
+        // Subscribe to BigNumberViewModel changes to update ShareButtonViewModels
+        viewModel.PropertyChanged += OnBigNumberViewModelPropertyChanged;
+    }
+
+    // Single ShareButtonViewModel instance for all share buttons
+    private ShareButtonViewModel? _shareButtonVM;
+
+    /// <summary>
+    /// Initializes the ShareButton components with a shared ViewModel
+    /// </summary>
+    /// <param name="serviceProvider">The service provider for dependency injection</param>
+    /// <param name="bigNumberViewModel">The main BigNumber ViewModel for data binding</param>
+    private void InitializeShareButtonComponents(IServiceProvider serviceProvider, BigNumberViewModel bigNumberViewModel)
+    {
+        try
+        {
+            // Get single ShareButtonViewModel instance from the service provider
+            _shareButtonVM = serviceProvider.GetService<ShareButtonViewModel>();
+
+            if (_shareButtonVM != null)
+            {
+                // Set the same ViewModel for all ShareButton components
+                if (MobileShareButton != null)
+                    MobileShareButton.BindingContext = _shareButtonVM;
+
+                if (DesktopShareButton != null)
+                    DesktopShareButton.BindingContext = _shareButtonVM;
+
+                if (CelebrationMobileShareButton != null)
+                    CelebrationMobileShareButton.BindingContext = _shareButtonVM;
+
+                if (CelebrationDesktopShareButton != null)
+                    CelebrationDesktopShareButton.BindingContext = _shareButtonVM;
+
+                // Initialize with default data
+                UpdateShareButtonData(_shareButtonVM, bigNumberViewModel);
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log error but don't crash - sharing will just not work
+            System.Diagnostics.Debug.WriteLine($"Error initializing ShareButton components: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Updates the ShareButtonViewModel with data from the BigNumberViewModel
+    /// </summary>
+    private void UpdateShareButtonData(ShareButtonViewModel shareVM, BigNumberViewModel bigNumberVM)
+    {
+        // Determine context based on current game state
+        var context = bigNumberVM.ShowSessionActions ? "celebration" : "verification";
+        var displayStyle = bigNumberVM.ShowSessionActions ? "Prominent" : "Normal";
+
+        // Update ViewModel with current context and data
+        shareVM.UpdateDisplayStyle(displayStyle);
+        shareVM.UpdateContext(context);
+        shareVM.UpdateShareData(bigNumberVM.ShareData);
+        shareVM.UpdateIsEnabled(bigNumberVM.CanShareResults);
+        shareVM.UpdateVisibility(bigNumberVM.CanShareResults);
+    }
+
+    /// <summary>
+    /// Handles property changes from BigNumberViewModel to update the ShareButtonViewModel
+    /// </summary>
+    private void OnBigNumberViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (sender is not BigNumberViewModel bigNumberVM || _shareButtonVM == null) return;
+
+        // Update ShareButtonViewModel when relevant properties change
+        if (e.PropertyName == nameof(BigNumberViewModel.ShareData) ||
+            e.PropertyName == nameof(BigNumberViewModel.CanShareResults) ||
+            e.PropertyName == nameof(BigNumberViewModel.ShowSessionActions))
+        {
+            UpdateShareButtonData(_shareButtonVM, bigNumberVM);
+        }
     }
     
     private async void OnScrollToVerificationResults(object? sender, EventArgs e)

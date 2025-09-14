@@ -135,6 +135,9 @@ public partial class BigNumberViewModel : BaseViewModel
     [ObservableProperty]
     private bool canShareResults = false;
 
+    [ObservableProperty]
+    private BigNumberShareResult? shareData = null;
+
     // Input Verification Properties
     [ObservableProperty]
     private bool enableInputVerification = false;
@@ -783,6 +786,9 @@ public partial class BigNumberViewModel : BaseViewModel
         // Reset transient UI state for consistent user experience
         ClearInputVerificationState();
         IsVerificationPanelManuallyClosed = false; // Reset for new game
+
+        // Clear share data for new game
+        ShareData = null;
         
         // Update UI state to reflect cleared verification state
         UpdateUIState();
@@ -801,6 +807,16 @@ public partial class BigNumberViewModel : BaseViewModel
 
         // Enable sharing when memorization is completed (stopped or in recall)
         CanShareResults = CurrentPhase == GamePhase.Stopped || CurrentPhase == GamePhase.Recall;
+
+        // Update share data when sharing becomes available
+        if (CanShareResults)
+        {
+            UpdateShareData();
+        }
+        else
+        {
+            ShareData = null;
+        }
         
         // Timer visibility logic:
         // - During memorizing: only show if ShowTimer setting is enabled
@@ -1467,6 +1483,53 @@ public partial class BigNumberViewModel : BaseViewModel
         }
     }
 
+    /// <summary>
+    /// Updates the ShareData property with current exercise information
+    /// </summary>
+    private void UpdateShareData()
+    {
+        try
+        {
+            // Only create share data when there's something meaningful to share
+            if (_currentGame?.GeneratedNumber == null)
+            {
+                ShareData = null;
+                return;
+            }
+
+            // For backward compatibility, also check the old timing conditions
+            if (_memorizationStartTime == default)
+            {
+                // If we don't have memorization start time, set it to exercise start time
+                _memorizationStartTime = _exerciseStartTime != default ? _exerciseStartTime : DateTime.UtcNow.AddMinutes(-1);
+            }
+
+            // If we don't have recall start time, estimate it (verification results means they've completed recall)
+            if (_recallStartTime == default)
+            {
+                _recallStartTime = DateTime.UtcNow.AddSeconds(-30); // Estimate they spent 30 seconds on recall
+            }
+
+            var memorizationTime = _recallStartTime - _memorizationStartTime;
+
+            // Create shareable result data
+            ShareData = new BigNumberShareResult
+            {
+                ExerciseType = "BigNumber",
+                Duration = memorizationTime,
+                NumberOfDigits = _currentGame.GeneratedNumber.Length,
+                MaxPairValue = MaxPairValue,
+                MemorizationTime = memorizationTime
+            };
+        }
+        catch (Exception ex)
+        {
+            // Log error but don't crash - sharing will just not work
+            System.Diagnostics.Debug.WriteLine($"Error updating share data: {ex.Message}");
+            ShareData = null;
+        }
+    }
+
     [RelayCommand]
     private void StartNewChallenge()
     {
@@ -1627,6 +1690,9 @@ public partial class BigNumberViewModel : BaseViewModel
 
         ShowVerificationResults = true;
         CanShareResults = true; // Enable sharing when verification results are shown
+
+        // Update share data with verification results
+        UpdateShareData();
 
         // Check for cancellation before UI updates
         cancellationToken.ThrowIfCancellationRequested();
@@ -1819,6 +1885,7 @@ public partial class BigNumberViewModel : BaseViewModel
         UserInput = string.Empty;
         ShowVerificationResults = false;
         CanShareResults = false; // Disable sharing when clearing verification state
+        ShareData = null; // Clear share data when clearing verification
         InputProgress = 0;
         // Initialize InputProgressText to always be visible (prevents layout shift)
         InputProgressText = string.Format(

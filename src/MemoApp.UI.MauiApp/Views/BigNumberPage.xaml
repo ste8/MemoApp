@@ -5,6 +5,7 @@
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              xmlns:utilities="clr-namespace:MemoApp.UI.MauiApp.Utilities"
              xmlns:models="clr-namespace:MemoApp.Core.MajorSystem.Models;assembly=MemoApp.Core"
+             xmlns:components="clr-namespace:MemoApp.UI.MauiApp.Views.Components"
              x:Class="MemoApp.UI.MauiApp.Views.BigNumberPage"
              x:DataType="viewmodels:BigNumberViewModel"
              Title="{Binding Title}">
@@ -734,27 +735,7 @@
                                     </Button>
                                     
                                     <!-- Secondary: Share -->
-                                    <Button Command="{Binding ShareResultsCommand}"
-                                            BackgroundColor="#1DA1F2"
-                                            TextColor="White"
-                                            FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                            FontFamily="FontAwesome6Pro-Solid"
-                                            HeightRequest="{OnIdiom Phone=48, Tablet=56, Desktop=64}"
-                                            CornerRadius="14"
-                                            IsVisible="{Binding CanShareResults}">
-                                        <Button.Text>
-                                            <OnPlatform x:TypeArguments="x:String">
-                                                <On Platform="iOS,Android">&#xf1e0;</On>
-                                                <On Platform="WinUI,MacCatalyst">&#xf1e0;  {localization:Localize Share_Results}</On>
-                                            </OnPlatform>
-                                        </Button.Text>
-                                        <Button.Shadow>
-                                            <Shadow Brush="#1DA1F2" 
-                                                    Opacity="0.2" 
-                                                    Offset="0,3" 
-                                                    Radius="8" />
-                                        </Button.Shadow>
-                                    </Button>
+                                    <components:ShareButtonComponent x:Name="MobileShareButton" />
                                 </StackLayout>
                                 
                                 <!-- Tablet/Desktop: Side-by-side layout -->
@@ -782,28 +763,8 @@
                                     </Button>
                                     
                                     <!-- Secondary: Share (smaller but prominent) -->
-                                    <Button Grid.Column="1"
-                                            Command="{Binding ShareResultsCommand}"
-                                            BackgroundColor="#1DA1F2"
-                                            TextColor="White"
-                                            FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                            FontFamily="FontAwesome6Pro-Solid"
-                                            HeightRequest="{OnIdiom Phone=48, Tablet=56, Desktop=64}"
-                                            CornerRadius="14"
-                                            IsVisible="{Binding CanShareResults}">
-                                        <Button.Text>
-                                            <OnPlatform x:TypeArguments="x:String">
-                                                <On Platform="iOS,Android">&#xf1e0;</On>
-                                                <On Platform="WinUI,MacCatalyst">&#xf1e0;  {localization:Localize Share_Results}</On>
-                                            </OnPlatform>
-                                        </Button.Text>
-                                        <Button.Shadow>
-                                            <Shadow Brush="#1DA1F2" 
-                                                    Opacity="0.2" 
-                                                    Offset="0,3" 
-                                                    Radius="8" />
-                                        </Button.Shadow>
-                                    </Button>
+                                    <components:ShareButtonComponent x:Name="DesktopShareButton"
+                                                                   Grid.Column="1" />
                                 </Grid>
                             </StackLayout>
                         </Border>
@@ -1374,20 +1335,8 @@
                                     </Button>
                                     
                                     <!-- Share Button (Celebration action) -->
-                                    <Button Command="{Binding ShareResultsCommand}"
-                                            Text="{localization:Localize Share_Results}"
-                                            Style="{StaticResource CelebrationShareButton}"
-                                            HorizontalOptions="FillAndExpand"
-                                            IsVisible="{Binding CanShareResults}"
-                                            AutomationProperties.Name="{localization:Localize Accessibility_ShareButton}"
-                                            AutomationProperties.HelpText="{localization:Localize Accessibility_ShareButtonHelp}">
-                                        <Button.ImageSource>
-                                            <FontImageSource FontFamily="FontAwesomePro-Solid"
-                                                             Glyph="&#xf1e0;"
-                                                             Size="18"
-                                                             Color="White" />
-                                        </Button.ImageSource>
-                                    </Button>
+                                    <components:ShareButtonComponent x:Name="CelebrationMobileShareButton"
+                                                                   HorizontalOptions="FillAndExpand" />
                                 </StackLayout>
                                 
                                 <!-- Tablet/Desktop Layout: Side-by-side for efficiency -->
@@ -1396,20 +1345,8 @@
                                       IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}">
                                     
                                     <!-- Share Button (Left - social reward first in visual flow) -->
-                                    <Button Grid.Column="0"
-                                            Command="{Binding ShareResultsCommand}"
-                                            Text="{localization:Localize Share_Results}"
-                                            Style="{StaticResource CelebrationShareButton}"
-                                            IsVisible="{Binding CanShareResults}"
-                                            AutomationProperties.Name="{localization:Localize Accessibility_ShareButton}"
-                                            AutomationProperties.HelpText="{localization:Localize Accessibility_ShareButtonHelp}">
-                                        <Button.ImageSource>
-                                            <FontImageSource FontFamily="FontAwesomePro-Solid"
-                                                             Glyph="&#xf1e0;"
-                                                             Size="20"
-                                                             Color="White" />
-                                        </Button.ImageSource>
-                                    </Button>
+                                    <components:ShareButtonComponent x:Name="CelebrationDesktopShareButton"
+                                                                   Grid.Column="0" />
                                     
                                     <!-- New Challenge Button (Right - natural next action) -->
                                     <Button Grid.Column="1"

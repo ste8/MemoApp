@@ -12,6 +12,7 @@ using MemoApp.UI.MauiApp.Services.Freemium;
 using MemoApp.UI.MauiApp.Services.Onboarding;
 using MemoApp.UI.MauiApp.Services.Sharing;
 using MemoApp.UI.MauiApp.ViewModels;
+using MemoApp.UI.MauiApp.ViewModels.Components;
 using MemoApp.UI.MauiApp.Views;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Configuration;
@@ -392,7 +393,10 @@ public static class ServiceRegistration
             var logger = serviceProvider.GetRequiredService<ILogger<ViewModels.Onboarding.PackDownloadOnboardingViewModel>>();
             return new ViewModels.Onboarding.PackDownloadOnboardingViewModel(downloadService, packManager, mauiPackService, localizationService, analyticsService, logger);
         });
-        
+
+        // Component ViewModels
+        services.AddTransient<ShareButtonViewModel>();
+
         return services;
     }
 
@@ -416,7 +420,11 @@ public static class ServiceRegistration
         services.AddTransient<Views.SettingsPage>();
         services.AddTransient<Views.AssociationsPage>();
         services.AddTransient<Views.PackDownloadPage>();
-        services.AddTransient<Views.BigNumberPage>();
+        services.AddTransient<Views.BigNumberPage>(serviceProvider =>
+        {
+            var viewModel = serviceProvider.GetRequiredService<BigNumberViewModel>();
+            return new Views.BigNumberPage(viewModel, serviceProvider);
+        });
         services.AddTransient<Views.TokenDetailPage>();
         services.AddTransient<Views.AddCustomAssociationPage>();
         services.AddTransient<Views.ImageViewerPage>();

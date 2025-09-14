@@ -2000,6 +2000,22 @@ Scarica MemoRaise: {AppUrl}
     <value>Condividi i tuoi risultati di allenamento della memoria</value>
     <comment>Semantic description for share button</comment>
   </data>
+  <data name="Share_ButtonIcon" xml:space="preserve">
+    <value>📤</value>
+    <comment>Share button icon for mobile devices</comment>
+  </data>
+  <data name="Share_AccessibilityHint" xml:space="preserve">
+    <value>Tocca due volte per condividere i tuoi risultati</value>
+    <comment>Accessibility hint for share button</comment>
+  </data>
+  <data name="Share_AccessibilityDescription" xml:space="preserve">
+    <value>Condividi i risultati di {0} dal contesto {1}</value>
+    <comment>Accessibility description template - {0}=exercise type, {1}=context</comment>
+  </data>
+  <data name="Share_NotAvailable" xml:space="preserve">
+    <value>Nessun risultato disponibile da condividere</value>
+    <comment>Accessibility description when no share data available</comment>
+  </data>
   <data name="Tooltip_Associations_Title" xml:space="preserve">
     <value>Benvenuto nello Schedario!</value>
     <comment>Title for first-time associations tooltip</comment>

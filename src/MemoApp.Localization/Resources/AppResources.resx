@@ -2178,6 +2178,22 @@ Download MemoRaise: {AppUrl}
     <value>Share your memory training results</value>
     <comment>Semantic description for share button</comment>
   </data>
+  <data name="Share_ButtonIcon" xml:space="preserve">
+    <value>📤</value>
+    <comment>Share button icon for mobile devices</comment>
+  </data>
+  <data name="Share_AccessibilityHint" xml:space="preserve">
+    <value>Double tap to share your results</value>
+    <comment>Accessibility hint for share button</comment>
+  </data>
+  <data name="Share_AccessibilityDescription" xml:space="preserve">
+    <value>Share {0} results from {1} context</value>
+    <comment>Accessibility description template - {0}=exercise type, {1}=context</comment>
+  </data>
+  <data name="Share_NotAvailable" xml:space="preserve">
+    <value>No results available to share</value>
+    <comment>Accessibility description when no share data available</comment>
+  </data>
   <data name="Tooltip_Associations_Title" xml:space="preserve">
     <value>Welcome to Associations!</value>
     <comment>Title for first-time associations tooltip</comment>
