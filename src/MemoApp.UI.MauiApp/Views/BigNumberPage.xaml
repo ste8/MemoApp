@@ -1052,7 +1052,8 @@
                         </StackLayout>
 
                         <!-- Legend Section - Moved below comparison for better visual hierarchy -->
-                        <Border IsVisible="{Binding ShowDigitComparison}"
+                        <Border x:Name="LegendSection"
+                                IsVisible="{Binding ShowDigitComparison}"
                                 BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
                                 Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
                                 StrokeThickness="1"
@@ -1064,25 +1065,27 @@
                             <StackLayout Spacing="10">
 
                                 <!-- Legend Header with Toggle -->
-                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
-                                    <Label Grid.Column="0"
-                                           Text="🎯"
-                                           FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                                           VerticalOptions="Center" />
-
-                                    <StackLayout Grid.Column="1" Spacing="2">
-                                        <Label Text="{localization:Localize BigNumber_ColorBlindFriendlyLegendTitle}"
-                                               FontSize="{OnIdiom Phone=13, Tablet=15, Desktop=16}"
-                                               FontAttributes="Bold"
-                                               VerticalOptions="Center"
-                                               TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray300}}" />
-                                        <Label Text="{localization:Localize BigNumber_PatternExplanation}"
-                                               FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}"
-                                               VerticalOptions="Center"
-                                               TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                    <StackLayout Grid.Column="0"
+                                                 Orientation="Horizontal"
+                                                 Spacing="8"
+                                                 VerticalOptions="Center">
+                                        <Label Text="📊"
+                                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                               VerticalOptions="Center" />
+                                        <StackLayout Spacing="2" VerticalOptions="Center">
+                                            <Label Text="{localization:Localize BigNumber_ColorBlindFriendlyLegendTitle}"
+                                                   FontSize="{OnIdiom Phone=13, Tablet=15, Desktop=16}"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray300}}" />
+                                            <Label Text="{localization:Localize BigNumber_PatternExplanation}"
+                                                   FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}"
+                                                   TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                                   IsVisible="{Binding IsLegendVisible}" />
+                                        </StackLayout>
                                     </StackLayout>
 
-                                    <Button Grid.Column="2"
+                                    <Button Grid.Column="1"
                                             Text="{Binding LegendToggleText}"
                                             Command="{Binding ToggleLegendCommand}"
                                             BackgroundColor="Transparent"
@@ -1121,7 +1124,7 @@
                                                            FontSize="11"
                                                            FontAttributes="Bold"
                                                            VerticalOptions="Center" />
-                                                    <Label Text="Solid border"
+                                                    <Label Text="{localization:Localize BigNumber_LegendSolidBorder}"
                                                            FontSize="9"
                                                            TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
                                                            VerticalOptions="Center" />
@@ -1151,7 +1154,7 @@
                                                            FontSize="11"
                                                            FontAttributes="Bold"
                                                            VerticalOptions="Center" />
-                                                    <Label Text="Dashed border"
+                                                    <Label Text="{localization:Localize BigNumber_LegendDashedBorder}"
                                                            FontSize="9"
                                                            TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
                                                            VerticalOptions="Center" />
@@ -1184,7 +1187,7 @@
                                                            FontSize="11"
                                                            FontAttributes="Bold"
                                                            VerticalOptions="Center" />
-                                                    <Label Text="Dotted border"
+                                                    <Label Text="{localization:Localize BigNumber_LegendDottedBorder}"
                                                            FontSize="9"
                                                            TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
                                                            VerticalOptions="Center" />
@@ -1245,7 +1248,7 @@
                                                        FontSize="12"
                                                        FontAttributes="Bold"
                                                        VerticalOptions="Center" />
-                                                <Label Text="Solid border"
+                                                <Label Text="{localization:Localize BigNumber_LegendSolidBorder}"
                                                        FontSize="10"
                                                        TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
                                                        VerticalOptions="Center" />
@@ -1275,7 +1278,7 @@
                                                        FontSize="12"
                                                        FontAttributes="Bold"
                                                        VerticalOptions="Center" />
-                                                <Label Text="Dashed border"
+                                                <Label Text="{localization:Localize BigNumber_LegendDashedBorder}"
                                                        FontSize="10"
                                                        TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
                                                        VerticalOptions="Center" />
@@ -1305,7 +1308,7 @@
                                                        FontSize="12"
                                                        FontAttributes="Bold"
                                                        VerticalOptions="Center" />
-                                                <Label Text="Dotted border"
+                                                <Label Text="{localization:Localize BigNumber_LegendDottedBorder}"
                                                        FontSize="10"
                                                        TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
                                                        VerticalOptions="Center" />

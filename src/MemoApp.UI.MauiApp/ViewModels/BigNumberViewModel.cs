@@ -43,6 +43,7 @@ public partial class BigNumberViewModel : BaseViewModel
     public event EventHandler? ScrollToVerificationResults;
     public event EventHandler? FocusUserInputRequested;
     public event EventHandler<int>? ScrollToPositionRequested;
+    public event EventHandler? ScrollToLegendRequested;
     
     private BigNumberGame _currentGame = new();
     private string _originalNumber = string.Empty;
@@ -2238,6 +2239,17 @@ public partial class BigNumberViewModel : BaseViewModel
         LegendToggleText = IsLegendVisible
             ? _localizationService.GetString("BigNumber_Hide")
             : _localizationService.GetString("BigNumber_Show");
+
+        // Trigger smooth scroll to legend when expanding (after a brief delay for UI updates)
+        if (IsLegendVisible)
+        {
+            // Schedule UI event on the main thread dispatcher to avoid cross-thread violations
+            Application.Current?.Dispatcher.Dispatch(async () =>
+            {
+                await Task.Delay(100); // Allow UI to expand first
+                ScrollToLegendRequested?.Invoke(this, EventArgs.Empty);
+            });
+        }
     }
 
     /// <summary>

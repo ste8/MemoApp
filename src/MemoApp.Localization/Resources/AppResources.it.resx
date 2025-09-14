@@ -2394,13 +2394,25 @@ Scarica MemoRaise: {AppUrl}
   </data>
 
   <data name="BigNumber_ColorBlindFriendlyLegendTitle" xml:space="preserve">
-    <value>Guida Visiva (Accessibile ai Daltonici)</value>
-    <comment>Updated legend title emphasizing color-blind accessibility</comment>
+    <value>Guida Visiva</value>
+    <comment>Titolo universale della leggenda che enfatizza i benefici delle prestazioni per tutti gli utenti</comment>
   </data>
 
   <data name="BigNumber_PatternExplanation" xml:space="preserve">
-    <value>Colori + bordi distintivi per l'accessibilità</value>
-    <comment>Brief explanation of the color-blind friendly border pattern approach</comment>
+    <value>Colori + pattern del bordo per l'accessibilità</value>
+    <comment>Spiegazione chiara delle funzionalità di accessibilità, mostrata solo quando la leggenda è espansa</comment>
+  </data>
+  <data name="BigNumber_LegendSolidBorder" xml:space="preserve">
+    <value>Bordo continuo</value>
+    <comment>Descrizione del pattern di bordo continuo nella leggenda per le cifre corrette</comment>
+  </data>
+  <data name="BigNumber_LegendDashedBorder" xml:space="preserve">
+    <value>Bordo tratteggiato</value>
+    <comment>Descrizione del pattern di bordo tratteggiato nella leggenda per le cifre nella posizione sbagliata</comment>
+  </data>
+  <data name="BigNumber_LegendDottedBorder" xml:space="preserve">
+    <value>Bordo punteggiato</value>
+    <comment>Descrizione del pattern di bordo punteggiato nella leggenda per le cifre scorrette</comment>
   </data>
 
   <!-- Navigation Control strings -->
@@ -2461,13 +2473,5 @@ Scarica MemoRaise: {AppUrl}
   <data name="BigNumber_MissingDigitEnhancedAccessibility" xml:space="preserve">
     <value>Posizione {0}: Cifra mancante - sfondo bianco con bordo rosso tratteggiato e simbolo punto interrogativo</value>
     <comment>Enhanced accessibility description for missing digits including visual indicators</comment>
-  </data>
-  <data name="BigNumber_ColorBlindLegendTitle" xml:space="preserve">
-    <value>Guida Visiva (Adatta ai Daltonici)</value>
-    <comment>Title for enhanced legend that includes symbols and patterns</comment>
-  </data>
-  <data name="BigNumber_PatternExplanation" xml:space="preserve">
-    <value>Ogni risultato usa colore, simboli e pattern per maggiore chiarezza</value>
-    <comment>Explanation text for pattern-based visual indicators</comment>
   </data>
 </root>

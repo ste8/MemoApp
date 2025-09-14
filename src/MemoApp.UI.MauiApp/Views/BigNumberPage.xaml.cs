@@ -22,6 +22,9 @@ public partial class BigNumberPage : ContentPage
         
         // Subscribe to navigation scroll requests from ViewModel
         viewModel.ScrollToPositionRequested += OnScrollToPositionRequested;
+
+        // Subscribe to legend scroll requests from ViewModel
+        viewModel.ScrollToLegendRequested += OnScrollToLegendRequested;
         
         // Subscribe to property changes to reset animation state when results are hidden
         viewModel.PropertyChanged += OnViewModelPropertyChanged;
@@ -235,6 +238,48 @@ public partial class BigNumberPage : ContentPage
         }
     }
 
+    private async void OnScrollToLegendRequested(object? sender, EventArgs e)
+    {
+        try
+        {
+            // Verify legend section exists and is visible
+            if (LegendSection?.IsVisible != true)
+            {
+                System.Diagnostics.Debug.WriteLine("Legend section not visible for scrolling");
+                return;
+            }
+
+            // Minimal delay for UI updates (reduced from 150ms to optimize total timing)
+            await Task.Delay(50);
+
+            // Smooth scroll to the legend section with optimal positioning
+            await MainScrollView.ScrollToAsync(LegendSection, ScrollToPosition.MakeVisible, true);
+
+            // Add subtle highlight animation to draw attention
+            await AnimateLegendHighlight();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Legend scroll error: {ex.Message}");
+        }
+    }
+
+    private async Task AnimateLegendHighlight()
+    {
+        try
+        {
+            if (LegendSection == null) return;
+
+            // Subtle pulse to indicate the expanded section
+            await LegendSection.ScaleTo(1.02, 200, Easing.CubicOut);
+            await LegendSection.ScaleTo(1.0, 200, Easing.CubicIn);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Legend highlight animation error: {ex.Message}");
+        }
+    }
+
     protected override async void OnAppearing()
     {
         base.OnAppearing();
@@ -258,6 +303,7 @@ public partial class BigNumberPage : ContentPage
             viewModel.ScrollToVerificationResults -= OnScrollToVerificationResults;
             viewModel.FocusUserInputRequested -= OnFocusUserInputRequested;
             viewModel.ScrollToPositionRequested -= OnScrollToPositionRequested;
+            viewModel.ScrollToLegendRequested -= OnScrollToLegendRequested;
             viewModel.PropertyChanged -= OnViewModelPropertyChanged;
         }
     }

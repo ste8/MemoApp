@@ -2498,13 +2498,25 @@ Download MemoRaise: {AppUrl}
   </data>
 
   <data name="BigNumber_ColorBlindFriendlyLegendTitle" xml:space="preserve">
-    <value>Visual Guide (Color-Blind Friendly)</value>
-    <comment>Updated legend title emphasizing color-blind accessibility</comment>
+    <value>Visual Guide</value>
+    <comment>Universal legend title focusing on performance benefits for all users</comment>
   </data>
 
   <data name="BigNumber_PatternExplanation" xml:space="preserve">
     <value>Colors + border patterns for accessibility</value>
-    <comment>Brief explanation of the color-blind friendly border pattern approach</comment>
+    <comment>Clear explanation of accessibility features, shown only when legend is expanded</comment>
+  </data>
+  <data name="BigNumber_LegendSolidBorder" xml:space="preserve">
+    <value>Solid border</value>
+    <comment>Description of solid border pattern in legend for correct digits</comment>
+  </data>
+  <data name="BigNumber_LegendDashedBorder" xml:space="preserve">
+    <value>Dashed border</value>
+    <comment>Description of dashed border pattern in legend for wrong position digits</comment>
+  </data>
+  <data name="BigNumber_LegendDottedBorder" xml:space="preserve">
+    <value>Dotted border</value>
+    <comment>Description of dotted border pattern in legend for incorrect digits</comment>
   </data>
 
   <!-- Navigation Control strings -->
@@ -2565,13 +2577,5 @@ Download MemoRaise: {AppUrl}
   <data name="BigNumber_MissingDigitEnhancedAccessibility" xml:space="preserve">
     <value>Position {0}: Missing digit - white background with red dashed border and question mark symbol</value>
     <comment>Enhanced accessibility description for missing digits including visual indicators</comment>
-  </data>
-  <data name="BigNumber_ColorBlindLegendTitle" xml:space="preserve">
-    <value>Visual Guide (Color-Blind Friendly)</value>
-    <comment>Title for enhanced legend that includes symbols and patterns</comment>
-  </data>
-  <data name="BigNumber_PatternExplanation" xml:space="preserve">
-    <value>Each result uses color, symbols, and patterns for clarity</value>
-    <comment>Explanation text for pattern-based visual indicators</comment>
   </data>
 </root>
