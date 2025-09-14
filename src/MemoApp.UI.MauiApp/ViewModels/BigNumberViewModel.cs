@@ -1986,14 +1986,15 @@ public partial class BigNumberViewModel : BaseViewModel
     /// <summary>
     /// Determines if we should show confirmation dialog before starting new game.
     /// Based on UI/UX agent recommendations for smart contextual confirmation.
+    /// No confirmation needed post-completion when results are shown.
     /// </summary>
     private bool ShouldShowNewGameConfirmation()
     {
         return CurrentPhase switch
         {
             GamePhase.Memorizing => true, // Always confirm during memorization (high risk)
-            GamePhase.Stopped => true,   // Always confirm when stopped (user made progress)
-            GamePhase.Recall => ShouldConfirmDuringRecall(), // Context-dependent
+            GamePhase.Stopped => false,  // No confirmation when stopped - results are shown, user intent is clear
+            GamePhase.Recall => !ShowVerificationResults, // Confirm during input, but not after results are shown
             GamePhase.Setup => false,    // No progress to lose
             _ => false
         };
