@@ -164,6 +164,15 @@ public partial class BigNumberViewModel : BaseViewModel
     private bool canVerifyInput = false;
 
     [ObservableProperty]
+    private bool isVerificationProcessing = false;
+
+    [ObservableProperty]
+    private string verificationButtonText = string.Empty;
+
+    [ObservableProperty]
+    private Color verificationButtonBackgroundColor = Colors.Green;
+
+    [ObservableProperty]
     private bool showVerificationResults = false;
 
 
@@ -407,7 +416,10 @@ public partial class BigNumberViewModel : BaseViewModel
         ShowAdvancedSettingsToggle = true;
         IsAdvancedSettingsExpanded = false;
         AdvancedSettingsToggleText = _localizationService.GetString("BigNumber_Show");
-        
+
+        // Initialize verification button state
+        SetVerificationNormalState();
+
         UpdateNumberFontSize();
         
         // Initialize dynamic minimum height based on current settings
@@ -419,6 +431,9 @@ public partial class BigNumberViewModel : BaseViewModel
             _localizationService.GetString("BigNumber_DigitCount"),
             0,
             NumberOfDigits);
+
+        // Initialize verification button text
+        InitializeVerificationButtonState();
     }
     
 
@@ -575,7 +590,7 @@ public partial class BigNumberViewModel : BaseViewModel
             NumberOfDigits);
         
         // Update verification button state
-        CanVerifyInput = digitsEntered > 0;
+        CanVerifyInput = digitsEntered > 0 && !IsVerificationProcessing;
         VerifyInputCommand.NotifyCanExecuteChanged();
     }
 
@@ -1440,69 +1455,153 @@ public partial class BigNumberViewModel : BaseViewModel
         if (string.IsNullOrEmpty(UserInput) || string.IsNullOrEmpty(_originalNumber))
             return;
 
+        // Use enhanced verification with timeout and retry mechanisms
+        await ExecuteVerificationWithRetry();
+    }
+
+    /// <summary>
+    /// Executes verification with enhanced error handling, timeout, and retry mechanisms
+    /// </summary>
+    private async Task ExecuteVerificationWithRetry()
+    {
+        const int maxRetries = 2;
+        const int timeoutMs = 10000; // 10 second timeout
+
+        for (int attempt = 1; attempt <= maxRetries; attempt++)
+        {
+            try
+            {
+                // Enter processing state
+                SetVerificationProcessingState();
+
+                // Create cancellation token with timeout
+                using var timeoutCts = new CancellationTokenSource(TimeSpan.FromMilliseconds(timeoutMs));
+
+                // Execute verification with timeout protection
+                await ExecuteVerificationCore(timeoutCts.Token);
+
+                // Success - exit retry loop
+                return;
+            }
+            catch (OperationCanceledException) when (attempt < maxRetries)
+            {
+                // Timeout occurred, but we have retries left
+                System.Diagnostics.Debug.WriteLine($"Verification timeout on attempt {attempt}, retrying...");
+
+                // Brief delay before retry
+                await Task.Delay(500);
+                continue;
+            }
+            catch (OperationCanceledException)
+            {
+                // Final timeout - no more retries
+                await HandleVerificationError(new TimeoutException("Verification process timed out after multiple attempts"));
+                return;
+            }
+            catch (Exception ex) when (attempt < maxRetries)
+            {
+                // Non-timeout error, but we have retries left
+                System.Diagnostics.Debug.WriteLine($"Verification error on attempt {attempt}: {ex.Message}, retrying...");
+
+                // Brief delay before retry
+                await Task.Delay(500);
+                continue;
+            }
+            catch (Exception ex)
+            {
+                // Final error - no more retries
+                await HandleVerificationError(ex);
+                return;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Core verification logic that can be executed with cancellation token support
+    /// </summary>
+    private async Task ExecuteVerificationCore(CancellationToken cancellationToken = default)
+    {
+        // Add platform-optimized delay to ensure users see the loading state
+        await Task.Delay(GetPlatformOptimizedProcessingDelay(), cancellationToken);
+
+        // Check for cancellation after delay
+        cancellationToken.ThrowIfCancellationRequested();
+        // Extract digits from user input
+        var userDigits = new string(UserInput.Where(char.IsDigit).ToArray());
+        var originalDigits = new string(_originalNumber.Where(char.IsDigit).ToArray());
+
+        // Calculate accuracy
+        var correctDigits = 0;
+        var minLength = Math.Min(userDigits.Length, originalDigits.Length);
+
+        for (int i = 0; i < minLength; i++)
+        {
+            // Check for cancellation during processing
+            if (i % 100 == 0) // Check every 100 iterations to avoid excessive checks
+                cancellationToken.ThrowIfCancellationRequested();
+
+            if (userDigits[i] == originalDigits[i])
+                correctDigits++;
+        }
+
+        CorrectDigitsCount = correctDigits;
+        var accuracy = originalDigits.Length > 0 ? (double)correctDigits / originalDigits.Length * 100 : 0;
+        AccuracyPercentage = accuracy;
+        AccuracyPercentageText = $"{accuracy:F1}%";
+
+        // Set colors and icons based on accuracy
+        if (accuracy >= 95)
+        {
+            AccuracyColor = Color.FromArgb("#4CAF50"); // Green
+            AccuracyBorderColor = Color.FromArgb("#4CAF50");
+            AccuracyIcon = "✅";
+            AccuracyTitle = _localizationService.GetString("BigNumber_AccuracyExcellent");
+        }
+        else if (accuracy >= 80)
+        {
+            AccuracyColor = Color.FromArgb("#FF9800"); // Orange
+            AccuracyBorderColor = Color.FromArgb("#FF9800");
+            AccuracyIcon = "👍";
+            AccuracyTitle = _localizationService.GetString("BigNumber_AccuracyGood");
+        }
+        else
+        {
+            AccuracyColor = Color.FromArgb("#F44336"); // Red
+            AccuracyBorderColor = Color.FromArgb("#F44336");
+            AccuracyIcon = "💪";
+            AccuracyTitle = _localizationService.GetString("BigNumber_AccuracyKeepPracticing");
+        }
+
+        ShowVerificationResults = true;
+        CanShareResults = true; // Enable sharing when verification results are shown
+
+        // Check for cancellation before UI updates
+        cancellationToken.ThrowIfCancellationRequested();
+
+        // Generate the Wordle-style digit comparison
+        GenerateDigitComparison(_originalNumber, UserInput);
+
+        // Show completion state briefly, then return to normal
+        await SetVerificationCompletedState();
+
+        // Check for cancellation before triggering events
+        cancellationToken.ThrowIfCancellationRequested();
+
+        // Trigger auto-scroll to bring results into view
+        ScrollToVerificationResults?.Invoke(this, EventArgs.Empty);
+
+        // Haptic feedback
+        if (_hapticFeedbackService?.IsSupported == true)
+        {
+            if (accuracy >= 95)
+                _hapticFeedbackService.PerformSuccessFeedback();
+            else
+                _hapticFeedbackService.PerformSelectionFeedback();
+        }
+
+        // Track analytics with cancellation support
         try
         {
-            // Extract digits from user input
-            var userDigits = new string(UserInput.Where(char.IsDigit).ToArray());
-            var originalDigits = new string(_originalNumber.Where(char.IsDigit).ToArray());
-
-            // Calculate accuracy
-            var correctDigits = 0;
-            var minLength = Math.Min(userDigits.Length, originalDigits.Length);
-            
-            for (int i = 0; i < minLength; i++)
-            {
-                if (userDigits[i] == originalDigits[i])
-                    correctDigits++;
-            }
-
-            CorrectDigitsCount = correctDigits;
-            var accuracy = originalDigits.Length > 0 ? (double)correctDigits / originalDigits.Length * 100 : 0;
-            AccuracyPercentage = accuracy;
-            AccuracyPercentageText = $"{accuracy:F1}%";
-
-            // Set colors and icons based on accuracy
-            if (accuracy >= 95)
-            {
-                AccuracyColor = Color.FromArgb("#4CAF50"); // Green
-                AccuracyBorderColor = Color.FromArgb("#4CAF50");
-                AccuracyIcon = "✅";
-                AccuracyTitle = _localizationService.GetString("BigNumber_AccuracyExcellent");
-            }
-            else if (accuracy >= 80)
-            {
-                AccuracyColor = Color.FromArgb("#FF9800"); // Orange
-                AccuracyBorderColor = Color.FromArgb("#FF9800");
-                AccuracyIcon = "👍";
-                AccuracyTitle = _localizationService.GetString("BigNumber_AccuracyGood");
-            }
-            else
-            {
-                AccuracyColor = Color.FromArgb("#F44336"); // Red
-                AccuracyBorderColor = Color.FromArgb("#F44336");
-                AccuracyIcon = "💪";
-                AccuracyTitle = _localizationService.GetString("BigNumber_AccuracyKeepPracticing");
-            }
-
-            ShowVerificationResults = true;
-            CanShareResults = true; // Enable sharing when verification results are shown
-            
-            // Generate the Wordle-style digit comparison
-            GenerateDigitComparison(_originalNumber, UserInput);
-            
-            // Trigger auto-scroll to bring results into view
-            ScrollToVerificationResults?.Invoke(this, EventArgs.Empty);
-
-            // Haptic feedback
-            if (_hapticFeedbackService?.IsSupported == true)
-            {
-                if (accuracy >= 95)
-                    _hapticFeedbackService.PerformSuccessFeedback();
-                else
-                    _hapticFeedbackService.PerformSelectionFeedback();
-            }
-
-            // Track analytics
             await _analyticsService.TrackEventAsync("input_verification_completed", new Dictionary<string, object>
             {
                 ["exercise_type"] = "BigNumber",
@@ -1512,11 +1611,46 @@ public partial class BigNumberViewModel : BaseViewModel
                 ["user_input_length"] = userDigits.Length
             });
         }
-        catch (Exception ex)
+        catch (Exception analyticsEx)
         {
-            await _userNotificationService.ShowErrorDialogAsync(
-                _localizationService.GetString("Error_Title"), 
-                $"Failed to verify input: {ex.Message}");
+            // Don't fail the entire verification if analytics fails
+            System.Diagnostics.Debug.WriteLine($"Analytics tracking failed: {analyticsEx.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Handles verification errors with appropriate user feedback
+    /// </summary>
+    private async Task HandleVerificationError(Exception ex)
+    {
+        // Reset to normal state on error
+        SetVerificationNormalState();
+
+        // Provide user-friendly error messages based on error type
+        string errorMessage = ex switch
+        {
+            TimeoutException => _localizationService.GetString("BigNumber_VerificationTimeout"),
+            OperationCanceledException => _localizationService.GetString("BigNumber_VerificationCancelled"),
+            _ => $"{_localizationService.GetString("BigNumber_VerificationError")}: {ex.Message}"
+        };
+
+        await _userNotificationService.ShowErrorDialogAsync(
+            _localizationService.GetString("Error_Title"),
+            errorMessage);
+
+        // Track error for analytics
+        try
+        {
+            await _analyticsService.TrackEventAsync("input_verification_failed", new Dictionary<string, object>
+            {
+                ["exercise_type"] = "BigNumber",
+                ["error_type"] = ex.GetType().Name,
+                ["error_message"] = ex.Message
+            });
+        }
+        catch (Exception analyticsEx)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error analytics tracking failed: {analyticsEx.Message}");
         }
     }
 
@@ -1528,6 +1662,102 @@ public partial class BigNumberViewModel : BaseViewModel
         ClearInputVerificationState();
         IsVerificationPanelManuallyClosed = true;
         UpdateUIState();
+    }
+
+    /// <summary>
+    /// Initializes the verification button to its default state
+    /// </summary>
+    private void InitializeVerificationButtonState()
+    {
+        VerificationButtonText = _localizationService.GetString("BigNumber_CheckAnswer");
+        VerificationButtonBackgroundColor = Application.Current?.Resources.TryGetValue("Success", out var success) == true
+            ? (Color)success
+            : Color.FromArgb("#28A745");
+        IsVerificationProcessing = false;
+    }
+
+    /// <summary>
+    /// Sets the verification button to processing state
+    /// </summary>
+    private void SetVerificationProcessingState()
+    {
+        IsVerificationProcessing = true;
+        VerificationButtonText = _localizationService.GetString("BigNumber_CheckAnswer_Processing");
+        VerificationButtonBackgroundColor = Color.FromArgb("#6C757D"); // Gray color for processing
+        CanVerifyInput = false;
+        VerifyInputCommand.NotifyCanExecuteChanged();
+    }
+
+    /// <summary>
+    /// Sets the verification button to completed state (brief success indication)
+    /// </summary>
+    private async Task SetVerificationCompletedState()
+    {
+        IsVerificationProcessing = true; // Keep disabled during success state
+        VerificationButtonText = _localizationService.GetString("BigNumber_CheckAnswer_Completed");
+        VerificationButtonBackgroundColor = Application.Current?.Resources.TryGetValue("Success", out var success) == true
+            ? (Color)success
+            : Color.FromArgb("#28A745");
+
+        // Show success state with platform-optimized timing
+        await Task.Delay(GetPlatformOptimizedSuccessDelay());
+        SetVerificationNormalState();
+    }
+
+    /// <summary>
+    /// Gets platform-optimized delay for success state display
+    /// Desktop: Faster interactions (600ms)
+    /// Mobile: Longer for better accessibility and touch feedback (1000ms)
+    /// </summary>
+    private int GetPlatformOptimizedSuccessDelay()
+    {
+        if (DeviceInfo.Idiom == DeviceIdiom.Desktop)
+            return 600;  // Faster for desktop users with precise mouse control
+
+        if (DeviceInfo.Idiom == DeviceIdiom.Phone)
+            return 1000; // Longer for mobile users and screen reader accessibility
+
+        if (DeviceInfo.Idiom == DeviceIdiom.Tablet)
+            return 800;  // Medium timing for tablet users
+
+        return 800;      // Default fallback
+    }
+
+    /// <summary>
+    /// Gets platform-optimized delay for processing state visibility
+    /// Ensures users see the loading state before results appear
+    /// Desktop: Minimal delay (200ms) for responsive feel
+    /// Mobile: Longer delay (400ms) for better visual feedback on touch interactions
+    /// </summary>
+    private int GetPlatformOptimizedProcessingDelay()
+    {
+        if (DeviceInfo.Idiom == DeviceIdiom.Desktop)
+            return 200; // Minimal delay for desktop responsiveness
+
+        if (DeviceInfo.Idiom == DeviceIdiom.Phone)
+            return 400; // Longer for mobile touch feedback and loading visibility
+
+        if (DeviceInfo.Idiom == DeviceIdiom.Tablet)
+            return 300; // Balanced timing for tablet interactions
+
+        return 300;     // Default fallback
+    }
+
+    /// <summary>
+    /// Returns the verification button to normal state
+    /// </summary>
+    private void SetVerificationNormalState()
+    {
+        IsVerificationProcessing = false;
+        VerificationButtonText = _localizationService.GetString("BigNumber_CheckAnswer");
+        VerificationButtonBackgroundColor = Application.Current?.Resources.TryGetValue("Success", out var success) == true
+            ? (Color)success
+            : Color.FromArgb("#28A745");
+
+        // Update button availability based on current input
+        var digitsEntered = UserInput?.Where(char.IsDigit).Count() ?? 0;
+        CanVerifyInput = digitsEntered > 0 && !IsVerificationProcessing;
+        VerifyInputCommand.NotifyCanExecuteChanged();
     }
 
     // Helper methods
@@ -1548,7 +1778,10 @@ public partial class BigNumberViewModel : BaseViewModel
         IsOnDemandVerificationActive = false;
         AccuracyPercentage = 0;
         AccuracyPercentageText = string.Empty;
-        
+
+        // Reset verification button to normal state
+        SetVerificationNormalState();
+
         // Clear digit comparison
         ClearDigitComparison();
     }

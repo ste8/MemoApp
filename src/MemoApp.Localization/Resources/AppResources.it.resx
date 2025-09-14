@@ -1453,6 +1453,14 @@
     <value>Verifica Risposta</value>
     <comment>Button text to verify input against original number</comment>
   </data>
+  <data name="BigNumber_CheckAnswer_Processing" xml:space="preserve">
+    <value>Verificando...</value>
+    <comment>Button text shown during verification processing</comment>
+  </data>
+  <data name="BigNumber_CheckAnswer_Completed" xml:space="preserve">
+    <value>Completato!</value>
+    <comment>Button text shown briefly when verification completes</comment>
+  </data>
   <data name="BigNumber_ClearInput" xml:space="preserve">
     <value>Cancella</value>
     <comment>Button text to clear input field</comment>
@@ -2473,5 +2481,17 @@ Scarica MemoRaise: {AppUrl}
   <data name="BigNumber_MissingDigitEnhancedAccessibility" xml:space="preserve">
     <value>Posizione {0}: Cifra mancante - sfondo bianco con bordo rosso tratteggiato e simbolo punto interrogativo</value>
     <comment>Enhanced accessibility description for missing digits including visual indicators</comment>
+  </data>
+  <data name="BigNumber_VerificationTimeout" xml:space="preserve">
+    <value>Il processo di verifica è scaduto. Riprova.</value>
+    <comment>Error message when verification process times out</comment>
+  </data>
+  <data name="BigNumber_VerificationCancelled" xml:space="preserve">
+    <value>Il processo di verifica è stato annullato.</value>
+    <comment>Error message when verification process is cancelled</comment>
+  </data>
+  <data name="BigNumber_VerificationError" xml:space="preserve">
+    <value>Si è verificato un errore durante la verifica</value>
+    <comment>Generic error message for verification failures</comment>
   </data>
 </root>

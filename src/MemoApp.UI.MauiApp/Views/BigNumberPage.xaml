@@ -708,10 +708,10 @@
                                     </Grid>
                                 </Border>
                                 
-                                <!-- Primary Action: Single Prominent Verify Button -->
-                                <Button Text="{localization:Localize BigNumber_CheckAnswer}"
+                                <!-- Primary Action: Enhanced Verify Button with Loading States -->
+                                <Button Text="{Binding VerificationButtonText}"
                                         Command="{Binding VerifyInputCommand}"
-                                        BackgroundColor="{StaticResource Success}"
+                                        BackgroundColor="{Binding VerificationButtonBackgroundColor}"
                                         TextColor="White"
                                         FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                                         FontAttributes="Bold"
@@ -720,9 +720,9 @@
                                         IsEnabled="{Binding CanVerifyInput}"
                                         Margin="0,8,0,0">
                                     <Button.Shadow>
-                                        <Shadow Brush="{StaticResource Success}" 
-                                                Opacity="0.3" 
-                                                Offset="0,4" 
+                                        <Shadow Brush="{Binding VerificationButtonBackgroundColor}"
+                                                Opacity="0.3"
+                                                Offset="0,4"
                                                 Radius="12" />
                                     </Button.Shadow>
                                 </Button>
