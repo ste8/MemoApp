@@ -169,17 +169,8 @@ public partial class ShareButtonViewModel : ObservableObject
 
     private void UpdateButtonText()
     {
-        // Platform-specific text display
-        if (DeviceInfo.Idiom == DeviceIdiom.Phone)
-        {
-            // Icon-only on mobile for space efficiency
-            ButtonText = _localizationService.GetString("Share_ButtonIcon");
-        }
-        else
-        {
-            // Icon + text on tablet/desktop
-            ButtonText = $"{_localizationService.GetString("Share_ButtonIcon")} {_localizationService.GetString("Share_ButtonText")}";
-        }
+        // Icon + text on all platforms for better clarity and recognition
+        ButtonText = $"{_localizationService.GetString("Share_ButtonIcon")} {_localizationService.GetString("Share_ButtonText")}";
     }
 
     private void UpdateStyling()
@@ -191,54 +182,32 @@ public partial class ShareButtonViewModel : ObservableObject
                 FontSize = 14;
                 Padding = new Thickness(8, 4);
                 CornerRadius = 6;
-                WidthRequest = DeviceInfo.Idiom == DeviceIdiom.Phone ? 44 : 80;
+                WidthRequest = DeviceInfo.Idiom == DeviceIdiom.Phone ? 110 : 120; // Wider for icon+text
                 HeightRequest = 32;
                 break;
 
             case "prominent":
-                FontSize = 18;
-                Padding = new Thickness(16, 12);
-                CornerRadius = 12;
-                WidthRequest = DeviceInfo.Idiom == DeviceIdiom.Phone ? 60 : 140;
-                HeightRequest = 48;
+                FontSize = DeviceInfo.Idiom == DeviceIdiom.Phone ? 16 : 18; // Match CelebrationNewChallengeButton
+                Padding = new Thickness(20, 12); // Match CelebrationNewChallengeButton
+                CornerRadius = 16; // Match CelebrationNewChallengeButton
+                WidthRequest = DeviceInfo.Idiom == DeviceIdiom.Phone ? 140 : 160; // Wider for icon+text
+                HeightRequest = DeviceInfo.Idiom == DeviceIdiom.Phone ? 56 : DeviceInfo.Idiom == DeviceIdiom.Tablet ? 64 : 56; // Match CelebrationNewChallengeButton
                 break;
 
             case "normal":
             default:
-                FontSize = 16;
+                FontSize = DeviceInfo.Idiom == DeviceIdiom.Phone ? 16 : 18; // Better match with verification buttons
                 Padding = new Thickness(12, 8);
-                CornerRadius = 8;
-                WidthRequest = DeviceInfo.Idiom == DeviceIdiom.Phone ? 52 : 120;
-                HeightRequest = 40;
+                CornerRadius = 14; // Match verification buttons style
+                WidthRequest = DeviceInfo.Idiom == DeviceIdiom.Phone ? 120 : 140; // Wider for icon+text
+                HeightRequest = DeviceInfo.Idiom == DeviceIdiom.Phone ? 48 : DeviceInfo.Idiom == DeviceIdiom.Tablet ? 56 : 64; // Better match with verification buttons
                 break;
         }
 
-        // Context-specific colors
-        switch (Context.ToLowerInvariant())
-        {
-            case "celebration":
-                BackgroundColor = Color.FromArgb("#FFD700"); // Gold
-                TextColor = Color.FromArgb("#333333");
-                ShadowColor = Color.FromArgb("#FFA500");
-                break;
-
-            case "verification":
-            case "manual":
-                BackgroundColor = Application.Current?.Resources.TryGetValue("Success", out var success) == true
-                    ? (Color)success
-                    : Color.FromArgb("#28A745"); // Green
-                TextColor = Colors.White;
-                ShadowColor = Color.FromArgb("#1e7e34");
-                break;
-
-            default:
-                BackgroundColor = Application.Current?.Resources.TryGetValue("Primary", out var primary) == true
-                    ? (Color)primary
-                    : Color.FromArgb("#007bff"); // Blue
-                TextColor = Colors.White;
-                ShadowColor = Color.FromArgb("#0056b3");
-                break;
-        }
+        // Consistent Twitter-blue color for all contexts (better brand recognition and UX)
+        BackgroundColor = Color.FromArgb("#1DA1F2"); // Twitter Blue
+        TextColor = Colors.White;
+        ShadowColor = Color.FromArgb("#0d8bd9"); // Darker blue for shadow depth
     }
 
     private void UpdateAccessibility()
