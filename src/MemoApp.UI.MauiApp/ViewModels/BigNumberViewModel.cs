@@ -2274,14 +2274,27 @@ public partial class BigNumberViewModel : BaseViewModel
                 break;
                 
             case GamePhase.Recall:
-                PrimaryActionText = _localizationService.GetString("BigNumber_NewGame");
-                PrimaryActionBackgroundColor = Colors.Gray;
-                SecondaryActionText = _localizationService.GetString("BigNumber_StopHide");
-                SecondaryActionBackgroundColor = secondaryColor;
-                ShowPrimaryAction = true;
-                ShowSecondaryAction = true;
+                // In manual verification mode (post-completion), hide game management buttons
+                // and let the New Challenge + Share buttons (ShowSessionActions) take prominence
+                if (IsManualVerificationSelected)
+                {
+                    // Hide primary and secondary actions - user has completed the exercise
+                    // and should see completion actions (New Challenge, Share) instead
+                    ShowPrimaryAction = false;
+                    ShowSecondaryAction = false;
+                }
+                else
+                {
+                    // In app verification mode, keep management buttons visible
+                    PrimaryActionText = _localizationService.GetString("BigNumber_NewGame");
+                    PrimaryActionBackgroundColor = Colors.Gray;
+                    SecondaryActionText = _localizationService.GetString("BigNumber_StopHide");
+                    SecondaryActionBackgroundColor = secondaryColor;
+                    ShowPrimaryAction = true;
+                    ShowSecondaryAction = true;
+                }
                 IsGuidedPracticeInputVisible = IsAppVerificationSelected && IsInputVerificationVisible;
-                ShowSessionActions = true;
+                ShowSessionActions = true; // Always show completion actions (New Challenge, Share)
                 break;
         }
     }
