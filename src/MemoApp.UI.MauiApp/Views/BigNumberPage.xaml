@@ -535,98 +535,6 @@
                     </StackLayout>
                 </Frame>
 
-                <!-- Visual Associations Display -->
-                <Frame IsVisible="{Binding IsRecallPhase}"
-                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
-                       Padding="15"
-                       CornerRadius="15"
-                       HasShadow="True">
-                    
-                    <StackLayout Spacing="10">
-                        <!-- Header with toggle button -->
-                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
-                            <Label Grid.Column="0"
-                                   Text="{localization:Localize BigNumber_AssociationsTitle}"
-                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                   FontAttributes="Bold"
-                                   VerticalOptions="Center" />
-                            
-                            <Button Grid.Column="1"
-                                    Text="{Binding AssociationsToggleText}"
-                                    Command="{Binding ToggleAssociationsVisibilityCommand}"
-                                    BackgroundColor="{Binding AssociationsToggleColor}"
-                                    TextColor="White"
-                                    FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                                    Padding="8"
-                                    WidthRequest="{OnIdiom Phone=80, Tablet=100, Desktop=120}"
-                                    HeightRequest="{OnIdiom Phone=36, Tablet=40, Desktop=44}"
-                                    CornerRadius="{OnIdiom Phone=18, Tablet=20, Desktop=22}" />
-                        </Grid>
-                        
-                        <!-- Associations Container with Enhanced UX -->
-                        <StackLayout IsVisible="{Binding IsAssociationsVisible}" Spacing="8">
-                            
-                            <!-- Associations Grid - Virtualized with Enhanced UX -->
-                            <CollectionView ItemsSource="{Binding NumberAssociations}"
-                                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
-                                            MaximumHeightRequest="{OnIdiom Phone=500, Tablet=700, Desktop=900}"
-                                            Margin="5"
-                                            ItemSizingStrategy="MeasureFirstItem"
-                                            RemainingItemsThreshold="3"
-                                            RemainingItemsThresholdReachedCommand="{Binding LoadMoreAssociationsCommand}"
-                                            SemanticProperties.Description="{localization:Localize Accessibility_AssociationsScrollableArea}"
-                                            SemanticProperties.Hint="{localization:Localize Accessibility_ScrollToViewAllAssociations}">
-                            
-                            <CollectionView.ItemsLayout>
-                                <GridItemsLayout Orientation="Vertical"
-                                               Span="{OnIdiom Phone=3, Tablet=5, Desktop=8}"
-                                               HorizontalItemSpacing="6"
-                                               VerticalItemSpacing="6" />
-                            </CollectionView.ItemsLayout>
-                            
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="models:TokenAssociation">
-                                    <!-- Use Border instead of Frame for better performance -->
-                                    <Border Padding="6"
-                                            BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray800}}"
-                                            Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
-                                            StrokeThickness="1">
-                                        <Border.StrokeShape>
-                                            <RoundRectangle CornerRadius="6" />
-                                        </Border.StrokeShape>
-                                        
-                                        <VerticalStackLayout Spacing="2">
-                                            <!-- Thumbnail Image with optimized loading -->
-                                            <Image Source="{Binding ThumbnailPath}"
-                                                   Aspect="AspectFit"
-                                                   HeightRequest="{OnIdiom Phone=36, Tablet=48, Desktop=32}"
-                                                   BackgroundColor="Transparent"
-                                                   IsAnimationPlaying="False" />
-                                            
-                                            <!-- Token -->
-                                            <Label Text="{Binding Token}"
-                                                   FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=15}"
-                                                   FontAttributes="Bold"
-                                                   HorizontalTextAlignment="Center"
-                                                   TextColor="{StaticResource Primary}"
-                                                   MaxLines="1" />
-                                            
-                                            <!-- Word -->
-                                            <Label Text="{Binding Word}"
-                                                   FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}"
-                                                   HorizontalTextAlignment="Center"
-                                                   LineBreakMode="TailTruncation"
-                                                   MaxLines="2" />
-                                        </VerticalStackLayout>
-                                    </Border>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                               
-                    </StackLayout>
-                    
-                </StackLayout>
-                </Frame>
 
                 <!-- Context-Aware Action Buttons -->
                 <StackLayout Spacing="15">
@@ -940,15 +848,6 @@
                             </Grid>
                         </Border>
                         
-                        
-                        <!-- Contextual Explanation for Color Coding -->
-                        <Label Text="{localization:Localize BigNumber_LegendExplanation}"
-                               FontSize="{OnIdiom Phone=13, Tablet=15, Desktop=16}"
-                               TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
-                               Margin="8,8,8,4"
-                               HorizontalOptions="Start"
-                               IsVisible="{Binding ShowDigitComparison}" />
-
                         <!-- Comparison Rows with Enhanced Scrolling -->
                         <StackLayout Spacing="12">
                             <!-- Original Number Row Header with Position Info -->
@@ -1347,6 +1246,99 @@
                             </StackLayout>
                         </Border>
                     </StackLayout>
+
+                    <!-- Visual Associations Display - Positioned after legend for better information hierarchy -->
+                    <Frame IsVisible="{Binding ShouldShowAssociationsFrame}"
+                           BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                           Padding="15"
+                           CornerRadius="15"
+                           HasShadow="True">
+
+                        <StackLayout Spacing="10">
+                            <!-- Header with toggle button -->
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                <Label Grid.Column="0"
+                                       Text="{localization:Localize BigNumber_AssociationsTitle}"
+                                       FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="Center" />
+
+                                <Button Grid.Column="1"
+                                        Text="{Binding AssociationsToggleText}"
+                                        Command="{Binding ToggleAssociationsVisibilityCommand}"
+                                        BackgroundColor="{Binding AssociationsToggleColor}"
+                                        TextColor="White"
+                                        FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                        Padding="8"
+                                        WidthRequest="{OnIdiom Phone=80, Tablet=100, Desktop=120}"
+                                        HeightRequest="{OnIdiom Phone=36, Tablet=40, Desktop=44}"
+                                        CornerRadius="{OnIdiom Phone=18, Tablet=20, Desktop=22}" />
+                            </Grid>
+
+                            <!-- Associations Container with Enhanced UX -->
+                            <StackLayout IsVisible="{Binding IsAssociationsVisible}" Spacing="8">
+
+                                <!-- Associations Grid - Virtualized with Enhanced UX -->
+                                <CollectionView ItemsSource="{Binding NumberAssociations}"
+                                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                                                MaximumHeightRequest="{OnIdiom Phone=500, Tablet=700, Desktop=900}"
+                                                Margin="5"
+                                                ItemSizingStrategy="MeasureFirstItem"
+                                                RemainingItemsThreshold="3"
+                                                RemainingItemsThresholdReachedCommand="{Binding LoadMoreAssociationsCommand}"
+                                                SemanticProperties.Description="{localization:Localize Accessibility_AssociationsScrollableArea}"
+                                                SemanticProperties.Hint="{localization:Localize Accessibility_ScrollToViewAllAssociations}">
+
+                                <CollectionView.ItemsLayout>
+                                    <GridItemsLayout Orientation="Vertical"
+                                                   Span="{OnIdiom Phone=3, Tablet=5, Desktop=8}"
+                                                   HorizontalItemSpacing="6"
+                                                   VerticalItemSpacing="6" />
+                                </CollectionView.ItemsLayout>
+
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:TokenAssociation">
+                                        <!-- Use Border instead of Frame for better performance -->
+                                        <Border Padding="6"
+                                                BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray800}}"
+                                                Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                                                StrokeThickness="1">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="6" />
+                                            </Border.StrokeShape>
+
+                                            <VerticalStackLayout Spacing="2">
+                                                <!-- Thumbnail Image with optimized loading -->
+                                                <Image Source="{Binding ThumbnailPath}"
+                                                       Aspect="AspectFit"
+                                                       HeightRequest="{OnIdiom Phone=36, Tablet=48, Desktop=32}"
+                                                       BackgroundColor="Transparent"
+                                                       IsAnimationPlaying="False" />
+
+                                                <!-- Token -->
+                                                <Label Text="{Binding Token}"
+                                                       FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=15}"
+                                                       FontAttributes="Bold"
+                                                       HorizontalTextAlignment="Center"
+                                                       TextColor="{StaticResource Primary}"
+                                                       MaxLines="1" />
+
+                                                <!-- Word -->
+                                                <Label Text="{Binding Word}"
+                                                       FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}"
+                                                       HorizontalTextAlignment="Center"
+                                                       LineBreakMode="TailTruncation"
+                                                       MaxLines="2" />
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+
+                        </StackLayout>
+
+                    </StackLayout>
+                    </Frame>
 
                     <!-- Enhanced Celebration Results Actions -->
                     <StackLayout IsVisible="{Binding ShowSessionActions}"

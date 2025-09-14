@@ -352,6 +352,14 @@ public partial class BigNumberViewModel : BaseViewModel
 
     public string CurrentFormatExample => GenerateExampleNumber(ShowSeparated);
 
+    /// <summary>
+    /// Determines if the associations frame should be visible
+    /// Shows during recall phase OR after verification results are displayed in app verification mode
+    /// </summary>
+    public bool ShouldShowAssociationsFrame =>
+        IsRecallPhase ||
+        (CurrentPhase == GamePhase.Stopped && ShowVerificationResults && (EnableInputVerification || IsOnDemandVerificationActive));
+
     public BigNumberViewModel(
         IBigNumberService gameService,
         IBigNumberSettingsService settingsService,
@@ -544,12 +552,23 @@ public partial class BigNumberViewModel : BaseViewModel
     {
         _ = SaveSettingsAsync();
         UpdateUIState();
-        
+        OnPropertyChanged(nameof(ShouldShowAssociationsFrame)); // Notify associations frame visibility change
+
         if (!value)
         {
             // Clear input verification state when disabled
             ClearInputVerificationState();
         }
+    }
+
+    partial void OnIsOnDemandVerificationActiveChanged(bool value)
+    {
+        OnPropertyChanged(nameof(ShouldShowAssociationsFrame)); // Notify associations frame visibility change
+    }
+
+    partial void OnShowVerificationResultsChanged(bool value)
+    {
+        OnPropertyChanged(nameof(ShouldShowAssociationsFrame)); // Notify associations frame visibility change
     }
 
     partial void OnUserInputChanged(string value)
@@ -776,7 +795,10 @@ public partial class BigNumberViewModel : BaseViewModel
         IsStopButtonVisible = CurrentPhase == GamePhase.Memorizing;
         IsRecallButtonVisible = CurrentPhase == GamePhase.Stopped;
         IsRecallPhase = CurrentPhase == GamePhase.Recall;
-        
+
+        // Update associations frame visibility
+        OnPropertyChanged(nameof(ShouldShowAssociationsFrame));
+
         // Enable sharing when memorization is completed (stopped or in recall)
         CanShareResults = CurrentPhase == GamePhase.Stopped || CurrentPhase == GamePhase.Recall;
         
@@ -1169,17 +1191,18 @@ public partial class BigNumberViewModel : BaseViewModel
     [RelayCommand]
     private void ToggleAssociationsVisibility()
     {
-        // This is for runtime toggle during recall phase
-        if (CurrentPhase == GamePhase.Recall)
+        // Toggle associations visibility during recall phase OR in-app verification mode
+        if (CurrentPhase == GamePhase.Recall ||
+            (CurrentPhase == GamePhase.Stopped && ShowVerificationResults && (EnableInputVerification || IsOnDemandVerificationActive)))
         {
             IsAssociationsVisible = !IsAssociationsVisible;
-            
+
             // Update toggle button text and color
-            AssociationsToggleText = IsAssociationsVisible 
-                ? _localizationService.GetString("BigNumber_HideAssociations") 
+            AssociationsToggleText = IsAssociationsVisible
+                ? _localizationService.GetString("BigNumber_HideAssociations")
                 : _localizationService.GetString("BigNumber_ShowAssociations_Button");
             AssociationsToggleColor = IsAssociationsVisible ? Colors.Red : Colors.Green;
-            
+
             // Load associations if needed
             if (IsAssociationsVisible && NumberAssociations.Count == 0)
             {
@@ -1198,9 +1221,27 @@ public partial class BigNumberViewModel : BaseViewModel
                 _ = LoadNumberAssociationsAsync();
             }
         }
+        else if (CurrentPhase == GamePhase.Stopped && ShowVerificationResults && (EnableInputVerification || IsOnDemandVerificationActive))
+        {
+            // In-app verification mode: maintain associations visibility based on ShowAssociations setting
+            // Only after verification results are shown
+            IsAssociationsVisible = ShowAssociations;
+
+            // Update toggle button text and color based on visibility
+            AssociationsToggleText = IsAssociationsVisible
+                ? _localizationService.GetString("BigNumber_HideAssociations")
+                : _localizationService.GetString("BigNumber_ShowAssociations_Button");
+            AssociationsToggleColor = IsAssociationsVisible ? Colors.Red : Colors.Green;
+
+            if (ShowAssociations && NumberAssociations.Count == 0)
+            {
+                // Load associations for in-app verification if they should be shown
+                _ = LoadNumberAssociationsAsync();
+            }
+        }
         else
         {
-            // Clear associations when not in recall phase
+            // Clear associations when not in recall phase and not in-app verification
             IsAssociationsVisible = false;
             NumberAssociations.Clear();
             _allAssociations.Clear();
@@ -1445,6 +1486,18 @@ public partial class BigNumberViewModel : BaseViewModel
     {
         IsOnDemandVerificationActive = true;
         IsVerificationPanelManuallyClosed = false; // Reset the manually closed flag when reopening
+
+        // Restore associations visibility based on ShowAssociations setting
+        if (ShowAssociations)
+        {
+            IsAssociationsVisible = true;
+            // Load associations if needed
+            if (NumberAssociations.Count == 0)
+            {
+                _ = LoadNumberAssociationsAsync();
+            }
+        }
+
         UpdateUIState(); // This will hide the on-demand button and show input verification interface
     }
 
