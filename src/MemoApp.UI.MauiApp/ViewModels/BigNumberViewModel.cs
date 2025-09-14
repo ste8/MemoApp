@@ -2243,11 +2243,16 @@ public partial class BigNumberViewModel : BaseViewModel
         // Trigger smooth scroll to legend when expanding (after a brief delay for UI updates)
         if (IsLegendVisible)
         {
-            // Schedule UI event on the main thread dispatcher to avoid cross-thread violations
-            Application.Current?.Dispatcher.Dispatch(async () =>
+            System.Diagnostics.Debug.WriteLine("ToggleLegend: Legend is now visible, scheduling scroll event");
+
+            // Use MainThread.BeginInvokeOnMainThread for MAUI compatibility
+            MainThread.BeginInvokeOnMainThread(async () =>
             {
+                System.Diagnostics.Debug.WriteLine("ToggleLegend: Inside MainThread, about to delay");
                 await Task.Delay(100); // Allow UI to expand first
+                System.Diagnostics.Debug.WriteLine($"ToggleLegend: Invoking ScrollToLegendRequested event, has listeners: {ScrollToLegendRequested != null}");
                 ScrollToLegendRequested?.Invoke(this, EventArgs.Empty);
+                System.Diagnostics.Debug.WriteLine("ToggleLegend: Event invocation completed");
             });
         }
     }

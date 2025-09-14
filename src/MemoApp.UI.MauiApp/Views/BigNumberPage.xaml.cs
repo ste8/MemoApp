@@ -240,9 +240,16 @@ public partial class BigNumberPage : ContentPage
 
     private async void OnScrollToLegendRequested(object? sender, EventArgs e)
     {
+        System.Diagnostics.Debug.WriteLine("OnScrollToLegendRequested: Event handler called");
+
         try
         {
             // Verify legend section exists and is visible
+            System.Diagnostics.Debug.WriteLine($"OnScrollToLegendRequested: LegendSection null: {LegendSection == null}, IsVisible: {LegendSection?.IsVisible}");
+            System.Diagnostics.Debug.WriteLine($"OnScrollToLegendRequested: MainScrollView null: {MainScrollView == null}");
+            System.Diagnostics.Debug.WriteLine($"OnScrollToLegendRequested: LegendSection position - X:{LegendSection.X}, Y:{LegendSection.Y}, Width:{LegendSection.Width}, Height:{LegendSection.Height}");
+            System.Diagnostics.Debug.WriteLine($"OnScrollToLegendRequested: MainScrollView ContentSize - Width:{MainScrollView.ContentSize.Width}, Height:{MainScrollView.ContentSize.Height}");
+
             if (LegendSection?.IsVisible != true)
             {
                 System.Diagnostics.Debug.WriteLine("Legend section not visible for scrolling");
@@ -250,17 +257,72 @@ public partial class BigNumberPage : ContentPage
             }
 
             // Minimal delay for UI updates (reduced from 150ms to optimize total timing)
+            System.Diagnostics.Debug.WriteLine("OnScrollToLegendRequested: Starting delay");
             await Task.Delay(50);
 
             // Smooth scroll to the legend section with optimal positioning
-            await MainScrollView.ScrollToAsync(LegendSection, ScrollToPosition.MakeVisible, true);
+            System.Diagnostics.Debug.WriteLine("OnScrollToLegendRequested: About to call ScrollToAsync");
+            try
+            {
+                // Add a timeout to prevent hanging
+                var scrollTask = MainScrollView.ScrollToAsync(LegendSection, ScrollToPosition.MakeVisible, true);
+                var timeoutTask = Task.Delay(2000); // 2 second timeout
+                var completedTask = await Task.WhenAny(scrollTask, timeoutTask);
+
+                if (completedTask == timeoutTask)
+                {
+                    System.Diagnostics.Debug.WriteLine("OnScrollToLegendRequested: ScrollToAsync timed out, trying alternative approaches");
+
+                    // Try different ScrollToPosition options
+                    try
+                    {
+                        await MainScrollView.ScrollToAsync(LegendSection, ScrollToPosition.Start, true);
+                        System.Diagnostics.Debug.WriteLine("OnScrollToLegendRequested: ScrollToPosition.Start worked");
+                    }
+                    catch
+                    {
+                        try
+                        {
+                            // Last resort: scroll to Y position
+                            await MainScrollView.ScrollToAsync(0, LegendSection.Y, true);
+                            System.Diagnostics.Debug.WriteLine("OnScrollToLegendRequested: Y position scroll worked");
+                        }
+                        catch (Exception yEx)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"OnScrollToLegendRequested: All scroll methods failed: {yEx.Message}");
+                        }
+                    }
+                }
+                else
+                {
+                    await scrollTask; // Ensure we await the actual task
+                    System.Diagnostics.Debug.WriteLine("OnScrollToLegendRequested: ScrollToAsync completed successfully");
+                }
+            }
+            catch (Exception scrollEx)
+            {
+                System.Diagnostics.Debug.WriteLine($"OnScrollToLegendRequested: ScrollToAsync error: {scrollEx.Message}");
+                // Try alternative scroll method
+                try
+                {
+                    await MainScrollView.ScrollToAsync(0, LegendSection.Y, true);
+                    System.Diagnostics.Debug.WriteLine("OnScrollToLegendRequested: Alternative scroll method worked");
+                }
+                catch (Exception altEx)
+                {
+                    System.Diagnostics.Debug.WriteLine($"OnScrollToLegendRequested: Alternative scroll also failed: {altEx.Message}");
+                }
+            }
 
             // Add subtle highlight animation to draw attention
+            System.Diagnostics.Debug.WriteLine("OnScrollToLegendRequested: About to call AnimateLegendHighlight");
             await AnimateLegendHighlight();
+            System.Diagnostics.Debug.WriteLine("OnScrollToLegendRequested: AnimateLegendHighlight completed");
         }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Legend scroll error: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"Legend scroll error stack trace: {ex.StackTrace}");
         }
     }
 

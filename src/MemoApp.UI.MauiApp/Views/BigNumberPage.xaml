@@ -1053,7 +1053,7 @@
 
                         <!-- Legend Section - Moved below comparison for better visual hierarchy -->
                         <Border x:Name="LegendSection"
-                                IsVisible="{Binding ShowDigitComparison}"
+                                IsVisible="{Binding ShowComparisonLegend}"
                                 BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
                                 Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
                                 StrokeThickness="1"
