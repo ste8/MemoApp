@@ -129,14 +129,48 @@ public class FeedbackService : IFeedbackService
         {
             var attachedImages = new List<AttachedImage>();
 
-            // Allow user to pick multiple images
-            var pickOptions = new PickOptions
-            {
-                FileTypes = FilePickerFileType.Images,
-                PickerTitle = _localizationService.GetString("Feedback_SelectImagesTitle")
-            };
+            // Use MediaPicker for better gallery access on mobile platforms
+            var results = new List<FileResult>();
 
-            var results = await FilePicker.Default.PickMultipleAsync(pickOptions);
+            // For multiple image selection, we need to call MediaPicker multiple times
+            // or use FilePicker which should open gallery by default
+            try
+            {
+                var pickOptions = new PickOptions
+                {
+                    FileTypes = FilePickerFileType.Images,
+                    PickerTitle = _localizationService.GetString("Feedback_SelectImagesTitle")
+                };
+
+                var fileResults = await FilePicker.Default.PickMultipleAsync(pickOptions);
+                if (fileResults != null)
+                {
+                    results.AddRange(fileResults);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "FilePicker failed, trying MediaPicker as fallback");
+
+                // Fallback to MediaPicker for single image selection
+                try
+                {
+                    var mediaResult = await MediaPicker.Default.PickPhotoAsync(new MediaPickerOptions
+                    {
+                        Title = _localizationService.GetString("Feedback_SelectImagesTitle")
+                    });
+
+                    if (mediaResult != null)
+                    {
+                        results.Add(mediaResult);
+                    }
+                }
+                catch (Exception mediaEx)
+                {
+                    _logger.LogError(mediaEx, "Both FilePicker and MediaPicker failed");
+                    throw; // Re-throw to be handled by calling code
+                }
+            }
             if (results?.Any() != true)
             {
                 _logger.LogInformation("No images selected");

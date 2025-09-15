@@ -2695,6 +2695,10 @@ Scarica MemoRaise: {AppUrl}
     <value>{0} immagine/i sono state saltate. Massimo {1} immagini consentite.</value>
     <comment>Warning message when some selected images were skipped due to limit</comment>
   </data>
+  <data name="Feedback_AttachingImages" xml:space="preserve">
+    <value>Selezione immagini...</value>
+    <comment>Loading message when user is selecting images to attach</comment>
+  </data>
   <data name="Common_UnsavedChanges" xml:space="preserve">
     <value>Hai modifiche non salvate. Sei sicuro di volerle scartare?</value>
     <comment>Warning message for unsaved changes</comment>

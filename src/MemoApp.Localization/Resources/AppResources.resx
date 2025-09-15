@@ -2799,6 +2799,10 @@ Download MemoRaise: {AppUrl}
     <value>{0} image(s) were skipped. Maximum of {1} images allowed.</value>
     <comment>Warning message when some selected images were skipped due to limit</comment>
   </data>
+  <data name="Feedback_AttachingImages" xml:space="preserve">
+    <value>Selecting images...</value>
+    <comment>Loading message when user is selecting images to attach</comment>
+  </data>
   <data name="Common_UnsavedChanges" xml:space="preserve">
     <value>You have unsaved changes. Are you sure you want to discard them?</value>
     <comment>Warning message for unsaved changes</comment>

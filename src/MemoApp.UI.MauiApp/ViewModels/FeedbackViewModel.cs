@@ -35,6 +35,17 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
     private bool isSubmitting = false;
 
     [ObservableProperty]
+    private bool isAttachingImages = false;
+
+    public bool IsAnyOperationInProgress => IsSubmitting || IsAttachingImages || IsBusy;
+
+    public string LoadingMessage => IsSubmitting
+        ? _localizationService.GetString("Feedback_Submitting")
+        : IsAttachingImages
+            ? _localizationService.GetString("Feedback_AttachingImages")
+            : _localizationService.GetString("Common_Loading");
+
+    [ObservableProperty]
     private bool hasAttachedImages = false;
 
     [ObservableProperty]
@@ -144,6 +155,12 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
             case nameof(SelectedType):
                 ValidateForm();
                 break;
+            case nameof(IsSubmitting):
+            case nameof(IsAttachingImages):
+            case nameof(IsBusy):
+                OnPropertyChanged(nameof(IsAnyOperationInProgress));
+                OnPropertyChanged(nameof(LoadingMessage));
+                break;
         }
     }
 
@@ -183,7 +200,7 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
 
         try
         {
-            IsBusy = true;
+            IsAttachingImages = true;
             ValidationError = null;
 
             var selectedImages = await _feedbackService.PickImagesAsync();
@@ -221,7 +238,7 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
         }
         finally
         {
-            IsBusy = false;
+            IsAttachingImages = false;
         }
     }
 

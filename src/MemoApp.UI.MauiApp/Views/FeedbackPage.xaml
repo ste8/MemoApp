@@ -53,21 +53,21 @@
             <StackLayout Spacing="{OnIdiom Phone=16, Tablet=20, Desktop=24}">
 
                 <!-- Loading indicator -->
-                <StackLayout IsVisible="{Binding IsBusy}"
+                <StackLayout IsVisible="{Binding IsAnyOperationInProgress}"
                            Spacing="12"
                            HorizontalOptions="Center"
                            VerticalOptions="Center"
                            Padding="0,40">
                     <ActivityIndicator IsRunning="True"
                                      Color="{DynamicResource Primary}" />
-                    <Label Text="{localization:Localize Feedback_Submitting}"
+                    <Label Text="{Binding LoadingMessage}"
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
                            Style="{StaticResource BodyMedium}" />
                 </StackLayout>
 
                 <!-- Form content -->
-                <StackLayout IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
+                <StackLayout IsVisible="{Binding IsAnyOperationInProgress, Converter={StaticResource InvertedBoolConverter}}"
                            Spacing="{OnIdiom Phone=16, Tablet=20, Desktop=24}">
 
                     <!-- Header -->
