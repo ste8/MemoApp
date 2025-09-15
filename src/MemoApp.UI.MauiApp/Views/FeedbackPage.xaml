@@ -13,6 +13,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:FileSizeConverter x:Key="FileSizeConverter" />
+            <converters:IsNullConverter x:Key="IsNullConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -375,54 +376,82 @@
                                    Style="{StaticResource BodyMedium}"
                                    TextColor="{DynamicResource Primary}" />
 
-                            <!-- Attached Images List -->
-                            <CollectionView ItemsSource="{Binding AttachedImages}"
-                                            IsVisible="{Binding HasAttachedImages}"
-                                            BackgroundColor="Transparent">
-                                <CollectionView.ItemsLayout>
-                                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
-                                </CollectionView.ItemsLayout>
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid ColumnDefinitions="Auto,*,Auto"
-                                              ColumnSpacing="12"
-                                              Padding="16,12"
-                                              BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
-                                              HeightRequest="60">
-                                            <Border Grid.Column="0"
-                                                    WidthRequest="36"
-                                                    HeightRequest="36"
-                                                    BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray800}}"
-                                                    StrokeThickness="0"
-                                                    StrokeShape="RoundRectangle 6,6,6,6">
-                                                <Label Text="🖼️"
-                                                       FontSize="18"
-                                                       HorizontalOptions="Center"
-                                                       VerticalOptions="Center" />
-                                            </Border>
-                                            <StackLayout Grid.Column="1"
-                                                        Spacing="2"
-                                                        VerticalOptions="Center">
-                                                <Label Text="{Binding FileName}"
-                                                       Style="{StaticResource BodyMedium}"
-                                                       LineBreakMode="TailTruncation" />
-                                                <Label Text="{Binding FileSize, Converter={StaticResource FileSizeConverter}}"
-                                                       Style="{StaticResource CaptionMedium}"
-                                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                                            </StackLayout>
-                                            <Button Grid.Column="2"
-                                                    Text="✕"
-                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:FeedbackViewModel}}, Path=RemoveImageCommand}"
-                                                    CommandParameter="{Binding .}"
-                                                    Style="{StaticResource ModernSecondaryButton}"
-                                                    WidthRequest="32"
-                                                    HeightRequest="32"
-                                                    FontSize="12"
-                                                    CornerRadius="16" />
-                                        </Grid>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
+                            <!-- Attached Images Gallery -->
+                            <ScrollView IsVisible="{Binding HasAttachedImages}"
+                                        Orientation="Horizontal"
+                                        HeightRequest="{OnIdiom Phone=120, Tablet=140, Desktop=140}"
+                                        BackgroundColor="Transparent">
+                                <StackLayout Orientation="Horizontal"
+                                            Spacing="12"
+                                            Padding="0">
+                                    <BindableLayout.ItemsSource>
+                                        <Binding Path="AttachedImages" />
+                                    </BindableLayout.ItemsSource>
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate x:DataType="models:AttachedImage">
+                                            <Frame Padding="0"
+                                                   CornerRadius="12"
+                                                   HasShadow="True"
+                                                   BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray800}}"
+                                                   BorderColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}"
+                                                   WidthRequest="{OnIdiom Phone=100, Tablet=120, Desktop=120}"
+                                                   HeightRequest="{OnIdiom Phone=100, Tablet=120, Desktop=120}">
+                                                <Grid>
+                                                    <!-- Image Preview -->
+                                                    <Image Source="{Binding ImageSource}"
+                                                           Aspect="AspectFill"
+                                                           WidthRequest="{OnIdiom Phone=100, Tablet=120, Desktop=120}"
+                                                           HeightRequest="{OnIdiom Phone=100, Tablet=120, Desktop=120}"
+                                                           BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}" />
+
+                                                    <!-- Fallback for missing images -->
+                                                    <Label Text="📷"
+                                                           FontSize="32"
+                                                           HorizontalOptions="Center"
+                                                           VerticalOptions="Center"
+                                                           TextColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray600}}"
+                                                           IsVisible="{Binding ImageSource, Converter={StaticResource IsNullConverter}}" />
+
+                                                    <!-- Semi-transparent overlay for better button visibility -->
+                                                    <BoxView BackgroundColor="Black"
+                                                             Opacity="0.2"
+                                                             VerticalOptions="Start"
+                                                             HeightRequest="40" />
+
+                                                    <!-- Delete button -->
+                                                    <Button Text="✕"
+                                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:FeedbackViewModel}}, Path=RemoveImageCommand}"
+                                                            CommandParameter="{Binding .}"
+                                                            BackgroundColor="{AppThemeBinding Light=#E0E0E0CC, Dark=#404040CC}"
+                                                            TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                                                            FontSize="16"
+                                                            FontAttributes="Bold"
+                                                            WidthRequest="28"
+                                                            HeightRequest="28"
+                                                            CornerRadius="14"
+                                                            HorizontalOptions="End"
+                                                            VerticalOptions="Start"
+                                                            Margin="8" />
+
+                                                    <!-- File size badge -->
+                                                    <Frame BackgroundColor="{AppThemeBinding Light=#000000CC, Dark=#FFFFFFCC}"
+                                                           CornerRadius="8"
+                                                           Padding="6,3"
+                                                           HasShadow="False"
+                                                           BorderColor="Transparent"
+                                                           HorizontalOptions="Start"
+                                                           VerticalOptions="End"
+                                                           Margin="8">
+                                                        <Label Text="{Binding FileSize, Converter={StaticResource FileSizeConverter}}"
+                                                               FontSize="10"
+                                                               TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
+                                                    </Frame>
+                                                </Grid>
+                                            </Frame>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </StackLayout>
+                            </ScrollView>
                         </StackLayout>
 
                     </StackLayout>

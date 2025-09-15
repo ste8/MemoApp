@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace MemoApp.Core.Models;
 
@@ -46,7 +47,7 @@ public class FeedbackModel
     public string Language { get; set; } = string.Empty;
 }
 
-public class AttachedImage
+public class AttachedImage : INotifyPropertyChanged
 {
     public byte[] Data { get; set; } = Array.Empty<byte>();
 
@@ -57,4 +58,26 @@ public class AttachedImage
     public long FileSize { get; set; }
 
     public DateTime AttachedAt { get; set; } = DateTime.UtcNow;
+
+    // For UI display - not serialized to API
+    private object? _imageSource;
+    public object? ImageSource
+    {
+        get => _imageSource;
+        set
+        {
+            if (_imageSource != value)
+            {
+                // Dispose old image source if it implements IDisposable
+                if (_imageSource is IDisposable disposable)
+                {
+                    disposable.Dispose();
+                }
+                _imageSource = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageSource)));
+            }
+        }
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 }

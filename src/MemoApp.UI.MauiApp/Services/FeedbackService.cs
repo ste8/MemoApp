@@ -235,6 +235,7 @@ public class FeedbackService : IFeedbackService
                         ContentType = result.ContentType ?? "image/jpeg",
                         FileSize = validatedData.Length,
                         AttachedAt = DateTime.UtcNow
+                        // ImageSource will be created in the ViewModel for UI display
                     };
 
                     attachedImages.Add(attachedImage);

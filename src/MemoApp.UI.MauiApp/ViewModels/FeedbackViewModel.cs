@@ -7,6 +7,7 @@ using MemoApp.Core.Models;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Services;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Controls;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
 
@@ -231,6 +232,25 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
 
                 foreach (var image in imagesToAdd)
                 {
+                    // Create ImageSource for UI display on main thread
+                    await MainThread.InvokeOnMainThreadAsync(() =>
+                    {
+                        try
+                        {
+                            // Create a persistent MemoryStream for the ImageSource
+                            var imageStream = new MemoryStream(image.Data);
+                            image.ImageSource = ImageSource.FromStream(() => imageStream);
+                            _logger.LogInformation("Created ImageSource for {FileName}, Data length: {Length}",
+                                image.FileName, image.Data?.Length ?? 0);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, "Failed to create ImageSource for {FileName}", image.FileName);
+                            // Set a placeholder or leave null - the UI should handle gracefully
+                            image.ImageSource = null;
+                        }
+                    });
+
                     AttachedImages.Add(image);
                 }
 
@@ -269,6 +289,13 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
     {
         if (AttachedImages.Contains(image))
         {
+            // Dispose the ImageSource if it implements IDisposable
+            if (image.ImageSource is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+            image.ImageSource = null;
+
             AttachedImages.Remove(image);
             UpdateAttachmentState();
             _logger.LogInformation("Image removed: {FileName}", image.FileName);
@@ -278,6 +305,16 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
     [RelayCommand]
     private void ClearAllImages()
     {
+        // Dispose all image sources before clearing
+        foreach (var image in AttachedImages.ToList())
+        {
+            if (image.ImageSource is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+            image.ImageSource = null;
+        }
+
         AttachedImages.Clear();
         UpdateAttachmentState();
         _logger.LogInformation("All attached images cleared");
@@ -300,6 +337,17 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
             IsBusy = true;
             ValidationError = null;
 
+            // Create a copy of attached images without the ImageSource for API submission
+            var apiImages = AttachedImages.Select(img => new AttachedImage
+            {
+                Data = img.Data,
+                FileName = img.FileName,
+                ContentType = img.ContentType,
+                FileSize = img.FileSize,
+                AttachedAt = img.AttachedAt
+                // Deliberately exclude ImageSource as it's only for UI
+            }).ToList();
+
             var feedback = new FeedbackModel
             {
                 Subject = Subject.Trim(),
@@ -307,7 +355,7 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
                 Type = SelectedType.Type,
                 UserEmail = UserEmail.Trim(),
                 UserName = string.IsNullOrWhiteSpace(UserName) ? null : UserName.Trim(),
-                AttachedImages = AttachedImages.ToList(),
+                AttachedImages = apiImages,
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -630,6 +678,16 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
     {
         if (!_disposed && disposing)
         {
+            // Dispose all image sources before clearing
+            foreach (var image in AttachedImages.ToList())
+            {
+                if (image.ImageSource is IDisposable disposable)
+                {
+                    disposable.Dispose();
+                }
+                image.ImageSource = null;
+            }
+
             // Clear attached images to free memory
             AttachedImages.Clear();
             HasAttachedImages = false;
