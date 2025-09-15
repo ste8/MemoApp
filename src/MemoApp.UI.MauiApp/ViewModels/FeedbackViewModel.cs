@@ -359,6 +359,7 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
     private void ValidateSubject()
     {
         IsSubjectValid = false;
+        SubjectError = null;
 
         if (!HasSubjectBeenFocused && string.IsNullOrWhiteSpace(Subject))
         {
@@ -369,20 +370,18 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
         if (string.IsNullOrWhiteSpace(Subject))
         {
             SubjectError = _localizationService.GetString("Feedback_ValidationSubjectRequired");
-            _validationErrors["Subject"] = SubjectError;
         }
         else if (Subject.Trim().Length < 5)
         {
             SubjectError = _localizationService.GetString("Feedback_ValidationSubjectTooShort");
-            _validationErrors["Subject"] = SubjectError;
         }
         else if (Subject.Trim().Length > 200)
         {
             SubjectError = _localizationService.GetString("Feedback_ValidationSubjectTooLong");
-            _validationErrors["Subject"] = SubjectError;
         }
         else
         {
+            SubjectError = null;
             IsSubjectValid = true;
         }
     }
@@ -390,6 +389,7 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
     private void ValidateMessage()
     {
         IsMessageValid = false;
+        MessageError = null;
 
         if (!HasMessageBeenFocused && string.IsNullOrWhiteSpace(Message))
         {
@@ -400,20 +400,18 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
         if (string.IsNullOrWhiteSpace(Message))
         {
             MessageError = _localizationService.GetString("Feedback_ValidationMessageRequired");
-            _validationErrors["Message"] = MessageError;
         }
         else if (Message.Trim().Length < 10)
         {
             MessageError = _localizationService.GetString("Feedback_ValidationMessageTooShort");
-            _validationErrors["Message"] = MessageError;
         }
         else if (Message.Trim().Length > 2000)
         {
             MessageError = _localizationService.GetString("Feedback_ValidationMessageTooLong");
-            _validationErrors["Message"] = MessageError;
         }
         else
         {
+            MessageError = null;
             IsMessageValid = true;
         }
     }
@@ -421,6 +419,7 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
     private void ValidateEmail()
     {
         IsEmailValid = false;
+        EmailError = null;
 
         if (!HasEmailBeenFocused && string.IsNullOrWhiteSpace(UserEmail))
         {
@@ -431,7 +430,6 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
         if (string.IsNullOrWhiteSpace(UserEmail))
         {
             EmailError = _localizationService.GetString("Feedback_ValidationEmailRequired");
-            _validationErrors["Email"] = EmailError;
         }
         else
         {
@@ -439,10 +437,10 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
             if (!emailValidator.IsValid(UserEmail))
             {
                 EmailError = _localizationService.GetString("Feedback_ValidationEmailInvalid");
-                _validationErrors["Email"] = EmailError;
             }
             else
             {
+                EmailError = null;
                 IsEmailValid = true;
             }
         }
