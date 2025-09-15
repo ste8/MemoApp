@@ -27,7 +27,7 @@ public partial class App : Application
 		var onboardingCompleted = Preferences.Get("OnboardingCompleted", "false") == "true";
 		
 		// Force onboarding for testing - uncomment to always show onboarding
-		onboardingCompleted = false;
+		// onboardingCompleted = false;
 		
 		if (onboardingCompleted)
 		{
