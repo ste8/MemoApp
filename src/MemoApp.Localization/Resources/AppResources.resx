@@ -2687,6 +2687,14 @@ Download MemoRaise: {AppUrl}
     <value>Subject must be between 5 and 200 characters</value>
     <comment>Validation error for subject length</comment>
   </data>
+  <data name="Feedback_ValidationSubjectTooShort" xml:space="preserve">
+    <value>Subject must be at least 5 characters</value>
+    <comment>Validation error for subject too short</comment>
+  </data>
+  <data name="Feedback_ValidationSubjectTooLong" xml:space="preserve">
+    <value>Subject cannot exceed 200 characters</value>
+    <comment>Validation error for subject too long</comment>
+  </data>
   <data name="Feedback_ValidationMessageRequired" xml:space="preserve">
     <value>Message is required</value>
     <comment>Validation error for required message field</comment>
@@ -2694,6 +2702,30 @@ Download MemoRaise: {AppUrl}
   <data name="Feedback_ValidationMessageLength" xml:space="preserve">
     <value>Message must be between 10 and 2000 characters</value>
     <comment>Validation error for message length</comment>
+  </data>
+  <data name="Feedback_ValidationMessageTooShort" xml:space="preserve">
+    <value>Message must be at least 10 characters</value>
+    <comment>Validation error for message too short</comment>
+  </data>
+  <data name="Feedback_ValidationMessageTooLong" xml:space="preserve">
+    <value>Message cannot exceed 2000 characters</value>
+    <comment>Validation error for message too long</comment>
+  </data>
+  <data name="Feedback_ValidationSummaryTitle" xml:space="preserve">
+    <value>Please fix the following issues:</value>
+    <comment>Validation summary title when there are errors</comment>
+  </data>
+  <data name="Feedback_ValidationErrorsCount" xml:space="preserve">
+    <value>{0} issue(s) found</value>
+    <comment>Count of validation errors in summary</comment>
+  </data>
+  <data name="Common_Show" xml:space="preserve">
+    <value>Show</value>
+    <comment>Button text to show/expand content</comment>
+  </data>
+  <data name="Common_Hide" xml:space="preserve">
+    <value>Hide</value>
+    <comment>Button text to hide/collapse content</comment>
   </data>
   <data name="Feedback_ValidationEmailRequired" xml:space="preserve">
     <value>Email is required</value>

@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using MemoApp.Core.Models;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Services;
@@ -48,6 +49,46 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
     [ObservableProperty]
     private bool isFormValid = false;
 
+    // Field-specific validation errors
+    [ObservableProperty]
+    private string? subjectError;
+
+    [ObservableProperty]
+    private string? messageError;
+
+    [ObservableProperty]
+    private string? emailError;
+
+    // Field validation states
+    [ObservableProperty]
+    private bool isSubjectValid = false;
+
+    [ObservableProperty]
+    private bool isMessageValid = false;
+
+    [ObservableProperty]
+    private bool isEmailValid = false;
+
+    // Field interaction tracking
+    [ObservableProperty]
+    private bool hasSubjectBeenFocused = false;
+
+    [ObservableProperty]
+    private bool hasMessageBeenFocused = false;
+
+    [ObservableProperty]
+    private bool hasEmailBeenFocused = false;
+
+    // Validation summary
+    [ObservableProperty]
+    private bool hasValidationErrors = false;
+
+    [ObservableProperty]
+    private int validationErrorCount = 0;
+
+    [ObservableProperty]
+    private bool isValidationSummaryExpanded = false;
+
     private byte[]? _screenshotData;
     private readonly Dictionary<string, string> _validationErrors = new();
     private bool _disposed;
@@ -84,10 +125,49 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
 
     private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName is nameof(Subject) or nameof(Message) or nameof(UserEmail) or nameof(SelectedType))
+        switch (e.PropertyName)
         {
-            ValidateForm();
+            case nameof(Subject):
+                HasSubjectBeenFocused = true;
+                ValidateSubject();
+                UpdateOverallValidation();
+                break;
+            case nameof(Message):
+                HasMessageBeenFocused = true;
+                ValidateMessage();
+                UpdateOverallValidation();
+                break;
+            case nameof(UserEmail):
+                HasEmailBeenFocused = true;
+                ValidateEmail();
+                UpdateOverallValidation();
+                break;
+            case nameof(SelectedType):
+                ValidateForm();
+                break;
         }
+    }
+
+    private void UpdateOverallValidation()
+    {
+        _validationErrors.Clear();
+
+        if (!string.IsNullOrEmpty(SubjectError))
+            _validationErrors["Subject"] = SubjectError;
+        if (!string.IsNullOrEmpty(MessageError))
+            _validationErrors["Message"] = MessageError;
+        if (!string.IsNullOrEmpty(EmailError))
+            _validationErrors["Email"] = EmailError;
+
+        IsFormValid = IsSubjectValid && IsMessageValid && IsEmailValid;
+        HasValidationErrors = _validationErrors.Count > 0;
+        ValidationErrorCount = _validationErrors.Count;
+
+        // Show first validation error in summary
+        ValidationError = _validationErrors.Count > 0 ? _validationErrors.Values.First() : null;
+
+        // Update submit command state
+        SubmitFeedbackCommand.NotifyCanExecuteChanged();
     }
 
     [RelayCommand]
@@ -204,6 +284,41 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
     }
 
     [RelayCommand]
+    private async Task ScrollToFirstErrorAsync()
+    {
+        // This will be handled by the View to scroll to the first field with an error
+        if (HasValidationErrors)
+        {
+            // Trigger haptic feedback on mobile platforms
+#if ANDROID || IOS
+            try
+            {
+                HapticFeedback.Default.Perform(HapticFeedbackType.Click);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogDebug(ex, "Haptic feedback not available");
+            }
+#endif
+
+            // Send a message to the view to scroll to the first error
+            var firstErrorField = GetFirstErrorField();
+            if (!string.IsNullOrEmpty(firstErrorField))
+            {
+                WeakReferenceMessenger.Default.Send(new ScrollToFieldMessage(firstErrorField));
+            }
+        }
+    }
+
+    private string GetFirstErrorField()
+    {
+        if (!string.IsNullOrEmpty(SubjectError)) return "Subject";
+        if (!string.IsNullOrEmpty(MessageError)) return "Message";
+        if (!string.IsNullOrEmpty(EmailError)) return "Email";
+        return string.Empty;
+    }
+
+    [RelayCommand]
     private async Task CancelAsync()
     {
         var hasContent = !string.IsNullOrWhiteSpace(Subject) || !string.IsNullOrWhiteSpace(Message);
@@ -222,56 +337,115 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
         await Shell.Current.GoToAsync("..");
     }
 
+    [RelayCommand]
+    private void ToggleValidationSummary()
+    {
+        IsValidationSummaryExpanded = !IsValidationSummaryExpanded;
+    }
+
     private void ValidateForm()
     {
-        _validationErrors.Clear();
-        ValidationError = null;
+        // Validate all fields at once (used for submit button)
+        HasSubjectBeenFocused = true;
+        HasMessageBeenFocused = true;
+        HasEmailBeenFocused = true;
 
-        // Validate subject
+        ValidateSubject();
+        ValidateMessage();
+        ValidateEmail();
+        UpdateOverallValidation();
+    }
+
+    private void ValidateSubject()
+    {
+        IsSubjectValid = false;
+
+        if (!HasSubjectBeenFocused && string.IsNullOrWhiteSpace(Subject))
+        {
+            // Don't show error if field hasn't been focused yet
+            return;
+        }
+
         if (string.IsNullOrWhiteSpace(Subject))
         {
-            _validationErrors["Subject"] = _localizationService.GetString("Feedback_ValidationSubjectRequired");
+            SubjectError = _localizationService.GetString("Feedback_ValidationSubjectRequired");
+            _validationErrors["Subject"] = SubjectError;
         }
-        else if (Subject.Trim().Length < 5 || Subject.Trim().Length > 200)
+        else if (Subject.Trim().Length < 5)
         {
-            _validationErrors["Subject"] = _localizationService.GetString("Feedback_ValidationSubjectLength");
+            SubjectError = _localizationService.GetString("Feedback_ValidationSubjectTooShort");
+            _validationErrors["Subject"] = SubjectError;
+        }
+        else if (Subject.Trim().Length > 200)
+        {
+            SubjectError = _localizationService.GetString("Feedback_ValidationSubjectTooLong");
+            _validationErrors["Subject"] = SubjectError;
+        }
+        else
+        {
+            IsSubjectValid = true;
+        }
+    }
+
+    private void ValidateMessage()
+    {
+        IsMessageValid = false;
+
+        if (!HasMessageBeenFocused && string.IsNullOrWhiteSpace(Message))
+        {
+            // Don't show error if field hasn't been focused yet
+            return;
         }
 
-        // Validate message
         if (string.IsNullOrWhiteSpace(Message))
         {
-            _validationErrors["Message"] = _localizationService.GetString("Feedback_ValidationMessageRequired");
+            MessageError = _localizationService.GetString("Feedback_ValidationMessageRequired");
+            _validationErrors["Message"] = MessageError;
         }
-        else if (Message.Trim().Length < 10 || Message.Trim().Length > 2000)
+        else if (Message.Trim().Length < 10)
         {
-            _validationErrors["Message"] = _localizationService.GetString("Feedback_ValidationMessageLength");
+            MessageError = _localizationService.GetString("Feedback_ValidationMessageTooShort");
+            _validationErrors["Message"] = MessageError;
+        }
+        else if (Message.Trim().Length > 2000)
+        {
+            MessageError = _localizationService.GetString("Feedback_ValidationMessageTooLong");
+            _validationErrors["Message"] = MessageError;
+        }
+        else
+        {
+            IsMessageValid = true;
+        }
+    }
+
+    private void ValidateEmail()
+    {
+        IsEmailValid = false;
+
+        if (!HasEmailBeenFocused && string.IsNullOrWhiteSpace(UserEmail))
+        {
+            // Don't show error if field hasn't been focused yet
+            return;
         }
 
-        // Validate email (required)
         if (string.IsNullOrWhiteSpace(UserEmail))
         {
-            _validationErrors["Email"] = _localizationService.GetString("Feedback_ValidationEmailRequired");
+            EmailError = _localizationService.GetString("Feedback_ValidationEmailRequired");
+            _validationErrors["Email"] = EmailError;
         }
         else
         {
             var emailValidator = new EmailAddressAttribute();
             if (!emailValidator.IsValid(UserEmail))
             {
-                _validationErrors["Email"] = _localizationService.GetString("Feedback_ValidationEmailInvalid");
+                EmailError = _localizationService.GetString("Feedback_ValidationEmailInvalid");
+                _validationErrors["Email"] = EmailError;
+            }
+            else
+            {
+                IsEmailValid = true;
             }
         }
-
-        // Update validation state
-        IsFormValid = _validationErrors.Count == 0;
-
-        // Show first validation error
-        if (_validationErrors.Count > 0)
-        {
-            ValidationError = _validationErrors.Values.First();
-        }
-
-        // Update submit command state
-        SubmitFeedbackCommand.NotifyCanExecuteChanged();
     }
 
     private bool CanSubmit() => IsFormValid && !IsSubmitting && !IsBusy;
@@ -288,6 +462,20 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
         ValidationError = null;
         _validationErrors.Clear();
         IsFormValid = false;
+
+        // Reset field-specific validation state
+        SubjectError = null;
+        MessageError = null;
+        EmailError = null;
+        IsSubjectValid = false;
+        IsMessageValid = false;
+        IsEmailValid = false;
+        HasSubjectBeenFocused = false;
+        HasMessageBeenFocused = false;
+        HasEmailBeenFocused = false;
+        HasValidationErrors = false;
+        ValidationErrorCount = 0;
+        IsValidationSummaryExpanded = false;
     }
 
     public void Dispose()
@@ -320,3 +508,6 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
 }
 
 public record FeedbackTypeItem(FeedbackType Type, string DisplayName);
+
+// Message for scroll to field communication
+public record ScrollToFieldMessage(string FieldName);

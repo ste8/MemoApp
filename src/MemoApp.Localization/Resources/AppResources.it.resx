@@ -2583,6 +2583,14 @@ Scarica MemoRaise: {AppUrl}
     <value>L'oggetto deve essere tra 5 e 200 caratteri</value>
     <comment>Validation error for subject length</comment>
   </data>
+  <data name="Feedback_ValidationSubjectTooShort" xml:space="preserve">
+    <value>L'oggetto deve essere di almeno 5 caratteri</value>
+    <comment>Validation error for subject too short</comment>
+  </data>
+  <data name="Feedback_ValidationSubjectTooLong" xml:space="preserve">
+    <value>L'oggetto non può superare i 200 caratteri</value>
+    <comment>Validation error for subject too long</comment>
+  </data>
   <data name="Feedback_ValidationMessageRequired" xml:space="preserve">
     <value>Il messaggio è obbligatorio</value>
     <comment>Validation error for required message field</comment>
@@ -2590,6 +2598,30 @@ Scarica MemoRaise: {AppUrl}
   <data name="Feedback_ValidationMessageLength" xml:space="preserve">
     <value>Il messaggio deve essere tra 10 e 2000 caratteri</value>
     <comment>Validation error for message length</comment>
+  </data>
+  <data name="Feedback_ValidationMessageTooShort" xml:space="preserve">
+    <value>Il messaggio deve essere di almeno 10 caratteri</value>
+    <comment>Validation error for message too short</comment>
+  </data>
+  <data name="Feedback_ValidationMessageTooLong" xml:space="preserve">
+    <value>Il messaggio non può superare i 2000 caratteri</value>
+    <comment>Validation error for message too long</comment>
+  </data>
+  <data name="Feedback_ValidationSummaryTitle" xml:space="preserve">
+    <value>Si prega di correggere i seguenti problemi:</value>
+    <comment>Validation summary title when there are errors</comment>
+  </data>
+  <data name="Feedback_ValidationErrorsCount" xml:space="preserve">
+    <value>{0} problema(i) trovato(i)</value>
+    <comment>Count of validation errors in summary</comment>
+  </data>
+  <data name="Common_Show" xml:space="preserve">
+    <value>Mostra</value>
+    <comment>Button text to show/expand content</comment>
+  </data>
+  <data name="Common_Hide" xml:space="preserve">
+    <value>Nascondi</value>
+    <comment>Button text to hide/collapse content</comment>
   </data>
   <data name="Feedback_ValidationEmailRequired" xml:space="preserve">
     <value>L'email è obbligatoria</value>

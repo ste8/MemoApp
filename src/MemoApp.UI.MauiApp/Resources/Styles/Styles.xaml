@@ -193,6 +193,92 @@
     <Color x:Key="OnSecondaryButtonTextColorSelectedLight">#FFFFFF</Color>
     <Color x:Key="OnSecondaryButtonTextColorSelectedDark">#FFFFFF</Color>
     
+    <!-- Validation Error Colors -->
+    <Color x:Key="ValidationErrorLight">#DC2626</Color>    <!-- Red-600 -->
+    <Color x:Key="ValidationErrorDark">#EF4444</Color>     <!-- Red-500 -->
+    <Color x:Key="ValidationSuccessLight">#059669</Color>  <!-- Emerald-600 -->
+    <Color x:Key="ValidationSuccessDark">#10B981</Color>   <!-- Emerald-500 -->
+    <Color x:Key="ValidationErrorBackgroundLight">#FEF2F2</Color>  <!-- Red-50 -->
+    <Color x:Key="ValidationErrorBackgroundDark">#1F1F1F</Color>   <!-- Very dark background -->
+    <Color x:Key="ValidationSuccessBackgroundLight">#ECFDF5</Color> <!-- Emerald-50 -->
+    <Color x:Key="ValidationSuccessBackgroundDark">#1F2937</Color>  <!-- Dark green background -->
+
+    <!-- Input Field Validation Styles -->
+    <Style x:Key="ValidationErrorEntryStyle" TargetType="Entry">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource PlaceholderLight}, Dark={StaticResource PlaceholderDark}}" />
+        <Setter Property="MinimumHeightRequest" Value="44"/>
+        <Setter Property="MinimumWidthRequest" Value="44"/>
+    </Style>
+
+    <Style x:Key="ValidationSuccessEntryStyle" TargetType="Entry">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource PlaceholderLight}, Dark={StaticResource PlaceholderDark}}" />
+        <Setter Property="MinimumHeightRequest" Value="44"/>
+        <Setter Property="MinimumWidthRequest" Value="44"/>
+    </Style>
+
+    <Style x:Key="ValidationErrorEditorStyle" TargetType="Editor">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource PlaceholderLight}, Dark={StaticResource PlaceholderDark}}" />
+        <Setter Property="MinimumHeightRequest" Value="44"/>
+        <Setter Property="MinimumWidthRequest" Value="44"/>
+    </Style>
+
+    <Style x:Key="ValidationSuccessEditorStyle" TargetType="Editor">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource PlaceholderLight}, Dark={StaticResource PlaceholderDark}}" />
+        <Setter Property="MinimumHeightRequest" Value="44"/>
+        <Setter Property="MinimumWidthRequest" Value="44"/>
+    </Style>
+
+    <!-- Validation Container Styles -->
+    <Style x:Key="ValidationErrorFrameStyle" TargetType="Frame">
+        <Setter Property="HasShadow" Value="False" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="Padding" Value="16,12" />
+    </Style>
+
+    <Style x:Key="ValidationSuccessFrameStyle" TargetType="Frame">
+        <Setter Property="HasShadow" Value="False" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource ValidationSuccessLight}, Dark={StaticResource ValidationSuccessDark}}" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="Padding" Value="16,12" />
+    </Style>
+
+    <!-- Validation Error Text Style -->
+    <Style x:Key="ValidationErrorTextStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+        <Setter Property="Margin" Value="0,4,0,0" />
+    </Style>
+
+    <!-- Validation Success Text Style -->
+    <Style x:Key="ValidationSuccessTextStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ValidationSuccessLight}, Dark={StaticResource ValidationSuccessDark}}" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+        <Setter Property="Margin" Value="0,4,0,0" />
+    </Style>
+
     <!-- Enhanced Category Button Style -->
     <Style x:Key="CategoryButtonStyle" TargetType="Button">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SecondaryButtonBackgroundColorLight}, Dark={StaticResource SecondaryButtonBackgroundColorDark}}" />

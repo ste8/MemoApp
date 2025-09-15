@@ -9,9 +9,39 @@
              Title="{Binding Title}"
              BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Black}}">
 
-    <Grid RowDefinitions="*,Auto">
+    <Grid RowDefinitions="*,Auto,Auto">
+
+        <!-- Floating Error Badge (Overlay) -->
+        <Frame Grid.Row="0"
+               IsVisible="{Binding HasValidationErrors}"
+               HorizontalOptions="End"
+               VerticalOptions="Start"
+               Margin="{OnPlatform iOS='20,60,20,0', Android='20,60,20,0', Default='20,20,20,0'}"
+               BackgroundColor="{AppThemeBinding Light=#DC3545, Dark=#FF6B6B}"
+               BorderColor="Transparent"
+               CornerRadius="20"
+               Padding="12,8"
+               HasShadow="True"
+               ZIndex="1000">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ScrollToFirstErrorCommand}" />
+            </Frame.GestureRecognizers>
+            <Grid ColumnDefinitions="Auto,Auto" ColumnSpacing="8">
+                <Label Grid.Column="0"
+                       Text="⚠️"
+                       FontSize="14"
+                       VerticalOptions="Center" />
+                <Label Grid.Column="1"
+                       Text="{Binding ValidationErrorCount}"
+                       FontSize="12"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       VerticalOptions="Center" />
+            </Grid>
+        </Frame>
+
         <!-- Main content -->
-        <ScrollView Grid.Row="0"
+        <ScrollView Grid.Row="0" x:Name="MainScrollView"
                    Padding="{OnPlatform iOS='20,16,20,20', Android='20,16,20,20', Default='20'}">
             <StackLayout Spacing="{OnIdiom Phone=16, Tablet=20, Desktop=24}">
 
@@ -48,16 +78,7 @@
                                MaxLines="3" />
                     </StackLayout>
 
-                    <!-- Validation Error -->
-                    <Frame IsVisible="{Binding ValidationError, Converter={StaticResource IsNotNullConverter}}"
-                           BackgroundColor="{AppThemeBinding Light=#FFE4E4, Dark=#4A1F1F}"
-                           BorderColor="{AppThemeBinding Light={StaticResource Danger}, Dark={StaticResource DangerDark}}"
-                           CornerRadius="8"
-                           Padding="16,12">
-                        <Label Text="{Binding ValidationError}"
-                               TextColor="{AppThemeBinding Light={StaticResource Danger}, Dark=#FF6B6B}"
-                               FontSize="14" />
-                    </Frame>
+                    <!-- Removed global validation error - now using inline validation -->
 
                     <!-- Feedback Type -->
                     <StackLayout Spacing="8">
@@ -74,24 +95,149 @@
                     </StackLayout>
 
                     <!-- Subject -->
-                    <StackLayout Spacing="8">
+                    <StackLayout Spacing="8" x:Name="SubjectContainer">
                         <Label Text="{localization:Localize Feedback_SubjectLabel}"
                                Style="{StaticResource SectionHeaderStyle}" />
-                        <Entry Text="{Binding Subject}"
-                               Placeholder="{localization:Localize Feedback_SubjectPlaceholder}"
-                               MaxLength="200"
-                                />
+
+                        <!-- Subject Input Container with Validation States -->
+                        <Frame HasShadow="False"
+                               CornerRadius="8"
+                               Padding="16,12"
+                               BackgroundColor="Transparent">
+                            <Frame.Style>
+                                <Style TargetType="Frame">
+                                    <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}" />
+                                    <Style.Triggers>
+                                        <DataTrigger TargetType="Frame"
+                                                   Binding="{Binding SubjectError, Converter={StaticResource IsNotNullConverter}}"
+                                                   Value="True">
+                                            <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Frame"
+                                                   Binding="{Binding IsSubjectValid}"
+                                                   Value="True">
+                                            <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource ValidationSuccessLight}, Dark={StaticResource ValidationSuccessDark}}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Frame.Style>
+
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                <Entry Grid.Column="0"
+                                       Text="{Binding Subject}"
+                                       Placeholder="{localization:Localize Feedback_SubjectPlaceholder}"
+                                       MaxLength="200"
+                                       BackgroundColor="Transparent">
+                                </Entry>
+
+                                <!-- Validation Icon -->
+                                <Label Grid.Column="1"
+                                       VerticalOptions="Center"
+                                       FontSize="18"
+                                       FontAttributes="Bold">
+                                    <Label.Style>
+                                        <Style TargetType="Label">
+                                            <Setter Property="IsVisible" Value="False" />
+                                            <Style.Triggers>
+                                                <DataTrigger TargetType="Label"
+                                                           Binding="{Binding SubjectError, Converter={StaticResource IsNotNullConverter}}"
+                                                           Value="True">
+                                                    <Setter Property="IsVisible" Value="True" />
+                                                    <Setter Property="Text" Value="⚠️" />
+                                                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label"
+                                                           Binding="{Binding IsSubjectValid}"
+                                                           Value="True">
+                                                    <Setter Property="IsVisible" Value="True" />
+                                                    <Setter Property="Text" Value="✅" />
+                                                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ValidationSuccessLight}, Dark={StaticResource ValidationSuccessDark}}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                </Label>
+                            </Grid>
+                        </Frame>
+
+                        <!-- Subject Error Message -->
+                        <Label IsVisible="{Binding SubjectError, Converter={StaticResource IsNotNullConverter}}"
+                               Text="{Binding SubjectError}"
+                               Style="{StaticResource ValidationErrorTextStyle}" />
                     </StackLayout>
 
                     <!-- Message -->
-                    <StackLayout Spacing="8">
+                    <StackLayout Spacing="8" x:Name="MessageContainer">
                         <Label Text="{localization:Localize Feedback_MessageLabel}"
                                Style="{StaticResource SectionHeaderStyle}" />
-                        <Editor Text="{Binding Message}"
-                                Placeholder="{localization:Localize Feedback_MessagePlaceholder}"
-                                MaxLength="2000"
-                                HeightRequest="{OnIdiom Phone=120, Tablet=150, Desktop=180}"
-                                 />
+
+                        <!-- Message Input Container with Validation States -->
+                        <Frame HasShadow="False"
+                               CornerRadius="8"
+                               Padding="16,12"
+                               BackgroundColor="Transparent">
+                            <Frame.Style>
+                                <Style TargetType="Frame">
+                                    <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}" />
+                                    <Style.Triggers>
+                                        <DataTrigger TargetType="Frame"
+                                                   Binding="{Binding MessageError, Converter={StaticResource IsNotNullConverter}}"
+                                                   Value="True">
+                                            <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Frame"
+                                                   Binding="{Binding IsMessageValid}"
+                                                   Value="True">
+                                            <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource ValidationSuccessLight}, Dark={StaticResource ValidationSuccessDark}}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Frame.Style>
+
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                <Editor Grid.Column="0"
+                                        Text="{Binding Message}"
+                                        Placeholder="{localization:Localize Feedback_MessagePlaceholder}"
+                                        MaxLength="2000"
+                                        HeightRequest="{OnIdiom Phone=120, Tablet=150, Desktop=180}"
+                                        BackgroundColor="Transparent">
+                                </Editor>
+
+                                <!-- Validation Icon -->
+                                <Label Grid.Column="1"
+                                       VerticalOptions="Start"
+                                       Margin="0,8,0,0"
+                                       FontSize="18"
+                                       FontAttributes="Bold">
+                                    <Label.Style>
+                                        <Style TargetType="Label">
+                                            <Setter Property="IsVisible" Value="False" />
+                                            <Style.Triggers>
+                                                <DataTrigger TargetType="Label"
+                                                           Binding="{Binding MessageError, Converter={StaticResource IsNotNullConverter}}"
+                                                           Value="True">
+                                                    <Setter Property="IsVisible" Value="True" />
+                                                    <Setter Property="Text" Value="⚠️" />
+                                                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label"
+                                                           Binding="{Binding IsMessageValid}"
+                                                           Value="True">
+                                                    <Setter Property="IsVisible" Value="True" />
+                                                    <Setter Property="Text" Value="✅" />
+                                                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ValidationSuccessLight}, Dark={StaticResource ValidationSuccessDark}}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                </Label>
+                            </Grid>
+                        </Frame>
+
+                        <!-- Message Error Message -->
+                        <Label IsVisible="{Binding MessageError, Converter={StaticResource IsNotNullConverter}}"
+                               Text="{Binding MessageError}"
+                               Style="{StaticResource ValidationErrorTextStyle}" />
                     </StackLayout>
 
                     <!-- Contact Information -->
@@ -101,15 +247,77 @@
                                Margin="0,8,0,0" />
 
                         <!-- Email -->
-                        <StackLayout Spacing="6">
+                        <StackLayout Spacing="6" x:Name="EmailContainer">
                             <Label Text="{localization:Localize Feedback_EmailLabel}"
                                    Style="{StaticResource BodyMedium}"
                                    TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                            <Entry Text="{Binding UserEmail}"
-                                   Placeholder="{localization:Localize Feedback_EmailPlaceholder}"
-                                   Keyboard="Email"
-                                   MaxLength="254"
-                                    />
+
+                            <!-- Email Input Container with Validation States -->
+                            <Frame HasShadow="False"
+                                   CornerRadius="8"
+                                   Padding="16,12"
+                                   BackgroundColor="Transparent">
+                                <Frame.Style>
+                                    <Style TargetType="Frame">
+                                        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}" />
+                                        <Style.Triggers>
+                                            <DataTrigger TargetType="Frame"
+                                                       Binding="{Binding EmailError, Converter={StaticResource IsNotNullConverter}}"
+                                                       Value="True">
+                                                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Frame"
+                                                       Binding="{Binding IsEmailValid}"
+                                                       Value="True">
+                                                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource ValidationSuccessLight}, Dark={StaticResource ValidationSuccessDark}}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Frame.Style>
+
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                    <Entry Grid.Column="0"
+                                           Text="{Binding UserEmail}"
+                                           Placeholder="{localization:Localize Feedback_EmailPlaceholder}"
+                                           Keyboard="Email"
+                                           MaxLength="254"
+                                           BackgroundColor="Transparent">
+                                    </Entry>
+
+                                    <!-- Validation Icon -->
+                                    <Label Grid.Column="1"
+                                           VerticalOptions="Center"
+                                           FontSize="18"
+                                           FontAttributes="Bold">
+                                        <Label.Style>
+                                            <Style TargetType="Label">
+                                                <Setter Property="IsVisible" Value="False" />
+                                                <Style.Triggers>
+                                                    <DataTrigger TargetType="Label"
+                                                               Binding="{Binding EmailError, Converter={StaticResource IsNotNullConverter}}"
+                                                               Value="True">
+                                                        <Setter Property="IsVisible" Value="True" />
+                                                        <Setter Property="Text" Value="⚠️" />
+                                                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label"
+                                                               Binding="{Binding IsEmailValid}"
+                                                               Value="True">
+                                                        <Setter Property="IsVisible" Value="True" />
+                                                        <Setter Property="Text" Value="✅" />
+                                                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ValidationSuccessLight}, Dark={StaticResource ValidationSuccessDark}}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Label.Style>
+                                    </Label>
+                                </Grid>
+                            </Frame>
+
+                            <!-- Email Error Message -->
+                            <Label IsVisible="{Binding EmailError, Converter={StaticResource IsNotNullConverter}}"
+                                   Text="{Binding EmailError}"
+                                   Style="{StaticResource ValidationErrorTextStyle}" />
                         </StackLayout>
 
                         <!-- Name -->
@@ -169,8 +377,76 @@
             </StackLayout>
         </ScrollView>
 
+        <!-- Validation Summary -->
+        <StackLayout Grid.Row="1"
+                     IsVisible="{Binding HasValidationErrors}"
+                     BackgroundColor="{AppThemeBinding Light={StaticResource ValidationErrorBackgroundLight}, Dark={StaticResource ValidationErrorBackgroundDark}}"
+                     Padding="20,12"
+                     Spacing="8">
+
+            <!-- Summary Header -->
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                <StackLayout Grid.Column="0"
+                           Orientation="Horizontal"
+                           Spacing="8"
+                           VerticalOptions="Center">
+                    <Label Text="⚠️"
+                           FontSize="16"
+                           VerticalOptions="Center" />
+                    <Label Text="{Binding ValidationErrorCount, StringFormat='{localization:Localize Feedback_ValidationErrorsCount}'}"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}"
+                           VerticalOptions="Center" />
+                </StackLayout>
+
+                <!-- Expand/Collapse Button -->
+                <Button Grid.Column="1"
+                        Command="{Binding ToggleValidationSummaryCommand}"
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent"
+                        FontSize="12"
+                        Padding="8,4"
+                        CornerRadius="4"
+                        TextColor="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button"
+                                   Binding="{Binding IsValidationSummaryExpanded}"
+                                   Value="True">
+                            <Setter Property="Text" Value="{localization:Localize Common_Hide}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button"
+                                   Binding="{Binding IsValidationSummaryExpanded}"
+                                   Value="False">
+                            <Setter Property="Text" Value="{localization:Localize Common_Show}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+            </Grid>
+
+            <!-- Expandable Error List -->
+            <StackLayout IsVisible="{Binding IsValidationSummaryExpanded}"
+                         Spacing="4">
+                <Label IsVisible="{Binding SubjectError, Converter={StaticResource IsNotNullConverter}}"
+                       Text="{Binding SubjectError, StringFormat='• {0}'}"
+                       FontSize="12"
+                       TextColor="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}"
+                       LineBreakMode="WordWrap" />
+                <Label IsVisible="{Binding MessageError, Converter={StaticResource IsNotNullConverter}}"
+                       Text="{Binding MessageError, StringFormat='• {0}'}"
+                       FontSize="12"
+                       TextColor="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}"
+                       LineBreakMode="WordWrap" />
+                <Label IsVisible="{Binding EmailError, Converter={StaticResource IsNotNullConverter}}"
+                       Text="{Binding EmailError, StringFormat='• {0}'}"
+                       FontSize="12"
+                       TextColor="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}"
+                       LineBreakMode="WordWrap" />
+            </StackLayout>
+        </StackLayout>
+
         <!-- Action buttons -->
-        <Grid Grid.Row="1"
+        <Grid Grid.Row="2"
               ColumnDefinitions="*,*"
               ColumnSpacing="12"
               Padding="{OnPlatform iOS='20,12,20,34', Android='20,12,20,20', Default='20,12,20,20'}"

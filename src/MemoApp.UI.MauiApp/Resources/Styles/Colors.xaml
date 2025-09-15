@@ -59,6 +59,14 @@
     <Color x:Key="WarningText">#FF8C00</Color>     <!-- Warning color safe for text on light backgrounds -->
     <Color x:Key="SuccessText">#1E7E34</Color>     <!-- Success color safe for text on light backgrounds -->
 
+    <!-- Validation colors -->
+    <Color x:Key="ValidationErrorLight">#DC3545</Color>    <!-- Red for errors in light mode -->
+    <Color x:Key="ValidationErrorDark">#FF6B6B</Color>     <!-- Lighter red for errors in dark mode -->
+    <Color x:Key="ValidationSuccessLight">#28A745</Color>  <!-- Green for success in light mode -->
+    <Color x:Key="ValidationSuccessDark">#4AE54A</Color>   <!-- Lighter green for success in dark mode -->
+    <Color x:Key="ValidationErrorBackgroundLight">#FFF5F5</Color>  <!-- Very light red background -->
+    <Color x:Key="ValidationErrorBackgroundDark">#2D1B1B</Color>   <!-- Dark red background -->
+
 
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>
