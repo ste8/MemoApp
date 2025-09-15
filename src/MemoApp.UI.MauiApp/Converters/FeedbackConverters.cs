@@ -53,34 +53,7 @@ public class FeedbackTypeConverter : IValueConverter
         if (value is FeedbackTypeItem item)
             return item.Type;
 
-        return FeedbackType.GeneralFeedback;
-    }
-}
-
-/// <summary>
-/// Converts FeedbackPriority to FeedbackPriorityItem for Picker binding
-/// </summary>
-public class FeedbackPriorityConverter : IValueConverter
-{
-    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-    {
-        if (value is FeedbackPriorityItem item)
-            return item;
-
-        if (value is FeedbackPriority priority && parameter is IEnumerable<FeedbackPriorityItem> items)
-        {
-            return items.FirstOrDefault(i => i.Priority == priority);
-        }
-
-        return null;
-    }
-
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-    {
-        if (value is FeedbackPriorityItem item)
-            return item.Priority;
-
-        return FeedbackPriority.Medium;
+        return FeedbackType.Other;
     }
 }
 

@@ -5,18 +5,8 @@ namespace MemoApp.Core.Models;
 public enum FeedbackType
 {
     Bug = 1,
-    FeatureRequest = 2,
-    GeneralFeedback = 3,
-    Performance = 4,
-    UserInterface = 5
-}
-
-public enum FeedbackPriority
-{
-    Low = 1,
-    Medium = 2,
-    High = 3,
-    Critical = 4
+    Feature = 2,
+    Other = 3
 }
 
 public class FeedbackModel
@@ -30,13 +20,12 @@ public class FeedbackModel
     public string Message { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Feedback type is required")]
-    public FeedbackType Type { get; set; } = FeedbackType.GeneralFeedback;
+    public FeedbackType Type { get; set; } = FeedbackType.Other;
 
-    public FeedbackPriority Priority { get; set; } = FeedbackPriority.Medium;
-
+    [Required(ErrorMessage = "Email is required")]
     [EmailAddress(ErrorMessage = "Please enter a valid email address")]
     [StringLength(254, ErrorMessage = "Email address is too long")]
-    public string? UserEmail { get; set; }
+    public string UserEmail { get; set; } = string.Empty;
 
     public string? UserName { get; set; }
 
@@ -57,8 +46,6 @@ public class FeedbackModel
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public string Language { get; set; } = string.Empty;
-
-    public bool IncludeSystemInfo { get; set; } = true;
 
     public bool IncludeScreenshot { get; set; } = false;
 }

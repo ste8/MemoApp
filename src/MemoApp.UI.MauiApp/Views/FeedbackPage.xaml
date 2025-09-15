@@ -59,16 +59,6 @@
                                FontSize="14" />
                     </Frame>
 
-                    <!-- Subject -->
-                    <StackLayout Spacing="8">
-                        <Label Text="{localization:Localize Feedback_SubjectLabel}"
-                               Style="{StaticResource SectionHeaderStyle}" />
-                        <Entry Text="{Binding Subject}"
-                               Placeholder="{localization:Localize Feedback_SubjectPlaceholder}"
-                               MaxLength="200"
-                                />
-                    </StackLayout>
-
                     <!-- Feedback Type -->
                     <StackLayout Spacing="8">
                         <Label Text="{localization:Localize Feedback_TypeLabel}"
@@ -83,17 +73,14 @@
                         </Frame>
                     </StackLayout>
 
-                    <!-- Priority -->
+                    <!-- Subject -->
                     <StackLayout Spacing="8">
-                        <Label Text="{localization:Localize Feedback_PriorityLabel}"
+                        <Label Text="{localization:Localize Feedback_SubjectLabel}"
                                Style="{StaticResource SectionHeaderStyle}" />
-                        <Frame Style="{StaticResource ModernCardStyle}">
-                            <Picker ItemsSource="{Binding FeedbackPriorities}"
-                                    ItemDisplayBinding="{Binding DisplayName}"
-                                    SelectedItem="{Binding SelectedPriority}"
-                                    BackgroundColor="Transparent"
-                                    FontSize="15" />
-                        </Frame>
+                        <Entry Text="{Binding Subject}"
+                               Placeholder="{localization:Localize Feedback_SubjectPlaceholder}"
+                               MaxLength="200"
+                                />
                     </StackLayout>
 
                     <!-- Message -->
@@ -176,19 +163,6 @@
                                TextColor="{DynamicResource Primary}"
                                Margin="0,-8,0,0" />
 
-                        <!-- System Info Option -->
-                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="16">
-                            <StackLayout Grid.Column="0" Spacing="4">
-                                <Label Text="{localization:Localize Feedback_IncludeSystemInfo}"
-                                       Style="{StaticResource BodyMedium}" />
-                                <Label Text="{localization:Localize Feedback_SystemInfoHelp}"
-                                       Style="{StaticResource BodyMedium}"
-                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
-                                       LineBreakMode="WordWrap" />
-                            </StackLayout>
-                            <Switch Grid.Column="1"
-                                    IsToggled="{Binding IncludeSystemInfo}" />
-                        </Grid>
                     </StackLayout>
 
                 </StackLayout>

@@ -2639,57 +2639,29 @@ Download MemoRaise: {AppUrl}
     <value>Bug Report</value>
     <comment>Option for bug report feedback type</comment>
   </data>
-  <data name="Feedback_Type_FeatureRequest" xml:space="preserve">
-    <value>Feature Request</value>
-    <comment>Option for feature request feedback type</comment>
+  <data name="Feedback_Type_Feature" xml:space="preserve">
+    <value>New Feature</value>
+    <comment>Option for new feature request feedback type</comment>
   </data>
-  <data name="Feedback_Type_GeneralFeedback" xml:space="preserve">
-    <value>General Feedback</value>
-    <comment>Option for general feedback type</comment>
-  </data>
-  <data name="Feedback_Type_Performance" xml:space="preserve">
-    <value>Performance Issue</value>
-    <comment>Option for performance feedback type</comment>
-  </data>
-  <data name="Feedback_Type_UserInterface" xml:space="preserve">
-    <value>User Interface</value>
-    <comment>Option for user interface feedback type</comment>
-  </data>
-  <data name="Feedback_PriorityLabel" xml:space="preserve">
-    <value>Priority</value>
-    <comment>Label for feedback priority selection</comment>
-  </data>
-  <data name="Feedback_Priority_Low" xml:space="preserve">
-    <value>Low</value>
-    <comment>Low priority option</comment>
-  </data>
-  <data name="Feedback_Priority_Medium" xml:space="preserve">
-    <value>Medium</value>
-    <comment>Medium priority option</comment>
-  </data>
-  <data name="Feedback_Priority_High" xml:space="preserve">
-    <value>High</value>
-    <comment>High priority option</comment>
-  </data>
-  <data name="Feedback_Priority_Critical" xml:space="preserve">
-    <value>Critical</value>
-    <comment>Critical priority option</comment>
+  <data name="Feedback_Type_Other" xml:space="preserve">
+    <value>Other</value>
+    <comment>Option for other feedback type</comment>
   </data>
   <data name="Feedback_EmailLabel" xml:space="preserve">
-    <value>Email (Optional)</value>
-    <comment>Label for optional email field</comment>
+    <value>Email (Required)</value>
+    <comment>Label for required email field</comment>
   </data>
   <data name="Feedback_EmailPlaceholder" xml:space="preserve">
     <value>your.email@example.com</value>
     <comment>Placeholder text for email field</comment>
   </data>
   <data name="Feedback_NameLabel" xml:space="preserve">
-    <value>Name (Optional)</value>
-    <comment>Label for optional name field</comment>
+    <value>Full Name (Optional)</value>
+    <comment>Label for optional full name field</comment>
   </data>
   <data name="Feedback_NamePlaceholder" xml:space="preserve">
-    <value>Your name</value>
-    <comment>Placeholder text for name field</comment>
+    <value>Your full name</value>
+    <comment>Placeholder text for full name field</comment>
   </data>
   <data name="Feedback_IncludeScreenshot" xml:space="preserve">
     <value>Include Screenshot</value>
@@ -2722,6 +2694,10 @@ Download MemoRaise: {AppUrl}
   <data name="Feedback_ValidationMessageLength" xml:space="preserve">
     <value>Message must be between 10 and 2000 characters</value>
     <comment>Validation error for message length</comment>
+  </data>
+  <data name="Feedback_ValidationEmailRequired" xml:space="preserve">
+    <value>Email is required</value>
+    <comment>Validation error for missing email</comment>
   </data>
   <data name="Feedback_ValidationEmailInvalid" xml:space="preserve">
     <value>Please enter a valid email address</value>

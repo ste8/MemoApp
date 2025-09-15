@@ -38,16 +38,13 @@ public class FeedbackService : IFeedbackService
     {
         try
         {
-            // Populate system information if requested
-            if (feedback.IncludeSystemInfo)
-            {
-                feedback.SystemInfo = GetSystemInfo();
-                feedback.AppVersion = _appInfoService.Version;
-                feedback.Platform = _appInfoService.Platform;
-                feedback.DeviceModel = DeviceInfo.Model;
-                feedback.OperatingSystemVersion = DeviceInfo.VersionString;
-                feedback.Language = CultureInfo.CurrentUICulture.Name;
-            }
+            // Always populate system information
+            feedback.SystemInfo = GetSystemInfo();
+            feedback.AppVersion = _appInfoService.Version;
+            feedback.Platform = _appInfoService.Platform;
+            feedback.DeviceModel = DeviceInfo.Model;
+            feedback.OperatingSystemVersion = DeviceInfo.VersionString;
+            feedback.Language = CultureInfo.CurrentUICulture.Name;
 
             // Get feedback API URL from configuration
             var feedbackApiUrl = _configuration["Feedback:ApiUrl"];

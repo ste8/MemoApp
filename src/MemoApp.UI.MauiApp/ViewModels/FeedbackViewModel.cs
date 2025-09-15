@@ -25,19 +25,13 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
     private FeedbackTypeItem selectedType;
 
     [ObservableProperty]
-    private FeedbackPriorityItem selectedPriority;
-
-    [ObservableProperty]
-    private string? userEmail;
+    private string userEmail = string.Empty;
 
     [ObservableProperty]
     private string? userName;
 
     [ObservableProperty]
     private bool includeScreenshot = false;
-
-    [ObservableProperty]
-    private bool includeSystemInfo = true;
 
     [ObservableProperty]
     private bool isSubmitting = false;
@@ -59,7 +53,6 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
     private bool _disposed;
 
     public ObservableCollection<FeedbackTypeItem> FeedbackTypes { get; }
-    public ObservableCollection<FeedbackPriorityItem> FeedbackPriorities { get; }
 
     public FeedbackViewModel(
         IFeedbackService feedbackService,
@@ -76,24 +69,12 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
         FeedbackTypes = new ObservableCollection<FeedbackTypeItem>
         {
             new(FeedbackType.Bug, _localizationService.GetString("Feedback_Type_Bug")),
-            new(FeedbackType.FeatureRequest, _localizationService.GetString("Feedback_Type_FeatureRequest")),
-            new(FeedbackType.GeneralFeedback, _localizationService.GetString("Feedback_Type_GeneralFeedback")),
-            new(FeedbackType.Performance, _localizationService.GetString("Feedback_Type_Performance")),
-            new(FeedbackType.UserInterface, _localizationService.GetString("Feedback_Type_UserInterface"))
+            new(FeedbackType.Feature, _localizationService.GetString("Feedback_Type_Feature")),
+            new(FeedbackType.Other, _localizationService.GetString("Feedback_Type_Other"))
         };
 
-        // Initialize feedback priorities
-        FeedbackPriorities = new ObservableCollection<FeedbackPriorityItem>
-        {
-            new(FeedbackPriority.Low, _localizationService.GetString("Feedback_Priority_Low")),
-            new(FeedbackPriority.Medium, _localizationService.GetString("Feedback_Priority_Medium")),
-            new(FeedbackPriority.High, _localizationService.GetString("Feedback_Priority_High")),
-            new(FeedbackPriority.Critical, _localizationService.GetString("Feedback_Priority_Critical"))
-        };
-
-        // Set default selections
-        SelectedType = FeedbackTypes.First(t => t.Type == FeedbackType.GeneralFeedback);
-        SelectedPriority = FeedbackPriorities.First(p => p.Priority == FeedbackPriority.Medium);
+        // Set default selection
+        SelectedType = FeedbackTypes.First(t => t.Type == FeedbackType.Other);
 
         // Set up property change notifications for validation
         PropertyChanged += OnPropertyChanged;
@@ -176,10 +157,8 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
                 Subject = Subject.Trim(),
                 Message = Message.Trim(),
                 Type = SelectedType.Type,
-                Priority = SelectedPriority.Priority,
-                UserEmail = string.IsNullOrWhiteSpace(UserEmail) ? null : UserEmail.Trim(),
+                UserEmail = UserEmail.Trim(),
                 UserName = string.IsNullOrWhiteSpace(UserName) ? null : UserName.Trim(),
-                IncludeSystemInfo = IncludeSystemInfo,
                 IncludeScreenshot = IncludeScreenshot && HasScreenshot,
                 ScreenshotData = IncludeScreenshot && HasScreenshot ? _screenshotData : null,
                 ScreenshotFileName = IncludeScreenshot && HasScreenshot ? ScreenshotFileName : null,
@@ -268,8 +247,12 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
             _validationErrors["Message"] = _localizationService.GetString("Feedback_ValidationMessageLength");
         }
 
-        // Validate email if provided
-        if (!string.IsNullOrWhiteSpace(UserEmail))
+        // Validate email (required)
+        if (string.IsNullOrWhiteSpace(UserEmail))
+        {
+            _validationErrors["Email"] = _localizationService.GetString("Feedback_ValidationEmailRequired");
+        }
+        else
         {
             var emailValidator = new EmailAddressAttribute();
             if (!emailValidator.IsValid(UserEmail))
@@ -297,12 +280,10 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
     {
         Subject = string.Empty;
         Message = string.Empty;
-        SelectedType = FeedbackTypes.First(t => t.Type == FeedbackType.GeneralFeedback);
-        SelectedPriority = FeedbackPriorities.First(p => p.Priority == FeedbackPriority.Medium);
-        UserEmail = null;
+        SelectedType = FeedbackTypes.First(t => t.Type == FeedbackType.Other);
+        UserEmail = string.Empty;
         UserName = null;
         IncludeScreenshot = false;
-        IncludeSystemInfo = true;
         RemoveScreenshot();
         ValidationError = null;
         _validationErrors.Clear();
@@ -339,4 +320,3 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
 }
 
 public record FeedbackTypeItem(FeedbackType Type, string DisplayName);
-public record FeedbackPriorityItem(FeedbackPriority Priority, string DisplayName);
