@@ -127,15 +127,54 @@ public class FeedbackService : IFeedbackService
     {
         try
         {
+            _logger.LogInformation("Starting PickImagesAsync method");
             var attachedImages = new List<AttachedImage>();
 
             // Use MediaPicker for better gallery access on mobile platforms
             var results = new List<FileResult>();
 
-            // For multiple image selection, we need to call MediaPicker multiple times
-            // or use FilePicker which should open gallery by default
+#if ANDROID || IOS
+            // On mobile platforms, use MediaPicker for direct gallery access
             try
             {
+                _logger.LogInformation("Using MediaPicker for mobile gallery access");
+
+                // Add timeout to prevent hanging
+                using var timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+                using var combinedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeoutCts.Token);
+
+                var mediaResult = await MediaPicker.Default.PickPhotoAsync(new MediaPickerOptions
+                {
+                    Title = _localizationService.GetString("Feedback_SelectImagesTitle")
+                });
+
+                if (mediaResult != null)
+                {
+                    results.Add(mediaResult);
+                    _logger.LogInformation("Image selected from gallery via MediaPicker: {FileName}", mediaResult.FileName);
+                }
+                else
+                {
+                    _logger.LogInformation("No image selected from MediaPicker (user cancelled)");
+                    return attachedImages; // Return empty list immediately for user cancellation
+                }
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                _logger.LogInformation("Image picker was cancelled by user");
+                return attachedImages;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "MediaPicker failed, this is expected on some platforms");
+                return attachedImages; // Don't try fallback, just return empty for mobile
+            }
+#else
+            // On desktop platforms, use FilePicker for multiple selection
+            try
+            {
+                _logger.LogInformation("Using FilePicker for desktop file selection");
+
                 var pickOptions = new PickOptions
                 {
                     FileTypes = FilePickerFileType.Images,
@@ -143,37 +182,27 @@ public class FeedbackService : IFeedbackService
                 };
 
                 var fileResults = await FilePicker.Default.PickMultipleAsync(pickOptions);
-                if (fileResults != null)
+                if (fileResults != null && fileResults.Any())
                 {
                     results.AddRange(fileResults);
+                    _logger.LogInformation("Images selected via FilePicker on desktop: {Count}", fileResults.Count());
+                }
+                else
+                {
+                    _logger.LogInformation("No images selected from FilePicker (user cancelled)");
+                    return attachedImages; // Return empty list for user cancellation
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, "FilePicker failed, trying MediaPicker as fallback");
-
-                // Fallback to MediaPicker for single image selection
-                try
-                {
-                    var mediaResult = await MediaPicker.Default.PickPhotoAsync(new MediaPickerOptions
-                    {
-                        Title = _localizationService.GetString("Feedback_SelectImagesTitle")
-                    });
-
-                    if (mediaResult != null)
-                    {
-                        results.Add(mediaResult);
-                    }
-                }
-                catch (Exception mediaEx)
-                {
-                    _logger.LogError(mediaEx, "Both FilePicker and MediaPicker failed");
-                    throw; // Re-throw to be handled by calling code
-                }
+                _logger.LogError(ex, "FilePicker failed on desktop platform");
+                return attachedImages; // Return empty list instead of throwing
             }
-            if (results?.Any() != true)
+#endif
+
+            if (!results.Any())
             {
-                _logger.LogInformation("No images selected");
+                _logger.LogInformation("No file results to process");
                 return attachedImages;
             }
 
@@ -226,6 +255,7 @@ public class FeedbackService : IFeedbackService
                 }
             }
 
+            _logger.LogInformation("PickImagesAsync completed successfully with {Count} images", attachedImages.Count);
             return attachedImages;
         }
         catch (Exception ex)

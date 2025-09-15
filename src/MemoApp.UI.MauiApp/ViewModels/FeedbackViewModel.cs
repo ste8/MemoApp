@@ -39,11 +39,27 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
 
     public bool IsAnyOperationInProgress => IsSubmitting || IsAttachingImages || IsBusy;
 
-    public string LoadingMessage => IsSubmitting
-        ? _localizationService.GetString("Feedback_Submitting")
-        : IsAttachingImages
-            ? _localizationService.GetString("Feedback_AttachingImages")
-            : _localizationService.GetString("Common_Loading");
+    public string LoadingMessage
+    {
+        get
+        {
+            try
+            {
+                if (IsSubmitting)
+                    return _localizationService.GetString("Feedback_Submitting");
+                if (IsAttachingImages)
+                    return _localizationService.GetString("Feedback_AttachingImages");
+                return _localizationService.GetString("Common_Loading");
+            }
+            catch
+            {
+                // Fallback in case of localization service issues
+                if (IsSubmitting) return "Submitting feedback...";
+                if (IsAttachingImages) return "Selecting images...";
+                return "Loading...";
+            }
+        }
+    }
 
     [ObservableProperty]
     private bool hasAttachedImages = false;
@@ -200,11 +216,15 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
 
         try
         {
+            _logger.LogInformation("Starting image attachment process");
             IsAttachingImages = true;
             ValidationError = null;
 
+            _logger.LogInformation("Calling FeedbackService.PickImagesAsync()");
             var selectedImages = await _feedbackService.PickImagesAsync();
-            if (selectedImages.Count > 0)
+            _logger.LogInformation("PickImagesAsync returned {Count} images", selectedImages?.Count ?? 0);
+
+            if (selectedImages?.Count > 0)
             {
                 var availableSlots = MaxImageCount - AttachedImages.Count;
                 var imagesToAdd = selectedImages.Take(availableSlots).ToList();
@@ -238,7 +258,9 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
         }
         finally
         {
+            _logger.LogInformation("Setting IsAttachingImages = false");
             IsAttachingImages = false;
+            _logger.LogInformation("IsAttachingImages is now: {Value}", IsAttachingImages);
         }
     }
 
