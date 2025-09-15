@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using MemoApp.Core.Models;
+using MemoApp.Localization.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -16,6 +17,7 @@ public class FeedbackService : IFeedbackService
     private readonly HttpClient _httpClient;
     private readonly IAppInfoService _appInfoService;
     private readonly ILogger<FeedbackService> _logger;
+    private readonly ILocalizationService _localizationService;
 
     private readonly IConfiguration _configuration;
     private const string ApiKeyStorageKey = "FeedbackApiKey";
@@ -26,11 +28,13 @@ public class FeedbackService : IFeedbackService
         HttpClient httpClient,
         IAppInfoService appInfoService,
         IConfiguration configuration,
+        ILocalizationService localizationService,
         ILogger<FeedbackService> logger)
     {
         _httpClient = httpClient;
         _appInfoService = appInfoService;
         _configuration = configuration;
+        _localizationService = localizationService;
         _logger = logger;
     }
 
@@ -77,12 +81,13 @@ public class FeedbackService : IFeedbackService
             });
             content.Add(new StringContent(jsonPayload, Encoding.UTF8, "application/json"), "feedback");
 
-            // Add screenshot if present
-            if (feedback.ScreenshotData != null && !string.IsNullOrEmpty(feedback.ScreenshotFileName))
+            // Add attached images if present
+            for (int i = 0; i < feedback.AttachedImages.Count; i++)
             {
-                var imageContent = new ByteArrayContent(feedback.ScreenshotData);
-                imageContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpeg");
-                content.Add(imageContent, "screenshot", feedback.ScreenshotFileName);
+                var image = feedback.AttachedImages[i];
+                var imageContent = new ByteArrayContent(image.Data);
+                imageContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(image.ContentType);
+                content.Add(imageContent, $"attachment_{i}", image.FileName);
             }
 
             // Submit to Azure Function
@@ -118,37 +123,81 @@ public class FeedbackService : IFeedbackService
         }
     }
 
-    public async Task<(byte[] Data, string FileName)?> CaptureScreenshotAsync(CancellationToken cancellationToken = default)
+    public async Task<List<AttachedImage>> PickImagesAsync(CancellationToken cancellationToken = default)
     {
         try
         {
-            var screenshot = await Screenshot.Default.CaptureAsync();
-            if (screenshot == null)
+            var attachedImages = new List<AttachedImage>();
+
+            // Allow user to pick multiple images
+            var pickOptions = new PickOptions
             {
-                _logger.LogWarning("Failed to capture screenshot");
-                return null;
+                FileTypes = FilePickerFileType.Images,
+                PickerTitle = _localizationService.GetString("Feedback_SelectImagesTitle")
+            };
+
+            var results = await FilePicker.Default.PickMultipleAsync(pickOptions);
+            if (results?.Any() != true)
+            {
+                _logger.LogInformation("No images selected");
+                return attachedImages;
             }
 
-            using var stream = await screenshot.OpenReadAsync();
-            using var memoryStream = new MemoryStream();
-            await stream.CopyToAsync(memoryStream, cancellationToken);
+            foreach (var result in results)
+            {
+                Stream? fileStream = null;
+                MemoryStream? memoryStream = null;
 
-            var originalData = memoryStream.ToArray();
+                try
+                {
+                    fileStream = await result.OpenReadAsync();
+                    memoryStream = new MemoryStream();
 
-            // Compress image if it's too large
-            var compressedData = await CompressImageAsync(originalData, cancellationToken);
+                    await fileStream.CopyToAsync(memoryStream, cancellationToken);
+                    var imageData = memoryStream.ToArray();
 
-            var fileName = $"screenshot_{DateTime.UtcNow:yyyyMMdd_HHmmss}.jpg";
+                    // Validate image size - reject if too large rather than corrupt
+                    var validatedData = await ValidateAndProcessImageAsync(imageData, cancellationToken);
+                    if (validatedData == null)
+                    {
+                        _logger.LogWarning("Image skipped due to size: {FileName} ({Size}KB > {MaxSize}KB)",
+                            result.FileName, imageData.Length / 1024, MaxImageSize / 1024);
+                        continue; // Skip this image and continue with others
+                    }
 
-            _logger.LogInformation("Screenshot captured and compressed: {OriginalSize}KB -> {CompressedSize}KB",
-                originalData.Length / 1024, compressedData.Length / 1024);
+                    var attachedImage = new AttachedImage
+                    {
+                        Data = validatedData,
+                        FileName = result.FileName ?? $"image_{DateTime.UtcNow:yyyyMMdd_HHmmss}.jpg",
+                        ContentType = result.ContentType ?? "image/jpeg",
+                        FileSize = validatedData.Length,
+                        AttachedAt = DateTime.UtcNow
+                    };
 
-            return (compressedData, fileName);
+                    attachedImages.Add(attachedImage);
+
+                    _logger.LogInformation("Image attached: {FileName} ({Size}KB)",
+                        attachedImage.FileName, attachedImage.FileSize / 1024);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to process selected image: {FileName}", result.FileName);
+                    // Continue with other images
+                }
+                finally
+                {
+                    // Explicitly dispose streams to ensure cleanup
+                    fileStream?.Dispose();
+                    memoryStream?.Dispose();
+                }
+            }
+
+            return attachedImages;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error capturing screenshot");
-            return null;
+            _logger.LogError(ex, "Error picking images");
+            return new List<AttachedImage>();
         }
     }
 
@@ -214,74 +263,31 @@ public class FeedbackService : IFeedbackService
         }
     }
 
-    private async Task<byte[]> CompressImageAsync(byte[] originalData, CancellationToken cancellationToken)
+    private Task<byte[]?> ValidateAndProcessImageAsync(byte[] originalData, CancellationToken cancellationToken)
     {
-        // If image is already small enough, return as-is
-        if (originalData.Length <= MaxImageSize)
-        {
-            return originalData;
-        }
-
-        return await Task.Run(async () =>
+        return Task.Run(() =>
         {
             try
             {
-                // Simple compression by reducing quality without resizing
-                // This is safer across platforms than complex image manipulation
-                var compressedData = await CompressImageSimpleAsync(originalData);
+                // If image is already small enough, return as-is
+                if (originalData.Length <= MaxImageSize)
+                {
+                    _logger.LogInformation("Image size acceptable: {Size}KB", originalData.Length / 1024);
+                    return originalData;
+                }
 
-                _logger.LogInformation("Image compressed from {OriginalSize}KB to {CompressedSize}KB",
-                    originalData.Length / 1024, compressedData.Length / 1024);
+                // Image is too large - reject rather than corrupt
+                _logger.LogWarning("Image rejected: {Size}KB exceeds maximum {MaxSize}KB",
+                    originalData.Length / 1024, MaxImageSize / 1024);
 
-                return compressedData;
+                return null; // Signal that image was rejected
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error compressing image, returning truncated original");
-
-                // If compression fails completely, truncate the image data as last resort
-                if (originalData.Length > MaxImageSize)
-                {
-                    var truncatedData = new byte[MaxImageSize];
-                    Array.Copy(originalData, truncatedData, MaxImageSize);
-                    return truncatedData;
-                }
-
-                return originalData;
+                _logger.LogError(ex, "Error validating image data");
+                return null;
             }
         }, cancellationToken);
-    }
-
-    private async Task<byte[]> CompressImageSimpleAsync(byte[] originalData)
-    {
-        try
-        {
-            // Use the screenshot capture mechanism which typically provides compressed images
-            using var stream = new MemoryStream(originalData);
-
-            // Try to load and re-save with lower quality
-            // This is platform-agnostic and safer than advanced manipulation
-            var compressedData = originalData;
-
-            // If still too large after simple processing, use basic truncation
-            if (compressedData.Length > MaxImageSize)
-            {
-                // Calculate percentage to keep
-                var compressionRatio = (double)MaxImageSize / compressedData.Length;
-                var targetSize = (int)(compressedData.Length * compressionRatio * 0.9); // 90% of max to be safe
-
-                var truncatedData = new byte[Math.Min(targetSize, compressedData.Length)];
-                Array.Copy(compressedData, truncatedData, truncatedData.Length);
-                compressedData = truncatedData;
-            }
-
-            return compressedData;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Simple image compression failed");
-            throw;
-        }
     }
 
     private async Task<string?> GetApiKeyAsync()

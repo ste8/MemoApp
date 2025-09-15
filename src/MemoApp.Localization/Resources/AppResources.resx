@@ -2767,9 +2767,37 @@ Download MemoRaise: {AppUrl}
     <value>Includes app version, platform, and device information to help us resolve issues</value>
     <comment>Help text explaining what system information includes</comment>
   </data>
-  <data name="Feedback_ScreenshotHelp" xml:space="preserve">
-    <value>Captures the current screen to help us understand visual issues</value>
-    <comment>Help text explaining screenshot functionality</comment>
+  <data name="Feedback_AttachImages" xml:space="preserve">
+    <value>Attach Images</value>
+    <comment>Label for image attachment section</comment>
+  </data>
+  <data name="Feedback_AttachImagesHelp" xml:space="preserve">
+    <value>Attach screenshots or images from your gallery to help us understand the issue</value>
+    <comment>Help text explaining image attachment functionality</comment>
+  </data>
+  <data name="Feedback_AttachButton" xml:space="preserve">
+    <value>Attach</value>
+    <comment>Button text to attach images</comment>
+  </data>
+  <data name="Feedback_ImagesAttached" xml:space="preserve">
+    <value>📎 {0} image(s) attached</value>
+    <comment>Status message showing number of attached images</comment>
+  </data>
+  <data name="Feedback_AttachmentError" xml:space="preserve">
+    <value>Unable to attach images. Please try again.</value>
+    <comment>Error message when image attachment fails</comment>
+  </data>
+  <data name="Feedback_SelectImagesTitle" xml:space="preserve">
+    <value>Select images to attach</value>
+    <comment>Title for the file picker when selecting images</comment>
+  </data>
+  <data name="Feedback_TooManyImages" xml:space="preserve">
+    <value>Maximum of 10 images allowed. Please remove some images before adding more.</value>
+    <comment>Error message when trying to attach too many images</comment>
+  </data>
+  <data name="Feedback_SomeImagesSkipped" xml:space="preserve">
+    <value>{0} image(s) were skipped. Maximum of {1} images allowed.</value>
+    <comment>Warning message when some selected images were skipped due to limit</comment>
   </data>
   <data name="Common_UnsavedChanges" xml:space="preserve">
     <value>You have unsaved changes. Are you sure you want to discard them?</value>
@@ -2786,6 +2814,10 @@ Download MemoRaise: {AppUrl}
   <data name="Common_Remove" xml:space="preserve">
     <value>Remove</value>
     <comment>Button text to remove item</comment>
+  </data>
+  <data name="Common_ClearAll" xml:space="preserve">
+    <value>Clear All</value>
+    <comment>Button text to clear all items</comment>
   </data>
   <data name="Settings_ContactInformation" xml:space="preserve">
     <value>Contact Information</value>

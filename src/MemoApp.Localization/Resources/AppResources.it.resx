@@ -2663,9 +2663,37 @@ Scarica MemoRaise: {AppUrl}
     <value>Include versione app, piattaforma e informazioni dispositivo per aiutarci a risolvere problemi</value>
     <comment>Help text explaining what system information includes</comment>
   </data>
-  <data name="Feedback_ScreenshotHelp" xml:space="preserve">
-    <value>Cattura la schermata corrente per aiutarci a comprendere problemi visivi</value>
-    <comment>Help text explaining screenshot functionality</comment>
+  <data name="Feedback_AttachImages" xml:space="preserve">
+    <value>Allega Immagini</value>
+    <comment>Label for image attachment section</comment>
+  </data>
+  <data name="Feedback_AttachImagesHelp" xml:space="preserve">
+    <value>Allega screenshot o immagini dalla tua galleria per aiutarci a comprendere il problema</value>
+    <comment>Help text explaining image attachment functionality</comment>
+  </data>
+  <data name="Feedback_AttachButton" xml:space="preserve">
+    <value>Allega</value>
+    <comment>Button text to attach images</comment>
+  </data>
+  <data name="Feedback_ImagesAttached" xml:space="preserve">
+    <value>📎 {0} immagine/i allegata/e</value>
+    <comment>Status message showing number of attached images</comment>
+  </data>
+  <data name="Feedback_AttachmentError" xml:space="preserve">
+    <value>Impossibile allegare immagini. Riprova.</value>
+    <comment>Error message when image attachment fails</comment>
+  </data>
+  <data name="Feedback_SelectImagesTitle" xml:space="preserve">
+    <value>Seleziona immagini da allegare</value>
+    <comment>Title for the file picker when selecting images</comment>
+  </data>
+  <data name="Feedback_TooManyImages" xml:space="preserve">
+    <value>Massimo 10 immagini consentite. Rimuovi alcune immagini prima di aggiungerne altre.</value>
+    <comment>Error message when trying to attach too many images</comment>
+  </data>
+  <data name="Feedback_SomeImagesSkipped" xml:space="preserve">
+    <value>{0} immagine/i sono state saltate. Massimo {1} immagini consentite.</value>
+    <comment>Warning message when some selected images were skipped due to limit</comment>
   </data>
   <data name="Common_UnsavedChanges" xml:space="preserve">
     <value>Hai modifiche non salvate. Sei sicuro di volerle scartare?</value>
@@ -2682,6 +2710,10 @@ Scarica MemoRaise: {AppUrl}
   <data name="Common_Remove" xml:space="preserve">
     <value>Rimuovi</value>
     <comment>Button text to remove item</comment>
+  </data>
+  <data name="Common_ClearAll" xml:space="preserve">
+    <value>Rimuovi Tutto</value>
+    <comment>Button text to clear all items</comment>
   </data>
   <data name="Settings_ContactInformation" xml:space="preserve">
     <value>Informazioni di Contatto</value>

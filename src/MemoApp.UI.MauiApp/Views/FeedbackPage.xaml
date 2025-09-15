@@ -4,10 +4,17 @@
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
              xmlns:models="clr-namespace:MemoApp.Core.Models;assembly=MemoApp.Core"
+             xmlns:converters="clr-namespace:MemoApp.UI.MauiApp.Converters"
              x:Class="MemoApp.UI.MauiApp.Views.FeedbackPage"
              x:DataType="viewmodels:FeedbackViewModel"
              Title="{Binding Title}"
              BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Black}}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:FileSizeConverter x:Key="FileSizeConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <Grid RowDefinitions="*,Auto,Auto">
 
@@ -338,38 +345,85 @@
                                Style="{StaticResource SectionHeaderStyle}"
                                Margin="0,8,0,0" />
 
-                        <!-- Screenshot Option -->
-                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="16">
-                            <StackLayout Grid.Column="0" Spacing="4">
-                                <Label Text="{localization:Localize Feedback_IncludeScreenshot}"
-                                       Style="{StaticResource BodyMedium}" />
-                                <Label Text="{localization:Localize Feedback_ScreenshotHelp}"
-                                       Style="{StaticResource BodyMedium}"
-                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
-                                       LineBreakMode="WordWrap" />
-                            </StackLayout>
-                            <StackLayout Grid.Column="1" Spacing="8" Orientation="Horizontal">
-                                <Button Text="{localization:Localize Common_Capture}"
-                                        Command="{Binding CaptureScreenshotCommand}"
-                                        IsVisible="{Binding HasScreenshot, Converter={StaticResource InvertedBoolConverter}}"
-                                        Style="{StaticResource ModernSecondaryButton}"
-                                        FontSize="12" />
-                                <Button Text="{localization:Localize Common_Remove}"
-                                        Command="{Binding RemoveScreenshotCommand}"
-                                        IsVisible="{Binding HasScreenshot}"
-                                        Style="{StaticResource ModernSecondaryButton}"
-                                        FontSize="12" />
-                                <Switch IsToggled="{Binding IncludeScreenshot}"
-                                        IsEnabled="{Binding HasScreenshot}" />
-                            </StackLayout>
-                        </Grid>
+                        <!-- Image Attachments Section -->
+                        <StackLayout Spacing="16">
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="16">
+                                <StackLayout Grid.Column="0" Spacing="4">
+                                    <Label Text="{localization:Localize Feedback_AttachImages}"
+                                           Style="{StaticResource BodyMedium}" />
+                                    <Label Text="{localization:Localize Feedback_AttachImagesHelp}"
+                                           Style="{StaticResource BodyMedium}"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                                           LineBreakMode="WordWrap" />
+                                </StackLayout>
+                                <StackLayout Grid.Column="1" Spacing="8" Orientation="Horizontal">
+                                    <Button Text="{localization:Localize Feedback_AttachButton}"
+                                            Command="{Binding AttachImagesCommand}"
+                                            Style="{StaticResource ModernSecondaryButton}"
+                                            FontSize="12" />
+                                    <Button Text="{localization:Localize Common_ClearAll}"
+                                            Command="{Binding ClearAllImagesCommand}"
+                                            IsVisible="{Binding HasAttachedImages}"
+                                            Style="{StaticResource ModernSecondaryButton}"
+                                            FontSize="12" />
+                                </StackLayout>
+                            </Grid>
 
-                        <!-- Screenshot status -->
-                        <Label IsVisible="{Binding HasScreenshot}"
-                               Text="{Binding ScreenshotFileName, StringFormat='📷 {0}'}"
-                               Style="{StaticResource BodyMedium}"
-                               TextColor="{DynamicResource Primary}"
-                               Margin="0,-8,0,0" />
+                            <!-- Attachment Status -->
+                            <Label IsVisible="{Binding HasAttachedImages}"
+                                   Text="{Binding AttachedImageCount, StringFormat='{localization:Localize Feedback_ImagesAttached}'}"
+                                   Style="{StaticResource BodyMedium}"
+                                   TextColor="{DynamicResource Primary}" />
+
+                            <!-- Attached Images List -->
+                            <CollectionView ItemsSource="{Binding AttachedImages}"
+                                            IsVisible="{Binding HasAttachedImages}"
+                                            BackgroundColor="Transparent">
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
+                                </CollectionView.ItemsLayout>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnDefinitions="Auto,*,Auto"
+                                              ColumnSpacing="12"
+                                              Padding="16,12"
+                                              BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                                              HeightRequest="60">
+                                            <Border Grid.Column="0"
+                                                    WidthRequest="36"
+                                                    HeightRequest="36"
+                                                    BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray800}}"
+                                                    StrokeThickness="0"
+                                                    StrokeShape="RoundRectangle 6,6,6,6">
+                                                <Label Text="🖼️"
+                                                       FontSize="18"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center" />
+                                            </Border>
+                                            <StackLayout Grid.Column="1"
+                                                        Spacing="2"
+                                                        VerticalOptions="Center">
+                                                <Label Text="{Binding FileName}"
+                                                       Style="{StaticResource BodyMedium}"
+                                                       LineBreakMode="TailTruncation" />
+                                                <Label Text="{Binding FileSize, Converter={StaticResource FileSizeConverter}}"
+                                                       Style="{StaticResource CaptionMedium}"
+                                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                            </StackLayout>
+                                            <Button Grid.Column="2"
+                                                    Text="✕"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:FeedbackViewModel}}, Path=RemoveImageCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    Style="{StaticResource ModernSecondaryButton}"
+                                                    WidthRequest="32"
+                                                    HeightRequest="32"
+                                                    FontSize="12"
+                                                    CornerRadius="16" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </StackLayout>
 
                     </StackLayout>
 

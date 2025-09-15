@@ -32,16 +32,13 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
     private string? userName;
 
     [ObservableProperty]
-    private bool includeScreenshot = false;
-
-    [ObservableProperty]
     private bool isSubmitting = false;
 
     [ObservableProperty]
-    private bool hasScreenshot = false;
+    private bool hasAttachedImages = false;
 
     [ObservableProperty]
-    private string? screenshotFileName;
+    private int attachedImageCount = 0;
 
     [ObservableProperty]
     private string? validationError;
@@ -89,9 +86,11 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
     [ObservableProperty]
     private bool isValidationSummaryExpanded = false;
 
-    private byte[]? _screenshotData;
+    public ObservableCollection<AttachedImage> AttachedImages { get; } = new();
     private readonly Dictionary<string, string> _validationErrors = new();
     private bool _disposed;
+
+    private const int MaxImageCount = 10;
 
     public ObservableCollection<FeedbackTypeItem> FeedbackTypes { get; }
 
@@ -171,38 +170,54 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
     }
 
     [RelayCommand]
-    private async Task CaptureScreenshotAsync()
+    private async Task AttachImagesAsync()
     {
         if (IsSubmitting || IsBusy) return;
+
+        // Check if we've reached the maximum image count
+        if (AttachedImages.Count >= MaxImageCount)
+        {
+            ValidationError = _localizationService.GetString("Feedback_TooManyImages");
+            return;
+        }
 
         try
         {
             IsBusy = true;
             ValidationError = null;
 
-            var result = await _feedbackService.CaptureScreenshotAsync();
-            if (result.HasValue)
+            var selectedImages = await _feedbackService.PickImagesAsync();
+            if (selectedImages.Count > 0)
             {
-                _screenshotData = result.Value.Data;
-                ScreenshotFileName = result.Value.FileName;
-                HasScreenshot = true;
-                IncludeScreenshot = true;
+                var availableSlots = MaxImageCount - AttachedImages.Count;
+                var imagesToAdd = selectedImages.Take(availableSlots).ToList();
 
-                _logger.LogInformation("Screenshot captured successfully: {FileName}", ScreenshotFileName);
+                foreach (var image in imagesToAdd)
+                {
+                    AttachedImages.Add(image);
+                }
+
+                UpdateAttachmentState();
+                _logger.LogInformation("Images attached successfully: {Count} images", imagesToAdd.Count);
+
+                // Warn if some images were skipped due to limit
+                if (selectedImages.Count > imagesToAdd.Count)
+                {
+                    var skippedCount = selectedImages.Count - imagesToAdd.Count;
+                    ValidationError = _localizationService.GetString("Feedback_SomeImagesSkipped")
+                        .Replace("{0}", skippedCount.ToString())
+                        .Replace("{1}", MaxImageCount.ToString());
+                }
             }
             else
             {
-                ValidationError = _localizationService.GetString("Feedback_ScreenshotError");
-                HasScreenshot = false;
-                IncludeScreenshot = false;
+                _logger.LogInformation("No images selected for attachment");
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error capturing screenshot");
-            ValidationError = _localizationService.GetString("Feedback_ScreenshotError");
-            HasScreenshot = false;
-            IncludeScreenshot = false;
+            _logger.LogError(ex, "Error attaching images");
+            ValidationError = _localizationService.GetString("Feedback_AttachmentError");
         }
         finally
         {
@@ -211,14 +226,28 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
     }
 
     [RelayCommand]
-    private void RemoveScreenshot()
+    private void RemoveImage(AttachedImage image)
     {
-        _screenshotData = null;
-        ScreenshotFileName = null;
-        HasScreenshot = false;
-        IncludeScreenshot = false;
+        if (AttachedImages.Contains(image))
+        {
+            AttachedImages.Remove(image);
+            UpdateAttachmentState();
+            _logger.LogInformation("Image removed: {FileName}", image.FileName);
+        }
+    }
 
-        _logger.LogInformation("Screenshot removed");
+    [RelayCommand]
+    private void ClearAllImages()
+    {
+        AttachedImages.Clear();
+        UpdateAttachmentState();
+        _logger.LogInformation("All attached images cleared");
+    }
+
+    private void UpdateAttachmentState()
+    {
+        AttachedImageCount = AttachedImages.Count;
+        HasAttachedImages = AttachedImages.Count > 0;
     }
 
     [RelayCommand(CanExecute = nameof(CanSubmit))]
@@ -239,9 +268,7 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
                 Type = SelectedType.Type,
                 UserEmail = UserEmail.Trim(),
                 UserName = string.IsNullOrWhiteSpace(UserName) ? null : UserName.Trim(),
-                IncludeScreenshot = IncludeScreenshot && HasScreenshot,
-                ScreenshotData = IncludeScreenshot && HasScreenshot ? _screenshotData : null,
-                ScreenshotFileName = IncludeScreenshot && HasScreenshot ? ScreenshotFileName : null,
+                AttachedImages = AttachedImages.ToList(),
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -534,8 +561,7 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
         SelectedType = FeedbackTypes.First(t => t.Type == FeedbackType.Other);
         UserEmail = string.Empty;
         UserName = null;
-        IncludeScreenshot = false;
-        RemoveScreenshot();
+        ClearAllImages();
         ValidationError = null;
         _validationErrors.Clear();
         IsFormValid = false;
@@ -565,10 +591,10 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
     {
         if (!_disposed && disposing)
         {
-            // Clear screenshot data to free memory
-            _screenshotData = null;
-            ScreenshotFileName = null;
-            HasScreenshot = false;
+            // Clear attached images to free memory
+            AttachedImages.Clear();
+            HasAttachedImages = false;
+            AttachedImageCount = 0;
 
             // Clear form data
             Subject = string.Empty;

@@ -16,11 +16,11 @@ public interface IFeedbackService
     Task<bool> SubmitFeedbackAsync(FeedbackModel feedback, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Captures a screenshot of the current screen and compresses it
+    /// Allows user to pick images from their device gallery or camera
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Compressed screenshot data and filename, or null if capture failed</returns>
-    Task<(byte[] Data, string FileName)?> CaptureScreenshotAsync(CancellationToken cancellationToken = default);
+    /// <returns>List of selected images with data and metadata, or empty list if no selection made</returns>
+    Task<List<AttachedImage>> PickImagesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Collects current system information for debugging purposes

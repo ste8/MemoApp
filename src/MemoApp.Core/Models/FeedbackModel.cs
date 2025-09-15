@@ -29,9 +29,7 @@ public class FeedbackModel
 
     public string? UserName { get; set; }
 
-    public byte[]? ScreenshotData { get; set; }
-
-    public string? ScreenshotFileName { get; set; }
+    public List<AttachedImage> AttachedImages { get; set; } = new();
 
     public Dictionary<string, string> SystemInfo { get; set; } = new();
 
@@ -46,6 +44,17 @@ public class FeedbackModel
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public string Language { get; set; } = string.Empty;
+}
 
-    public bool IncludeScreenshot { get; set; } = false;
+public class AttachedImage
+{
+    public byte[] Data { get; set; } = Array.Empty<byte>();
+
+    public string FileName { get; set; } = string.Empty;
+
+    public string ContentType { get; set; } = string.Empty;
+
+    public long FileSize { get; set; }
+
+    public DateTime AttachedAt { get; set; } = DateTime.UtcNow;
 }
