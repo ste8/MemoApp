@@ -239,6 +239,21 @@ public partial class SettingsViewModel : BaseViewModel
         }
     }
 
+    [RelayCommand]
+    private async Task SendFeedbackAsync()
+    {
+        try
+        {
+            await Shell.Current.GoToAsync(nameof(FeedbackPage));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error navigating to feedback page");
+            await _userNotificationService.ShowErrorToastAsync(
+                _localizationService.GetString("Navigation_Failed"));
+        }
+    }
+
 
 
     public async Task InitializeAsync()

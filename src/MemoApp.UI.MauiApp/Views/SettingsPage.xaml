@@ -200,7 +200,26 @@
                                VerticalOptions="Center"
                                AutomationProperties.IsInAccessibleTree="True" />
                     </Grid>
-                    
+
+                    <!-- Feedback Button -->
+                    <Button Command="{Binding SendFeedbackCommand}"
+                            Text="{localization:Localize Settings_SendFeedback}"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDark}}"
+                            TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource White}}"
+                            CornerRadius="12"
+                            FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                            FontFamily="OpenSansSemiBold"
+                            HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
+                            HorizontalOptions="FillAndExpand"
+                            Margin="0,8,0,0">
+                        <Button.Triggers>
+                            <Trigger TargetType="Button" Property="IsFocused" Value="True">
+                                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDark}}" />
+                                <Setter Property="BorderWidth" Value="2" />
+                            </Trigger>
+                        </Button.Triggers>
+                    </Button>
+
                 </StackLayout>
             </Border>
 

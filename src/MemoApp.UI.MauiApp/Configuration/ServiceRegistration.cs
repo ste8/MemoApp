@@ -60,7 +60,10 @@ public static class ServiceRegistration
         
         // First-time tooltip service
         services.AddSingleton<IFirstTimeTooltipService, FirstTimeTooltipService>();
-        
+
+        // Feedback service for user feedback collection
+        services.AddTransient<IFeedbackService, FeedbackService>();
+
         // AdMob registered as singleton since it uses default AdConfig settings
         services.AddSingleton<IAdMobService, AdMobService>();
         
@@ -345,8 +348,16 @@ public static class ServiceRegistration
             var logger = serviceProvider.GetRequiredService<ILogger<ImageViewerViewModel>>();
             return new ImageViewerViewModel(logger);
         });
-        
-        services.AddTransient<SettingsViewModel>(serviceProvider => 
+
+        services.AddTransient<FeedbackViewModel>(serviceProvider =>
+        {
+            var feedbackService = serviceProvider.GetRequiredService<IFeedbackService>();
+            var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+            var logger = serviceProvider.GetRequiredService<ILogger<FeedbackViewModel>>();
+            return new FeedbackViewModel(feedbackService, localizationService, logger);
+        });
+
+        services.AddTransient<SettingsViewModel>(serviceProvider =>
         {
             var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
             var packManager = serviceProvider.GetRequiredService<IPackManagerService>();
@@ -428,6 +439,7 @@ public static class ServiceRegistration
         services.AddTransient<Views.TokenDetailPage>();
         services.AddTransient<Views.AddCustomAssociationPage>();
         services.AddTransient<Views.ImageViewerPage>();
+        services.AddTransient<Views.FeedbackPage>();
         
         // Onboarding Views
         services.AddTransient<Views.Onboarding.OnboardingNavigationPage>();

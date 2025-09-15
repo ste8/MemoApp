@@ -1,0 +1,6 @@
+{
+  "Feedback": {
+    "ApiUrl": "https://your-azure-function-app.azurewebsites.net/api/feedback",
+    "ApiKey": "your-development-api-key-here"
+  }
+}

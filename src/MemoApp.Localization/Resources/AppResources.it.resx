@@ -2505,4 +2505,186 @@ Scarica MemoRaise: {AppUrl}
     <value>Si è verificato un errore durante la verifica</value>
     <comment>Generic error message for verification failures</comment>
   </data>
+
+  <!-- Feedback Feature -->
+  <data name="Feedback_Title" xml:space="preserve">
+    <value>Feedback</value>
+    <comment>Title for feedback page</comment>
+  </data>
+  <data name="Feedback_SubjectLabel" xml:space="preserve">
+    <value>Oggetto</value>
+    <comment>Label for feedback subject field</comment>
+  </data>
+  <data name="Feedback_SubjectPlaceholder" xml:space="preserve">
+    <value>Breve descrizione del tuo feedback</value>
+    <comment>Placeholder text for feedback subject field</comment>
+  </data>
+  <data name="Feedback_MessageLabel" xml:space="preserve">
+    <value>Messaggio</value>
+    <comment>Label for feedback message field</comment>
+  </data>
+  <data name="Feedback_MessagePlaceholder" xml:space="preserve">
+    <value>Fornisci un feedback dettagliato su MemoRaise</value>
+    <comment>Placeholder text for feedback message field</comment>
+  </data>
+  <data name="Feedback_TypeLabel" xml:space="preserve">
+    <value>Tipo di Feedback</value>
+    <comment>Label for feedback type selection</comment>
+  </data>
+  <data name="Feedback_Type_Bug" xml:space="preserve">
+    <value>Segnalazione Bug</value>
+    <comment>Option for bug report feedback type</comment>
+  </data>
+  <data name="Feedback_Type_FeatureRequest" xml:space="preserve">
+    <value>Richiesta Funzionalità</value>
+    <comment>Option for feature request feedback type</comment>
+  </data>
+  <data name="Feedback_Type_GeneralFeedback" xml:space="preserve">
+    <value>Feedback Generale</value>
+    <comment>Option for general feedback type</comment>
+  </data>
+  <data name="Feedback_Type_Performance" xml:space="preserve">
+    <value>Problema Prestazioni</value>
+    <comment>Option for performance feedback type</comment>
+  </data>
+  <data name="Feedback_Type_UserInterface" xml:space="preserve">
+    <value>Interfaccia Utente</value>
+    <comment>Option for user interface feedback type</comment>
+  </data>
+  <data name="Feedback_PriorityLabel" xml:space="preserve">
+    <value>Priorità</value>
+    <comment>Label for feedback priority selection</comment>
+  </data>
+  <data name="Feedback_Priority_Low" xml:space="preserve">
+    <value>Bassa</value>
+    <comment>Low priority option</comment>
+  </data>
+  <data name="Feedback_Priority_Medium" xml:space="preserve">
+    <value>Media</value>
+    <comment>Medium priority option</comment>
+  </data>
+  <data name="Feedback_Priority_High" xml:space="preserve">
+    <value>Alta</value>
+    <comment>High priority option</comment>
+  </data>
+  <data name="Feedback_Priority_Critical" xml:space="preserve">
+    <value>Critica</value>
+    <comment>Critical priority option</comment>
+  </data>
+  <data name="Feedback_EmailLabel" xml:space="preserve">
+    <value>Email (Opzionale)</value>
+    <comment>Label for optional email field</comment>
+  </data>
+  <data name="Feedback_EmailPlaceholder" xml:space="preserve">
+    <value>tua.email@esempio.com</value>
+    <comment>Placeholder text for email field</comment>
+  </data>
+  <data name="Feedback_NameLabel" xml:space="preserve">
+    <value>Nome (Opzionale)</value>
+    <comment>Label for optional name field</comment>
+  </data>
+  <data name="Feedback_NamePlaceholder" xml:space="preserve">
+    <value>Il tuo nome</value>
+    <comment>Placeholder text for name field</comment>
+  </data>
+  <data name="Feedback_IncludeScreenshot" xml:space="preserve">
+    <value>Includi Screenshot</value>
+    <comment>Label for include screenshot checkbox</comment>
+  </data>
+  <data name="Feedback_IncludeSystemInfo" xml:space="preserve">
+    <value>Includi Informazioni Sistema</value>
+    <comment>Label for include system info checkbox</comment>
+  </data>
+  <data name="Feedback_SubmitButton" xml:space="preserve">
+    <value>Invia Feedback</value>
+    <comment>Text for submit feedback button</comment>
+  </data>
+  <data name="Feedback_CancelButton" xml:space="preserve">
+    <value>Annulla</value>
+    <comment>Text for cancel feedback button</comment>
+  </data>
+  <data name="Feedback_ValidationSubjectRequired" xml:space="preserve">
+    <value>L'oggetto è obbligatorio</value>
+    <comment>Validation error for required subject field</comment>
+  </data>
+  <data name="Feedback_ValidationSubjectLength" xml:space="preserve">
+    <value>L'oggetto deve essere tra 5 e 200 caratteri</value>
+    <comment>Validation error for subject length</comment>
+  </data>
+  <data name="Feedback_ValidationMessageRequired" xml:space="preserve">
+    <value>Il messaggio è obbligatorio</value>
+    <comment>Validation error for required message field</comment>
+  </data>
+  <data name="Feedback_ValidationMessageLength" xml:space="preserve">
+    <value>Il messaggio deve essere tra 10 e 2000 caratteri</value>
+    <comment>Validation error for message length</comment>
+  </data>
+  <data name="Feedback_ValidationEmailInvalid" xml:space="preserve">
+    <value>Inserisci un indirizzo email valido</value>
+    <comment>Validation error for invalid email format</comment>
+  </data>
+  <data name="Feedback_ValidationTypeRequired" xml:space="preserve">
+    <value>Seleziona un tipo di feedback</value>
+    <comment>Validation error for required feedback type</comment>
+  </data>
+  <data name="Feedback_SubmissionSuccess" xml:space="preserve">
+    <value>Grazie! Il tuo feedback è stato inviato con successo.</value>
+    <comment>Success message after feedback submission</comment>
+  </data>
+  <data name="Feedback_SubmissionError" xml:space="preserve">
+    <value>Spiacenti, si è verificato un errore nell'invio del feedback. Riprova più tardi.</value>
+    <comment>Error message when feedback submission fails</comment>
+  </data>
+  <data name="Feedback_NetworkError" xml:space="preserve">
+    <value>Errore di rete. Controlla la connessione internet e riprova.</value>
+    <comment>Error message for network connectivity issues</comment>
+  </data>
+  <data name="Feedback_TakingScreenshot" xml:space="preserve">
+    <value>Catturando screenshot...</value>
+    <comment>Loading message while capturing screenshot</comment>
+  </data>
+  <data name="Feedback_ScreenshotError" xml:space="preserve">
+    <value>Impossibile catturare lo screenshot</value>
+    <comment>Error message when screenshot capture fails</comment>
+  </data>
+  <data name="Feedback_Submitting" xml:space="preserve">
+    <value>Invio feedback...</value>
+    <comment>Loading message while submitting feedback</comment>
+  </data>
+  <data name="Feedback_SystemInfoHelp" xml:space="preserve">
+    <value>Include versione app, piattaforma e informazioni dispositivo per aiutarci a risolvere problemi</value>
+    <comment>Help text explaining what system information includes</comment>
+  </data>
+  <data name="Feedback_ScreenshotHelp" xml:space="preserve">
+    <value>Cattura la schermata corrente per aiutarci a comprendere problemi visivi</value>
+    <comment>Help text explaining screenshot functionality</comment>
+  </data>
+  <data name="Common_UnsavedChanges" xml:space="preserve">
+    <value>Hai modifiche non salvate. Sei sicuro di volerle scartare?</value>
+    <comment>Warning message for unsaved changes</comment>
+  </data>
+  <data name="Common_Discard" xml:space="preserve">
+    <value>Scarta</value>
+    <comment>Button text to discard changes</comment>
+  </data>
+  <data name="Common_Capture" xml:space="preserve">
+    <value>Cattura</value>
+    <comment>Button text to capture screenshot</comment>
+  </data>
+  <data name="Common_Remove" xml:space="preserve">
+    <value>Rimuovi</value>
+    <comment>Button text to remove item</comment>
+  </data>
+  <data name="Settings_ContactInformation" xml:space="preserve">
+    <value>Informazioni di Contatto</value>
+    <comment>Section header for contact information</comment>
+  </data>
+  <data name="Settings_Options" xml:space="preserve">
+    <value>Opzioni</value>
+    <comment>Section header for options</comment>
+  </data>
+  <data name="Settings_SendFeedback" xml:space="preserve">
+    <value>Invia Feedback</value>
+    <comment>Button text to send feedback from settings</comment>
+  </data>
 </root>

@@ -31,6 +31,10 @@
             <converters:BoolToDropdownArrowConverter x:Key="BoolToDropdownArrowConverter" />
             <converters:PercentageConverter x:Key="PercentageConverter" />
             <converters:FilePathToImageSourceConverter x:Key="FilePathToImageSourceConverter" />
+            <converters:BoolToStringConverter x:Key="BoolToStringConverter" />
+            <converters:FeedbackTypeConverter x:Key="FeedbackTypeConverter" />
+            <converters:FeedbackPriorityConverter x:Key="FeedbackPriorityConverter" />
+            <converters:EqualsConverter x:Key="EqualsConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
