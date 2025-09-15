@@ -220,10 +220,13 @@ public partial class BigNumberViewModel : BaseViewModel
     
     // Mode Selection Properties
     [ObservableProperty]
-    private bool isManualVerificationSelected = true;
-    
+    private bool isManualVerificationSelected = false;
+
     [ObservableProperty]
-    private bool isAppVerificationSelected = false;
+    private bool isAppVerificationSelected = true;
+
+    [ObservableProperty]
+    private VerificationModePreference verificationMode = VerificationModePreference.InApp;
     
     // Legacy properties for backward compatibility
     public bool IsTraditionalModeSelected => IsManualVerificationSelected;
@@ -412,7 +415,12 @@ public partial class BigNumberViewModel : BaseViewModel
         ShowTimer = settings.ShowTimer;
         FontSizePreference = settings.FontSize;
         EnableInputVerification = settings.EnableInputVerification;
-        
+        VerificationMode = settings.VerificationMode;
+
+        // Ensure boolean flags are aligned with loaded verification mode
+        IsManualVerificationSelected = settings.VerificationMode == VerificationModePreference.Manual;
+        IsAppVerificationSelected = settings.VerificationMode == VerificationModePreference.InApp;
+
         IsContinuousSelected = !settings.ShowSeparated;
         IsSeparatedSelected = settings.ShowSeparated;
         
@@ -555,6 +563,23 @@ public partial class BigNumberViewModel : BaseViewModel
             // Clear input verification state when disabled
             ClearInputVerificationState();
         }
+    }
+
+    partial void OnVerificationModeChanged(VerificationModePreference value)
+    {
+        // Update the UI states based on the selected mode
+        IsManualVerificationSelected = value == VerificationModePreference.Manual;
+        IsAppVerificationSelected = value == VerificationModePreference.InApp;
+
+        // For App Verification, ensure input verification is enabled
+        if (value == VerificationModePreference.InApp)
+        {
+            EnableInputVerification = true;
+        }
+
+        _ = SaveSettingsAsync();
+        UpdateModeColors();
+        UpdateUIState();
     }
 
     partial void OnIsOnDemandVerificationActiveChanged(bool value)
@@ -1164,7 +1189,8 @@ public partial class BigNumberViewModel : BaseViewModel
             ShowSeparated = ShowSeparated,
             ShowTimer = ShowTimer,
             FontSize = FontSizePreference,
-            EnableInputVerification = EnableInputVerification
+            EnableInputVerification = EnableInputVerification,
+            VerificationMode = VerificationMode
         };
 
         await _settingsService.SaveSettingsAsync(settings);
@@ -1931,14 +1957,11 @@ public partial class BigNumberViewModel : BaseViewModel
     [RelayCommand]
     private void SelectManualVerification()
     {
-        IsManualVerificationSelected = true;
-        IsAppVerificationSelected = false;
+        VerificationMode = VerificationModePreference.Manual;
         // Reset verification flags when switching to manual verification mode
         IsOnDemandVerificationActive = false;
         IsVerificationPanelManuallyClosed = false;
-        UpdateModeColors();
         UpdateContextActions();
-        UpdateUIState(); // Ensure UI state is properly updated
     }
     
     // Legacy command for backward compatibility
@@ -1951,14 +1974,10 @@ public partial class BigNumberViewModel : BaseViewModel
     [RelayCommand]
     private void SelectAppVerification()
     {
-        IsManualVerificationSelected = false;
-        IsAppVerificationSelected = true;
-        EnableInputVerification = true; // App verification mode always uses input verification
+        VerificationMode = VerificationModePreference.InApp;
         IsOnDemandVerificationActive = false; // Reset this flag when switching modes
         IsVerificationPanelManuallyClosed = false; // Ensure panel isn't marked as closed
-        UpdateModeColors();
         UpdateContextActions();
-        UpdateUIState(); // Ensure UI state is properly updated
     }
     
     // Legacy command for backward compatibility

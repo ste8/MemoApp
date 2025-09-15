@@ -36,7 +36,7 @@
                         
                         <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
                             <!-- Manual Verification Mode Tab -->
-                            <Border Grid.Column="0"
+                            <Border Grid.Column="1"
                                     BackgroundColor="{Binding ManualVerificationBackgroundColor}"
                                     Stroke="{Binding ManualVerificationBorderColor}"
                                     StrokeThickness="2"
@@ -69,7 +69,7 @@
                             </Border>
                             
                             <!-- App Verification Mode Tab -->
-                            <Border Grid.Column="1"
+                            <Border Grid.Column="0"
                                     BackgroundColor="{Binding AppVerificationBackgroundColor}"
                                     Stroke="{Binding AppVerificationBorderColor}"
                                     StrokeThickness="2"

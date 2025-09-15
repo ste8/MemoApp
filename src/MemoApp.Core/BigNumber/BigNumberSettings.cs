@@ -8,4 +8,5 @@ public class BigNumberSettings
     public bool ShowTimer { get; set; } = false;
     public FontSizePreference FontSize { get; set; } = FontSizePreference.Auto;
     public bool EnableInputVerification { get; set; } = false;
+    public VerificationModePreference VerificationMode { get; set; } = VerificationModePreference.InApp;
 }

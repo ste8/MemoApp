@@ -9,6 +9,7 @@ public class BigNumberSettingsService : IBigNumberSettingsService
     private const string ShowSeparatedKey = "BigNumber_ShowSeparated";
     private const string ShowTimerKey = "BigNumber_ShowTimer";
     private const string EnableInputVerificationKey = "BigNumber_EnableInputVerification";
+    private const string VerificationModeKey = "BigNumber_VerificationMode";
 
     public Task<BigNumberSettings> LoadSettingsAsync()
     {
@@ -18,7 +19,8 @@ public class BigNumberSettingsService : IBigNumberSettingsService
             MaxPairValue = Preferences.Get(MaxPairValueKey, 99),
             ShowSeparated = Preferences.Get(ShowSeparatedKey, false),
             ShowTimer = Preferences.Get(ShowTimerKey, false),
-            EnableInputVerification = Preferences.Get(EnableInputVerificationKey, false)
+            EnableInputVerification = Preferences.Get(EnableInputVerificationKey, false),
+            VerificationMode = (VerificationModePreference)Preferences.Get(VerificationModeKey, (int)VerificationModePreference.InApp)
         };
 
         return Task.FromResult(settings);
@@ -31,6 +33,7 @@ public class BigNumberSettingsService : IBigNumberSettingsService
         Preferences.Set(ShowSeparatedKey, settings.ShowSeparated);
         Preferences.Set(ShowTimerKey, settings.ShowTimer);
         Preferences.Set(EnableInputVerificationKey, settings.EnableInputVerification);
+        Preferences.Set(VerificationModeKey, (int)settings.VerificationMode);
 
         return Task.CompletedTask;
     }
