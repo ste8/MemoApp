@@ -312,40 +312,6 @@
                                        InputTransparent="True" />
                             </Grid>
 
-                            <!-- Show Associations -->
-                            <Grid ColumnDefinitions="Auto,*" 
-                                  Padding="{OnIdiom Phone='0,8', Tablet='0,10', Desktop='0,6'}">
-                                
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding ToggleAssociationsCommand}" />
-                                </Grid.GestureRecognizers>
-                                
-                                <!-- iOS: Platform-native Switch -->
-                                <Switch Grid.Column="0"
-                                        IsToggled="{Binding ShowAssociations}"
-                                        OnColor="{StaticResource Primary}"
-                                        VerticalOptions="Center"
-                                        IsVisible="{OnPlatform iOS=True, Default=False}"
-                                        InputTransparent="True" />
-                                
-                                <!-- Android/Windows/macOS: Properly sized CheckBox -->
-                                <CheckBox Grid.Column="0"
-                                          IsChecked="{Binding ShowAssociations}"
-                                          Color="{StaticResource Primary}"
-                                          VerticalOptions="Center"
-                                          MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
-                                          MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
-                                          IsVisible="{OnPlatform iOS=False, Default=True}"
-                                          InputTransparent="True" />
-                                
-                                <!-- Optimally spaced label -->
-                                <Label Grid.Column="1"
-                                       Text="{localization:Localize BigNumber_ShowAssociations}"
-                                       FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                       VerticalOptions="Center"
-                                       Margin="{OnIdiom Phone='12,0,0,0', Tablet='16,0,0,0', Desktop='8,0,0,0'}"
-                                       InputTransparent="True" />
-                            </Grid>
                         </StackLayout>
                     </StackLayout>
                 </Frame>
@@ -1208,81 +1174,7 @@
                         </Border>
                     </StackLayout>
 
-                    <!-- Enhanced Celebration Results Actions - Positioned above associations for quick training access -->
-                    <StackLayout IsVisible="{Binding ShowSessionActions}"
-                                 Spacing="0"
-                                 Margin="{OnIdiom Phone='16,20,16,16', Tablet='24,24,24,20', Desktop='32,24,32,20'}">
-
-                        <!-- Primary Actions Container -->
-                        <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
-                                Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}"
-                                StrokeThickness="1"
-                                Padding="{OnIdiom Phone='16,20', Tablet='20,24', Desktop='24,28'}"
-                                StrokeShape="RoundRectangle 20">
-
-                            <StackLayout Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=16}">
-
-                                <!-- Mobile Layout: Stacked buttons for better touch targets -->
-                                <StackLayout IsVisible="{OnIdiom Phone=True, Tablet=False, Desktop=False}"
-                                             Spacing="12">
-
-                                    <!-- New Challenge Button (Primary action) -->
-                                    <Button Command="{Binding StartNewGameCommand}"
-                                            Text="{localization:Localize BigNumber_NewChallenge}"
-                                            Style="{StaticResource CelebrationNewChallengeButton}"
-                                            HorizontalOptions="FillAndExpand"
-                                            AutomationProperties.Name="{localization:Localize BigNumber_NewChallenge}"
-                                            AutomationProperties.HelpText="Start a new Big Number challenge with your current settings">
-                                        <Button.ImageSource>
-                                            <FontImageSource FontFamily="FontAwesomePro-Solid"
-                                                             Glyph="&#xf01e;"
-                                                             Size="18"
-                                                             Color="White" />
-                                        </Button.ImageSource>
-                                    </Button>
-
-                                    <!-- Share Button (Celebration action) -->
-                                    <components:ShareButtonComponent x:Name="CelebrationMobileShareButton"
-                                                                   HorizontalOptions="FillAndExpand" />
-                                </StackLayout>
-
-                                <!-- Tablet/Desktop Layout: Side-by-side for efficiency -->
-                                <Grid ColumnDefinitions="*,*"
-                                      ColumnSpacing="{OnIdiom Tablet=16, Desktop=20}"
-                                      IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}">
-
-                                    <!-- Share Button (Left - social reward first in visual flow) -->
-                                    <components:ShareButtonComponent x:Name="CelebrationDesktopShareButton"
-                                                                   Grid.Column="0" />
-
-                                    <!-- New Challenge Button (Right - natural next action) -->
-                                    <Button Grid.Column="1"
-                                            Command="{Binding StartNewGameCommand}"
-                                            Text="{localization:Localize BigNumber_NewChallenge}"
-                                            Style="{StaticResource CelebrationNewChallengeButton}"
-                                            AutomationProperties.Name="{localization:Localize BigNumber_NewChallenge}"
-                                            AutomationProperties.HelpText="Start a new Big Number challenge with your current settings">
-                                        <Button.ImageSource>
-                                            <FontImageSource FontFamily="FontAwesomePro-Solid"
-                                                             Glyph="&#xf01e;"
-                                                             Size="20"
-                                                             Color="White" />
-                                        </Button.ImageSource>
-                                    </Button>
-                                </Grid>
-
-                                <!-- Achievement Celebration Text -->
-                                <Label Text="{localization:Localize BigNumber_AchievementCelebration}"
-                                       FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=15}"
-                                       HorizontalOptions="Center"
-                                       HorizontalTextAlignment="Center"
-                                       TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
-                                       Margin="0,8,0,0" />
-                            </StackLayout>
-                        </Border>
-                    </StackLayout>
-
-                    <!-- Visual Associations Display - Positioned after completion actions for quick training UX -->
+                    <!-- Visual Associations Display - Collapsed by default for optimal UX -->
                     <Frame IsVisible="{Binding ShouldShowAssociationsFrame}"
                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
                            Padding="15"
@@ -1374,6 +1266,81 @@
 
                     </StackLayout>
                     </Frame>
+
+                    <!-- Enhanced Celebration Results Actions - Positioned after associations for educational-first UX -->
+                    <StackLayout IsVisible="{Binding ShowSessionActions}"
+                                 Spacing="0"
+                                 Margin="{OnIdiom Phone='16,20,16,16', Tablet='24,24,24,20', Desktop='32,24,32,20'}">
+
+                        <!-- Primary Actions Container -->
+                        <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
+                                Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}"
+                                StrokeThickness="1"
+                                Padding="{OnIdiom Phone='16,20', Tablet='20,24', Desktop='24,28'}"
+                                StrokeShape="RoundRectangle 20">
+
+                            <StackLayout Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=16}">
+
+                                <!-- Mobile Layout: Stacked buttons for better touch targets -->
+                                <StackLayout IsVisible="{OnIdiom Phone=True, Tablet=False, Desktop=False}"
+                                             Spacing="12">
+
+                                    <!-- New Challenge Button (Primary action) -->
+                                    <Button Command="{Binding StartNewGameCommand}"
+                                            Text="{localization:Localize BigNumber_NewChallenge}"
+                                            Style="{StaticResource CelebrationNewChallengeButton}"
+                                            HorizontalOptions="FillAndExpand"
+                                            AutomationProperties.Name="{localization:Localize BigNumber_NewChallenge}"
+                                            AutomationProperties.HelpText="Start a new Big Number challenge with your current settings">
+                                        <Button.ImageSource>
+                                            <FontImageSource FontFamily="FontAwesomePro-Solid"
+                                                             Glyph="&#xf01e;"
+                                                             Size="18"
+                                                             Color="White" />
+                                        </Button.ImageSource>
+                                    </Button>
+
+                                    <!-- Share Button (Celebration action) -->
+                                    <components:ShareButtonComponent x:Name="CelebrationMobileShareButton"
+                                                                   HorizontalOptions="FillAndExpand" />
+                                </StackLayout>
+
+                                <!-- Tablet/Desktop Layout: Side-by-side for efficiency -->
+                                <Grid ColumnDefinitions="*,*"
+                                      ColumnSpacing="{OnIdiom Tablet=16, Desktop=20}"
+                                      IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}">
+
+                                    <!-- Share Button (Left - social reward first in visual flow) -->
+                                    <components:ShareButtonComponent x:Name="CelebrationDesktopShareButton"
+                                                                   Grid.Column="0" />
+
+                                    <!-- New Challenge Button (Right - natural next action) -->
+                                    <Button Grid.Column="1"
+                                            Command="{Binding StartNewGameCommand}"
+                                            Text="{localization:Localize BigNumber_NewChallenge}"
+                                            Style="{StaticResource CelebrationNewChallengeButton}"
+                                            AutomationProperties.Name="{localization:Localize BigNumber_NewChallenge}"
+                                            AutomationProperties.HelpText="Start a new Big Number challenge with your current settings">
+                                        <Button.ImageSource>
+                                            <FontImageSource FontFamily="FontAwesomePro-Solid"
+                                                             Glyph="&#xf01e;"
+                                                             Size="20"
+                                                             Color="White" />
+                                        </Button.ImageSource>
+                                    </Button>
+                                </Grid>
+
+                                <!-- Achievement Celebration Text -->
+                                <Label Text="{localization:Localize BigNumber_AchievementCelebration}"
+                                       FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=15}"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                       Margin="0,8,0,0" />
+                            </StackLayout>
+                        </Border>
+                    </StackLayout>
+
                 </StackLayout>
             </StackLayout>
         </StackLayout>

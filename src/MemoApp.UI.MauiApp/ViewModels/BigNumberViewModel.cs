@@ -111,8 +111,6 @@ public partial class BigNumberViewModel : BaseViewModel
     [ObservableProperty]
     private double numberFontSize = 32;
 
-    [ObservableProperty]
-    private bool showAssociations = false;
 
     [ObservableProperty]
     private bool isAssociationsVisible = false;
@@ -357,7 +355,8 @@ public partial class BigNumberViewModel : BaseViewModel
 
     /// <summary>
     /// Determines if the associations frame should be visible
-    /// Shows during recall phase OR after verification results are displayed in app verification mode
+    /// Always shows during recall phase (manual verification) or after game completion (app verification)
+    /// Starts collapsed by default to prioritize results and actions
     /// </summary>
     public bool ShouldShowAssociationsFrame =>
         IsRecallPhase ||
@@ -412,7 +411,6 @@ public partial class BigNumberViewModel : BaseViewModel
         ShowSeparated = settings.ShowSeparated;
         ShowTimer = settings.ShowTimer;
         FontSizePreference = settings.FontSize;
-        ShowAssociations = settings.ShowAssociations;
         EnableInputVerification = settings.EnableInputVerification;
         
         IsContinuousSelected = !settings.ShowSeparated;
@@ -507,11 +505,6 @@ public partial class BigNumberViewModel : BaseViewModel
         IsTimerVisible = (value && CurrentPhase == GamePhase.Memorizing) || CurrentPhase == GamePhase.Stopped;
     }
 
-    partial void OnShowAssociationsChanged(bool value)
-    {
-        _ = SaveSettingsAsync();
-        UpdateAssociationsVisibility();
-    }
 
     partial void OnFontSizePreferenceChanged(FontSizePreference value)
     {
@@ -718,12 +711,10 @@ public partial class BigNumberViewModel : BaseViewModel
             _currentGame.IsNumberVisible = true;
             CurrentPhase = _currentGame.Phase;
             
-            // Initialize associations visibility based on settings
-            IsAssociationsVisible = ShowAssociations;
-            AssociationsToggleText = IsAssociationsVisible 
-                ? _localizationService.GetString("BigNumber_HideAssociations") 
-                : _localizationService.GetString("BigNumber_ShowAssociations_Button");
-            AssociationsToggleColor = IsAssociationsVisible ? Colors.Red : Colors.Green;
+            // Initialize associations collapsed by default for optimal UX
+            IsAssociationsVisible = false;
+            AssociationsToggleText = _localizationService.GetString("BigNumber_ShowAssociations_Button");
+            AssociationsToggleColor = Colors.Green;
             
             await _analyticsService.TrackEventAsync(AnalyticsEvents.NumberRecallStarted, new Dictionary<string, object>
             {
@@ -1173,17 +1164,10 @@ public partial class BigNumberViewModel : BaseViewModel
             ShowSeparated = ShowSeparated,
             ShowTimer = ShowTimer,
             FontSize = FontSizePreference,
-            ShowAssociations = ShowAssociations,
             EnableInputVerification = EnableInputVerification
         };
 
         await _settingsService.SaveSettingsAsync(settings);
-    }
-
-    [RelayCommand]
-    private void ToggleAssociations()
-    {
-        ShowAssociations = !ShowAssociations;
     }
 
     [RelayCommand]
@@ -1239,19 +1223,17 @@ public partial class BigNumberViewModel : BaseViewModel
         }
         else if (CurrentPhase == GamePhase.Stopped && ShowVerificationResults && (EnableInputVerification || IsOnDemandVerificationActive))
         {
-            // In-app verification mode: maintain associations visibility based on ShowAssociations setting
-            // Only after verification results are shown
-            IsAssociationsVisible = ShowAssociations;
+            // In-app verification mode: start with associations collapsed for clean UX
+            // User can expand if they want to review educational content
+            IsAssociationsVisible = false;
 
-            // Update toggle button text and color based on visibility
-            AssociationsToggleText = IsAssociationsVisible
-                ? _localizationService.GetString("BigNumber_HideAssociations")
-                : _localizationService.GetString("BigNumber_ShowAssociations_Button");
-            AssociationsToggleColor = IsAssociationsVisible ? Colors.Red : Colors.Green;
+            // Update toggle button to show option to expand
+            AssociationsToggleText = _localizationService.GetString("BigNumber_ShowAssociations_Button");
+            AssociationsToggleColor = Colors.Green;
 
-            if (ShowAssociations && NumberAssociations.Count == 0)
+            // Load associations in background so they're ready if user expands
+            if (NumberAssociations.Count == 0)
             {
-                // Load associations for in-app verification if they should be shown
                 _ = LoadNumberAssociationsAsync();
             }
         }
@@ -1550,15 +1532,14 @@ public partial class BigNumberViewModel : BaseViewModel
         IsOnDemandVerificationActive = true;
         IsVerificationPanelManuallyClosed = false; // Reset the manually closed flag when reopening
 
-        // Restore associations visibility based on ShowAssociations setting
-        if (ShowAssociations)
+        // Start with associations collapsed for optimal UX
+        // User can expand if they want to review
+        IsAssociationsVisible = false;
+
+        // Load associations in background so they're ready if user expands
+        if (NumberAssociations.Count == 0)
         {
-            IsAssociationsVisible = true;
-            // Load associations if needed
-            if (NumberAssociations.Count == 0)
-            {
-                _ = LoadNumberAssociationsAsync();
-            }
+            _ = LoadNumberAssociationsAsync();
         }
 
         UpdateUIState(); // This will hide the on-demand button and show input verification interface
