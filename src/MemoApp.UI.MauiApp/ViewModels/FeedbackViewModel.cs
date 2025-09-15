@@ -433,8 +433,7 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
         }
         else
         {
-            var emailValidator = new EmailAddressAttribute();
-            if (!emailValidator.IsValid(UserEmail))
+            if (!IsValidEmailAddress(UserEmail))
             {
                 EmailError = _localizationService.GetString("Feedback_ValidationEmailInvalid");
             }
@@ -443,6 +442,86 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
                 EmailError = null;
                 IsEmailValid = true;
             }
+        }
+    }
+
+    private static bool IsValidEmailAddress(string email)
+    {
+        try
+        {
+            // Trim whitespace
+            email = email.Trim();
+
+            // Basic format check: must contain @ and have parts before and after
+            if (!email.Contains('@') || email.StartsWith('@') || email.EndsWith('@'))
+                return false;
+
+            // Split into local and domain parts
+            var parts = email.Split('@');
+            if (parts.Length != 2)
+                return false;
+
+            var localPart = parts[0];
+            var domainPart = parts[1];
+
+            // Validate local part (before @)
+            if (string.IsNullOrWhiteSpace(localPart) || localPart.Length > 64)
+                return false;
+
+            // Local part cannot start or end with dot
+            if (localPart.StartsWith('.') || localPart.EndsWith('.'))
+                return false;
+
+            // Local part cannot have consecutive dots
+            if (localPart.Contains(".."))
+                return false;
+
+            // Validate domain part (after @)
+            if (string.IsNullOrWhiteSpace(domainPart) || domainPart.Length > 253)
+                return false;
+
+            // Domain must contain at least one dot and cannot start/end with dot or hyphen
+            if (!domainPart.Contains('.') || domainPart.StartsWith('.') || domainPart.EndsWith('.') ||
+                domainPart.StartsWith('-') || domainPart.EndsWith('-'))
+                return false;
+
+            // Split domain into labels (parts separated by dots)
+            var domainLabels = domainPart.Split('.');
+
+            // Each domain label must be valid
+            foreach (var label in domainLabels)
+            {
+                if (string.IsNullOrWhiteSpace(label) || label.Length > 63)
+                    return false;
+
+                // Label cannot start or end with hyphen
+                if (label.StartsWith('-') || label.EndsWith('-'))
+                    return false;
+
+                // Label must contain only letters, digits, and hyphens
+                foreach (char c in label)
+                {
+                    if (!char.IsLetterOrDigit(c) && c != '-')
+                        return false;
+                }
+            }
+
+            // Top-level domain (last label) must be at least 2 characters and contain only letters
+            var tld = domainLabels[^1];
+            if (tld.Length < 2)
+                return false;
+
+            foreach (char c in tld)
+            {
+                if (!char.IsLetter(c))
+                    return false;
+            }
+
+            return true;
+        }
+        catch
+        {
+            return false;
         }
     }
 
