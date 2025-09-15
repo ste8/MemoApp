@@ -165,39 +165,6 @@
                                    FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
                                    TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
                         </StackLayout>
-                        
-                        <!-- Display Format -->
-                        <StackLayout Spacing="8">
-                            <Label Text="{localization:Localize BigNumber_DisplayFormat}"
-                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                   FontAttributes="Bold" />
-                            
-                            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
-                                <RadioButton Grid.Column="0"
-                                             Content="{localization:Localize BigNumber_Continuous}"
-                                             IsChecked="{Binding IsContinuousSelected}"
-                                             GroupName="DisplayFormat" />
-                                
-                                <RadioButton Grid.Column="1"
-                                             Content="{localization:Localize BigNumber_Separated}"
-                                             IsChecked="{Binding IsSeparatedSelected}"
-                                             GroupName="DisplayFormat" />
-                            </Grid>
-                            
-                            <!-- Format Example -->
-                            <StackLayout Orientation="Horizontal" Spacing="6" Margin="0,0,0,0">
-                                <Label Text="{localization:Localize BigNumber_ExampleLabel}"
-                                       FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}"
-                                       TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
-                                       VerticalOptions="Center" />
-                                <Label Text="{Binding CurrentFormatExample}"
-                                       FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                       FontFamily="Courier"
-                                       TextColor="{StaticResource Primary}"
-                                       FontAttributes="Bold"
-                                       VerticalOptions="Center" />
-                            </StackLayout>
-                        </StackLayout>
                     </StackLayout>
                 </Frame>
                 
@@ -275,6 +242,39 @@
                                 <Label Text="{localization:Localize BigNumber_MaxPairHelp}"
                                        FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
                                        TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
+                            </StackLayout>
+
+                            <!-- Display Format -->
+                            <StackLayout Spacing="8">
+                                <Label Text="{localization:Localize BigNumber_DisplayFormat}"
+                                       FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                       FontAttributes="Bold" />
+
+                                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                    <RadioButton Grid.Column="0"
+                                                 Content="{localization:Localize BigNumber_Continuous}"
+                                                 IsChecked="{Binding IsContinuousSelected}"
+                                                 GroupName="DisplayFormat" />
+
+                                    <RadioButton Grid.Column="1"
+                                                 Content="{localization:Localize BigNumber_Separated}"
+                                                 IsChecked="{Binding IsSeparatedSelected}"
+                                                 GroupName="DisplayFormat" />
+                                </Grid>
+
+                                <!-- Format Example -->
+                                <StackLayout Orientation="Horizontal" Spacing="6" Margin="0,0,0,0">
+                                    <Label Text="{localization:Localize BigNumber_ExampleLabel}"
+                                           FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                           VerticalOptions="Center" />
+                                    <Label Text="{Binding CurrentFormatExample}"
+                                           FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                           FontFamily="Courier"
+                                           TextColor="{StaticResource Primary}"
+                                           FontAttributes="Bold"
+                                           VerticalOptions="Center" />
+                                </StackLayout>
                             </StackLayout>
 
                             <!-- Show Timer -->
