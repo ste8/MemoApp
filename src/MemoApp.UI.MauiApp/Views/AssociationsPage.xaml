@@ -46,12 +46,13 @@
         </StackLayout>
         
         <!-- Main content -->
-        <ScrollView IsVisible="{Binding HasPackAvailable}"
-                   Padding="{OnPlatform iOS='20,16,20,20', Android='20,16,20,20', Default='20'}">
-            <StackLayout Spacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
+        <Grid IsVisible="{Binding HasPackAvailable}"
+              RowDefinitions="Auto,Auto,Auto,*"
+              Padding="{OnPlatform iOS='20,16,20,20', Android='20,16,20,20', Default='20'}"
+              RowSpacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
                 
                 <!-- Enhanced Contextual Header - Primary page identifier -->
-                <StackLayout Spacing="8" Margin="0,0,0,16">
+                <StackLayout Grid.Row="0" Spacing="8" Margin="0,0,0,16">
                     <Label Text="{localization:Localize Associations_ContextualHeader}" 
                            Style="{StaticResource ContextualHeaderStyle}"
                            HorizontalOptions="Center"
@@ -60,7 +61,8 @@
             
                 <!-- Categories selector with enhanced visual design -->
                 <!-- Mobile: Modern card-based picker design -->
-                <Frame Style="{StaticResource ModernCardStyle}"
+                <Frame Grid.Row="1"
+                       Style="{StaticResource ModernCardStyle}"
                        IsVisible="{OnPlatform iOS=True, Android=True, Default=False}">
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                         <Label Grid.Column="0"
@@ -115,7 +117,8 @@
                 </Frame>
             
                 <!-- Debug info - only visible in DEBUG builds -->
-                <Label FontSize="Small"
+                <Label Grid.Row="2"
+                       FontSize="Small"
                        TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
                        HorizontalOptions="Start"
                        Margin="0,0,0,8"
@@ -129,12 +132,15 @@
                 </Label>
                 
                 <!-- Associations grid with improved mobile layout -->
-                <CollectionView ItemsSource="{Binding Associations}"
+                <CollectionView Grid.Row="3"
+                              ItemsSource="{Binding Associations}"
                               SelectionMode="None"
-                              RemainingItemsThreshold="10"
+                              RemainingItemsThreshold="5"
                               RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
                               BackgroundColor="Transparent"
-                              MinimumHeightRequest="200">
+                              VerticalOptions="FillAndExpand"
+                              HorizontalOptions="FillAndExpand"
+                              VerticalScrollBarVisibility="Default">
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical" 
                                        Span="{OnPlatform iOS=1, Android=1, Default=2, WinUI=3, MacCatalyst=3}" 
@@ -241,8 +247,7 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-            </StackLayout>
-        </ScrollView>
+        </Grid>
         </Grid>
         
         <!-- AdMob Banner - Shows at the bottom when ads are enabled -->
