@@ -1127,6 +1127,37 @@
         </Setter>
     </Style>
 
+    <!-- REVOLUTIONARY NEURAL GALAXY DESIGN RESOURCES -->
+
+    <!-- Neural Background Gradient -->
+    <LinearGradientBrush x:Key="NeuralGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#000814" Offset="0.0" />
+        <GradientStop Color="#001D3D" Offset="0.5" />
+        <GradientStop Color="#003566" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- Glassmorphic Effect Brush -->
+    <LinearGradientBrush x:Key="GlassmorphicBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#0D001D3D" Offset="0.0" />
+        <GradientStop Color="#1A003566" Offset="0.5" />
+        <GradientStop Color="#0D001D3D" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- Holographic Card Brush -->
+    <LinearGradientBrush x:Key="HolographicCardBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#1A001D3D" Offset="0.0" />
+        <GradientStop Color="#26003566" Offset="0.3" />
+        <GradientStop Color="#1A001D3D" Offset="0.7" />
+        <GradientStop Color="#0D000814" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- Neural Info Card Brush -->
+    <RadialGradientBrush x:Key="NeuralInfoCardBrush" Center="0.5,0.5">
+        <GradientStop Color="#26003566" Offset="0" />
+        <GradientStop Color="#1A001D3D" Offset="0.5" />
+        <GradientStop Color="#0D000814" Offset="1" />
+    </RadialGradientBrush>
+
     <!-- Primary Card Background - for gradient backgrounds -->
     <LinearGradientBrush x:Key="PrimaryCardGradientBrush" StartPoint="0,0" EndPoint="1,1">
         <GradientStop Color="{StaticResource PrimaryGradientStart}" Offset="0" />

@@ -6,37 +6,134 @@
              xmlns:views="clr-namespace:MemoApp.UI.MauiApp.Views"
              x:Class="MemoApp.UI.MauiApp.Views.MainPage"
              x:DataType="viewmodels:MainViewModel"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="#000814">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
-        <!-- Update Notification Banner at the top -->
-        <views:UpdateNotificationBanner Grid.Row="0" />
-        
-        <ScrollView Grid.Row="1" Padding="{OnPlatform iOS='20,16,20,20', Android='20,16,20,20', Default='20'}">
-            <StackLayout Spacing="{OnIdiom Phone=30, Tablet=35, Desktop=40}">
-                
-                <!-- Welcome Header - Enhanced -->
-                <StackLayout Spacing="12">
-                    <Label Text="{localization:Localize MainPage_Welcome}" 
-                           Style="{StaticResource DisplayMedium}"
-                           HorizontalOptions="Center"
-                           Margin="0,8,0,4" />
-                    
-                    <Label Text="{localization:Localize MainPage_WelcomeSubtitle}" 
-                           Style="{StaticResource BodyLarge}"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                           Opacity="0.8"
-                           Margin="0,0,0,24" />
-                </StackLayout>
 
-                <!-- Quick Navigation Cards -->
-                <Grid ColumnSpacing="15" RowSpacing="15">
+        <!-- Neural Network Background Layer -->
+        <AbsoluteLayout Grid.RowSpan="2" IsClippedToBounds="True">
+            <!-- Animated Gradient Background -->
+            <BoxView AbsoluteLayout.LayoutBounds="0,0,1,1"
+                     AbsoluteLayout.LayoutFlags="All"
+                     Background="{StaticResource NeuralGradientBrush}">
+                <BoxView.Behaviors>
+                    <views:GradientAnimationBehavior />
+                </BoxView.Behaviors>
+            </BoxView>
+
+            <!-- Synaptic Network Animation -->
+            <Grid AbsoluteLayout.LayoutBounds="0,0,1,1"
+                  AbsoluteLayout.LayoutFlags="All"
+                  Opacity="0.3">
+                <views:SynapticNetworkView />
+            </Grid>
+
+            <!-- Floating Memory Particles -->
+            <Grid AbsoluteLayout.LayoutBounds="0,0,1,1"
+                  AbsoluteLayout.LayoutFlags="All">
+                <views:ParticleFieldView ParticleCount="30" />
+            </Grid>
+        </AbsoluteLayout>
+
+        <!-- Update Notification Banner -->
+        <views:UpdateNotificationBanner Grid.Row="0" />
+
+        <ScrollView Grid.Row="1"
+                    VerticalScrollBarVisibility="Never"
+                    HorizontalScrollBarVisibility="Never">
+            <Grid RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="100" />
+                </Grid.RowDefinitions>
+
+                <!-- Hero Section with Holographic Title -->
+                <Grid Grid.Row="0"
+                      HeightRequest="{OnIdiom Phone=280, Tablet=350, Desktop=400}"
+                      Margin="0,20,0,0">
+
+                    <!-- Holographic Title Container -->
+                    <Border StrokeThickness="0"
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
+                        <Border.Shadow>
+                            <Shadow Brush="#00D9FF"
+                                    Opacity="0.8"
+                                    Radius="40"
+                                    Offset="0,0" />
+                        </Border.Shadow>
+
+                        <Grid>
+                            <!-- Glowing Background Orb -->
+                            <Ellipse WidthRequest="200"
+                                     HeightRequest="200"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center"
+                                     Opacity="0.15">
+                                <Ellipse.Fill>
+                                    <RadialGradientBrush Center="0.5,0.5">
+                                        <GradientStop Color="#00D9FF" Offset="0" />
+                                        <GradientStop Color="#001D3D" Offset="1" />
+                                    </RadialGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+
+                            <!-- Main Title with Holographic Effect -->
+                            <StackLayout Spacing="8"
+                                         VerticalOptions="Center"
+                                         HorizontalOptions="Center">
+                                <Label Text="{localization:Localize MainPage_Welcome}"
+                                       FontSize="{OnIdiom Phone=42, Tablet=48, Desktop=54}"
+                                       FontFamily="{OnPlatform iOS='SF Pro Display', Android='sans-serif-light', Default='Segoe UI Light'}"
+                                       FontAttributes="Bold"
+                                       TextColor="#FFFFFF"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center">
+                                    <Label.Shadow>
+                                        <Shadow Brush="#00D9FF"
+                                                Opacity="0.9"
+                                                Radius="3"
+                                                Offset="0,0" />
+                                    </Label.Shadow>
+                                    <Label.Behaviors>
+                                        <views:HolographicTextBehavior />
+                                    </Label.Behaviors>
+                                </Label>
+
+                                <!-- Animated Subtitle -->
+                                <Label Text="{localization:Localize MainPage_WelcomeSubtitle}"
+                                       FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                       FontFamily="{OnPlatform iOS='SF Pro Text', Android='sans-serif', Default='Segoe UI'}"
+                                       TextColor="#B8E0FF"
+                                       Opacity="0.9"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center"
+                                       Margin="0,4,0,0">
+                                    <Label.Behaviors>
+                                        <views:FadeInAnimationBehavior Delay="500" />
+                                    </Label.Behaviors>
+                                </Label>
+
+                                <!-- Pulse Indicator -->
+                                <Grid HeightRequest="30" Margin="0,12,0,0">
+                                    <views:BrainWavePulse />
+                                </Grid>
+                            </StackLayout>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!-- Neural Feature Orbs Section -->
+                <Grid Grid.Row="1"
+                      Margin="{OnIdiom Phone='20,0,20,40', Tablet='40,0,40,50', Desktop='60,0,60,60'}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="{OnIdiom Phone=0, Tablet='*', Desktop='*'}" />
@@ -46,133 +143,393 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <!-- Flash Numbers Card - Primary Action Card -->
-                    <Border Grid.Column="0" Grid.Row="0"
-                            Style="{StaticResource PrimaryActionCardPrimaryStyle}"
-                            Background="{StaticResource PrimaryCardGradientBrush}"
-                            AutomationProperties.IsInAccessibleTree="True"
-                            AutomationProperties.Name="{localization:Localize Tab_FlashNumbers}"
-                            AutomationProperties.HelpText="{localization:Localize MainPage_FlashNumbersDescription}"
-                            SemanticProperties.Description="Button"
-                            SemanticProperties.Hint="Double tap to start Flash Numbers training">
+                    <!-- Flash Numbers Neural Orb -->
+                    <Grid Grid.Column="0" Grid.Row="0"
+                          Margin="{OnIdiom Phone='10', Tablet='15', Desktop='20'}">
+                        <Grid.Behaviors>
+                            <views:FloatingAnimationBehavior FloatHeight="10" Duration="3000" />
+                        </Grid.Behaviors>
 
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding NavigateToFlashNumbersCommand}" />
-                        </Border.GestureRecognizers>
+                        <!-- Glassmorphic Container -->
+                        <Border HeightRequest="{OnIdiom Phone=200, Tablet=240, Desktop=280}"
+                                WidthRequest="{OnIdiom Phone=200, Tablet=240, Desktop=280}"
+                                StrokeThickness="1"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                Background="{StaticResource GlassmorphicBrush}"
+                                AutomationProperties.IsInAccessibleTree="True"
+                                AutomationProperties.Name="{localization:Localize Tab_FlashNumbers}"
+                                AutomationProperties.HelpText="{localization:Localize MainPage_FlashNumbersDescription}"
+                                SemanticProperties.Description="Button"
+                                SemanticProperties.Hint="Double tap to start Flash Numbers training">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="{OnIdiom Phone=100, Tablet=120, Desktop=140}" />
+                            </Border.StrokeShape>
+                            <Border.Stroke>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#4400D9FF" Offset="0" />
+                                    <GradientStop Color="#8800D9FF" Offset="0.5" />
+                                    <GradientStop Color="#4400D9FF" Offset="1" />
+                                </LinearGradientBrush>
+                            </Border.Stroke>
+                            <Border.Shadow>
+                                <Shadow Brush="#00D9FF"
+                                        Opacity="0.4"
+                                        Radius="30"
+                                        Offset="0,0" />
+                            </Border.Shadow>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NavigateToFlashNumbersCommand}" />
+                            </Border.GestureRecognizers>
+                            <Border.Behaviors>
+                                <views:PulseOnHoverBehavior />
+                                <views:RippleEffectBehavior />
+                            </Border.Behaviors>
 
-                        <Grid Style="{StaticResource PrimaryCardContentStyle}">
-                            <!-- Icon -->
-                            <Label Grid.Row="0"
-                                   Text="{StaticResource Icon_FlashNumbers}"
-                                   Style="{StaticResource PrimaryCardIconStyle}" />
+                            <Grid>
+                                <!-- Inner Glow Effect -->
+                                <Ellipse WidthRequest="{OnIdiom Phone=160, Tablet=200, Desktop=240}"
+                                         HeightRequest="{OnIdiom Phone=160, Tablet=200, Desktop=240}"
+                                         HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         Opacity="0.2">
+                                    <Ellipse.Fill>
+                                        <RadialGradientBrush Center="0.5,0.5">
+                                            <GradientStop Color="#00D9FF" Offset="0" />
+                                            <GradientStop Color="Transparent" Offset="1" />
+                                        </RadialGradientBrush>
+                                    </Ellipse.Fill>
+                                </Ellipse>
 
-                            <!-- Title -->
-                            <Label Grid.Row="1"
-                                   Text="{localization:Localize Tab_FlashNumbers}"
-                                   Style="{StaticResource PrimaryCardTitleStyle}" />
+                                <!-- Content Stack -->
+                                <StackLayout VerticalOptions="Center"
+                                             HorizontalOptions="Center"
+                                             Spacing="8">
+                                    <!-- Animated Icon -->
+                                    <Border WidthRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
+                                            HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
+                                            StrokeThickness="0"
+                                            BackgroundColor="#1A00D9FF"
+                                            HorizontalOptions="Center">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="{OnIdiom Phone=30, Tablet=35, Desktop=40}" />
+                                        </Border.StrokeShape>
+                                        <Border.Behaviors>
+                                            <views:RotateAnimationBehavior Duration="20000" />
+                                        </Border.Behaviors>
+                                        <Label Text="{StaticResource Icon_FlashNumbers}"
+                                               FontSize="{OnIdiom Phone=32, Tablet=38, Desktop=44}"
+                                               TextColor="#00D9FF"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center" />
+                                    </Border>
 
-                            <!-- Description -->
-                            <Label Grid.Row="2"
-                                   Text="{localization:Localize MainPage_FlashNumbersDescription}"
-                                   Style="{StaticResource PrimaryCardDescriptionStyle}" />
-                        </Grid>
-                    </Border>
+                                    <!-- Title -->
+                                    <Label Text="{localization:Localize Tab_FlashNumbers}"
+                                           FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                           FontFamily="{OnPlatform iOS='SF Pro Display', Android='sans-serif-medium', Default='Segoe UI Semibold'}"
+                                           FontAttributes="Bold"
+                                           TextColor="#FFFFFF"
+                                           HorizontalOptions="Center" />
 
-                    <!-- Big Number Card - Primary Action Card -->
-                    <Border Grid.Column="{OnIdiom Phone=0, Tablet=1, Desktop=1}"
-                            Grid.Row="{OnIdiom Phone=1, Tablet=0, Desktop=0}"
-                            Style="{StaticResource PrimaryActionCardSecondaryStyle}"
-                            Background="{StaticResource SecondaryCardGradientBrush}"
-                            AutomationProperties.IsInAccessibleTree="True"
-                            AutomationProperties.Name="{localization:Localize BigNumber_Title}"
-                            AutomationProperties.HelpText="{localization:Localize MainPage_BigNumberDescription}"
-                            SemanticProperties.Description="Button"
-                            SemanticProperties.Hint="Double tap to start Big Number challenge">
+                                    <!-- Description -->
+                                    <Label Text="{localization:Localize MainPage_FlashNumbersDescription}"
+                                           FontSize="{OnIdiom Phone=12, Tablet=13, Desktop=14}"
+                                           FontFamily="{OnPlatform iOS='SF Pro Text', Android='sans-serif', Default='Segoe UI'}"
+                                           TextColor="#B8E0FF"
+                                           Opacity="0.8"
+                                           HorizontalOptions="Center"
+                                           HorizontalTextAlignment="Center"
+                                           MaximumWidthRequest="{OnIdiom Phone=150, Tablet=180, Desktop=200}" />
+                                </StackLayout>
+                            </Grid>
+                        </Border>
+                    </Grid>
 
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding NavigateToBigNumberCommand}" />
-                        </Border.GestureRecognizers>
+                    <!-- Big Number Neural Orb -->
+                    <Grid Grid.Column="{OnIdiom Phone=0, Tablet=1, Desktop=1}"
+                          Grid.Row="{OnIdiom Phone=1, Tablet=0, Desktop=0}"
+                          Margin="{OnIdiom Phone='10', Tablet='15', Desktop='20'}">
+                        <Grid.Behaviors>
+                            <views:FloatingAnimationBehavior FloatHeight="10" Duration="3500" Delay="500" />
+                        </Grid.Behaviors>
 
-                        <Grid Style="{StaticResource PrimaryCardContentStyle}">
-                            <!-- Icon -->
-                            <Label Grid.Row="0"
-                                   Text="{StaticResource Icon_Statistics}"
-                                   Style="{StaticResource PrimaryCardIconStyle}" />
+                        <!-- Glassmorphic Container -->
+                        <Border HeightRequest="{OnIdiom Phone=200, Tablet=240, Desktop=280}"
+                                WidthRequest="{OnIdiom Phone=200, Tablet=240, Desktop=280}"
+                                StrokeThickness="1"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                Background="{StaticResource GlassmorphicBrush}"
+                                AutomationProperties.IsInAccessibleTree="True"
+                                AutomationProperties.Name="{localization:Localize BigNumber_Title}"
+                                AutomationProperties.HelpText="{localization:Localize MainPage_BigNumberDescription}"
+                                SemanticProperties.Description="Button"
+                                SemanticProperties.Hint="Double tap to start Big Number challenge">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="{OnIdiom Phone=100, Tablet=120, Desktop=140}" />
+                            </Border.StrokeShape>
+                            <Border.Stroke>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#44FF6B00" Offset="0" />
+                                    <GradientStop Color="#88FF6B00" Offset="0.5" />
+                                    <GradientStop Color="#44FF6B00" Offset="1" />
+                                </LinearGradientBrush>
+                            </Border.Stroke>
+                            <Border.Shadow>
+                                <Shadow Brush="#FF6B00"
+                                        Opacity="0.4"
+                                        Radius="30"
+                                        Offset="0,0" />
+                            </Border.Shadow>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NavigateToBigNumberCommand}" />
+                            </Border.GestureRecognizers>
+                            <Border.Behaviors>
+                                <views:PulseOnHoverBehavior />
+                                <views:RippleEffectBehavior />
+                            </Border.Behaviors>
 
-                            <!-- Title -->
-                            <Label Grid.Row="1"
-                                   Text="{localization:Localize BigNumber_Title}"
-                                   Style="{StaticResource PrimaryCardTitleStyle}" />
+                            <Grid>
+                                <!-- Inner Glow Effect -->
+                                <Ellipse WidthRequest="{OnIdiom Phone=160, Tablet=200, Desktop=240}"
+                                         HeightRequest="{OnIdiom Phone=160, Tablet=200, Desktop=240}"
+                                         HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         Opacity="0.2">
+                                    <Ellipse.Fill>
+                                        <RadialGradientBrush Center="0.5,0.5">
+                                            <GradientStop Color="#FF6B00" Offset="0" />
+                                            <GradientStop Color="Transparent" Offset="1" />
+                                        </RadialGradientBrush>
+                                    </Ellipse.Fill>
+                                </Ellipse>
 
-                            <!-- Description -->
-                            <Label Grid.Row="2"
-                                   Text="{localization:Localize MainPage_BigNumberDescription}"
-                                   Style="{StaticResource PrimaryCardDescriptionStyle}" />
-                        </Grid>
-                    </Border>
+                                <!-- Content Stack -->
+                                <StackLayout VerticalOptions="Center"
+                                             HorizontalOptions="Center"
+                                             Spacing="8">
+                                    <!-- Animated Icon -->
+                                    <Border WidthRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
+                                            HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
+                                            StrokeThickness="0"
+                                            BackgroundColor="#1AFF6B00"
+                                            HorizontalOptions="Center">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="{OnIdiom Phone=30, Tablet=35, Desktop=40}" />
+                                        </Border.StrokeShape>
+                                        <Border.Behaviors>
+                                            <views:RotateAnimationBehavior Duration="25000" Direction="CounterClockwise" />
+                                        </Border.Behaviors>
+                                        <Label Text="{StaticResource Icon_Statistics}"
+                                               FontSize="{OnIdiom Phone=32, Tablet=38, Desktop=44}"
+                                               TextColor="#FF6B00"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center" />
+                                    </Border>
+
+                                    <!-- Title -->
+                                    <Label Text="{localization:Localize BigNumber_Title}"
+                                           FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                           FontFamily="{OnPlatform iOS='SF Pro Display', Android='sans-serif-medium', Default='Segoe UI Semibold'}"
+                                           FontAttributes="Bold"
+                                           TextColor="#FFFFFF"
+                                           HorizontalOptions="Center" />
+
+                                    <!-- Description -->
+                                    <Label Text="{localization:Localize MainPage_BigNumberDescription}"
+                                           FontSize="{OnIdiom Phone=12, Tablet=13, Desktop=14}"
+                                           FontFamily="{OnPlatform iOS='SF Pro Text', Android='sans-serif', Default='Segoe UI'}"
+                                           TextColor="#FFD4B8"
+                                           Opacity="0.8"
+                                           HorizontalOptions="Center"
+                                           HorizontalTextAlignment="Center"
+                                           MaximumWidthRequest="{OnIdiom Phone=150, Tablet=180, Desktop=200}" />
+                                </StackLayout>
+                            </Grid>
+                        </Border>
+                    </Grid>
                 </Grid>
 
-                <!-- Feedback Invitation Card - Secondary Action Card -->
-                <Border Style="{StaticResource SecondaryActionCardStyle}"
-                        AutomationProperties.IsInAccessibleTree="True"
-                        AutomationProperties.Name="{localization:Localize MainPage_FeedbackTitle}"
-                        AutomationProperties.HelpText="{localization:Localize MainPage_FeedbackSubtitle}"
-                        SemanticProperties.Description="Button"
-                        SemanticProperties.Hint="Double tap to provide feedback">
+                <!-- Secondary Actions Section -->
+                <StackLayout Grid.Row="2"
+                             Spacing="20"
+                             Margin="{OnIdiom Phone='20,0,20,30', Tablet='40,0,40,40', Desktop='60,0,60,50'}">
 
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding NavigateToFeedbackCommand}" />
-                    </Border.GestureRecognizers>
+                    <!-- Holographic Feedback Card -->
+                    <Border HeightRequest="{OnIdiom Phone=80, Tablet=90, Desktop=100}"
+                            StrokeThickness="1"
+                            Background="{StaticResource HolographicCardBrush}"
+                            AutomationProperties.IsInAccessibleTree="True"
+                            AutomationProperties.Name="{localization:Localize MainPage_FeedbackTitle}"
+                            AutomationProperties.HelpText="{localization:Localize MainPage_FeedbackSubtitle}"
+                            SemanticProperties.Description="Button"
+                            SemanticProperties.Hint="Double tap to provide feedback">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="20" />
+                        </Border.StrokeShape>
+                        <Border.Stroke>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#2200D9FF" Offset="0" />
+                                <GradientStop Color="#4400D9FF" Offset="0.5" />
+                                <GradientStop Color="#2200D9FF" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Stroke>
+                        <Border.Shadow>
+                            <Shadow Brush="#00D9FF"
+                                    Opacity="0.2"
+                                    Radius="15"
+                                    Offset="0,5" />
+                        </Border.Shadow>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigateToFeedbackCommand}" />
+                        </Border.GestureRecognizers>
+                        <Border.Behaviors>
+                            <views:GlowOnHoverBehavior />
+                        </Border.Behaviors>
 
-                    <Grid Style="{StaticResource SecondaryCardContentStyle}">
-                        <!-- Enhanced Icon -->
-                        <Border Grid.Column="0"
-                                Style="{StaticResource IconBadgeStyle}">
-                            <Label Text="{StaticResource Icon_Info}"
-                                   Style="{StaticResource IconBadgeContentStyle}" />
-                        </Border>
+                        <Grid ColumnDefinitions="Auto,*,Auto"
+                              ColumnSpacing="15"
+                              Padding="20,0">
+                            <!-- Icon with Glow -->
+                            <Border Grid.Column="0"
+                                    WidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}"
+                                    HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}"
+                                    StrokeThickness="0"
+                                    BackgroundColor="#1A00D9FF"
+                                    VerticalOptions="Center">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="{OnIdiom Phone=22, Tablet=24, Desktop=26}" />
+                                </Border.StrokeShape>
+                                <Label Text="{StaticResource Icon_Info}"
+                                       FontSize="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
+                                       TextColor="#00D9FF"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Border>
 
-                        <!-- Content -->
-                        <StackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
-                            <Label Text="{localization:Localize MainPage_FeedbackTitle}"
-                                   Style="{StaticResource SecondaryCardTitleStyle}" />
-                            <Label Text="{localization:Localize MainPage_FeedbackSubtitle}"
-                                   Style="{StaticResource SecondaryCardSubtitleStyle}" />
-                        </StackLayout>
+                            <!-- Content -->
+                            <StackLayout Grid.Column="1"
+                                         Spacing="2"
+                                         VerticalOptions="Center">
+                                <Label Text="{localization:Localize MainPage_FeedbackTitle}"
+                                       FontSize="{OnIdiom Phone=16, Tablet=17, Desktop=18}"
+                                       FontFamily="{OnPlatform iOS='SF Pro Display', Android='sans-serif-medium', Default='Segoe UI Semibold'}"
+                                       FontAttributes="Bold"
+                                       TextColor="#FFFFFF" />
+                                <Label Text="{localization:Localize MainPage_FeedbackSubtitle}"
+                                       FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=15}"
+                                       FontFamily="{OnPlatform iOS='SF Pro Text', Android='sans-serif', Default='Segoe UI'}"
+                                       TextColor="#B8E0FF"
+                                       Opacity="0.8" />
+                            </StackLayout>
 
-                        <!-- Enhanced Arrow -->
-                        <Border Grid.Column="2"
-                                Style="{StaticResource ArrowBadgeStyle}">
-                            <Label Style="{StaticResource ArrowBadgeContentStyle}" />
-                        </Border>
-                    </Grid>
-                </Border>
+                            <!-- Animated Arrow -->
+                            <Border Grid.Column="2"
+                                    WidthRequest="{OnIdiom Phone=32, Tablet=36, Desktop=40}"
+                                    HeightRequest="{OnIdiom Phone=32, Tablet=36, Desktop=40}"
+                                    StrokeThickness="0"
+                                    BackgroundColor="Transparent"
+                                    VerticalOptions="Center">
+                                <Border.Behaviors>
+                                    <views:ArrowPulseAnimationBehavior />
+                                </Border.Behaviors>
+                                <Label Text="→"
+                                       FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                       TextColor="#00D9FF"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Border>
+                        </Grid>
+                    </Border>
 
-                <!-- Help Section - Tertiary Information Card -->
-                <Border Style="{StaticResource TertiaryInfoCardStyle}">
-                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="16">
-                        <!-- Icon -->
-                        <Label Grid.Row="0"
-                               Text="{StaticResource Icon_Info}"
-                               Style="{StaticResource TertiaryCardIconStyle}" />
+                    <!-- Help Section with Neural Design -->
+                    <Border StrokeThickness="0"
+                            Background="{StaticResource NeuralInfoCardBrush}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="24" />
+                        </Border.StrokeShape>
+                        <Border.Shadow>
+                            <Shadow Brush="#001D3D"
+                                    Opacity="0.3"
+                                    Radius="20"
+                                    Offset="0,8" />
+                        </Border.Shadow>
 
-                        <!-- Title -->
-                        <Label Grid.Row="1"
-                               Text="{localization:Localize MainPage_GetStarted}"
-                               Style="{StaticResource TertiaryCardTitleStyle}" />
+                        <Grid Padding="{OnIdiom Phone='24', Tablet='28', Desktop='32'}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
 
-                        <!-- Action Button -->
-                        <Button Grid.Row="2"
-                                Text="{localization:Localize MainPage_LearnMajorSystem}"
-                                Command="{Binding ShowHelpCommand}"
-                                Style="{StaticResource ModernSecondaryButton}"
-                                HorizontalOptions="Center"
-                                AutomationProperties.Name="{localization:Localize Accessibility_HelpButton}"
-                                AutomationProperties.HelpText="{localization:Localize Accessibility_HelpButtonHelp}" />
-                    </Grid>
-                </Border>
+                            <!-- Neural Network Background Pattern -->
+                            <views:NeuralPatternView Grid.RowSpan="3"
+                                                      Opacity="0.05" />
 
-            </StackLayout>
+                            <!-- Floating Icon -->
+                            <Border Grid.Row="0"
+                                    WidthRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
+                                    HeightRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
+                                    StrokeThickness="0"
+                                    BackgroundColor="#1A00D9FF"
+                                    HorizontalOptions="Center"
+                                    Margin="0,0,0,16">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="{OnIdiom Phone=28, Tablet=32, Desktop=36}" />
+                                </Border.StrokeShape>
+                                <Border.Behaviors>
+                                    <views:FloatingAnimationBehavior FloatHeight="5" Duration="2000" />
+                                </Border.Behaviors>
+                                <Label Text="{StaticResource Icon_Info}"
+                                       FontSize="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
+                                       TextColor="#00D9FF"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Border>
+
+                            <!-- Title -->
+                            <Label Grid.Row="1"
+                                   Text="{localization:Localize MainPage_GetStarted}"
+                                   FontSize="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
+                                   FontFamily="{OnPlatform iOS='SF Pro Display', Android='sans-serif-medium', Default='Segoe UI Semibold'}"
+                                   FontAttributes="Bold"
+                                   TextColor="#FFFFFF"
+                                   HorizontalOptions="Center"
+                                   Margin="0,0,0,16" />
+
+                            <!-- Holographic Button -->
+                            <Button Grid.Row="2"
+                                    Text="{localization:Localize MainPage_LearnMajorSystem}"
+                                    Command="{Binding ShowHelpCommand}"
+                                    BackgroundColor="Transparent"
+                                    BorderColor="#00D9FF"
+                                    BorderWidth="2"
+                                    TextColor="#00D9FF"
+                                    FontSize="{OnIdiom Phone=15, Tablet=16, Desktop=17}"
+                                    FontFamily="{OnPlatform iOS='SF Pro Text', Android='sans-serif-medium', Default='Segoe UI Semibold'}"
+                                    FontAttributes="Bold"
+                                    CornerRadius="24"
+                                    HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
+                                    HorizontalOptions="Center"
+                                    Padding="{OnIdiom Phone='24,0', Tablet='28,0', Desktop='32,0'}"
+                                    AutomationProperties.Name="{localization:Localize Accessibility_HelpButton}"
+                                    AutomationProperties.HelpText="{localization:Localize Accessibility_HelpButtonHelp}">
+                                <Button.Shadow>
+                                    <Shadow Brush="#00D9FF"
+                                            Opacity="0.4"
+                                            Radius="8"
+                                            Offset="0,4" />
+                                </Button.Shadow>
+                                <Button.Behaviors>
+                                    <views:HolographicButtonBehavior />
+                                </Button.Behaviors>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </StackLayout>
+
+            </Grid>
         </ScrollView>
     </Grid>
 </ContentPage>
