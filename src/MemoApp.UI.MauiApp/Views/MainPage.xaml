@@ -62,17 +62,17 @@
                             <TapGestureRecognizer Command="{Binding NavigateToFlashNumbersCommand}" />
                         </Border.GestureRecognizers>
 
-                        <StackLayout Spacing="12" HorizontalOptions="Center">
+                        <StackLayout Spacing="8" HorizontalOptions="Center">
                             <!-- Flash Numbers Icon -->
                             <Border BackgroundColor="#1A2563EB"
-                                    StrokeShape="RoundRectangle 16"
+                                    StrokeShape="RoundRectangle 14"
                                     StrokeThickness="0"
-                                    WidthRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
-                                    HeightRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
+                                    WidthRequest="{OnIdiom Phone=48, Tablet=52, Desktop=60}"
+                                    HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=60}"
                                     HorizontalOptions="Center">
                                 <Label Text="{StaticResource Icon_FlashNumbers}"
                                        FontFamily="{StaticResource IconFont_Solid}"
-                                       FontSize="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
+                                       FontSize="{OnIdiom Phone=24, Tablet=26, Desktop=30}"
                                        TextColor="White"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center" />
@@ -99,17 +99,17 @@
                             <TapGestureRecognizer Command="{Binding NavigateToBigNumberCommand}" />
                         </Border.GestureRecognizers>
 
-                        <StackLayout Spacing="12" HorizontalOptions="Center">
+                        <StackLayout Spacing="8" HorizontalOptions="Center">
                             <!-- Big Number Icon -->
                             <Border BackgroundColor="#1AF59E0B"
-                                    StrokeShape="RoundRectangle 16"
+                                    StrokeShape="RoundRectangle 14"
                                     StrokeThickness="0"
-                                    WidthRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
-                                    HeightRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
+                                    WidthRequest="{OnIdiom Phone=48, Tablet=52, Desktop=60}"
+                                    HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=60}"
                                     HorizontalOptions="Center">
                                 <Label Text="{StaticResource Icon_BigNumber}"
                                        FontFamily="{StaticResource IconFont_Solid}"
-                                       FontSize="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
+                                       FontSize="{OnIdiom Phone=24, Tablet=26, Desktop=30}"
                                        TextColor="White"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center" />
