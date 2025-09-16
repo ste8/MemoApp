@@ -26,11 +26,33 @@
                          Padding="{OnIdiom Phone='0,20,0,40', Tablet='0,32,0,48', Desktop='0,40,0,56'}">
 
                 <!-- ===== ELEGANT HERO SECTION ===== -->
-                <StackLayout Spacing="0"
+                <StackLayout Spacing="16"
                              Padding="{OnIdiom Phone='24,32,24,40', Tablet='32,48,32,56', Desktop='40,56,40,64'}">
-                    <!-- Welcome Title -->
-                    <Label Text="{localization:Localize MainPage_Welcome}"
-                           Style="{StaticResource ElegantHeroTitle}" />
+                    <!-- Enhanced MemoRaise Logo Container -->
+                    <Border BackgroundColor="Transparent"
+                            StrokeShape="RoundRectangle 16"
+                            StrokeThickness="0"
+                            Padding="{OnIdiom Phone='16,12', Tablet='20,16', Desktop='24,20'}"
+                            HorizontalOptions="Center"
+                            Margin="{OnIdiom Phone='0,8', Tablet='0,12', Desktop='0,16'}">
+
+                        <!-- Subtle Drop Shadow Effect -->
+                        <Border.Shadow>
+                            <Shadow Brush="{StaticResource ElegantShadowLight}"
+                                    Offset="0,2"
+                                    Radius="8"
+                                    Opacity="0.1" />
+                        </Border.Shadow>
+
+                        <!-- MemoRaise Logo with Optimal Sizing -->
+                        <Image Source="logo_ivory_memoraise.png"
+                               HeightRequest="{OnIdiom Phone=120, Tablet=140, Desktop=160}"
+                               HorizontalOptions="Center"
+                               Aspect="AspectFit"
+                               AutomationProperties.Name="MemoRaise Memory Training App Logo"
+                               AutomationProperties.IsInAccessibleTree="True"
+                               AutomationProperties.HelpText="Welcome to the MemoRaise memory training application" />
+                    </Border>
 
                     <!-- Welcome Subtitle -->
                     <Label Text="{localization:Localize MainPage_WelcomeSubtitle}"
