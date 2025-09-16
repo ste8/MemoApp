@@ -138,6 +138,10 @@
     <value>Mettiti alla prova con esercizi di memorizzazione numerica a tempo</value>
     <comment>Big Number card description</comment>
   </data>
+  <data name="MainPage_AssociationsDescription" xml:space="preserve">
+    <value>Esplora e gestisci le tue associazioni numero-immagine di riferimento</value>
+    <comment>Associations card description</comment>
+  </data>
   <data name="MainPage_GetStarted" xml:space="preserve">
     <value>Inizia</value>
     <comment>Get started section title</comment>

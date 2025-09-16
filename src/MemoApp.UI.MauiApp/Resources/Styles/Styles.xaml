@@ -1253,6 +1253,11 @@
         <GradientStop Color="{StaticResource ElegantAmberLight}" Offset="1.0" />
     </LinearGradientBrush>
 
+    <LinearGradientBrush x:Key="ElegantTertiaryGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource ElegantTeal}" Offset="0.0" />
+        <GradientStop Color="{StaticResource ElegantTealLight}" Offset="1.0" />
+    </LinearGradientBrush>
+
     <!-- Subtle surface gradient for cards -->
     <LinearGradientBrush x:Key="ElegantSurfaceGradient" StartPoint="0,0" EndPoint="0,1">
         <GradientStop Color="{StaticResource ElegantWarmWhite}" Offset="0.0" />
@@ -1337,6 +1342,45 @@
                             <Setter Property="Scale" Value="1.02" />
                             <Setter Property="Shadow">
                                 <Shadow Brush="{StaticResource ElegantAmber}"
+                                        Opacity="0.25"
+                                        Offset="0,12"
+                                        Radius="28" />
+                            </Setter>
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- Tertiary Feature Card - Associations -->
+    <Style x:Key="ElegantTertiaryFeatureCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource ElegantTertiaryGradient}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        <Setter Property="Padding" Value="{OnIdiom Phone='16,12', Tablet='18,14', Desktop='20,16'}" />
+        <Setter Property="Margin" Value="{OnIdiom Phone='16,8', Tablet='20,12', Desktop='24,16'}" />
+        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=100, Tablet=110, Desktop=120}" />
+        <Setter Property="Shadow">
+            <Shadow Brush="{StaticResource ElegantTeal}"
+                    Opacity="0.15"
+                    Offset="0,8"
+                    Radius="20" />
+        </Setter>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="0.96" />
+                            <Setter Property="Opacity" Value="0.9" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="Shadow">
+                                <Shadow Brush="{StaticResource ElegantTeal}"
                                         Opacity="0.25"
                                         Offset="0,12"
                                         Radius="28" />

@@ -138,6 +138,10 @@
     <value>Challenge yourself with timed number memorization exercises</value>
     <comment>Big Number card description</comment>
   </data>
+  <data name="MainPage_AssociationsDescription" xml:space="preserve">
+    <value>Browse and manage your number-to-image reference library</value>
+    <comment>Associations card description</comment>
+  </data>
   <data name="MainPage_GetStarted" xml:space="preserve">
     <value>Get Started</value>
     <comment>Get started section title</comment>
