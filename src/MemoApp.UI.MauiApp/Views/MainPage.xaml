@@ -46,196 +46,120 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <!-- Flash Numbers Card - Enhanced with Gradient -->
+                    <!-- Flash Numbers Card - Primary Action Card -->
                     <Border Grid.Column="0" Grid.Row="0"
-                            Stroke="Transparent"
-                            StrokeThickness="0"
-                            StrokeShape="RoundRectangle 16"
-                            Padding="24"
-                            Margin="0,4">
-                        <Border.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="{StaticResource PrimaryGradientStart}" Offset="0" />
-                                <GradientStop Color="{StaticResource PrimaryGradientEnd}" Offset="1" />
-                            </LinearGradientBrush>
-                        </Border.Background>
-                        <Border.Shadow>
-                            <Shadow Brush="{StaticResource Primary}" 
-                                    Opacity="0.3" 
-                                    Offset="0,6" 
-                                    Radius="16" />
-                        </Border.Shadow>
-                        
+                            Style="{StaticResource PrimaryActionCardPrimaryStyle}"
+                            Background="{StaticResource PrimaryCardGradientBrush}"
+                            AutomationProperties.IsInAccessibleTree="True"
+                            AutomationProperties.Name="{localization:Localize Tab_FlashNumbers}"
+                            AutomationProperties.HelpText="{localization:Localize MainPage_FlashNumbersDescription}"
+                            SemanticProperties.Description="Button"
+                            SemanticProperties.Hint="Double tap to start Flash Numbers training">
+
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding NavigateToFlashNumbersCommand}" />
                         </Border.GestureRecognizers>
 
-                        <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="12">
+                        <Grid Style="{StaticResource PrimaryCardContentStyle}">
                             <!-- Icon -->
                             <Label Grid.Row="0"
                                    Text="{StaticResource Icon_FlashNumbers}"
-                                   FontFamily="{StaticResource IconFont_Solid}"
-                                   FontSize="{OnIdiom Phone=32, Tablet=36, Desktop=40}"
-                                   TextColor="White"
-                                   HorizontalOptions="Center"
-                                   Opacity="0.9" />
-                            
+                                   Style="{StaticResource PrimaryCardIconStyle}" />
+
                             <!-- Title -->
                             <Label Grid.Row="1"
-                                   Text="{localization:Localize Tab_FlashNumbers}" 
-                                   Style="{StaticResource TitleLarge}"
-                                   TextColor="White"
-                                   FontAttributes="Bold"
-                                   HorizontalOptions="Center" />
-                            
+                                   Text="{localization:Localize Tab_FlashNumbers}"
+                                   Style="{StaticResource PrimaryCardTitleStyle}" />
+
                             <!-- Description -->
                             <Label Grid.Row="2"
-                                   Text="{localization:Localize MainPage_FlashNumbersDescription}" 
-                                   Style="{StaticResource BodyMedium}"
-                                   TextColor="White"
-                                   Opacity="0.9"
-                                   HorizontalOptions="Center"
-                                   HorizontalTextAlignment="Center"
-                                   LineBreakMode="WordWrap" />
+                                   Text="{localization:Localize MainPage_FlashNumbersDescription}"
+                                   Style="{StaticResource PrimaryCardDescriptionStyle}" />
                         </Grid>
                     </Border>
 
-                    <!-- Big Number Card - Enhanced with Gradient -->
-                    <Border Grid.Column="{OnIdiom Phone=0, Tablet=1, Desktop=1}" 
+                    <!-- Big Number Card - Primary Action Card -->
+                    <Border Grid.Column="{OnIdiom Phone=0, Tablet=1, Desktop=1}"
                             Grid.Row="{OnIdiom Phone=1, Tablet=0, Desktop=0}"
-                            Stroke="Transparent"
-                            StrokeThickness="0"
-                            StrokeShape="RoundRectangle 16"
-                            Padding="24"
-                            Margin="0,4">
-                        <Border.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="{StaticResource SecondaryGradientStart}" Offset="0" />
-                                <GradientStop Color="{StaticResource SecondaryGradientEnd}" Offset="1" />
-                            </LinearGradientBrush>
-                        </Border.Background>
-                        <Border.Shadow>
-                            <Shadow Brush="{StaticResource Secondary}" 
-                                    Opacity="0.3" 
-                                    Offset="0,6" 
-                                    Radius="16" />
-                        </Border.Shadow>
-                        
+                            Style="{StaticResource PrimaryActionCardSecondaryStyle}"
+                            Background="{StaticResource SecondaryCardGradientBrush}"
+                            AutomationProperties.IsInAccessibleTree="True"
+                            AutomationProperties.Name="{localization:Localize BigNumber_Title}"
+                            AutomationProperties.HelpText="{localization:Localize MainPage_BigNumberDescription}"
+                            SemanticProperties.Description="Button"
+                            SemanticProperties.Hint="Double tap to start Big Number challenge">
+
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding NavigateToBigNumberCommand}" />
                         </Border.GestureRecognizers>
 
-                        <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="12">
+                        <Grid Style="{StaticResource PrimaryCardContentStyle}">
                             <!-- Icon -->
                             <Label Grid.Row="0"
                                    Text="{StaticResource Icon_Statistics}"
-                                   FontFamily="{StaticResource IconFont_Solid}"
-                                   FontSize="{OnIdiom Phone=32, Tablet=36, Desktop=40}"
-                                   TextColor="White"
-                                   HorizontalOptions="Center"
-                                   Opacity="0.9" />
-                            
+                                   Style="{StaticResource PrimaryCardIconStyle}" />
+
                             <!-- Title -->
                             <Label Grid.Row="1"
-                                   Text="{localization:Localize BigNumber_Title}" 
-                                   Style="{StaticResource TitleLarge}"
-                                   TextColor="White"
-                                   FontAttributes="Bold"
-                                   HorizontalOptions="Center" />
-                            
+                                   Text="{localization:Localize BigNumber_Title}"
+                                   Style="{StaticResource PrimaryCardTitleStyle}" />
+
                             <!-- Description -->
                             <Label Grid.Row="2"
-                                   Text="{localization:Localize MainPage_BigNumberDescription}" 
-                                   Style="{StaticResource BodyMedium}"
-                                   TextColor="White"
-                                   Opacity="0.9"
-                                   HorizontalOptions="Center"
-                                   HorizontalTextAlignment="Center"
-                                   LineBreakMode="WordWrap" />
+                                   Text="{localization:Localize MainPage_BigNumberDescription}"
+                                   Style="{StaticResource PrimaryCardDescriptionStyle}" />
                         </Grid>
                     </Border>
                 </Grid>
 
-                <!-- Feedback Invitation Card -->
-                <Border BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundColorLight}, Dark={StaticResource CardBackgroundColorDark}}"
-                        Stroke="{AppThemeBinding Light={StaticResource CardStrokeColorLight}, Dark={StaticResource CardStrokeColorDark}}"
-                        StrokeThickness="1"
-                        StrokeShape="RoundRectangle 12"
-                        Padding="20,16"
-                        Margin="0,4">
-                    <Border.Shadow>
-                        <Shadow Brush="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Black}}"
-                                Opacity="0.12"
-                                Offset="0,2"
-                                Radius="8" />
-                    </Border.Shadow>
+                <!-- Feedback Invitation Card - Secondary Action Card -->
+                <Border Style="{StaticResource SecondaryActionCardStyle}"
+                        AutomationProperties.IsInAccessibleTree="True"
+                        AutomationProperties.Name="{localization:Localize MainPage_FeedbackTitle}"
+                        AutomationProperties.HelpText="{localization:Localize MainPage_FeedbackSubtitle}"
+                        SemanticProperties.Description="Button"
+                        SemanticProperties.Hint="Double tap to provide feedback">
 
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding NavigateToFeedbackCommand}" />
                     </Border.GestureRecognizers>
 
-                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-                        <!-- Icon -->
-                        <Label Grid.Column="0"
-                               Text="{StaticResource Icon_Info}"
-                               FontFamily="{StaticResource IconFont_Solid}"
-                               FontSize="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
-                               TextColor="{StaticResource Tertiary}"
-                               VerticalOptions="Center"
-                               Opacity="0.8" />
+                    <Grid Style="{StaticResource SecondaryCardContentStyle}">
+                        <!-- Enhanced Icon -->
+                        <Border Grid.Column="0"
+                                Style="{StaticResource IconBadgeStyle}">
+                            <Label Text="{StaticResource Icon_Info}"
+                                   Style="{StaticResource IconBadgeContentStyle}" />
+                        </Border>
 
                         <!-- Content -->
-                        <StackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                        <StackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
                             <Label Text="{localization:Localize MainPage_FeedbackTitle}"
-                                   Style="{StaticResource BodyLarge}"
-                                   FontAttributes="Bold" />
+                                   Style="{StaticResource SecondaryCardTitleStyle}" />
                             <Label Text="{localization:Localize MainPage_FeedbackSubtitle}"
-                                   Style="{StaticResource BodyMedium}"
-                                   Opacity="0.8"
-                                   LineBreakMode="WordWrap" />
+                                   Style="{StaticResource SecondaryCardSubtitleStyle}" />
                         </StackLayout>
 
-                        <!-- Arrow -->
-                        <Label Grid.Column="2"
-                               Text="›"
-                               FontSize="18"
-                               FontAttributes="Bold"
-                               TextColor="{StaticResource Tertiary}"
-                               VerticalOptions="Center"
-                               Opacity="0.6" />
+                        <!-- Enhanced Arrow -->
+                        <Border Grid.Column="2"
+                                Style="{StaticResource ArrowBadgeStyle}">
+                            <Label Style="{StaticResource ArrowBadgeContentStyle}" />
+                        </Border>
                     </Grid>
                 </Border>
 
-                <!-- Help Section - Enhanced -->
-                <Border BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundColorLight}, Dark={StaticResource CardBackgroundColorDark}}"
-                        Stroke="{AppThemeBinding Light={StaticResource CardStrokeColorLight}, Dark={StaticResource CardStrokeColorDark}}"
-                        StrokeThickness="1"
-                        StrokeShape="RoundRectangle 16"
-                        Padding="28"
-                        Margin="0,4">
-                    <Border.Shadow>
-                        <Shadow Brush="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Black}}"
-                                Opacity="0.15"
-                                Offset="0,4"
-                                Radius="12" />
-                    </Border.Shadow>
-
+                <!-- Help Section - Tertiary Information Card -->
+                <Border Style="{StaticResource TertiaryInfoCardStyle}">
                     <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="16">
                         <!-- Icon -->
                         <Label Grid.Row="0"
                                Text="{StaticResource Icon_Info}"
-                               FontFamily="{StaticResource IconFont_Solid}"
-                               FontSize="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
-                               TextColor="{StaticResource Tertiary}"
-                               HorizontalOptions="Center"
-                               Opacity="0.8" />
+                               Style="{StaticResource TertiaryCardIconStyle}" />
 
                         <!-- Title -->
                         <Label Grid.Row="1"
                                Text="{localization:Localize MainPage_GetStarted}"
-                               Style="{StaticResource TitleLarge}"
-                               HorizontalOptions="Center"
-                               HorizontalTextAlignment="Center" />
+                               Style="{StaticResource TertiaryCardTitleStyle}" />
 
                         <!-- Action Button -->
                         <Button Grid.Row="2"

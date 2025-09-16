@@ -1029,5 +1029,279 @@
         </Setter>
     </Style>
 
+    <!-- ===== UNIFIED HOMEPAGE CARD SYSTEM ===== -->
+
+    <!-- Tier 1: Primary Action Cards - Main navigation to core features -->
+    <Style x:Key="PrimaryActionCardStyle" TargetType="Border">
+        <Setter Property="Stroke" Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        <Setter Property="Padding" Value="24" />
+        <Setter Property="Margin" Value="0,4" />
+        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=140, Tablet=160, Desktop=150}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="0.98" />
+                            <Setter Property="Opacity" Value="0.9" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="1.02" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- Primary Card Style with Primary Shadow -->
+    <Style x:Key="PrimaryActionCardPrimaryStyle" TargetType="Border" BasedOn="{StaticResource PrimaryActionCardStyle}">
+        <Setter Property="Shadow">
+            <Shadow Brush="{StaticResource Primary}"
+                    Opacity="0.25"
+                    Offset="0,6"
+                    Radius="16" />
+        </Setter>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="0.98" />
+                            <Setter Property="Opacity" Value="0.9" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="1.02" />
+                            <Setter Property="Shadow">
+                                <Shadow Brush="{StaticResource Primary}"
+                                        Opacity="0.35"
+                                        Offset="0,8"
+                                        Radius="20" />
+                            </Setter>
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- Primary Card Style with Secondary Shadow -->
+    <Style x:Key="PrimaryActionCardSecondaryStyle" TargetType="Border" BasedOn="{StaticResource PrimaryActionCardStyle}">
+        <Setter Property="Shadow">
+            <Shadow Brush="{StaticResource Secondary}"
+                    Opacity="0.25"
+                    Offset="0,6"
+                    Radius="16" />
+        </Setter>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="0.98" />
+                            <Setter Property="Opacity" Value="0.9" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="1.02" />
+                            <Setter Property="Shadow">
+                                <Shadow Brush="{StaticResource Secondary}"
+                                        Opacity="0.35"
+                                        Offset="0,8"
+                                        Radius="20" />
+                            </Setter>
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- Primary Card Background - for gradient backgrounds -->
+    <LinearGradientBrush x:Key="PrimaryCardGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource PrimaryGradientStart}" Offset="0" />
+        <GradientStop Color="{StaticResource PrimaryGradientEnd}" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="SecondaryCardGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource SecondaryGradientStart}" Offset="0" />
+        <GradientStop Color="{StaticResource SecondaryGradientEnd}" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Tier 2: Secondary Action Cards - Important supportive actions -->
+    <Style x:Key="SecondaryActionCardStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardBackgroundColorLight}, Dark={StaticResource CardBackgroundColorDark}}" />
+        <Setter Property="Stroke" Value="{StaticResource Tertiary}" />
+        <Setter Property="StrokeThickness" Value="2" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        <Setter Property="Padding" Value="24,20" />
+        <Setter Property="Margin" Value="0,4" />
+        <Setter Property="MinimumHeightRequest" Value="72" />
+        <Setter Property="Shadow">
+            <Shadow Brush="{StaticResource Tertiary}"
+                    Opacity="0.2"
+                    Offset="0,4"
+                    Radius="12" />
+        </Setter>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="0.98" />
+                            <Setter Property="Opacity" Value="0.9" />
+                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}" />
+                            <Setter Property="Scale" Value="1.01" />
+                            <Setter Property="Shadow">
+                                <Shadow Brush="{StaticResource Tertiary}"
+                                        Opacity="0.3"
+                                        Offset="0,6"
+                                        Radius="16" />
+                            </Setter>
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- Tier 3: Tertiary Information Cards - Informational content -->
+    <Style x:Key="TertiaryInfoCardStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardBackgroundColorLight}, Dark={StaticResource CardBackgroundColorDark}}" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource CardStrokeColorLight}, Dark={StaticResource CardStrokeColorDark}}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        <Setter Property="Padding" Value="28" />
+        <Setter Property="Margin" Value="0,4" />
+        <Setter Property="Shadow">
+            <Shadow Brush="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Black}}"
+                    Opacity="0.15"
+                    Offset="0,4"
+                    Radius="12" />
+        </Setter>
+    </Style>
+
+    <!-- Consistent Icon Badge Style for Secondary Cards -->
+    <Style x:Key="IconBadgeStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource Tertiary}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 20" />
+        <Setter Property="WidthRequest" Value="40" />
+        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <!-- Consistent Arrow Badge Style for Secondary Cards -->
+    <Style x:Key="ArrowBadgeStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray700}}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        <Setter Property="WidthRequest" Value="32" />
+        <Setter Property="HeightRequest" Value="32" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <!-- Primary Card Content Grid Style -->
+    <Style x:Key="PrimaryCardContentStyle" TargetType="Grid">
+        <Setter Property="RowDefinitions" Value="Auto,Auto,Auto" />
+        <Setter Property="RowSpacing" Value="12" />
+    </Style>
+
+    <!-- Secondary Card Content Grid Style -->
+    <Style x:Key="SecondaryCardContentStyle" TargetType="Grid">
+        <Setter Property="ColumnDefinitions" Value="Auto,*,Auto" />
+        <Setter Property="ColumnSpacing" Value="16" />
+    </Style>
+
+    <!-- Primary Card Icon Style -->
+    <Style x:Key="PrimaryCardIconStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=32, Tablet=36, Desktop=40}" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="Opacity" Value="0.9" />
+    </Style>
+
+    <!-- Primary Card Title Style -->
+    <Style x:Key="PrimaryCardTitleStyle" TargetType="Label">
+        <Setter Property="Style" Value="{StaticResource TitleLarge}" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+    </Style>
+
+    <!-- Primary Card Description Style -->
+    <Style x:Key="PrimaryCardDescriptionStyle" TargetType="Label">
+        <Setter Property="Style" Value="{StaticResource BodyMedium}" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="Opacity" Value="0.9" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+    </Style>
+
+    <!-- Secondary Card Title Style -->
+    <Style x:Key="SecondaryCardTitleStyle" TargetType="Label">
+        <Setter Property="Style" Value="{StaticResource BodyLarge}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource Tertiary}" />
+    </Style>
+
+    <!-- Secondary Card Subtitle Style -->
+    <Style x:Key="SecondaryCardSubtitleStyle" TargetType="Label">
+        <Setter Property="Style" Value="{StaticResource BodyMedium}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+    </Style>
+
+    <!-- Tertiary Card Icon Style -->
+    <Style x:Key="TertiaryCardIconStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=28, Tablet=32, Desktop=36}" />
+        <Setter Property="TextColor" Value="{StaticResource Tertiary}" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="Opacity" Value="0.8" />
+    </Style>
+
+    <!-- Tertiary Card Title Style -->
+    <Style x:Key="TertiaryCardTitleStyle" TargetType="Label">
+        <Setter Property="Style" Value="{StaticResource TitleLarge}" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+
+    <!-- Icon Badge Content Style -->
+    <Style x:Key="IconBadgeContentStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=18, Tablet=20, Desktop=22}" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <!-- Arrow Badge Content Style -->
+    <Style x:Key="ArrowBadgeContentStyle" TargetType="Label">
+        <Setter Property="Text" Value="➤" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource Tertiary}" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
 
 </ResourceDictionary>
