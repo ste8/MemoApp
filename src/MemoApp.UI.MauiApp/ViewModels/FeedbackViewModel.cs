@@ -218,6 +218,10 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
         try
         {
             _logger.LogInformation("Starting image attachment process");
+
+            // Preserve scroll position before showing loading state
+            WeakReferenceMessenger.Default.Send(new PreserveScrollPositionMessage());
+
             IsAttachingImages = true;
             ValidationError = null;
 
@@ -281,6 +285,19 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
             _logger.LogInformation("Setting IsAttachingImages = false");
             IsAttachingImages = false;
             _logger.LogInformation("IsAttachingImages is now: {Value}", IsAttachingImages);
+
+            // Smart scroll behavior: if images were added, scroll to show them; otherwise restore position
+            await Task.Delay(200); // Allow UI to update
+            if (HasAttachedImages && AttachedImages.Count > 0)
+            {
+                // Images were successfully attached, scroll to show them
+                WeakReferenceMessenger.Default.Send(new ScrollToAttachedImagesMessage());
+            }
+            else
+            {
+                // No images attached (user cancelled or error), restore original position
+                WeakReferenceMessenger.Default.Send(new RestoreScrollPositionMessage());
+            }
         }
     }
 
@@ -711,3 +728,6 @@ public record FeedbackTypeItem(FeedbackType Type, string DisplayName);
 
 // Message for scroll to field communication
 public record ScrollToFieldMessage(string FieldName);
+public record PreserveScrollPositionMessage();
+public record RestoreScrollPositionMessage();
+public record ScrollToAttachedImagesMessage();

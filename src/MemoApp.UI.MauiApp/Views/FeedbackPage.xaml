@@ -376,8 +376,25 @@
                                    Style="{StaticResource BodyMedium}"
                                    TextColor="{DynamicResource Primary}" />
 
+                            <!-- Inline Loading Indicator for Image Attachment -->
+                            <StackLayout IsVisible="{Binding IsAttachingImages}"
+                                        Orientation="Horizontal"
+                                        Spacing="12"
+                                        HorizontalOptions="Center"
+                                        Padding="16,8">
+                                <ActivityIndicator IsRunning="{Binding IsAttachingImages}"
+                                                  Color="{DynamicResource Primary}"
+                                                  WidthRequest="20"
+                                                  HeightRequest="20" />
+                                <Label Text="{localization:Localize Feedback_AttachingImages}"
+                                       Style="{StaticResource BodyMedium}"
+                                       VerticalOptions="Center"
+                                       TextColor="{DynamicResource Primary}" />
+                            </StackLayout>
+
                             <!-- Attached Images Gallery -->
-                            <ScrollView IsVisible="{Binding HasAttachedImages}"
+                            <ScrollView x:Name="AttachedImagesGallery"
+                                        IsVisible="{Binding HasAttachedImages}"
                                         Orientation="Horizontal"
                                         HeightRequest="{OnIdiom Phone=120, Tablet=140, Desktop=140}"
                                         BackgroundColor="Transparent">

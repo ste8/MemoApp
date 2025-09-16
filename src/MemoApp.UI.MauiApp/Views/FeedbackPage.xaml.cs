@@ -5,6 +5,8 @@ namespace MemoApp.UI.MauiApp.Views;
 
 public partial class FeedbackPage : ContentPage
 {
+    private double _savedScrollPosition = 0;
+
     public FeedbackPage(FeedbackViewModel viewModel)
     {
         InitializeComponent();
@@ -14,6 +16,23 @@ public partial class FeedbackPage : ContentPage
         WeakReferenceMessenger.Default.Register<ScrollToFieldMessage>(this, async (r, m) =>
         {
             await ScrollToField(m.FieldName);
+        });
+
+        // Register for scroll position preservation messages
+        WeakReferenceMessenger.Default.Register<PreserveScrollPositionMessage>(this, (r, m) =>
+        {
+            _savedScrollPosition = MainScrollView.ScrollY;
+        });
+
+        WeakReferenceMessenger.Default.Register<RestoreScrollPositionMessage>(this, async (r, m) =>
+        {
+            await Task.Delay(100); // Allow UI to stabilize
+            await MainScrollView.ScrollToAsync(0, _savedScrollPosition, true);
+        });
+
+        WeakReferenceMessenger.Default.Register<ScrollToAttachedImagesMessage>(this, async (r, m) =>
+        {
+            await ScrollToAttachedImages();
         });
     }
 
@@ -49,10 +68,30 @@ public partial class FeedbackPage : ContentPage
         }
     }
 
+    private async Task ScrollToAttachedImages()
+    {
+        try
+        {
+            // Find the attached images gallery section
+            var imagesSection = this.FindByName<View>("AttachedImagesGallery");
+            if (imagesSection != null)
+            {
+                await MainScrollView.ScrollToAsync(imagesSection, ScrollToPosition.MakeVisible, true);
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error scrolling to attached images: {ex.Message}");
+        }
+    }
+
     protected override void OnDisappearing()
     {
         // Unregister messenger to prevent memory leaks
         WeakReferenceMessenger.Default.Unregister<ScrollToFieldMessage>(this);
+        WeakReferenceMessenger.Default.Unregister<PreserveScrollPositionMessage>(this);
+        WeakReferenceMessenger.Default.Unregister<RestoreScrollPositionMessage>(this);
+        WeakReferenceMessenger.Default.Unregister<ScrollToAttachedImagesMessage>(this);
         base.OnDisappearing();
     }
 }
