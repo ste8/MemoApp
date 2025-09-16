@@ -1233,7 +1233,7 @@
         <Setter Property="FontSize" Value="{OnIdiom Phone=12, Tablet=13, Desktop=14}" />
         <Setter Property="FontAttributes" Value="None" />
         <Setter Property="TextColor" Value="White" />
-        <Setter Property="Opacity" Value="0.85" />
+        <Setter Property="Opacity" Value="1.0" />
         <Setter Property="LineHeight" Value="1.25" />
         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
         <Setter Property="VerticalOptions" Value="Start" />
@@ -1244,18 +1244,18 @@
 
     <!-- Elegant gradient backgrounds -->
     <LinearGradientBrush x:Key="ElegantPrimaryGradient" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="{StaticResource ElegantBlue}" Offset="0.0" />
-        <GradientStop Color="{StaticResource ElegantBlueLight}" Offset="1.0" />
+        <GradientStop Color="{StaticResource ElegantBlueDark}" Offset="0.0" />
+        <GradientStop Color="{StaticResource ElegantBlue}" Offset="1.0" />
     </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="ElegantSecondaryGradient" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="{StaticResource ElegantAmber}" Offset="0.0" />
-        <GradientStop Color="{StaticResource ElegantAmberLight}" Offset="1.0" />
+        <GradientStop Color="{StaticResource ElegantAmberDark}" Offset="0.0" />
+        <GradientStop Color="{StaticResource ElegantAmber}" Offset="1.0" />
     </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="ElegantTertiaryGradient" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="{StaticResource ElegantTeal}" Offset="0.0" />
-        <GradientStop Color="{StaticResource ElegantTealLight}" Offset="1.0" />
+        <GradientStop Color="{StaticResource ElegantTealDark}" Offset="0.0" />
+        <GradientStop Color="{StaticResource ElegantTeal}" Offset="1.0" />
     </LinearGradientBrush>
 
     <!-- Subtle surface gradient for cards -->

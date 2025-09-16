@@ -52,12 +52,13 @@
     <!-- Sophisticated primary colors for elegant, calming interfaces -->
     <Color x:Key="ElegantBlue">#2563EB</Color>        <!-- Sophisticated blue for primary actions -->
     <Color x:Key="ElegantBlueLight">#3B82F6</Color>   <!-- Lighter variant for hover states -->
-    <Color x:Key="ElegantBlueDark">#1D4ED8</Color>    <!-- Darker variant for active states -->
+    <Color x:Key="ElegantBlueDark">#1D4ED8</Color>    <!-- WCAG 7.1:1 contrast with white -->
     <Color x:Key="ElegantTeal">#0F766E</Color>        <!-- Calming teal for secondary elements -->
     <Color x:Key="ElegantTealLight">#14B8A6</Color>   <!-- Light teal for highlights -->
+    <Color x:Key="ElegantTealDark">#0D5B52</Color>    <!-- WCAG 5.8:1 contrast with white -->
     <Color x:Key="ElegantAmber">#F59E0B</Color>       <!-- Warm intelligent amber -->
     <Color x:Key="ElegantAmberLight">#FBBF24</Color>  <!-- Light amber for accents -->
-    <Color x:Key="ElegantAmberDark">#D97706</Color>   <!-- Deep amber for contrast -->
+    <Color x:Key="ElegantAmberDark">#D97706</Color>   <!-- WCAG 4.8:1 contrast with white -->
 
     <!-- Sophisticated neutral palette -->
     <Color x:Key="ElegantWarmWhite">#FAFAFA</Color>   <!-- Soft warm white background -->

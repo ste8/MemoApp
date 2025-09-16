@@ -67,7 +67,7 @@
                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}">
                             <!-- Associations Icon -->
                             <Border Grid.Column="0"
-                                    BackgroundColor="#1A0F766E"
+                                    BackgroundColor="#4D0F766E"
                                     StrokeShape="RoundRectangle 12"
                                     StrokeThickness="0"
                                     WidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}"
@@ -107,7 +107,7 @@
                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}">
                             <!-- Flash Numbers Icon -->
                             <Border Grid.Column="0"
-                                    BackgroundColor="#1A2563EB"
+                                    BackgroundColor="#4D2563EB"
                                     StrokeShape="RoundRectangle 12"
                                     StrokeThickness="0"
                                     WidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}"
@@ -147,7 +147,7 @@
                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}">
                             <!-- Big Number Icon -->
                             <Border Grid.Column="0"
-                                    BackgroundColor="#1AF59E0B"
+                                    BackgroundColor="#4DF59E0B"
                                     StrokeShape="RoundRectangle 12"
                                     StrokeThickness="0"
                                     WidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}"
