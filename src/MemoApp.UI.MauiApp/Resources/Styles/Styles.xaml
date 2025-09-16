@@ -1215,6 +1215,33 @@
 
     <!-- ===== ELEGANT FOCUS DESIGN SYSTEM ===== -->
 
+    <!-- Compact Horizontal Card Layout Styles -->
+    <Style TargetType="Label" x:Key="CompactFeatureTitle">
+        <Setter Property="FontFamily" Value="{OnPlatform iOS='SF Pro Display', Android='sans-serif-medium', Default='Segoe UI Semibold'}" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=17, Tablet=19, Desktop=21}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="LineHeight" Value="1.1" />
+        <Setter Property="HorizontalOptions" Value="Start" />
+        <Setter Property="VerticalOptions" Value="End" />
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
+        <Setter Property="Margin" Value="0,0,0,2" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="CompactFeatureDescription">
+        <Setter Property="FontFamily" Value="{OnPlatform iOS='SF Pro Text', Android='sans-serif', Default='Segoe UI'}" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=12, Tablet=13, Desktop=14}" />
+        <Setter Property="FontAttributes" Value="None" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="Opacity" Value="0.85" />
+        <Setter Property="LineHeight" Value="1.25" />
+        <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+        <Setter Property="VerticalOptions" Value="Start" />
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+        <Setter Property="Margin" Value="0,2,0,0" />
+    </Style>
+
     <!-- Elegant gradient backgrounds -->
     <LinearGradientBrush x:Key="ElegantPrimaryGradient" StartPoint="0,0" EndPoint="1,1">
         <GradientStop Color="{StaticResource ElegantBlue}" Offset="0.0" />
@@ -1246,9 +1273,9 @@
         <Setter Property="Background" Value="{StaticResource ElegantPrimaryGradient}" />
         <Setter Property="StrokeThickness" Value="0" />
         <Setter Property="StrokeShape" Value="RoundRectangle 16" />
-        <Setter Property="Padding" Value="{OnIdiom Phone='20', Tablet='24', Desktop='28'}" />
+        <Setter Property="Padding" Value="{OnIdiom Phone='16,12', Tablet='18,14', Desktop='20,16'}" />
         <Setter Property="Margin" Value="{OnIdiom Phone='16,8', Tablet='20,12', Desktop='24,16'}" />
-        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=140, Tablet=160, Desktop=180}" />
+        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=100, Tablet=110, Desktop=120}" />
         <Setter Property="Shadow">
             <Shadow Brush="{StaticResource ElegantBlue}"
                     Opacity="0.15"
@@ -1286,9 +1313,9 @@
         <Setter Property="Background" Value="{StaticResource ElegantSecondaryGradient}" />
         <Setter Property="StrokeThickness" Value="0" />
         <Setter Property="StrokeShape" Value="RoundRectangle 16" />
-        <Setter Property="Padding" Value="{OnIdiom Phone='20', Tablet='24', Desktop='28'}" />
+        <Setter Property="Padding" Value="{OnIdiom Phone='16,12', Tablet='18,14', Desktop='20,16'}" />
         <Setter Property="Margin" Value="{OnIdiom Phone='16,8', Tablet='20,12', Desktop='24,16'}" />
-        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=140, Tablet=160, Desktop=180}" />
+        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=100, Tablet=110, Desktop=120}" />
         <Setter Property="Shadow">
             <Shadow Brush="{StaticResource ElegantAmber}"
                     Opacity="0.15"

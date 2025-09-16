@@ -62,28 +62,31 @@
                             <TapGestureRecognizer Command="{Binding NavigateToFlashNumbersCommand}" />
                         </Border.GestureRecognizers>
 
-                        <StackLayout Spacing="8" HorizontalOptions="Center">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}">
                             <!-- Flash Numbers Icon -->
-                            <Border BackgroundColor="#1A2563EB"
-                                    StrokeShape="RoundRectangle 14"
+                            <Border Grid.Column="0"
+                                    BackgroundColor="#1A2563EB"
+                                    StrokeShape="RoundRectangle 12"
                                     StrokeThickness="0"
-                                    WidthRequest="{OnIdiom Phone=48, Tablet=52, Desktop=60}"
-                                    HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=60}"
-                                    HorizontalOptions="Center">
+                                    WidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}"
+                                    HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}"
+                                    VerticalOptions="Center">
                                 <Label Text="{StaticResource Icon_FlashNumbers}"
                                        FontFamily="{StaticResource IconFont_Solid}"
-                                       FontSize="{OnIdiom Phone=24, Tablet=26, Desktop=30}"
+                                       FontSize="{OnIdiom Phone=22, Tablet=24, Desktop=26}"
                                        TextColor="White"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center" />
                             </Border>
 
-                            <Label Text="{localization:Localize Tab_FlashNumbers}"
-                                   Style="{StaticResource ElegantFeatureTitle}" />
-
-                            <Label Text="{localization:Localize MainPage_FlashNumbersDescription}"
-                                   Style="{StaticResource ElegantFeatureDescription}" />
-                        </StackLayout>
+                            <!-- Content Area -->
+                            <StackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                <Label Text="{localization:Localize Tab_FlashNumbers}"
+                                       Style="{StaticResource CompactFeatureTitle}" />
+                                <Label Text="{localization:Localize MainPage_FlashNumbersDescription}"
+                                       Style="{StaticResource CompactFeatureDescription}" />
+                            </StackLayout>
+                        </Grid>
                     </Border>
 
                     <!-- Big Number - Secondary Feature -->
@@ -99,28 +102,31 @@
                             <TapGestureRecognizer Command="{Binding NavigateToBigNumberCommand}" />
                         </Border.GestureRecognizers>
 
-                        <StackLayout Spacing="8" HorizontalOptions="Center">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}">
                             <!-- Big Number Icon -->
-                            <Border BackgroundColor="#1AF59E0B"
-                                    StrokeShape="RoundRectangle 14"
+                            <Border Grid.Column="0"
+                                    BackgroundColor="#1AF59E0B"
+                                    StrokeShape="RoundRectangle 12"
                                     StrokeThickness="0"
-                                    WidthRequest="{OnIdiom Phone=48, Tablet=52, Desktop=60}"
-                                    HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=60}"
-                                    HorizontalOptions="Center">
+                                    WidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}"
+                                    HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}"
+                                    VerticalOptions="Center">
                                 <Label Text="{StaticResource Icon_BigNumber}"
                                        FontFamily="{StaticResource IconFont_Solid}"
-                                       FontSize="{OnIdiom Phone=24, Tablet=26, Desktop=30}"
+                                       FontSize="{OnIdiom Phone=22, Tablet=24, Desktop=26}"
                                        TextColor="White"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center" />
                             </Border>
 
-                            <Label Text="{localization:Localize BigNumber_Title}"
-                                   Style="{StaticResource ElegantFeatureTitle}" />
-
-                            <Label Text="{localization:Localize MainPage_BigNumberDescription}"
-                                   Style="{StaticResource ElegantFeatureDescription}" />
-                        </StackLayout>
+                            <!-- Content Area -->
+                            <StackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                <Label Text="{localization:Localize BigNumber_Title}"
+                                       Style="{StaticResource CompactFeatureTitle}" />
+                                <Label Text="{localization:Localize MainPage_BigNumberDescription}"
+                                       Style="{StaticResource CompactFeatureDescription}" />
+                            </StackLayout>
+                        </Grid>
                     </Border>
                 </Grid>
 
