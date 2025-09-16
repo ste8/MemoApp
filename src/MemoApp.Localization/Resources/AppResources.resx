@@ -1370,6 +1370,14 @@
     <value>Version {0}</value>
     <comment>Version display on main page (parameter is version number)</comment>
   </data>
+  <data name="MainPage_FeedbackTitle" xml:space="preserve">
+    <value>Help us improve MemoRaise</value>
+    <comment>Title for feedback invitation on main page</comment>
+  </data>
+  <data name="MainPage_FeedbackSubtitle" xml:space="preserve">
+    <value>Share suggestions or report issues to make your experience better</value>
+    <comment>Subtitle explaining feedback invitation</comment>
+  </data>
   
   <!-- Image Processing Error Messages -->
   <data name="ImageProcessing_Failed" xml:space="preserve">

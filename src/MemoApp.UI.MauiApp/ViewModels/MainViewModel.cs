@@ -88,6 +88,21 @@ public partial class MainViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    private async Task NavigateToFeedback()
+    {
+        try
+        {
+            await Shell.Current.GoToAsync(nameof(Views.FeedbackPage));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to navigate to Feedback");
+            await _userNotificationService.ShowErrorToastAsync(
+                _localizationService.GetString("Navigation_Failed"));
+        }
+    }
+
+    [RelayCommand]
     private async Task ShowHelp()
     {
         try

@@ -156,6 +156,56 @@
                     </Border>
                 </Grid>
 
+                <!-- Feedback Invitation Card -->
+                <Border BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundColorLight}, Dark={StaticResource CardBackgroundColorDark}}"
+                        Stroke="{AppThemeBinding Light={StaticResource CardStrokeColorLight}, Dark={StaticResource CardStrokeColorDark}}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="20,16"
+                        Margin="0,4">
+                    <Border.Shadow>
+                        <Shadow Brush="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Black}}"
+                                Opacity="0.12"
+                                Offset="0,2"
+                                Radius="8" />
+                    </Border.Shadow>
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToFeedbackCommand}" />
+                    </Border.GestureRecognizers>
+
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                        <!-- Icon -->
+                        <Label Grid.Column="0"
+                               Text="{StaticResource Icon_Info}"
+                               FontFamily="{StaticResource IconFont_Solid}"
+                               FontSize="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
+                               TextColor="{StaticResource Tertiary}"
+                               VerticalOptions="Center"
+                               Opacity="0.8" />
+
+                        <!-- Content -->
+                        <StackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                            <Label Text="{localization:Localize MainPage_FeedbackTitle}"
+                                   Style="{StaticResource BodyLarge}"
+                                   FontAttributes="Bold" />
+                            <Label Text="{localization:Localize MainPage_FeedbackSubtitle}"
+                                   Style="{StaticResource BodyMedium}"
+                                   Opacity="0.8"
+                                   LineBreakMode="WordWrap" />
+                        </StackLayout>
+
+                        <!-- Arrow -->
+                        <Label Grid.Column="2"
+                               Text="›"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Tertiary}"
+                               VerticalOptions="Center"
+                               Opacity="0.6" />
+                    </Grid>
+                </Border>
+
                 <!-- Help Section - Enhanced -->
                 <Border BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundColorLight}, Dark={StaticResource CardBackgroundColorDark}}"
                         Stroke="{AppThemeBinding Light={StaticResource CardStrokeColorLight}, Dark={StaticResource CardStrokeColorDark}}"
@@ -164,12 +214,12 @@
                         Padding="28"
                         Margin="0,4">
                     <Border.Shadow>
-                        <Shadow Brush="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Black}}" 
-                                Opacity="0.15" 
-                                Offset="0,4" 
+                        <Shadow Brush="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Black}}"
+                                Opacity="0.15"
+                                Offset="0,4"
                                 Radius="12" />
                     </Border.Shadow>
-                    
+
                     <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="16">
                         <!-- Icon -->
                         <Label Grid.Row="0"
@@ -179,14 +229,14 @@
                                TextColor="{StaticResource Tertiary}"
                                HorizontalOptions="Center"
                                Opacity="0.8" />
-                        
+
                         <!-- Title -->
                         <Label Grid.Row="1"
-                               Text="{localization:Localize MainPage_GetStarted}" 
+                               Text="{localization:Localize MainPage_GetStarted}"
                                Style="{StaticResource TitleLarge}"
                                HorizontalOptions="Center"
                                HorizontalTextAlignment="Center" />
-                        
+
                         <!-- Action Button -->
                         <Button Grid.Row="2"
                                 Text="{localization:Localize MainPage_LearnMajorSystem}"
