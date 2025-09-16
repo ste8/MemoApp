@@ -48,6 +48,30 @@
     <Color x:Key="Gray900">#18181B</Color> <!-- Neutral-900: Almost black -->
     <Color x:Key="Gray950">#09090B</Color> <!-- Neutral-950: True dark -->
 
+    <!-- ===== ELEGANT FOCUS DESIGN PALETTE ===== -->
+    <!-- Sophisticated primary colors for elegant, calming interfaces -->
+    <Color x:Key="ElegantBlue">#2563EB</Color>        <!-- Sophisticated blue for primary actions -->
+    <Color x:Key="ElegantBlueLight">#3B82F6</Color>   <!-- Lighter variant for hover states -->
+    <Color x:Key="ElegantBlueDark">#1D4ED8</Color>    <!-- Darker variant for active states -->
+    <Color x:Key="ElegantTeal">#0F766E</Color>        <!-- Calming teal for secondary elements -->
+    <Color x:Key="ElegantTealLight">#14B8A6</Color>   <!-- Light teal for highlights -->
+    <Color x:Key="ElegantAmber">#F59E0B</Color>       <!-- Warm intelligent amber -->
+    <Color x:Key="ElegantAmberLight">#FBBF24</Color>  <!-- Light amber for accents -->
+    <Color x:Key="ElegantAmberDark">#D97706</Color>   <!-- Deep amber for contrast -->
+
+    <!-- Sophisticated neutral palette -->
+    <Color x:Key="ElegantWarmWhite">#FAFAFA</Color>   <!-- Soft warm white background -->
+    <Color x:Key="ElegantSurface">#F8F9FA</Color>      <!-- Card surface color -->
+    <Color x:Key="ElegantBorder">#E5E7EB</Color>       <!-- Subtle border color -->
+    <Color x:Key="ElegantText">#1F2937</Color>         <!-- Rich text color -->
+    <Color x:Key="ElegantTextSecondary">#6B7280</Color> <!-- Secondary text -->
+    <Color x:Key="ElegantTextMuted">#9CA3AF</Color>    <!-- Muted text for descriptions -->
+
+    <!-- Shadow colors for elegant depth -->
+    <Color x:Key="ElegantShadowLight">#E5E7EB</Color>  <!-- Light shadow -->
+    <Color x:Key="ElegantShadowMedium">#D1D5DB</Color> <!-- Medium shadow -->
+    <Color x:Key="ElegantShadowDark">#9CA3AF</Color>   <!-- Deeper shadow -->
+
     <!-- WCAG-compliant placeholder colors for accessibility -->
     <Color x:Key="PlaceholderLight">#666666</Color>  <!-- 4.54:1 contrast on white/Gray50 - WCAG AA compliant -->
     <Color x:Key="PlaceholderDark">#B3B3B3</Color>   <!-- 4.52:1 contrast on Gray800 - WCAG AA compliant -->

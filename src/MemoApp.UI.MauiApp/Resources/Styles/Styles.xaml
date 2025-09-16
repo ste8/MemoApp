@@ -735,6 +735,92 @@
         <Setter Property="LineHeight" Value="1.4" />
         <Setter Property="LineBreakMode" Value="WordWrap" />
     </Style>
+
+    <!-- ===== ELEGANT FOCUS TYPOGRAPHY SYSTEM ===== -->
+
+    <!-- Hero Title - Main page welcome -->
+    <Style TargetType="Label" x:Key="ElegantHeroTitle">
+        <Setter Property="FontFamily" Value="{OnPlatform iOS='SF Pro Display', Android='sans-serif-light', Default='Segoe UI Light'}" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=32, Tablet=40, Desktop=44}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource ElegantText}" />
+        <Setter Property="LineHeight" Value="1.1" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,8,0,4" />
+    </Style>
+
+    <!-- Hero Subtitle - Supporting text for hero -->
+    <Style TargetType="Label" x:Key="ElegantHeroSubtitle">
+        <Setter Property="FontFamily" Value="{OnPlatform iOS='SF Pro Text', Android='sans-serif', Default='Segoe UI'}" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=16, Tablet=18, Desktop=20}" />
+        <Setter Property="FontAttributes" Value="None" />
+        <Setter Property="TextColor" Value="{StaticResource ElegantTextSecondary}" />
+        <Setter Property="LineHeight" Value="1.4" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,0,0,16" />
+        <Setter Property="MaximumWidthRequest" Value="{OnIdiom Phone=320, Tablet=480, Desktop=560}" />
+    </Style>
+
+    <!-- Feature Card Title - Primary action titles -->
+    <Style TargetType="Label" x:Key="ElegantFeatureTitle">
+        <Setter Property="FontFamily" Value="{OnPlatform iOS='SF Pro Display', Android='sans-serif-medium', Default='Segoe UI Semibold'}" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=20, Tablet=22, Desktop=24}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="LineHeight" Value="1.2" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,4,0,4" />
+    </Style>
+
+    <!-- Feature Card Description -->
+    <Style TargetType="Label" x:Key="ElegantFeatureDescription">
+        <Setter Property="FontFamily" Value="{OnPlatform iOS='SF Pro Text', Android='sans-serif', Default='Segoe UI'}" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=14, Tablet=15, Desktop=16}" />
+        <Setter Property="FontAttributes" Value="None" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="Opacity" Value="0.9" />
+        <Setter Property="LineHeight" Value="1.4" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+        <Setter Property="MaximumWidthRequest" Value="{OnIdiom Phone=200, Tablet=240, Desktop=280}" />
+    </Style>
+
+    <!-- Support Action Title -->
+    <Style TargetType="Label" x:Key="ElegantSupportTitle">
+        <Setter Property="FontFamily" Value="{OnPlatform iOS='SF Pro Display', Android='sans-serif-medium', Default='Segoe UI Semibold'}" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=16, Tablet=17, Desktop=18}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource ElegantText}" />
+        <Setter Property="LineHeight" Value="1.3" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <!-- Support Action Subtitle -->
+    <Style TargetType="Label" x:Key="ElegantSupportSubtitle">
+        <Setter Property="FontFamily" Value="{OnPlatform iOS='SF Pro Text', Android='sans-serif', Default='Segoe UI'}" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=13, Tablet=14, Desktop=15}" />
+        <Setter Property="FontAttributes" Value="None" />
+        <Setter Property="TextColor" Value="{StaticResource ElegantTextSecondary}" />
+        <Setter Property="LineHeight" Value="1.4" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+    </Style>
+
+    <!-- Info Card Title -->
+    <Style TargetType="Label" x:Key="ElegantInfoTitle">
+        <Setter Property="FontFamily" Value="{OnPlatform iOS='SF Pro Display', Android='sans-serif-medium', Default='Segoe UI Semibold'}" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=18, Tablet=20, Desktop=22}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource ElegantText}" />
+        <Setter Property="LineHeight" Value="1.3" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,8,0,16" />
+    </Style>
     
     <!-- Enhanced Card Style for Modern UI -->
     <Style TargetType="Frame" x:Key="ModernCardStyle">
@@ -1127,47 +1213,170 @@
         </Setter>
     </Style>
 
-    <!-- REVOLUTIONARY NEURAL GALAXY DESIGN RESOURCES -->
+    <!-- ===== ELEGANT FOCUS DESIGN SYSTEM ===== -->
 
-    <!-- Neural Background Gradient -->
-    <LinearGradientBrush x:Key="NeuralGradientBrush" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="#000814" Offset="0.0" />
-        <GradientStop Color="#001D3D" Offset="0.5" />
-        <GradientStop Color="#003566" Offset="1.0" />
+    <!-- Elegant gradient backgrounds -->
+    <LinearGradientBrush x:Key="ElegantPrimaryGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource ElegantBlue}" Offset="0.0" />
+        <GradientStop Color="{StaticResource ElegantBlueLight}" Offset="1.0" />
     </LinearGradientBrush>
 
-    <!-- Glassmorphic Effect Brush -->
-    <LinearGradientBrush x:Key="GlassmorphicBrush" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="#0D001D3D" Offset="0.0" />
-        <GradientStop Color="#1A003566" Offset="0.5" />
-        <GradientStop Color="#0D001D3D" Offset="1.0" />
+    <LinearGradientBrush x:Key="ElegantSecondaryGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource ElegantAmber}" Offset="0.0" />
+        <GradientStop Color="{StaticResource ElegantAmberLight}" Offset="1.0" />
     </LinearGradientBrush>
 
-    <!-- Holographic Card Brush -->
-    <LinearGradientBrush x:Key="HolographicCardBrush" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="#1A001D3D" Offset="0.0" />
-        <GradientStop Color="#26003566" Offset="0.3" />
-        <GradientStop Color="#1A001D3D" Offset="0.7" />
-        <GradientStop Color="#0D000814" Offset="1.0" />
+    <!-- Subtle surface gradient for cards -->
+    <LinearGradientBrush x:Key="ElegantSurfaceGradient" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="{StaticResource ElegantWarmWhite}" Offset="0.0" />
+        <GradientStop Color="{StaticResource ElegantSurface}" Offset="1.0" />
     </LinearGradientBrush>
 
-    <!-- Neural Info Card Brush -->
-    <RadialGradientBrush x:Key="NeuralInfoCardBrush" Center="0.5,0.5">
-        <GradientStop Color="#26003566" Offset="0" />
-        <GradientStop Color="#1A001D3D" Offset="0.5" />
-        <GradientStop Color="#0D000814" Offset="1" />
-    </RadialGradientBrush>
-
-    <!-- Primary Card Background - for gradient backgrounds -->
-    <LinearGradientBrush x:Key="PrimaryCardGradientBrush" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="{StaticResource PrimaryGradientStart}" Offset="0" />
-        <GradientStop Color="{StaticResource PrimaryGradientEnd}" Offset="1" />
+    <!-- Sophisticated card backgrounds with subtle depth -->
+    <LinearGradientBrush x:Key="ElegantCardBackground" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="White" Offset="0.0" />
+        <GradientStop Color="{StaticResource ElegantSurface}" Offset="0.3" />
+        <GradientStop Color="White" Offset="1.0" />
     </LinearGradientBrush>
 
-    <LinearGradientBrush x:Key="SecondaryCardGradientBrush" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="{StaticResource SecondaryGradientStart}" Offset="0" />
-        <GradientStop Color="{StaticResource SecondaryGradientEnd}" Offset="1" />
-    </LinearGradientBrush>
+    <!-- ===== ELEGANT FOCUS CARD SYSTEM ===== -->
+
+    <!-- Primary Feature Card - Flash Numbers -->
+    <Style x:Key="ElegantPrimaryFeatureCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource ElegantPrimaryGradient}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 20" />
+        <Setter Property="Padding" Value="{OnIdiom Phone='28', Tablet='32', Desktop='36'}" />
+        <Setter Property="Margin" Value="{OnIdiom Phone='16,8', Tablet='20,12', Desktop='24,16'}" />
+        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=180, Tablet=200, Desktop=220}" />
+        <Setter Property="Shadow">
+            <Shadow Brush="{StaticResource ElegantBlue}"
+                    Opacity="0.15"
+                    Offset="0,8"
+                    Radius="24" />
+        </Setter>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="0.98" />
+                            <Setter Property="Opacity" Value="0.95" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="1.02" />
+                            <Setter Property="Shadow">
+                                <Shadow Brush="{StaticResource ElegantBlue}"
+                                        Opacity="0.25"
+                                        Offset="0,12"
+                                        Radius="32" />
+                            </Setter>
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- Secondary Feature Card - Big Number -->
+    <Style x:Key="ElegantSecondaryFeatureCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource ElegantSecondaryGradient}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 20" />
+        <Setter Property="Padding" Value="{OnIdiom Phone='28', Tablet='32', Desktop='36'}" />
+        <Setter Property="Margin" Value="{OnIdiom Phone='16,8', Tablet='20,12', Desktop='24,16'}" />
+        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=180, Tablet=200, Desktop=220}" />
+        <Setter Property="Shadow">
+            <Shadow Brush="{StaticResource ElegantAmber}"
+                    Opacity="0.15"
+                    Offset="0,8"
+                    Radius="24" />
+        </Setter>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="0.98" />
+                            <Setter Property="Opacity" Value="0.95" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="1.02" />
+                            <Setter Property="Shadow">
+                                <Shadow Brush="{StaticResource ElegantAmber}"
+                                        Opacity="0.25"
+                                        Offset="0,12"
+                                        Radius="32" />
+                            </Setter>
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- Support Action Card -->
+    <Style x:Key="ElegantSupportCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource ElegantCardBackground}" />
+        <Setter Property="Stroke" Value="{StaticResource ElegantBorder}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        <Setter Property="Padding" Value="{OnIdiom Phone='20', Tablet='24', Desktop='28'}" />
+        <Setter Property="Margin" Value="{OnIdiom Phone='16,6', Tablet='20,8', Desktop='24,10'}" />
+        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=80, Tablet=88, Desktop=96}" />
+        <Setter Property="Shadow">
+            <Shadow Brush="{StaticResource ElegantShadowLight}"
+                    Opacity="0.4"
+                    Offset="0,4"
+                    Radius="12" />
+        </Setter>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="0.98" />
+                            <Setter Property="BackgroundColor" Value="{StaticResource Gray50}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="Stroke" Value="{StaticResource ElegantTeal}" />
+                            <Setter Property="Shadow">
+                                <Shadow Brush="{StaticResource ElegantShadowMedium}"
+                                        Opacity="0.6"
+                                        Offset="0,6"
+                                        Radius="16" />
+                            </Setter>
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- Information Card -->
+    <Style x:Key="ElegantInfoCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource ElegantCardBackground}" />
+        <Setter Property="Stroke" Value="{StaticResource ElegantBorder}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 20" />
+        <Setter Property="Padding" Value="{OnIdiom Phone='24', Tablet='28', Desktop='32'}" />
+        <Setter Property="Margin" Value="{OnIdiom Phone='16,8', Tablet='20,12', Desktop='24,16'}" />
+        <Setter Property="Shadow">
+            <Shadow Brush="{StaticResource ElegantShadowLight}"
+                    Opacity="0.3"
+                    Offset="0,6"
+                    Radius="16" />
+        </Setter>
+    </Style>
 
     <!-- Tier 2: Secondary Action Cards - Important supportive actions -->
     <Style x:Key="SecondaryActionCardStyle" TargetType="Border">
@@ -1332,6 +1541,90 @@
         <Setter Property="TextColor" Value="{StaticResource Tertiary}" />
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <!-- ===== ELEGANT FOCUS INTERACTION ENHANCEMENTS ===== -->
+
+    <!-- Elegant button style for subtle interactions -->
+    <Style x:Key="ElegantInteractionButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="FontFamily" Value="{OnPlatform iOS='SF Pro Text', Android='sans-serif-medium', Default='Segoe UI Semibold'}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="Shadow">
+            <Shadow Brush="{StaticResource ElegantShadowLight}"
+                    Opacity="0.0"
+                    Offset="0,2"
+                    Radius="8" />
+        </Setter>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="0.96" />
+                            <Setter Property="Opacity" Value="0.8" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="1.02" />
+                            <Setter Property="Shadow">
+                                <Shadow Brush="{StaticResource ElegantShadowMedium}"
+                                        Opacity="0.3"
+                                        Offset="0,4"
+                                        Radius="12" />
+                            </Setter>
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- Enhanced card container for smooth transitions -->
+    <Style x:Key="ElegantAnimatedCard" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource ElegantCardBackground}" />
+        <Setter Property="Stroke" Value="{StaticResource ElegantBorder}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        <Setter Property="Shadow">
+            <Shadow Brush="{StaticResource ElegantShadowLight}"
+                    Opacity="0.2"
+                    Offset="0,2"
+                    Radius="8" />
+        </Setter>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="1.0" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="0.98" />
+                            <Setter Property="Opacity" Value="0.9" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="1.01" />
+                            <Setter Property="Shadow">
+                                <Shadow Brush="{StaticResource ElegantShadowMedium}"
+                                        Opacity="0.4"
+                                        Offset="0,6"
+                                        Radius="16" />
+                            </Setter>
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
 
 
