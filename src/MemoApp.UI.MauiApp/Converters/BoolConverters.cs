@@ -142,10 +142,7 @@ public class BoolToStarConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is bool boolValue)
-            return boolValue ? Utilities.FontAwesome.Solid.Star : Utilities.FontAwesome.Regular.Star;
-        
-        return Utilities.FontAwesome.Regular.Star;
+        return Utilities.FontAwesome.Icons.Star;
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

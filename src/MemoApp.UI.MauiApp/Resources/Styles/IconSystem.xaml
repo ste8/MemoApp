@@ -10,8 +10,8 @@
          =========================================== -->
 
     <!-- FONT FAMILIES -->
-    <x:String x:Key="IconFont_Solid">{x:Static utilities:FontAwesome+FontFamilies.Solid}</x:String>
-    <x:String x:Key="IconFont_Light">{x:Static utilities:FontAwesome+FontFamilies.Light}</x:String>
+    <x:Static x:Key="IconFont_Solid" Member="utilities:FontAwesome+FontFamilies.Solid" />
+    <x:Static x:Key="IconFont_Light" Member="utilities:FontAwesome+FontFamilies.Light" />
 
     <!-- RESPONSIVE ICON SIZES -->
     <OnIdiom x:Key="IconSize_Small" x:TypeArguments="x:Double">
@@ -72,13 +72,13 @@
          =========================================== -->
 
     <!-- NAVIGATION ICONS -->
-    <x:String x:Key="Icon_Home">{x:Static utilities:FontAwesome+Solid.House}</x:String>
-    <x:String x:Key="Icon_Back">{x:Static utilities:FontAwesome+Solid.ChevronLeft}</x:String>
-    <x:String x:Key="Icon_Forward">{x:Static utilities:FontAwesome+Solid.ChevronRight}</x:String>
-    <x:String x:Key="Icon_ChevronDown">{x:Static utilities:FontAwesome+Solid.ChevronDown}</x:String>
-    <x:String x:Key="Icon_Down">{x:Static utilities:FontAwesome+Solid.ChevronDown}</x:String>
-    <x:String x:Key="Icon_Close">{x:Static utilities:FontAwesome+Solid.Xmark}</x:String>
-    <x:String x:Key="Icon_Menu">{x:Static utilities:FontAwesome+Solid.Bars}</x:String>
+    <x:Static x:Key="Icon_Home" Member="utilities:FontAwesome+Icons.House" />
+    <x:Static x:Key="Icon_Back" Member="utilities:FontAwesome+Icons.ChevronLeft" />
+    <x:Static x:Key="Icon_Forward" Member="utilities:FontAwesome+Icons.ChevronRight" />
+    <x:Static x:Key="Icon_ChevronDown" Member="utilities:FontAwesome+Icons.ChevronDown" />
+    <x:Static x:Key="Icon_Down" Member="utilities:FontAwesome+Icons.ChevronDown" />
+    <x:Static x:Key="Icon_Close" Member="utilities:FontAwesome+Icons.Xmark" />
+    <x:Static x:Key="Icon_Menu" Member="utilities:FontAwesome+Icons.Bars" />
 
     <!-- TAB ICON GLYPHS (Direct Unicode values for FontImageSource) -->
     <!-- NOTE: FontImageSource.Glyph does not support x:Static markup extensions in MAUI -->
@@ -90,33 +90,33 @@
     <x:String x:Key="Glyph_Cog">&#xf013;</x:String>         <!-- Settings Gear -->
 
     <!-- ACTION ICONS -->
-    <x:String x:Key="Icon_Refresh">{x:Static utilities:FontAwesome+Solid.ArrowsRotate}</x:String>
-    <x:String x:Key="Icon_Download">{x:Static utilities:FontAwesome+Solid.Download}</x:String>
-    <x:String x:Key="Icon_Upload">{x:Static utilities:FontAwesome+Solid.Upload}</x:String>
-    <x:String x:Key="Icon_Delete">{x:Static utilities:FontAwesome+Solid.Trash}</x:String>
-    <x:String x:Key="Icon_Edit">{x:Static utilities:FontAwesome+Solid.PenToSquare}</x:String>
-    <x:String x:Key="Icon_Add">{x:Static utilities:FontAwesome+Solid.Plus}</x:String>
-    <x:String x:Key="Icon_Search">{x:Static utilities:FontAwesome+Solid.MagnifyingGlass}</x:String>
-    <x:String x:Key="Icon_Share">{x:Static utilities:FontAwesome+Solid.Share}</x:String>
-    <x:String x:Key="Icon_Eye">{x:Static utilities:FontAwesome+Solid.Eye}</x:String>
-    <x:String x:Key="Icon_EyeSlash">{x:Static utilities:FontAwesome+Solid.EyeSlash}</x:String>
+    <x:Static x:Key="Icon_Refresh" Member="utilities:FontAwesome+Icons.ArrowsRotate" />
+    <x:Static x:Key="Icon_Download" Member="utilities:FontAwesome+Icons.Download" />
+    <x:Static x:Key="Icon_Upload" Member="utilities:FontAwesome+Icons.Upload" />
+    <x:Static x:Key="Icon_Delete" Member="utilities:FontAwesome+Icons.Trash" />
+    <x:Static x:Key="Icon_Edit" Member="utilities:FontAwesome+Icons.PenToSquare" />
+    <x:Static x:Key="Icon_Add" Member="utilities:FontAwesome+Icons.Plus" />
+    <x:Static x:Key="Icon_Search" Member="utilities:FontAwesome+Icons.MagnifyingGlass" />
+    <x:Static x:Key="Icon_Share" Member="utilities:FontAwesome+Icons.Share" />
+    <x:Static x:Key="Icon_Eye" Member="utilities:FontAwesome+Icons.Eye" />
+    <x:Static x:Key="Icon_EyeSlash" Member="utilities:FontAwesome+Icons.EyeSlash" />
 
     <!-- STATUS ICONS -->
-    <x:String x:Key="Icon_Success">{x:Static utilities:FontAwesome+Solid.CircleCheck}</x:String>
-    <x:String x:Key="Icon_Warning">{x:Static utilities:FontAwesome+Solid.TriangleExclamation}</x:String>
-    <x:String x:Key="Icon_Error">{x:Static utilities:FontAwesome+Solid.CircleXmark}</x:String>
-    <x:String x:Key="Icon_Info">{x:Static utilities:FontAwesome+Solid.CircleInfo}</x:String>
-    <x:String x:Key="Icon_Loading">{x:Static utilities:FontAwesome+Solid.Spinner}</x:String>
+    <x:Static x:Key="Icon_Success" Member="utilities:FontAwesome+Icons.CircleCheck" />
+    <x:Static x:Key="Icon_Warning" Member="utilities:FontAwesome+Icons.TriangleExclamation" />
+    <x:Static x:Key="Icon_Error" Member="utilities:FontAwesome+Icons.CircleXmark" />
+    <x:Static x:Key="Icon_Info" Member="utilities:FontAwesome+Icons.CircleInfo" />
+    <x:Static x:Key="Icon_Loading" Member="utilities:FontAwesome+Icons.Spinner" />
 
     <!-- APP-SPECIFIC ICONS -->
-    <x:String x:Key="Icon_Settings">{x:Static utilities:FontAwesome+Solid.Cog}</x:String>
-    <x:String x:Key="Icon_Statistics">{x:Static utilities:FontAwesome+Solid.ChartLine}</x:String>
-    <x:String x:Key="Icon_Package">{x:Static utilities:FontAwesome+Solid.Box}</x:String>
-    <x:String x:Key="Icon_Language">{x:Static utilities:FontAwesome+Solid.Globe}</x:String>
-    <x:String x:Key="Icon_Numbers">{x:Static utilities:FontAwesome+Solid.Hashtag}</x:String>
-    <x:String x:Key="Icon_FlashNumbers">{x:Static utilities:FontAwesome+Solid.Bolt}</x:String>
-    <x:String x:Key="Icon_BigNumber">{x:Static utilities:FontAwesome+Solid.Brain}</x:String>
-    <x:String x:Key="Icon_Associations">{x:Static utilities:FontAwesome+Solid.Link}</x:String>
+    <x:Static x:Key="Icon_Settings" Member="utilities:FontAwesome+Icons.Cog" />
+    <x:Static x:Key="Icon_Statistics" Member="utilities:FontAwesome+Icons.ChartLine" />
+    <x:Static x:Key="Icon_Package" Member="utilities:FontAwesome+Icons.Box" />
+    <x:Static x:Key="Icon_Language" Member="utilities:FontAwesome+Icons.Globe" />
+    <x:Static x:Key="Icon_Numbers" Member="utilities:FontAwesome+Icons.Hashtag" />
+    <x:Static x:Key="Icon_FlashNumbers" Member="utilities:FontAwesome+Icons.Bolt" />
+    <x:Static x:Key="Icon_BigNumber" Member="utilities:FontAwesome+Icons.Brain" />
+    <x:Static x:Key="Icon_Associations" Member="utilities:FontAwesome+Icons.Link" />
 
     <!-- ===========================================
          BASE ICON STYLES
