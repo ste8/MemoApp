@@ -98,109 +98,102 @@
             </VerticalStackLayout>
         </Border>
 
-        <!-- Main Pack Grid -->
-        <ScrollView IsVisible="{Binding HasPacks}">
-            <Grid Padding="{OnIdiom Phone='16', Tablet='24', Desktop='32'}"
-                  RowSpacing="{StaticResource CardSpacing}">
-                
-                <Grid.RowDefinitions>
-                    <!-- Header Row -->
-                    <RowDefinition Height="Auto"/>
-                    <!-- Filter/Sort Row (Future) -->
-                    <RowDefinition Height="Auto"/>
-                    <!-- Pack Grid -->
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+        <!-- Main Pack Grid with Unified Scrolling -->
+        <CollectionView IsVisible="{Binding HasPacks}"
+                        ItemsSource="{Binding FilteredPacks}"
+                        SelectionMode="{Binding SelectionMode}"
+                        SelectedItem="{Binding SelectedPack}">
 
-                <!-- Header Section -->
-                <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,16">
-                    <VerticalStackLayout Grid.Column="0" Spacing="4">
-                        <Label Text="{Binding HeaderTitle}"
-                               FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
-                               FontAttributes="Bold"
-                               TextColor="{StaticResource Gray900}"/>
-                        <Label Text="{Binding HeaderSubtitle}"
-                               FontSize="{OnIdiom Phone=14, Tablet=15, Desktop=16}"
-                               TextColor="{StaticResource Gray600}"
-                               IsVisible="{Binding HeaderSubtitle, Converter={StaticResource IsNotNullOrEmptyConverter}}"/>
-                    </VerticalStackLayout>
-                    
-                    <!-- Refresh Button (only in management mode) -->
-                    <Button Grid.Column="1"
-                            IsVisible="{Binding ShowRefreshButton}"
-                            Text="{StaticResource Icon_Refresh}"
-                            FontFamily="{StaticResource IconFont_Solid}"
-                            Command="{Binding RefreshCommand}"
-                            BackgroundColor="{StaticResource Primary}"
-                            TextColor="White"
-                            CornerRadius="22"
-                            WidthRequest="44"
-                            HeightRequest="44"
-                            FontSize="20"
-                            VerticalOptions="Center"/>
-                </Grid>
+            <!-- Scrolling Header - Contains all header content -->
+            <CollectionView.Header>
+                <StackLayout Padding="{OnIdiom Phone='16', Tablet='24', Desktop='32'}"
+                            Spacing="{StaticResource CardSpacing}">
 
-                <!-- Future: Filter/Sort Controls -->
-                <Border Grid.Row="1" 
-                        IsVisible="{Binding ShowFilters}"
-                        BackgroundColor="{StaticResource Gray50}"
-                        Stroke="{StaticResource Gray200}"
-                        StrokeThickness="1"
-                        Padding="12,8"
-                        Margin="0,0,0,16">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="8"/>
-                    </Border.StrokeShape>
-                    <HorizontalStackLayout Spacing="16">
-                        <!-- Language Filter -->
-                        <Picker Title="{localization:Localize PackDownload_FilterByLanguage}"
-                                ItemsSource="{Binding AvailableLanguages}"
-                                SelectedItem="{Binding SelectedLanguage}"
-                                WidthRequest="150"/>
-                        <!-- Company Filter -->
-                        <Picker Title="{localization:Localize PackDownload_FilterByCompany}"
-                                ItemsSource="{Binding AvailableCompanies}"
-                                SelectedItem="{Binding SelectedCompany}"
-                                WidthRequest="200"
-                                IsVisible="{Binding HasMultipleCompanies}"/>
-                    </HorizontalStackLayout>
-                </Border>
+                    <!-- Header Section -->
+                    <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,16">
+                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                            <Label Text="{Binding HeaderTitle}"
+                                   FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray900}"/>
+                            <Label Text="{Binding HeaderSubtitle}"
+                                   FontSize="{OnIdiom Phone=14, Tablet=15, Desktop=16}"
+                                   TextColor="{StaticResource Gray600}"
+                                   IsVisible="{Binding HeaderSubtitle, Converter={StaticResource IsNotNullOrEmptyConverter}}"/>
+                        </VerticalStackLayout>
 
-                <!-- Pack Cards Grid -->
-                <CollectionView Grid.Row="2"
-                                ItemsSource="{Binding FilteredPacks}"
-                                SelectionMode="{Binding SelectionMode}"
-                                SelectedItem="{Binding SelectedPack}">
-                    
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical"
-                                        Span="{OnIdiom Phone=1, Tablet=2, Desktop=3}"
-                                        VerticalItemSpacing="{StaticResource CardSpacing}"
-                                        HorizontalItemSpacing="{StaticResource CardSpacing}"/>
-                    </CollectionView.ItemsLayout>
+                        <!-- Refresh Button (only in management mode) -->
+                        <Button Grid.Column="1"
+                                IsVisible="{Binding ShowRefreshButton}"
+                                Text="{StaticResource Icon_Refresh}"
+                                FontFamily="{StaticResource IconFont_Solid}"
+                                Command="{Binding RefreshCommand}"
+                                BackgroundColor="{StaticResource Primary}"
+                                TextColor="White"
+                                CornerRadius="22"
+                                WidthRequest="44"
+                                HeightRequest="44"
+                                FontSize="20"
+                                VerticalOptions="Center"/>
+                    </Grid>
 
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Border StrokeThickness="2"
-                                    BackgroundColor="{Binding IsSelected, Converter={StaticResource BoolToColorConverter}, ConverterParameter='Selected|Default'}"
-                                    Stroke="{Binding IsSelected, Converter={StaticResource BoolToColorConverter}, ConverterParameter='SelectedBorder|DefaultBorder'}">
-                                <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="12"/>
-                                </Border.StrokeShape>
-                                
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup x:Name="CommonStates">
-                                        <VisualState x:Name="Normal"/>
-                                        <VisualState x:Name="Selected">
-                                            <VisualState.Setters>
-                                                <Setter Property="BackgroundColor" Value="{StaticResource CardBackgroundSelected}"/>
-                                                <Setter Property="Stroke" Value="{StaticResource CardBorderSelected}"/>
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                </VisualStateManager.VisualStateGroups>
+                    <!-- Filter/Sort Controls -->
+                    <Border IsVisible="{Binding ShowFilters}"
+                            BackgroundColor="{StaticResource Gray50}"
+                            Stroke="{StaticResource Gray200}"
+                            StrokeThickness="1"
+                            Padding="12,8"
+                            Margin="0,0,0,16">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8"/>
+                        </Border.StrokeShape>
+                        <HorizontalStackLayout Spacing="16">
+                            <!-- Language Filter -->
+                            <Picker Title="{localization:Localize PackDownload_FilterByLanguage}"
+                                    ItemsSource="{Binding AvailableLanguages}"
+                                    SelectedItem="{Binding SelectedLanguage}"
+                                    WidthRequest="150"/>
+                            <!-- Company Filter -->
+                            <Picker Title="{localization:Localize PackDownload_FilterByCompany}"
+                                    ItemsSource="{Binding AvailableCompanies}"
+                                    SelectedItem="{Binding SelectedCompany}"
+                                    WidthRequest="200"
+                                    IsVisible="{Binding HasMultipleCompanies}"/>
+                        </HorizontalStackLayout>
+                    </Border>
+                </StackLayout>
+            </CollectionView.Header>
 
-                                <Grid Padding="16" RowDefinitions="Auto,Auto,Auto,Auto,Auto" RowSpacing="12">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical"
+                                Span="{OnIdiom Phone=1, Tablet=2, Desktop=3}"
+                                VerticalItemSpacing="{StaticResource CardSpacing}"
+                                HorizontalItemSpacing="{StaticResource CardSpacing}"/>
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border StrokeThickness="2"
+                            BackgroundColor="{Binding IsSelected, Converter={StaticResource BoolToColorConverter}, ConverterParameter='Selected|Default'}"
+                            Stroke="{Binding IsSelected, Converter={StaticResource BoolToColorConverter}, ConverterParameter='SelectedBorder|DefaultBorder'}"
+                            Margin="{OnIdiom Phone='16,0', Tablet='24,0', Desktop='32,0'}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12"/>
+                        </Border.StrokeShape>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="{StaticResource CardBackgroundSelected}"/>
+                                        <Setter Property="Stroke" Value="{StaticResource CardBorderSelected}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Grid Padding="16" RowDefinitions="Auto,Auto,Auto,Auto,Auto" RowSpacing="12">
                                     
                                     <!-- Header Row: Title + Status Badge -->
                                     <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
@@ -338,10 +331,8 @@
                                    TextColor="{StaticResource Gray600}"
                                    HorizontalTextAlignment="Center"/>
                         </VerticalStackLayout>
-                    </CollectionView.EmptyView>
-                </CollectionView>
-            </Grid>
-        </ScrollView>
+                </CollectionView.EmptyView>
+            </CollectionView>
 
         <!-- Floating Action Section (Onboarding Mode) -->
         <Border IsVisible="{Binding IsOnboardingMode}"

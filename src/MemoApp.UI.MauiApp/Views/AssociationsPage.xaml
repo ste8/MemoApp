@@ -45,211 +45,230 @@
                     Margin="0,20,0,0" />
         </StackLayout>
         
-        <!-- Main content -->
-        <Grid IsVisible="{Binding HasPackAvailable}"
-              RowDefinitions="Auto,Auto,Auto,*"
-              Padding="{OnPlatform iOS='20,16,20,20', Android='20,16,20,20', Default='20'}"
-              RowSpacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
-                
-                <!-- Enhanced Contextual Header - Primary page identifier -->
-                <StackLayout Grid.Row="0" Spacing="8" Margin="0,0,0,16">
-                    <Label Text="{localization:Localize Associations_ContextualHeader}" 
-                           Style="{StaticResource ContextualHeaderStyle}"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center" />
-                </StackLayout>
-            
-                <!-- Categories selector with enhanced visual design -->
-                <!-- Mobile: Modern card-based picker design -->
-                <Frame Grid.Row="1"
-                       Style="{StaticResource ModernCardStyle}"
-                       IsVisible="{OnPlatform iOS=True, Android=True, Default=False}">
-                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                        <Label Grid.Column="0"
-                               Text="{localization:Localize Associations_CategoryLabel}" 
-                               Style="{StaticResource SectionHeaderStyle}"
-                               VerticalOptions="Center" />
-                        <Picker Grid.Column="1"
-                                ItemsSource="{Binding Categories}"
-                                ItemDisplayBinding="{Binding DisplayName}"
-                                SelectedItem="{Binding SelectedCategory}"
-                                BackgroundColor="Transparent"
-                                FontSize="15"
-                                VerticalOptions="Center" />
-                    </Grid>
-                </Frame>
-            
-                <!-- Desktop: Elegant horizontal pill buttons with animations -->
-                <Frame Style="{StaticResource ModernCardStyle}"
-                       IsVisible="{OnPlatform iOS=False, Android=False, Default=True}">
-                    <Grid>
-                        <ScrollView Orientation="Horizontal" 
-                                   HorizontalScrollBarVisibility="Never"
-                                   VerticalOptions="Center">
-                            <StackLayout Orientation="Horizontal" Spacing="12">
-                                <Label Text="{localization:Localize Associations_CategoriesLabel}" 
-                                       Style="{StaticResource SectionHeaderStyle}"
-                                       VerticalOptions="Center"
-                                       Margin="0,0,8,0" />
-                                <StackLayout Orientation="Horizontal" Spacing="8" BindableLayout.ItemsSource="{Binding Categories}">
-                                    <BindableLayout.ItemTemplate>
-                                        <DataTemplate x:DataType="models:CategoryTokens">
-                                            <Button Text="{Binding DisplayName}" 
-                                                    Command="{Binding SelectCategoryCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AssociationsViewModel}}}"
-                                                    CommandParameter="{Binding}"
-                                                    Style="{StaticResource CategoryButtonStyle}">
-                                                <Button.Triggers>
-                                                    <DataTrigger TargetType="Button" 
-                                                               Binding="{Binding Path=SelectedCategory.CategoryKey, Source={RelativeSource AncestorType={x:Type viewmodels:AssociationsViewModel}}}" 
-                                                               Value="{Binding CategoryKey}">
-                                                        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SecondaryButtonBackgroundColorSelectedLight}, Dark={StaticResource SecondaryButtonBackgroundColorSelectedDark}}" />
-                                                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnSecondaryButtonTextColorSelectedLight}, Dark={StaticResource OnSecondaryButtonTextColorSelectedDark}}" />
-                                                        <Setter Property="FontAttributes" Value="Bold" />
-                                                    </DataTrigger>
-                                                </Button.Triggers>
-                                            </Button>
-                                        </DataTemplate>
-                                    </BindableLayout.ItemTemplate>
-                                </StackLayout>
+        <!-- Unified scrolling CollectionView with headers that scroll WITH content -->
+        <CollectionView IsVisible="{Binding HasPackAvailable}"
+                       ItemsSource="{Binding Associations}"
+                       BackgroundColor="Transparent"
+                       SelectionMode="None"
+                       RemainingItemsThreshold="5"
+                       RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
+                       VerticalOptions="FillAndExpand">
+
+            <!-- Headers that SCROLL with the content -->
+            <CollectionView.Header>
+                <StackLayout Spacing="{OnIdiom Phone=16, Tablet=20, Desktop=24}"
+                            Padding="{OnPlatform iOS='20,16,20,20', Android='20,16,20,20', Default='20'}">
+
+                    <!-- Mobile: Compact contextual header -->
+                    <StackLayout Spacing="12"
+                                IsVisible="{OnPlatform iOS=True, Android=True, Default=False}"
+                                Margin="0,0,0,8">
+                <Label Text="{localization:Localize Associations_ContextualHeader}"
+                       FontFamily="OpenSansRegular"
+                       FontSize="14"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       LineBreakMode="WordWrap"
+                       MaxLines="2" />
+            </StackLayout>
+
+                    <!-- Desktop: Full contextual header -->
+                    <StackLayout Spacing="8"
+                                IsVisible="{OnPlatform iOS=False, Android=False, Default=True}"
+                                Margin="0,0,0,16">
+                <Label Text="{localization:Localize Associations_ContextualHeader}"
+                       Style="{StaticResource ContextualHeaderStyle}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+            </StackLayout>
+
+                    <!-- Categories selector with enhanced visual design -->
+                    <!-- Mobile: Compact card-based picker design -->
+                    <Frame Style="{StaticResource ModernCardStyle}"
+                           IsVisible="{OnPlatform iOS=True, Android=True, Default=False}"
+                           Margin="0,0,0,8">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Grid.Column="0"
+                           Text="{localization:Localize Associations_CategoryLabel}"
+                           FontFamily="OpenSansSemiBold"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}"
+                           VerticalOptions="Center" />
+                    <Picker Grid.Column="1"
+                            ItemsSource="{Binding Categories}"
+                            ItemDisplayBinding="{Binding DisplayName}"
+                            SelectedItem="{Binding SelectedCategory}"
+                            BackgroundColor="Transparent"
+                            FontSize="14"
+                            VerticalOptions="Center" />
+                </Grid>
+            </Frame>
+
+                    <!-- Desktop: Elegant horizontal pill buttons -->
+                    <Frame Style="{StaticResource ModernCardStyle}"
+                           IsVisible="{OnPlatform iOS=False, Android=False, Default=True}">
+                <Grid>
+                    <ScrollView Orientation="Horizontal"
+                               HorizontalScrollBarVisibility="Never"
+                               VerticalOptions="Center">
+                        <StackLayout Orientation="Horizontal" Spacing="12">
+                            <Label Text="{localization:Localize Associations_CategoriesLabel}"
+                                   Style="{StaticResource SectionHeaderStyle}"
+                                   VerticalOptions="Center"
+                                   Margin="0,0,8,0" />
+                            <StackLayout Orientation="Horizontal" Spacing="8" BindableLayout.ItemsSource="{Binding Categories}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="models:CategoryTokens">
+                                        <Button Text="{Binding DisplayName}"
+                                                Command="{Binding SelectCategoryCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AssociationsViewModel}}}"
+                                                CommandParameter="{Binding}"
+                                                Style="{StaticResource CategoryButtonStyle}">
+                                            <Button.Triggers>
+                                                <DataTrigger TargetType="Button"
+                                                           Binding="{Binding Path=SelectedCategory.CategoryKey, Source={RelativeSource AncestorType={x:Type viewmodels:AssociationsViewModel}}}"
+                                                           Value="{Binding CategoryKey}">
+                                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SecondaryButtonBackgroundColorSelectedLight}, Dark={StaticResource SecondaryButtonBackgroundColorSelectedDark}}" />
+                                                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnSecondaryButtonTextColorSelectedLight}, Dark={StaticResource OnSecondaryButtonTextColorSelectedDark}}" />
+                                                    <Setter Property="FontAttributes" Value="Bold" />
+                                                </DataTrigger>
+                                            </Button.Triggers>
+                                        </Button>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
                             </StackLayout>
-                        </ScrollView>
-                    </Grid>
-                </Frame>
-            
-                <!-- Debug info - only visible in DEBUG builds -->
-                <Label Grid.Row="2"
-                       FontSize="Small"
-                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
-                       HorizontalOptions="Start"
-                       Margin="0,0,0,8"
-                       IsVisible="{OnPlatform iOS=False, Android=False, Default=True}">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="{localization:Localize Associations_LoadedCount}" />
-                            <Span Text="{Binding Associations.Count}" FontAttributes="Bold" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                
-                <!-- Associations grid with improved mobile layout -->
-                <CollectionView Grid.Row="3"
-                              ItemsSource="{Binding Associations}"
-                              SelectionMode="None"
-                              RemainingItemsThreshold="5"
-                              RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
-                              BackgroundColor="Transparent"
-                              VerticalOptions="FillAndExpand"
-                              HorizontalOptions="FillAndExpand"
-                              VerticalScrollBarVisibility="Default">
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" 
-                                       Span="{OnPlatform iOS=1, Android=1, Default=2, WinUI=3, MacCatalyst=3}" 
-                                       HorizontalItemSpacing="8" 
-                                       VerticalItemSpacing="6" />
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:TokenAssociation">
-                            <Border Style="{StaticResource AssociationCardStyle}">
-                                <Border.Shadow>
-                                    <Shadow Brush="{AppThemeBinding Light={StaticResource Gray200}, Dark=Transparent}"
-                                            Offset="0,2"
-                                            Radius="6"
-                                            Opacity="0.15" />
-                                </Border.Shadow>
-                                <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
-                                    <!-- Thumbnail or Token placeholder with rounded corners -->
-                                    <Border Grid.Column="0" 
-                                            WidthRequest="72" 
-                                            HeightRequest="72"
-                                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}" 
-                                            VerticalOptions="Center"
-                                            StrokeThickness="0">
-                                        <Border.StrokeShape>
-                                            <RoundRectangle CornerRadius="8" />
-                                        </Border.StrokeShape>
-                                        <Grid>
-                                            <!-- Show image if thumbnail path exists -->
-                                            <Image Source="{Binding ThumbnailPath}"
-                                                   Aspect="AspectFill"
-                                                   IsVisible="{Binding ThumbnailPath, Converter={StaticResource IsNotNullOrEmptyConverter}}" />
-                                            <!-- Show token as fallback if no image -->
-                                            <Label Text="{Binding Token}"
-                                                   FontSize="20"
-                                                   FontAttributes="Bold"
-                                                   HorizontalOptions="Center"
-                                                   VerticalOptions="Center"
-                                                   BackgroundColor="Transparent"
-                                                   TextColor="{DynamicResource Primary}"
-                                                   IsVisible="{Binding ThumbnailPath, Converter={StaticResource IsNullOrEmptyConverter}}" />
-                                        </Grid>
-                                    </Border>
-                                    
-                                    <!-- Content area with better typography -->
-                                    <StackLayout Grid.Column="1" 
-                                                Spacing="4" 
-                                                VerticalOptions="Center">
-                                        <!-- Token with larger, bolder text -->
+                        </StackLayout>
+                    </ScrollView>
+                </Grid>
+            </Frame>
+
+                    <!-- Debug info - only visible in DEBUG builds -->
+                    <Label FontSize="Small"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
+                           HorizontalOptions="Start"
+                           Margin="0,0,0,8"
+                           IsVisible="{OnPlatform iOS=False, Android=False, Default=True}">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{localization:Localize Associations_LoadedCount}" />
+                        <Span Text="{Binding Associations.Count}" FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+                </StackLayout>
+            </CollectionView.Header>
+
+            <!-- ItemsLayout for responsive grid -->
+            <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                                    Span="{OnPlatform iOS=1, Android=1, Default=2, WinUI=3, MacCatalyst=3}"
+                                    HorizontalItemSpacing="8"
+                                    VerticalItemSpacing="6" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:TokenAssociation">
+                        <Border Style="{StaticResource AssociationCardStyle}">
+                            <Border.Shadow>
+                                <Shadow Brush="{AppThemeBinding Light={StaticResource Gray200}, Dark=Transparent}"
+                                        Offset="0,2"
+                                        Radius="6"
+                                        Opacity="0.15" />
+                            </Border.Shadow>
+                            <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+                                <!-- Thumbnail or Token placeholder with rounded corners -->
+                                <Border Grid.Column="0"
+                                        WidthRequest="72"
+                                        HeightRequest="72"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                                        VerticalOptions="Center"
+                                        StrokeThickness="0">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="8" />
+                                    </Border.StrokeShape>
+                                    <Grid>
+                                        <!-- Show image if thumbnail path exists -->
+                                        <Image Source="{Binding ThumbnailPath}"
+                                               Aspect="AspectFill"
+                                               IsVisible="{Binding ThumbnailPath, Converter={StaticResource IsNotNullOrEmptyConverter}}" />
+                                        <!-- Show token as fallback if no image -->
                                         <Label Text="{Binding Token}"
-                                               FontSize="16"
+                                               FontSize="20"
                                                FontAttributes="Bold"
-                                               TextColor="{AppThemeBinding Light={StaticResource OnSurfaceTextColorLight}, Dark={StaticResource OnSurfaceTextColorDark}}" />
-                                        
-                                        <!-- Word/Association with better contrast -->
-                                        <Label Text="{Binding Word}"
-                                               FontSize="14"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               BackgroundColor="Transparent"
                                                TextColor="{DynamicResource Primary}"
-                                               LineBreakMode="TailTruncation"
-                                               MaxLines="2" />
-                                    </StackLayout>
-                                    
-                                    <!-- Subtle chevron indicator for tap affordance -->
-                                    <Label Grid.Column="2" 
-                                           Text="›"
-                                           FontSize="18"
+                                               IsVisible="{Binding ThumbnailPath, Converter={StaticResource IsNullOrEmptyConverter}}" />
+                                    </Grid>
+                                </Border>
+
+                                <!-- Content area with better typography -->
+                                <StackLayout Grid.Column="1"
+                                            Spacing="4"
+                                            VerticalOptions="Center">
+                                    <!-- Token with larger, bolder text -->
+                                    <Label Text="{Binding Token}"
+                                           FontSize="16"
                                            FontAttributes="Bold"
-                                           TextColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}"
-                                           VerticalOptions="Center"
-                                           HorizontalOptions="Center"
-                                           Margin="0,0,4,0"
-                                           x:Name="ChevronIndicator" />
-                                </Grid>
-                                
-                                <Border.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding ViewTokenDetailsCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AssociationsViewModel}}}"
-                                                        CommandParameter="{Binding}" />
-                                </Border.GestureRecognizers>
-                                
-                                <!-- Enhanced interaction states for better affordance -->
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup x:Name="CommonStates">
-                                        <VisualState x:Name="Normal">
-                                            <VisualState.Setters>
-                                                <Setter TargetName="ChevronIndicator" Property="Label.TextColor" Value="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="PointerOver">
-                                            <VisualState.Setters>
-                                                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}" />
-                                                <Setter TargetName="ChevronIndicator" Property="Label.TextColor" Value="{DynamicResource Primary}" />
-                                                <Setter Property="Scale" Value="1.01" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="Pressed">
-                                            <VisualState.Setters>
-                                                <Setter Property="Scale" Value="0.98" />
-                                                <Setter Property="Opacity" Value="0.8" />
-                                                <Setter TargetName="ChevronIndicator" Property="Label.TextColor" Value="{DynamicResource Primary}" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                </VisualStateManager.VisualStateGroups>
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                                           TextColor="{AppThemeBinding Light={StaticResource OnSurfaceTextColorLight}, Dark={StaticResource OnSurfaceTextColorDark}}" />
+
+                                    <!-- Word/Association with better contrast -->
+                                    <Label Text="{Binding Word}"
+                                           FontSize="14"
+                                           TextColor="{DynamicResource Primary}"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="2" />
+                                </StackLayout>
+
+                                <!-- Subtle chevron indicator for tap affordance -->
+                                <Label Grid.Column="2"
+                                       Text="›"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center"
+                                       Margin="0,0,4,0"
+                                       x:Name="ChevronIndicator" />
+                            </Grid>
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ViewTokenDetailsCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AssociationsViewModel}}}"
+                                                    CommandParameter="{Binding}" />
+                            </Border.GestureRecognizers>
+
+                            <!-- Enhanced interaction states for better affordance -->
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter TargetName="ChevronIndicator" Property="Label.TextColor" Value="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}" />
+                                            <Setter TargetName="ChevronIndicator" Property="Label.TextColor" Value="{DynamicResource Primary}" />
+                                            <Setter Property="Scale" Value="1.01" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Property="Scale" Value="0.98" />
+                                            <Setter Property="Opacity" Value="0.8" />
+                                            <Setter TargetName="ChevronIndicator" Property="Label.TextColor" Value="{DynamicResource Primary}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+        </CollectionView>
         </Grid>
-        </Grid>
-        
+
         <!-- AdMob Banner - Shows at the bottom when ads are enabled -->
         <views:AdMobSmartBanner Grid.Row="1"
                                IsVisible="{Binding ShowAds}"
