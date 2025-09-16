@@ -192,9 +192,11 @@
                 </StackLayout>
 
                 <!-- ===== ELEGANT INFORMATION SECTION ===== -->
+                <!-- Temporarily hidden for v1.0 release - will re-enable when help guide is ready -->
+                <!--
                 <Border Style="{StaticResource ElegantInfoCard}">
                     <StackLayout Spacing="16" HorizontalOptions="Center">
-                        <!-- Help Icon -->
+                        <!~~ Help Icon ~~>
                         <Border BackgroundColor="{StaticResource ElegantTeal}"
                                 StrokeShape="RoundRectangle 18"
                                 StrokeThickness="0"
@@ -213,7 +215,7 @@
                         <Label Text="{localization:Localize MainPage_GetStarted}"
                                Style="{StaticResource ElegantInfoTitle}" />
 
-                        <!-- Elegant Help Button -->
+                        <!~~ Elegant Help Button ~~>
                         <Button Text="{localization:Localize MainPage_LearnMajorSystem}"
                                 Command="{Binding ShowHelpCommand}"
                                 BackgroundColor="Transparent"
@@ -253,6 +255,7 @@
                         </Button>
                     </StackLayout>
                 </Border>
+                -->
             </StackLayout>
         </ScrollView>
     </Grid>
