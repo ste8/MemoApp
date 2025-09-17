@@ -23,16 +23,16 @@
                     HorizontalScrollBarVisibility="Never"
                     Padding="0">
             <StackLayout Spacing="0"
-                         Padding="{OnIdiom Phone='0,20,0,40', Tablet='0,32,0,48', Desktop='0,40,0,56'}">
+                         Padding="{OnIdiom Phone='0,12,0,20', Tablet='0,20,0,32', Desktop='0,24,0,40'}">
 
                 <!-- ===== ELEGANT HERO SECTION ===== -->
-                <StackLayout Spacing="16"
-                             Padding="{OnIdiom Phone='24,32,24,40', Tablet='32,48,32,56', Desktop='40,56,40,64'}">
+                <StackLayout Spacing="12"
+                             Padding="{OnIdiom Phone='24,16,24,20', Tablet='32,28,32,32', Desktop='40,36,40,40'}">
                     <Border x:Name="LogoContainer"
                             StrokeThickness="2"
                             StrokeShape="RoundRectangle 24"
                             HorizontalOptions="Center"
-                            Margin="{OnIdiom Phone='0,8', Tablet='0,12', Desktop='0,16'}">
+                            Margin="{OnIdiom Phone='0,4', Tablet='0,6', Desktop='0,8'}">
 
                         <Border.Stroke>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -44,7 +44,7 @@
                         <!-- MemoRaise Logo with Premium Feel -->
                         <Image x:Name="LogoImage"
                                Source="logo_memoraise.png"
-                               HeightRequest="{OnIdiom Phone=150, Tablet=180, Desktop=200}"
+                               HeightRequest="{OnIdiom Phone=120, Tablet=150, Desktop=180}"
                                HorizontalOptions="Center"
                                VerticalOptions="Center"
                                Aspect="AspectFit"
@@ -61,8 +61,8 @@
 
                 <!-- ===== ELEGANT FEATURE CARDS SECTION ===== -->
                 <Grid ColumnSpacing="{OnIdiom Phone=0, Tablet=16, Desktop=20}"
-                      RowSpacing="{OnIdiom Phone=8, Tablet=0, Desktop=0}"
-                      Margin="{OnIdiom Phone='0,16', Tablet='0,24', Desktop='0,32'}">
+                      RowSpacing="{OnIdiom Phone=6, Tablet=0, Desktop=0}"
+                      Margin="{OnIdiom Phone='0,8', Tablet='0,16', Desktop='0,20'}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="{OnIdiom Phone=0, Tablet='*', Desktop='*'}" />
@@ -195,8 +195,8 @@
                 </Grid>
 
                 <!-- ===== ELEGANT SUPPORT ACTIONS SECTION ===== -->
-                <StackLayout Spacing="12"
-                             Margin="{OnIdiom Phone='0,24', Tablet='0,32', Desktop='0,40'}">
+                <StackLayout Spacing="8"
+                             Margin="{OnIdiom Phone='0,16', Tablet='0,24', Desktop='0,32'}">
 
                     <!-- Feedback Action -->
                     <Border Style="{StaticResource ElegantSupportCard}"
