@@ -701,23 +701,30 @@ public partial class BigNumberViewModel : BaseViewModel
             [AnalyticsParameters.DifficultyDigits] = NumberOfDigits
         });
         
+        // CRITICAL FIX: Set verification state BEFORE changing phase
+        // In app verification mode, prepare for input verification activation
+        bool shouldActivateVerification = IsAppVerificationSelected;
+
         _gameService.StopGame(_currentGame);
-        CurrentPhase = _currentGame.Phase;
-        
-        // Stop timer
-        _timer?.Stop();
-        UpdateTimerDisplay();
-        
-        // In app verification mode, automatically activate input verification after memorization
-        if (IsAppVerificationSelected && CurrentPhase == GamePhase.Stopped)
+
+        // ACTIVATE VERIFICATION STATE BEFORE PHASE CHANGE
+        if (shouldActivateVerification)
         {
-            // Automatically show input verification panel for guided practice
             IsOnDemandVerificationActive = true;
             IsVerificationPanelManuallyClosed = false;
             UserInput = string.Empty; // Clear any previous input
-            UpdateUIState();
-            
-            // Request focus on the input field (this will be handled by the view)
+        }
+
+        // NOW update the phase - this will trigger UI state updates with correct verification state
+        CurrentPhase = _currentGame.Phase;
+
+        // Stop timer
+        _timer?.Stop();
+        UpdateTimerDisplay();
+
+        // Request focus after UI state is properly set
+        if (shouldActivateVerification)
+        {
             RequestUserInputFocus();
         }
     }
