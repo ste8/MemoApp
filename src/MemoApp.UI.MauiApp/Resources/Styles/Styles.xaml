@@ -1698,5 +1698,72 @@
         </Setter>
     </Style>
 
+    <!-- ===== PREMIUM LOGO PRESENTATION STYLES ===== -->
+
+    <!-- Glass Morphism Logo Container Style -->
+    <Style x:Key="GlassMorphismLogoContainer" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 20" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="Background">
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="{AppThemeBinding Light='#FFFFFF', Dark='#1A1A1ACC'}" Offset="0.0" />
+                <GradientStop Color="{AppThemeBinding Light='#FAFAFA', Dark='#2A2A2ACC'}" Offset="0.3" />
+                <GradientStop Color="{AppThemeBinding Light='#F5F5F5', Dark='#1F1F1FCC'}" Offset="0.7" />
+                <GradientStop Color="{AppThemeBinding Light='#FFFFFF', Dark='#1A1A1ACC'}" Offset="1.0" />
+            </LinearGradientBrush>
+        </Setter>
+        <Setter Property="Shadow">
+            <Shadow Brush="{AppThemeBinding Light='#E5E7EB', Dark='#00000080'}"
+                    Offset="0,8"
+                    Radius="20"
+                    Opacity="{AppThemeBinding Light=0.25, Dark=0.5}" />
+        </Setter>
+    </Style>
+
+    <!-- Premium Logo Glow Effect -->
+    <Style x:Key="LogoGlowEffect" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Opacity" Value="0.3" />
+        <Setter Property="Background">
+            <RadialGradientBrush Center="0.5,0.5" Radius="0.8">
+                <GradientStop Color="{AppThemeBinding Light='#6366F120', Dark='#8B5CF640'}" Offset="0.0" />
+                <GradientStop Color="{AppThemeBinding Light='#6366F108', Dark='#8B5CF620'}" Offset="0.5" />
+                <GradientStop Color="Transparent" Offset="1.0" />
+            </RadialGradientBrush>
+        </Setter>
+    </Style>
+
+    <!-- Neumorphic Logo Container (Alternative Style) -->
+    <Style x:Key="NeumorphicLogoContainer" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 24" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource ElegantWarmWhite}, Dark='#1A1A1A'}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="Shadow">
+            <Shadow Brush="{AppThemeBinding Light='#D1D5DB', Dark='#000000'}"
+                    Offset="{OnPlatform iOS='8,8', Android='8,8', WinUI='10,10', MacCatalyst='8,8'}"
+                    Radius="12"
+                    Opacity="{AppThemeBinding Light=0.3, Dark=0.7}" />
+        </Setter>
+    </Style>
+
+    <!-- Frosted Glass Effect (iOS-inspired) -->
+    <Style x:Key="FrostedGlassLogoContainer" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 18" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light='#FFFFFF60', Dark='#FFFFFF10'}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light='#FAFAFAEE', Dark='#1A1A1AEE'}" />
+        <Setter Property="Shadow">
+            <Shadow Brush="{AppThemeBinding Light='#00000015', Dark='#00000080'}"
+                    Offset="0,4"
+                    Radius="16"
+                    Opacity="1" />
+        </Setter>
+    </Style>
+
 
 </ResourceDictionary>
