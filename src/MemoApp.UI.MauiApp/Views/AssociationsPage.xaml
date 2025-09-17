@@ -48,13 +48,22 @@
             </StackLayout>
 
             <!-- Unified scrolling CollectionView with headers that scroll WITH content -->
-            <CollectionView IsVisible="{Binding HasPackAvailable}"
-                            ItemsSource="{Binding Associations}"
+            <!-- IMPORTANT: Do NOT use IsVisible binding on CollectionView - it causes the header content
+                 (subtitle and category picker) to overflow on the right when the view transitions from
+                 hidden to visible. This is a known MAUI issue where CollectionView doesn't properly
+                 calculate layout constraints when IsVisible changes.
+
+                 Solution: Keep CollectionView always in visual tree but use Opacity=0 and InputTransparent=true
+                 when no pack is available. This ensures proper layout calculation while maintaining the
+                 intended visibility behavior. -->
+            <CollectionView ItemsSource="{Binding Associations}"
                             BackgroundColor="Transparent"
                             SelectionMode="None"
                             RemainingItemsThreshold="5"
                             RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
-                            VerticalOptions="FillAndExpand">
+                            VerticalOptions="FillAndExpand"
+                            Opacity="{Binding HasPackAvailable, Converter={StaticResource BoolToOpacityConverter}}"
+                            InputTransparent="{Binding HasPackAvailable, Converter={StaticResource InvertedBoolConverter}}">
 
                 <!-- Headers that SCROLL with the content -->
                 <CollectionView.Header>
