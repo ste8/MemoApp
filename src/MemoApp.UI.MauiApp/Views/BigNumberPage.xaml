@@ -362,18 +362,20 @@
                        CornerRadius="10"
                        HasShadow="True">
                     
-                    <StackLayout Spacing="5">
-                        <Label Text="{localization:Localize BigNumber_Time}"
+                    <Grid ColumnDefinitions="Auto,Auto" ColumnSpacing="12" HorizontalOptions="Center">
+                        <Label Grid.Column="0"
+                               Text="{localization:Localize BigNumber_Time}"
                                FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                FontAttributes="Bold"
-                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
                                TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
-                        
-                        <Label Text="{Binding TimerText}"
+
+                        <Label Grid.Column="1"
+                               Text="{Binding TimerText}"
                                FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
                                FontAttributes="Bold"
-                               HorizontalOptions="Center" />
-                    </StackLayout>
+                               VerticalOptions="Center" />
+                    </Grid>
                 </Frame>
 
                 <!-- Number Display Area -->
@@ -613,10 +615,10 @@
                                 BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray900}}"
                                 Stroke="{Binding AccuracyBorderColor}"
                                 StrokeThickness="3"
-                                Padding="20"
+                                Padding="12"
                                 StrokeShape="RoundRectangle 15">
-                            
-                            <StackLayout Spacing="20">
+
+                            <StackLayout Spacing="12">
                                 <!-- Results header -->
                                 <Grid ColumnDefinitions="Auto,*,Auto">
                                     <Image Grid.Column="0"
@@ -641,7 +643,7 @@
                                 </Grid>
                                 
                                 <!-- Statistics -->
-                                <Grid ColumnDefinitions="*,*,*" RowSpacing="8">
+                                <Grid ColumnDefinitions="*,*,*" RowSpacing="4">
                                     <StackLayout Grid.Column="0">
                                         <Label Text="{localization:Localize BigNumber_CorrectDigits}"
                                                FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
@@ -683,7 +685,7 @@
                                 <Grid IsVisible="{OnIdiom Phone=True, Default=False}"
                                       ColumnDefinitions="*,Auto"
                                       ColumnSpacing="12"
-                                      Margin="0,16,0,0">
+                                      Margin="0,8,0,0">
 
                                     <!-- Primary: New Challenge (takes most space) -->
                                     <Button Grid.Column="0"
@@ -711,7 +713,7 @@
                                 <!-- Tablet/Desktop: Duolingo-style layout -->
                                 <Grid ColumnDefinitions="*,Auto"
                                       ColumnSpacing="12"
-                                      Margin="0,16,0,0"
+                                      Margin="0,8,0,0"
                                       IsVisible="{OnIdiom Phone=False, Default=True}">
 
                                     <!-- Primary: New Challenge (takes most space) -->
