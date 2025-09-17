@@ -27,7 +27,7 @@
 
                 <!-- ===== ELEGANT HERO SECTION ===== -->
                 <StackLayout Spacing="12"
-                             Padding="{OnIdiom Phone='24,16,24,20', Tablet='32,28,32,32', Desktop='40,36,40,40'}">
+                             Padding="{OnIdiom Phone='24,5,24,5', Tablet='32,28,32,32', Desktop='40,36,40,40'}">
                     <Border x:Name="LogoContainer"
                             StrokeThickness="2"
                             StrokeShape="RoundRectangle 24"
@@ -61,8 +61,8 @@
 
                 <!-- ===== ELEGANT FEATURE CARDS SECTION ===== -->
                 <Grid ColumnSpacing="{OnIdiom Phone=0, Tablet=16, Desktop=20}"
-                      RowSpacing="{OnIdiom Phone=6, Tablet=0, Desktop=0}"
-                      Margin="{OnIdiom Phone='0,8', Tablet='0,16', Desktop='0,20'}">
+                      RowSpacing="{OnIdiom Phone=0, Tablet=0, Desktop=0}"
+                      Margin="{OnIdiom Phone='0,0', Tablet='0,16', Desktop='0,20'}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="{OnIdiom Phone=0, Tablet='*', Desktop='*'}" />
