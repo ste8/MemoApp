@@ -3,16 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              x:Class="MemoApp.UI.MauiApp.Views.UpdateNotificationBanner"
-             x:Name="ThisBanner">
-    
+             x:Name="ThisBanner"
+             IsVisible="False">
+
     <Frame x:Name="NotificationFrame"
            BackgroundColor="#E3F2FD"
            BorderColor="#1976D2"
            CornerRadius="8"
            Padding="10,8"
            Margin="10,5"
-           HasShadow="True"
-           IsVisible="False">
+           HasShadow="True">
         
         <Grid ColumnDefinitions="Auto,*,Auto">
             <!-- Icon -->

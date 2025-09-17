@@ -92,7 +92,7 @@ public partial class UpdateNotificationBanner : ContentView
         if (_updateService == null || _localizationService == null)
         {
             System.Diagnostics.Debug.WriteLine($"UpdateNotificationBanner: Services not available - UpdateService: {_updateService != null}, LocalizationService: {_localizationService != null}");
-            NotificationFrame.IsVisible = false;
+            IsVisible = false;
             return;
         }
         
@@ -123,35 +123,35 @@ public partial class UpdateNotificationBanner : ContentView
             }
             
             System.Diagnostics.Debug.WriteLine($"UpdateNotificationBanner: Showing banner with message: {MessageLabel.Text}");
-            NotificationFrame.IsVisible = true;
+            IsVisible = true;
         }
         else
         {
             System.Diagnostics.Debug.WriteLine($"UpdateNotificationBanner: Hiding banner - no updates available");
-            NotificationFrame.IsVisible = false;
+            IsVisible = false;
         }
     }
     
     private async Task AnimateBanner()
     {
-        if (_isAnimating) return;
-        
+        if (_isAnimating || !IsVisible) return;
+
         try
         {
             _isAnimating = true;
-            
+
             // Subtle slide in animation
-            NotificationFrame.TranslationY = -50;
-            NotificationFrame.Opacity = 0;
-            
+            this.TranslationY = -50;
+            this.Opacity = 0;
+
             await Task.WhenAll(
-                NotificationFrame.TranslateTo(0, 0, 500, Easing.CubicOut),
-                NotificationFrame.FadeTo(1, 500)
+                this.TranslateTo(0, 0, 500, Easing.CubicOut),
+                this.FadeTo(1, 500)
             );
-            
+
             // Gentle pulse effect
-            await NotificationFrame.ScaleTo(1.02, 200);
-            await NotificationFrame.ScaleTo(1.0, 200);
+            await this.ScaleTo(1.02, 200);
+            await this.ScaleTo(1.0, 200);
         }
         finally
         {
