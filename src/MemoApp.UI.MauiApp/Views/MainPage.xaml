@@ -28,77 +28,30 @@
                 <!-- ===== ELEGANT HERO SECTION ===== -->
                 <StackLayout Spacing="16"
                              Padding="{OnIdiom Phone='24,32,24,40', Tablet='32,48,32,56', Desktop='40,56,40,64'}">
-                    <!-- Premium MemoRaise Logo Container with Adaptive Design -->
                     <Border x:Name="LogoContainer"
+                            StrokeThickness="2"
                             StrokeShape="RoundRectangle 24"
                             HorizontalOptions="Center"
                             Margin="{OnIdiom Phone='0,8', Tablet='0,12', Desktop='0,16'}">
 
-                        <!-- Adaptive Background for Light/Dark Mode -->
-                        <Border.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="{AppThemeBinding Light='#FFFFFF', Dark='#1F1F1FDD'}" Offset="0.0" />
-                                <GradientStop Color="{AppThemeBinding Light='#FAFAF8', Dark='#2A2A2ADD'}" Offset="0.5" />
-                                <GradientStop Color="{AppThemeBinding Light='#FFFFFF', Dark='#1F1F1FDD'}" Offset="1.0" />
-                            </LinearGradientBrush>
-                        </Border.Background>
-
-                        <!-- Premium Multi-Layer Shadow Effect -->
-                        <Border.Shadow>
-                            <Shadow Brush="{AppThemeBinding Light='#00000008', Dark='#000000AA'}"
-                                    Offset="{OnPlatform iOS='0,10', Android='0,10', WinUI='0,12', MacCatalyst='0,10'}"
-                                    Radius="{OnPlatform iOS=25, Android=25, WinUI=30, MacCatalyst=25}"
-                                    Opacity="{AppThemeBinding Light=0.15, Dark=0.6}" />
-                        </Border.Shadow>
-
-                        <!-- Glass Border Effect -->
                         <Border.Stroke>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="{AppThemeBinding Light='#FFFFFF80', Dark='#FFFFFF15'}" Offset="0.0" />
-                                <GradientStop Color="{AppThemeBinding Light='#FFFFFF20', Dark='#FFFFFF05'}" Offset="0.5" />
-                                <GradientStop Color="{AppThemeBinding Light='#FFFFFF80', Dark='#FFFFFF15'}" Offset="1.0" />
+                                <GradientStop Color="#0072CE" Offset="0.0"/> <!-- Blue -->
+                                <GradientStop Color="#FF7F00" Offset="1.0"/> <!-- Orange -->
                             </LinearGradientBrush>
                         </Border.Stroke>
-                        <Border.StrokeThickness>
-                            <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="iOS,MacCatalyst" Value="1" />
-                                <On Platform="Android" Value="0.5" />
-                                <On Platform="WinUI" Value="1.5" />
-                            </OnPlatform>
-                        </Border.StrokeThickness>
 
-                        <!-- Logo with Professional Presentation -->
-                        <Grid>
-                            <!-- Elegant Ambient Glow - Harmonized with Logo Colors -->
-                            <Border x:Name="LogoGlow"
-                                    WidthRequest="{OnIdiom Phone=140, Tablet=170, Desktop=190}"
-                                    HeightRequest="{OnIdiom Phone=140, Tablet=170, Desktop=190}"
-                                    HorizontalOptions="Center"
-                                    VerticalOptions="Center"
-                                    BackgroundColor="Transparent"
-                                    Opacity="0.2">
-                                <Border.Background>
-                                    <RadialGradientBrush Center="0.5,0.5" Radius="1">
-                                        <GradientStop Color="{AppThemeBinding Light='#2563EB08', Dark='#3B82F615'}" Offset="0.0" />
-                                        <GradientStop Color="{AppThemeBinding Light='#F59E0B06', Dark='#FBBF2410'}" Offset="0.3" />
-                                        <GradientStop Color="{AppThemeBinding Light='#0F766E04', Dark='#14B8A608'}" Offset="0.6" />
-                                        <GradientStop Color="Transparent" Offset="1.0" />
-                                    </RadialGradientBrush>
-                                </Border.Background>
-                            </Border>
-
-                            <!-- MemoRaise Logo with Premium Feel -->
-                            <Image x:Name="LogoImage"
-                                   Source="logo_memoraise.png"
-                                   HeightRequest="{OnIdiom Phone=150, Tablet=180, Desktop=200}"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"
-                                   Aspect="AspectFit"
-                                   AutomationProperties.Name="MemoRaise Memory Training App Logo"
-                                   AutomationProperties.IsInAccessibleTree="True"
-                                   AutomationProperties.HelpText="Welcome to the MemoRaise memory training application">
-                            </Image>
-                        </Grid>
+                        <!-- MemoRaise Logo with Premium Feel -->
+                        <Image x:Name="LogoImage"
+                               Source="logo_memoraise.png"
+                               HeightRequest="{OnIdiom Phone=150, Tablet=180, Desktop=200}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               Aspect="AspectFit"
+                               AutomationProperties.Name="MemoRaise Memory Training App Logo"
+                               AutomationProperties.IsInAccessibleTree="True"
+                               AutomationProperties.HelpText="Welcome to the MemoRaise memory training application">
+                        </Image>
                     </Border>
 
                     <!-- Welcome Subtitle -->
