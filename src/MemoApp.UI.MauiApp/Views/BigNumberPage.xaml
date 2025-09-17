@@ -384,7 +384,7 @@
                        Padding="{OnIdiom Phone=20, Tablet=30, Desktop=40}"
                        CornerRadius="20"
                        HasShadow="True"
-                       MinimumHeightRequest="{OnIdiom Phone=200, Tablet=300, Desktop=400}"
+                       MinimumHeightRequest="{OnIdiom Phone=150, Tablet=220, Desktop=300}"
                        IsVisible="{Binding IsNumberDisplayVisible}">
                     
                     <Label Text="{Binding DisplayedNumber}"
