@@ -21,11 +21,23 @@
                 VerticalOptions="Center"
                 IsEnabled="{Binding IsShareEnabled}"
                 Opacity="{Binding ButtonOpacity}"
-                SemanticProperties.Hint="{localization:Localize Share_AccessibilityHint}"
                 SemanticProperties.Description="{Binding AccessibilityDescription}">
 
             <!-- Platform-specific styling -->
             <Button.Triggers>
+                <!-- Accessibility hints based on display style -->
+                <DataTrigger TargetType="Button" Binding="{Binding DisplayStyle}" Value="IconOnly">
+                    <Setter Property="SemanticProperties.Hint" Value="{localization:Localize Share_IconOnlyHint}" />
+                </DataTrigger>
+                <DataTrigger TargetType="Button" Binding="{Binding DisplayStyle}" Value="Normal">
+                    <Setter Property="SemanticProperties.Hint" Value="{localization:Localize Share_AccessibilityHint}" />
+                </DataTrigger>
+                <DataTrigger TargetType="Button" Binding="{Binding DisplayStyle}" Value="Compact">
+                    <Setter Property="SemanticProperties.Hint" Value="{localization:Localize Share_AccessibilityHint}" />
+                </DataTrigger>
+                <DataTrigger TargetType="Button" Binding="{Binding DisplayStyle}" Value="Prominent">
+                    <Setter Property="SemanticProperties.Hint" Value="{localization:Localize Share_AccessibilityHint}" />
+                </DataTrigger>
                 <DataTrigger TargetType="Button" Binding="{Binding DisplayStyle}" Value="Prominent">
                     <Setter Property="Scale" Value="1.1" />
                     <Setter Property="Shadow">
@@ -34,6 +46,23 @@
                                 Radius="4"
                                 Opacity="0.3" />
                     </Setter>
+                </DataTrigger>
+
+                <!-- IconOnly specific styling -->
+                <DataTrigger TargetType="Button" Binding="{Binding DisplayStyle}" Value="IconOnly">
+                    <Setter Property="FontFamily" Value="MaterialDesignIcons" />
+                    <Setter Property="Shadow" Value="{x:Null}" />
+                </DataTrigger>
+
+                <!-- Enhanced hover state for desktop icon-only -->
+                <DataTrigger TargetType="Button" Binding="{Binding DisplayStyle}" Value="IconOnly">
+                    <Setter Property="Scale" Value="1.0" />
+                </DataTrigger>
+
+                <!-- Pressed state for better feedback -->
+                <DataTrigger TargetType="Button" Binding="{Binding IsSharing}" Value="True">
+                    <Setter Property="Scale" Value="0.95" />
+                    <Setter Property="Opacity" Value="0.8" />
                 </DataTrigger>
 
                 <DataTrigger TargetType="Button" Binding="{Binding IsShareEnabled}" Value="False">
@@ -49,7 +78,15 @@
                           Color="{Binding TextColor}"
                           VerticalOptions="Center"
                           HorizontalOptions="Center"
-                          Scale="0.8" />
+                          Scale="0.8">
+            <ActivityIndicator.Triggers>
+                <DataTrigger TargetType="ActivityIndicator" Binding="{Binding DisplayStyle}" Value="IconOnly">
+                    <Setter Property="Scale" Value="0.7" />
+                    <Setter Property="WidthRequest" Value="20" />
+                    <Setter Property="HeightRequest" Value="20" />
+                </DataTrigger>
+            </ActivityIndicator.Triggers>
+        </ActivityIndicator>
     </Grid>
 
 </ContentView>

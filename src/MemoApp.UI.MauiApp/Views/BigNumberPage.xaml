@@ -679,38 +679,13 @@
                                 </Grid>
                                 
                                 <!-- Post-completion action buttons -->
-                                <StackLayout IsVisible="{OnIdiom Phone=True, Default=False}" 
-                                             Spacing="12" 
-                                             Margin="0,16,0,0">
-                                    <!-- Mobile: Stacked layout -->
-                                    <!-- Primary: New Challenge -->
-                                    <Button Text="{localization:Localize BigNumber_NewChallenge}"
-                                            Command="{Binding StartNewChallengeCommand}"
-                                            BackgroundColor="{StaticResource Success}"
-                                            TextColor="White"
-                                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
-                                            FontAttributes="Bold"
-                                            HeightRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
-                                            CornerRadius="16">
-                                        <Button.Shadow>
-                                            <Shadow Brush="{StaticResource Success}" 
-                                                    Opacity="0.3" 
-                                                    Offset="0,4" 
-                                                    Radius="12" />
-                                        </Button.Shadow>
-                                    </Button>
-                                    
-                                    <!-- Secondary: Share -->
-                                    <components:ShareButtonComponent x:Name="MobileShareButton" />
-                                </StackLayout>
-                                
-                                <!-- Tablet/Desktop: Side-by-side layout -->
-                                <Grid ColumnDefinitions="3*,2*" 
-                                      ColumnSpacing="12" 
-                                      Margin="0,16,0,0"
-                                      IsVisible="{OnIdiom Phone=False, Default=True}">
-                                    
-                                    <!-- Primary: New Challenge (larger) -->
+                                <!-- Mobile: Duolingo-style horizontal layout -->
+                                <Grid IsVisible="{OnIdiom Phone=True, Default=False}"
+                                      ColumnDefinitions="*,Auto"
+                                      ColumnSpacing="12"
+                                      Margin="0,16,0,0">
+
+                                    <!-- Primary: New Challenge (takes most space) -->
                                     <Button Grid.Column="0"
                                             Text="{localization:Localize BigNumber_NewChallenge}"
                                             Command="{Binding StartNewChallengeCommand}"
@@ -721,14 +696,43 @@
                                             HeightRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
                                             CornerRadius="16">
                                         <Button.Shadow>
-                                            <Shadow Brush="{StaticResource Success}" 
-                                                    Opacity="0.3" 
-                                                    Offset="0,4" 
+                                            <Shadow Brush="{StaticResource Success}"
+                                                    Opacity="0.3"
+                                                    Offset="0,4"
                                                     Radius="12" />
                                         </Button.Shadow>
                                     </Button>
-                                    
-                                    <!-- Secondary: Share (smaller but prominent) -->
+
+                                    <!-- Secondary: Compact Share (icon-only) -->
+                                    <components:ShareButtonComponent Grid.Column="1"
+                                                                   x:Name="MobileShareButton" />
+                                </Grid>
+                                
+                                <!-- Tablet/Desktop: Duolingo-style layout -->
+                                <Grid ColumnDefinitions="*,Auto"
+                                      ColumnSpacing="12"
+                                      Margin="0,16,0,0"
+                                      IsVisible="{OnIdiom Phone=False, Default=True}">
+
+                                    <!-- Primary: New Challenge (takes most space) -->
+                                    <Button Grid.Column="0"
+                                            Text="{localization:Localize BigNumber_NewChallenge}"
+                                            Command="{Binding StartNewChallengeCommand}"
+                                            BackgroundColor="{StaticResource Success}"
+                                            TextColor="White"
+                                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                            FontAttributes="Bold"
+                                            HeightRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
+                                            CornerRadius="16">
+                                        <Button.Shadow>
+                                            <Shadow Brush="{StaticResource Success}"
+                                                    Opacity="0.3"
+                                                    Offset="0,4"
+                                                    Radius="12" />
+                                        </Button.Shadow>
+                                    </Button>
+
+                                    <!-- Secondary: Compact Share (icon-only) -->
                                     <components:ShareButtonComponent x:Name="DesktopShareButton"
                                                                    Grid.Column="1" />
                                 </Grid>
@@ -1281,15 +1285,16 @@
 
                             <StackLayout Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=16}">
 
-                                <!-- Mobile Layout: Stacked buttons for better touch targets -->
-                                <StackLayout IsVisible="{OnIdiom Phone=True, Tablet=False, Desktop=False}"
-                                             Spacing="12">
+                                <!-- Mobile: Duolingo-style horizontal layout -->
+                                <Grid IsVisible="{OnIdiom Phone=True, Default=False}"
+                                      ColumnDefinitions="*,Auto"
+                                      ColumnSpacing="12">
 
-                                    <!-- New Challenge Button (Primary action) -->
-                                    <Button Command="{Binding StartNewGameCommand}"
+                                    <!-- Primary: New Challenge (takes most space) -->
+                                    <Button Grid.Column="0"
+                                            Command="{Binding StartNewGameCommand}"
                                             Text="{localization:Localize BigNumber_NewChallenge}"
                                             Style="{StaticResource CelebrationNewChallengeButton}"
-                                            HorizontalOptions="FillAndExpand"
                                             AutomationProperties.Name="{localization:Localize BigNumber_NewChallenge}"
                                             AutomationProperties.HelpText="Start a new Big Number challenge with your current settings">
                                         <Button.ImageSource>
@@ -1300,22 +1305,18 @@
                                         </Button.ImageSource>
                                     </Button>
 
-                                    <!-- Share Button (Celebration action) -->
-                                    <components:ShareButtonComponent x:Name="CelebrationMobileShareButton"
-                                                                   HorizontalOptions="FillAndExpand" />
-                                </StackLayout>
+                                    <!-- Secondary: Compact Share (icon-only) -->
+                                    <components:ShareButtonComponent Grid.Column="1"
+                                                                   x:Name="CelebrationMobileShareButton" />
+                                </Grid>
 
-                                <!-- Tablet/Desktop Layout: Side-by-side for efficiency -->
-                                <Grid ColumnDefinitions="*,*"
-                                      ColumnSpacing="{OnIdiom Tablet=16, Desktop=20}"
-                                      IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}">
+                                <!-- Tablet/Desktop: Duolingo-style layout -->
+                                <Grid ColumnDefinitions="*,Auto"
+                                      ColumnSpacing="12"
+                                      IsVisible="{OnIdiom Phone=False, Default=True}">
 
-                                    <!-- Share Button (Left - social reward first in visual flow) -->
-                                    <components:ShareButtonComponent x:Name="CelebrationDesktopShareButton"
-                                                                   Grid.Column="0" />
-
-                                    <!-- New Challenge Button (Right - natural next action) -->
-                                    <Button Grid.Column="1"
+                                    <!-- Primary: New Challenge (takes most space) -->
+                                    <Button Grid.Column="0"
                                             Command="{Binding StartNewGameCommand}"
                                             Text="{localization:Localize BigNumber_NewChallenge}"
                                             Style="{StaticResource CelebrationNewChallengeButton}"
@@ -1328,6 +1329,10 @@
                                                              Color="White" />
                                         </Button.ImageSource>
                                     </Button>
+
+                                    <!-- Secondary: Compact Share (icon-only) -->
+                                    <components:ShareButtonComponent Grid.Column="1"
+                                                                   x:Name="CelebrationDesktopShareButton" />
                                 </Grid>
 
                                 <!-- Achievement Celebration Text -->

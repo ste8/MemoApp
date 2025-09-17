@@ -85,7 +85,9 @@ public partial class BigNumberPage : ContentPage
     {
         // Determine context based on current game state
         var context = bigNumberVM.ShowSessionActions ? "celebration" : "verification";
-        var displayStyle = bigNumberVM.ShowSessionActions ? "Prominent" : "Normal";
+
+        // Use IconOnly display style for Duolingo-style compact design
+        var displayStyle = "IconOnly";
 
         // Update ViewModel with current context and data
         shareVM.UpdateDisplayStyle(displayStyle);

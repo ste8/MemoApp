@@ -2727,4 +2727,12 @@ Scarica MemoRaise: {AppUrl}
     <value>⌨️ Scorciatoie: N/Spazio = Avanti • R/H = Rivela • S = Statistiche • Esc = Esci</value>
     <comment>Desktop keyboard shortcuts for Flash Numbers</comment>
   </data>
+  <data name="Share_IconOnlyDescription" xml:space="preserve">
+    <value>Condividi i tuoi risultati</value>
+    <comment>Accessibility description for icon-only share button</comment>
+  </data>
+  <data name="Share_IconOnlyHint" xml:space="preserve">
+    <value>Tocca due volte per condividere i risultati dell'esercizio</value>
+    <comment>Accessibility hint for icon-only share button interaction</comment>
+  </data>
 </root>

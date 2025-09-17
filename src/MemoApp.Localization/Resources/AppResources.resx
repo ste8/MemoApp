@@ -2831,4 +2831,12 @@ Download MemoRaise: {AppUrl}
     <value>⌨️ Shortcuts: N/Space = Next • R/H = Reveal • S = Statistics • Esc = Exit</value>
     <comment>Desktop keyboard shortcuts for Flash Numbers</comment>
   </data>
+  <data name="Share_IconOnlyDescription" xml:space="preserve">
+    <value>Share your results</value>
+    <comment>Accessibility description for icon-only share button</comment>
+  </data>
+  <data name="Share_IconOnlyHint" xml:space="preserve">
+    <value>Double tap to share your exercise results</value>
+    <comment>Accessibility hint for icon-only share button interaction</comment>
+  </data>
 </root>

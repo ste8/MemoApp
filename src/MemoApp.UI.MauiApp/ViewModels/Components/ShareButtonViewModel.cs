@@ -146,7 +146,9 @@ public partial class ShareButtonViewModel : ObservableObject
     public void UpdateDisplayStyle(string displayStyle)
     {
         DisplayStyle = displayStyle;
+        UpdateButtonText();
         UpdateStyling();
+        UpdateAccessibility();
     }
 
     public void UpdateContext(string context)
@@ -169,8 +171,16 @@ public partial class ShareButtonViewModel : ObservableObject
 
     private void UpdateButtonText()
     {
-        // Icon + text on all platforms for better clarity and recognition
-        ButtonText = $"{_localizationService.GetString("Share_ButtonIcon")} {_localizationService.GetString("Share_ButtonText")}";
+        if (DisplayStyle.ToLowerInvariant() == "icononly")
+        {
+            // Icon only - use share-variant Material Design icon
+            ButtonText = "\uf72d"; // Material Design Icons share-variant
+        }
+        else
+        {
+            // Icon + text on all platforms for better clarity and recognition
+            ButtonText = $"{_localizationService.GetString("Share_ButtonIcon")} {_localizationService.GetString("Share_ButtonText")}";
+        }
     }
 
     private void UpdateStyling()
@@ -178,6 +188,19 @@ public partial class ShareButtonViewModel : ObservableObject
         // Base styling
         switch (DisplayStyle.ToLowerInvariant())
         {
+            case "icononly":
+                // Duolingo-inspired compact design
+                FontSize = DeviceInfo.Idiom == DeviceIdiom.Phone ? 20 :
+                          DeviceInfo.Idiom == DeviceIdiom.Tablet ? 22 : 24;
+                Padding = DeviceInfo.Idiom == DeviceIdiom.Phone ? new Thickness(12) :
+                         DeviceInfo.Idiom == DeviceIdiom.Tablet ? new Thickness(14) :
+                         new Thickness(10);
+                CornerRadius = DeviceInfo.Idiom == DeviceIdiom.Phone ? 12 : 10;
+                WidthRequest = DeviceInfo.Idiom == DeviceIdiom.Phone ? 48 :
+                              DeviceInfo.Idiom == DeviceIdiom.Tablet ? 52 : 44;
+                HeightRequest = WidthRequest; // Square aspect ratio
+                break;
+
             case "compact":
                 FontSize = 14;
                 Padding = new Thickness(8, 4);
@@ -204,10 +227,21 @@ public partial class ShareButtonViewModel : ObservableObject
                 break;
         }
 
-        // Consistent Twitter-blue color for all contexts (better brand recognition and UX)
-        BackgroundColor = Color.FromArgb("#1DA1F2"); // Twitter Blue
-        TextColor = Colors.White;
-        ShadowColor = Color.FromArgb("#0d8bd9"); // Darker blue for shadow depth
+        // Enhanced color scheme for better visual hierarchy
+        if (DisplayStyle.ToLowerInvariant() == "icononly")
+        {
+            // Slightly more subtle for secondary action
+            BackgroundColor = Color.FromArgb("#1991DB"); // Slightly darker Twitter blue
+            TextColor = Colors.White;
+            ShadowColor = Color.FromArgb("#1478B8");
+        }
+        else
+        {
+            // Consistent Twitter-blue color for all contexts (better brand recognition and UX)
+            BackgroundColor = Color.FromArgb("#1DA1F2"); // Twitter Blue
+            TextColor = Colors.White;
+            ShadowColor = Color.FromArgb("#0d8bd9"); // Darker blue for shadow depth
+        }
     }
 
     private void UpdateAccessibility()
@@ -218,12 +252,20 @@ public partial class ShareButtonViewModel : ObservableObject
         }
         else
         {
-            var exerciseType = ShareData.GetType().Name.Replace("ShareableResult", "").Replace("Result", "");
-            AccessibilityDescription = string.Format(
-                _localizationService.GetString("Share_AccessibilityDescription"),
-                exerciseType,
-                Context
-            );
+            if (DisplayStyle.ToLowerInvariant() == "icononly")
+            {
+                // More descriptive for icon-only buttons
+                AccessibilityDescription = _localizationService.GetString("Share_IconOnlyDescription");
+            }
+            else
+            {
+                var exerciseType = ShareData.GetType().Name.Replace("ShareableResult", "").Replace("Result", "");
+                AccessibilityDescription = string.Format(
+                    _localizationService.GetString("Share_AccessibilityDescription"),
+                    exerciseType,
+                    Context
+                );
+            }
         }
     }
 
