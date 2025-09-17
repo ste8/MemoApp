@@ -209,7 +209,7 @@
                             <TapGestureRecognizer Command="{Binding NavigateToFeedbackCommand}" />
                         </Border.GestureRecognizers>
 
-                        <Grid ColumnDefinitions="Auto,*,Auto"
+                        <Grid ColumnDefinitions="Auto,*"
                               ColumnSpacing="16">
                             <!-- Feedback Icon -->
                             <Border Grid.Column="0"
@@ -231,26 +231,11 @@
                             <StackLayout Grid.Column="1"
                                          Spacing="2"
                                          VerticalOptions="Center">
-                                <Label Text="{localization:Localize MainPage_FeedbackTitle}"
+                                <Label Text="Aiutaci a migliorare MemoRaise"
                                        Style="{StaticResource ElegantSupportTitle}" />
                                 <Label Text="{localization:Localize MainPage_FeedbackSubtitle}"
                                        Style="{StaticResource ElegantSupportSubtitle}" />
                             </StackLayout>
-
-                            <!-- Arrow Indicator -->
-                            <Border Grid.Column="2"
-                                    BackgroundColor="{StaticResource ElegantBorder}"
-                                    StrokeShape="RoundRectangle 8"
-                                    StrokeThickness="0"
-                                    WidthRequest="24"
-                                    HeightRequest="24"
-                                    VerticalOptions="Center">
-                                <Label Text="➤"
-                                       FontSize="12"
-                                       TextColor="{StaticResource ElegantTeal}"
-                                       HorizontalOptions="Center"
-                                       VerticalOptions="Center" />
-                            </Border>
                         </Grid>
                     </Border>
                 </StackLayout>
