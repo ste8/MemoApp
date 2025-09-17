@@ -2206,34 +2206,6 @@ Download MemoRaise: {AppUrl}
     <value>No results available to share</value>
     <comment>Accessibility description when no share data available</comment>
   </data>
-  <data name="Tooltip_Associations_Title" xml:space="preserve">
-    <value>Welcome to Associations!</value>
-    <comment>Title for first-time associations tooltip</comment>
-  </data>
-  <data name="Tooltip_Associations_Message" xml:space="preserve">
-    <value>This is your reference library of number-to-image associations. Study these associations to memorize numbers using the Major System. Each number from 00-99 has a corresponding image that helps you remember it. Tap any association to see more details and alternate images.</value>
-    <comment>Message for first-time associations tooltip</comment>
-  </data>
-  <data name="Tooltip_FlashNumbers_Title" xml:space="preserve">
-    <value>Flash Numbers Exercise</value>
-    <comment>Title for first-time Flash Numbers tooltip</comment>
-  </data>
-  <data name="Tooltip_FlashNumbers_Message" xml:space="preserve">
-    <value>Practice recognizing number-to-image associations quickly. Numbers will appear one at a time, and you'll select the matching image from multiple choices. This exercise helps you build speed and accuracy in using the Major System.</value>
-    <comment>Message for first-time Flash Numbers tooltip</comment>
-  </data>
-  <data name="Tooltip_BigNumbers_Title" xml:space="preserve">
-    <value>Big Numbers Challenge</value>
-    <comment>Title for first-time Big Numbers tooltip</comment>
-  </data>
-  <data name="Tooltip_BigNumbers_Message" xml:space="preserve">
-    <value>Test your memory with longer number sequences. You'll see a multi-digit number to memorize, then recall it using the Major System associations. This exercise challenges your ability to chain multiple associations together.</value>
-    <comment>Message for first-time Big Numbers tooltip</comment>
-  </data>
-  <data name="Tooltip_Dismiss" xml:space="preserve">
-    <value>Got it!</value>
-    <comment>Dismiss button text for tooltips</comment>
-  </data>
   
   <!-- Contextual Headers for Training Pages -->
   <data name="FlashNumbers_ContextualHeader" xml:space="preserve">

@@ -2028,34 +2028,6 @@ Scarica MemoRaise: {AppUrl}
     <value>Nessun risultato disponibile da condividere</value>
     <comment>Accessibility description when no share data available</comment>
   </data>
-  <data name="Tooltip_Associations_Title" xml:space="preserve">
-    <value>Benvenuto nello Schedario!</value>
-    <comment>Title for first-time associations tooltip</comment>
-  </data>
-  <data name="Tooltip_Associations_Message" xml:space="preserve">
-    <value>Questa è la tua libreria di riferimento delle associazioni numero-immagine. Studia queste associazioni per memorizzare i numeri usando il Sistema Maggiore. Ogni numero da 00 a 99 ha un'immagine corrispondente che ti aiuta a ricordarlo. Tocca qualsiasi associazione per vedere più dettagli e immagini alternative.</value>
-    <comment>Message for first-time associations tooltip</comment>
-  </data>
-  <data name="Tooltip_FlashNumbers_Title" xml:space="preserve">
-    <value>Esercizio Flash Numbers</value>
-    <comment>Title for first-time Flash Numbers tooltip</comment>
-  </data>
-  <data name="Tooltip_FlashNumbers_Message" xml:space="preserve">
-    <value>Pratica il riconoscimento rapido delle associazioni numero-immagine. I numeri appariranno uno alla volta e dovrai selezionare l'immagine corrispondente tra più scelte. Questo esercizio ti aiuta a sviluppare velocità e precisione nell'uso del Sistema Maggiore.</value>
-    <comment>Message for first-time Flash Numbers tooltip</comment>
-  </data>
-  <data name="Tooltip_BigNumbers_Title" xml:space="preserve">
-    <value>Sfida Numeri Grandi</value>
-    <comment>Title for first-time Big Numbers tooltip</comment>
-  </data>
-  <data name="Tooltip_BigNumbers_Message" xml:space="preserve">
-    <value>Metti alla prova la tua memoria con sequenze numeriche più lunghe. Vedrai un numero a più cifre da memorizzare, poi dovrai richiamarlo usando le associazioni del Sistema Maggiore. Questo esercizio sfida la tua capacità di concatenare più associazioni insieme.</value>
-    <comment>Message for first-time Big Numbers tooltip</comment>
-  </data>
-  <data name="Tooltip_Dismiss" xml:space="preserve">
-    <value>Ho capito!</value>
-    <comment>Dismiss button text for tooltips</comment>
-  </data>
   
   <!-- Onboarding New Keys -->
   <data name="Onboarding_QuickTimeEstimate" xml:space="preserve">
