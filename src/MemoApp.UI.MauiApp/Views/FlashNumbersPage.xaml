@@ -220,23 +220,6 @@
                                        HorizontalOptions="Center"
                                        HorizontalTextAlignment="Center" />
                                        
-                                <!-- Helpful hint for first-time users -->
-                                <Label Text="{localization:Localize FlashNumbers_RevealHint}"
-                                       TextColor="White"
-                                       Style="{StaticResource BodyMedium}"
-                                       Opacity="0.7"
-                                       HorizontalOptions="Center"
-                                       HorizontalTextAlignment="Center"
-                                       IsVisible="{OnIdiom Phone=True, Tablet=True, Default=False}" />
-                                       
-                                <Label Text="{localization:Localize FlashNumbers_DoubleTapHint}"
-                                       TextColor="White"
-                                       Style="{StaticResource BodyMedium}"
-                                       Opacity="0.6"
-                                       HorizontalOptions="Center"
-                                       HorizontalTextAlignment="Center"
-                                       FontAttributes="Italic"
-                                       IsVisible="{OnIdiom Phone=True, Tablet=True, Default=False}" />
                             </StackLayout>
 
                             <!-- Enhanced Revealed association section -->
@@ -313,41 +296,62 @@
                                 Margin="20,0"
                                 AutomationProperties.Name="{localization:Localize Accessibility_NextButton}"
                                 AutomationProperties.HelpText="{localization:Localize Accessibility_NextButtonHelp}" />
-                        
-                        <!-- Keyboard shortcut hints for desktop platforms only -->
-                        <StackLayout IsVisible="{OnPlatform MacCatalyst=True, WinUI=True, Default=False}"
-                                     Spacing="4">
-                            <Label Text="{localization:Localize FlashNumbers_KeyboardShortcutHint}"
-                                   FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                   TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
-                                   HorizontalOptions="Center"
-                                   HorizontalTextAlignment="Center"
-                                   LineBreakMode="WordWrap"
-                                   FontAttributes="Italic" />
-                            
-                            <Label Text="{localization:Localize FlashNumbers_KeyboardHintReveal}"
-                                   FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                   TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
-                                   HorizontalOptions="Center"
-                                   HorizontalTextAlignment="Center"
-                                   LineBreakMode="WordWrap"
-                                   FontAttributes="Italic" />
-                        </StackLayout>
                     </StackLayout>
 
-                    <!-- Instructions card -->
-                    <Frame BackgroundColor="{AppThemeBinding Light={StaticResource WarningTextSafe}, Dark={StaticResource WarningDark}}"
-                           Padding="15"
-                           CornerRadius="10"
-                           HasShadow="False">
-                        
-                        <Label Text="{localization:Localize FlashNumbers_HelpTip}"
-                               TextColor="White"
-                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                               HorizontalTextAlignment="Center"
-                               LineBreakMode="WordWrap"
-                               Margin="5,0" />
-                    </Frame>
+                    <!-- Consolidated Instructions Card -->
+                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
+                            Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="20,16"
+                            Margin="0,8">
+                        <Border.Shadow>
+                            <Shadow Brush="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray700}}"
+                                    Opacity="0.3"
+                                    Offset="0,4"
+                                    Radius="8" />
+                        </Border.Shadow>
+
+                        <StackLayout Spacing="16">
+                            <!-- PRIMARY: Main instruction -->
+                            <Label Text="{localization:Localize FlashNumbers_ConsolidatedInstructions}"
+                                   TextColor="{AppThemeBinding Light={StaticResource ElegantText}, Dark={StaticResource Gray100}}"
+                                   FontSize="{OnIdiom Phone=15, Tablet=16, Desktop=17}"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center"
+                                   LineBreakMode="WordWrap" />
+
+                            <!-- SECONDARY: Platform-specific interactions -->
+                            <Border BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                    StrokeShape="RoundRectangle 8"
+                                    Padding="12,8">
+
+                                <ContentView>
+                                    <ContentView.Content>
+                                        <OnPlatform x:TypeArguments="View">
+                                            <On Platform="iOS,Android">
+                                                <Label Text="{localization:Localize FlashNumbers_MobileInteractions}"
+                                                       TextColor="White"
+                                                       FontSize="{OnIdiom Phone=13, Tablet=14, Default=13}"
+                                                       HorizontalOptions="Center"
+                                                       HorizontalTextAlignment="Center"
+                                                       LineBreakMode="WordWrap" />
+                                            </On>
+                                            <On Platform="MacCatalyst,WinUI">
+                                                <Label Text="{localization:Localize FlashNumbers_DesktopInteractions}"
+                                                       TextColor="White"
+                                                       FontSize="14"
+                                                       HorizontalOptions="Center"
+                                                       HorizontalTextAlignment="Center"
+                                                       LineBreakMode="WordWrap" />
+                                            </On>
+                                        </OnPlatform>
+                                    </ContentView.Content>
+                                </ContentView>
+                            </Border>
+                        </StackLayout>
+                    </Border>
                 </StackLayout>
 
                 <!-- Session Completed View -->

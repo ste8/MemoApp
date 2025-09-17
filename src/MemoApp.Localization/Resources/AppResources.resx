@@ -2819,4 +2819,16 @@ Download MemoRaise: {AppUrl}
     <value>Send Feedback</value>
     <comment>Button text to send feedback from settings</comment>
   </data>
+  <data name="FlashNumbers_ConsolidatedInstructions" xml:space="preserve">
+    <value>💡 Take your time to recall your Major System word or image for this number, then advance to continue.</value>
+    <comment>Primary instruction for Flash Numbers training</comment>
+  </data>
+  <data name="FlashNumbers_MobileInteractions" xml:space="preserve">
+    <value>👁️ Reveal association: Tap eye icon or double-tap number • ⏭️ Next: Tap Next or swipe left</value>
+    <comment>Mobile interaction instructions for Flash Numbers</comment>
+  </data>
+  <data name="FlashNumbers_DesktopInteractions" xml:space="preserve">
+    <value>⌨️ Shortcuts: N/Space = Next • R/H = Reveal • S = Statistics • Esc = Exit</value>
+    <comment>Desktop keyboard shortcuts for Flash Numbers</comment>
+  </data>
 </root>

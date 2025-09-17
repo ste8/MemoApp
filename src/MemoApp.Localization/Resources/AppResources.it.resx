@@ -2715,4 +2715,16 @@ Scarica MemoRaise: {AppUrl}
     <value>Invia Feedback</value>
     <comment>Button text to send feedback from settings</comment>
   </data>
+  <data name="FlashNumbers_ConsolidatedInstructions" xml:space="preserve">
+    <value>💡 Prenditi il tempo per ricordare la tua parola o immagine del Sistema Maggiore per questo numero, poi continua.</value>
+    <comment>Primary instruction for Flash Numbers training</comment>
+  </data>
+  <data name="FlashNumbers_MobileInteractions" xml:space="preserve">
+    <value>👁️ Rivela associazione: Tocca l'icona dell'occhio o tocca due volte il numero • ⏭️ Avanti: Tocca Avanti o scorri a sinistra</value>
+    <comment>Mobile interaction instructions for Flash Numbers</comment>
+  </data>
+  <data name="FlashNumbers_DesktopInteractions" xml:space="preserve">
+    <value>⌨️ Scorciatoie: N/Spazio = Avanti • R/H = Rivela • S = Statistiche • Esc = Esci</value>
+    <comment>Desktop keyboard shortcuts for Flash Numbers</comment>
+  </data>
 </root>
