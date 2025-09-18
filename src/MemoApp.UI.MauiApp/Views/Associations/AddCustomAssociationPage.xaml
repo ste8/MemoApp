@@ -241,20 +241,12 @@
                                    CornerRadius="8"
                                    MinimumHeightRequest="120"
                                    IsVisible="{Binding HasSelectedImage}">
-                                <Grid>
-                                    <Image Source="{Binding SelectedImageSource}"
-                                           Aspect="AspectFit"
-                                           HeightRequest="100"
-                                           WidthRequest="100"
-                                           HorizontalOptions="Center"
-                                           VerticalOptions="Center" />
-                                    <Label Text="{localization:Localize AddCustomAssociation_ImageSelected}"
-                                           FontSize="12"
-                                           TextColor="{StaticResource Gray600}"
-                                           HorizontalOptions="Center"
-                                           VerticalOptions="End"
-                                           Margin="0,0,0,8" />
-                                </Grid>
+                                <Image Source="{Binding SelectedImageSource}"
+                                       Aspect="AspectFit"
+                                       HeightRequest="100"
+                                       WidthRequest="100"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
                             </Frame>
 
                             <!-- No image placeholder -->
