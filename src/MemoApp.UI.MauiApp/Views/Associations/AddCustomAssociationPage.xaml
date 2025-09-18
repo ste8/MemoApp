@@ -334,18 +334,6 @@
                     </Button>
                 </Grid>
 
-                <!-- Info section -->
-                <Frame BackgroundColor="{StaticResource Info}"
-                       Padding="12"
-                       CornerRadius="8"
-                       HasShadow="False"
-                       Margin="0,20,0,0">
-                    <Label Text="{localization:Localize AddCustomAssociation_InfoMessage}"
-                           TextColor="White"
-                           FontSize="12"
-                           HorizontalTextAlignment="Center"
-                           LineBreakMode="WordWrap" />
-                </Frame>
 
             </StackLayout>
         </ScrollView>

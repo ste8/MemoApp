@@ -1277,10 +1277,6 @@
     <value>Imposta come associazione predefinita</value>
     <comment>Checkbox label to set new association as default</comment>
   </data>
-  <data name="AddCustomAssociation_InfoMessage" xml:space="preserve">
-    <value>Le associazioni personalizzate vengono preservate durante gli aggiornamenti dei pacchetti e possono essere impostate come predefinite per i token.</value>
-    <comment>Information message about custom associations</comment>
-  </data>
   <data name="AddCustomAssociation_WordRequired" xml:space="preserve">
     <value>Inserisci una parola per l'associazione</value>
     <comment>Validation message when word is required</comment>

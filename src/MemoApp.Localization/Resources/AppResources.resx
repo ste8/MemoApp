@@ -1278,10 +1278,6 @@
     <value>Set as default association</value>
     <comment>Checkbox label to set new association as default</comment>
   </data>
-  <data name="AddCustomAssociation_InfoMessage" xml:space="preserve">
-    <value>Custom associations are preserved when updating packs and can be set as defaults for tokens.</value>
-    <comment>Information message about custom associations</comment>
-  </data>
   <data name="AddCustomAssociation_WordRequired" xml:space="preserve">
     <value>Please enter a word for the association</value>
     <comment>Validation message when word is required</comment>
