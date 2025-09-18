@@ -473,25 +473,6 @@
 
                     </StackLayout>
 
-                    <!-- Form completion guidance -->
-                    <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Info}, Dark={StaticResource InfoDark}}"
-                           Padding="16,12"
-                           CornerRadius="12"
-                           HasShadow="False"
-                           Margin="0,24,0,0">
-                        <StackLayout Orientation="Horizontal" Spacing="12">
-                            <Label Text="📝"
-                                   FontSize="16"
-                                   VerticalOptions="Center" />
-                            <Label Text="{localization:Localize Feedback_ReviewBeforeSubmit}"
-                                   TextColor="White"
-                                   FontSize="14"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="FillAndExpand"
-                                   LineBreakMode="WordWrap" />
-                        </StackLayout>
-                    </Frame>
-
                     <!-- Action buttons - now scrollable with content -->
                     <Grid ColumnDefinitions="*,*"
                           ColumnSpacing="12"

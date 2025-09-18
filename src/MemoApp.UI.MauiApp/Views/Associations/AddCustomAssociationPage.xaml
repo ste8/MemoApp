@@ -295,15 +295,6 @@
                        HorizontalOptions="Center"
                        HorizontalTextAlignment="Center" />
 
-                <!-- Form completion indicator -->
-                <Label Text="{Binding CompletionCheckmark}"
-                       FontSize="20"
-                       HorizontalOptions="Center"
-                       Margin="0,16,0,8"
-                       AutomationProperties.IsInAccessibleTree="True"
-                       AutomationProperties.Name="{Binding FormStatusAccessibilityText}"
-                       AutomationProperties.HelpText="{localization:Localize AddCustomAssociation_FormStatusHelp}" />
-
                 <!-- Action buttons - now scrollable with content -->
                 <Grid ColumnDefinitions="*,*"
                       ColumnSpacing="12"
