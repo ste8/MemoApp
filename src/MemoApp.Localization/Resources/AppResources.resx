@@ -1318,6 +1318,10 @@
     <value>An error occurred while saving the custom association. Please try again.</value>
     <comment>Error message when saving custom association fails</comment>
   </data>
+  <data name="AddCustomAssociation_FormCompletionCheck" xml:space="preserve">
+    <value>Review all fields before saving</value>
+    <comment>Form completion reminder for users to review all fields</comment>
+  </data>
   <data name="AddCustomAssociation_SuccessMessage" xml:space="preserve">
     <value>Custom association "{0}" for token "{1}" has been created successfully!</value>
     <comment>Success message after creating custom association. Parameters: {0} = word, {1} = token</comment>
@@ -2758,6 +2762,10 @@ Download MemoRaise: {AppUrl}
   <data name="Feedback_Submitting" xml:space="preserve">
     <value>Sending feedback...</value>
     <comment>Loading message while submitting feedback</comment>
+  </data>
+  <data name="Feedback_ReviewBeforeSubmit" xml:space="preserve">
+    <value>Please review all information before submitting your feedback</value>
+    <comment>Reminder to review form before submission</comment>
   </data>
   <data name="Feedback_SystemInfoHelp" xml:space="preserve">
     <value>Includes app version, platform, and device information to help us resolve issues</value>

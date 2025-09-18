@@ -8,7 +8,7 @@
              Title="{Binding PageTitle}"
              BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Black}}">
 
-    <Grid RowDefinitions="*,Auto,Auto">
+    <Grid RowDefinitions="*,Auto">
 
         <!-- Floating Error Badge (Overlay) -->
         <Frame Grid.Row="0"
@@ -295,8 +295,69 @@
                        HorizontalOptions="Center"
                        HorizontalTextAlignment="Center" />
 
-                <!-- Spacer for bottom action buttons -->
-                <BoxView HeightRequest="80" BackgroundColor="Transparent" />
+                <!-- Form completion progress indicator -->
+                <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                       Padding="16,12"
+                       CornerRadius="12"
+                       HasShadow="False"
+                       Margin="0,20,0,0">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                        <Label Grid.Column="0"
+                               Text="📝"
+                               FontSize="16"
+                               VerticalOptions="Center" />
+                        <Label Grid.Column="1"
+                               Text="{localization:Localize AddCustomAssociation_FormCompletionCheck}"
+                               TextColor="White"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center" />
+                        <Label Grid.Column="2"
+                               Text="{Binding CompletionCheckmark}"
+                               FontSize="16"
+                               TextColor="White"
+                               VerticalOptions="Center" />
+                    </Grid>
+                </Frame>
+
+                <!-- Action buttons - now scrollable with content -->
+                <Grid ColumnDefinitions="*,*"
+                      ColumnSpacing="12"
+                      Margin="0,24,0,40">
+
+                    <!-- Cancel Button -->
+                    <Button Grid.Column="0"
+                            Text="{localization:Localize Common_Cancel}"
+                            Command="{Binding CancelCommand}"
+                            BackgroundColor="{StaticResource Gray400}"
+                            TextColor="White"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            CornerRadius="12"
+                            HeightRequest="50"
+                            IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" />
+
+                    <!-- Save Button -->
+                    <Button Grid.Column="1"
+                            Text="{localization:Localize Common_Save}"
+                            Command="{Binding SaveCommand}"
+                            BackgroundColor="{StaticResource Success}"
+                            TextColor="White"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            CornerRadius="12"
+                            HeightRequest="50"
+                            IsEnabled="{Binding IsFormValid}">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                                       Binding="{Binding IsLoading}"
+                                       Value="True">
+                                <Setter Property="IsEnabled" Value="False" />
+                                <Setter Property="Text" Value="{localization:Localize Common_Saving}" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </Grid>
 
                 <!-- Info section -->
                 <Frame BackgroundColor="{StaticResource Info}"
@@ -377,45 +438,5 @@
             </StackLayout>
         </StackLayout>
 
-        <!-- Action buttons -->
-        <Grid Grid.Row="2"
-              ColumnDefinitions="*,*"
-              ColumnSpacing="12"
-              Padding="{OnPlatform iOS='20,12,20,34', Android='20,12,20,20', Default='20,12,20,20'}"
-              BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
-
-            <!-- Cancel Button -->
-            <Button Grid.Column="0"
-                    Text="{localization:Localize Common_Cancel}"
-                    Command="{Binding CancelCommand}"
-                    BackgroundColor="{StaticResource Gray400}"
-                    TextColor="White"
-                    FontSize="16"
-                    FontAttributes="Bold"
-                    CornerRadius="12"
-                    HeightRequest="50"
-                    IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" />
-
-            <!-- Save Button -->
-            <Button Grid.Column="1"
-                    Text="{localization:Localize Common_Save}"
-                    Command="{Binding SaveCommand}"
-                    BackgroundColor="{StaticResource Success}"
-                    TextColor="White"
-                    FontSize="16"
-                    FontAttributes="Bold"
-                    CornerRadius="12"
-                    HeightRequest="50"
-                    IsEnabled="{Binding IsFormValid}">
-                <Button.Triggers>
-                    <DataTrigger TargetType="Button"
-                               Binding="{Binding IsLoading}"
-                               Value="True">
-                        <Setter Property="IsEnabled" Value="False" />
-                        <Setter Property="Text" Value="{localization:Localize Common_Saving}" />
-                    </DataTrigger>
-                </Button.Triggers>
-            </Button>
-        </Grid>
     </Grid>
 </ContentPage>

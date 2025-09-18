@@ -96,6 +96,11 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
     /// </summary>
     public bool IsFormValid => IsWordValid && IsImageValid && !IsLoading;
 
+    /// <summary>
+    /// Gets the completion checkmark for the form review indicator
+    /// </summary>
+    public string CompletionCheckmark => IsFormValid ? "✅" : "⏳";
+
     public AddCustomAssociationViewModel(
         ICustomAssociationsService customAssociationsService,
         ICustomImageSourceService imageSourceService,
@@ -348,6 +353,7 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
     {
         OnPropertyChanged(nameof(CanSave));
         OnPropertyChanged(nameof(IsFormValid));
+        OnPropertyChanged(nameof(CompletionCheckmark));
 
         // Real-time validation as user types
         ValidateWordInput();
@@ -357,6 +363,7 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
     {
         OnPropertyChanged(nameof(CanSave));
         OnPropertyChanged(nameof(IsFormValid));
+        OnPropertyChanged(nameof(CompletionCheckmark));
 
         // Real-time validation when image status changes
         ValidateImageSelection();
@@ -424,6 +431,7 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
         }
 
         UpdateValidationSummary();
+        OnPropertyChanged(nameof(CompletionCheckmark));
     }
 
     /// <summary>
@@ -443,6 +451,7 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
         }
 
         UpdateValidationSummary();
+        OnPropertyChanged(nameof(CompletionCheckmark));
     }
 
     /// <summary>

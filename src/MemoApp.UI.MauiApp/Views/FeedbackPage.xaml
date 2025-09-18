@@ -17,7 +17,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="*,Auto,Auto">
+    <Grid RowDefinitions="*,Auto">
 
         <!-- Floating Error Badge (Overlay) -->
         <Frame Grid.Row="0"
@@ -473,6 +473,53 @@
 
                     </StackLayout>
 
+                    <!-- Form completion guidance -->
+                    <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Info}, Dark={StaticResource InfoDark}}"
+                           Padding="16,12"
+                           CornerRadius="12"
+                           HasShadow="False"
+                           Margin="0,24,0,0">
+                        <StackLayout Orientation="Horizontal" Spacing="12">
+                            <Label Text="📝"
+                                   FontSize="16"
+                                   VerticalOptions="Center" />
+                            <Label Text="{localization:Localize Feedback_ReviewBeforeSubmit}"
+                                   TextColor="White"
+                                   FontSize="14"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="FillAndExpand"
+                                   LineBreakMode="WordWrap" />
+                        </StackLayout>
+                    </Frame>
+
+                    <!-- Action buttons - now scrollable with content -->
+                    <Grid ColumnDefinitions="*,*"
+                          ColumnSpacing="12"
+                          Margin="0,24,0,40">
+
+                        <!-- Cancel Button -->
+                        <Button Grid.Column="0"
+                                Text="{localization:Localize Feedback_CancelButton}"
+                                Command="{Binding CancelCommand}"
+                                Style="{StaticResource ModernSecondaryButton}" />
+
+                        <!-- Submit Button -->
+                        <Button Grid.Column="1"
+                                Text="{localization:Localize Feedback_SubmitButton}"
+                                Command="{Binding SubmitFeedbackCommand}"
+                                IsEnabled="{Binding IsFormValid}"
+                                Style="{StaticResource ModernPrimaryButton}">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button"
+                                           Binding="{Binding IsSubmitting}"
+                                           Value="True">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Setter Property="Text" Value="{localization:Localize Feedback_Submitting}" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </Grid>
+
                 </StackLayout>
             </StackLayout>
         </ScrollView>
@@ -545,34 +592,5 @@
             </StackLayout>
         </StackLayout>
 
-        <!-- Action buttons -->
-        <Grid Grid.Row="2"
-              ColumnDefinitions="*,*"
-              ColumnSpacing="12"
-              Padding="{OnPlatform iOS='20,12,20,34', Android='20,12,20,20', Default='20,12,20,20'}"
-              BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
-
-            <!-- Cancel Button -->
-            <Button Grid.Column="0"
-                    Text="{localization:Localize Feedback_CancelButton}"
-                    Command="{Binding CancelCommand}"
-                    Style="{StaticResource ModernSecondaryButton}" />
-
-            <!-- Submit Button -->
-            <Button Grid.Column="1"
-                    Text="{localization:Localize Feedback_SubmitButton}"
-                    Command="{Binding SubmitFeedbackCommand}"
-                    IsEnabled="{Binding IsFormValid}"
-                    Style="{StaticResource ModernPrimaryButton}">
-                <Button.Triggers>
-                    <DataTrigger TargetType="Button"
-                               Binding="{Binding IsSubmitting}"
-                               Value="True">
-                        <Setter Property="IsEnabled" Value="False" />
-                        <Setter Property="Text" Value="{localization:Localize Feedback_Submitting}" />
-                    </DataTrigger>
-                </Button.Triggers>
-            </Button>
-        </Grid>
     </Grid>
 </ContentPage>
