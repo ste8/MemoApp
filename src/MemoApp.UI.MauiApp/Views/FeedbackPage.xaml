@@ -333,16 +333,24 @@
                             <Label Text="{localization:Localize Feedback_NameLabel}"
                                    Style="{StaticResource BodyMedium}"
                                    TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                            <Entry Text="{Binding UserName}"
-                                   Placeholder="{localization:Localize Feedback_NamePlaceholder}"
-                                   MaxLength="100"
-                                    />
+
+                            <!-- Name Input Container with Consistent Styling -->
+                            <Frame HasShadow="False"
+                                   CornerRadius="8"
+                                   Padding="16,12"
+                                   BackgroundColor="Transparent"
+                                   BorderColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}">
+                                <Entry Text="{Binding UserName}"
+                                       Placeholder="{localization:Localize Feedback_NamePlaceholder}"
+                                       MaxLength="100"
+                                       BackgroundColor="Transparent" />
+                            </Frame>
                         </StackLayout>
                     </StackLayout>
 
-                    <!-- Options -->
+                    <!-- Attach Images -->
                     <StackLayout Spacing="16">
-                        <Label Text="{localization:Localize Settings_Options}"
+                        <Label Text="{localization:Localize Feedback_AttachImages}"
                                Style="{StaticResource SectionHeaderStyle}"
                                Margin="0,8,0,0" />
 
