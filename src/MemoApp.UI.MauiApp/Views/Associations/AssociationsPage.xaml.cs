@@ -1,6 +1,6 @@
-using MemoApp.UI.MauiApp.ViewModels;
+using MemoApp.UI.MauiApp.ViewModels.Associations;
 
-namespace MemoApp.UI.MauiApp.Views;
+namespace MemoApp.UI.MauiApp.Views.Associations;
 
 /// <summary>
 /// Code-behind for the Associations page

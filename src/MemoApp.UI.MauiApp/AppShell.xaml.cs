@@ -1,4 +1,5 @@
 ﻿using MemoApp.UI.MauiApp.Views;
+using MemoApp.UI.MauiApp.Views.Associations;
 
 namespace MemoApp.UI.MauiApp;
 

@@ -9,7 +9,7 @@ using MemoApp.UI.MauiApp.Services;
 using Microsoft.Extensions.Logging;
 using MemoApp.UI.MauiApp.Messages;
 
-namespace MemoApp.UI.MauiApp.ViewModels;
+namespace MemoApp.UI.MauiApp.ViewModels.Associations;
 
 /// <summary>
 /// ViewModel for adding custom associations

@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using MemoApp.UI.MauiApp.Messages;
 using MemoApp.UI.MauiApp.Services;
 
-namespace MemoApp.UI.MauiApp.ViewModels;
+namespace MemoApp.UI.MauiApp.ViewModels.Associations;
 
 /// <summary>
 /// ViewModel for the Token Detail page showing all associations for a specific token

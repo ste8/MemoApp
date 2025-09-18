@@ -13,7 +13,7 @@ using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Services.Freemium;
 using Microsoft.Extensions.Configuration;
 
-namespace MemoApp.UI.MauiApp.ViewModels;
+namespace MemoApp.UI.MauiApp.ViewModels.Associations;
 
 /// <summary>
 /// ViewModel for the Associations page
