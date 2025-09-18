@@ -295,30 +295,14 @@
                        HorizontalOptions="Center"
                        HorizontalTextAlignment="Center" />
 
-                <!-- Form completion progress indicator -->
-                <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                       Padding="16,12"
-                       CornerRadius="12"
-                       HasShadow="False"
-                       Margin="0,20,0,0">
-                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-                        <Label Grid.Column="0"
-                               Text="📝"
-                               FontSize="16"
-                               VerticalOptions="Center" />
-                        <Label Grid.Column="1"
-                               Text="{localization:Localize AddCustomAssociation_FormCompletionCheck}"
-                               TextColor="White"
-                               FontSize="14"
-                               FontAttributes="Bold"
-                               VerticalOptions="Center" />
-                        <Label Grid.Column="2"
-                               Text="{Binding CompletionCheckmark}"
-                               FontSize="16"
-                               TextColor="White"
-                               VerticalOptions="Center" />
-                    </Grid>
-                </Frame>
+                <!-- Form completion indicator -->
+                <Label Text="{Binding CompletionCheckmark}"
+                       FontSize="20"
+                       HorizontalOptions="Center"
+                       Margin="0,16,0,8"
+                       AutomationProperties.IsInAccessibleTree="True"
+                       AutomationProperties.Name="{Binding FormStatusAccessibilityText}"
+                       AutomationProperties.HelpText="{localization:Localize AddCustomAssociation_FormStatusHelp}" />
 
                 <!-- Action buttons - now scrollable with content -->
                 <Grid ColumnDefinitions="*,*"

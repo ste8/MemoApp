@@ -1317,9 +1317,17 @@
     <value>Si è verificato un errore durante il salvataggio dell'associazione personalizzata. Riprova.</value>
     <comment>Error message when saving custom association fails</comment>
   </data>
-  <data name="AddCustomAssociation_FormCompletionCheck" xml:space="preserve">
-    <value>Controlla tutti i campi prima di salvare</value>
-    <comment>Form completion reminder for users to review all fields</comment>
+  <data name="AddCustomAssociation_FormComplete" xml:space="preserve">
+    <value>Il modulo è completo e pronto per il salvataggio</value>
+    <comment>Accessibility description when form is valid and complete</comment>
+  </data>
+  <data name="AddCustomAssociation_FormIncomplete" xml:space="preserve">
+    <value>Completa tutti i campi obbligatori</value>
+    <comment>Accessibility description when form has validation errors</comment>
+  </data>
+  <data name="AddCustomAssociation_FormStatusHelp" xml:space="preserve">
+    <value>Indicatore dello stato di completamento del modulo</value>
+    <comment>Help text explaining the purpose of the completion indicator</comment>
   </data>
   <data name="AddCustomAssociation_SuccessMessage" xml:space="preserve">
     <value>L'associazione personalizzata "{0}" per il token "{1}" è stata creata con successo!</value>

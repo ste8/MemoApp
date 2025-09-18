@@ -1318,9 +1318,17 @@
     <value>An error occurred while saving the custom association. Please try again.</value>
     <comment>Error message when saving custom association fails</comment>
   </data>
-  <data name="AddCustomAssociation_FormCompletionCheck" xml:space="preserve">
-    <value>Review all fields before saving</value>
-    <comment>Form completion reminder for users to review all fields</comment>
+  <data name="AddCustomAssociation_FormComplete" xml:space="preserve">
+    <value>Form is complete and ready to save</value>
+    <comment>Accessibility description when form is valid and complete</comment>
+  </data>
+  <data name="AddCustomAssociation_FormIncomplete" xml:space="preserve">
+    <value>Please complete all required fields</value>
+    <comment>Accessibility description when form has validation errors</comment>
+  </data>
+  <data name="AddCustomAssociation_FormStatusHelp" xml:space="preserve">
+    <value>Form completion status indicator</value>
+    <comment>Help text explaining the purpose of the completion indicator</comment>
   </data>
   <data name="AddCustomAssociation_SuccessMessage" xml:space="preserve">
     <value>Custom association "{0}" for token "{1}" has been created successfully!</value>

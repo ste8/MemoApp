@@ -101,6 +101,13 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
     /// </summary>
     public string CompletionCheckmark => IsFormValid ? "✅" : "⏳";
 
+    /// <summary>
+    /// Gets accessibility text for the form completion status
+    /// </summary>
+    public string FormStatusAccessibilityText => IsFormValid
+        ? _localizationService.GetString("AddCustomAssociation_FormComplete")
+        : _localizationService.GetString("AddCustomAssociation_FormIncomplete");
+
     public AddCustomAssociationViewModel(
         ICustomAssociationsService customAssociationsService,
         ICustomImageSourceService imageSourceService,
@@ -354,6 +361,7 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
         OnPropertyChanged(nameof(CanSave));
         OnPropertyChanged(nameof(IsFormValid));
         OnPropertyChanged(nameof(CompletionCheckmark));
+        OnPropertyChanged(nameof(FormStatusAccessibilityText));
 
         // Real-time validation as user types
         ValidateWordInput();
@@ -364,6 +372,7 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
         OnPropertyChanged(nameof(CanSave));
         OnPropertyChanged(nameof(IsFormValid));
         OnPropertyChanged(nameof(CompletionCheckmark));
+        OnPropertyChanged(nameof(FormStatusAccessibilityText));
 
         // Real-time validation when image status changes
         ValidateImageSelection();
@@ -432,6 +441,7 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
 
         UpdateValidationSummary();
         OnPropertyChanged(nameof(CompletionCheckmark));
+        OnPropertyChanged(nameof(FormStatusAccessibilityText));
     }
 
     /// <summary>
@@ -452,6 +462,7 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
 
         UpdateValidationSummary();
         OnPropertyChanged(nameof(CompletionCheckmark));
+        OnPropertyChanged(nameof(FormStatusAccessibilityText));
     }
 
     /// <summary>
