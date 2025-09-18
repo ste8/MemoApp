@@ -57,9 +57,6 @@ public static class ServiceRegistration
         // Share service for sharing exercise results
         services.AddSingleton<IShareService, MauiShareService>();
         
-        // Haptic feedback service for enhanced user interactions
-        services.AddSingleton<IHapticFeedbackService, HapticFeedbackService>();
-        
         // First-time tooltip service
         services.AddSingleton<IFirstTimeTooltipService, FirstTimeTooltipService>();
 
@@ -275,11 +272,10 @@ public static class ServiceRegistration
             var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
             var shareService = serviceProvider.GetRequiredService<IShareService>();
-            var hapticFeedbackService = serviceProvider.GetRequiredService<IHapticFeedbackService>();
             var exerciseCountService = serviceProvider.GetRequiredService<IExerciseCountService>();
             var associationComposerService = serviceProvider.GetRequiredService<IAssociationComposerService>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
-            return new FlashNumbersViewModel(localizationService, analyticsService, shareService, hapticFeedbackService, exerciseCountService, associationComposerService, interstitialAdManager);
+            return new FlashNumbersViewModel(localizationService, analyticsService, shareService, exerciseCountService, associationComposerService, interstitialAdManager);
         });
         
         services.AddTransient<StatisticsViewModel>();
@@ -328,8 +324,7 @@ public static class ServiceRegistration
             var digitComparisonService = serviceProvider.GetRequiredService<IDigitComparisonService>();
             var associationComposerService = serviceProvider.GetRequiredService<IAssociationComposerService>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
-            var hapticFeedbackService = serviceProvider.GetRequiredService<IHapticFeedbackService>();
-            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, userNotificationService, digitComparisonService, associationComposerService, interstitialAdManager, hapticFeedbackService);
+            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, userNotificationService, digitComparisonService, associationComposerService, interstitialAdManager);
         });
         
         services.AddTransient<TokenDetailViewModel>(serviceProvider =>

@@ -26,7 +26,6 @@ public partial class FlashNumbersViewModel : BaseViewModel
     private readonly ILocalizationService _localizationService;
     private readonly IAnalyticsService _analyticsService;
     private readonly IShareService _shareService;
-    private readonly IHapticFeedbackService _hapticFeedbackService;
     private readonly IInterstitialAdManager? _interstitialAdManager;
     private readonly IExerciseCountService _exerciseCountService;
     private readonly IAssociationComposerService _associationComposerService;
@@ -95,7 +94,6 @@ public partial class FlashNumbersViewModel : BaseViewModel
         ILocalizationService localizationService,
         IAnalyticsService analyticsService,
         IShareService shareService,
-        IHapticFeedbackService hapticFeedbackService,
         IExerciseCountService exerciseCountService,
         IAssociationComposerService associationComposerService,
         IInterstitialAdManager? interstitialAdManager = null)
@@ -103,7 +101,6 @@ public partial class FlashNumbersViewModel : BaseViewModel
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
         _analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
         _shareService = shareService ?? throw new ArgumentNullException(nameof(shareService));
-        _hapticFeedbackService = hapticFeedbackService ?? throw new ArgumentNullException(nameof(hapticFeedbackService));
         _exerciseCountService = exerciseCountService ?? throw new ArgumentNullException(nameof(exerciseCountService));
         _associationComposerService = associationComposerService ?? throw new ArgumentNullException(nameof(associationComposerService));
         _interstitialAdManager = interstitialAdManager;
@@ -179,10 +176,7 @@ public partial class FlashNumbersViewModel : BaseViewModel
         if (_gameSession == null || !IsSessionActive) return;
 
         _totalAdvances++;
-        
-        // Provide haptic feedback for successful advancement
-        _hapticFeedbackService.PerformSuccessFeedback();
-        
+
         // Track Flash Numbers step completion
         await _analyticsService.TrackEventAsync(AnalyticsEvents.FlashNumbersStepCompleted, new Dictionary<string, object>
         {
@@ -217,7 +211,6 @@ public partial class FlashNumbersViewModel : BaseViewModel
             if (IsAssociationRevealed)
             {
                 // Hide the association
-                _hapticFeedbackService.PerformSelectionFeedback();
                 IsAssociationRevealed = false;
                 CurrentAssociation = null;
                 CurrentAssociationWord = null;
@@ -234,7 +227,6 @@ public partial class FlashNumbersViewModel : BaseViewModel
             else
             {
                 // Load and show the association
-                _hapticFeedbackService.PerformSelectionFeedback();
                 await LoadAssociationForCurrentNumber();
                 
                 // Track revealing association

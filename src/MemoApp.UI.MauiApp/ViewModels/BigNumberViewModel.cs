@@ -29,7 +29,6 @@ public partial class BigNumberViewModel : BaseViewModel
     private readonly IInterstitialAdManager? _interstitialAdManager;
     private readonly IExerciseCountService _exerciseCountService;
     private readonly IFirstTimeTooltipService _tooltipService;
-    private readonly IHapticFeedbackService? _hapticFeedbackService;
     private readonly IUserNotificationService _userNotificationService;
     private readonly IAssociationComposerService _associationComposerService;
 
@@ -396,8 +395,7 @@ public partial class BigNumberViewModel : BaseViewModel
         IUserNotificationService userNotificationService,
         IDigitComparisonService digitComparisonService,
         IAssociationComposerService associationComposerService,
-        IInterstitialAdManager? interstitialAdManager = null,
-        IHapticFeedbackService? hapticFeedbackService = null)
+        IInterstitialAdManager? interstitialAdManager = null)
     {
         _gameService = gameService ?? throw new ArgumentNullException(nameof(gameService));
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
@@ -411,8 +409,7 @@ public partial class BigNumberViewModel : BaseViewModel
         _digitComparisonService = digitComparisonService ?? throw new ArgumentNullException(nameof(digitComparisonService));
         _associationComposerService = associationComposerService ?? throw new ArgumentNullException(nameof(associationComposerService));
         _interstitialAdManager = interstitialAdManager;
-        _hapticFeedbackService = hapticFeedbackService;
-        
+
         Title = _localizationService.GetString("BigNumber_Title");
         
         // Initialize timer
@@ -1748,15 +1745,6 @@ public partial class BigNumberViewModel : BaseViewModel
 
         // Trigger auto-scroll to bring results into view
         ScrollToVerificationResults?.Invoke(this, EventArgs.Empty);
-
-        // Haptic feedback
-        if (_hapticFeedbackService?.IsSupported == true)
-        {
-            if (accuracy >= 95)
-                _hapticFeedbackService.PerformSuccessFeedback();
-            else
-                _hapticFeedbackService.PerformSelectionFeedback();
-        }
 
         // Track analytics with cancellation support
         try
