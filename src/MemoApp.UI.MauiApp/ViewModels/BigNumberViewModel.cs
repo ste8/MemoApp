@@ -32,6 +32,8 @@ public partial class BigNumberViewModel : BaseViewModel
     private readonly IFirstTimeTooltipService _tooltipService;
     private readonly IHapticFeedbackService? _hapticFeedbackService;
     private readonly IUserNotificationService _userNotificationService;
+    private readonly ICustomAssociationsService _customAssociationsService;
+    private readonly ITokenDefaultsService _tokenDefaultsService;
 
     // Confirmation dialog thresholds (based on UX agent recommendations)
     private const int MOBILE_RECALL_THRESHOLD_SECONDS = 5;
@@ -377,6 +379,8 @@ public partial class BigNumberViewModel : BaseViewModel
         IPackAssociationsService packAssociationsService,
         IUserNotificationService userNotificationService,
         IDigitComparisonService digitComparisonService,
+        ICustomAssociationsService customAssociationsService,
+        ITokenDefaultsService tokenDefaultsService,
         IInterstitialAdManager? interstitialAdManager = null,
         IHapticFeedbackService? hapticFeedbackService = null)
     {
@@ -391,6 +395,8 @@ public partial class BigNumberViewModel : BaseViewModel
         _packAssociationsService = packAssociationsService ?? throw new ArgumentNullException(nameof(packAssociationsService));
         _userNotificationService = userNotificationService ?? throw new ArgumentNullException(nameof(userNotificationService));
         _digitComparisonService = digitComparisonService ?? throw new ArgumentNullException(nameof(digitComparisonService));
+        _customAssociationsService = customAssociationsService ?? throw new ArgumentNullException(nameof(customAssociationsService));
+        _tokenDefaultsService = tokenDefaultsService ?? throw new ArgumentNullException(nameof(tokenDefaultsService));
         _interstitialAdManager = interstitialAdManager;
         _hapticFeedbackService = hapticFeedbackService;
         
@@ -1381,12 +1387,40 @@ public partial class BigNumberViewModel : BaseViewModel
             var associationTasks = pairs.Select(async pair =>
             {
                 var categoryKey = pair.Length == 1 ? "numbers" : "numbers";
-                var tokenAssociations = await _packAssociationsService.GetTokenAssociationsAsync(categoryKey, pair);
-                
-                if (tokenAssociations.Any())
+
+                // Get pack associations for this token
+                var associations = await _packAssociationsService.GetTokenAssociationsAsync(categoryKey, pair);
+
+                // Also get custom associations for this token to ensure we have the complete picture
+                var currentPack = _packAssociationsService.CurrentPack;
+                if (currentPack != null)
+                {
+                    var customAssociations = await _customAssociationsService.GetCustomAssociationsForTokenAsync(
+                        currentPack.Id, categoryKey, pair);
+
+                    // Apply default status to custom associations
+                    if (customAssociations.Count > 0)
+                    {
+                        var currentDefault = await _tokenDefaultsService.GetEffectiveDefaultAsync(
+                            currentPack.Id, categoryKey, pair, null);
+
+                        foreach (var customAssoc in customAssociations)
+                        {
+                            // Check if this custom association is the default based on filename
+                            var customFilename = Path.GetFileName(customAssoc.ImagePath);
+                            customAssoc.IsDefault = !string.IsNullOrEmpty(currentDefault) &&
+                                currentDefault.EndsWith(customFilename);
+                        }
+
+                        // Add custom associations to the list
+                        associations.AddRange(customAssociations);
+                    }
+                }
+
+                if (associations.Any())
                 {
                     // Get the default association or the first one
-                    return tokenAssociations.FirstOrDefault(a => a.IsDefault) ?? tokenAssociations.First();
+                    return associations.FirstOrDefault(a => a.IsDefault) ?? associations.First();
                 }
                 return null;
             });

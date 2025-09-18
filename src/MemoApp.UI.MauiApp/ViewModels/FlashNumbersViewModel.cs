@@ -30,6 +30,8 @@ public partial class FlashNumbersViewModel : BaseViewModel
     private readonly IInterstitialAdManager? _interstitialAdManager;
     private readonly IExerciseCountService _exerciseCountService;
     private readonly IPackAssociationsService _packAssociationsService;
+    private readonly ICustomAssociationsService _customAssociationsService;
+    private readonly ITokenDefaultsService _tokenDefaultsService;
     private GameSession? _gameSession;
     
     // Analytics tracking
@@ -92,12 +94,14 @@ public partial class FlashNumbersViewModel : BaseViewModel
 
 
     public FlashNumbersViewModel(
-        ILocalizationService localizationService, 
+        ILocalizationService localizationService,
         IAnalyticsService analyticsService,
         IShareService shareService,
         IHapticFeedbackService hapticFeedbackService,
         IExerciseCountService exerciseCountService,
         IPackAssociationsService packAssociationsService,
+        ICustomAssociationsService customAssociationsService,
+        ITokenDefaultsService tokenDefaultsService,
         IInterstitialAdManager? interstitialAdManager = null)
     {
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
@@ -106,6 +110,8 @@ public partial class FlashNumbersViewModel : BaseViewModel
         _hapticFeedbackService = hapticFeedbackService ?? throw new ArgumentNullException(nameof(hapticFeedbackService));
         _exerciseCountService = exerciseCountService ?? throw new ArgumentNullException(nameof(exerciseCountService));
         _packAssociationsService = packAssociationsService ?? throw new ArgumentNullException(nameof(packAssociationsService));
+        _customAssociationsService = customAssociationsService ?? throw new ArgumentNullException(nameof(customAssociationsService));
+        _tokenDefaultsService = tokenDefaultsService ?? throw new ArgumentNullException(nameof(tokenDefaultsService));
         _interstitialAdManager = interstitialAdManager;
         Title = "Flash Numbers";
     }
@@ -274,13 +280,39 @@ public partial class FlashNumbersViewModel : BaseViewModel
             // Use "numbers" category like other parts of the app (BigNumberViewModel, AssociationsViewModel)
             var categoryKey = "numbers"; 
             
-            // Get all associations for this token (includes custom associations)
+            // Get pack associations for this token
             var associations = await _packAssociationsService.GetTokenAssociationsAsync(categoryKey, token);
-            
+
+            // Also get custom associations for this token to ensure we have the complete picture
+            var currentPack = _packAssociationsService.CurrentPack;
+            if (currentPack != null)
+            {
+                var customAssociations = await _customAssociationsService.GetCustomAssociationsForTokenAsync(
+                    currentPack.Id, categoryKey, token);
+
+                // Apply default status to custom associations
+                if (customAssociations.Count > 0)
+                {
+                    var currentDefault = await _tokenDefaultsService.GetEffectiveDefaultAsync(
+                        currentPack.Id, categoryKey, token, null);
+
+                    foreach (var customAssoc in customAssociations)
+                    {
+                        // Check if this custom association is the default based on filename
+                        var customFilename = Path.GetFileName(customAssoc.ImagePath);
+                        customAssoc.IsDefault = !string.IsNullOrEmpty(currentDefault) &&
+                            currentDefault.EndsWith(customFilename);
+                    }
+
+                    // Add custom associations to the list
+                    associations.AddRange(customAssociations);
+                }
+            }
+
             if (associations?.Count > 0)
             {
                 // Prefer default association, but use first available if no default
-                // This will also pick up custom associations if user has set them
+                // This now includes custom associations if user has set them
                 var association = associations.FirstOrDefault(a => a.IsDefault) ?? associations.First();
                 
                 CurrentAssociation = association;

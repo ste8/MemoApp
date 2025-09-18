@@ -268,8 +268,10 @@ public static class ServiceRegistration
             var hapticFeedbackService = serviceProvider.GetRequiredService<IHapticFeedbackService>();
             var exerciseCountService = serviceProvider.GetRequiredService<IExerciseCountService>();
             var packAssociationsService = serviceProvider.GetRequiredService<IPackAssociationsService>();
+            var customAssociationsService = serviceProvider.GetRequiredService<ICustomAssociationsService>();
+            var tokenDefaultsService = serviceProvider.GetRequiredService<ITokenDefaultsService>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
-            return new FlashNumbersViewModel(localizationService, analyticsService, shareService, hapticFeedbackService, exerciseCountService, packAssociationsService, interstitialAdManager);
+            return new FlashNumbersViewModel(localizationService, analyticsService, shareService, hapticFeedbackService, exerciseCountService, packAssociationsService, customAssociationsService, tokenDefaultsService, interstitialAdManager);
         });
         
         services.AddTransient<StatisticsViewModel>();
@@ -308,6 +310,7 @@ public static class ServiceRegistration
             var gameService = serviceProvider.GetRequiredService<IBigNumberService>();
             var settingsService = serviceProvider.GetRequiredService<IBigNumberSettingsService>();
             var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+            var shareService = serviceProvider.GetRequiredService<IShareService>();
             var textMeasurementService = serviceProvider.GetRequiredService<ITextMeasurementService>();
             var containerSizeService = serviceProvider.GetRequiredService<IContainerSizeService>();
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
@@ -315,10 +318,11 @@ public static class ServiceRegistration
             var packAssociationsService = serviceProvider.GetRequiredService<IPackAssociationsService>();
             var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
             var digitComparisonService = serviceProvider.GetRequiredService<IDigitComparisonService>();
+            var customAssociationsService = serviceProvider.GetRequiredService<ICustomAssociationsService>();
+            var tokenDefaultsService = serviceProvider.GetRequiredService<ITokenDefaultsService>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
-            var shareService = serviceProvider.GetRequiredService<IShareService>();
             var hapticFeedbackService = serviceProvider.GetRequiredService<IHapticFeedbackService>();
-            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, packAssociationsService, userNotificationService, digitComparisonService, interstitialAdManager, hapticFeedbackService);
+            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, packAssociationsService, userNotificationService, digitComparisonService, customAssociationsService, tokenDefaultsService, interstitialAdManager, hapticFeedbackService);
         });
         
         services.AddTransient<TokenDetailViewModel>(serviceProvider =>
