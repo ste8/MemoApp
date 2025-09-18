@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text.Json;
 using MemoApp.Core.MajorSystem.Models;
 using MemoApp.Core.Packs;
@@ -736,11 +737,26 @@ public class PackAssociationsService : IPackAssociationsService
         {
             // Remove extension
             var nameWithoutExt = Path.GetFileNameWithoutExtension(filename);
-            
-            // Split by underscore and take everything after the first part (token)
+
+            // Split by underscore
             var parts = nameWithoutExt.Split('_');
             if (parts.Length > 1)
             {
+                // Check if this is a custom association filename with timestamp
+                // Custom association format: {token}_{word}_{timestamp}
+                // Pack association format: {token}_{word}
+                if (parts.Length >= 3)
+                {
+                    // Check if the last part looks like a timestamp (14 digits: yyyyMMddHHmmss)
+                    var lastPart = parts[^1];
+                    if (lastPart.Length == 14 && lastPart.All(char.IsDigit))
+                    {
+                        // This is a custom association filename, extract word without timestamp
+                        return string.Join("_", parts.Skip(1).Take(parts.Length - 2));
+                    }
+                }
+
+                // Standard pack association or custom association without valid timestamp
                 return string.Join("_", parts.Skip(1));
             }
         }
@@ -748,7 +764,7 @@ public class PackAssociationsService : IPackAssociationsService
         {
             _logger.LogError(ex, "Error extracting word from filename: {Filename}", filename);
         }
-        
+
         return string.Empty;
     }
     
