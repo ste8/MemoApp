@@ -148,6 +148,27 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
         PropertyChanged += OnPropertyChanged;
 
         _logger.LogInformation("FeedbackViewModel initialized");
+
+        // Initialize validation to show errors immediately on page load per user requirement
+        InitializeValidation();
+    }
+
+    /// <summary>
+    /// Initializes validation to show errors immediately when the page opens
+    /// This makes validation errors visible from page start rather than waiting for user interaction
+    /// </summary>
+    private void InitializeValidation()
+    {
+        // Set all fields as "focused" so validation errors are visible immediately
+        HasSubjectBeenFocused = true;
+        HasMessageBeenFocused = true;
+        HasEmailBeenFocused = true;
+
+        // Run initial validation
+        ValidateSubject();
+        ValidateMessage();
+        ValidateEmail();
+        UpdateOverallValidation();
     }
 
     private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
