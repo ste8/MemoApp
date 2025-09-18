@@ -1,3 +1,5 @@
+using MemoApp.UI.MauiApp.Handlers;
+
 namespace MemoApp.UI.MauiApp.Configuration;
 
 /// <summary>
@@ -17,6 +19,10 @@ public static class MauiConfiguration
             .ConfigureFonts(ConfigureFonts)
             .ConfigureMauiHandlers(handlers =>
             {
+                // Configure borderless Entry and Editor controls for feedback forms
+                BorderlessEntryHandler.Configure();
+                BorderlessEditorHandler.Configure();
+
                 // Configure Editor to support numeric keyboard on mobile platforms
                 Microsoft.Maui.Handlers.EditorHandler.Mapper.AppendToMapping("NumericKeyboard", (handler, view) =>
                 {
