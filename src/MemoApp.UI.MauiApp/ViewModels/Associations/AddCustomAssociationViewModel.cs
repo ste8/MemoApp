@@ -433,6 +433,11 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
             WordError = _localizationService.GetString("AddCustomAssociation_WordTooShort");
             IsWordValid = false;
         }
+        else if (Word.Contains('_'))
+        {
+            WordError = _localizationService.GetString("AddCustomAssociation_WordNoUnderscore");
+            IsWordValid = false;
+        }
         else
         {
             WordError = string.Empty;

@@ -1293,6 +1293,10 @@
     <value>La parola deve essere lunga almeno 2 caratteri</value>
     <comment>Validation message when word is too short</comment>
   </data>
+  <data name="AddCustomAssociation_WordNoUnderscore" xml:space="preserve">
+    <value>La parola non può contenere caratteri underscore (_)</value>
+    <comment>Validation message when word contains underscores</comment>
+  </data>
   <data name="AddCustomAssociation_ValidationErrorsCount" xml:space="preserve">
     <value>{0} errori trovati</value>
     <comment>Shows count of validation errors. Parameter: {0} = error count</comment>
