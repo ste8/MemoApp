@@ -5,187 +5,421 @@
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              x:Class="MemoApp.UI.MauiApp.Views.Associations.AddCustomAssociationPage"
              x:DataType="viewmodels:AddCustomAssociationViewModel"
-             Title="{Binding PageTitle}">
+             Title="{Binding PageTitle}"
+             BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Black}}">
 
-    <ScrollView Padding="16">
-        <StackLayout Spacing="20">
-            
-            <!-- Loading indicator -->
-            <ActivityIndicator IsVisible="{Binding IsLoading}" 
-                             IsRunning="{Binding IsLoading}"
-                             Color="{StaticResource Primary}"
-                             VerticalOptions="Center" />
-            
-            <!-- Header section -->
-            <Frame BackgroundColor="{StaticResource Primary}"
-                   Padding="16"
-                   CornerRadius="12"
-                   HasShadow="True">
-                <StackLayout Spacing="8">
-                    <Label Text="{localization:Localize AddCustomAssociation_Header}"
-                           TextColor="White"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center" />
-                    <Label Text="{Binding Token}"
-                           TextColor="White"
-                           FontSize="24"
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center" />
-                </StackLayout>
-            </Frame>
+    <Grid RowDefinitions="*,Auto,Auto">
 
-            <!-- Word input section -->
-            <StackLayout Spacing="12">
-                <Label Text="{localization:Localize AddCustomAssociation_WordLabel}"
-                       FontSize="16"
-                       FontAttributes="Bold" />
-                <Entry Text="{Binding Word, Mode=TwoWay}"
-                       Placeholder="{localization:Localize AddCustomAssociation_WordPlaceholder}"
-                       FontSize="16"
-                       ReturnType="Done"
-                       IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
-                       Keyboard="Text" />
-            </StackLayout>
-
-            <!-- Image selection section -->
-            <StackLayout Spacing="12">
-                <Label Text="{localization:Localize AddCustomAssociation_ImageLabel}"
-                       FontSize="16"
-                       FontAttributes="Bold" />
-                
-                <!-- Image selection buttons -->
-                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
-                    
-                    <!-- Select from device button -->
-                    <Button Grid.Column="0"
-                            Text="{localization:Localize AddCustomAssociation_SelectImage}"
-                            Command="{Binding SelectImageCommand}"
-                            BackgroundColor="{StaticResource Secondary}"
-                            TextColor="White"
-                            FontSize="14"
-                            CornerRadius="8"
-                            HeightRequest="50"
-                            IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" />
-                    
-                    <!-- AI Generation button -->
-                    <Button Grid.Column="1"
-                            Text="{localization:Localize AddCustomAssociation_GenerateAI}"
-                            Command="{Binding GenerateWithAICommand}"
-                            BackgroundColor="{StaticResource Primary}"
-                            TextColor="White"
-                            FontSize="14"
-                            CornerRadius="8"
-                            HeightRequest="50"
-                            IsVisible="{Binding IsAIGenerationAvailable}"
-                            IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" />
-                </Grid>
-
-                <!-- AI Credits info -->
-                <Label Text="{Binding RemainingCredits, StringFormat='{localization:Localize AddCustomAssociation_CreditsRemaining}: {0}'}"
-                       FontSize="12"
-                       TextColor="{StaticResource Gray600}"
-                       IsVisible="{Binding IsAIGenerationAvailable}"
-                       HorizontalOptions="Center" />
-
-                <!-- Image preview area -->
-                <Frame BackgroundColor="{StaticResource Gray100}"
-                       Padding="20"
-                       CornerRadius="8"
-                       MinimumHeightRequest="120"
-                       IsVisible="{Binding HasSelectedImage}">
-                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                        <Label Text="📷"
-                               FontSize="32"
-                               HorizontalOptions="Center" />
-                        <Label Text="{localization:Localize AddCustomAssociation_ImageSelected}"
-                               FontSize="14"
-                               TextColor="{StaticResource Gray600}"
-                               HorizontalOptions="Center"
-                               HorizontalTextAlignment="Center" />
-                    </StackLayout>
-                </Frame>
-
-                <!-- No image placeholder -->
-                <Frame BackgroundColor="{StaticResource Gray100}"
-                       Padding="20"
-                       CornerRadius="8"
-                       MinimumHeightRequest="120"
-                       IsVisible="{Binding HasSelectedImage, Converter={StaticResource InvertedBoolConverter}}">
-                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                        <Label Text="🖼️"
-                               FontSize="32"
-                               HorizontalOptions="Center"
-                               Opacity="0.5" />
-                        <Label Text="{localization:Localize AddCustomAssociation_NoImageSelected}"
-                               FontSize="14"
-                               TextColor="{StaticResource Gray600}"
-                               HorizontalOptions="Center"
-                               HorizontalTextAlignment="Center"
-                               Opacity="0.7" />
-                    </StackLayout>
-                </Frame>
-            </StackLayout>
-
-            <!-- Set as default section -->
-            <StackLayout Spacing="8" Orientation="Horizontal">
-                <CheckBox IsChecked="{Binding SetAsDefault, Mode=TwoWay}"
-                          Color="{StaticResource Primary}"
-                          IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" />
-                <Label Text="{localization:Localize AddCustomAssociation_SetAsDefault}"
-                       FontSize="16"
+        <!-- Floating Error Badge (Overlay) -->
+        <Frame Grid.Row="0"
+               IsVisible="{Binding HasValidationErrors}"
+               HorizontalOptions="End"
+               VerticalOptions="Start"
+               Margin="{OnPlatform iOS='20,60,20,0', Android='20,60,20,0', Default='20,20,20,0'}"
+               BackgroundColor="{AppThemeBinding Light=#DC3545, Dark=#FF6B6B}"
+               BorderColor="Transparent"
+               CornerRadius="20"
+               Padding="12,8"
+               HasShadow="True"
+               ZIndex="1000">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ScrollToFirstErrorCommand}" />
+            </Frame.GestureRecognizers>
+            <Grid ColumnDefinitions="Auto,Auto" ColumnSpacing="8">
+                <Label Grid.Column="0"
+                       Text="⚠️"
+                       FontSize="14"
                        VerticalOptions="Center" />
+                <Label Grid.Column="1"
+                       Text="{Binding ValidationErrorCount}"
+                       FontSize="12"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       VerticalOptions="Center" />
+            </Grid>
+        </Frame>
+
+        <!-- Main content -->
+        <ScrollView Grid.Row="0" x:Name="MainScrollView"
+                   Padding="{OnPlatform iOS='20,16,20,20', Android='20,16,20,20', Default='20'}">
+            <StackLayout Spacing="{OnIdiom Phone=16, Tablet=20, Desktop=24}">
+
+                <!-- Loading indicator -->
+                <ActivityIndicator IsVisible="{Binding IsLoading}"
+                                 IsRunning="{Binding IsLoading}"
+                                 Color="{StaticResource Primary}"
+                                 VerticalOptions="Center" />
+
+                <!-- Header section -->
+                <Frame BackgroundColor="{StaticResource Primary}"
+                       Padding="16"
+                       CornerRadius="12"
+                       HasShadow="True">
+                    <StackLayout Spacing="8">
+                        <Label Text="{localization:Localize AddCustomAssociation_Header}"
+                               TextColor="White"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center" />
+                        <Label Text="{Binding Token}"
+                               TextColor="White"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center" />
+                    </StackLayout>
+                </Frame>
+
+                <!-- Word input section -->
+                <StackLayout Spacing="8" x:Name="WordContainer">
+                    <Label Text="{localization:Localize AddCustomAssociation_WordLabel}"
+                           Style="{StaticResource SectionHeaderStyle}" />
+
+                    <!-- Word Input Container with Validation States -->
+                    <Frame HasShadow="False"
+                           CornerRadius="8"
+                           Padding="16,12"
+                           BackgroundColor="Transparent">
+                        <Frame.Style>
+                            <Style TargetType="Frame">
+                                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}" />
+                                <Style.Triggers>
+                                    <DataTrigger TargetType="Frame"
+                                               Binding="{Binding WordError, Converter={StaticResource IsNotNullOrEmptyConverter}}"
+                                               Value="True">
+                                        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Frame"
+                                               Binding="{Binding IsWordValid}"
+                                               Value="True">
+                                        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource ValidationSuccessLight}, Dark={StaticResource ValidationSuccessDark}}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Frame.Style>
+
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                            <Entry Grid.Column="0"
+                                   x:Name="WordEntry"
+                                   Text="{Binding Word, Mode=TwoWay}"
+                                   Placeholder="{localization:Localize AddCustomAssociation_WordPlaceholder}"
+                                   FontSize="16"
+                                   ReturnType="Done"
+                                   IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+                                   Keyboard="Text"
+                                   BackgroundColor="Transparent" />
+
+                            <!-- Validation Icon -->
+                            <Label Grid.Column="1"
+                                   VerticalOptions="Center"
+                                   FontSize="18"
+                                   FontAttributes="Bold">
+                                <Label.Style>
+                                    <Style TargetType="Label">
+                                        <Setter Property="IsVisible" Value="False" />
+                                        <Style.Triggers>
+                                            <DataTrigger TargetType="Label"
+                                                       Binding="{Binding WordError, Converter={StaticResource IsNotNullOrEmptyConverter}}"
+                                                       Value="True">
+                                                <Setter Property="IsVisible" Value="True" />
+                                                <Setter Property="Text" Value="⚠️" />
+                                                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label"
+                                                       Binding="{Binding IsWordValid}"
+                                                       Value="True">
+                                                <Setter Property="IsVisible" Value="True" />
+                                                <Setter Property="Text" Value="✅" />
+                                                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ValidationSuccessLight}, Dark={StaticResource ValidationSuccessDark}}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </Grid>
+                    </Frame>
+
+                    <!-- Word Error Message -->
+                    <Label IsVisible="{Binding WordError, Converter={StaticResource IsNotNullOrEmptyConverter}}"
+                           Text="{Binding WordError}"
+                           Style="{StaticResource ValidationErrorTextStyle}" />
+                </StackLayout>
+
+                <!-- Image selection section -->
+                <StackLayout Spacing="8" x:Name="ImageContainer">
+                    <Label Text="{localization:Localize AddCustomAssociation_ImageLabel}"
+                           Style="{StaticResource SectionHeaderStyle}" />
+
+                    <!-- Image Selection Container with Validation State -->
+                    <Frame HasShadow="False"
+                           CornerRadius="8"
+                           Padding="16"
+                           BackgroundColor="Transparent">
+                        <Frame.Style>
+                            <Style TargetType="Frame">
+                                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}" />
+                                <Style.Triggers>
+                                    <DataTrigger TargetType="Frame"
+                                               Binding="{Binding ImageError, Converter={StaticResource IsNotNullOrEmptyConverter}}"
+                                               Value="True">
+                                        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Frame"
+                                               Binding="{Binding IsImageValid}"
+                                               Value="True">
+                                        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource ValidationSuccessLight}, Dark={StaticResource ValidationSuccessDark}}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Frame.Style>
+
+                        <StackLayout Spacing="12">
+                            <!-- Image selection buttons -->
+                            <Grid ColumnDefinitions="*,*,Auto" ColumnSpacing="12">
+
+                                <!-- Select from device button -->
+                                <Button Grid.Column="0"
+                                        Text="{localization:Localize AddCustomAssociation_SelectImage}"
+                                        Command="{Binding SelectImageCommand}"
+                                        BackgroundColor="{StaticResource Secondary}"
+                                        TextColor="White"
+                                        FontSize="14"
+                                        CornerRadius="8"
+                                        HeightRequest="50"
+                                        IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" />
+
+                                <!-- AI Generation button -->
+                                <Button Grid.Column="1"
+                                        Text="{localization:Localize AddCustomAssociation_GenerateAI}"
+                                        Command="{Binding GenerateWithAICommand}"
+                                        BackgroundColor="{StaticResource Primary}"
+                                        TextColor="White"
+                                        FontSize="14"
+                                        CornerRadius="8"
+                                        HeightRequest="50"
+                                        IsVisible="{Binding IsAIGenerationAvailable}"
+                                        IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" />
+
+                                <!-- Validation Icon for Image Section -->
+                                <Label Grid.Column="2"
+                                       VerticalOptions="Center"
+                                       FontSize="18"
+                                       FontAttributes="Bold">
+                                    <Label.Style>
+                                        <Style TargetType="Label">
+                                            <Setter Property="IsVisible" Value="False" />
+                                            <Style.Triggers>
+                                                <DataTrigger TargetType="Label"
+                                                           Binding="{Binding ImageError, Converter={StaticResource IsNotNullOrEmptyConverter}}"
+                                                           Value="True">
+                                                    <Setter Property="IsVisible" Value="True" />
+                                                    <Setter Property="Text" Value="⚠️" />
+                                                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label"
+                                                           Binding="{Binding IsImageValid}"
+                                                           Value="True">
+                                                    <Setter Property="IsVisible" Value="True" />
+                                                    <Setter Property="Text" Value="✅" />
+                                                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ValidationSuccessLight}, Dark={StaticResource ValidationSuccessDark}}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                </Label>
+                            </Grid>
+
+                            <!-- AI Credits info -->
+                            <Label Text="{Binding RemainingCredits, StringFormat='{localization:Localize AddCustomAssociation_CreditsRemaining}: {0}'}"
+                                   FontSize="12"
+                                   TextColor="{StaticResource Gray600}"
+                                   IsVisible="{Binding IsAIGenerationAvailable}"
+                                   HorizontalOptions="Center" />
+
+                            <!-- Image preview area -->
+                            <Frame BackgroundColor="{StaticResource Gray100}"
+                                   Padding="20"
+                                   CornerRadius="8"
+                                   MinimumHeightRequest="120"
+                                   IsVisible="{Binding HasSelectedImage}">
+                                <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                    <Label Text="📷"
+                                           FontSize="32"
+                                           HorizontalOptions="Center" />
+                                    <Label Text="{localization:Localize AddCustomAssociation_ImageSelected}"
+                                           FontSize="14"
+                                           TextColor="{StaticResource Gray600}"
+                                           HorizontalOptions="Center"
+                                           HorizontalTextAlignment="Center" />
+                                </StackLayout>
+                            </Frame>
+
+                            <!-- No image placeholder -->
+                            <Frame BackgroundColor="{StaticResource Gray100}"
+                                   Padding="20"
+                                   CornerRadius="8"
+                                   MinimumHeightRequest="120"
+                                   IsVisible="{Binding HasSelectedImage, Converter={StaticResource InvertedBoolConverter}}">
+                                <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                    <Label Text="🖼️"
+                                           FontSize="32"
+                                           HorizontalOptions="Center"
+                                           Opacity="0.5" />
+                                    <Label Text="{localization:Localize AddCustomAssociation_NoImageSelected}"
+                                           FontSize="14"
+                                           TextColor="{StaticResource Gray600}"
+                                           HorizontalOptions="Center"
+                                           HorizontalTextAlignment="Center"
+                                           Opacity="0.7" />
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                    </Frame>
+
+                    <!-- Image Error Message -->
+                    <Label IsVisible="{Binding ImageError, Converter={StaticResource IsNotNullOrEmptyConverter}}"
+                           Text="{Binding ImageError}"
+                           Style="{StaticResource ValidationErrorTextStyle}" />
+                </StackLayout>
+
+                <!-- Set as default section -->
+                <StackLayout Spacing="8" Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding SetAsDefault, Mode=TwoWay}"
+                              Color="{StaticResource Primary}"
+                              IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" />
+                    <Label Text="{localization:Localize AddCustomAssociation_SetAsDefault}"
+                           FontSize="16"
+                           VerticalOptions="Center" />
+                </StackLayout>
+
+                <!-- Legacy Validation message (hidden, keeping for compatibility) -->
+                <Label Text="{Binding ValidationMessage}"
+                       TextColor="{StaticResource Danger}"
+                       FontSize="14"
+                       IsVisible="False"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+
+                <!-- Spacer for bottom action buttons -->
+                <BoxView HeightRequest="80" BackgroundColor="Transparent" />
+
+                <!-- Info section -->
+                <Frame BackgroundColor="{StaticResource Info}"
+                       Padding="12"
+                       CornerRadius="8"
+                       HasShadow="False"
+                       Margin="0,20,0,0">
+                    <Label Text="{localization:Localize AddCustomAssociation_InfoMessage}"
+                           TextColor="White"
+                           FontSize="12"
+                           HorizontalTextAlignment="Center"
+                           LineBreakMode="WordWrap" />
+                </Frame>
+
             </StackLayout>
+        </ScrollView>
 
-            <!-- Validation message -->
-            <Label Text="{Binding ValidationMessage}"
-                   TextColor="{StaticResource Danger}"
-                   FontSize="14"
-                   IsVisible="{Binding ValidationMessage, Converter={StaticResource IsNotNullOrEmptyConverter}}"
-                   HorizontalOptions="Center"
-                   HorizontalTextAlignment="Center" />
+        <!-- Validation Summary -->
+        <StackLayout Grid.Row="1"
+                     IsVisible="{Binding HasValidationErrors}"
+                     BackgroundColor="{AppThemeBinding Light={StaticResource ValidationErrorBackgroundLight}, Dark={StaticResource ValidationErrorBackgroundDark}}"
+                     Padding="20,12"
+                     Spacing="8">
 
-            <!-- Action buttons -->
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="16" Margin="0,20,0,0">
-                
-                <!-- Cancel button -->
-                <Button Grid.Column="0"
-                        Text="{localization:Localize Common_Cancel}"
-                        Command="{Binding CancelCommand}"
-                        BackgroundColor="{StaticResource Gray400}"
-                        TextColor="White"
-                        FontSize="16"
-                        FontAttributes="Bold"
-                        CornerRadius="12"
-                        HeightRequest="50"
-                        IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" />
-                
-                <!-- Save button -->
+            <!-- Summary Header -->
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                <StackLayout Grid.Column="0"
+                           Orientation="Horizontal"
+                           Spacing="8"
+                           VerticalOptions="Center">
+                    <Label Text="⚠️"
+                           FontSize="16"
+                           VerticalOptions="Center" />
+                    <Label Text="{Binding ValidationErrorCount, StringFormat='{localization:Localize AddCustomAssociation_ValidationErrorsCount}'}"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}"
+                           VerticalOptions="Center" />
+                </StackLayout>
+
+                <!-- Expand/Collapse Button -->
                 <Button Grid.Column="1"
-                        Text="{localization:Localize Common_Save}"
-                        Command="{Binding SaveCommand}"
-                        BackgroundColor="{StaticResource Success}"
-                        TextColor="White"
-                        FontSize="16"
-                        FontAttributes="Bold"
-                        CornerRadius="12"
-                        HeightRequest="50"
-                        IsEnabled="{Binding CanSave}" />
+                        Command="{Binding ToggleValidationSummaryCommand}"
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent"
+                        FontSize="12"
+                        Padding="8,4"
+                        CornerRadius="4"
+                        TextColor="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button"
+                                   Binding="{Binding IsValidationSummaryExpanded}"
+                                   Value="True">
+                            <Setter Property="Text" Value="{localization:Localize Common_Hide}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button"
+                                   Binding="{Binding IsValidationSummaryExpanded}"
+                                   Value="False">
+                            <Setter Property="Text" Value="{localization:Localize Common_Show}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
             </Grid>
 
-            <!-- Info section -->
-            <Frame BackgroundColor="{StaticResource Info}"
-                   Padding="12"
-                   CornerRadius="8"
-                   HasShadow="False"
-                   Margin="0,20,0,0">
-                <Label Text="{localization:Localize AddCustomAssociation_InfoMessage}"
-                       TextColor="White"
+            <!-- Expandable Error List -->
+            <StackLayout IsVisible="{Binding IsValidationSummaryExpanded}"
+                         Spacing="4">
+                <Label IsVisible="{Binding WordError, Converter={StaticResource IsNotNullOrEmptyConverter}}"
+                       Text="{Binding WordError, StringFormat='• {0}'}"
                        FontSize="12"
-                       HorizontalTextAlignment="Center"
+                       TextColor="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}"
                        LineBreakMode="WordWrap" />
-            </Frame>
-
+                <Label IsVisible="{Binding ImageError, Converter={StaticResource IsNotNullOrEmptyConverter}}"
+                       Text="{Binding ImageError, StringFormat='• {0}'}"
+                       FontSize="12"
+                       TextColor="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}"
+                       LineBreakMode="WordWrap" />
+            </StackLayout>
         </StackLayout>
-    </ScrollView>
+
+        <!-- Action buttons -->
+        <Grid Grid.Row="2"
+              ColumnDefinitions="*,*"
+              ColumnSpacing="12"
+              Padding="{OnPlatform iOS='20,12,20,34', Android='20,12,20,20', Default='20,12,20,20'}"
+              BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+
+            <!-- Cancel Button -->
+            <Button Grid.Column="0"
+                    Text="{localization:Localize Common_Cancel}"
+                    Command="{Binding CancelCommand}"
+                    BackgroundColor="{StaticResource Gray400}"
+                    TextColor="White"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    CornerRadius="12"
+                    HeightRequest="50"
+                    IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" />
+
+            <!-- Save Button -->
+            <Button Grid.Column="1"
+                    Text="{localization:Localize Common_Save}"
+                    Command="{Binding SaveCommand}"
+                    BackgroundColor="{StaticResource Success}"
+                    TextColor="White"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    CornerRadius="12"
+                    HeightRequest="50"
+                    IsEnabled="{Binding IsFormValid}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button"
+                               Binding="{Binding IsLoading}"
+                               Value="True">
+                        <Setter Property="IsEnabled" Value="False" />
+                        <Setter Property="Text" Value="{localization:Localize Common_Saving}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+        </Grid>
+    </Grid>
 </ContentPage>

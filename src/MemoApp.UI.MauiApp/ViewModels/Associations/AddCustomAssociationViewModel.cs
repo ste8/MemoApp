@@ -60,12 +60,38 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
     [ObservableProperty]
     private string _validationMessage = string.Empty;
 
+    [ObservableProperty]
+    private string _wordError = string.Empty;
+
+    [ObservableProperty]
+    private string _imageError = string.Empty;
+
+    [ObservableProperty]
+    private bool _isWordValid;
+
+    [ObservableProperty]
+    private bool _isImageValid;
+
+    [ObservableProperty]
+    private bool _hasValidationErrors;
+
+    [ObservableProperty]
+    private int _validationErrorCount;
+
+    [ObservableProperty]
+    private bool _isValidationSummaryExpanded;
+
     private Stream? _selectedImageStream;
 
     /// <summary>
     /// Gets whether the save operation can be performed
     /// </summary>
     public bool CanSave => !string.IsNullOrWhiteSpace(Word) && HasSelectedImage && !IsLoading;
+
+    /// <summary>
+    /// Gets whether the form is completely valid
+    /// </summary>
+    public bool IsFormValid => IsWordValid && IsImageValid && !IsLoading;
 
     public AddCustomAssociationViewModel(
         ICustomAssociationsService customAssociationsService,
@@ -105,6 +131,7 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
         
         // Clear any previous validation messages
         ValidationMessage = string.Empty;
+        ValidateAllFields();
         
         _logger.LogInformation("Initialized AddCustomAssociation for token {Token} in category {Category}", token, category);
     }
@@ -124,11 +151,11 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
                 HasSelectedImage = true;
                 SelectedImagePath = "Selected from device"; // Placeholder text
                 
-                // Clear validation message when image is selected
-                if (string.IsNullOrWhiteSpace(ValidationMessage))
-                    ValidationMessage = string.Empty;
-                
+                // Clear validation when image is selected
+                ValidateImageSelection();
+
                 OnPropertyChanged(nameof(CanSave));
+                OnPropertyChanged(nameof(IsFormValid));
                 _logger.LogInformation("Image selected successfully for token {Token}", Token);
             }
             else
@@ -154,7 +181,7 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
             
             if (string.IsNullOrWhiteSpace(Word))
             {
-                ValidationMessage = _localizationService.GetString("AddCustomAssociation_WordRequired");
+                ValidateWordInput();
                 return;
             }
 
@@ -202,7 +229,7 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
 
             if (_selectedImageStream == null)
             {
-                ValidationMessage = _localizationService.GetString("AddCustomAssociation_ImageRequired");
+                ValidateImageSelection();
                 return;
             }
 
@@ -294,17 +321,19 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
     partial void OnWordChanged(string value)
     {
         OnPropertyChanged(nameof(CanSave));
-        
-        // Clear validation message when word is entered
-        if (!string.IsNullOrWhiteSpace(value) && HasSelectedImage)
-        {
-            ValidationMessage = string.Empty;
-        }
+        OnPropertyChanged(nameof(IsFormValid));
+
+        // Real-time validation as user types
+        ValidateWordInput();
     }
 
     partial void OnHasSelectedImageChanged(bool value)
     {
         OnPropertyChanged(nameof(CanSave));
+        OnPropertyChanged(nameof(IsFormValid));
+
+        // Real-time validation when image status changes
+        ValidateImageSelection();
     }
 
     partial void OnTokenChanged(string value)
@@ -344,18 +373,121 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
 
     private void UpdateValidationMessage()
     {
+        ValidateAllFields();
+    }
+
+    /// <summary>
+    /// Validates the word input field
+    /// </summary>
+    private void ValidateWordInput()
+    {
         if (string.IsNullOrWhiteSpace(Word))
         {
-            ValidationMessage = _localizationService.GetString("AddCustomAssociation_WordRequired");
+            WordError = _localizationService.GetString("AddCustomAssociation_WordRequired");
+            IsWordValid = false;
         }
-        else if (!HasSelectedImage)
+        else if (Word.Trim().Length < 2)
         {
-            ValidationMessage = _localizationService.GetString("AddCustomAssociation_ImageRequired");
+            WordError = _localizationService.GetString("AddCustomAssociation_WordTooShort");
+            IsWordValid = false;
+        }
+        else
+        {
+            WordError = string.Empty;
+            IsWordValid = true;
+        }
+
+        UpdateValidationSummary();
+    }
+
+    /// <summary>
+    /// Validates the image selection
+    /// </summary>
+    private void ValidateImageSelection()
+    {
+        if (!HasSelectedImage)
+        {
+            ImageError = _localizationService.GetString("AddCustomAssociation_ImageRequired");
+            IsImageValid = false;
+        }
+        else
+        {
+            ImageError = string.Empty;
+            IsImageValid = true;
+        }
+
+        UpdateValidationSummary();
+    }
+
+    /// <summary>
+    /// Validates all form fields
+    /// </summary>
+    private void ValidateAllFields()
+    {
+        ValidateWordInput();
+        ValidateImageSelection();
+    }
+
+    /// <summary>
+    /// Updates the validation summary information
+    /// </summary>
+    private void UpdateValidationSummary()
+    {
+        var errorCount = 0;
+
+        if (!string.IsNullOrEmpty(WordError)) errorCount++;
+        if (!string.IsNullOrEmpty(ImageError)) errorCount++;
+
+        ValidationErrorCount = errorCount;
+        HasValidationErrors = errorCount > 0;
+
+        // Update legacy validation message for existing UI
+        if (HasValidationErrors)
+        {
+            if (!string.IsNullOrEmpty(WordError))
+            {
+                ValidationMessage = WordError;
+            }
+            else if (!string.IsNullOrEmpty(ImageError))
+            {
+                ValidationMessage = ImageError;
+            }
         }
         else
         {
             ValidationMessage = string.Empty;
         }
+    }
+
+    [RelayCommand]
+    private async Task ScrollToFirstErrorAsync()
+    {
+        if (!HasValidationErrors) return;
+
+        try
+        {
+            // Navigate to first error field
+            if (!string.IsNullOrEmpty(WordError))
+            {
+                // Focus will be handled by the UI when this command is triggered
+                _logger.LogInformation("Scrolling to word input field due to validation error");
+            }
+            else if (!string.IsNullOrEmpty(ImageError))
+            {
+                // Scroll to image selection area
+                _logger.LogInformation("Scrolling to image selection area due to validation error");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error scrolling to first validation error");
+        }
+    }
+
+    [RelayCommand]
+    private void ToggleValidationSummary()
+    {
+        IsValidationSummaryExpanded = !IsValidationSummaryExpanded;
     }
 
     public void Dispose()

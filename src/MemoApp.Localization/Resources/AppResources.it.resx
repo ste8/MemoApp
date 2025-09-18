@@ -1289,6 +1289,14 @@
     <value>Seleziona un'immagine per l'associazione</value>
     <comment>Validation message when image is required</comment>
   </data>
+  <data name="AddCustomAssociation_WordTooShort" xml:space="preserve">
+    <value>La parola deve essere lunga almeno 2 caratteri</value>
+    <comment>Validation message when word is too short</comment>
+  </data>
+  <data name="AddCustomAssociation_ValidationErrorsCount" xml:space="preserve">
+    <value>{0} errori trovati</value>
+    <comment>Shows count of validation errors. Parameter: {0} = error count</comment>
+  </data>
   <data name="AddCustomAssociation_ErrorSelectingImage" xml:space="preserve">
     <value>Si è verificato un errore durante la selezione dell'immagine. Riprova.</value>
     <comment>Error message when image selection fails</comment>
@@ -1318,6 +1326,10 @@
   <data name="Common_Save" xml:space="preserve">
     <value>Salva</value>
     <comment>Save button text</comment>
+  </data>
+  <data name="Common_Saving" xml:space="preserve">
+    <value>Salvataggio...</value>
+    <comment>Save button text while saving</comment>
   </data>
   <data name="Common_Success" xml:space="preserve">
     <value>Successo</value>
