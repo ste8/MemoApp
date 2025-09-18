@@ -18,16 +18,18 @@ namespace MemoApp.UI.MauiApp.ViewModels;
 /// <summary>
 /// ViewModel for the Associations page
 /// </summary>
-public partial class AssociationsViewModel : ObservableObject, 
-    IRecipient<CustomAssociationDeletedMessage>, 
+public partial class AssociationsViewModel : ObservableObject,
+    IRecipient<CustomAssociationDeletedMessage>,
     IRecipient<TokenDefaultChangedMessage>,
     IRecipient<PackDownloadedMessage>,
     IRecipient<PackUpdatedMessage>,
-    IRecipient<PackDeletedMessage>
+    IRecipient<PackDeletedMessage>,
+    IDisposable
 {
     private readonly IMajorSystemCategoryService _categoryService;
     private readonly IPackAssociationsService _packAssociationsService;
     private readonly ITokenDefaultsService _tokenDefaultsService;
+    private readonly ICustomAssociationsService _customAssociationsService;
     private readonly ILocalizationService _localizationService;
     private readonly IMessenger _messenger;
     private readonly IImageCacheService _imageCacheService;
@@ -80,6 +82,7 @@ public partial class AssociationsViewModel : ObservableObject,
         IMajorSystemCategoryService categoryService,
         IPackAssociationsService packAssociationsService,
         ITokenDefaultsService tokenDefaultsService,
+        ICustomAssociationsService customAssociationsService,
         ILocalizationService localizationService,
         IMessenger messenger,
         IImageCacheService imageCacheService,
@@ -91,6 +94,7 @@ public partial class AssociationsViewModel : ObservableObject,
         _categoryService = categoryService;
         _packAssociationsService = packAssociationsService;
         _tokenDefaultsService = tokenDefaultsService;
+        _customAssociationsService = customAssociationsService;
         _localizationService = localizationService;
         _messenger = messenger;
         _imageCacheService = imageCacheService;
@@ -657,12 +661,38 @@ public partial class AssociationsViewModel : ObservableObject,
 
             // Load only the specific token's associations efficiently
             var tokenAssociations = await _packAssociationsService.GetTokenAssociationsAsync(category, token);
-            
+
+            // Also get custom associations for this token to ensure we have the complete picture
+            var currentPack = _packAssociationsService.CurrentPack;
+            if (currentPack != null)
+            {
+                var customAssociations = await _customAssociationsService.GetCustomAssociationsForTokenAsync(
+                    currentPack.Id, category, token);
+
+                // Apply default status to custom associations
+                if (customAssociations.Count > 0)
+                {
+                    var currentDefault = await _tokenDefaultsService.GetEffectiveDefaultAsync(
+                        currentPack.Id, category, token, null);
+
+                    foreach (var customAssoc in customAssociations)
+                    {
+                        // Check if this custom association is the default based on filename
+                        var customFilename = Path.GetFileName(customAssoc.ImagePath);
+                        customAssoc.IsDefault = !string.IsNullOrEmpty(currentDefault) &&
+                            currentDefault.EndsWith(customFilename);
+                    }
+
+                    // Add custom associations to the list
+                    tokenAssociations.AddRange(customAssociations);
+                }
+            }
+
             if (tokenAssociations.Count > 0)
             {
-                // Get the default association for this token
+                // Get the default association for this token (now includes custom associations)
                 var defaultAssociation = tokenAssociations.FirstOrDefault(a => a.IsDefault) ?? tokenAssociations.First();
-                
+
                 await MainThread.InvokeOnMainThreadAsync(() =>
                 {
                     // Find and update the existing token association in the collection
@@ -680,8 +710,8 @@ public partial class AssociationsViewModel : ObservableObject,
                     {
                         // Update the existing association in-place
                         Associations[existingIndex] = defaultAssociation;
-                        _logger.LogInformation("Smart refreshed token {Token}: updated association to {Word} (IsDefault: {IsDefault})", 
-                            token, defaultAssociation.Word, defaultAssociation.IsDefault);
+                        _logger.LogInformation("Smart refreshed token {Token}: updated association to {Word} (IsDefault: {IsDefault}, IsCustom: {IsCustom})",
+                            token, defaultAssociation.Word, defaultAssociation.IsDefault, defaultAssociation.IsCustom);
                     }
                     else
                     {
@@ -710,7 +740,7 @@ public partial class AssociationsViewModel : ObservableObject,
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error in smart refresh for token {Token} in category {Category}, falling back to full reload", token, category);
-            
+
             // Fallback to full reload if smart refresh fails
             if (SelectedCategory?.CategoryKey == category)
             {
@@ -903,13 +933,23 @@ public partial class AssociationsViewModel : ObservableObject,
         }
     }
     
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
     protected virtual void Dispose(bool disposing)
     {
         if (disposing)
         {
+            // Unregister from messenger to prevent memory leaks
+            _messenger.UnregisterAll(this);
+
+            // Unsubscribe from events
             _packAssociationsService.PackChanged -= OnPackChanged;
             _localizationService.NumberFormatChanged -= OnNumberFormatChanged;
         }
     }
-    
+
 }

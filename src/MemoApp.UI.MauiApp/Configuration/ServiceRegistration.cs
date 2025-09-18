@@ -278,6 +278,7 @@ public static class ServiceRegistration
             var categoryService = serviceProvider.GetRequiredService<IMajorSystemCategoryService>();
             var packAssociationsService = serviceProvider.GetRequiredService<IPackAssociationsService>();
             var tokenDefaultsService = serviceProvider.GetRequiredService<ITokenDefaultsService>();
+            var customAssociationsService = serviceProvider.GetRequiredService<ICustomAssociationsService>();
             var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
             var messenger = serviceProvider.GetRequiredService<IMessenger>();
             var imageCacheService = serviceProvider.GetRequiredService<IImageCacheService>();
@@ -285,7 +286,7 @@ public static class ServiceRegistration
             var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
             var logger = serviceProvider.GetRequiredService<ILogger<AssociationsViewModel>>();
             var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-            return new AssociationsViewModel(categoryService, packAssociationsService, tokenDefaultsService, localizationService, messenger, imageCacheService, analyticsService, userNotificationService, logger, configuration);
+            return new AssociationsViewModel(categoryService, packAssociationsService, tokenDefaultsService, customAssociationsService, localizationService, messenger, imageCacheService, analyticsService, userNotificationService, logger, configuration);
         });
         
         services.AddTransient<PackDownloadViewModel>(serviceProvider =>
