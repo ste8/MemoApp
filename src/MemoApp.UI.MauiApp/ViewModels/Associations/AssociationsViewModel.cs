@@ -35,6 +35,7 @@ public partial class AssociationsViewModel : ObservableObject,
     private readonly IImageCacheService _imageCacheService;
     private readonly IAnalyticsService _analyticsService;
     private readonly IUserNotificationService _userNotificationService;
+    private readonly IAssociationComposerService _associationComposerService;
     private readonly ILogger<AssociationsViewModel> _logger;
     private readonly IConfiguration _configuration;
     
@@ -88,6 +89,7 @@ public partial class AssociationsViewModel : ObservableObject,
         IImageCacheService imageCacheService,
         IAnalyticsService analyticsService,
         IUserNotificationService userNotificationService,
+        IAssociationComposerService associationComposerService,
         ILogger<AssociationsViewModel> logger,
         IConfiguration configuration)
     {
@@ -100,6 +102,7 @@ public partial class AssociationsViewModel : ObservableObject,
         _imageCacheService = imageCacheService;
         _analyticsService = analyticsService;
         _userNotificationService = userNotificationService;
+        _associationComposerService = associationComposerService;
         _logger = logger;
         _configuration = configuration;
         
@@ -659,34 +662,8 @@ public partial class AssociationsViewModel : ObservableObject,
             // Get current number format
             var numberFormat = _localizationService.CurrentNumberFormat;
 
-            // Load only the specific token's associations efficiently
-            var tokenAssociations = await _packAssociationsService.GetTokenAssociationsAsync(category, token);
-
-            // Also get custom associations for this token to ensure we have the complete picture
-            var currentPack = _packAssociationsService.CurrentPack;
-            if (currentPack != null)
-            {
-                var customAssociations = await _customAssociationsService.GetCustomAssociationsForTokenAsync(
-                    currentPack.Id, category, token);
-
-                // Apply default status to custom associations
-                if (customAssociations.Count > 0)
-                {
-                    var currentDefault = await _tokenDefaultsService.GetEffectiveDefaultAsync(
-                        currentPack.Id, category, token, null);
-
-                    foreach (var customAssoc in customAssociations)
-                    {
-                        // Check if this custom association is the default based on filename
-                        var customFilename = Path.GetFileName(customAssoc.ImagePath);
-                        customAssoc.IsDefault = !string.IsNullOrEmpty(currentDefault) &&
-                            currentDefault.EndsWith(customFilename);
-                    }
-
-                    // Add custom associations to the list
-                    tokenAssociations.AddRange(customAssociations);
-                }
-            }
+            // Load complete associations (pack + custom) with proper default resolution
+            var tokenAssociations = await _associationComposerService.GetCompleteTokenAssociationsAsync(category, token);
 
             if (tokenAssociations.Count > 0)
             {

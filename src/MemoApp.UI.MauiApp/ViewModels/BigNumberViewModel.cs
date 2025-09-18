@@ -28,12 +28,10 @@ public partial class BigNumberViewModel : BaseViewModel
     private readonly IAnalyticsService _analyticsService;
     private readonly IInterstitialAdManager? _interstitialAdManager;
     private readonly IExerciseCountService _exerciseCountService;
-    private readonly IPackAssociationsService _packAssociationsService;
     private readonly IFirstTimeTooltipService _tooltipService;
     private readonly IHapticFeedbackService? _hapticFeedbackService;
     private readonly IUserNotificationService _userNotificationService;
-    private readonly ICustomAssociationsService _customAssociationsService;
-    private readonly ITokenDefaultsService _tokenDefaultsService;
+    private readonly IAssociationComposerService _associationComposerService;
 
     // Confirmation dialog thresholds (based on UX agent recommendations)
     private const int MOBILE_RECALL_THRESHOLD_SECONDS = 5;
@@ -376,11 +374,9 @@ public partial class BigNumberViewModel : BaseViewModel
         IContainerSizeService containerSizeService,
         IAnalyticsService analyticsService,
         IExerciseCountService exerciseCountService,
-        IPackAssociationsService packAssociationsService,
         IUserNotificationService userNotificationService,
         IDigitComparisonService digitComparisonService,
-        ICustomAssociationsService customAssociationsService,
-        ITokenDefaultsService tokenDefaultsService,
+        IAssociationComposerService associationComposerService,
         IInterstitialAdManager? interstitialAdManager = null,
         IHapticFeedbackService? hapticFeedbackService = null)
     {
@@ -392,11 +388,9 @@ public partial class BigNumberViewModel : BaseViewModel
         _containerSizeService = containerSizeService ?? throw new ArgumentNullException(nameof(containerSizeService));
         _analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
         _exerciseCountService = exerciseCountService ?? throw new ArgumentNullException(nameof(exerciseCountService));
-        _packAssociationsService = packAssociationsService ?? throw new ArgumentNullException(nameof(packAssociationsService));
         _userNotificationService = userNotificationService ?? throw new ArgumentNullException(nameof(userNotificationService));
         _digitComparisonService = digitComparisonService ?? throw new ArgumentNullException(nameof(digitComparisonService));
-        _customAssociationsService = customAssociationsService ?? throw new ArgumentNullException(nameof(customAssociationsService));
-        _tokenDefaultsService = tokenDefaultsService ?? throw new ArgumentNullException(nameof(tokenDefaultsService));
+        _associationComposerService = associationComposerService ?? throw new ArgumentNullException(nameof(associationComposerService));
         _interstitialAdManager = interstitialAdManager;
         _hapticFeedbackService = hapticFeedbackService;
         
@@ -1383,39 +1377,13 @@ public partial class BigNumberViewModel : BaseViewModel
                 }
             }
 
-            // Load associations for each pair/digit in parallel
+            // Load associations for each pair/digit in parallel using the composer service
             var associationTasks = pairs.Select(async pair =>
             {
                 var categoryKey = pair.Length == 1 ? "numbers" : "numbers";
 
-                // Get pack associations for this token
-                var associations = await _packAssociationsService.GetTokenAssociationsAsync(categoryKey, pair);
-
-                // Also get custom associations for this token to ensure we have the complete picture
-                var currentPack = _packAssociationsService.CurrentPack;
-                if (currentPack != null)
-                {
-                    var customAssociations = await _customAssociationsService.GetCustomAssociationsForTokenAsync(
-                        currentPack.Id, categoryKey, pair);
-
-                    // Apply default status to custom associations
-                    if (customAssociations.Count > 0)
-                    {
-                        var currentDefault = await _tokenDefaultsService.GetEffectiveDefaultAsync(
-                            currentPack.Id, categoryKey, pair, null);
-
-                        foreach (var customAssoc in customAssociations)
-                        {
-                            // Check if this custom association is the default based on filename
-                            var customFilename = Path.GetFileName(customAssoc.ImagePath);
-                            customAssoc.IsDefault = !string.IsNullOrEmpty(currentDefault) &&
-                                currentDefault.EndsWith(customFilename);
-                        }
-
-                        // Add custom associations to the list
-                        associations.AddRange(customAssociations);
-                    }
-                }
+                // Get complete associations (pack + custom) with proper default resolution
+                var associations = await _associationComposerService.GetCompleteTokenAssociationsAsync(categoryKey, pair);
 
                 if (associations.Any())
                 {

@@ -232,6 +232,16 @@ public static class ServiceRegistration
             return new PackAssociationsService(packManager, categoryService, tokenDefaultsService, customAssociationsService, cacheService, logger, FileSystem.Current.AppDataDirectory);
         });
 
+        // Association composer service (depends on pack associations, custom associations, and token defaults services)
+        services.AddSingleton<IAssociationComposerService>(serviceProvider =>
+        {
+            var packAssociationsService = serviceProvider.GetRequiredService<IPackAssociationsService>();
+            var customAssociationsService = serviceProvider.GetRequiredService<ICustomAssociationsService>();
+            var tokenDefaultsService = serviceProvider.GetRequiredService<ITokenDefaultsService>();
+            var logger = serviceProvider.GetRequiredService<ILogger<AssociationComposerService>>();
+            return new AssociationComposerService(packAssociationsService, customAssociationsService, tokenDefaultsService, logger);
+        });
+
         return services;
     }
 
@@ -267,11 +277,9 @@ public static class ServiceRegistration
             var shareService = serviceProvider.GetRequiredService<IShareService>();
             var hapticFeedbackService = serviceProvider.GetRequiredService<IHapticFeedbackService>();
             var exerciseCountService = serviceProvider.GetRequiredService<IExerciseCountService>();
-            var packAssociationsService = serviceProvider.GetRequiredService<IPackAssociationsService>();
-            var customAssociationsService = serviceProvider.GetRequiredService<ICustomAssociationsService>();
-            var tokenDefaultsService = serviceProvider.GetRequiredService<ITokenDefaultsService>();
+            var associationComposerService = serviceProvider.GetRequiredService<IAssociationComposerService>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
-            return new FlashNumbersViewModel(localizationService, analyticsService, shareService, hapticFeedbackService, exerciseCountService, packAssociationsService, customAssociationsService, tokenDefaultsService, interstitialAdManager);
+            return new FlashNumbersViewModel(localizationService, analyticsService, shareService, hapticFeedbackService, exerciseCountService, associationComposerService, interstitialAdManager);
         });
         
         services.AddTransient<StatisticsViewModel>();
@@ -288,9 +296,10 @@ public static class ServiceRegistration
             var imageCacheService = serviceProvider.GetRequiredService<IImageCacheService>();
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
             var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
+            var associationComposerService = serviceProvider.GetRequiredService<IAssociationComposerService>();
             var logger = serviceProvider.GetRequiredService<ILogger<AssociationsViewModel>>();
             var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-            return new AssociationsViewModel(categoryService, packAssociationsService, tokenDefaultsService, customAssociationsService, localizationService, messenger, imageCacheService, analyticsService, userNotificationService, logger, configuration);
+            return new AssociationsViewModel(categoryService, packAssociationsService, tokenDefaultsService, customAssociationsService, localizationService, messenger, imageCacheService, analyticsService, userNotificationService, associationComposerService, logger, configuration);
         });
         
         services.AddTransient<PackDownloadViewModel>(serviceProvider =>
@@ -315,14 +324,12 @@ public static class ServiceRegistration
             var containerSizeService = serviceProvider.GetRequiredService<IContainerSizeService>();
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
             var exerciseCountService = serviceProvider.GetRequiredService<IExerciseCountService>();
-            var packAssociationsService = serviceProvider.GetRequiredService<IPackAssociationsService>();
             var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
             var digitComparisonService = serviceProvider.GetRequiredService<IDigitComparisonService>();
-            var customAssociationsService = serviceProvider.GetRequiredService<ICustomAssociationsService>();
-            var tokenDefaultsService = serviceProvider.GetRequiredService<ITokenDefaultsService>();
+            var associationComposerService = serviceProvider.GetRequiredService<IAssociationComposerService>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
             var hapticFeedbackService = serviceProvider.GetRequiredService<IHapticFeedbackService>();
-            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, packAssociationsService, userNotificationService, digitComparisonService, customAssociationsService, tokenDefaultsService, interstitialAdManager, hapticFeedbackService);
+            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, userNotificationService, digitComparisonService, associationComposerService, interstitialAdManager, hapticFeedbackService);
         });
         
         services.AddTransient<TokenDetailViewModel>(serviceProvider =>
