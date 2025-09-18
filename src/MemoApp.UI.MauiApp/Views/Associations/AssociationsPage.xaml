@@ -95,27 +95,50 @@
                         </StackLayout>
 
                         <!-- Categories selector with enhanced visual design -->
-                        <!-- Mobile: Compact card-based picker design -->
-                        <Frame Style="{StaticResource ModernCardStyle}"
-                               IsVisible="{OnPlatform iOS=True, Android=True, Default=False}"
-                               Margin="0,0,0,8">
-                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                                <Label Grid.Column="0"
-                                       Text="{localization:Localize Associations_CategoryLabel}"
-                                       FontFamily="OpenSansSemiBold"
-                                       FontSize="14"
-                                       FontAttributes="Bold"
-                                       TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}"
-                                       VerticalOptions="Center" />
-                                <Picker Grid.Column="1"
-                                        ItemsSource="{Binding Categories}"
-                                        ItemDisplayBinding="{Binding DisplayName}"
-                                        SelectedItem="{Binding SelectedCategory}"
-                                        BackgroundColor="Transparent"
-                                        FontSize="14"
-                                        VerticalOptions="Center" />
-                            </Grid>
-                        </Frame>
+                        <!-- Mobile: Beautiful modern picker design with icon -->
+                        <StackLayout IsVisible="{OnPlatform iOS=True, Android=True, Default=False}"
+                                     Spacing="8"
+                                     Margin="0,0,0,12">
+                            <Label Text="{localization:Localize Associations_CategoryLabel}"
+                                   Style="{StaticResource PickerLabelStyle}" />
+
+                            <Border Style="{StaticResource IconPickerContainerStyle}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnCategoryPickerContainerTapped" />
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="0">
+                                    <!-- Category Icon -->
+                                    <Label Grid.Column="0"
+                                           Text="&#xF07B;"
+                                           FontFamily="FontAwesomeSolid"
+                                           FontSize="22"
+                                           TextColor="{StaticResource Primary}"
+                                           VerticalOptions="Center"
+                                           Margin="16,0,8,0">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnCategoryPickerContainerTapped" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+
+                                    <!-- Picker -->
+                                    <Picker Grid.Column="1"
+                                            x:Name="CategoryPicker"
+                                            ItemsSource="{Binding Categories}"
+                                            ItemDisplayBinding="{Binding DisplayName}"
+                                            SelectedItem="{Binding SelectedCategory}"
+                                            Style="{StaticResource ModernPickerStyle}"
+                                            Margin="0" />
+
+                                    <!-- Dropdown Arrow -->
+                                    <Path Grid.Column="2"
+                                          Style="{StaticResource ModernDropdownIconStyle}">
+                                        <Path.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnCategoryPickerContainerTapped" />
+                                        </Path.GestureRecognizers>
+                                    </Path>
+                                </Grid>
+                            </Border>
+                        </StackLayout>
 
                         <!-- Desktop: Elegant horizontal pill buttons -->
                         <Frame Style="{StaticResource ModernCardStyle}"

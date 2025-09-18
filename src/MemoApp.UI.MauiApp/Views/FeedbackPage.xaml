@@ -93,13 +93,42 @@
                         <Label Text="{localization:Localize Feedback_TypeLabel}"
                                Style="{StaticResource SectionHeaderStyle}" />
 
-                        <Frame Style="{StaticResource ModernCardStyle}">
-                            <Picker ItemsSource="{Binding FeedbackTypes}"
-                                    ItemDisplayBinding="{Binding DisplayName}"
-                                    SelectedItem="{Binding SelectedType}"
-                                    BackgroundColor="Transparent"
-                                    FontSize="15" />
-                        </Frame>
+                        <Border Style="{StaticResource IconPickerContainerStyle}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnPickerContainerTapped" />
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="0">
+                                <!-- Feedback Icon -->
+                                <Label Grid.Column="0"
+                                       Text="&#xF086;"
+                                       FontFamily="FontAwesomeSolid"
+                                       FontSize="22"
+                                       TextColor="{StaticResource Primary}"
+                                       VerticalOptions="Center"
+                                       Margin="16,0,8,0">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnPickerContainerTapped" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+
+                                <!-- Picker -->
+                                <Picker Grid.Column="1"
+                                        x:Name="FeedbackTypePicker"
+                                        ItemsSource="{Binding FeedbackTypes}"
+                                        ItemDisplayBinding="{Binding DisplayName}"
+                                        SelectedItem="{Binding SelectedType}"
+                                        Style="{StaticResource ModernPickerStyle}"
+                                        Margin="0" />
+
+                                <!-- Dropdown Arrow -->
+                                <Path Grid.Column="2"
+                                      Style="{StaticResource ModernDropdownIconStyle}">
+                                    <Path.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnPickerContainerTapped" />
+                                    </Path.GestureRecognizers>
+                                </Path>
+                            </Grid>
+                        </Border>
                     </StackLayout>
 
                     <!-- Subject -->

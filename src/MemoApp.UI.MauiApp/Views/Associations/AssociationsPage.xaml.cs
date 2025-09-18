@@ -13,4 +13,16 @@ public partial class AssociationsPage : ContentPage
         BindingContext = viewModel;
     }
 
+    private void OnCategoryPickerContainerTapped(object? sender, EventArgs e)
+    {
+        try
+        {
+            // Focus the category picker to open the dropdown
+            CategoryPicker?.Focus();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error focusing category picker: {ex.Message}");
+        }
+    }
 }

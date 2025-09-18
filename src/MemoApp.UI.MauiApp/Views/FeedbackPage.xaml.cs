@@ -85,6 +85,19 @@ public partial class FeedbackPage : ContentPage
         }
     }
 
+    private void OnPickerContainerTapped(object? sender, EventArgs e)
+    {
+        try
+        {
+            // Focus the feedback type picker to open the dropdown
+            FeedbackTypePicker?.Focus();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error focusing picker: {ex.Message}");
+        }
+    }
+
     protected override void OnDisappearing()
     {
         // Unregister messenger to prevent memory leaks

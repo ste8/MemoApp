@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="MemoApp.UI.MauiApp.Controls.ModernPicker"
+    x:Name="ThisControl">
+
+    <Border x:Name="PickerBorder" Style="{StaticResource IconPickerContainerStyle}">
+        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="0">
+            <!-- Leading Icon -->
+            <Label Grid.Column="0"
+                   x:Name="IconLabel"
+                   Text="{Binding Icon, Source={x:Reference ThisControl}}"
+                   FontFamily="{Binding IconFontFamily, Source={x:Reference ThisControl}}"
+                   FontSize="22"
+                   TextColor="{Binding IconColor, Source={x:Reference ThisControl}}"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   IsVisible="{Binding HasIcon, Source={x:Reference ThisControl}}"
+                   Margin="16,0,8,0" />
+
+            <!-- Main Picker -->
+            <Picker Grid.Column="1"
+                    x:Name="PickerControl"
+                    ItemsSource="{Binding ItemsSource, Source={x:Reference ThisControl}}"
+                    ItemDisplayBinding="{Binding ItemDisplayBinding, Source={x:Reference ThisControl}}"
+                    SelectedItem="{Binding SelectedItem, Source={x:Reference ThisControl}, Mode=TwoWay}"
+                    SelectedIndex="{Binding SelectedIndex, Source={x:Reference ThisControl}, Mode=TwoWay}"
+                    Title="{Binding Title, Source={x:Reference ThisControl}}"
+                    Style="{StaticResource ModernPickerStyle}"
+                    Margin="0" />
+
+            <!-- Dropdown Arrow -->
+            <Path Grid.Column="2"
+                  x:Name="DropdownArrow"
+                  Data="M7 10l5 5 5-5"
+                  Stroke="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
+                  StrokeThickness="2"
+                  StrokeLineCap="Round"
+                  StrokeLineJoin="Round"
+                  WidthRequest="24"
+                  HeightRequest="24"
+                  VerticalOptions="Center"
+                  HorizontalOptions="Center"
+                  Margin="0,0,12,0" />
+        </Grid>
+    </Border>
+</ContentView>

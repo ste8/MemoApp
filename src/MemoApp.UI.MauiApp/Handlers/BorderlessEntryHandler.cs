@@ -26,7 +26,7 @@ public static class BorderlessEntryHandler
 #elif ANDROID
                 // Android - Remove underline and background
                 handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
-                handler.PlatformView.SetBackground(null);
+                handler.PlatformView.Background = null;
                 handler.PlatformView.SetPadding(0, 0, 0, 0);
 #elif WINDOWS
                 // Windows - Remove border and background from TextBox

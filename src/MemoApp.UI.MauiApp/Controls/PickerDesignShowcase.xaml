@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MemoApp.UI.MauiApp.Controls"
+    x:Class="MemoApp.UI.MauiApp.Controls.PickerDesignShowcase">
+
+    <!-- This is a showcase of different picker designs that can be used throughout the app -->
+    <ScrollView Padding="20">
+        <StackLayout Spacing="24">
+
+            <!-- Design 1: Icon Picker with Primary Color -->
+            <StackLayout Spacing="8">
+                <Label Text="Icon Picker - Primary"
+                       FontAttributes="Bold"
+                       FontSize="14"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
+
+                <Border Style="{StaticResource IconPickerContainerStyle}">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="0">
+                        <Label Grid.Column="0"
+                               Text="&#xE574;"
+                               FontFamily="MaterialIcons"
+                               FontSize="22"
+                               TextColor="{StaticResource Primary}"
+                               VerticalOptions="Center"
+                               Margin="16,0,8,0" />
+                        <Picker Grid.Column="1"
+                                Style="{StaticResource ModernPickerStyle}"
+                                Margin="0" />
+                        <Path Grid.Column="2"
+                              Style="{StaticResource ModernDropdownIconStyle}" />
+                    </Grid>
+                </Border>
+            </StackLayout>
+
+            <!-- Design 2: Gradient Border Picker -->
+            <StackLayout Spacing="8">
+                <Label Text="Gradient Border Picker"
+                       FontAttributes="Bold"
+                       FontSize="14"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
+
+                <Border Style="{StaticResource GradientPickerContainerStyle}">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="0">
+                        <Label Grid.Column="0"
+                               Text="&#xE0B7;"
+                               FontFamily="MaterialIcons"
+                               FontSize="22"
+                               TextColor="{StaticResource Primary}"
+                               VerticalOptions="Center"
+                               Margin="16,0,8,0" />
+                        <Picker Grid.Column="1"
+                                Style="{StaticResource ModernPickerStyle}"
+                                Margin="0" />
+                        <Path Grid.Column="2"
+                              Style="{StaticResource ModernDropdownIconStyle}" />
+                    </Grid>
+                </Border>
+            </StackLayout>
+
+            <!-- Design 3: Minimal Picker (No Icon) -->
+            <StackLayout Spacing="8">
+                <Label Text="Minimal Picker"
+                       FontAttributes="Bold"
+                       FontSize="14"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
+
+                <Border Style="{StaticResource IconPickerContainerStyle}">
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="0">
+                        <Picker Grid.Column="0"
+                                Style="{StaticResource ModernPickerStyle}" />
+                        <Path Grid.Column="1"
+                              Style="{StaticResource ModernDropdownIconStyle}" />
+                    </Grid>
+                </Border>
+            </StackLayout>
+
+            <!-- Design 4: Compact Mobile Picker -->
+            <StackLayout Spacing="8">
+                <Label Text="Compact Mobile"
+                       FontAttributes="Bold"
+                       FontSize="14"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
+
+                <Frame BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark=#1A1A1A}"
+                       BorderColor="{AppThemeBinding Light=#E0E0E0, Dark=#333333}"
+                       CornerRadius="12"
+                       Padding="0"
+                       HeightRequest="48"
+                       HasShadow="False">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Picker Grid.Column="0"
+                                BackgroundColor="Transparent"
+                                TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"
+                                FontSize="14"
+                                VerticalOptions="Center"
+                                Margin="12,0" />
+                        <Label Grid.Column="1"
+                               Text="▼"
+                               FontSize="12"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
+                               VerticalOptions="Center"
+                               Margin="0,0,12,0" />
+                    </Grid>
+                </Frame>
+            </StackLayout>
+
+            <!-- Design 5: Floating Label Picker (Advanced) -->
+            <StackLayout Spacing="0">
+                <Border Style="{StaticResource IconPickerContainerStyle}"
+                        Margin="0,12,0,0">
+                    <Grid>
+                        <!-- Floating Label -->
+                        <Label Text="Category"
+                               Style="{StaticResource FloatingPickerLabelStyle}"
+                               VerticalOptions="Start"
+                               HorizontalOptions="Start" />
+
+                        <!-- Picker Container -->
+                        <Grid ColumnDefinitions="Auto,*,Auto"
+                              ColumnSpacing="0"
+                              Margin="0,8,0,0">
+                            <Label Grid.Column="0"
+                                   Text="&#xE574;"
+                                   FontFamily="MaterialIcons"
+                                   FontSize="20"
+                                   TextColor="{StaticResource Primary}"
+                                   VerticalOptions="Center"
+                                   Margin="16,0,8,0" />
+                            <Picker Grid.Column="1"
+                                    Style="{StaticResource ModernPickerStyle}"
+                                    Margin="0" />
+                            <Path Grid.Column="2"
+                                  Style="{StaticResource ModernDropdownIconStyle}" />
+                        </Grid>
+                    </Grid>
+                </Border>
+            </StackLayout>
+
+            <!-- Design 6: Success/Error State Picker -->
+            <StackLayout Spacing="8">
+                <Label Text="With Validation State"
+                       FontAttributes="Bold"
+                       FontSize="14"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
+
+                <Border BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark=#1A1A1A}"
+                        Stroke="{StaticResource Success}"
+                        StrokeThickness="2"
+                        Padding="0"
+                        HeightRequest="56">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="16" />
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="{StaticResource Success}"
+                                Offset="0,2"
+                                Radius="12"
+                                Opacity="0.15" />
+                    </Border.Shadow>
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="0">
+                        <Label Grid.Column="0"
+                               Text="✓"
+                               FontSize="20"
+                               TextColor="{StaticResource Success}"
+                               VerticalOptions="Center"
+                               Margin="16,0,8,0" />
+                        <Picker Grid.Column="1"
+                                Style="{StaticResource ModernPickerStyle}"
+                                Margin="0" />
+                        <Path Grid.Column="2"
+                              Data="M7 10l5 5 5-5"
+                              Stroke="{StaticResource Success}"
+                              StrokeThickness="2"
+                              StrokeLineCap="Round"
+                              StrokeLineJoin="Round"
+                              WidthRequest="24"
+                              HeightRequest="24"
+                              VerticalOptions="Center"
+                              HorizontalOptions="End"
+                              Margin="0,0,12,0" />
+                    </Grid>
+                </Border>
+            </StackLayout>
+
+        </StackLayout>
+    </ScrollView>
+</ContentView>
