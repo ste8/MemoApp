@@ -237,20 +237,24 @@
 
                             <!-- Image preview area -->
                             <Frame BackgroundColor="{StaticResource Gray100}"
-                                   Padding="20"
+                                   Padding="8"
                                    CornerRadius="8"
                                    MinimumHeightRequest="120"
                                    IsVisible="{Binding HasSelectedImage}">
-                                <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                                    <Label Text="📷"
-                                           FontSize="32"
-                                           HorizontalOptions="Center" />
+                                <Grid>
+                                    <Image Source="{Binding SelectedImageSource}"
+                                           Aspect="AspectFit"
+                                           HeightRequest="100"
+                                           WidthRequest="100"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
                                     <Label Text="{localization:Localize AddCustomAssociation_ImageSelected}"
-                                           FontSize="14"
+                                           FontSize="12"
                                            TextColor="{StaticResource Gray600}"
                                            HorizontalOptions="Center"
-                                           HorizontalTextAlignment="Center" />
-                                </StackLayout>
+                                           VerticalOptions="End"
+                                           Margin="0,0,0,8" />
+                                </Grid>
                             </Frame>
 
                             <!-- No image placeholder -->

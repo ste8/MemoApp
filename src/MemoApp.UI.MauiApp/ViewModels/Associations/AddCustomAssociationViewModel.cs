@@ -49,6 +49,9 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
     private string _selectedImagePath = string.Empty;
 
     [ObservableProperty]
+    private ImageSource? _selectedImageSource;
+
+    [ObservableProperty]
     private bool _isAIGenerationAvailable;
 
     [ObservableProperty]
@@ -146,17 +149,40 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
             var imageStream = await _imageSourceService.PickImageFromDeviceAsync();
             if (imageStream != null)
             {
+                // Dispose previous stream
                 _selectedImageStream?.Dispose();
                 _selectedImageStream = imageStream;
-                HasSelectedImage = true;
-                SelectedImagePath = "Selected from device"; // Placeholder text
-                
-                // Clear validation when image is selected
-                ValidateImageSelection();
 
-                OnPropertyChanged(nameof(CanSave));
-                OnPropertyChanged(nameof(IsFormValid));
-                _logger.LogInformation("Image selected successfully for token {Token}", Token);
+                // Convert to ImageSource on main thread
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                {
+                    try
+                    {
+                        // Reset position for ImageSource consumption
+                        imageStream.Position = 0;
+                        SelectedImageSource = ImageSource.FromStream(() =>
+                        {
+                            imageStream.Position = 0;
+                            return imageStream;
+                        });
+
+                        HasSelectedImage = true;
+                        SelectedImagePath = "Selected from device";
+
+                        // Clear validation when image is selected
+                        ValidateImageSelection();
+
+                        OnPropertyChanged(nameof(CanSave));
+                        OnPropertyChanged(nameof(IsFormValid));
+
+                        _logger.LogInformation("Image selected successfully for token {Token}", Token);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Failed to create ImageSource for token {Token}", Token);
+                        ResetImageSelection();
+                    }
+                });
             }
             else
             {
@@ -488,6 +514,18 @@ public partial class AddCustomAssociationViewModel : ObservableObject, IDisposab
     private void ToggleValidationSummary()
     {
         IsValidationSummaryExpanded = !IsValidationSummaryExpanded;
+    }
+
+    /// <summary>
+    /// Helper method to reset image selection state
+    /// </summary>
+    private void ResetImageSelection()
+    {
+        SelectedImageSource = null;
+        HasSelectedImage = false;
+        SelectedImagePath = string.Empty;
+        _selectedImageStream?.Dispose();
+        _selectedImageStream = null;
     }
 
     public void Dispose()
