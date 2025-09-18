@@ -28,12 +28,6 @@
                 <!-- Essential Settings Card -->
                 <Frame Style="{StaticResource ModernCardStyle}">
                     <StackLayout Spacing="20">
-                        <!-- Essential Settings Header -->
-                        <Label Text="{localization:Localize BigNumber_EssentialSettings}" 
-                               FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
-                               FontAttributes="Bold"
-                               HorizontalOptions="Center" />
-                        
                         <!-- Number of Digits -->
                         <StackLayout Spacing="8">
                             <Label Text="{localization:Localize BigNumber_NumberOfDigits}"
