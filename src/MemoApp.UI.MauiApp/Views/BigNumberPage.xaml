@@ -25,85 +25,6 @@
                            HorizontalTextAlignment="Center" />
                 </StackLayout>
                 
-                <!-- Mode Selection Tabs -->
-                <Frame Style="{StaticResource ModernCardStyle}" Margin="0,0,0,16">
-                    <StackLayout Spacing="15">
-                        <Label Text="{localization:Localize BigNumber_ChooseMode}" 
-                               FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
-                               FontAttributes="Bold"
-                               HorizontalOptions="Center"
-                               Margin="0,0,0,8" />
-                        
-                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
-                            <!-- Manual Verification Mode Tab -->
-                            <Border Grid.Column="1"
-                                    BackgroundColor="{Binding ManualVerificationBackgroundColor}"
-                                    Stroke="{Binding ManualVerificationBorderColor}"
-                                    StrokeThickness="2"
-                                    Padding="16"
-                                    StrokeShape="RoundRectangle 12">
-                                <Border.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding SelectManualVerificationCommand}" />
-                                </Border.GestureRecognizers>
-                                
-                                <StackLayout Spacing="8">
-                                    <!-- Icon for Manual Verification -->
-                                    <Label Text="&#xf06e;" 
-                                           FontFamily="FontAwesomePro-Solid"
-                                           FontSize="24"
-                                           HorizontalOptions="Center"
-                                           TextColor="{Binding ManualVerificationTextColor}" />
-                                    
-                                    <Label Text="{localization:Localize BigNumber_ManualVerification}" 
-                                           FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                           FontAttributes="Bold"
-                                           HorizontalTextAlignment="Center"
-                                           TextColor="{Binding ManualVerificationTextColor}" />
-                                    
-                                    <Label Text="{localization:Localize BigNumber_ManualVerificationDescription}" 
-                                           FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                           HorizontalTextAlignment="Center"
-                                           LineBreakMode="WordWrap"
-                                           TextColor="{Binding ManualVerificationSubtextColor}" />
-                                </StackLayout>
-                            </Border>
-                            
-                            <!-- App Verification Mode Tab -->
-                            <Border Grid.Column="0"
-                                    BackgroundColor="{Binding AppVerificationBackgroundColor}"
-                                    Stroke="{Binding AppVerificationBorderColor}"
-                                    StrokeThickness="2"
-                                    Padding="16"
-                                    StrokeShape="RoundRectangle 12">
-                                <Border.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding SelectAppVerificationCommand}" />
-                                </Border.GestureRecognizers>
-                                
-                                <StackLayout Spacing="8">
-                                    <!-- Icon for App Verification -->
-                                    <Label Text="&#xf11c;" 
-                                           FontFamily="FontAwesomePro-Solid"
-                                           FontSize="24"
-                                           HorizontalOptions="Center"
-                                           TextColor="{Binding AppVerificationTextColor}" />
-                                    
-                                    <Label Text="{localization:Localize BigNumber_AppVerification}" 
-                                           FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                           FontAttributes="Bold"
-                                           HorizontalTextAlignment="Center"
-                                           TextColor="{Binding AppVerificationTextColor}" />
-                                    
-                                    <Label Text="{localization:Localize BigNumber_AppVerificationDescription}" 
-                                           FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                           HorizontalTextAlignment="Center"
-                                           LineBreakMode="WordWrap"
-                                           TextColor="{Binding AppVerificationSubtextColor}" />
-                                </StackLayout>
-                            </Border>
-                        </Grid>
-                    </StackLayout>
-                </Frame>
-                
                 <!-- Essential Settings Card -->
                 <Frame Style="{StaticResource ModernCardStyle}">
                     <StackLayout Spacing="20">
@@ -164,6 +85,74 @@
                             <Label Text="{localization:Localize BigNumber_DigitsHelp}"
                                    FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
                                    TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}" />
+                        </StackLayout>
+
+                        <!-- Verification Mode Selection -->
+                        <StackLayout Spacing="8">
+                            <Label Text="{localization:Localize BigNumber_VerificationMode}"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   FontAttributes="Bold" />
+
+                            <!-- Two-Tile Mode Selection -->
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                                <!-- App Verification Tile -->
+                                <Border Grid.Column="0"
+                                        BackgroundColor="{Binding AppVerificationBackgroundColor}"
+                                        Stroke="{Binding AppVerificationBorderColor}"
+                                        StrokeThickness="2"
+                                        Padding="12,16"
+                                        StrokeShape="RoundRectangle 12">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding SelectAppVerificationCommand}" />
+                                    </Border.GestureRecognizers>
+
+                                    <StackLayout Spacing="8">
+                                        <Label Text="&#xf05a;"
+                                               FontFamily="FontAwesomePro-Solid"
+                                               FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                                               TextColor="{StaticResource Primary}"
+                                               HorizontalOptions="Center" />
+                                        <Label Text="{localization:Localize BigNumber_AppVerification}"
+                                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                               FontAttributes="Bold"
+                                               HorizontalTextAlignment="Center" />
+                                        <Label Text="{localization:Localize BigNumber_AppVerificationDescription}"
+                                               FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                               TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                               HorizontalTextAlignment="Center"
+                                               LineBreakMode="WordWrap" />
+                                    </StackLayout>
+                                </Border>
+
+                                <!-- Manual Verification Tile -->
+                                <Border Grid.Column="1"
+                                        BackgroundColor="{Binding ManualVerificationBackgroundColor}"
+                                        Stroke="{Binding ManualVerificationBorderColor}"
+                                        StrokeThickness="2"
+                                        Padding="12,16"
+                                        StrokeShape="RoundRectangle 12">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding SelectManualVerificationCommand}" />
+                                    </Border.GestureRecognizers>
+
+                                    <StackLayout Spacing="8">
+                                        <Label Text="&#xf044;"
+                                               FontFamily="FontAwesomePro-Solid"
+                                               FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                                               TextColor="{StaticResource Primary}"
+                                               HorizontalOptions="Center" />
+                                        <Label Text="{localization:Localize BigNumber_ManualVerification}"
+                                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                               FontAttributes="Bold"
+                                               HorizontalTextAlignment="Center" />
+                                        <Label Text="{localization:Localize BigNumber_ManualVerificationDescription}"
+                                               FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                               TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                               HorizontalTextAlignment="Center"
+                                               LineBreakMode="WordWrap" />
+                                    </StackLayout>
+                                </Border>
+                            </Grid>
                         </StackLayout>
                     </StackLayout>
                 </Frame>

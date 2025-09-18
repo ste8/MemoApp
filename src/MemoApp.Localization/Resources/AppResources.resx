@@ -1022,6 +1022,11 @@
     <value>Refresh</value>
     <comment>Refresh button text</comment>
   </data>
+
+  <data name="Common_Change" xml:space="preserve">
+    <value>Change</value>
+    <comment>Button text to change current selection</comment>
+  </data>
   
   <!-- Update Notifications -->
   <data name="Update_SinglePackAvailable" xml:space="preserve">
@@ -2866,5 +2871,9 @@ Download MemoRaise: {AppUrl}
   <data name="Share_IconOnlyHint" xml:space="preserve">
     <value>Double tap to share your exercise results</value>
     <comment>Accessibility hint for icon-only share button interaction</comment>
+  </data>
+  <data name="BigNumber_VerificationMode" xml:space="preserve">
+    <value>Verification Mode</value>
+    <comment>Title for the verification mode selection section</comment>
   </data>
 </root>

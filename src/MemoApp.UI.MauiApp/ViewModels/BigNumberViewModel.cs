@@ -227,7 +227,26 @@ public partial class BigNumberViewModel : BaseViewModel
 
     [ObservableProperty]
     private VerificationModePreference verificationMode = VerificationModePreference.InApp;
-    
+
+    /// <summary>
+    /// Gets the icon for the current verification mode
+    /// </summary>
+    public string CurrentModeIcon => VerificationMode == VerificationModePreference.InApp ? "\uf05a" : "\uf044";
+
+    /// <summary>
+    /// Gets the title for the current verification mode
+    /// </summary>
+    public string CurrentModeTitle => VerificationMode == VerificationModePreference.InApp
+        ? _localizationService.GetString("BigNumber_AppVerification")
+        : _localizationService.GetString("BigNumber_ManualVerification");
+
+    /// <summary>
+    /// Gets the description for the current verification mode
+    /// </summary>
+    public string CurrentModeDescription => VerificationMode == VerificationModePreference.InApp
+        ? _localizationService.GetString("BigNumber_AppVerificationDescription")
+        : _localizationService.GetString("BigNumber_ManualVerificationDescription");
+
     // Legacy properties for backward compatibility
     public bool IsTraditionalModeSelected => IsManualVerificationSelected;
     public bool IsGuidedModeSelected => IsAppVerificationSelected;
@@ -576,6 +595,11 @@ public partial class BigNumberViewModel : BaseViewModel
         {
             EnableInputVerification = true;
         }
+
+        // Notify the UI about changes to the mode display properties
+        OnPropertyChanged(nameof(CurrentModeIcon));
+        OnPropertyChanged(nameof(CurrentModeTitle));
+        OnPropertyChanged(nameof(CurrentModeDescription));
 
         _ = SaveSettingsAsync();
         UpdateModeColors();
@@ -1988,7 +2012,21 @@ public partial class BigNumberViewModel : BaseViewModel
         IsVerificationPanelManuallyClosed = false; // Ensure panel isn't marked as closed
         UpdateContextActions();
     }
-    
+
+    [RelayCommand]
+    private void ToggleVerificationMode()
+    {
+        // Toggle between InApp and Manual verification modes
+        VerificationMode = VerificationMode == VerificationModePreference.InApp
+            ? VerificationModePreference.Manual
+            : VerificationModePreference.InApp;
+
+        // Reset verification flags when switching modes
+        IsOnDemandVerificationActive = false;
+        IsVerificationPanelManuallyClosed = false;
+        UpdateContextActions();
+    }
+
     // Legacy command for backward compatibility
     [RelayCommand]
     private void SelectGuidedMode()
