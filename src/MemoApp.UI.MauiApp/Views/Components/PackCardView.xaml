@@ -48,17 +48,16 @@
                         AutomationProperties.Name="{Binding ButtonText}"/>
 
                 <!-- Downloaded/Up-to-Date Indicator -->
-                <Border Style="{StaticResource StatusIndicatorStyle}"
-                        IsVisible="{Binding ShowDownloadButton, Converter={StaticResource InvertedBoolConverter}}">
-                    <Label Text="{StaticResource Icon_Success}"
-                           FontFamily="{StaticResource IconFont_Solid}"
-                           TextColor="White"
-                           FontSize="{StaticResource IconSize_Responsive_Small}"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"
-                           SemanticProperties.Description="{localization:Localize PackDownload_UpToDate}"
-                           AutomationProperties.Name="{localization:Localize PackDownload_UpToDate}"/>
-                </Border>
+                <Label Text="{StaticResource Icon_Success}"
+                       FontFamily="{StaticResource IconFont_Solid}"
+                       TextColor="{StaticResource Success}"
+                       FontSize="{StaticResource IconSize_Responsive_Medium}"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       Margin="12,8"
+                       SemanticProperties.Description="{localization:Localize PackDownload_UpToDate}"
+                       AutomationProperties.Name="{localization:Localize PackDownload_UpToDate}"
+                       IsVisible="{Binding ShowDownloadButton, Converter={StaticResource InvertedBoolConverter}}"/>
                 
                 <!-- Delete Button (only for downloaded packs) -->
                 <Button Text="{StaticResource Icon_Delete}"
