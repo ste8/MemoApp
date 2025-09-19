@@ -1028,9 +1028,9 @@
         <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}"/>
         <Setter Property="FontSize" Value="{StaticResource IconSize_Responsive_Medium}"/>
         <Setter Property="CornerRadius" Value="8"/>
-        <Setter Property="HeightRequest" Value="{OnIdiom Phone=44, Tablet=40, Desktop=38}"/>
-        <Setter Property="WidthRequest" Value="{OnIdiom Phone=44, Tablet=40, Desktop=38}"/>
-        <Setter Property="MinimumWidthRequest" Value="{OnIdiom Phone=44, Tablet=40, Desktop=38}"/>
+        <Setter Property="HeightRequest" Value="{OnIdiom Phone=48, Tablet=48, Desktop=44}"/>
+        <Setter Property="WidthRequest" Value="{OnIdiom Phone=48, Tablet=48, Desktop=44}"/>
+        <Setter Property="MinimumWidthRequest" Value="{OnIdiom Phone=48, Tablet=48, Desktop=44}"/>
         <Setter Property="Padding" Value="0"/>
         <Setter Property="Shadow">
             <Shadow Brush="{StaticResource Primary}"
@@ -1068,8 +1068,8 @@
         <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}"/>
         <Setter Property="FontSize" Value="{StaticResource IconSize_Responsive_Medium}"/>
         <Setter Property="CornerRadius" Value="8"/>
-        <Setter Property="HeightRequest" Value="{OnIdiom Phone=44, Tablet=40, Desktop=38}"/>
-        <Setter Property="WidthRequest" Value="{OnIdiom Phone=44, Tablet=40, Desktop=38}"/>
+        <Setter Property="HeightRequest" Value="{OnIdiom Phone=48, Tablet=48, Desktop=44}"/>
+        <Setter Property="WidthRequest" Value="{OnIdiom Phone=48, Tablet=48, Desktop=44}"/>
         <Setter Property="Padding" Value="0"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
