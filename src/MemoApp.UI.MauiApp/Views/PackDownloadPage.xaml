@@ -8,8 +8,8 @@
              x:DataType="vm:PackDownloadViewModel"
              Title="{Binding Title}">
 
-    <Grid RowDefinitions="Auto,Auto,*,Auto">
-        
+    <Grid RowDefinitions="Auto,*,Auto">
+
         <!-- Enhanced Header with Title and Subtitle -->
         <Grid Grid.Row="0" Padding="16,8" ColumnDefinitions="*,Auto">
             <StackLayout Grid.Column="0" VerticalOptions="Center" Spacing="4">
@@ -21,52 +21,40 @@
                        Style="{StaticResource DescriptiveTextStyle}"
                        HorizontalOptions="Start"/>
             </StackLayout>
-            
-            <Button Grid.Column="1"
-                    Text="{StaticResource Icon_Refresh}"
-                    Command="{Binding RefreshCommand}"
-                    IsEnabled="{Binding IsRefreshing, Converter={StaticResource InvertedBoolConverter}}"
-                    Style="{StaticResource EnhancedActionButtonStyle}"
-                    HorizontalOptions="End"
-                    SemanticProperties.Description="{localization:Localize PackDownload_CheckForUpdatesButton}"
-                    AutomationProperties.Name="{localization:Localize PackDownload_CheckForUpdatesButton}"/>
-        </Grid>
-        
-        <!-- Enhanced Status Banner with User Control -->
-        <Frame Grid.Row="1" 
-               IsVisible="{Binding ShowUpdateMessage}"
-               BackgroundColor="#E8F5E8"
-               BorderColor="#4CAF50"
-               CornerRadius="6"
-               Padding="12,8"
-               Margin="16,0,16,8"
-               HasShadow="False">
-            <Grid ColumnDefinitions="*,Auto">
-                <Label Grid.Column="0"
-                       Text="{Binding UpdateCheckMessage}"
-                       TextColor="#2E7D32"
-                       HorizontalTextAlignment="Start"
-                       VerticalTextAlignment="Center"
-                       FontSize="14"/>
-                
-                <!-- User-controlled dismiss button -->
-                <Button Grid.Column="1"
-                        Text="✕"
-                        Command="{Binding DismissStatusCommand}"
-                        IsVisible="{Binding CanDismissStatus}"
-                        BackgroundColor="Transparent"
-                        TextColor="#2E7D32"
-                        FontSize="16"
-                        Padding="8,4"
-                        HeightRequest="32"
-                        WidthRequest="32"
-                        SemanticProperties.Description="{localization:Localize PackDownload_DismissStatus}"
-                        AutomationProperties.Name="{localization:Localize PackDownload_DismissStatus}"/>
+
+            <!-- Refresh Button with Optional Update Counter Badge -->
+            <Grid Grid.Column="1">
+                <Button Text="{StaticResource Icon_Refresh}"
+                        Command="{Binding RefreshCommand}"
+                        IsEnabled="{Binding IsRefreshing, Converter={StaticResource InvertedBoolConverter}}"
+                        Style="{StaticResource EnhancedActionButtonStyle}"
+                        HorizontalOptions="End"
+                        SemanticProperties.Description="{localization:Localize PackDownload_CheckForUpdatesButton}"
+                        AutomationProperties.Name="{localization:Localize PackDownload_CheckForUpdatesButton}"/>
+
+                <!-- Optional: Update count badge on refresh button -->
+                <Border IsVisible="{Binding HasUpdatesAvailable}"
+                        BackgroundColor="{StaticResource Danger}"
+                        StrokeThickness="0"
+                        StrokeShape="Ellipse"
+                        WidthRequest="18"
+                        HeightRequest="18"
+                        HorizontalOptions="End"
+                        VerticalOptions="Start"
+                        Margin="0,-4,-4,0"
+                        InputTransparent="True">
+                    <Label Text="{Binding UpdateCount}"
+                           TextColor="White"
+                           FontSize="10"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                </Border>
             </Grid>
-        </Frame>
+        </Grid>
 
         <!-- Pack List with Pull-to-Refresh -->
-        <RefreshView Grid.Row="2"
+        <RefreshView Grid.Row="1"
                      Command="{Binding RefreshCommand}"
                      IsRefreshing="{Binding IsRefreshing}">
             <ScrollView>
@@ -118,7 +106,7 @@
         </RefreshView>
 
         <!-- Cancel Download Button (shown during download) -->
-        <Button Grid.Row="3"
+        <Button Grid.Row="2"
                 Text="{localization:Localize PackDownload_CancelButton}"
                 Command="{Binding CancelDownloadCommand}"
                 IsVisible="{Binding IsDownloading}"

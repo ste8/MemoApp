@@ -36,19 +36,15 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
     private bool hasNoPacks;
 
     [ObservableProperty]
-    private string updateCheckMessage = string.Empty;
+    private int updateCount;
 
     [ObservableProperty]
-    private bool showUpdateMessage;
-
-    [ObservableProperty]
-    private bool canDismissStatus;
+    private bool hasUpdatesAvailable;
 
     public ICommand RefreshCommand { get; }
     public ICommand DownloadPackCommand { get; }
     public ICommand CancelDownloadCommand { get; }
     public ICommand DeletePackCommand { get; }
-    public ICommand DismissStatusCommand { get; }
 
     public PackDownloadViewModel(
         IPackDownloadService downloadService,
@@ -69,7 +65,6 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
         DownloadPackCommand = new AsyncRelayCommand<PackItemViewModel>(DownloadPackAsync);
         CancelDownloadCommand = new RelayCommand(CancelDownload);
         DeletePackCommand = new AsyncRelayCommand<PackItemViewModel>(DeletePackAsync);
-        DismissStatusCommand = new RelayCommand(DismissStatusMessage);
     }
 
     public async Task InitializeAsync()
@@ -117,7 +112,6 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
             }
             StatusMessage = null;
             HasNoPacks = false;
-            ShowUpdateMessage = false;
 
             // Clear cache and get fresh data
             _downloadService.ClearCache();
@@ -132,7 +126,7 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
 
             // Prepare pack cards to avoid CollectionView layout issues
             var packCards = new List<PackCardViewModel>();
-            int updateCount = 0;
+            int availableUpdates = 0;
 
             foreach (var pack in index.Packs)
             {
@@ -140,10 +134,10 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
                 packCard.DownloadCommand = new RelayCommand<PackCardViewModel>(p => { if (p != null) _ = DownloadPackCardAsync(p); });
                 packCard.DeleteCommand = new RelayCommand<PackCardViewModel>(p => { if (p != null) _ = DeletePackCardAsync(p); });
                 packCards.Add(packCard);
-                
+
                 if (pack.HasUpdate)
                 {
-                    updateCount++;
+                    availableUpdates++;
                 }
             }
 
@@ -151,32 +145,15 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
             await UpdatePackCollectionSafelyAsync(Packs, packCards, "Packs");
 
             HasNoPacks = packCards.Count == 0;
-            
+
             if (HasNoPacks)
             {
                 StatusMessage = _localizationService.GetString("PackDownload_NoPacksMessage");
             }
-            else
-            {
-                // Show update status message based on UX recommendations
-                if (updateCount > 0)
-                {
-                    // Updates available - persistent message with dismiss option
-                    UpdateCheckMessage = updateCount == 1 
-                        ? _localizationService.GetString("Update_SinglePackAvailable")
-                        : _localizationService.GetString("Update_MultiplePacksAvailable").Replace("{0}", updateCount.ToString());
-                    
-                    ShowUpdateMessage = true;
-                    CanDismissStatus = true; // Allow user to dismiss action-required messages
-                }
-                else
-                {
-                    // All up-to-date - persistent confirmation with dismiss option
-                    UpdateCheckMessage = _localizationService.GetString("PackDownload_RefreshCompleted");
-                    ShowUpdateMessage = true;
-                    CanDismissStatus = true; // Allow user to dismiss when they're ready
-                }
-            }
+
+            // Update the counter for the refresh button badge
+            UpdateCount = availableUpdates;
+            HasUpdatesAvailable = availableUpdates > 0;
         }
         catch (HttpRequestException ex)
         {
@@ -357,12 +334,6 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
 
         // Refresh to update UI state
         await RefreshPacksAsync();
-    }
-    
-    private void DismissStatusMessage()
-    {
-        ShowUpdateMessage = false;
-        CanDismissStatus = false;
     }
 }
 
