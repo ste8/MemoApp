@@ -1087,6 +1087,45 @@
         </Setter>
     </Style>
 
+    <!-- Destructive Action Button Style (for Delete with filled background) -->
+    <Style x:Key="DestructiveActionButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource Danger}"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}"/>
+        <Setter Property="FontSize" Value="{StaticResource IconSize_Responsive_Medium}"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="HeightRequest" Value="{OnIdiom Phone=48, Tablet=48, Desktop=44}"/>
+        <Setter Property="WidthRequest" Value="{OnIdiom Phone=48, Tablet=48, Desktop=44}"/>
+        <Setter Property="MinimumWidthRequest" Value="{OnIdiom Phone=48, Tablet=48, Desktop=44}"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Shadow">
+            <Shadow Brush="{StaticResource Danger}"
+                    Offset="0,2"
+                    Radius="4"
+                    Opacity="0.25"/>
+        </Setter>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal"/>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{StaticResource DangerDark}"/>
+                            <Setter Property="Scale" Value="0.96"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"/>
+                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                            <Setter Property="Shadow" Value="{x:Null}"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
     <!-- Status Indicator Style -->
     <Style x:Key="StatusIndicatorStyle" TargetType="Border">
         <Setter Property="BackgroundColor" Value="{StaticResource Success}"/>

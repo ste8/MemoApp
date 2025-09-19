@@ -65,7 +65,7 @@
                         CommandParameter="{Binding .}"
                         IsEnabled="{Binding CanExecuteDelete}"
                         IsVisible="{Binding ShowDeleteButton}"
-                        Style="{StaticResource SecondaryActionButtonStyle}"
+                        Style="{StaticResource DestructiveActionButtonStyle}"
                         SemanticProperties.Description="{localization:Localize Common_Delete}"
                         AutomationProperties.Name="{localization:Localize Common_Delete}"/>
             </StackLayout>
