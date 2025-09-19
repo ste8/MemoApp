@@ -105,7 +105,9 @@
                 Text="{localization:Localize PackDownload_CancelButton}"
                 Command="{Binding CancelDownloadCommand}"
                 IsVisible="{Binding IsDownloading}"
-                Style="{StaticResource SecondaryActionButtonStyle}"
-                Margin="16,8,16,16"/>
+                Style="{StaticResource DownloadCancelButtonStyle}"
+                Margin="16,8,16,16"
+                SemanticProperties.Description="{localization:Localize PackDownload_CancelButton}"
+                AutomationProperties.Name="{localization:Localize PackDownload_CancelButton}"/>
     </Grid>
 </ContentPage>
