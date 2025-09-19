@@ -23,7 +23,7 @@
             </StackLayout>
             
             <Button Grid.Column="1"
-                    Text="{localization:Localize PackDownload_CheckForUpdatesButton}"
+                    Text="{StaticResource Icon_Refresh}"
                     Command="{Binding RefreshCommand}"
                     IsEnabled="{Binding IsRefreshing, Converter={StaticResource InvertedBoolConverter}}"
                     Style="{StaticResource EnhancedActionButtonStyle}"
