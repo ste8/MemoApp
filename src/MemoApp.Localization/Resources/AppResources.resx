@@ -792,6 +792,10 @@
     <value>Download Packs</value>
     <comment>Pack download page title</comment>
   </data>
+  <data name="PackDownload_LoadingPacks" xml:space="preserve">
+    <value>Loading available packs...</value>
+    <comment>Loading message when initially retrieving pack list</comment>
+  </data>
   <data name="PackDownload_NoPacksMessage" xml:space="preserve">
     <value>No packs available for download</value>
     <comment>Message when no packs are available</comment>

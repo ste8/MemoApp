@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Net;
+using System.Net.Http;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -24,6 +25,9 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
 
     [ObservableProperty]
     private bool isRefreshing;
+
+    [ObservableProperty]
+    private bool isInitialLoading;
 
     [ObservableProperty]
     private string? statusMessage;
@@ -70,8 +74,34 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
 
     public async Task InitializeAsync()
     {
-        await RefreshPacksAsync();
-        
+        try
+        {
+            IsInitialLoading = true;
+            await RefreshPacksAsync();
+        }
+        catch (HttpRequestException ex)
+        {
+            _typedLogger.LogError(ex, "Network error during pack download page initialization");
+            StatusMessage = _localizationService.GetString("PackDownload_NetworkErrorMessage");
+            HasNoPacks = true;
+        }
+        catch (TaskCanceledException ex) when (ex.InnerException is TimeoutException)
+        {
+            _typedLogger.LogError(ex, "Timeout during pack download page initialization");
+            StatusMessage = _localizationService.GetString("PackDownload_NetworkErrorMessage");
+            HasNoPacks = true;
+        }
+        catch (Exception ex)
+        {
+            _typedLogger.LogError(ex, "Failed to initialize pack download page");
+            StatusMessage = _localizationService.GetString("PackDownload_ErrorMessage");
+            HasNoPacks = true;
+        }
+        finally
+        {
+            IsInitialLoading = false;
+        }
+
         // Log application data directory for debugging
         _typedLogger.LogInformation("Application data directory: {DataDir}", FileSystem.Current.AppDataDirectory);
     }
@@ -80,7 +110,11 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
     {
         try
         {
-            IsRefreshing = true;
+            // Only set IsRefreshing if not in initial loading state
+            if (!IsInitialLoading)
+            {
+                IsRefreshing = true;
+            }
             StatusMessage = null;
             HasNoPacks = false;
             ShowUpdateMessage = false;
@@ -144,6 +178,18 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
                 }
             }
         }
+        catch (HttpRequestException ex)
+        {
+            _typedLogger.LogError(ex, "Network error while refreshing packs");
+            StatusMessage = _localizationService.GetString("PackDownload_NetworkErrorMessage");
+            HasNoPacks = true;
+        }
+        catch (TaskCanceledException ex) when (ex.InnerException is TimeoutException)
+        {
+            _typedLogger.LogError(ex, "Timeout while refreshing packs");
+            StatusMessage = _localizationService.GetString("PackDownload_NetworkErrorMessage");
+            HasNoPacks = true;
+        }
         catch (Exception ex)
         {
             _typedLogger.LogError(ex, "Failed to refresh packs");
@@ -152,7 +198,11 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
         }
         finally
         {
-            IsRefreshing = false;
+            // Only clear IsRefreshing if not in initial loading state
+            if (!IsInitialLoading)
+            {
+                IsRefreshing = false;
+            }
         }
     }
 

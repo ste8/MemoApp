@@ -791,6 +791,10 @@
     <value>Scarica Pacchetti</value>
     <comment>Pack download page title</comment>
   </data>
+  <data name="PackDownload_LoadingPacks" xml:space="preserve">
+    <value>Caricamento pacchetti disponibili...</value>
+    <comment>Loading message when initially retrieving pack list</comment>
+  </data>
   <data name="PackDownload_NoPacksMessage" xml:space="preserve">
     <value>Nessun pacchetto disponibile per il download</value>
     <comment>Message when no packs are available</comment>
