@@ -95,38 +95,33 @@
 
                         <Border Style="{StaticResource IconPickerContainerStyle}">
                             <Border.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnPickerContainerTapped" />
+                                <TapGestureRecognizer Command="{Binding SelectFeedbackTypeCommand}" />
                             </Border.GestureRecognizers>
                             <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="0">
                                 <!-- Feedback Icon -->
                                 <Label Grid.Column="0"
                                        Text="&#xF086;"
-                                       FontFamily="FontAwesomeSolid"
-                                       FontSize="22"
+                                       FontFamily="{StaticResource IconFont_Solid}"
+                                       FontSize="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
                                        TextColor="{StaticResource Primary}"
                                        VerticalOptions="Center"
-                                       Margin="16,0,8,0">
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="OnPickerContainerTapped" />
-                                    </Label.GestureRecognizers>
-                                </Label>
+                                       Margin="16,0,8,0"
+                                       AutomationProperties.IsInAccessibleTree="False" />
 
-                                <!-- Picker -->
-                                <Picker Grid.Column="1"
-                                        x:Name="FeedbackTypePicker"
-                                        ItemsSource="{Binding FeedbackTypes}"
-                                        ItemDisplayBinding="{Binding DisplayName}"
-                                        SelectedItem="{Binding SelectedType}"
-                                        Style="{StaticResource ModernPickerStyle}"
-                                        Margin="0" />
+                                <!-- Feedback Type Display -->
+                                <Label Grid.Column="1"
+                                       Text="{Binding SelectedTypeDisplayName}"
+                                       FontFamily="OpenSansRegular"
+                                       FontSize="{OnIdiom Phone=15, Tablet=16, Desktop=15}"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"
+                                       VerticalOptions="Center"
+                                       VerticalTextAlignment="Center"
+                                       HorizontalOptions="FillAndExpand"
+                                       Margin="0" />
 
                                 <!-- Dropdown Arrow -->
                                 <Path Grid.Column="2"
-                                      Style="{StaticResource ModernDropdownIconStyle}">
-                                    <Path.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="OnPickerContainerTapped" />
-                                    </Path.GestureRecognizers>
-                                </Path>
+                                      Style="{StaticResource ModernDropdownIconStyle}" />
                             </Grid>
                         </Border>
                     </StackLayout>

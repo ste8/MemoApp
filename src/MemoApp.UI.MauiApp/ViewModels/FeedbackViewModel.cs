@@ -26,6 +26,13 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
     [ObservableProperty]
     private FeedbackTypeItem selectedType;
 
+    public string SelectedTypeDisplayName => SelectedType?.DisplayName ?? string.Empty;
+
+    partial void OnSelectedTypeChanged(FeedbackTypeItem value)
+    {
+        OnPropertyChanged(nameof(SelectedTypeDisplayName));
+    }
+
     [ObservableProperty]
     private string userEmail = string.Empty;
 
@@ -222,6 +229,35 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
 
         // Update submit command state
         SubmitFeedbackCommand.NotifyCanExecuteChanged();
+    }
+
+    [RelayCommand]
+    private async Task SelectFeedbackTypeAsync()
+    {
+        try
+        {
+            var typeNames = FeedbackTypes.Select(t => t.DisplayName).ToArray();
+            var selectedTypeName = await Shell.Current.DisplayActionSheet(
+                _localizationService.GetString("Feedback_TypeLabel"),
+                _localizationService.GetString("Common_Cancel"),
+                null,
+                typeNames);
+
+            if (!string.IsNullOrEmpty(selectedTypeName) &&
+                selectedTypeName != _localizationService.GetString("Common_Cancel"))
+            {
+                var feedbackType = FeedbackTypes.FirstOrDefault(t => t.DisplayName == selectedTypeName);
+                if (feedbackType != null)
+                {
+                    SelectedType = feedbackType;
+                    _logger.LogInformation("Feedback type changed to: {TypeName}", selectedTypeName);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error selecting feedback type");
+        }
     }
 
     [RelayCommand]
