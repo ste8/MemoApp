@@ -104,38 +104,33 @@
 
                             <Border Style="{StaticResource IconPickerContainerStyle}">
                                 <Border.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="OnCategoryPickerContainerTapped" />
+                                    <TapGestureRecognizer Command="{Binding SelectCategoryPickerCommand}" />
                                 </Border.GestureRecognizers>
                                 <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="0">
                                     <!-- Category Icon -->
                                     <Label Grid.Column="0"
                                            Text="&#xF07B;"
-                                           FontFamily="FontAwesomeSolid"
-                                           FontSize="22"
+                                           FontFamily="{StaticResource IconFont_Solid}"
+                                           FontSize="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
                                            TextColor="{StaticResource Primary}"
                                            VerticalOptions="Center"
-                                           Margin="16,0,8,0">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Tapped="OnCategoryPickerContainerTapped" />
-                                        </Label.GestureRecognizers>
-                                    </Label>
+                                           Margin="16,0,8,0"
+                                           AutomationProperties.IsInAccessibleTree="False" />
 
-                                    <!-- Picker -->
-                                    <Picker Grid.Column="1"
-                                            x:Name="CategoryPicker"
-                                            ItemsSource="{Binding Categories}"
-                                            ItemDisplayBinding="{Binding DisplayName}"
-                                            SelectedItem="{Binding SelectedCategory}"
-                                            Style="{StaticResource ModernPickerStyle}"
-                                            Margin="0" />
+                                    <!-- Category Display -->
+                                    <Label Grid.Column="1"
+                                           Text="{Binding SelectedCategoryDisplayName}"
+                                           FontFamily="OpenSansRegular"
+                                           FontSize="{OnIdiom Phone=15, Tablet=16, Desktop=15}"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"
+                                           VerticalOptions="Center"
+                                           VerticalTextAlignment="Center"
+                                           HorizontalOptions="FillAndExpand"
+                                           Margin="0" />
 
                                     <!-- Dropdown Arrow -->
                                     <Path Grid.Column="2"
-                                          Style="{StaticResource ModernDropdownIconStyle}">
-                                        <Path.GestureRecognizers>
-                                            <TapGestureRecognizer Tapped="OnCategoryPickerContainerTapped" />
-                                        </Path.GestureRecognizers>
-                                    </Path>
+                                          Style="{StaticResource ModernDropdownIconStyle}" />
                                 </Grid>
                             </Border>
                         </StackLayout>

@@ -56,9 +56,12 @@ public partial class AssociationsViewModel : ObservableObject,
     
     [ObservableProperty]
     private CategoryTokens? _selectedCategory;
-    
+
+    public string SelectedCategoryDisplayName => SelectedCategory?.DisplayName ?? string.Empty;
+
     partial void OnSelectedCategoryChanged(CategoryTokens? value)
     {
+        OnPropertyChanged(nameof(SelectedCategoryDisplayName));
         if (value != null)
         {
             // Load associations when category changes
@@ -261,9 +264,9 @@ public partial class AssociationsViewModel : ObservableObject,
     [RelayCommand]
     private void SelectCategory(CategoryTokens category)
     {
-        if (category == null) 
+        if (category == null)
             return;
-        
+
         try
         {
             _logger.LogInformation("User selected category: {CategoryKey}", category.CategoryKey);
@@ -272,6 +275,35 @@ public partial class AssociationsViewModel : ObservableObject,
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error selecting category {CategoryKey}", category?.CategoryKey ?? "NULL");
+        }
+    }
+
+    [RelayCommand]
+    private async Task SelectCategoryPickerAsync()
+    {
+        try
+        {
+            var categoryNames = Categories.Select(c => c.DisplayName).ToArray();
+            var selectedCategoryName = await Shell.Current.DisplayActionSheet(
+                _localizationService.GetString("Associations_CategoryLabel"),
+                _localizationService.GetString("Common_Cancel"),
+                null,
+                categoryNames);
+
+            if (!string.IsNullOrEmpty(selectedCategoryName) &&
+                selectedCategoryName != _localizationService.GetString("Common_Cancel"))
+            {
+                var category = Categories.FirstOrDefault(c => c.DisplayName == selectedCategoryName);
+                if (category != null)
+                {
+                    SelectedCategory = category;
+                    _logger.LogInformation("Category changed to: {CategoryName} ({CategoryKey})", selectedCategoryName, category.CategoryKey);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error selecting category");
         }
     }
     
