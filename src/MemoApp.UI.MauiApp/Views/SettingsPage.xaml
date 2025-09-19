@@ -50,15 +50,41 @@
                                FontFamily="OpenSansSemiBold"
                                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
                                AutomationProperties.IsInAccessibleTree="True" />
-                        
-                        <Button Command="{Binding SelectLanguageCommand}"
-                                Text="{localization:Localize Language_SelectButton}"
-                                Style="{StaticResource CategoryButtonStyle}"
-                                HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
-                                HorizontalOptions="FillAndExpand"
+
+                        <Border Style="{StaticResource IconPickerContainerStyle}"
                                 AutomationProperties.Name="{localization:Localize Accessibility_LanguageButton}"
-                                AutomationProperties.HelpText="{localization:Localize Accessibility_LanguageButtonHelp}" />
-                        
+                                AutomationProperties.HelpText="{localization:Localize Accessibility_LanguageButtonHelp}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectLanguageCommand}" />
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="0">
+                                <!-- Language Icon -->
+                                <Label Grid.Column="0"
+                                       Text="&#xF0AC;"
+                                       FontFamily="{StaticResource IconFont_Solid}"
+                                       FontSize="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
+                                       TextColor="{StaticResource Primary}"
+                                       VerticalOptions="Center"
+                                       Margin="16,0,8,0"
+                                       AutomationProperties.IsInAccessibleTree="False" />
+
+                                <!-- Language Display -->
+                                <Label Grid.Column="1"
+                                       Text="{Binding CurrentLanguageName}"
+                                       FontFamily="OpenSansRegular"
+                                       FontSize="{OnIdiom Phone=15, Tablet=16, Desktop=15}"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"
+                                       VerticalOptions="Center"
+                                       VerticalTextAlignment="Center"
+                                       HorizontalOptions="FillAndExpand"
+                                       Margin="0" />
+
+                                <!-- Dropdown Arrow -->
+                                <Path Grid.Column="2"
+                                      Style="{StaticResource ModernDropdownIconStyle}" />
+                            </Grid>
+                        </Border>
+
                         <Label Text="{localization:Localize Language_Description}"
                                FontSize="{OnIdiom Phone=12, Tablet=13, Desktop=14}"
                                TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}"
@@ -73,15 +99,41 @@
                                FontFamily="OpenSansSemiBold"
                                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
                                AutomationProperties.IsInAccessibleTree="True" />
-                        
-                        <Button Command="{Binding SelectNumberFormatCommand}"
-                                Text="{localization:Localize NumberFormat_SelectButton}"
-                                Style="{StaticResource CategoryButtonStyle}"
-                                HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
-                                HorizontalOptions="FillAndExpand"
+
+                        <Border Style="{StaticResource IconPickerContainerStyle}"
                                 AutomationProperties.Name="{localization:Localize Accessibility_NumberFormatButton}"
-                                AutomationProperties.HelpText="{localization:Localize Accessibility_NumberFormatButtonHelp}" />
-                        
+                                AutomationProperties.HelpText="{localization:Localize Accessibility_NumberFormatButtonHelp}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectNumberFormatCommand}" />
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="0">
+                                <!-- Number Format Icon -->
+                                <Label Grid.Column="0"
+                                       Text="&#xF1EC;"
+                                       FontFamily="{StaticResource IconFont_Solid}"
+                                       FontSize="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
+                                       TextColor="{StaticResource Primary}"
+                                       VerticalOptions="Center"
+                                       Margin="16,0,8,0"
+                                       AutomationProperties.IsInAccessibleTree="False" />
+
+                                <!-- Number Format Display -->
+                                <Label Grid.Column="1"
+                                       Text="{Binding CurrentNumberFormatName}"
+                                       FontFamily="OpenSansRegular"
+                                       FontSize="{OnIdiom Phone=15, Tablet=16, Desktop=15}"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"
+                                       VerticalOptions="Center"
+                                       VerticalTextAlignment="Center"
+                                       HorizontalOptions="FillAndExpand"
+                                       Margin="0" />
+
+                                <!-- Dropdown Arrow -->
+                                <Path Grid.Column="2"
+                                      Style="{StaticResource ModernDropdownIconStyle}" />
+                            </Grid>
+                        </Border>
+
                         <Label Text="{localization:Localize NumberFormat_Description}"
                                FontSize="{OnIdiom Phone=12, Tablet=13, Desktop=14}"
                                TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}"
@@ -112,14 +164,40 @@
                                FontFamily="OpenSansSemiBold"
                                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
                                AutomationProperties.IsInAccessibleTree="True" />
-                        
-                        <Button Text="{Binding CurrentPackName}"
-                                Command="{Binding SelectPackCommand}"
-                                Style="{StaticResource CategoryButtonStyle}"
-                                HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
-                                HorizontalOptions="FillAndExpand"
+
+                        <Border Style="{StaticResource IconPickerContainerStyle}"
                                 AutomationProperties.Name="{localization:Localize Accessibility_PackSelectionButton}"
-                                AutomationProperties.HelpText="{localization:Localize Accessibility_PackSelectionButtonHelp}" />
+                                AutomationProperties.HelpText="{localization:Localize Accessibility_PackSelectionButtonHelp}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectPackCommand}" />
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="0">
+                                <!-- Pack Icon -->
+                                <Label Grid.Column="0"
+                                       Text="&#xF466;"
+                                       FontFamily="{StaticResource IconFont_Solid}"
+                                       FontSize="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
+                                       TextColor="{StaticResource Primary}"
+                                       VerticalOptions="Center"
+                                       Margin="16,0,8,0"
+                                       AutomationProperties.IsInAccessibleTree="False" />
+
+                                <!-- Pack Display -->
+                                <Label Grid.Column="1"
+                                       Text="{Binding CurrentPackName}"
+                                       FontFamily="OpenSansRegular"
+                                       FontSize="{OnIdiom Phone=15, Tablet=16, Desktop=15}"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"
+                                       VerticalOptions="Center"
+                                       VerticalTextAlignment="Center"
+                                       HorizontalOptions="FillAndExpand"
+                                       Margin="0" />
+
+                                <!-- Dropdown Arrow -->
+                                <Path Grid.Column="2"
+                                      Style="{StaticResource ModernDropdownIconStyle}" />
+                            </Grid>
+                        </Border>
                     </StackLayout>
                     
                     <!-- Download Packs Button -->
