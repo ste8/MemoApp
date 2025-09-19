@@ -2880,4 +2880,12 @@ Download MemoRaise: {AppUrl}
     <value>Verification Mode</value>
     <comment>Title for the verification mode selection section</comment>
   </data>
+  <data name="FlashNumbers_NextNumberArrow" xml:space="preserve">
+    <value>Next Number →</value>
+    <comment>Next number button with arrow</comment>
+  </data>
+  <data name="BigNumber_LegendThickBorder" xml:space="preserve">
+    <value>Thick border</value>
+    <comment>Description of thick border pattern in legend</comment>
+  </data>
 </root>

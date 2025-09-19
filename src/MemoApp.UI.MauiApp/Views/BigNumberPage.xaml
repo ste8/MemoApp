@@ -1030,7 +1030,7 @@
                                                            FontSize="11"
                                                            FontAttributes="Bold"
                                                            VerticalOptions="Center" />
-                                                    <Label Text="Thick border"
+                                                    <Label Text="{localization:Localize BigNumber_LegendThickBorder}"
                                                            FontSize="9"
                                                            TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
                                                            VerticalOptions="Center" />
@@ -1151,7 +1151,7 @@
                                                        FontSize="12"
                                                        FontAttributes="Bold"
                                                        VerticalOptions="Center" />
-                                                <Label Text="Thick border"
+                                                <Label Text="{localization:Localize BigNumber_LegendThickBorder}"
                                                        FontSize="10"
                                                        TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
                                                        VerticalOptions="Center" />

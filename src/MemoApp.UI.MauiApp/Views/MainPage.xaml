@@ -231,7 +231,7 @@
                             <StackLayout Grid.Column="1"
                                          Spacing="2"
                                          VerticalOptions="Center">
-                                <Label Text="Aiutaci a migliorare MemoRaise"
+                                <Label Text="{localization:Localize MainPage_FeedbackTitle}"
                                        Style="{StaticResource ElegantSupportTitle}" />
                                 <Label Text="{localization:Localize MainPage_FeedbackSubtitle}"
                                        Style="{StaticResource ElegantSupportSubtitle}" />

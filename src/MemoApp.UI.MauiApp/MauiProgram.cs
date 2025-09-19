@@ -120,10 +120,9 @@ public static class MauiProgram
     {
         try
         {
-            var localizationService = services.GetRequiredService<ILocalizationService>();
-            // Initialize with default culture synchronously for UI startup
-            // Full localization loading will happen in background initialization
-            _logger.LogInformation("Localization service registered successfully");
+            // Initialize the LocalizationResourceManager to enable XAML binding updates when language changes
+            services.InitializeLocalization();
+            _logger.LogInformation("Localization initialized successfully - XAML bindings will refresh on language changes");
         }
         catch (Exception ex)
         {

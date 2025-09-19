@@ -285,7 +285,7 @@
                     <StackLayout Spacing="12">
                         <Button x:Name="NextButton"
                                 Command="{Binding AdvanceToNextCommand}"
-                                Text="Next Number →"
+                                Text="{localization:Localize FlashNumbers_NextNumberArrow}"
                                 Style="{StaticResource ModernPrimaryButton}"
                                 BackgroundColor="{StaticResource Secondary}"
                                 FontAttributes="Bold"

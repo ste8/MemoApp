@@ -2776,4 +2776,12 @@ Scarica MemoRaise: {AppUrl}
     <value>Modalità di Verifica</value>
     <comment>Title for the verification mode selection section</comment>
   </data>
+  <data name="FlashNumbers_NextNumberArrow" xml:space="preserve">
+    <value>Numero Successivo →</value>
+    <comment>Next number button with arrow</comment>
+  </data>
+  <data name="BigNumber_LegendThickBorder" xml:space="preserve">
+    <value>Bordo spesso</value>
+    <comment>Description of thick border pattern in legend</comment>
+  </data>
 </root>
