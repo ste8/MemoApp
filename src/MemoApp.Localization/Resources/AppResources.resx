@@ -2888,4 +2888,12 @@ Download MemoRaise: {AppUrl}
     <value>Thick border</value>
     <comment>Description of thick border pattern in legend</comment>
   </data>
+  <data name="Language_SwitchingTo" xml:space="preserve">
+    <value>Switching to {0}...</value>
+    <comment>Message shown when switching languages</comment>
+  </data>
+  <data name="Accessibility_LanguageChanged" xml:space="preserve">
+    <value>Language changed to {0}</value>
+    <comment>Screen reader announcement when language changes</comment>
+  </data>
 </root>

@@ -39,6 +39,16 @@ public partial class SettingsViewModel : BaseViewModel
     [ObservableProperty]
     private ObservableCollection<Pack> downloadedPacks = new();
 
+    // Language switching loading state properties
+    [ObservableProperty]
+    private bool isLanguageSwitching;
+
+    [ObservableProperty]
+    private bool isLanguageSwitchEnabled = true;
+
+    [ObservableProperty]
+    private string languageSwitchMessage = string.Empty;
+
     // App Info properties
     [ObservableProperty]
     private string appName = string.Empty;
@@ -99,25 +109,52 @@ public partial class SettingsViewModel : BaseViewModel
             if (!string.IsNullOrEmpty(selectedLanguage) && selectedLanguage != _localizationService.GetString("Common_Cancel"))
             {
                 _logger.LogInformation("User selected language: {Language}", selectedLanguage);
-                
+
+                // Start loading state immediately
+                IsLanguageSwitching = true;
+                IsLanguageSwitchEnabled = false;
+                LanguageSwitchMessage = string.Format(
+                    _localizationService.GetString("Language_SwitchingTo"),
+                    selectedLanguage);
+
+                // Brief delay to show loading state (allows UI to update)
+                await Task.Delay(100);
+
                 // Find the culture code for the selected display name
                 var selectedCulture = _localizationService.GetAvailableCultures()
                     .FirstOrDefault(c => GetLanguageDisplayName(c) == selectedLanguage);
-                
+
                 if (selectedCulture != null)
                 {
                     _localizationService.SetCulture(selectedCulture);
                     await _localizationService.SaveLanguagePreferenceAsync();
-                    
+
+                    // Update current display name immediately
+                    CurrentLanguageName = selectedLanguage;
+
+                    // Allow time for UI to update (resource loading and XAML binding refresh)
+                    await Task.Delay(300);
+
                     // Track language change analytics
                     await _analyticsService.TrackEventAsync(AnalyticsEvents.LanguageChanged, new Dictionary<string, object>
                     {
                         [AnalyticsParameters.LanguageCode] = selectedCulture.TwoLetterISOLanguageName,
                         [AnalyticsParameters.LanguageName] = selectedLanguage
                     });
-                    
-                    CurrentLanguageName = selectedLanguage;
-                    
+
+                    // Announce to screen readers for accessibility
+                    try
+                    {
+                        SemanticScreenReader.Announce(string.Format(
+                            _localizationService.GetString("Accessibility_LanguageChanged"),
+                            selectedLanguage));
+                    }
+                    catch (Exception screenReaderEx)
+                    {
+                        // Screen reader announcement is non-critical, just log and continue
+                        _logger.LogWarning(screenReaderEx, "Failed to announce language change to screen reader");
+                    }
+
                     _logger.LogInformation("Language changed successfully to: {Language}", selectedLanguage);
                 }
             }
@@ -127,6 +164,13 @@ public partial class SettingsViewModel : BaseViewModel
             _logger.LogError(ex, "Error selecting language");
             await _userNotificationService.ShowErrorToastAsync(
                 _localizationService.GetString("Settings_SaveFailed"));
+        }
+        finally
+        {
+            // Reset loading state
+            IsLanguageSwitching = false;
+            IsLanguageSwitchEnabled = true;
+            LanguageSwitchMessage = string.Empty;
         }
     }
 

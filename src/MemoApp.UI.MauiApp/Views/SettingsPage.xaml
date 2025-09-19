@@ -51,39 +51,67 @@
                                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
                                AutomationProperties.IsInAccessibleTree="True" />
 
-                        <Border Style="{StaticResource IconPickerContainerStyle}"
-                                AutomationProperties.Name="{localization:Localize Accessibility_LanguageButton}"
-                                AutomationProperties.HelpText="{localization:Localize Accessibility_LanguageButtonHelp}">
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding SelectLanguageCommand}" />
-                            </Border.GestureRecognizers>
-                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="0">
-                                <!-- Language Icon -->
-                                <Label Grid.Column="0"
-                                       Text="&#xF0AC;"
-                                       FontFamily="{StaticResource IconFont_Solid}"
-                                       FontSize="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
-                                       TextColor="{StaticResource Primary}"
-                                       VerticalOptions="Center"
-                                       Margin="16,0,8,0"
-                                       AutomationProperties.IsInAccessibleTree="False" />
+                        <!-- Language Picker with Loading Overlay -->
+                        <Grid>
+                            <Border Style="{StaticResource IconPickerContainerStyle}"
+                                    IsEnabled="{Binding IsLanguageSwitchEnabled}"
+                                    AutomationProperties.Name="{localization:Localize Accessibility_LanguageButton}"
+                                    AutomationProperties.HelpText="{localization:Localize Accessibility_LanguageButtonHelp}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectLanguageCommand}" />
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="0">
+                                    <!-- Language Icon -->
+                                    <Label Grid.Column="0"
+                                           Text="&#xF0AC;"
+                                           FontFamily="{StaticResource IconFont_Solid}"
+                                           FontSize="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
+                                           TextColor="{StaticResource Primary}"
+                                           VerticalOptions="Center"
+                                           Margin="16,0,8,0"
+                                           AutomationProperties.IsInAccessibleTree="False" />
 
-                                <!-- Language Display -->
-                                <Label Grid.Column="1"
-                                       Text="{Binding CurrentLanguageName}"
-                                       FontFamily="OpenSansRegular"
-                                       FontSize="{OnIdiom Phone=15, Tablet=16, Desktop=15}"
-                                       TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"
-                                       VerticalOptions="Center"
-                                       VerticalTextAlignment="Center"
-                                       HorizontalOptions="FillAndExpand"
-                                       Margin="0" />
+                                    <!-- Language Display -->
+                                    <Label Grid.Column="1"
+                                           Text="{Binding CurrentLanguageName}"
+                                           FontFamily="OpenSansRegular"
+                                           FontSize="{OnIdiom Phone=15, Tablet=16, Desktop=15}"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"
+                                           VerticalOptions="Center"
+                                           VerticalTextAlignment="Center"
+                                           HorizontalOptions="FillAndExpand"
+                                           Margin="0" />
 
-                                <!-- Dropdown Arrow -->
-                                <Path Grid.Column="2"
-                                      Style="{StaticResource ModernDropdownIconStyle}" />
-                            </Grid>
-                        </Border>
+                                    <!-- Dropdown Arrow -->
+                                    <Path Grid.Column="2"
+                                          Style="{StaticResource ModernDropdownIconStyle}" />
+                                </Grid>
+                            </Border>
+
+                            <!-- Loading Overlay -->
+                            <Border IsVisible="{Binding IsLanguageSwitching}"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"
+                                    Opacity="0.95"
+                                    StrokeShape="RoundRectangle 12"
+                                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                                    StrokeThickness="1">
+                                <StackLayout HorizontalOptions="Center"
+                                             VerticalOptions="Center"
+                                             Spacing="8"
+                                             Padding="16,12">
+                                    <ActivityIndicator IsRunning="{Binding IsLanguageSwitching}"
+                                                     Color="{StaticResource Primary}"
+                                                     HeightRequest="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
+                                                     WidthRequest="{OnIdiom Phone=20, Tablet=24, Desktop=28}" />
+                                    <Label Text="{Binding LanguageSwitchMessage}"
+                                           FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}"
+                                           FontFamily="OpenSansRegular"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}"
+                                           HorizontalOptions="Center"
+                                           AutomationProperties.IsInAccessibleTree="True" />
+                                </StackLayout>
+                            </Border>
+                        </Grid>
 
                         <Label Text="{localization:Localize Language_Description}"
                                FontSize="{OnIdiom Phone=12, Tablet=13, Desktop=14}"

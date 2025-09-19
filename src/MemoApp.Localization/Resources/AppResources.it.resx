@@ -2784,4 +2784,12 @@ Scarica MemoRaise: {AppUrl}
     <value>Bordo spesso</value>
     <comment>Description of thick border pattern in legend</comment>
   </data>
+  <data name="Language_SwitchingTo" xml:space="preserve">
+    <value>Passaggio a {0}...</value>
+    <comment>Message shown when switching languages</comment>
+  </data>
+  <data name="Accessibility_LanguageChanged" xml:space="preserve">
+    <value>Lingua cambiata in {0}</value>
+    <comment>Screen reader announcement when language changes</comment>
+  </data>
 </root>
