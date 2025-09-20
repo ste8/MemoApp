@@ -695,7 +695,7 @@ public partial class AssociationsViewModel : ObservableObject,
             var numberFormat = _localizationService.CurrentNumberFormat;
 
             // Load complete associations (pack + custom) with proper default resolution
-            var tokenAssociations = await _associationComposerService.GetCompleteTokenAssociationsAsync(category, token);
+            var tokenAssociations = await _associationComposerService.GetCompleteTokenAssociationsAsync(category, token, numberFormat);
 
             if (tokenAssociations.Count > 0)
             {

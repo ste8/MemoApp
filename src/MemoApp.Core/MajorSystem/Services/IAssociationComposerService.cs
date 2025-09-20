@@ -15,6 +15,7 @@ public interface IAssociationComposerService
     /// </summary>
     /// <param name="categoryKey">The category key (e.g., "numbers")</param>
     /// <param name="token">The token to get associations for (e.g., "01", "2")</param>
+    /// <param name="numberFormat">The current number format setting for proper token normalization</param>
     /// <returns>A list of all associations (pack + custom) with proper default status applied</returns>
-    Task<List<TokenAssociation>> GetCompleteTokenAssociationsAsync(string categoryKey, string token);
+    Task<List<TokenAssociation>> GetCompleteTokenAssociationsAsync(string categoryKey, string token, NumberFormat numberFormat);
 }

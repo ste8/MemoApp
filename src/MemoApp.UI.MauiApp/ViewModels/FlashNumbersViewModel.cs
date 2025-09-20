@@ -265,9 +265,10 @@ public partial class FlashNumbersViewModel : BaseViewModel
             
             // Use "numbers" category like other parts of the app (BigNumberViewModel, AssociationsViewModel)
             var categoryKey = "numbers";
+            var numberFormat = _localizationService.CurrentNumberFormat;
 
             // Get complete associations (pack + custom) with proper default resolution
-            var associations = await _associationComposerService.GetCompleteTokenAssociationsAsync(categoryKey, token);
+            var associations = await _associationComposerService.GetCompleteTokenAssociationsAsync(categoryKey, token, numberFormat);
 
             if (associations?.Count > 0)
             {

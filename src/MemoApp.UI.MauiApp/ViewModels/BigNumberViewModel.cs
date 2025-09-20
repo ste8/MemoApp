@@ -1399,12 +1399,14 @@ public partial class BigNumberViewModel : BaseViewModel
             }
 
             // Load associations for each pair/digit in parallel using the composer service
+            var numberFormat = _localizationService.CurrentNumberFormat;
             var associationTasks = pairs.Select(async pair =>
             {
-                var categoryKey = pair.Length == 1 ? "numbers" : "numbers";
+                var categoryKey = "numbers"; // Always use numbers category
 
                 // Get complete associations (pack + custom) with proper default resolution
-                var associations = await _associationComposerService.GetCompleteTokenAssociationsAsync(categoryKey, pair);
+                // The service will handle normalization based on number format
+                var associations = await _associationComposerService.GetCompleteTokenAssociationsAsync(categoryKey, pair, numberFormat);
 
                 if (associations.Any())
                 {
