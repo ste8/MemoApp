@@ -8,23 +8,21 @@
              x:Class="MemoApp.UI.MauiApp.Views.StatisticsPage"
              x:DataType="viewmodels:StatisticsViewModel"
              Title="{Binding Title}">
-
     <ScrollView>
-        <!-- 
+        <!--
         Responsive statistics layout:
         - Single column on mobile
         - Two column layout on tablet/desktop for better data visualization
         - Adaptive CollectionView layouts for different screen sizes
         -->
         <Grid Padding="{OnPlatform iOS='20,40,20,20', Default='20'}">
-            
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-
             <!-- Summary Statistics Card -->
             <Frame Grid.Row="0"
                    BackgroundColor="{StaticResource Primary}"
@@ -32,7 +30,7 @@
                    CornerRadius="15"
                    HasShadow="True"
                    Margin="0,0,0,20">
-                
+
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -43,7 +41,6 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-
                     <Label Grid.Row="0" Grid.ColumnSpan="2"
                            Text="{localization:Localize Statistics_SessionSummary}"
                            TextColor="White"
@@ -51,7 +48,6 @@
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            Margin="0,0,0,20" />
-
                     <!-- Left column stats -->
                     <StackLayout Grid.Row="1" Grid.Column="0" Spacing="10">
                         <Label Text="{localization:Localize Statistics_TotalDuration}"
@@ -62,7 +58,6 @@
                                TextColor="White"
                                FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
                                FontAttributes="Bold" />
-
                         <Label Text="{localization:Localize Statistics_FastestNumber}"
                                TextColor="White"
                                FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
@@ -73,7 +68,6 @@
                                FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                FontAttributes="Bold" />
                     </StackLayout>
-
                     <!-- Right column stats -->
                     <StackLayout Grid.Row="1" Grid.Column="1" Spacing="10">
                         <Label Text="{localization:Localize Statistics_AverageTime}"
@@ -84,7 +78,6 @@
                                TextColor="White"
                                FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
                                FontAttributes="Bold" />
-
                         <Label Text="{localization:Localize Statistics_SlowestNumber}"
                                TextColor="White"
                                FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
@@ -97,7 +90,6 @@
                     </StackLayout>
                 </Grid>
             </Frame>
-
             <!-- Numbers to Focus On -->
             <Frame Grid.Row="1"
                    BackgroundColor="{AppThemeBinding Light={StaticResource WarningTextSafe}, Dark={StaticResource WarningDark}}"
@@ -105,19 +97,18 @@
                    CornerRadius="10"
                    HasShadow="True"
                    Margin="0,0,0,20">
-                
+
                 <StackLayout Spacing="15">
                     <Label Text="{localization:Localize Statistics_NumbersToPracticeMoreIcon}"
                            TextColor="White"
                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                            FontAttributes="Bold"
                            HorizontalOptions="Center" />
-
                     <!-- Responsive CollectionView for slowest numbers -->
                     <CollectionView ItemsSource="{Binding SlowestPerformances}"
                                     SelectionMode="None"
                                     HeightRequest="{OnIdiom Phone=200, Tablet=250, Desktop=300}">
-                        
+
                         <!-- Adaptive layout: Grid on tablet/desktop, linear on phone -->
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Vertical"
@@ -125,20 +116,18 @@
                                            HorizontalItemSpacing="10"
                                            VerticalItemSpacing="10" />
                         </CollectionView.ItemsLayout>
-
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="viewmodels:NumberPerformanceDisplay">
                                 <Frame BackgroundColor="White"
                                        Padding="10"
                                        CornerRadius="8"
                                        HasShadow="False">
-                                    
+
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-
                                         <Label Grid.Column="0"
                                                Text="{Binding Number}"
                                                FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
@@ -146,7 +135,6 @@
                                                TextColor="{StaticResource Primary}"
                                                HorizontalOptions="Center"
                                                VerticalOptions="Center" />
-
                                         <Label Grid.Column="1"
                                                Text="{Binding ResponseTime, StringFormat='{0:ss\\.ff}s'}"
                                                FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
@@ -160,7 +148,6 @@
                     </CollectionView>
                 </StackLayout>
             </Frame>
-
             <!-- Detailed Performance List -->
             <Frame Grid.Row="2"
                    BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
@@ -168,7 +155,7 @@
                    CornerRadius="10"
                    HasShadow="True"
                    Margin="0,0,0,20">
-                
+
                 <StackLayout Spacing="15">
                     <Label Text="{localization:Localize Statistics_AllNumbersTitle}"
                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
@@ -176,26 +163,24 @@
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
                            LineBreakMode="WordWrap" />
-
                     <!-- Responsive CollectionView for all performances -->
                     <CollectionView ItemsSource="{Binding AllPerformances}"
                                     SelectionMode="None"
                                     RemainingItemsThreshold="5"
                                     BackgroundColor="Transparent">
-                        
+
                         <!-- Different layouts for different screen sizes -->
                         <CollectionView.ItemsLayout>
-                            <LinearItemsLayout Orientation="Vertical" 
+                            <LinearItemsLayout Orientation="Vertical"
                                              ItemSpacing="{OnIdiom Phone=8, Tablet=10, Desktop=12}" />
                         </CollectionView.ItemsLayout>
-
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="viewmodels:NumberPerformanceDisplay">
                                 <!-- Responsive performance item with adaptive layout -->
                                 <Grid Padding="{OnIdiom Phone=10, Tablet=15, Desktop=20}"
                                       BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray800}}"
                                       Margin="0,2">
-                                    
+
                                     <Grid.ColumnDefinitions>
                                         <!-- Number column -->
                                         <ColumnDefinition Width="{OnIdiom Phone=80, Tablet=100, Desktop=120}" />
@@ -204,7 +189,6 @@
                                         <!-- Performance indicator -->
                                         <ColumnDefinition Width="{OnIdiom Phone=60, Tablet=80, Desktop=100}" />
                                     </Grid.ColumnDefinitions>
-
                                     <!-- Number display -->
                                     <Label Grid.Column="0"
                                            Text="{Binding Number}"
@@ -213,14 +197,12 @@
                                            TextColor="{StaticResource Primary}"
                                            VerticalOptions="Center"
                                            HorizontalOptions="Center" />
-
                                     <!-- Response time -->
                                     <Label Grid.Column="1"
                                            Text="{Binding ResponseTime, StringFormat='{0:ss\\.ff} seconds'}"
                                            FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                            VerticalOptions="Center"
                                            Margin="10,0" />
-
                                     <!-- Performance indicator (visual feedback) -->
                                     <Ellipse Grid.Column="2"
                                             Fill="{Binding ResponseTime, Converter={StaticResource ResponseTimeToColorConverter}}"
@@ -234,12 +216,11 @@
                     </CollectionView>
                 </StackLayout>
             </Frame>
-
             <!-- Action Buttons -->
             <Grid Grid.Row="3"
                   ColumnDefinitions="*,*"
                   ColumnSpacing="15">
-                
+
                 <Button Grid.Column="0"
                         Command="{Binding GoBackCommand}"
                         Text="← Back"
@@ -248,9 +229,7 @@
                         CornerRadius="10"
                         HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
                         FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                        AutomationProperties.Name="{localization:Localize Accessibility_BackButton}"
-                        AutomationProperties.HelpText="{localization:Localize Statistics_Back}" />
-
+AutomationProperties.HelpText="{localization:Localize Statistics_Back}" />
                 <Button Grid.Column="1"
                         Command="{Binding StartNewSessionCommand}"
                         Text="⊕ New Session"
@@ -259,8 +238,7 @@
                         CornerRadius="10"
                         HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
                         FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                        AutomationProperties.Name="{localization:Localize Accessibility_NewSessionButton}"
-                        AutomationProperties.HelpText="{localization:Localize Common_NewSession}" />
+AutomationProperties.HelpText="{localization:Localize Common_NewSession}" />
             </Grid>
         </Grid>
     </ScrollView>

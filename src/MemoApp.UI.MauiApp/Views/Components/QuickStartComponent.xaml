@@ -4,27 +4,26 @@
              xmlns:components="clr-namespace:MemoApp.UI.MauiApp.Views.Components"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              x:Class="MemoApp.UI.MauiApp.Views.Components.QuickStartComponent">
-    
+
     <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
            Padding="15"
            CornerRadius="10"
            HasShadow="True">
-        
+
         <StackLayout Spacing="15">
-            <Label Text="{localization:Localize MainPage_QuickStart}" 
+            <Label Text="{localization:Localize MainPage_QuickStart}"
                    Style="{StaticResource SubHeadline}"
                    TextColor="White"
                    HorizontalOptions="Center" />
-            
+
             <Button Text="{Binding Source={RelativeSource AncestorType={x:Type components:QuickStartComponent}}, Path=QuickTrainingButtonText}"
                     Command="{Binding Source={RelativeSource AncestorType={x:Type components:QuickStartComponent}}, Path=QuickTrainingCommand}"
                     BackgroundColor="White"
                     TextColor="{StaticResource Primary}"
                     CornerRadius="8"
                     HeightRequest="{OnIdiom Phone=50, Tablet=55, Desktop=60}"
-                    AutomationProperties.Name="{localization:Localize Accessibility_BeginTrainingButton}"
-                    AutomationProperties.HelpText="{localization:Localize Accessibility_BeginTrainingButtonHelp}" />
-            
+AutomationProperties.HelpText="{localization:Localize Accessibility_BeginTrainingButtonHelp}" />
+
             <Button Text="ℹ️ Major System Guide"
                     Command="{Binding Source={RelativeSource AncestorType={x:Type components:QuickStartComponent}}, Path=ShowHelpCommand}"
                     BackgroundColor="Transparent"
@@ -35,9 +34,8 @@
                     HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
                     LineBreakMode="WordWrap"
                     Padding="10,8"
-                    AutomationProperties.Name="{localization:Localize Accessibility_HelpButton}"
-                    AutomationProperties.HelpText="{localization:Localize Accessibility_HelpButtonHelp}" />
+AutomationProperties.HelpText="{localization:Localize Accessibility_HelpButtonHelp}" />
         </StackLayout>
     </Frame>
-    
+
 </ContentView>

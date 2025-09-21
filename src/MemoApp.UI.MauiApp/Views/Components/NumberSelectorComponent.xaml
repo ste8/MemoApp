@@ -4,7 +4,7 @@
              xmlns:utilities="clr-namespace:MemoApp.UI.MauiApp.Utilities"
              xmlns:components="clr-namespace:MemoApp.UI.MauiApp.Views.Components"
              x:Class="MemoApp.UI.MauiApp.Views.Components.NumberSelectorComponent">
-    
+
     <Grid>
         <!-- Use Picker on mobile platforms -->
         <Picker ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=NumberOptions}"
@@ -13,9 +13,8 @@
                 HorizontalOptions="FillAndExpand"
                 FontSize="{OnIdiom Phone=14, Default=16}"
                 IsVisible="{OnPlatform Android=True, iOS=True, Default=False}"
-                AutomationProperties.Name="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=AccessibilityName}"
-                AutomationProperties.HelpText="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=AccessibilityHelp}" />
-        
+AutomationProperties.HelpText="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=AccessibilityHelp}" />
+
         <!-- Desktop alternative -->
         <StackLayout IsVisible="{OnPlatform WinUI=True, MacCatalyst=True, Default=False}"
                  HorizontalOptions="FillAndExpand">
@@ -52,7 +51,7 @@
                 </Grid>
             </Border>
         </Grid>
-        
+
         <!-- Dropdown for Desktop -->
         <Frame IsVisible="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=IsDropdownVisible}"
                BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray900}}"
@@ -106,5 +105,5 @@
         </Frame>
         </StackLayout>
     </Grid>
-    
+
 </ContentView>

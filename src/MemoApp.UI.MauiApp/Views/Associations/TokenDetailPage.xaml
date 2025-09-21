@@ -8,33 +8,32 @@
              x:Class="MemoApp.UI.MauiApp.Views.Associations.TokenDetailPage"
              x:DataType="viewmodels:TokenDetailViewModel"
              Title="{Binding PageTitle}">
-
     <Grid>
         <!-- Loading state -->
         <StackLayout IsVisible="{Binding IsLoading}" Spacing="20" HorizontalOptions="Center" VerticalOptions="Center" Padding="40">
             <ActivityIndicator IsRunning="True" Color="{DynamicResource Primary}" />
-            <Label Text="{localization:Localize Common_Loading}" 
-                   HorizontalOptions="Center" 
+            <Label Text="{localization:Localize Common_Loading}"
+                   HorizontalOptions="Center"
                    HorizontalTextAlignment="Center" />
         </StackLayout>
-        
+
         <!-- Empty state -->
-        <StackLayout IsVisible="{Binding ShowEmptyState}" 
+        <StackLayout IsVisible="{Binding ShowEmptyState}"
                      Spacing="20" HorizontalOptions="Center" VerticalOptions="Center" Padding="40">
-            <Label Text="{localization:Localize TokenDetail_NoAssociations}" 
-                   FontSize="Title" 
-                   HorizontalOptions="Center" 
+            <Label Text="{localization:Localize TokenDetail_NoAssociations}"
+                   FontSize="Title"
+                   HorizontalOptions="Center"
                    HorizontalTextAlignment="Center" />
-            <Button Text="{localization:Localize Common_Refresh}" 
+            <Button Text="{localization:Localize Common_Refresh}"
                     Command="{Binding RefreshCommand}"
                     HorizontalOptions="Center" />
         </StackLayout>
-        
+
         <!-- Main content -->
-        <ScrollView IsVisible="{Binding ShowMainContent}" 
+        <ScrollView IsVisible="{Binding ShowMainContent}"
                     Padding="16">
             <StackLayout Spacing="16">
-                
+
                 <!-- Token header -->
                 <Grid Padding="16,24" BackgroundColor="{DynamicResource CardBackgroundColor}">
                     <Label Text="{Binding Token}"
@@ -44,13 +43,13 @@
                            HorizontalTextAlignment="Center"
                            VerticalOptions="Center" />
                 </Grid>
-                
+
                 <!-- Header with Add Custom button -->
                 <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12" Margin="0,8,0,0">
                     <Label Grid.Column="0"
-                           Text="{localization:Localize TokenDetail_AssociationsHeader}" 
-                           FontSize="18" 
-                           FontAttributes="Bold" 
+                           Text="{localization:Localize TokenDetail_AssociationsHeader}"
+                           FontSize="18"
+                           FontAttributes="Bold"
                            VerticalOptions="Center" />
                     <Button Grid.Column="1"
                             Text="{localization:Localize TokenDetail_AddCustom}"
@@ -62,9 +61,9 @@
                             Padding="12,6"
                             VerticalOptions="Center" />
                 </Grid>
-                
+
                 <!-- Associations list -->
-                       
+
                 <CollectionView ItemsSource="{Binding Associations}"
                               SelectionMode="None">
                     <CollectionView.ItemsLayout>
@@ -72,7 +71,7 @@
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:TokenAssociation">
-                            <Border Padding="16" 
+                            <Border Padding="16"
                                     BackgroundColor="{DynamicResource CardBackgroundColor}"
                                     Stroke="{DynamicResource CardStrokeColor}"
                                     StrokeThickness="1">
@@ -83,10 +82,10 @@
                                         <ColumnDefinition Width="48" />
                                         <ColumnDefinition Width="48" />
                                     </Grid.ColumnDefinitions>
-                                    
+
                                     <!-- Large thumbnail/token display -->
-                                    <Grid Grid.Column="0" 
-                                          BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray800}}" 
+                                    <Grid Grid.Column="0"
+                                          BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray800}}"
                                           VerticalOptions="Center">
                                         <Grid.WidthRequest>80</Grid.WidthRequest>
                                         <Grid.HeightRequest>80</Grid.HeightRequest>
@@ -103,27 +102,24 @@
                                                BackgroundColor="Transparent"
                                                TextColor="{DynamicResource OnSurfaceTextColor}"
                                                IsVisible="{Binding ImagePath, Converter={StaticResource IsNullOrEmptyConverter}}" />
-                                        
+
                                         <!-- Tap gesture for full image view -->
                                         <Grid.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding ViewFullImageCommand, Source={RelativeSource AncestorType={x:Type viewmodels:TokenDetailViewModel}}}"
                                                                 CommandParameter="{Binding}" />
                                         </Grid.GestureRecognizers>
-                                        
+
                                         <!-- Accessibility -->
-                                        <AutomationProperties.Name>
-                                            <localization:Localize Key="Accessibility_ViewImageButton" />
-                                        </AutomationProperties.Name>
                                     </Grid>
-                                    
+
                                     <!-- Association word (simplified, no custom badge needed) -->
-                                    <Label Grid.Column="1" 
+                                    <Label Grid.Column="1"
                                            Text="{Binding Word}"
                                            FontSize="18"
                                            FontAttributes="Bold"
                                            VerticalOptions="Center"
                                            LineBreakMode="TailTruncation" />
-                                    
+
                                     <!-- Delete button (only for custom associations, fixed position in column 2) -->
                                     <Button Grid.Column="2"
                                             Text="🗑️"
@@ -138,11 +134,8 @@
                                             VerticalOptions="Center"
                                             HorizontalOptions="Center"
                                             IsVisible="{Binding IsCustom}">
-                                        <AutomationProperties.Name>
-                                            <localization:Localize Key="Accessibility_DeleteCustomButton" />
-                                        </AutomationProperties.Name>
                                     </Button>
-                                    
+
                                     <!-- Star button for default state (always rightmost in column 3) -->
                                     <Button Grid.Column="3"
                                             Text="{Binding IsDefault, Converter={StaticResource BoolToStarConverter}}"
@@ -152,14 +145,11 @@
                                             TextColor="{Binding IsDefault, Converter={StaticResource BoolToStarColorConverter}}"
                                             Command="{Binding SetAsDefaultCommand, Source={RelativeSource AncestorType={x:Type viewmodels:TokenDetailViewModel}}}"
                                             CommandParameter="{Binding}"
-                                            WidthRequest="48" 
+                                            WidthRequest="48"
                                             HeightRequest="48"
                                             Padding="0"
                                             VerticalOptions="Center"
                                             HorizontalOptions="Center">
-                                        <AutomationProperties.Name>
-                                            <localization:Localize Key="Accessibility_SetAsDefaultButton" />
-                                        </AutomationProperties.Name>
                                     </Button>
                                 </Grid>
                             </Border>

@@ -31,7 +31,6 @@
                Padding="12,8"
                HasShadow="True"
                ZIndex="1000"
-               AutomationProperties.Name="Validation errors"
                AutomationProperties.HelpText="Press to scroll to first error">
             <Frame.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding ScrollToFirstErrorCommand}" />
@@ -96,7 +95,6 @@
                                Style="{StaticResource SectionHeaderStyle}" />
 
                         <Border Style="{StaticResource IconPickerContainerStyle}"
-                                AutomationProperties.Name="{localization:Localize Feedback_TypeLabel}"
                                 AutomationProperties.HelpText="{localization:Localize Feedback_TypeLabel}">
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectFeedbackTypeCommand}" />
@@ -164,7 +162,6 @@
                                        Placeholder="{localization:Localize Feedback_SubjectPlaceholder}"
                                        MaxLength="200"
                                        BackgroundColor="Transparent"
-                                       AutomationProperties.Name="{localization:Localize Feedback_SubjectLabel}"
                                        AutomationProperties.HelpText="{localization:Localize Feedback_SubjectPlaceholder}" />
 
                                 <!-- Validation Icon -->
@@ -238,7 +235,6 @@
                                         MaxLength="2000"
                                         HeightRequest="{OnIdiom Phone=120, Tablet=150, Desktop=180}"
                                         BackgroundColor="Transparent"
-                                        AutomationProperties.Name="{localization:Localize Feedback_MessageLabel}"
                                         AutomationProperties.HelpText="{localization:Localize Feedback_MessagePlaceholder}" />
 
                                 <!-- Validation Icon -->
@@ -320,7 +316,6 @@
                                            Keyboard="Email"
                                            MaxLength="254"
                                            BackgroundColor="Transparent"
-                                           AutomationProperties.Name="{localization:Localize Feedback_EmailLabel}"
                                            AutomationProperties.HelpText="{localization:Localize Feedback_EmailPlaceholder}" />
 
                                     <!-- Validation Icon -->
@@ -375,7 +370,6 @@
                                        Placeholder="{localization:Localize Feedback_NamePlaceholder}"
                                        MaxLength="100"
                                        BackgroundColor="Transparent"
-                                       AutomationProperties.Name="{localization:Localize Feedback_NameLabel}"
                                        AutomationProperties.HelpText="{localization:Localize Feedback_NamePlaceholder}" />
                             </Frame>
                         </StackLayout>
@@ -403,14 +397,12 @@
                                             Command="{Binding AttachImagesCommand}"
                                             Style="{StaticResource ModernSecondaryButton}"
                                             FontSize="12"
-                                            AutomationProperties.Name="{localization:Localize Feedback_AttachButton}"
                                             AutomationProperties.HelpText="{localization:Localize Feedback_AttachImagesHelp}" />
                                     <Button Text="{localization:Localize Common_ClearAll}"
                                             Command="{Binding ClearAllImagesCommand}"
                                             IsVisible="{Binding HasAttachedImages}"
                                             Style="{StaticResource ModernSecondaryButton}"
                                             FontSize="12"
-                                            AutomationProperties.Name="{localization:Localize Common_ClearAll}"
                                             AutomationProperties.HelpText="Clear all attached images" />
                                 </StackLayout>
                             </Grid>
@@ -496,7 +488,6 @@
                                                             HorizontalOptions="End"
                                                             VerticalOptions="Start"
                                                             Margin="8"
-                                                            AutomationProperties.Name="Remove image"
                                                             AutomationProperties.HelpText="Remove this attached image" />
 
                                                     <!-- File size badge -->
@@ -532,7 +523,6 @@
                                 Text="{localization:Localize Feedback_CancelButton}"
                                 Command="{Binding CancelCommand}"
                                 Style="{StaticResource ModernSecondaryButton}"
-                                AutomationProperties.Name="{localization:Localize Feedback_CancelButton}"
                                 AutomationProperties.HelpText="Cancel feedback submission and return">
                         </Button>
 
@@ -542,7 +532,6 @@
                                 Command="{Binding SubmitFeedbackCommand}"
                                 IsEnabled="{Binding IsFormValid}"
                                 Style="{StaticResource ModernPrimaryButton}"
-                                AutomationProperties.Name="{localization:Localize Feedback_SubmitButton}"
                                 AutomationProperties.HelpText="Submit feedback form">
                             <Button.Triggers>
                                 <DataTrigger TargetType="Button"

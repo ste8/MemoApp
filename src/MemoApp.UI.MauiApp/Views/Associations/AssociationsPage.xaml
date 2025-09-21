@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
@@ -11,8 +10,6 @@
              x:DataType="viewmodels:AssociationsViewModel"
              Title="{localization:Localize Associations_Title}"
              BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Black}}">
-
-
     <Grid RowDefinitions="*,Auto">
         <!-- Main content container -->
         <Grid Grid.Row="0">
@@ -21,18 +18,14 @@
                         BackgroundColor="Transparent"
                         VerticalOptions="FillAndExpand">
                 <StackLayout Spacing="0" Padding="0">
-
                     <!-- Skeleton Header -->
                     <StackLayout Spacing="{OnIdiom Phone=16, Tablet=20, Desktop=24}"
                                  Padding="{OnPlatform iOS='20,16,20,20', Android='20,16,20,20', Default='20'}">
-
                         <!-- Skeleton for contextual header -->
                         <Border Style="{StaticResource SkeletonHeaderStyle}" />
-
                         <!-- Skeleton for category picker -->
                         <Border Style="{StaticResource SkeletonPickerStyle}" />
                     </StackLayout>
-
                     <!-- Skeleton Association Cards -->
                     <StackLayout Spacing="0">
                         <!-- Generate multiple skeleton cards to show expected layout -->
@@ -40,13 +33,11 @@
                             <Grid ColumnDefinitions="72,*,Auto" ColumnSpacing="16">
                                 <!-- Skeleton image -->
                                 <Border Grid.Column="0" Style="{StaticResource SkeletonImageStyle}" />
-
                                 <!-- Skeleton text content -->
                                 <StackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
                                     <Border Style="{StaticResource SkeletonTextMediumStyle}" HorizontalOptions="Start" />
                                     <Border Style="{StaticResource SkeletonTextShortStyle}" HorizontalOptions="Start" />
                                 </StackLayout>
-
                                 <!-- Skeleton chevron area -->
                                 <Border Grid.Column="2"
                                         BackgroundColor="{AppThemeBinding Light=#E8E8E8, Dark=#333333}"
@@ -56,7 +47,6 @@
                                         VerticalOptions="Center" />
                             </Grid>
                         </Border>
-
                         <Border Style="{StaticResource SkeletonCardStyle}">
                             <Grid ColumnDefinitions="72,*,Auto" ColumnSpacing="16">
                                 <Border Grid.Column="0" Style="{StaticResource SkeletonImageStyle}" />
@@ -72,7 +62,6 @@
                                         VerticalOptions="Center" />
                             </Grid>
                         </Border>
-
                         <Border Style="{StaticResource SkeletonCardStyle}">
                             <Grid ColumnDefinitions="72,*,Auto" ColumnSpacing="16">
                                 <Border Grid.Column="0" Style="{StaticResource SkeletonImageStyle}" />
@@ -88,7 +77,6 @@
                                         VerticalOptions="Center" />
                             </Grid>
                         </Border>
-
                         <Border Style="{StaticResource SkeletonCardStyle}">
                             <Grid ColumnDefinitions="72,*,Auto" ColumnSpacing="16">
                                 <Border Grid.Column="0" Style="{StaticResource SkeletonImageStyle}" />
@@ -104,7 +92,6 @@
                                         VerticalOptions="Center" />
                             </Grid>
                         </Border>
-
                         <Border Style="{StaticResource SkeletonCardStyle}">
                             <Grid ColumnDefinitions="72,*,Auto" ColumnSpacing="16">
                                 <Border Grid.Column="0" Style="{StaticResource SkeletonImageStyle}" />
@@ -120,7 +107,6 @@
                                         VerticalOptions="Center" />
                             </Grid>
                         </Border>
-
                         <Border Style="{StaticResource SkeletonCardStyle}">
                             <Grid ColumnDefinitions="72,*,Auto" ColumnSpacing="16">
                                 <Border Grid.Column="0" Style="{StaticResource SkeletonImageStyle}" />
@@ -139,7 +125,6 @@
                     </StackLayout>
                 </StackLayout>
             </ScrollView>
-
             <!-- Empty state - only show after initial load is complete -->
             <StackLayout Spacing="20" HorizontalOptions="Center" VerticalOptions="Center" Padding="40">
                 <StackLayout.IsVisible>
@@ -161,13 +146,11 @@
                         HorizontalOptions="Center"
                         Margin="0,20,0,0" />
             </StackLayout>
-
             <!-- Unified scrolling CollectionView with headers that scroll WITH content -->
             <!-- IMPORTANT: Do NOT use IsVisible binding on CollectionView - it causes the header content
                  (subtitle and category picker) to overflow on the right when the view transitions from
                  hidden to visible. This is a known MAUI issue where CollectionView doesn't properly
                  calculate layout constraints when IsVisible changes.
-
                  Solution: Keep CollectionView always in visual tree but use Opacity=0 and InputTransparent=true
                  when no pack is available. This ensures proper layout calculation while maintaining the
                  intended visibility behavior. -->
@@ -178,13 +161,12 @@
                             RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
                             VerticalOptions="FillAndExpand"
                             Opacity="{Binding HasPackAvailable, Converter={StaticResource BoolToOpacityConverter}}"
-                            InputTransparent="{Binding HasPackAvailable, Converter={StaticResource InvertedBoolConverter}}">
-
+                            InputTransparent="{Binding HasPackAvailable, Converter={StaticResource InvertedBoolConverter}}"
+>
                 <!-- Headers that SCROLL with the content -->
                 <CollectionView.Header>
                     <StackLayout Spacing="{OnIdiom Phone=16, Tablet=20, Desktop=24}"
                                  Padding="{OnPlatform iOS='20,16,20,20', Android='20,16,20,20', Default='20'}">
-
                         <!-- Mobile: Compact contextual header -->
                         <StackLayout Spacing="12"
                                      IsVisible="{OnPlatform iOS=True, Android=True, Default=False}"
@@ -196,9 +178,9 @@
                                    HorizontalOptions="Center"
                                    HorizontalTextAlignment="Center"
                                    LineBreakMode="WordWrap"
-                                   MaxLines="2" />
+                                   MaxLines="2"
+/>
                         </StackLayout>
-
                         <!-- Desktop: Full contextual header -->
                         <StackLayout Spacing="8"
                                      IsVisible="{OnPlatform iOS=False, Android=False, Default=True}"
@@ -206,9 +188,9 @@
                             <Label Text="{localization:Localize Associations_ContextualHeader}"
                                    Style="{StaticResource ContextualHeaderStyle}"
                                    HorizontalOptions="Center"
-                                   HorizontalTextAlignment="Center" />
+                                   HorizontalTextAlignment="Center"
+/>
                         </StackLayout>
-
                         <!-- Categories selector with enhanced visual design -->
                         <!-- Mobile: Beautiful modern picker design with icon -->
                         <StackLayout IsVisible="{OnPlatform iOS=True, Android=True, Default=False}"
@@ -216,7 +198,6 @@
                                      Margin="0,0,0,12">
                             <Label Text="{localization:Localize Associations_CategoryLabel}"
                                    Style="{StaticResource PickerLabelStyle}" />
-
                             <Border Style="{StaticResource IconPickerContainerStyle}">
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding SelectCategoryPickerCommand}" />
@@ -231,7 +212,6 @@
                                            VerticalOptions="Center"
                                            Margin="16,0,8,0"
                                            AutomationProperties.IsInAccessibleTree="False" />
-
                                     <!-- Category Display -->
                                     <Label Grid.Column="1"
                                            Text="{Binding SelectedCategoryDisplayName}"
@@ -242,14 +222,12 @@
                                            VerticalTextAlignment="Center"
                                            HorizontalOptions="FillAndExpand"
                                            Margin="0" />
-
                                     <!-- Dropdown Arrow -->
                                     <Path Grid.Column="2"
                                           Style="{StaticResource ModernDropdownIconStyle}" />
                                 </Grid>
                             </Border>
                         </StackLayout>
-
                         <!-- Desktop: Elegant horizontal pill buttons -->
                         <Frame Style="{StaticResource ModernCardStyle}"
                                IsVisible="{OnPlatform iOS=False, Android=False, Default=True}">
@@ -289,7 +267,6 @@
                                 </ScrollView>
                             </Grid>
                         </Frame>
-
                         <!-- Debug info - only visible in DEBUG builds -->
                         <Label FontSize="Small"
                                TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
@@ -303,10 +280,8 @@
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
-
                     </StackLayout>
                 </CollectionView.Header>
-
                 <!-- ItemsLayout for responsive grid -->
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical"
@@ -350,7 +325,6 @@
                                                IsVisible="{Binding ThumbnailPath, Converter={StaticResource IsNullOrEmptyConverter}}" />
                                     </Grid>
                                 </Border>
-
                                 <!-- Content area with better typography -->
                                 <StackLayout Grid.Column="1"
                                              Spacing="4"
@@ -360,7 +334,6 @@
                                            FontSize="16"
                                            FontAttributes="Bold"
                                            TextColor="{AppThemeBinding Light={StaticResource OnSurfaceTextColorLight}, Dark={StaticResource OnSurfaceTextColorDark}}" />
-
                                     <!-- Word/Association with better contrast -->
                                     <Label Text="{Binding Word}"
                                            FontSize="14"
@@ -368,7 +341,6 @@
                                            LineBreakMode="TailTruncation"
                                            MaxLines="2" />
                                 </StackLayout>
-
                                 <!-- Subtle chevron indicator for tap affordance -->
                                 <Label Grid.Column="2"
                                        Text="›"
@@ -380,13 +352,11 @@
                                        Margin="0,0,4,0"
                                        x:Name="ChevronIndicator" />
                             </Grid>
-
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer
                                     Command="{Binding ViewTokenDetailsCommand, Source={RelativeSource AncestorType={x:Type viewmodels:AssociationsViewModel}}}"
                                     CommandParameter="{Binding}" />
                             </Border.GestureRecognizers>
-
                             <!-- Enhanced interaction states for better affordance -->
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
@@ -420,7 +390,6 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </Grid>
-
         <!-- AdMob Banner - Shows at the bottom when ads are enabled -->
         <views:AdMobSmartBanner Grid.Row="1"
                                 IsVisible="{Binding ShowAds}"

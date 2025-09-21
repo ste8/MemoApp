@@ -33,8 +33,7 @@
             <!-- General Settings Section -->
             <Border Style="{StaticResource AssociationCardStyle}">
                 <StackLayout Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}"
-                             AutomationProperties.IsInAccessibleTree="True"
-                             AutomationProperties.Name="{localization:Localize Settings_General}">
+                             AutomationProperties.IsInAccessibleTree="True">
                     
                     <!-- Section Title -->
                     <Label Text="{localization:Localize Settings_General}"
@@ -55,7 +54,6 @@
                         <Grid>
                             <Border Style="{StaticResource IconPickerContainerStyle}"
                                     IsEnabled="{Binding IsLanguageSwitchEnabled}"
-                                    AutomationProperties.Name="{localization:Localize Accessibility_LanguageButton}"
                                     AutomationProperties.HelpText="{localization:Localize Accessibility_LanguageButtonHelp}">
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding SelectLanguageCommand}" />
@@ -129,7 +127,6 @@
                                AutomationProperties.IsInAccessibleTree="True" />
 
                         <Border Style="{StaticResource IconPickerContainerStyle}"
-                                AutomationProperties.Name="{localization:Localize Accessibility_NumberFormatButton}"
                                 AutomationProperties.HelpText="{localization:Localize Accessibility_NumberFormatButtonHelp}">
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectNumberFormatCommand}" />
@@ -175,8 +172,7 @@
             <!-- Pack Management Section -->
             <Border Style="{StaticResource AssociationCardStyle}">
                 <StackLayout Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}"
-                             AutomationProperties.IsInAccessibleTree="True"
-                             AutomationProperties.Name="{localization:Localize Settings_PackManagement}">
+                             AutomationProperties.IsInAccessibleTree="True">
                     
                     <!-- Section Title -->
                     <Label Text="{localization:Localize Settings_PackManagement}"
@@ -194,7 +190,6 @@
                                AutomationProperties.IsInAccessibleTree="True" />
 
                         <Border Style="{StaticResource IconPickerContainerStyle}"
-                                AutomationProperties.Name="{localization:Localize Accessibility_PackSelectionButton}"
                                 AutomationProperties.HelpText="{localization:Localize Accessibility_PackSelectionButtonHelp}">
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectPackCommand}" />
@@ -238,7 +233,6 @@
                             FontFamily="OpenSansSemiBold"
                             HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
                             HorizontalOptions="FillAndExpand"
-                            AutomationProperties.Name="{localization:Localize Accessibility_DownloadPacksButton}"
                             AutomationProperties.HelpText="{localization:Localize Accessibility_DownloadPacksButtonHelp}">
                         <Button.Triggers>
                             <Trigger TargetType="Button" Property="IsFocused" Value="True">
@@ -254,8 +248,7 @@
             <!-- About Section -->
             <Border Style="{StaticResource AssociationCardStyle}">
                 <StackLayout Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}"
-                             AutomationProperties.IsInAccessibleTree="True"
-                             AutomationProperties.Name="{localization:Localize AppInfo_About}">
+                             AutomationProperties.IsInAccessibleTree="True">
                     
                     <!-- Section Title -->
                     <Label Text="{localization:Localize AppInfo_About}"

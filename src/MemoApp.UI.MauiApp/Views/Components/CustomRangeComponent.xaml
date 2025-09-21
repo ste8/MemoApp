@@ -4,17 +4,17 @@
              xmlns:components="clr-namespace:MemoApp.UI.MauiApp.Views.Components"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              x:Class="MemoApp.UI.MauiApp.Views.Components.CustomRangeComponent">
-    
+
     <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
            Padding="15"
            CornerRadius="10"
            HasShadow="True">
-        
+
         <StackLayout Spacing="15">
-            <Label Text="{localization:Localize MainPage_CustomRange}" 
+            <Label Text="{localization:Localize MainPage_CustomRange}"
                    Style="{StaticResource SubHeadline}"
                    HorizontalOptions="Center" />
-            
+
             <!-- Number Range Selectors -->
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -25,10 +25,9 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-
                 <!-- Start Number Selector -->
-                <components:NumberSelectorComponent 
-                    Grid.Column="0" 
+                <components:NumberSelectorComponent
+                    Grid.Column="0"
                     Grid.Row="0"
                     Title="{localization:Localize MainPage_StartNumber}"
                     NumberOptions="{Binding NumberOptions}"
@@ -39,17 +38,16 @@
                     SelectNumberOptionCommand="{Binding SelectStartNumberOptionCommand}"
                     AccessibilityName="{localization:Localize Accessibility_StartNumberPicker}"
                     AccessibilityHelp="{localization:Localize Accessibility_StartNumberPickerHelp}" />
-                
+
                 <Label Grid.Column="1" Grid.Row="0"
                        Text="{localization:Localize Common_To}"
                        VerticalOptions="Center"
                        HorizontalOptions="Center"
                        Margin="{OnIdiom Phone='5,0', Tablet='10,0', Desktop='15,0'}"
                        FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=16}" />
-
                 <!-- End Number Selector -->
-                <components:NumberSelectorComponent 
-                    Grid.Column="2" 
+                <components:NumberSelectorComponent
+                    Grid.Column="2"
                     Grid.Row="0"
                     Title="{localization:Localize MainPage_EndNumber}"
                     NumberOptions="{Binding NumberOptions}"
@@ -60,9 +58,9 @@
                     SelectNumberOptionCommand="{Binding SelectEndNumberOptionCommand}"
                     AccessibilityName="{localization:Localize Accessibility_EndNumberPicker}"
                     AccessibilityHelp="{localization:Localize Accessibility_EndNumberPickerHelp}" />
-                    
+
             </Grid>
-            
+
             <!-- Validation Message -->
             <Label Text="{Binding ValidationMessage}"
                    TextColor="Red"
@@ -72,7 +70,7 @@
                    LineBreakMode="WordWrap"
                    IsVisible="{Binding HasValidationError}"
                    Margin="10,5,10,0" />
-            
+
             <Button Text="{localization:Localize MainPage_CustomFlashNumbers}"
                     Command="{Binding StartCustomTrainingCommand}"
                     BackgroundColor="{StaticResource Primary}"
@@ -81,9 +79,8 @@
                     HeightRequest="{OnIdiom Phone=60, Tablet=65, Desktop=70}"
                     LineBreakMode="WordWrap"
                     Padding="15,10"
-                    AutomationProperties.Name="{localization:Localize Accessibility_StartCustomTrainingButton}"
-                    AutomationProperties.HelpText="{localization:Localize Accessibility_StartCustomTrainingButtonHelp}" />
+AutomationProperties.HelpText="{localization:Localize Accessibility_StartCustomTrainingButtonHelp}" />
         </StackLayout>
     </Frame>
-    
+
 </ContentView>

@@ -7,9 +7,8 @@
              x:Class="MemoApp.UI.MauiApp.Views.HelpPage"
              x:DataType="viewmodels:HelpViewModel"
              Title="{Binding Title}">
-
     <ScrollView>
-        <!-- 
+        <!--
         Responsive help page layout:
         - Single column on mobile for easy reading
         - Wider content on tablet/desktop with better spacing
@@ -17,31 +16,27 @@
         -->
         <StackLayout Padding="{OnPlatform iOS='20,40,20,20', Default='20'}"
                      Spacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
-
             <!-- Introduction Card -->
             <Frame BackgroundColor="{StaticResource Primary}"
                    Padding="20"
                    CornerRadius="15"
                    HasShadow="True">
-                
+
                 <StackLayout Spacing="15">
                     <Label Text="{localization:Localize Help_WhatIsTitle}"
                            TextColor="White"
                            FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
                            FontAttributes="Bold"
                            HorizontalOptions="Center" />
-
                     <Label TextColor="White"
                            FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                            HorizontalTextAlignment="Center"
                            LineHeight="1.4">
                         <Label.Text>
                             The Major System is a powerful mnemonic technique that converts numbers into memorable words or images by associating each digit (0-9) with specific consonant sounds.
-
                             This makes it much easier to remember long sequences of numbers by turning them into vivid, memorable stories.
                         </Label.Text>
                     </Label>
-
                     <Button Command="{Binding StartQuickTrainingCommand}"
                             Text="{localization:Localize Help_TryQuickTraining}"
                             BackgroundColor="White"
@@ -49,34 +44,30 @@
                             CornerRadius="10"
                             HeightRequest="{OnIdiom Phone=50, Tablet=55, Desktop=60}"
                             FontAttributes="Bold"
-                            AutomationProperties.Name="{localization:Localize Accessibility_StartTrainingButton}"
-                            AutomationProperties.HelpText="{localization:Localize Help_TryQuickTraining}" />
+AutomationProperties.HelpText="{localization:Localize Help_TryQuickTraining}" />
                 </StackLayout>
             </Frame>
-
             <!-- Digit Mappings Card -->
             <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
                    Padding="15"
                    CornerRadius="10"
                    HasShadow="True">
-                
+
                 <StackLayout Spacing="15">
                     <Label Text="{localization:Localize Help_DigitMappingsTitle}"
                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                            FontAttributes="Bold"
                            HorizontalOptions="Center" />
-
                     <Label Text="{localization:Localize Help_DigitMappingsDesc}"
                            FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
                            Margin="0,0,0,10" />
-
                     <!-- Responsive CollectionView for mappings -->
                     <CollectionView ItemsSource="{Binding Mappings}"
                                     SelectionMode="None"
                                     HeightRequest="{OnIdiom Phone=400, Tablet=500, Desktop=600}">
-                        
+
                         <!-- Adaptive grid layout -->
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Vertical"
@@ -84,14 +75,13 @@
                                            HorizontalItemSpacing="10"
                                            VerticalItemSpacing="10" />
                         </CollectionView.ItemsLayout>
-
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Frame BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray800}}"
                                        Padding="15"
                                        CornerRadius="8"
                                        HasShadow="False">
-                                    
+
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
@@ -102,26 +92,22 @@
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
-
                                         <!-- Icon and digit -->
                                         <Label Grid.Column="0" Grid.Row="0"
                                                Text="{Binding Icon}"
                                                FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
                                                VerticalOptions="Center"
                                                Margin="0,0,10,0" />
-
                                         <Label Grid.Column="1" Grid.Row="0"
                                                Text="{Binding Digit, StringFormat='Digit {0}'}"
                                                FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                                                FontAttributes="Bold"
                                                TextColor="{StaticResource Primary}" />
-
                                         <!-- Consonants -->
                                         <Label Grid.Column="1" Grid.Row="1"
                                                Text="{Binding Consonants}"
                                                FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                                FontAttributes="Bold" />
-
                                         <!-- Memory aid -->
                                         <Label Grid.Column="1" Grid.Row="2"
                                                Text="{Binding Memory}"
@@ -135,20 +121,18 @@
                     </CollectionView>
                 </StackLayout>
             </Frame>
-
             <!-- Examples Card -->
             <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDark}}"
                    Padding="15"
                    CornerRadius="10"
                    HasShadow="True">
-                
+
                 <StackLayout Spacing="15">
                     <Label Text="{localization:Localize Help_ExampleWordsTitle}"
                            TextColor="White"
                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                            FontAttributes="Bold"
                            HorizontalOptions="Center" />
-
                     <Label Text="{localization:Localize Help_ExampleWordsDesc}"
                            TextColor="White"
                            FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
@@ -156,12 +140,11 @@
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
                            Margin="0,0,0,10" />
-
                     <!-- Responsive CollectionView for examples -->
                     <CollectionView ItemsSource="{Binding Examples}"
                                     SelectionMode="None"
                                     HeightRequest="{OnIdiom Phone=300, Tablet=400, Desktop=500}">
-                        
+
                         <!-- Different layouts for different screen sizes -->
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Vertical"
@@ -169,14 +152,13 @@
                                            HorizontalItemSpacing="10"
                                            VerticalItemSpacing="10" />
                         </CollectionView.ItemsLayout>
-
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Frame BackgroundColor="White"
                                        Padding="12"
                                        CornerRadius="8"
                                        HasShadow="False">
-                                    
+
                                     <StackLayout Spacing="8">
                                         <!-- Icon and number -->
                                         <Grid>
@@ -184,13 +166,11 @@
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
-
                                             <Label Grid.Column="0"
                                                    Text="{Binding Icon}"
                                                    FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
                                                    VerticalOptions="Center"
                                                    Margin="0,0,8,0" />
-
                                             <Label Grid.Column="1"
                                                    Text="{Binding Number}"
                                                    FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
@@ -198,14 +178,12 @@
                                                    TextColor="{StaticResource Primary}"
                                                    VerticalOptions="Center" />
                                         </Grid>
-
                                         <!-- Word -->
                                         <Label Text="{Binding Word}"
                                                FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                                FontAttributes="Bold"
                                                TextColor="{StaticResource Secondary}"
                                                HorizontalOptions="Center" />
-
                                         <!-- Explanation -->
                                         <Label Text="{Binding Explanation}"
                                                FontSize="{OnIdiom Phone=11, Tablet=13, Desktop=15}"
@@ -219,27 +197,24 @@
                     </CollectionView>
                 </StackLayout>
             </Frame>
-
             <!-- Tips and Rules Card -->
             <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource SuccessDark}}"
                    Padding="20"
                    CornerRadius="10"
                    HasShadow="True">
-                
+
                 <StackLayout Spacing="15">
                     <Label Text="{localization:Localize Help_RulesTitle}"
                            TextColor="White"
                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                            FontAttributes="Bold"
                            HorizontalOptions="Center" />
-
                     <!-- Rules grid for better organization on larger screens -->
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="{OnIdiom Phone='*', Tablet='*', Desktop='*'}" />
                             <ColumnDefinition Width="{OnIdiom Phone='0', Tablet='*', Desktop='*'}" />
                         </Grid.ColumnDefinitions>
-
                         <!-- Left column -->
                         <StackLayout Grid.Column="0" Spacing="12">
                             <Label TextColor="White"
@@ -247,16 +222,13 @@
                                    LineHeight="1.3">
                                 <Label.Text>
                                     ✓ Vowels (A, E, I, O, U) don't count - use them freely
-
                                     ✓ Create vivid, memorable images for each number
-
                                     ✓ Practice regularly to build strong associations
                                 </Label.Text>
                             </Label>
                         </StackLayout>
-
                         <!-- Right column (hidden on phone) -->
-                        <StackLayout Grid.Column="1" 
+                        <StackLayout Grid.Column="1"
                                      Spacing="12"
                                      Margin="{OnIdiom Phone='0', Tablet='20,0,0,0', Desktop='20,0,0,0'}"
                                      IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}">
@@ -265,16 +237,13 @@
                                    LineHeight="1.3">
                                 <Label.Text>
                                     ✓ Silent letters don't count (like 'b' in 'thumb')
-
                                     ✓ Focus on consonant sounds, not spelling
-
                                     ✓ Start with 00-09, then expand your range
                                 </Label.Text>
                             </Label>
                         </StackLayout>
-
                         <!-- Show second set on phone in same column -->
-                        <StackLayout Grid.Column="0" 
+                        <StackLayout Grid.Column="0"
                                      Spacing="12"
                                      Margin="0,12,0,0"
                                      IsVisible="{OnIdiom Phone=True, Tablet=False, Desktop=False}">
@@ -283,9 +252,7 @@
                                    LineHeight="1.3">
                                 <Label.Text>
                                     ✓ Silent letters don't count (like 'b' in 'thumb')
-
                                     ✓ Focus on consonant sounds, not spelling
-
                                     ✓ Start with 00-09, then expand your range
                                 </Label.Text>
                             </Label>
@@ -293,7 +260,6 @@
                     </Grid>
                 </StackLayout>
             </Frame>
-
             <!-- Action Button -->
             <Button Command="{Binding GoToMainPageCommand}"
                     Text="{localization:Localize Help_StartTrainingNow}"
@@ -304,8 +270,7 @@
                     CornerRadius="15"
                     HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
                     Margin="20,10"
-                    AutomationProperties.Name="{localization:Localize Accessibility_StartTrainingButton}"
-                    AutomationProperties.HelpText="{localization:Localize Help_StartTrainingNow}" />
+AutomationProperties.HelpText="{localization:Localize Help_StartTrainingNow}" />
         </StackLayout>
     </ScrollView>
 </ContentPage>

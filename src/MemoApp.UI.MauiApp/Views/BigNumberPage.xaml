@@ -16,10 +16,10 @@
             <!-- Setup Section -->
             <StackLayout IsVisible="{Binding IsSetupSectionVisible}"
                          Spacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
-                
+
                 <!-- Enhanced Contextual Header - Primary page identifier -->
                 <StackLayout Spacing="8" Margin="0,0,0,16">
-                    <Label Text="{localization:Localize BigNumber_ContextualHeader}" 
+                    <Label Text="{localization:Localize BigNumber_ContextualHeader}"
                            Style="{StaticResource ContextualHeaderStyle}"
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center" />
@@ -1294,7 +1294,6 @@
                                             Command="{Binding StartNewGameCommand}"
                                             Text="{localization:Localize BigNumber_NewChallenge}"
                                             Style="{StaticResource CelebrationNewChallengeButton}"
-                                            AutomationProperties.Name="{localization:Localize BigNumber_NewChallenge}"
                                             AutomationProperties.HelpText="Start a new Big Number challenge with your current settings">
                                         <Button.ImageSource>
                                             <FontImageSource FontFamily="FontAwesomePro-Solid"
@@ -1319,7 +1318,6 @@
                                             Command="{Binding StartNewGameCommand}"
                                             Text="{localization:Localize BigNumber_NewChallenge}"
                                             Style="{StaticResource CelebrationNewChallengeButton}"
-                                            AutomationProperties.Name="{localization:Localize BigNumber_NewChallenge}"
                                             AutomationProperties.HelpText="Start a new Big Number challenge with your current settings">
                                         <Button.ImageSource>
                                             <FontImageSource FontFamily="FontAwesomePro-Solid"

@@ -7,9 +7,7 @@
              x:Class="MemoApp.UI.MauiApp.Views.PackDownloadPage"
              x:DataType="vm:PackDownloadViewModel"
              Title="{Binding Title}">
-
     <Grid RowDefinitions="Auto,*,Auto">
-
         <!-- Enhanced Header with Title and Subtitle -->
         <Grid Grid.Row="0" Padding="16,8" ColumnDefinitions="*,Auto">
             <StackLayout Grid.Column="0" VerticalOptions="Center" Spacing="4">
@@ -21,7 +19,6 @@
                        Style="{StaticResource DescriptiveTextStyle}"
                        HorizontalOptions="Start"/>
             </StackLayout>
-
             <!-- Refresh Button with Optional Update Counter Badge -->
             <Grid Grid.Column="1">
                 <Button Text="{StaticResource Icon_Refresh}"
@@ -30,8 +27,7 @@
                         Style="{StaticResource EnhancedActionButtonStyle}"
                         HorizontalOptions="End"
                         SemanticProperties.Description="{localization:Localize PackDownload_CheckForUpdatesButton}"
-                        AutomationProperties.Name="{localization:Localize PackDownload_CheckForUpdatesButton}"/>
-
+/>
                 <!-- Optional: Update count badge on refresh button -->
                 <Border IsVisible="{Binding HasUpdatesAvailable}"
                         BackgroundColor="{StaticResource Danger}"
@@ -52,14 +48,12 @@
                 </Border>
             </Grid>
         </Grid>
-
         <!-- Pack List with Pull-to-Refresh -->
         <RefreshView Grid.Row="1"
                      Command="{Binding RefreshCommand}"
                      IsRefreshing="{Binding IsRefreshing}">
             <ScrollView>
                 <StackLayout Padding="16,8" Spacing="0">
-
                 <!-- Initial Loading Indicator -->
                 <StackLayout IsVisible="{Binding IsInitialLoading}"
                              HorizontalOptions="Center"
@@ -75,7 +69,6 @@
                            FontSize="16"
                            TextColor="Gray"/>
                 </StackLayout>
-
                 <!-- No Packs Message -->
                 <Label Text="{Binding StatusMessage}"
                        IsVisible="{Binding HasNoPacks}"
@@ -85,7 +78,6 @@
                        Margin="40,60"
                        FontSize="16"
                        TextColor="Gray"/>
-
                 <!-- Pack Items with Enhanced Spacing -->
                 <CollectionView ItemsSource="{Binding Packs}"
                                 SelectionMode="None"
@@ -104,7 +96,6 @@
                 </StackLayout>
             </ScrollView>
         </RefreshView>
-
         <!-- Cancel Download Button (shown during download) -->
         <Button Grid.Row="2"
                 Text="{localization:Localize PackDownload_CancelButton}"
@@ -113,6 +104,6 @@
                 Style="{StaticResource DownloadCancelButtonStyle}"
                 Margin="16,8,16,16"
                 SemanticProperties.Description="{localization:Localize PackDownload_CancelButton}"
-                AutomationProperties.Name="{localization:Localize PackDownload_CancelButton}"/>
+/>
     </Grid>
 </ContentPage>

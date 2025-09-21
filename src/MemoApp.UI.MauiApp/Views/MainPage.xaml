@@ -48,7 +48,6 @@
                                HorizontalOptions="Center"
                                VerticalOptions="Center"
                                Aspect="AspectFit"
-                               AutomationProperties.Name="MemoRaise Memory Training App Logo"
                                AutomationProperties.IsInAccessibleTree="True"
                                AutomationProperties.HelpText="Welcome to the MemoRaise memory training application">
                         </Image>
@@ -78,7 +77,6 @@
                             Grid.Row="0"
                             Style="{StaticResource ElegantTertiaryFeatureCard}"
                             AutomationProperties.IsInAccessibleTree="True"
-                            AutomationProperties.Name="{localization:Localize Associations_Title}"
                             AutomationProperties.HelpText="{localization:Localize MainPage_AssociationsDescription}"
                             SemanticProperties.Description="Button"
                             SemanticProperties.Hint="Double tap to browse associations">
@@ -118,7 +116,6 @@
                             Grid.Row="{OnIdiom Phone=1, Tablet=0, Desktop=0}"
                             Style="{StaticResource ElegantPrimaryFeatureCard}"
                             AutomationProperties.IsInAccessibleTree="True"
-                            AutomationProperties.Name="{localization:Localize Tab_FlashNumbers}"
                             AutomationProperties.HelpText="{localization:Localize MainPage_FlashNumbersDescription}"
                             SemanticProperties.Description="Button"
                             SemanticProperties.Hint="Double tap to start Flash Numbers training">
@@ -158,7 +155,6 @@
                             Grid.Row="{OnIdiom Phone=2, Tablet=1, Desktop=1}"
                             Style="{StaticResource ElegantSecondaryFeatureCard}"
                             AutomationProperties.IsInAccessibleTree="True"
-                            AutomationProperties.Name="{localization:Localize BigNumber_Title}"
                             AutomationProperties.HelpText="{localization:Localize MainPage_BigNumberDescription}"
                             SemanticProperties.Description="Button"
                             SemanticProperties.Hint="Double tap to start Big Number challenge">
@@ -201,7 +197,6 @@
                     <!-- Feedback Action -->
                     <Border Style="{StaticResource ElegantSupportCard}"
                             AutomationProperties.IsInAccessibleTree="True"
-                            AutomationProperties.Name="{localization:Localize MainPage_FeedbackTitle}"
                             AutomationProperties.HelpText="{localization:Localize MainPage_FeedbackSubtitle}"
                             SemanticProperties.Description="Button"
                             SemanticProperties.Hint="Double tap to provide feedback">
@@ -278,7 +273,6 @@
                                 HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
                                 HorizontalOptions="Center"
                                 Padding="{OnIdiom Phone='32,12', Tablet='36,14', Desktop='40,16'}"
-                                AutomationProperties.Name="{localization:Localize Accessibility_HelpButton}"
                                 AutomationProperties.HelpText="{localization:Localize Accessibility_HelpButtonHelp}">
                             <Button.VisualStateManager.VisualStateGroups>
                                 <VisualStateGroupList>
