@@ -231,7 +231,7 @@
                                        VerticalOptions="Center"
                                        Opacity="0.95" />
                                 
-                                <!-- Enhanced Reveal association button with better discoverability -->
+                                <!-- Enhanced Reveal association button with optimal icon sizing -->
                                 <Button Grid.Column="1"
                                         x:Name="RevealButton"
                                         Command="{Binding ToggleAssociationRevealCommand}"
@@ -241,13 +241,46 @@
                                         BackgroundColor="Transparent"
                                         BorderColor="White"
                                         BorderWidth="2"
-                                        CornerRadius="28"
+                                        CornerRadius="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
                                         TextColor="White"
-                                        WidthRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
-                                        HeightRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
+                                        WidthRequest="{OnIdiom Phone=64, Tablet=72, Desktop=80}"
+                                        HeightRequest="{OnIdiom Phone=64, Tablet=72, Desktop=80}"
+                                        Padding="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                        LineBreakMode="NoWrap"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
                                         Opacity="0.95"
                                         AutomationProperties.Name="{localization:Localize Accessibility_RevealAssociationButton}"
                                         AutomationProperties.HelpText="{localization:Localize Accessibility_RevealAssociationButtonHelp}">
+                                    <Button.VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroupList>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Normal">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="Scale" Value="1" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="PointerOver">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="Scale" Value="1.1" />
+                                                        <Setter Property="BackgroundColor" Value="#66FFFFFF" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="Pressed">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="Scale" Value="0.95" />
+                                                        <Setter Property="BackgroundColor" Value="#88FFFFFF" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="Focused">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BorderColor" Value="{StaticResource Secondary}" />
+                                                        <Setter Property="BorderWidth" Value="3" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateGroupList>
+                                    </Button.VisualStateManager.VisualStateGroups>
                                     <Button.Triggers>
                                         <DataTrigger TargetType="Button" Binding="{Binding IsAssociationRevealed}" Value="True">
                                             <Setter Property="BackgroundColor" Value="#44FFFFFF" />
