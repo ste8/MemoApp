@@ -5,11 +5,22 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <!-- Common Shadow Resource -->
-    <Shadow x:Key="CommonShadow" 
-            Brush="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Black}}" 
-            Opacity="0.3" 
-            Offset="0,2" 
+    <Shadow x:Key="CommonShadow"
+            Brush="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Black}}"
+            Opacity="0.3"
+            Offset="0,2"
             Radius="4" />
+
+    <!-- Touch Target Size Constants for Accessibility -->
+    <!-- iOS: 44pt minimum, Android: 48dp minimum, Desktop: 44pt for touch, 32pt for mouse -->
+    <x:Double x:Key="TouchTargetSizePhone">44</x:Double>
+    <x:Double x:Key="TouchTargetSizeTablet">48</x:Double>
+    <x:Double x:Key="TouchTargetSizeDesktop">44</x:Double>
+
+    <!-- Small Touch Target Sizes for Dense UI Elements -->
+    <x:Double x:Key="SmallTouchTargetSizePhone">44</x:Double>
+    <x:Double x:Key="SmallTouchTargetSizeTablet">48</x:Double>
+    <x:Double x:Key="SmallTouchTargetSizeDesktop">32</x:Double>
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
@@ -39,8 +50,8 @@
         <Setter Property="BorderWidth" Value="0"/>
         <Setter Property="CornerRadius" Value="12"/>
         <Setter Property="Padding" Value="20,12"/>
-        <Setter Property="MinimumHeightRequest" Value="48"/>
-        <Setter Property="MinimumWidthRequest" Value="48"/>
+        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone={StaticResource TouchTargetSizePhone}, Tablet={StaticResource TouchTargetSizeTablet}, Desktop={StaticResource TouchTargetSizeDesktop}}"/>
+        <Setter Property="MinimumWidthRequest" Value="{OnIdiom Phone={StaticResource TouchTargetSizePhone}, Tablet={StaticResource TouchTargetSizeTablet}, Desktop={StaticResource TouchTargetSizeDesktop}}"/>
         <Setter Property="Shadow">
             <Shadow Brush="{StaticResource Primary}" 
                     Opacity="0.2" 

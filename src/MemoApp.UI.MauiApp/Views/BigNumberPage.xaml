@@ -281,8 +281,8 @@
                                           IsChecked="{Binding ShowTimer}"
                                           Color="{StaticResource Primary}"
                                           VerticalOptions="Center"
-                                          MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
-                                          MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
+                                          MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                          MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                                           IsVisible="{OnPlatform iOS=False, Default=True}"
                                           InputTransparent="True" />
                                 
@@ -434,9 +434,11 @@
                                     CommandParameter="Auto"
                                     BackgroundColor="{StaticResource Primary}"
                                     TextColor="White"
-                                    WidthRequest="{OnIdiom Phone=34, Tablet=38, Desktop=42}"
-                                    HeightRequest="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
-                                    CornerRadius="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                    WidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    CornerRadius="{OnIdiom Phone=22, Tablet=24, Desktop=22}"
                                     FontSize="{OnIdiom Phone=8, Tablet=9, Desktop=10}"
                                     Padding="0" />
                             
@@ -445,9 +447,11 @@
                                     CommandParameter="Small"
                                     BackgroundColor="{StaticResource Primary}"
                                     TextColor="White"
-                                    WidthRequest="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
-                                    HeightRequest="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
-                                    CornerRadius="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                    WidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    CornerRadius="{OnIdiom Phone=22, Tablet=24, Desktop=22}"
                                     FontSize="{OnIdiom Phone=9, Tablet=10, Desktop=11}"
                                     Padding="0" />
                             
@@ -456,9 +460,11 @@
                                     CommandParameter="Medium"
                                     BackgroundColor="{StaticResource Primary}"
                                     TextColor="White"
-                                    WidthRequest="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
-                                    HeightRequest="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
-                                    CornerRadius="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                    WidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    CornerRadius="{OnIdiom Phone=22, Tablet=24, Desktop=22}"
                                     FontSize="{OnIdiom Phone=9, Tablet=10, Desktop=11}"
                                     Padding="0" />
                             
@@ -467,9 +473,11 @@
                                     CommandParameter="Large"
                                     BackgroundColor="{StaticResource Primary}"
                                     TextColor="White"
-                                    WidthRequest="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
-                                    HeightRequest="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
-                                    CornerRadius="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                    WidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    CornerRadius="{OnIdiom Phone=22, Tablet=24, Desktop=22}"
                                     FontSize="{OnIdiom Phone=9, Tablet=10, Desktop=11}"
                                     Padding="0" />
                             
@@ -478,9 +486,11 @@
                                     CommandParameter="ExtraLarge"
                                     BackgroundColor="{StaticResource Primary}"
                                     TextColor="White"
-                                    WidthRequest="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
-                                    HeightRequest="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
-                                    CornerRadius="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                    WidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                    CornerRadius="{OnIdiom Phone=22, Tablet=24, Desktop=22}"
                                     FontSize="{OnIdiom Phone=9, Tablet=10, Desktop=11}"
                                     Padding="0" />
                         </StackLayout>
@@ -907,6 +917,8 @@
                                             TextColor="{StaticResource Primary}"
                                             FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=15}"
                                             Padding="8,4"
+                                            MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
+                                            MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=32}"
                                             BorderWidth="0" />
                                 </Grid>
 
@@ -923,8 +935,8 @@
                                                 <Border BackgroundColor="#28A745"
                                                         Stroke="#1E7E34"
                                                         StrokeThickness="3"
-                                                        WidthRequest="24"
-                                                        HeightRequest="24"
+                                                        WidthRequest="44"
+                                                        HeightRequest="44"
                                                         StrokeShape="RoundRectangle 4">
                                                     <Label Text="7"
                                                            TextColor="White"
@@ -953,8 +965,8 @@
                                                         StrokeThickness="3"
                                                         StrokeDashArray="6,3"
                                                         StrokeDashOffset="1"
-                                                        WidthRequest="24"
-                                                        HeightRequest="24"
+                                                        WidthRequest="44"
+                                                        HeightRequest="44"
                                                         StrokeShape="RoundRectangle 4">
                                                     <Label Text="3"
                                                            TextColor="White"
@@ -986,8 +998,8 @@
                                                         StrokeThickness="3"
                                                         StrokeDashArray="1,3"
                                                         StrokeDashOffset="1"
-                                                        WidthRequest="24"
-                                                        HeightRequest="24"
+                                                        WidthRequest="44"
+                                                        HeightRequest="44"
                                                         StrokeShape="RoundRectangle 4">
                                                     <Label Text="9"
                                                            TextColor="White"
@@ -1014,8 +1026,8 @@
                                                 <Border BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray700}}"
                                                         Stroke="#DC3545"
                                                         StrokeThickness="3"
-                                                        WidthRequest="24"
-                                                        HeightRequest="24"
+                                                        WidthRequest="44"
+                                                        HeightRequest="44"
                                                         StrokeShape="RoundRectangle 4">
                                                     <Label Text="?"
                                                            TextColor="#DC3545"
@@ -1047,8 +1059,8 @@
                                             <Border BackgroundColor="#28A745"
                                                     Stroke="#1E7E34"
                                                     StrokeThickness="3"
-                                                    WidthRequest="28"
-                                                    HeightRequest="28"
+                                                    WidthRequest="48"
+                                                    HeightRequest="48"
                                                     StrokeShape="RoundRectangle 4">
                                                 <Label Text="7"
                                                        TextColor="White"
@@ -1077,8 +1089,8 @@
                                                     StrokeThickness="3"
                                                     StrokeDashArray="6,3"
                                                     StrokeDashOffset="1"
-                                                    WidthRequest="28"
-                                                    HeightRequest="28"
+                                                    WidthRequest="48"
+                                                    HeightRequest="48"
                                                     StrokeShape="RoundRectangle 4">
                                                 <Label Text="3"
                                                        TextColor="White"
@@ -1107,8 +1119,8 @@
                                                     StrokeThickness="3"
                                                     StrokeDashArray="1,3"
                                                     StrokeDashOffset="1"
-                                                    WidthRequest="28"
-                                                    HeightRequest="28"
+                                                    WidthRequest="48"
+                                                    HeightRequest="48"
                                                     StrokeShape="RoundRectangle 4">
                                                 <Label Text="9"
                                                        TextColor="White"
@@ -1135,8 +1147,8 @@
                                             <Border BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray700}}"
                                                     Stroke="#DC3545"
                                                     StrokeThickness="3"
-                                                    WidthRequest="28"
-                                                    HeightRequest="28"
+                                                    WidthRequest="48"
+                                                    HeightRequest="48"
                                                     StrokeShape="RoundRectangle 4">
                                                 <Label Text="?"
                                                        TextColor="#DC3545"
@@ -1187,8 +1199,10 @@
                                         FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                         Padding="8"
                                         WidthRequest="{OnIdiom Phone=80, Tablet=100, Desktop=120}"
-                                        HeightRequest="{OnIdiom Phone=36, Tablet=40, Desktop=44}"
-                                        CornerRadius="{OnIdiom Phone=18, Tablet=20, Desktop=22}" />
+                                        HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                        MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                        MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                                        CornerRadius="{OnIdiom Phone=22, Tablet=24, Desktop=22}" />
                             </Grid>
 
                             <!-- Associations Container with Enhanced UX -->

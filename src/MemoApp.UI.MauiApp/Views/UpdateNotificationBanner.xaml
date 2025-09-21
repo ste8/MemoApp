@@ -48,7 +48,9 @@
                     CornerRadius="6"
                     Padding="8,4"
                     FontSize="12"
-                    HeightRequest="32"
+                    HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                    MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
+                    MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                     VerticalOptions="Center" />
         </Grid>
     </Frame>
