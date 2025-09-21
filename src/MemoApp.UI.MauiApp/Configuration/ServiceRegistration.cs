@@ -191,7 +191,8 @@ public static class ServiceRegistration
         // Image processing services
         services.AddSingleton<IImageProcessingService, MauiImageProcessingService>();
         services.AddSingleton<ICustomImageSourceService, MauiImageSourceService>();
-        
+        services.AddSingleton<IImageResizingService, ImageResizingService>();
+
         // UI measurement services
         services.AddSingleton<ITextMeasurementService, TextMeasurementService>();
         services.AddSingleton<IContainerSizeService, ContainerSizeService>();
