@@ -6,6 +6,8 @@ using MemoApp.Core.Models;
 using MemoApp.Localization.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Graphics;
+using Microsoft.Maui.Graphics.Platform;
 
 namespace MemoApp.UI.MauiApp.Services;
 
@@ -219,12 +221,12 @@ public class FeedbackService : IFeedbackService
                     await fileStream.CopyToAsync(memoryStream, cancellationToken);
                     var imageData = memoryStream.ToArray();
 
-                    // Validate image size - reject if too large rather than corrupt
+                    // Process image - resize if too large to fit within size limits
                     var validatedData = await ValidateAndProcessImageAsync(imageData, cancellationToken);
                     if (validatedData == null)
                     {
-                        _logger.LogWarning("Image skipped due to size: {FileName} ({Size}KB > {MaxSize}KB)",
-                            result.FileName, imageData.Length / 1024, MaxImageSize / 1024);
+                        _logger.LogWarning("Failed to process image: {FileName}",
+                            result.FileName);
                         continue; // Skip this image and continue with others
                     }
 
@@ -341,18 +343,142 @@ public class FeedbackService : IFeedbackService
                     return originalData;
                 }
 
-                // Image is too large - reject rather than corrupt
-                _logger.LogWarning("Image rejected: {Size}KB exceeds maximum {MaxSize}KB",
+                // Image needs resizing
+                _logger.LogInformation("Image too large ({Size}KB), resizing to fit within {MaxSize}KB",
                     originalData.Length / 1024, MaxImageSize / 1024);
 
-                return null; // Signal that image was rejected
+                // Load the image
+                using var stream = new MemoryStream(originalData);
+                var image = PlatformImage.FromStream(stream);
+
+                if (image == null)
+                {
+                    _logger.LogError("Failed to load image for resizing");
+                    return null;
+                }
+
+                // Calculate new dimensions
+                // Start with a quality factor that estimates final file size
+                double scaleFactor = CalculateScaleFactor(originalData.Length, image.Width, image.Height);
+
+                int newWidth = (int)(image.Width * scaleFactor);
+                int newHeight = (int)(image.Height * scaleFactor);
+
+                // Ensure minimum dimensions
+                const int minDimension = 100;
+                if (newWidth < minDimension || newHeight < minDimension)
+                {
+                    double minScale = Math.Max((double)minDimension / image.Width, (double)minDimension / image.Height);
+                    newWidth = (int)(image.Width * minScale);
+                    newHeight = (int)(image.Height * minScale);
+                }
+
+                _logger.LogInformation("Resizing image from {OldWidth}x{OldHeight} to {NewWidth}x{NewHeight}",
+                    image.Width, image.Height, newWidth, newHeight);
+
+                // Resize the image with multiple attempts at different quality levels
+                byte[]? resizedData = null;
+                int quality = JpegQuality;
+                int attempts = 0;
+                const int maxAttempts = 5;
+
+                while (attempts < maxAttempts)
+                {
+                    resizedData = ResizeImage(image, newWidth, newHeight, quality);
+
+                    if (resizedData == null)
+                    {
+                        _logger.LogError("Failed to resize image");
+                        return null;
+                    }
+
+                    // Check if resized image fits within the size limit
+                    if (resizedData.Length <= MaxImageSize)
+                    {
+                        _logger.LogInformation("Successfully resized image to {Size}KB (quality: {Quality}%)",
+                            resizedData.Length / 1024, quality);
+                        break;
+                    }
+
+                    // If still too large, reduce dimensions or quality further
+                    attempts++;
+
+                    if (attempts < 3)
+                    {
+                        // First, try reducing quality
+                        quality = Math.Max(30, quality - 15);
+                        _logger.LogDebug("Image still too large ({Size}KB), reducing quality to {Quality}%",
+                            resizedData.Length / 1024, quality);
+                    }
+                    else
+                    {
+                        // Then reduce dimensions
+                        scaleFactor *= 0.8;
+                        newWidth = (int)(image.Width * scaleFactor);
+                        newHeight = (int)(image.Height * scaleFactor);
+                        _logger.LogDebug("Image still too large ({Size}KB), reducing dimensions to {Width}x{Height}",
+                            resizedData.Length / 1024, newWidth, newHeight);
+                    }
+                }
+
+                if (resizedData != null && resizedData.Length > MaxImageSize)
+                {
+                    _logger.LogWarning("Could not resize image to fit within {MaxSize}KB after {Attempts} attempts. Final size: {Size}KB",
+                        MaxImageSize / 1024, maxAttempts, resizedData.Length / 1024);
+                    // Still return the smallest version we could achieve
+                }
+
+                return resizedData;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error validating image data");
+                _logger.LogError(ex, "Error processing image data");
                 return null;
             }
         }, cancellationToken);
+    }
+
+    private double CalculateScaleFactor(int originalSize, float imageWidth, float imageHeight)
+    {
+        // Estimate how much we need to scale based on file size
+        // This is an approximation since compression affects final size
+        double sizeRatio = (double)MaxImageSize / originalSize;
+
+        // File size roughly scales with area (width * height)
+        // So we take the square root of the size ratio for linear scaling
+        double scaleFactor = Math.Sqrt(sizeRatio);
+
+        // Add a safety margin to account for compression variations
+        scaleFactor *= 0.9;
+
+        // Ensure we don't upscale
+        return Math.Min(1.0, scaleFactor);
+    }
+
+    private byte[]? ResizeImage(Microsoft.Maui.Graphics.IImage originalImage, int targetWidth, int targetHeight, int quality)
+    {
+        try
+        {
+            // Create a new image with the target dimensions
+            using var image = originalImage.Downsize(targetWidth, targetHeight, true);
+
+            if (image == null)
+            {
+                _logger.LogError("Failed to downsize image");
+                return null;
+            }
+
+            // Save to memory stream as JPEG with specified quality
+            using var outputStream = new MemoryStream();
+            image.Save(outputStream, ImageFormat.Jpeg, quality: quality / 100f);
+
+            return outputStream.ToArray();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error in ResizeImage method");
+            return null;
+        }
     }
 
     private async Task<string?> GetApiKeyAsync()
