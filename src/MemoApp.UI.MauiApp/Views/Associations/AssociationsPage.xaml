@@ -16,14 +16,129 @@
     <Grid RowDefinitions="*,Auto">
         <!-- Main content container -->
         <Grid Grid.Row="0">
-            <!-- Loading state -->
-            <StackLayout IsVisible="{Binding IsLoading}" Spacing="20" HorizontalOptions="Center"
-                         VerticalOptions="Center" Padding="40">
-                <ActivityIndicator IsRunning="True" Color="{DynamicResource Primary}" />
-                <Label Text="{localization:Localize Common_Loading}"
-                       HorizontalOptions="Center"
-                       HorizontalTextAlignment="Center" />
-            </StackLayout>
+            <!-- Modern Skeleton Loading State -->
+            <ScrollView IsVisible="{Binding IsLoading}"
+                        BackgroundColor="Transparent"
+                        VerticalOptions="FillAndExpand">
+                <StackLayout Spacing="0" Padding="0">
+
+                    <!-- Skeleton Header -->
+                    <StackLayout Spacing="{OnIdiom Phone=16, Tablet=20, Desktop=24}"
+                                 Padding="{OnPlatform iOS='20,16,20,20', Android='20,16,20,20', Default='20'}">
+
+                        <!-- Skeleton for contextual header -->
+                        <Border Style="{StaticResource SkeletonHeaderStyle}" />
+
+                        <!-- Skeleton for category picker -->
+                        <Border Style="{StaticResource SkeletonPickerStyle}" />
+                    </StackLayout>
+
+                    <!-- Skeleton Association Cards -->
+                    <StackLayout Spacing="0">
+                        <!-- Generate multiple skeleton cards to show expected layout -->
+                        <Border Style="{StaticResource SkeletonCardStyle}">
+                            <Grid ColumnDefinitions="72,*,Auto" ColumnSpacing="16">
+                                <!-- Skeleton image -->
+                                <Border Grid.Column="0" Style="{StaticResource SkeletonImageStyle}" />
+
+                                <!-- Skeleton text content -->
+                                <StackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
+                                    <Border Style="{StaticResource SkeletonTextMediumStyle}" HorizontalOptions="Start" />
+                                    <Border Style="{StaticResource SkeletonTextShortStyle}" HorizontalOptions="Start" />
+                                </StackLayout>
+
+                                <!-- Skeleton chevron area -->
+                                <Border Grid.Column="2"
+                                        BackgroundColor="{AppThemeBinding Light=#E8E8E8, Dark=#333333}"
+                                        WidthRequest="20"
+                                        HeightRequest="20"
+                                        StrokeShape="RoundRectangle 4"
+                                        VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+
+                        <Border Style="{StaticResource SkeletonCardStyle}">
+                            <Grid ColumnDefinitions="72,*,Auto" ColumnSpacing="16">
+                                <Border Grid.Column="0" Style="{StaticResource SkeletonImageStyle}" />
+                                <StackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
+                                    <Border Style="{StaticResource SkeletonTextShortStyle}" HorizontalOptions="Start" />
+                                    <Border Style="{StaticResource SkeletonTextMediumStyle}" HorizontalOptions="Start" />
+                                </StackLayout>
+                                <Border Grid.Column="2"
+                                        BackgroundColor="{AppThemeBinding Light=#E8E8E8, Dark=#333333}"
+                                        WidthRequest="20"
+                                        HeightRequest="20"
+                                        StrokeShape="RoundRectangle 4"
+                                        VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+
+                        <Border Style="{StaticResource SkeletonCardStyle}">
+                            <Grid ColumnDefinitions="72,*,Auto" ColumnSpacing="16">
+                                <Border Grid.Column="0" Style="{StaticResource SkeletonImageStyle}" />
+                                <StackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
+                                    <Border Style="{StaticResource SkeletonTextMediumStyle}" HorizontalOptions="Start" />
+                                    <Border Style="{StaticResource SkeletonTextShortStyle}" HorizontalOptions="Start" />
+                                </StackLayout>
+                                <Border Grid.Column="2"
+                                        BackgroundColor="{AppThemeBinding Light=#E8E8E8, Dark=#333333}"
+                                        WidthRequest="20"
+                                        HeightRequest="20"
+                                        StrokeShape="RoundRectangle 4"
+                                        VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+
+                        <Border Style="{StaticResource SkeletonCardStyle}">
+                            <Grid ColumnDefinitions="72,*,Auto" ColumnSpacing="16">
+                                <Border Grid.Column="0" Style="{StaticResource SkeletonImageStyle}" />
+                                <StackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
+                                    <Border Style="{StaticResource SkeletonTextShortStyle}" HorizontalOptions="Start" />
+                                    <Border Style="{StaticResource SkeletonTextMediumStyle}" HorizontalOptions="Start" />
+                                </StackLayout>
+                                <Border Grid.Column="2"
+                                        BackgroundColor="{AppThemeBinding Light=#E8E8E8, Dark=#333333}"
+                                        WidthRequest="20"
+                                        HeightRequest="20"
+                                        StrokeShape="RoundRectangle 4"
+                                        VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+
+                        <Border Style="{StaticResource SkeletonCardStyle}">
+                            <Grid ColumnDefinitions="72,*,Auto" ColumnSpacing="16">
+                                <Border Grid.Column="0" Style="{StaticResource SkeletonImageStyle}" />
+                                <StackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
+                                    <Border Style="{StaticResource SkeletonTextMediumStyle}" HorizontalOptions="Start" />
+                                    <Border Style="{StaticResource SkeletonTextShortStyle}" HorizontalOptions="Start" />
+                                </StackLayout>
+                                <Border Grid.Column="2"
+                                        BackgroundColor="{AppThemeBinding Light=#E8E8E8, Dark=#333333}"
+                                        WidthRequest="20"
+                                        HeightRequest="20"
+                                        StrokeShape="RoundRectangle 4"
+                                        VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+
+                        <Border Style="{StaticResource SkeletonCardStyle}">
+                            <Grid ColumnDefinitions="72,*,Auto" ColumnSpacing="16">
+                                <Border Grid.Column="0" Style="{StaticResource SkeletonImageStyle}" />
+                                <StackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
+                                    <Border Style="{StaticResource SkeletonTextShortStyle}" HorizontalOptions="Start" />
+                                    <Border Style="{StaticResource SkeletonTextMediumStyle}" HorizontalOptions="Start" />
+                                </StackLayout>
+                                <Border Grid.Column="2"
+                                        BackgroundColor="{AppThemeBinding Light=#E8E8E8, Dark=#333333}"
+                                        WidthRequest="20"
+                                        HeightRequest="20"
+                                        StrokeShape="RoundRectangle 4"
+                                        VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
 
             <!-- Empty state - only show after initial load is complete -->
             <StackLayout Spacing="20" HorizontalOptions="Center" VerticalOptions="Center" Padding="40">
