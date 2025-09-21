@@ -21,8 +21,7 @@
                     BackgroundColor="White"
                     TextColor="{StaticResource Primary}"
                     CornerRadius="8"
-                    HeightRequest="{OnIdiom Phone=50, Tablet=55, Desktop=60}"
-AutomationProperties.HelpText="{localization:Localize Accessibility_BeginTrainingButtonHelp}" />
+                    HeightRequest="{OnIdiom Phone=50, Tablet=55, Desktop=60}" />
 
             <Button Text="ℹ️ Major System Guide"
                     Command="{Binding Source={RelativeSource AncestorType={x:Type components:QuickStartComponent}}, Path=ShowHelpCommand}"
@@ -33,8 +32,7 @@ AutomationProperties.HelpText="{localization:Localize Accessibility_BeginTrainin
                     CornerRadius="8"
                     HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
                     LineBreakMode="WordWrap"
-                    Padding="10,8"
-AutomationProperties.HelpText="{localization:Localize Accessibility_HelpButtonHelp}" />
+                    Padding="10,8" />
         </StackLayout>
     </Frame>
 

@@ -1293,8 +1293,7 @@
                                     <Button Grid.Column="0"
                                             Command="{Binding StartNewGameCommand}"
                                             Text="{localization:Localize BigNumber_NewChallenge}"
-                                            Style="{StaticResource CelebrationNewChallengeButton}"
-                                            AutomationProperties.HelpText="Start a new Big Number challenge with your current settings">
+                                            Style="{StaticResource CelebrationNewChallengeButton}">
                                         <Button.ImageSource>
                                             <FontImageSource FontFamily="FontAwesomePro-Solid"
                                                              Glyph="&#xf01e;"
@@ -1317,8 +1316,7 @@
                                     <Button Grid.Column="0"
                                             Command="{Binding StartNewGameCommand}"
                                             Text="{localization:Localize BigNumber_NewChallenge}"
-                                            Style="{StaticResource CelebrationNewChallengeButton}"
-                                            AutomationProperties.HelpText="Start a new Big Number challenge with your current settings">
+                                            Style="{StaticResource CelebrationNewChallengeButton}">
                                         <Button.ImageSource>
                                             <FontImageSource FontFamily="FontAwesomePro-Solid"
                                                              Glyph="&#xf01e;"

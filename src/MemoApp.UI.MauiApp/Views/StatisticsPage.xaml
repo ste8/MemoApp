@@ -228,8 +228,7 @@
                         TextColor="White"
                         CornerRadius="10"
                         HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
-                        FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-AutomationProperties.HelpText="{localization:Localize Statistics_Back}" />
+                        FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}" />
                 <Button Grid.Column="1"
                         Command="{Binding StartNewSessionCommand}"
                         Text="⊕ New Session"
@@ -237,8 +236,7 @@ AutomationProperties.HelpText="{localization:Localize Statistics_Back}" />
                         TextColor="White"
                         CornerRadius="10"
                         HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
-                        FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-AutomationProperties.HelpText="{localization:Localize Common_NewSession}" />
+                        FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}" />
             </Grid>
         </Grid>
     </ScrollView>

@@ -78,8 +78,7 @@
                     CornerRadius="8"
                     HeightRequest="{OnIdiom Phone=60, Tablet=65, Desktop=70}"
                     LineBreakMode="WordWrap"
-                    Padding="15,10"
-AutomationProperties.HelpText="{localization:Localize Accessibility_StartCustomTrainingButtonHelp}" />
+                    Padding="15,10" />
         </StackLayout>
     </Frame>
 

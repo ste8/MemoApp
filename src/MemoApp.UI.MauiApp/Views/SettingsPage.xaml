@@ -53,8 +53,7 @@
                         <!-- Language Picker with Loading Overlay -->
                         <Grid>
                             <Border Style="{StaticResource IconPickerContainerStyle}"
-                                    IsEnabled="{Binding IsLanguageSwitchEnabled}"
-                                    AutomationProperties.HelpText="{localization:Localize Accessibility_LanguageButtonHelp}">
+                                    IsEnabled="{Binding IsLanguageSwitchEnabled}">
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding SelectLanguageCommand}" />
                                 </Border.GestureRecognizers>
@@ -127,7 +126,7 @@
                                AutomationProperties.IsInAccessibleTree="True" />
 
                         <Border Style="{StaticResource IconPickerContainerStyle}"
-                                AutomationProperties.HelpText="{localization:Localize Accessibility_NumberFormatButtonHelp}">
+                                >
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectNumberFormatCommand}" />
                             </Border.GestureRecognizers>
@@ -190,7 +189,7 @@
                                AutomationProperties.IsInAccessibleTree="True" />
 
                         <Border Style="{StaticResource IconPickerContainerStyle}"
-                                AutomationProperties.HelpText="{localization:Localize Accessibility_PackSelectionButtonHelp}">
+                                >
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectPackCommand}" />
                             </Border.GestureRecognizers>
@@ -233,7 +232,7 @@
                             FontFamily="OpenSansSemiBold"
                             HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
                             HorizontalOptions="FillAndExpand"
-                            AutomationProperties.HelpText="{localization:Localize Accessibility_DownloadPacksButtonHelp}">
+                            >
                         <Button.Triggers>
                             <Trigger TargetType="Button" Property="IsFocused" Value="True">
                                 <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />

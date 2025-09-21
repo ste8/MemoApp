@@ -43,8 +43,7 @@
                             TextColor="{StaticResource Primary}"
                             CornerRadius="10"
                             HeightRequest="{OnIdiom Phone=50, Tablet=55, Desktop=60}"
-                            FontAttributes="Bold"
-AutomationProperties.HelpText="{localization:Localize Help_TryQuickTraining}" />
+                            FontAttributes="Bold" />
                 </StackLayout>
             </Frame>
             <!-- Digit Mappings Card -->
@@ -269,8 +268,7 @@ AutomationProperties.HelpText="{localization:Localize Help_TryQuickTraining}" />
                     FontAttributes="Bold"
                     CornerRadius="15"
                     HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
-                    Margin="20,10"
-AutomationProperties.HelpText="{localization:Localize Help_StartTrainingNow}" />
+                    Margin="20,10" />
         </StackLayout>
     </ScrollView>
 </ContentPage>

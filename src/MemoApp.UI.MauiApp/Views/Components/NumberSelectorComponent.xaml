@@ -12,8 +12,7 @@
                 Title="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=Title}"
                 HorizontalOptions="FillAndExpand"
                 FontSize="{OnIdiom Phone=14, Default=16}"
-                IsVisible="{OnPlatform Android=True, iOS=True, Default=False}"
-AutomationProperties.HelpText="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=AccessibilityHelp}" />
+                IsVisible="{OnPlatform Android=True, iOS=True, Default=False}" />
 
         <!-- Desktop alternative -->
         <StackLayout IsVisible="{OnPlatform WinUI=True, MacCatalyst=True, Default=False}"

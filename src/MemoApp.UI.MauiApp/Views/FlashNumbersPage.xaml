@@ -155,8 +155,7 @@
                                         Progress="{Binding ProgressValue}"
                                         ProgressColor="{StaticResource Primary}"
                                         HeightRequest="{OnIdiom Phone=8, Tablet=10, Desktop=12}"
-                                        Margin="0,0,0,10"
-                                        AutomationProperties.HelpText="{Binding ProgressValueText}" />
+                                        Margin="0,0,0,10" />
 
                             <!-- Progress text with adaptive layout -->
                             <Grid Grid.Row="2">
@@ -206,12 +205,10 @@
                             <!-- Mobile-friendly swipe gestures for navigation -->
                             <SwipeGestureRecognizer Direction="Left"
                                                     Command="{Binding AdvanceToNextCommand}"
-                                                    Threshold="80"
-                                                    AutomationProperties.HelpText="Swipe gesture to proceed to next number in training sequence" />
+                                                    Threshold="80" />
                             <!-- Double tap gesture for revealing associations on mobile -->
                             <TapGestureRecognizer Command="{Binding ToggleAssociationRevealCommand}"
-                                                  NumberOfTapsRequired="2"
-                                                  AutomationProperties.HelpText="Double tap to show or hide number association" />
+                                                  NumberOfTapsRequired="2" />
                         </Border.GestureRecognizers>
                         
                         <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="16">
@@ -250,8 +247,7 @@
                                         LineBreakMode="NoWrap"
                                         HorizontalOptions="Center"
                                         VerticalOptions="Center"
-                                        Opacity="0.95"
-                                        AutomationProperties.HelpText="{localization:Localize Accessibility_RevealAssociationButtonHelp}">
+                                        Opacity="0.95">
                                     <Button.VisualStateManager.VisualStateGroups>
                                         <VisualStateGroupList>
                                             <VisualStateGroup x:Name="CommonStates">
@@ -317,8 +313,7 @@
                                        VerticalOptions="Center"
                                        HorizontalTextAlignment="Center"
                                        MinimumHeightRequest="{OnIdiom Phone=140, Tablet=180, Desktop=220}"
-                                       Margin="0,16,0,16"
-                                       AutomationProperties.HelpText="{Binding CurrentNumber, StringFormat='Current number to practice: {0}'}" />
+                                       Margin="0,16,0,16" />
                             </Grid>
 
                             <!-- Enhanced Think instruction with reveal hint -->
@@ -377,7 +372,7 @@
                                                HeightRequest="{OnIdiom Phone=96, Tablet=116, Desktop=136}">
                                             <Image Source="{Binding CurrentAssociationImagePath}"
                                                    Aspect="AspectFit"
-                                                   AutomationProperties.HelpText="{Binding CurrentAssociationWord, StringFormat='Association image for word: {0}'}" />
+                                                   />
                                         </Frame>
                                     </StackLayout>
                                     
@@ -406,8 +401,7 @@
                                 HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
                                 LineBreakMode="WordWrap"
                                 Padding="20,10"
-                                Margin="20,0"
-                                AutomationProperties.HelpText="{localization:Localize Accessibility_NextButtonHelp}">
+                                Margin="20,0">
                         </Button>
                     </StackLayout>
 
@@ -554,7 +548,7 @@
                                 CornerRadius="10"
                                 HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
                                 FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                AutomationProperties.HelpText="{localization:Localize TrainingSession_ViewDetails}">
+                                >
                         </Button>
 
                         <Button Grid.Column="1"
@@ -565,7 +559,6 @@
                                 CornerRadius="10"
                                 HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
                                 FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                AutomationProperties.HelpText="{localization:Localize Accessibility_ShareButtonHelp}"
                                 SemanticProperties.Description="{localization:Localize Share_ResultsDescription}">
                         </Button>
 
@@ -577,7 +570,7 @@
                                 CornerRadius="10"
                                 HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
                                 FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                AutomationProperties.HelpText="{localization:Localize FlashNumbers_NewSession}">
+                                >
                         </Button>
                     </Grid>
                 </StackLayout>
