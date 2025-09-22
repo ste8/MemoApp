@@ -436,6 +436,14 @@
     <value>Consistenza</value>
     <comment>Consistency score label</comment>
   </data>
+  <data name="Statistics_ViewDetails" xml:space="preserve">
+    <value>📊 Vedi Dettagli</value>
+    <comment>Button text for viewing detailed statistics</comment>
+  </data>
+  <data name="FlashNumbers_NewSession" xml:space="preserve">
+    <value>⊕ Nuova Sessione</value>
+    <comment>Button text for starting a new Flash Numbers session</comment>
+  </data>
   <data name="Statistics_NumbersToPracticeMoreIcon" xml:space="preserve">
     <value>📚 Numeri da Praticare di Più</value>
     <comment>Statistics numbers to practice section title</comment>

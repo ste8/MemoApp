@@ -1,5 +1,6 @@
 ﻿using MemoApp.UI.MauiApp.Views;
 using MemoApp.UI.MauiApp.Views.Associations;
+using MemoApp.UI.MauiApp.Views.FlashNumbers;
 
 namespace MemoApp.UI.MauiApp;
 

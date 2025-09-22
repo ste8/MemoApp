@@ -13,7 +13,7 @@ using MemoApp.UI.MauiApp.Utilities;
 using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Services.Freemium;
 
-namespace MemoApp.UI.MauiApp.ViewModels;
+namespace MemoApp.UI.MauiApp.ViewModels.FlashNumbers;
 
 /// <summary>
 /// ViewModel for the Flash Numbers exercise page.

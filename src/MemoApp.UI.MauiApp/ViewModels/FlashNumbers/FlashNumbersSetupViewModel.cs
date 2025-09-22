@@ -8,7 +8,7 @@ using MemoApp.UI.MauiApp.Utilities;
 using Microsoft.Extensions.Logging;
 using System.Globalization;
 
-namespace MemoApp.UI.MauiApp.ViewModels;
+namespace MemoApp.UI.MauiApp.ViewModels.FlashNumbers;
 
 /// <summary>
 /// ViewModel for Flash Numbers exercise setup page.

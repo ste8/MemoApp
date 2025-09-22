@@ -8,7 +8,7 @@ using MemoApp.Core.MajorSystem;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Utilities;
 
-namespace MemoApp.UI.MauiApp.ViewModels;
+namespace MemoApp.UI.MauiApp.ViewModels.FlashNumbers;
 
 /// <summary>
 /// ViewModel for displaying detailed session statistics.

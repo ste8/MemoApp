@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
+             xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels.FlashNumbers"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              xmlns:utilities="clr-namespace:MemoApp.UI.MauiApp.Utilities"
-             x:Class="MemoApp.UI.MauiApp.Views.FlashNumbersPage"
+             x:Class="MemoApp.UI.MauiApp.Views.FlashNumbers.FlashNumbersPage"
              x:DataType="viewmodels:FlashNumbersViewModel"
              Title="{Binding Title}"
              Shell.TabBarIsVisible="{Binding IsSessionCompleted}">
@@ -440,7 +440,7 @@
                     <Grid ColumnDefinitions="*,*,*" ColumnSpacing="{OnIdiom Phone=10, Tablet=15, Desktop=15}">
                         <Button Grid.Column="0"
                                 Command="{Binding ShowStatisticsCommand}"
-                                Text="📊 View Details"
+                                Text="{localization:Localize Statistics_ViewDetails}"
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="White"
                                 CornerRadius="10"
@@ -462,7 +462,7 @@
 
                         <Button Grid.Column="2"
                                 Command="{Binding StartNewSessionCommand}"
-                                Text="⊕ New Session"
+                                Text="{localization:Localize FlashNumbers_NewSession}"
                                 BackgroundColor="{StaticResource Secondary}"
                                 TextColor="White"
                                 CornerRadius="10"

@@ -1,7 +1,7 @@
 using MemoApp.UI.MauiApp.Services;
-using MemoApp.UI.MauiApp.ViewModels;
+using MemoApp.UI.MauiApp.ViewModels.FlashNumbers;
 
-namespace MemoApp.UI.MauiApp.Views;
+namespace MemoApp.UI.MauiApp.Views.FlashNumbers;
 
 public partial class FlashNumbersPage : ContentPage
 {

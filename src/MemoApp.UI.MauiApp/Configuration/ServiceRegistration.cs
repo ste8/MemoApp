@@ -14,8 +14,10 @@ using MemoApp.UI.MauiApp.Services.Sharing;
 using MemoApp.UI.MauiApp.ViewModels;
 using MemoApp.UI.MauiApp.ViewModels.Associations;
 using MemoApp.UI.MauiApp.ViewModels.Components;
+using MemoApp.UI.MauiApp.ViewModels.FlashNumbers;
 using MemoApp.UI.MauiApp.Views;
 using MemoApp.UI.MauiApp.Views.Associations;
+using MemoApp.UI.MauiApp.Views.FlashNumbers;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -434,9 +436,9 @@ public static class ServiceRegistration
         // Register pages
         services.AddSingleton<Views.TestPage>();
         services.AddSingleton<Views.MainPage>();
-        services.AddSingleton<Views.FlashNumbersSetupPage>();
-        services.AddTransient<Views.FlashNumbersPage>();
-        services.AddTransient<Views.StatisticsPage>();
+        services.AddSingleton<FlashNumbersSetupPage>();
+        services.AddTransient<FlashNumbersPage>();
+        services.AddTransient<StatisticsPage>();
         services.AddTransient<Views.HelpPage>();
         services.AddTransient<Views.SettingsPage>();
         services.AddTransient<AssociationsPage>();
