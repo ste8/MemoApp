@@ -50,6 +50,58 @@ public class NumberPerformanceDisplay
     }
 
     /// <summary>
+    /// Gets the performance indicator shape based on response time.
+    /// Fast (< 1.5s): Circle ●, Medium (1.5-4s): Triangle ▲, Slow (> 4s): Square ■
+    /// </summary>
+    public string PerformanceIndicator
+    {
+        get
+        {
+            var seconds = _performance.ResponseTime.TotalSeconds;
+            return seconds switch
+            {
+                < 1.5 => "●",    // Fast
+                <= 4.0 => "▲",   // Medium
+                _ => "■"         // Slow
+            };
+        }
+    }
+
+    /// <summary>
+    /// Gets the performance indicator color based on response time.
+    /// </summary>
+    public Color PerformanceColor
+    {
+        get
+        {
+            var seconds = _performance.ResponseTime.TotalSeconds;
+            return seconds switch
+            {
+                < 1.5 => Color.FromArgb("#10B981"),  // Fast - Green
+                <= 4.0 => Color.FromArgb("#F59E0B"), // Medium - Yellow/Orange
+                _ => Color.FromArgb("#EF4444")       // Slow - Red
+            };
+        }
+    }
+
+    /// <summary>
+    /// Gets the accessibility description for the performance indicator.
+    /// </summary>
+    public string PerformanceDescription
+    {
+        get
+        {
+            var seconds = _performance.ResponseTime.TotalSeconds;
+            return seconds switch
+            {
+                < 1.5 => _localizationService.GetString("Statistics_FastIndicator"),
+                <= 4.0 => _localizationService.GetString("Statistics_MediumIndicator"),
+                _ => _localizationService.GetString("Statistics_SlowIndicator")
+            };
+        }
+    }
+
+    /// <summary>
     /// Gets the presentation timestamp.
     /// </summary>
     public DateTime PresentedAt => _performance.PresentedAt;

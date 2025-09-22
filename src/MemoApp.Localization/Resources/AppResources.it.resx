@@ -815,6 +815,22 @@
     <value>Scaricato</value>
     <comment>Label for downloaded packs</comment>
   </data>
+  <data name="Statistics_PerformanceLegend" xml:space="preserve">
+    <value>● Veloce (&lt;1,5s)  ▲ Medio (1,5-4s)  ■ Lento (&gt;4s)</value>
+    <comment>Legend explaining performance indicator shapes and thresholds</comment>
+  </data>
+  <data name="Statistics_FastIndicator" xml:space="preserve">
+    <value>Tempo di risposta veloce</value>
+    <comment>Accessibility description for fast response indicator</comment>
+  </data>
+  <data name="Statistics_MediumIndicator" xml:space="preserve">
+    <value>Tempo di risposta medio</value>
+    <comment>Accessibility description for medium response indicator</comment>
+  </data>
+  <data name="Statistics_SlowIndicator" xml:space="preserve">
+    <value>Tempo di risposta lento</value>
+    <comment>Accessibility description for slow response indicator</comment>
+  </data>
   <data name="PackDownload_UpToDate" xml:space="preserve">
     <value>Aggiornato</value>
     <comment>Accessibility label for packs that are downloaded and up to date</comment>
