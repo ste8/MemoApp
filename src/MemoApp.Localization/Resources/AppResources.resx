@@ -417,6 +417,26 @@
     <value>Average Time</value>
     <comment>Statistics average time label</comment>
   </data>
+  <data name="Statistics_ResponseDistribution" xml:space="preserve">
+    <value>Response Distribution</value>
+    <comment>Response time distribution section title</comment>
+  </data>
+  <data name="Statistics_FastLabel" xml:space="preserve">
+    <value>Fast</value>
+    <comment>Fast response time category label</comment>
+  </data>
+  <data name="Statistics_MediumLabel" xml:space="preserve">
+    <value>Medium</value>
+    <comment>Medium response time category label</comment>
+  </data>
+  <data name="Statistics_SlowLabel" xml:space="preserve">
+    <value>Slow</value>
+    <comment>Slow response time category label</comment>
+  </data>
+  <data name="Statistics_Consistency" xml:space="preserve">
+    <value>Consistency</value>
+    <comment>Consistency score label</comment>
+  </data>
   <data name="Statistics_NumbersToPracticeMoreIcon" xml:space="preserve">
     <value>📚 Numbers to Practice More</value>
     <comment>Statistics numbers to practice section title</comment>

@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text.Json;
 using System.Web;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -35,6 +36,17 @@ public partial class StatisticsViewModel : BaseViewModel
     [ObservableProperty]
     private string averageTimeText = "";
 
+    [ObservableProperty]
+    private string fastPercentageText = "";
+
+    [ObservableProperty]
+    private string mediumPercentageText = "";
+
+    [ObservableProperty]
+    private string slowPercentageText = "";
+
+    [ObservableProperty]
+    private string consistencyScoreText = "";
 
     [ObservableProperty]
     private bool returnToSummary;
@@ -130,6 +142,12 @@ public partial class StatisticsViewModel : BaseViewModel
         TotalDurationText = $"{Statistics.Value.TotalDuration:mm\\:ss}";
         AverageTimeText = $"{Statistics.Value.AverageResponseTime:ss\\.ff}s";
 
+        // Calculate response time distribution
+        CalculateResponseTimeDistribution();
+
+        // Calculate consistency score
+        CalculateConsistencyScore();
+
         // Load all performances for detailed view
         AllPerformances.Clear();
         foreach (var performance in Statistics.Value.AllPerformances)
@@ -143,5 +161,59 @@ public partial class StatisticsViewModel : BaseViewModel
         {
             SlowestPerformances.Add(new NumberPerformanceDisplay(performance, _localizationService));
         }
+    }
+
+    private void CalculateResponseTimeDistribution()
+    {
+        if (Statistics == null || !Statistics.Value.AllPerformances.Any()) return;
+
+        var allPerformances = Statistics.Value.AllPerformances;
+        var totalCount = allPerformances.Count;
+
+        // Count performances by category (matching our indicator thresholds)
+        var fastCount = allPerformances.Count(p => p.ResponseTime.TotalSeconds < 1.5);
+        var mediumCount = allPerformances.Count(p => p.ResponseTime.TotalSeconds >= 1.5 && p.ResponseTime.TotalSeconds <= 4.0);
+        var slowCount = allPerformances.Count(p => p.ResponseTime.TotalSeconds > 4.0);
+
+        // Calculate percentages
+        var fastPercentage = Math.Round((fastCount * 100.0) / totalCount);
+        var mediumPercentage = Math.Round((mediumCount * 100.0) / totalCount);
+        var slowPercentage = Math.Round((slowCount * 100.0) / totalCount);
+
+        // Format text
+        FastPercentageText = $"{fastPercentage}%";
+        MediumPercentageText = $"{mediumPercentage}%";
+        SlowPercentageText = $"{slowPercentage}%";
+    }
+
+    private void CalculateConsistencyScore()
+    {
+        if (Statistics == null || !Statistics.Value.AllPerformances.Any()) return;
+
+        var responseTimes = Statistics.Value.AllPerformances.Select(p => p.ResponseTime.TotalSeconds).ToArray();
+
+        if (responseTimes.Length < 2)
+        {
+            ConsistencyScoreText = "Perfect";
+            return;
+        }
+
+        // Calculate standard deviation
+        var mean = responseTimes.Average();
+        var variance = responseTimes.Sum(rt => Math.Pow(rt - mean, 2)) / responseTimes.Length;
+        var standardDeviation = Math.Sqrt(variance);
+
+        // Convert to consistency score (lower std dev = higher consistency)
+        string consistencyLevel;
+        if (standardDeviation < 0.5)
+            consistencyLevel = "Excellent";
+        else if (standardDeviation < 1.0)
+            consistencyLevel = "Good";
+        else if (standardDeviation < 2.0)
+            consistencyLevel = "Fair";
+        else
+            consistencyLevel = "Needs Work";
+
+        ConsistencyScoreText = $"{consistencyLevel} (±{standardDeviation:F1}s)";
     }
 }

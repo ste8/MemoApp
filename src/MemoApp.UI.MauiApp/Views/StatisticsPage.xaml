@@ -22,6 +22,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -74,8 +75,104 @@
                     </StackLayout>
                 </Grid>
             </Frame>
-            <!-- Performance Legend -->
+            <!-- Enhanced Analytics -->
             <Frame Grid.Row="1"
+                   BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDark}}"
+                   Padding="20"
+                   CornerRadius="15"
+                   HasShadow="True"
+                   Margin="0,0,0,20">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Response Distribution Title -->
+                    <Label Grid.Row="0" Grid.ColumnSpan="2"
+                           Text="{localization:Localize Statistics_ResponseDistribution}"
+                           TextColor="White"
+                           FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           Margin="0,0,0,15" />
+
+                    <!-- Distribution Stats -->
+                    <StackLayout Grid.Row="1" Grid.Column="0" Spacing="10">
+                        <!-- Fast Performance -->
+                        <StackLayout Orientation="Horizontal" Spacing="8">
+                            <Label Text="●"
+                                   TextColor="#10B981"
+                                   FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                   VerticalOptions="Center" />
+                            <Label Text="{localization:Localize Statistics_FastLabel}"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                   VerticalOptions="Center" />
+                            <Label Text="{Binding FastPercentageText}"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center" />
+                        </StackLayout>
+                        <!-- Medium Performance -->
+                        <StackLayout Orientation="Horizontal" Spacing="8">
+                            <Label Text="▲"
+                                   TextColor="#F59E0B"
+                                   FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                   VerticalOptions="Center" />
+                            <Label Text="{localization:Localize Statistics_MediumLabel}"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                   VerticalOptions="Center" />
+                            <Label Text="{Binding MediumPercentageText}"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center" />
+                        </StackLayout>
+                    </StackLayout>
+
+                    <!-- Right Column -->
+                    <StackLayout Grid.Row="1" Grid.Column="1" Spacing="10">
+                        <!-- Slow Performance -->
+                        <StackLayout Orientation="Horizontal" Spacing="8">
+                            <Label Text="■"
+                                   TextColor="#EF4444"
+                                   FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                   VerticalOptions="Center" />
+                            <Label Text="{localization:Localize Statistics_SlowLabel}"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                   VerticalOptions="Center" />
+                            <Label Text="{Binding SlowPercentageText}"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center" />
+                        </StackLayout>
+                        <!-- Consistency Score -->
+                        <StackLayout Spacing="5">
+                            <Label Text="{localization:Localize Statistics_Consistency}"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                   Opacity="0.8" />
+                            <Label Text="{Binding ConsistencyScoreText}"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                   FontAttributes="Bold" />
+                        </StackLayout>
+                    </StackLayout>
+                </Grid>
+            </Frame>
+            <!-- Performance Legend -->
+            <Frame Grid.Row="2"
                    BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
                    Padding="15,10"
                    CornerRadius="8"
@@ -121,7 +218,7 @@
                 </StackLayout>
             </Frame>
             <!-- Numbers to Focus On -->
-            <Frame Grid.Row="2"
+            <Frame Grid.Row="3"
                    BackgroundColor="{AppThemeBinding Light={StaticResource WarningTextSafe}, Dark={StaticResource WarningDark}}"
                    Padding="15"
                    CornerRadius="10"
@@ -189,7 +286,7 @@
                 </StackLayout>
             </Frame>
             <!-- Detailed Performance List -->
-            <Frame Grid.Row="3"
+            <Frame Grid.Row="4"
                    BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
                    Padding="15"
                    CornerRadius="10"
@@ -279,7 +376,7 @@
                 </StackLayout>
             </Frame>
             <!-- Action Buttons -->
-            <Grid Grid.Row="4"
+            <Grid Grid.Row="5"
                   ColumnDefinitions="*,*"
                   ColumnSpacing="15">
 
