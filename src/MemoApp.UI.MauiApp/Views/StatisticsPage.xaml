@@ -99,11 +99,44 @@
                    CornerRadius="8"
                    HasShadow="False"
                    Margin="0,0,0,15">
-                <Label Text="{localization:Localize Statistics_PerformanceLegend}"
-                       FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                       TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center" />
+                <StackLayout Orientation="Horizontal"
+                             Spacing="{OnIdiom Phone=15, Tablet=20, Desktop=25}"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center">
+                    <!-- Fast indicator -->
+                    <StackLayout Orientation="Horizontal" Spacing="5">
+                        <Label Text="●"
+                               TextColor="#10B981"
+                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                               VerticalOptions="Center" />
+                        <Label Text="{localization:Localize Statistics_FastLegend}"
+                               FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=16}"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}"
+                               VerticalOptions="Center" />
+                    </StackLayout>
+                    <!-- Medium indicator -->
+                    <StackLayout Orientation="Horizontal" Spacing="5">
+                        <Label Text="▲"
+                               TextColor="#F59E0B"
+                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                               VerticalOptions="Center" />
+                        <Label Text="{localization:Localize Statistics_MediumLegend}"
+                               FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=16}"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}"
+                               VerticalOptions="Center" />
+                    </StackLayout>
+                    <!-- Slow indicator -->
+                    <StackLayout Orientation="Horizontal" Spacing="5">
+                        <Label Text="■"
+                               TextColor="#EF4444"
+                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                               VerticalOptions="Center" />
+                        <Label Text="{localization:Localize Statistics_SlowLegend}"
+                               FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=16}"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}"
+                               VerticalOptions="Center" />
+                    </StackLayout>
+                </StackLayout>
             </Frame>
             <!-- Numbers to Focus On -->
             <Frame Grid.Row="2"

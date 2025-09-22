@@ -832,6 +832,18 @@
     <value>Slow response time</value>
     <comment>Accessibility description for slow response indicator</comment>
   </data>
+  <data name="Statistics_FastLegend" xml:space="preserve">
+    <value>Fast (&lt;1.5s)</value>
+    <comment>Legend text for fast performance indicator</comment>
+  </data>
+  <data name="Statistics_MediumLegend" xml:space="preserve">
+    <value>Medium (1.5-4s)</value>
+    <comment>Legend text for medium performance indicator</comment>
+  </data>
+  <data name="Statistics_SlowLegend" xml:space="preserve">
+    <value>Slow (&gt;4s)</value>
+    <comment>Legend text for slow performance indicator</comment>
+  </data>
   <data name="PackDownload_UpToDate" xml:space="preserve">
     <value>Up to date</value>
     <comment>Accessibility label for packs that are downloaded and up to date</comment>
