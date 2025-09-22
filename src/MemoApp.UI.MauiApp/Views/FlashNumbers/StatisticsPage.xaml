@@ -57,22 +57,26 @@
                         <Label Text="{localization:Localize Statistics_TotalDuration}"
                                TextColor="White"
                                FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                               Opacity="0.8" />
+                               Opacity="0.8"
+                               HorizontalOptions="Center" />
                         <Label Text="{Binding TotalDurationText}"
                                TextColor="White"
                                FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
-                               FontAttributes="Bold" />
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center" />
                     </StackLayout>
                     <!-- Right column stats -->
                     <StackLayout Grid.Row="1" Grid.Column="1" Spacing="10">
                         <Label Text="{localization:Localize Statistics_AverageTime}"
                                TextColor="White"
                                FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                               Opacity="0.8" />
+                               Opacity="0.8"
+                               HorizontalOptions="Center" />
                         <Label Text="{Binding AverageTimeText}"
                                TextColor="White"
                                FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
-                               FontAttributes="Bold" />
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center" />
                     </StackLayout>
                 </Grid>
             </Frame>
@@ -99,66 +103,85 @@
                     <Label Grid.Row="0" Grid.ColumnSpan="2"
                            Text="{localization:Localize Statistics_ResponseDistribution}"
                            TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray100}}"
-                           FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                           FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            Margin="0,0,0,15" />
 
-                    <!-- Distribution Stats -->
-                    <StackLayout Grid.Row="1" Grid.Column="0" Spacing="10">
+                    <!-- Distribution Stats - Redesigned compact layout -->
+                    <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
                         <!-- Fast Performance -->
-                        <StackLayout Orientation="Horizontal" Spacing="8">
+                        <StackLayout Grid.Column="0" Spacing="8" HorizontalOptions="Center">
                             <Label Text="●"
                                    TextColor="{AppThemeBinding Light={StaticResource PerformanceFastLight}, Dark={StaticResource PerformanceFastDark}}"
-                                   FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
-                                   VerticalOptions="Center" />
-                            <Label Text="{localization:Localize Statistics_FastLabel}"
-                                   TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray200}}"
-                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                                   VerticalOptions="Center" />
+                                   FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
+                                   HorizontalOptions="Center" />
                             <Label Text="{Binding FastPercentageText}"
                                    TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray100}}"
-                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
                                    FontAttributes="Bold"
-                                   VerticalOptions="Center" />
+                                   HorizontalOptions="Center" />
+                            <Label Text="{localization:Localize Statistics_FastLabel}"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray200}}"
+                                   FontSize="{OnIdiom Phone=13, Tablet=15, Desktop=17}"
+                                   HorizontalOptions="Center" />
+                            <Label Text="{localization:Localize Statistics_FastThreshold}"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
+                                   FontSize="{OnIdiom Phone=11, Tablet=13, Desktop=15}"
+                                   Opacity="0.7"
+                                   HorizontalOptions="Center" />
                         </StackLayout>
+
                         <!-- Medium Performance -->
-                        <StackLayout Orientation="Horizontal" Spacing="8">
+                        <StackLayout Grid.Column="1" Spacing="8" HorizontalOptions="Center">
                             <Label Text="▲"
                                    TextColor="{AppThemeBinding Light={StaticResource PerformanceMediumLight}, Dark={StaticResource PerformanceMediumDark}}"
-                                   FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
-                                   VerticalOptions="Center" />
-                            <Label Text="{localization:Localize Statistics_MediumLabel}"
-                                   TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray200}}"
-                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                                   VerticalOptions="Center" />
+                                   FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
+                                   HorizontalOptions="Center" />
                             <Label Text="{Binding MediumPercentageText}"
                                    TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray100}}"
-                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
                                    FontAttributes="Bold"
-                                   VerticalOptions="Center" />
+                                   HorizontalOptions="Center" />
+                            <Label Text="{localization:Localize Statistics_MediumLabel}"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray200}}"
+                                   FontSize="{OnIdiom Phone=13, Tablet=15, Desktop=17}"
+                                   HorizontalOptions="Center" />
+                            <Label Text="{localization:Localize Statistics_MediumThreshold}"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
+                                   FontSize="{OnIdiom Phone=11, Tablet=13, Desktop=15}"
+                                   Opacity="0.7"
+                                   HorizontalOptions="Center" />
                         </StackLayout>
-                    </StackLayout>
 
-                    <!-- Right Column -->
-                    <StackLayout Grid.Row="1" Grid.Column="1" Spacing="10">
                         <!-- Slow Performance -->
-                        <StackLayout Orientation="Horizontal" Spacing="8">
+                        <StackLayout Grid.Column="2" Spacing="8" HorizontalOptions="Center">
                             <Label Text="■"
                                    TextColor="{StaticResource PerformanceSlow}"
-                                   FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
-                                   VerticalOptions="Center" />
-                            <Label Text="{localization:Localize Statistics_SlowLabel}"
-                                   TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray200}}"
-                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                                   VerticalOptions="Center" />
+                                   FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
+                                   HorizontalOptions="Center" />
                             <Label Text="{Binding SlowPercentageText}"
                                    TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray100}}"
-                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
                                    FontAttributes="Bold"
-                                   VerticalOptions="Center" />
+                                   HorizontalOptions="Center" />
+                            <Label Text="{localization:Localize Statistics_SlowLabel}"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray200}}"
+                                   FontSize="{OnIdiom Phone=13, Tablet=15, Desktop=17}"
+                                   HorizontalOptions="Center" />
+                            <Label Text="{localization:Localize Statistics_SlowThreshold}"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
+                                   FontSize="{OnIdiom Phone=11, Tablet=13, Desktop=15}"
+                                   Opacity="0.7"
+                                   HorizontalOptions="Center" />
                         </StackLayout>
-                    </StackLayout>
+                    </Grid>
                 </Grid>
             </Frame>
             <!-- Numbers to Focus On -->
@@ -172,7 +195,7 @@
                 <StackLayout Spacing="15">
                     <Label Text="{localization:Localize Statistics_NumbersToPracticeMoreIcon}"
                            TextColor="White"
-                           FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                           FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
                            FontAttributes="Bold"
                            HorizontalOptions="Center" />
                     <!-- Auto-expanded CollectionView for slowest numbers -->
@@ -247,7 +270,7 @@
 
                         <Label Grid.Column="0"
                                Text="{localization:Localize Statistics_AllNumbersTitle}"
-                               FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                               FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
                                FontAttributes="Bold"
                                VerticalOptions="Center"
                                HorizontalOptions="Center" />

@@ -433,6 +433,18 @@
     <value>Slow</value>
     <comment>Slow response time category label</comment>
   </data>
+  <data name="Statistics_FastThreshold" xml:space="preserve">
+    <value>(&lt; 1.5s)</value>
+    <comment>Fast response threshold indicator</comment>
+  </data>
+  <data name="Statistics_MediumThreshold" xml:space="preserve">
+    <value>(1.5-4.0s)</value>
+    <comment>Medium response threshold indicator</comment>
+  </data>
+  <data name="Statistics_SlowThreshold" xml:space="preserve">
+    <value>(&gt; 4.0s)</value>
+    <comment>Slow response threshold indicator</comment>
+  </data>
   <data name="Statistics_Consistency" xml:space="preserve">
     <value>Consistency</value>
     <comment>Consistency score label</comment>
