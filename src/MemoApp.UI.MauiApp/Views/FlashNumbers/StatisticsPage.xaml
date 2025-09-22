@@ -220,31 +220,21 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <!-- Performance indicator -->
                                         <Label Grid.Column="0"
                                                Text="{Binding PerformanceIndicator}"
                                                TextColor="{Binding PerformanceColor}"
-                                               FontSize="{OnIdiom Phone=16, Tablet=20, Desktop=24}"
-                                               VerticalOptions="Center"
-                                               HorizontalOptions="Center"
-                                               Margin="0,0,8,0"
-                                               AutomationProperties.Name="{Binding PerformanceDescription}"
-                                               AutomationProperties.IsInAccessibleTree="True" />
+                                               Style="{StaticResource PerformanceIndicatorLabelStyle}"
+                                               AutomationProperties.Name="{Binding PerformanceDescription}" />
                                         <Label Grid.Column="1"
                                                Text="{Binding Number}"
-                                               FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
-                                               FontAttributes="Bold"
-                                               TextColor="{StaticResource Primary}"
-                                               HorizontalOptions="Center"
-                                               VerticalOptions="Center" />
+                                               Style="{StaticResource PerformanceNumberLabelStyle}" />
                                         <Label Grid.Column="2"
                                                Text="{Binding FormattedResponseTime}"
-                                               FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                               TextColor="{StaticResource WarningText}"
-                                               HorizontalOptions="Center"
-                                               VerticalOptions="Center" />
+                                               Style="{StaticResource PerformanceTimeLabelStyle}"
+                                               TextColor="{StaticResource WarningText}" />
                                     </Grid>
                                 </Frame>
                             </DataTemplate>
@@ -321,27 +311,17 @@
                                         <Label Grid.Column="0"
                                                Text="{Binding PerformanceIndicator}"
                                                TextColor="{Binding PerformanceColor}"
-                                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                                               VerticalOptions="Center"
-                                               HorizontalOptions="Center"
-                                               Margin="0,0,10,0"
-                                               AutomationProperties.Name="{Binding PerformanceDescription}"
-                                               AutomationProperties.IsInAccessibleTree="True" />
+                                               Style="{StaticResource PerformanceIndicatorLabelStyle}"
+                                               AutomationProperties.Name="{Binding PerformanceDescription}" />
                                         <!-- Number display -->
                                         <Label Grid.Column="1"
                                                Text="{Binding Number}"
-                                               FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
-                                               FontAttributes="Bold"
-                                               TextColor="{StaticResource Primary}"
-                                               HorizontalOptions="Center"
-                                               VerticalOptions="Center" />
+                                               Style="{StaticResource PerformanceNumberLabelStyle}" />
                                         <!-- Response time -->
                                         <Label Grid.Column="2"
                                                Text="{Binding FormattedResponseTime}"
-                                               FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
-                                               HorizontalOptions="Center"
-                                               VerticalOptions="Center" />
+                                               Style="{StaticResource PerformanceTimeLabelStyle}"
+                                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
                                     </Grid>
                                 </Frame>
                             </DataTemplate>

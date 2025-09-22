@@ -22,6 +22,30 @@
     <x:Double x:Key="SmallTouchTargetSizeTablet">48</x:Double>
     <x:Double x:Key="SmallTouchTargetSizeDesktop">32</x:Double>
 
+    <!-- Performance List Typography Styles for Consistent Sizing -->
+    <Style x:Key="PerformanceIndicatorLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="{OnIdiom Phone=16, Tablet=18, Desktop=20}" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="Margin" Value="0,0,10,0" />
+        <Setter Property="AutomationProperties.IsInAccessibleTree" Value="True" />
+    </Style>
+
+    <Style x:Key="PerformanceNumberLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="{OnIdiom Phone=18, Tablet=22, Desktop=26}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="PerformanceTimeLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="{OnIdiom Phone=14, Tablet=16, Desktop=18}" />
+        <Setter Property="HorizontalOptions" Value="End" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Margin" Value="10,0,0,0" />
+    </Style>
+
     <!-- Skeleton Loading Styles for Modern Loading UX -->
     <Style x:Key="SkeletonCardStyle" TargetType="Border">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#F0F0F0, Dark=#2A2A2A}" />
