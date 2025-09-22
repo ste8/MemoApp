@@ -136,7 +136,7 @@
                                                HorizontalOptions="Center"
                                                VerticalOptions="Center" />
                                         <Label Grid.Column="1"
-                                               Text="{Binding ResponseTime, Converter={StaticResource TimeSpanToDisplayConverter}}"
+                                               Text="{Binding FormattedResponseTime}"
                                                FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
                                                TextColor="{StaticResource WarningText}"
                                                HorizontalOptions="Center"
@@ -218,7 +218,7 @@
                                            HorizontalOptions="Center" />
                                     <!-- Response time -->
                                     <Label Grid.Column="1"
-                                           Text="{Binding ResponseTime, Converter={StaticResource TimeSpanToDisplayConverter}}"
+                                           Text="{Binding FormattedResponseTime}"
                                            FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                            VerticalOptions="Center"
                                            Margin="10,0" />

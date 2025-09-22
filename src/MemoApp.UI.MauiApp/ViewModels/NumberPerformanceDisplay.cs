@@ -30,6 +30,26 @@ public class NumberPerformanceDisplay
     public TimeSpan ResponseTime => _performance.ResponseTime;
 
     /// <summary>
+    /// Gets the formatted response time for display.
+    /// </summary>
+    public string FormattedResponseTime
+    {
+        get
+        {
+            var timeSpan = _performance.ResponseTime;
+
+            // Format: "2.45s" for times under 60 seconds
+            if (timeSpan.TotalSeconds < 60)
+            {
+                return $"{timeSpan.TotalSeconds:F2}s";
+            }
+
+            // Format: "1:23.45" for longer times
+            return $"{timeSpan:mm\\:ss\\.ff}";
+        }
+    }
+
+    /// <summary>
     /// Gets the presentation timestamp.
     /// </summary>
     public DateTime PresentedAt => _performance.PresentedAt;
