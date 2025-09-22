@@ -1,6 +1,8 @@
 using MemoApp.Core.MajorSystem;
 using MemoApp.Localization.Services;
+using MemoApp.UI.MauiApp.Services.FlashNumbers;
 using MemoApp.UI.MauiApp.Utilities;
+using Microsoft.Maui.Graphics;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
 
@@ -12,11 +14,13 @@ public class NumberPerformanceDisplay
 {
     private readonly NumberPerformance _performance;
     private readonly ILocalizationService _localizationService;
+    private readonly IFlashNumbersPerformanceService _performanceService;
 
-    public NumberPerformanceDisplay(NumberPerformance performance, ILocalizationService localizationService)
+    public NumberPerformanceDisplay(NumberPerformance performance, ILocalizationService localizationService, IFlashNumbersPerformanceService performanceService)
     {
         _performance = performance;
         _localizationService = localizationService;
+        _performanceService = performanceService;
     }
 
     /// <summary>
@@ -51,18 +55,19 @@ public class NumberPerformanceDisplay
 
     /// <summary>
     /// Gets the performance indicator shape based on response time.
-    /// Fast (< 1.5s): Circle ●, Medium (1.5-4s): Triangle ▲, Slow (> 4s): Square ■
+    /// Fast (< 1.0s): Circle ●, Medium (1.0-3.0s): Triangle ▲, Slow (> 3.0s): Square ■
     /// </summary>
     public string PerformanceIndicator
     {
         get
         {
-            var seconds = _performance.ResponseTime.TotalSeconds;
-            return seconds switch
+            var category = _performanceService.CategorizeResponseTime(_performance.ResponseTime);
+            return category switch
             {
-                < 1.5 => "●",    // Fast
-                <= 4.0 => "▲",   // Medium
-                _ => "■"         // Slow
+                PerformanceCategory.Fast => "●",    // Fast - Circle
+                PerformanceCategory.Medium => "▲",   // Medium - Triangle
+                PerformanceCategory.Slow => "■",     // Slow - Square
+                _ => "?"
             };
         }
     }
@@ -75,12 +80,13 @@ public class NumberPerformanceDisplay
     {
         get
         {
-            var seconds = _performance.ResponseTime.TotalSeconds;
-            return seconds switch
+            var category = _performanceService.CategorizeResponseTime(_performance.ResponseTime);
+            return category switch
             {
-                < 1.5 => GetThemeColor("PerformanceFast"),   // Fast - Green (Emerald-500)
-                <= 4.0 => GetMediumPerformanceColor(),       // Medium - Theme-aware orange
-                _ => GetThemeColor("PerformanceSlow")        // Slow - Red (Red-500)
+                PerformanceCategory.Fast => GetThemeColor("PerformanceFast"),   // Fast - Green
+                PerformanceCategory.Medium => GetMediumPerformanceColor(),       // Medium - Yellow
+                PerformanceCategory.Slow => GetThemeColor("PerformanceSlow"),    // Slow - Red
+                _ => GetThemeColor("Gray500")
             };
         }
     }
@@ -123,12 +129,13 @@ public class NumberPerformanceDisplay
     {
         get
         {
-            var seconds = _performance.ResponseTime.TotalSeconds;
-            return seconds switch
+            var category = _performanceService.CategorizeResponseTime(_performance.ResponseTime);
+            return category switch
             {
-                < 1.5 => _localizationService.GetString("Statistics_FastIndicator"),
-                <= 4.0 => _localizationService.GetString("Statistics_MediumIndicator"),
-                _ => _localizationService.GetString("Statistics_SlowIndicator")
+                PerformanceCategory.Fast => _localizationService.GetString("Statistics_FastIndicator"),
+                PerformanceCategory.Medium => _localizationService.GetString("Statistics_MediumIndicator"),
+                PerformanceCategory.Slow => _localizationService.GetString("Statistics_SlowIndicator"),
+                _ => _localizationService.GetString("Statistics_UnknownIndicator")
             };
         }
     }

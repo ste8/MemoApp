@@ -199,7 +199,10 @@ public static class ServiceRegistration
         services.AddSingleton<ITextMeasurementService, TextMeasurementService>();
         services.AddSingleton<IContainerSizeService, ContainerSizeService>();
         services.AddSingleton<IBigNumberSettingsService, BigNumberSettingsService>();
-        
+
+        // Flash Numbers performance service
+        services.AddSingleton<Services.FlashNumbers.IFlashNumbersPerformanceService, Services.FlashNumbers.FlashNumbersPerformanceService>();
+
         return services;
     }
 

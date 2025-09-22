@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.MajorSystem;
 using MemoApp.Localization.Services;
+using MemoApp.UI.MauiApp.Services.FlashNumbers;
 using MemoApp.UI.MauiApp.Utilities;
 
 namespace MemoApp.UI.MauiApp.ViewModels.FlashNumbers;
@@ -20,6 +21,7 @@ namespace MemoApp.UI.MauiApp.ViewModels.FlashNumbers;
 public partial class StatisticsViewModel : BaseViewModel
 {
     private readonly ILocalizationService _localizationService;
+    private readonly IFlashNumbersPerformanceService _performanceService;
 
     [ObservableProperty]
     private SessionStatistics? statistics;
@@ -57,6 +59,15 @@ public partial class StatisticsViewModel : BaseViewModel
     [ObservableProperty]
     private string allNumbersExpandButtonText = "︾";
 
+    [ObservableProperty]
+    private string fastThresholdText = "";
+
+    [ObservableProperty]
+    private string mediumThresholdText = "";
+
+    [ObservableProperty]
+    private string slowThresholdText = "";
+
     private string? _statisticsJson;
     public string? StatisticsJson
     {
@@ -90,9 +101,10 @@ public partial class StatisticsViewModel : BaseViewModel
         }
     }
 
-    public StatisticsViewModel(ILocalizationService localizationService)
+    public StatisticsViewModel(ILocalizationService localizationService, IFlashNumbersPerformanceService performanceService)
     {
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
+        _performanceService = performanceService ?? throw new ArgumentNullException(nameof(performanceService));
         Title = "Session Statistics";
     }
 
@@ -142,6 +154,11 @@ public partial class StatisticsViewModel : BaseViewModel
         TotalDurationText = $"{Statistics.Value.TotalDuration:mm\\:ss}";
         AverageTimeText = $"{Statistics.Value.AverageResponseTime:ss\\.ff}s";
 
+        // Set threshold display texts
+        FastThresholdText = _performanceService.GetThresholdDisplayText(PerformanceCategory.Fast);
+        MediumThresholdText = _performanceService.GetThresholdDisplayText(PerformanceCategory.Medium);
+        SlowThresholdText = _performanceService.GetThresholdDisplayText(PerformanceCategory.Slow);
+
         // Calculate response time distribution
         CalculateResponseTimeDistribution();
 
@@ -152,14 +169,14 @@ public partial class StatisticsViewModel : BaseViewModel
         AllPerformances.Clear();
         foreach (var performance in Statistics.Value.AllPerformances)
         {
-            AllPerformances.Add(new NumberPerformanceDisplay(performance, _localizationService));
+            AllPerformances.Add(new NumberPerformanceDisplay(performance, _localizationService, _performanceService));
         }
 
         // Load slowest performances for focus areas
         SlowestPerformances.Clear();
         foreach (var performance in Statistics.Value.SlowestResponses)
         {
-            SlowestPerformances.Add(new NumberPerformanceDisplay(performance, _localizationService));
+            SlowestPerformances.Add(new NumberPerformanceDisplay(performance, _localizationService, _performanceService));
         }
     }
 
@@ -170,10 +187,10 @@ public partial class StatisticsViewModel : BaseViewModel
         var allPerformances = Statistics.Value.AllPerformances;
         var totalCount = allPerformances.Count;
 
-        // Count performances by category (matching our indicator thresholds)
-        var fastCount = allPerformances.Count(p => p.ResponseTime.TotalSeconds < 1.5);
-        var mediumCount = allPerformances.Count(p => p.ResponseTime.TotalSeconds >= 1.5 && p.ResponseTime.TotalSeconds <= 4.0);
-        var slowCount = allPerformances.Count(p => p.ResponseTime.TotalSeconds > 4.0);
+        // Count performances by category using centralized thresholds
+        var fastCount = allPerformances.Count(p => _performanceService.CategorizeResponseTime(p.ResponseTime) == PerformanceCategory.Fast);
+        var mediumCount = allPerformances.Count(p => _performanceService.CategorizeResponseTime(p.ResponseTime) == PerformanceCategory.Medium);
+        var slowCount = allPerformances.Count(p => _performanceService.CategorizeResponseTime(p.ResponseTime) == PerformanceCategory.Slow);
 
         // Calculate percentages
         var fastPercentage = Math.Round((fastCount * 100.0) / totalCount);
