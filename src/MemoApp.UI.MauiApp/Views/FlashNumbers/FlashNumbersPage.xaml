@@ -392,9 +392,11 @@
                                 <Label Text="{localization:Localize FlashNumbers_CompletedText}"
                                        TextColor="White"
                                        FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                       FontFamily="OpenSansSemibold"
+                                       FontAttributes="Bold"
                                        HorizontalOptions="Center"
                                        HorizontalTextAlignment="Center"
-                                       Opacity="0.9" />
+                                       Opacity="1.0" />
 
                                 <!-- Achievement time: large and bold -->
                                 <Label Text="{Binding FormattedTime}"
