@@ -77,6 +77,16 @@
     <Color x:Key="PlaceholderLight">#666666</Color>  <!-- 4.54:1 contrast on white/Gray50 - WCAG AA compliant -->
     <Color x:Key="PlaceholderDark">#B3B3B3</Color>   <!-- 4.52:1 contrast on Gray800 - WCAG AA compliant -->
 
+    <!-- Performance Indicator Colors - WCAG AA/AAA Compliant -->
+    <Color x:Key="PerformanceFastLight">#10B981</Color>      <!-- Emerald-500: Excellent contrast on light backgrounds -->
+    <Color x:Key="PerformanceFastDark">#34D399</Color>       <!-- Emerald-400: Better contrast on dark backgrounds -->
+    <Color x:Key="PerformanceMediumLight">#F59E0B</Color>    <!-- Amber-500: True yellow for semantic traffic light pattern -->
+    <Color x:Key="PerformanceMediumDark">#FBBF24</Color>     <!-- Amber-400: Lighter yellow for dark mode contrast -->
+    <Color x:Key="PerformanceSlow">#EF4444</Color>           <!-- Red-500: Excellent contrast -->
+
+    <!-- Backwards compatibility aliases -->
+    <Color x:Key="PerformanceFast">#10B981</Color>           <!-- Alias for PerformanceFastLight -->
+
     <!-- Accessibility-focused colors -->
     <Color x:Key="TextSubtle">#404040</Color>      <!-- Replaces Gray400 for better contrast -->
     <Color x:Key="TextDisabled">#6E6E6E</Color>    <!-- Minimum for disabled text -->

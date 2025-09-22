@@ -78,7 +78,7 @@
             </Frame>
             <!-- Enhanced Analytics -->
             <Frame Grid.Row="1"
-                   BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDark}}"
+                   BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
                    Padding="20"
                    CornerRadius="15"
                    HasShadow="True"
@@ -98,7 +98,7 @@
                     <!-- Response Distribution Title -->
                     <Label Grid.Row="0" Grid.ColumnSpan="2"
                            Text="{localization:Localize Statistics_ResponseDistribution}"
-                           TextColor="{AppThemeBinding Light=White, Dark=White}"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray100}}"
                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
@@ -109,15 +109,15 @@
                         <!-- Fast Performance -->
                         <StackLayout Orientation="Horizontal" Spacing="8">
                             <Label Text="●"
-                                   TextColor="#10B981"
+                                   TextColor="{AppThemeBinding Light={StaticResource PerformanceFastLight}, Dark={StaticResource PerformanceFastDark}}"
                                    FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                                    VerticalOptions="Center" />
                             <Label Text="{localization:Localize Statistics_FastLabel}"
-                                   TextColor="White"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray200}}"
                                    FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                    VerticalOptions="Center" />
                             <Label Text="{Binding FastPercentageText}"
-                                   TextColor="White"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray100}}"
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    FontAttributes="Bold"
                                    VerticalOptions="Center" />
@@ -125,15 +125,15 @@
                         <!-- Medium Performance -->
                         <StackLayout Orientation="Horizontal" Spacing="8">
                             <Label Text="▲"
-                                   TextColor="#F59E0B"
+                                   TextColor="{AppThemeBinding Light={StaticResource PerformanceMediumLight}, Dark={StaticResource PerformanceMediumDark}}"
                                    FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                                    VerticalOptions="Center" />
                             <Label Text="{localization:Localize Statistics_MediumLabel}"
-                                   TextColor="White"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray200}}"
                                    FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                    VerticalOptions="Center" />
                             <Label Text="{Binding MediumPercentageText}"
-                                   TextColor="White"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray100}}"
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    FontAttributes="Bold"
                                    VerticalOptions="Center" />
@@ -145,15 +145,15 @@
                         <!-- Slow Performance -->
                         <StackLayout Orientation="Horizontal" Spacing="8">
                             <Label Text="■"
-                                   TextColor="#EF4444"
+                                   TextColor="{StaticResource PerformanceSlow}"
                                    FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                                    VerticalOptions="Center" />
                             <Label Text="{localization:Localize Statistics_SlowLabel}"
-                                   TextColor="White"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray200}}"
                                    FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                    VerticalOptions="Center" />
                             <Label Text="{Binding SlowPercentageText}"
-                                   TextColor="White"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray100}}"
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    FontAttributes="Bold"
                                    VerticalOptions="Center" />

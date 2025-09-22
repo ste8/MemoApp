@@ -69,6 +69,7 @@ public class NumberPerformanceDisplay
 
     /// <summary>
     /// Gets the performance indicator color based on response time.
+    /// Uses theme-aware colors for optimal contrast and accessibility.
     /// </summary>
     public Color PerformanceColor
     {
@@ -77,11 +78,42 @@ public class NumberPerformanceDisplay
             var seconds = _performance.ResponseTime.TotalSeconds;
             return seconds switch
             {
-                < 1.5 => Color.FromArgb("#10B981"),  // Fast - Green
-                <= 4.0 => Color.FromArgb("#F59E0B"), // Medium - Yellow/Orange
-                _ => Color.FromArgb("#EF4444")       // Slow - Red
+                < 1.5 => GetThemeColor("PerformanceFast"),   // Fast - Green (Emerald-500)
+                <= 4.0 => GetMediumPerformanceColor(),       // Medium - Theme-aware orange
+                _ => GetThemeColor("PerformanceSlow")        // Slow - Red (Red-500)
             };
         }
+    }
+
+    /// <summary>
+    /// Gets the theme-aware medium performance color with optimal contrast.
+    /// </summary>
+    private Color GetMediumPerformanceColor()
+    {
+        // Use theme-aware colors for optimal contrast against panel backgrounds
+        var isDarkTheme = Application.Current?.RequestedTheme == AppTheme.Dark;
+        return GetThemeColor(isDarkTheme ? "PerformanceMediumDark" : "PerformanceMediumLight");
+    }
+
+    /// <summary>
+    /// Gets a color from the application's resource dictionary.
+    /// </summary>
+    private static Color GetThemeColor(string colorKey)
+    {
+        if (Application.Current?.Resources.TryGetValue(colorKey, out var color) == true && color is Color themeColor)
+        {
+            return themeColor;
+        }
+
+        // Fallback colors if resource lookup fails
+        return colorKey switch
+        {
+            "PerformanceFast" => Color.FromArgb("#10B981"),      // Emerald-500
+            "PerformanceMediumLight" => Color.FromArgb("#CC5500"), // Deep Orange
+            "PerformanceMediumDark" => Color.FromArgb("#FF7F00"),  // Bright Orange
+            "PerformanceSlow" => Color.FromArgb("#EF4444"),        // Red-500
+            _ => Color.FromArgb("#6B7280")                         // Gray fallback
+        };
     }
 
     /// <summary>
