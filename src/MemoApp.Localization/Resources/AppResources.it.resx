@@ -500,6 +500,10 @@
     <value>Annulla</value>
     <comment>Cancel button text</comment>
   </data>
+  <data name="Common_NewGame" xml:space="preserve">
+    <value>Nuova Partita</value>
+    <comment>New game button text for starting a fresh game</comment>
+  </data>
   <data name="FlashNumbers_KeyboardShortcutHint" xml:space="preserve">
     <value>Premi Spazio o N per andare al numero successivo</value>
     <comment>Flash Numbers keyboard shortcut hint for Next button</comment>

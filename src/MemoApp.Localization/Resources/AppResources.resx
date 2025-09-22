@@ -501,6 +501,10 @@
     <value>Cancel</value>
     <comment>Cancel button text</comment>
   </data>
+  <data name="Common_NewGame" xml:space="preserve">
+    <value>New Game</value>
+    <comment>New game button text for starting a fresh game</comment>
+  </data>
   <data name="FlashNumbers_KeyboardShortcutHint" xml:space="preserve">
     <value>Press Space or N to go to next number</value>
     <comment>Flash Numbers keyboard shortcut hint for Next button</comment>

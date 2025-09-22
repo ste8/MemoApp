@@ -402,13 +402,49 @@
                         </StackLayout>
                     </Frame>
 
-                    <!-- Quick stats preview -->
+                    <!-- Primary Actions: New Game + Share (immediate access after completion) -->
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="{OnIdiom Phone=12, Tablet=16, Desktop=16}">
+
+                        <!-- Primary Action: New Game (takes most space) -->
+                        <Button Grid.Column="0"
+                                Command="{Binding StartNewSessionCommand}"
+                                Text="{localization:Localize Common_NewGame}"
+                                BackgroundColor="{StaticResource Primary}"
+                                TextColor="White"
+                                FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                FontAttributes="Bold"
+                                CornerRadius="15"
+                                HeightRequest="{OnIdiom Phone=64, Tablet=72, Desktop=80}"
+                                Padding="20,10">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="{StaticResource IconFont_Solid}"
+                                                 Glyph="{StaticResource Icon_Refresh}"
+                                                 Size="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
+                                                 Color="White" />
+                            </Button.ImageSource>
+                            <Button.Shadow>
+                                <Shadow Brush="{StaticResource Primary}"
+                                        Opacity="0.3"
+                                        Offset="0,4"
+                                        Radius="12" />
+                            </Button.Shadow>
+                        </Button>
+
+                        <!-- Secondary Action: Share (compact, icon-focused) -->
+                        <components:ShareButtonComponent Grid.Column="1"
+                                                       x:Name="FlashNumbersShareButton"
+                                                       ShareData="{Binding SessionShareData}"
+                                                       DisplayStyle="IconOnly"
+                                                       Context="celebration" />
+                    </Grid>
+
+                    <!-- Quick stats preview (moved below actions) -->
                     <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
                            Padding="20"
                            CornerRadius="15"
                            HasShadow="True"
                            IsVisible="{Binding SessionStatistics, Converter={StaticResource IsNotNullConverter}}">
-                        
+
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -437,64 +473,23 @@
                         </Grid>
                     </Frame>
 
-                    <!-- Enhanced Action buttons with improved visual hierarchy and mobile-first design -->
-                    <StackLayout Spacing="{OnIdiom Phone=16, Tablet=20, Desktop=20}">
-
-                        <!-- Primary Action: View Detail (prominent, full width) -->
-                        <Button Command="{Binding ShowStatisticsCommand}"
-                                Text="{localization:Localize Statistics_ViewDetails}"
-                                BackgroundColor="{StaticResource Primary}"
-                                TextColor="White"
-                                FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
-                                FontAttributes="Bold"
-                                CornerRadius="15"
-                                HeightRequest="{OnIdiom Phone=64, Tablet=72, Desktop=80}"
-                                Padding="20,10"
-                                Margin="0,0,0,8">
-                            <Button.Shadow>
-                                <Shadow Brush="{StaticResource Primary}"
-                                        Opacity="0.3"
-                                        Offset="0,4"
-                                        Radius="12" />
-                            </Button.Shadow>
-                        </Button>
-
-                        <!-- Secondary Actions Row: New Game + Share (Duolingo-style layout) -->
-                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="{OnIdiom Phone=12, Tablet=16, Desktop=16}">
-
-                            <!-- New Game Button (takes most space) -->
-                            <Button Grid.Column="0"
-                                    Command="{Binding StartNewSessionCommand}"
-                                    Text="{localization:Localize FlashNumbers_NewSession}"
-                                    BackgroundColor="{StaticResource Secondary}"
-                                    TextColor="White"
-                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                    FontAttributes="Bold"
-                                    CornerRadius="12"
-                                    HeightRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
-                                    Padding="16,8">
-                                <Button.ImageSource>
-                                    <FontImageSource FontFamily="{StaticResource IconFont_Solid}"
-                                                     Glyph="{StaticResource Icon_Refresh}"
-                                                     Size="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                                     Color="White" />
-                                </Button.ImageSource>
-                                <Button.Shadow>
-                                    <Shadow Brush="{StaticResource Secondary}"
-                                            Opacity="0.25"
-                                            Offset="0,3"
-                                            Radius="8" />
-                                </Button.Shadow>
-                            </Button>
-
-                            <!-- Share Button Component (compact, icon-focused) -->
-                            <components:ShareButtonComponent Grid.Column="1"
-                                                           x:Name="FlashNumbersShareButton"
-                                                           ShareData="{Binding SessionShareData}"
-                                                           DisplayStyle="IconOnly"
-                                                           Context="celebration" />
-                        </Grid>
-                    </StackLayout>
+                    <!-- Secondary Action: View Details (now optional, at bottom) -->
+                    <Button Command="{Binding ShowStatisticsCommand}"
+                            Text="{localization:Localize Statistics_ViewDetails}"
+                            BackgroundColor="{StaticResource Secondary}"
+                            TextColor="White"
+                            FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                            FontAttributes="Bold"
+                            CornerRadius="12"
+                            HeightRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
+                            Padding="16,8">
+                        <Button.Shadow>
+                            <Shadow Brush="{StaticResource Secondary}"
+                                    Opacity="0.25"
+                                    Offset="0,3"
+                                    Radius="8" />
+                        </Button.Shadow>
+                    </Button>
                 </StackLayout>
             </StackLayout>
         </ScrollView>
