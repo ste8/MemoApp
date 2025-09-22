@@ -4,6 +4,7 @@
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels.FlashNumbers"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              xmlns:utilities="clr-namespace:MemoApp.UI.MauiApp.Utilities"
+             xmlns:components="clr-namespace:MemoApp.UI.MauiApp.Views.Components"
              x:Class="MemoApp.UI.MauiApp.Views.FlashNumbers.FlashNumbersPage"
              x:DataType="viewmodels:FlashNumbersViewModel"
              Title="{Binding Title}"
@@ -436,41 +437,64 @@
                         </Grid>
                     </Frame>
 
-                    <!-- Action buttons with responsive layout -->
-                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="{OnIdiom Phone=10, Tablet=15, Desktop=15}">
-                        <Button Grid.Column="0"
-                                Command="{Binding ShowStatisticsCommand}"
+                    <!-- Enhanced Action buttons with improved visual hierarchy and mobile-first design -->
+                    <StackLayout Spacing="{OnIdiom Phone=16, Tablet=20, Desktop=20}">
+
+                        <!-- Primary Action: View Detail (prominent, full width) -->
+                        <Button Command="{Binding ShowStatisticsCommand}"
                                 Text="{localization:Localize Statistics_ViewDetails}"
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="White"
-                                CornerRadius="10"
-                                HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
-                                FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                >
+                                FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                FontAttributes="Bold"
+                                CornerRadius="15"
+                                HeightRequest="{OnIdiom Phone=64, Tablet=72, Desktop=80}"
+                                Padding="20,10"
+                                Margin="0,0,0,8">
+                            <Button.Shadow>
+                                <Shadow Brush="{StaticResource Primary}"
+                                        Opacity="0.3"
+                                        Offset="0,4"
+                                        Radius="12" />
+                            </Button.Shadow>
                         </Button>
 
-                        <Button Grid.Column="1"
-                                Command="{Binding ShareResultsCommand}"
-                                Text="{localization:Localize Share_Results}"
-                                BackgroundColor="#1DA1F2"
-                                TextColor="White"
-                                CornerRadius="10"
-                                HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
-                                FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                SemanticProperties.Description="{localization:Localize Share_ResultsDescription}">
-                        </Button>
+                        <!-- Secondary Actions Row: New Game + Share (Duolingo-style layout) -->
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="{OnIdiom Phone=12, Tablet=16, Desktop=16}">
 
-                        <Button Grid.Column="2"
-                                Command="{Binding StartNewSessionCommand}"
-                                Text="{localization:Localize FlashNumbers_NewSession}"
-                                BackgroundColor="{StaticResource Secondary}"
-                                TextColor="White"
-                                CornerRadius="10"
-                                HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"
-                                FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                >
-                        </Button>
-                    </Grid>
+                            <!-- New Game Button (takes most space) -->
+                            <Button Grid.Column="0"
+                                    Command="{Binding StartNewSessionCommand}"
+                                    Text="{localization:Localize FlashNumbers_NewSession}"
+                                    BackgroundColor="{StaticResource Secondary}"
+                                    TextColor="White"
+                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                    FontAttributes="Bold"
+                                    CornerRadius="12"
+                                    HeightRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
+                                    Padding="16,8">
+                                <Button.ImageSource>
+                                    <FontImageSource FontFamily="{StaticResource IconFont_Solid}"
+                                                     Glyph="{StaticResource Icon_Refresh}"
+                                                     Size="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                                     Color="White" />
+                                </Button.ImageSource>
+                                <Button.Shadow>
+                                    <Shadow Brush="{StaticResource Secondary}"
+                                            Opacity="0.25"
+                                            Offset="0,3"
+                                            Radius="8" />
+                                </Button.Shadow>
+                            </Button>
+
+                            <!-- Share Button Component (compact, icon-focused) -->
+                            <components:ShareButtonComponent Grid.Column="1"
+                                                           x:Name="FlashNumbersShareButton"
+                                                           ShareData="{Binding SessionShareData}"
+                                                           DisplayStyle="IconOnly"
+                                                           Context="celebration" />
+                        </Grid>
+                    </StackLayout>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

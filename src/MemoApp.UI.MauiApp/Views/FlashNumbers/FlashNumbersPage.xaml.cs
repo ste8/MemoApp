@@ -1,5 +1,7 @@
 using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.ViewModels.FlashNumbers;
+using MemoApp.UI.MauiApp.ViewModels;
+using MemoApp.UI.MauiApp.ViewModels.Components;
 
 namespace MemoApp.UI.MauiApp.Views.FlashNumbers;
 
@@ -7,13 +9,17 @@ public partial class FlashNumbersPage : ContentPage
 {
     private readonly FlashNumbersViewModel _viewModel;
     private readonly IPackUpdateBackgroundService? _updateService;
+    private ShareButtonViewModel? _shareButtonVM;
 
-    public FlashNumbersPage(FlashNumbersViewModel viewModel)
+    public FlashNumbersPage(FlashNumbersViewModel viewModel, IServiceProvider serviceProvider)
     {
         InitializeComponent();
         _viewModel = viewModel;
         BindingContext = _viewModel;
-        
+
+        // Initialize ShareButton component with its ViewModel
+        InitializeShareButtonComponent(serviceProvider, viewModel);
+
         // Get update service if available
         _updateService = Application.Current?.Handler?.MauiContext?.Services
             .GetService<IPackUpdateBackgroundService>();
@@ -42,9 +48,53 @@ public partial class FlashNumbersPage : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        
+
         // Notify update service that user is no longer in an activity
         _updateService?.SetUserActivityState(false);
+    }
+
+    /// <summary>
+    /// Initializes the ShareButton component with its ViewModel
+    /// </summary>
+    /// <param name="serviceProvider">The service provider for dependency injection</param>
+    /// <param name="flashNumbersViewModel">The main FlashNumbers ViewModel for data binding</param>
+    private void InitializeShareButtonComponent(IServiceProvider serviceProvider, FlashNumbersViewModel flashNumbersViewModel)
+    {
+        try
+        {
+            // Get ShareButtonViewModel instance from the service provider
+            _shareButtonVM = serviceProvider.GetService<ShareButtonViewModel>();
+
+            if (_shareButtonVM != null && FlashNumbersShareButton != null)
+            {
+                // Set the ViewModel for the ShareButton component
+                FlashNumbersShareButton.BindingContext = _shareButtonVM;
+
+                // Subscribe to FlashNumbersViewModel changes to update ShareButtonViewModel
+                flashNumbersViewModel.PropertyChanged += OnFlashNumbersViewModelPropertyChanged;
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Failed to initialize ShareButton component: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Handles property changes from FlashNumbersViewModel to update share data
+    /// </summary>
+    private void OnFlashNumbersViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (_shareButtonVM == null || sender is not FlashNumbersViewModel viewModel)
+            return;
+
+        // Update share data when session completes
+        if (e.PropertyName == nameof(FlashNumbersViewModel.SessionShareData) && viewModel.SessionShareData != null)
+        {
+            _shareButtonVM.UpdateShareData(viewModel.SessionShareData);
+            _shareButtonVM.UpdateDisplayStyle("IconOnly");
+            _shareButtonVM.UpdateContext("celebration");
+        }
     }
 
 

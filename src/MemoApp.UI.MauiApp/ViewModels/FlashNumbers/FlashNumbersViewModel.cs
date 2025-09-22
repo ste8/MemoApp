@@ -73,6 +73,9 @@ public partial class FlashNumbersViewModel : BaseViewModel
     private SessionStatistics? sessionStatistics;
 
     [ObservableProperty]
+    private ShareableResult? sessionShareData;
+
+    [ObservableProperty]
     private ObservableCollection<NumberPerformance> performances = new();
 
     [ObservableProperty]
@@ -416,6 +419,19 @@ public partial class FlashNumbersViewModel : BaseViewModel
         IsSessionCompleted = true;
         SessionStatistics = statistics;
         Title = "Flash Numbers Complete!";
+
+        // Create shareable result for the ShareButtonComponent
+        var averageTime = TotalNumbers > 0 ? totalDuration / TotalNumbers : 0;
+        var fastestTime = averageTime; // For now, use average as fastest time
+        SessionShareData = new FlashNumbersShareResult
+        {
+            ExerciseType = "FlashNumbers",
+            Duration = TimeSpan.FromSeconds(totalDuration),
+            TotalNumbers = TotalNumbers,
+            NumberRange = $"{RangeStart}-{RangeEnd}",
+            AverageTimePerNumber = TimeSpan.FromSeconds(averageTime),
+            FastestTime = TimeSpan.FromSeconds(fastestTime)
+        };
     }
 
     [RelayCommand]
