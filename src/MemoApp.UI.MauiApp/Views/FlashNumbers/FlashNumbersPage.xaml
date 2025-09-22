@@ -386,122 +386,89 @@
                                    FontSize="{OnIdiom Phone=60, Tablet=80, Desktop=100}"
                                    HorizontalOptions="Center" />
 
-                            <Label Text="{localization:Localize FlashNumbers_Complete}"
+                            <Label Text="{Binding SessionStatistics.TotalDuration, StringFormat='{localization:Localize FlashNumbers_Complete}'}"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
                                    FontAttributes="Bold"
                                    HorizontalOptions="Center" />
 
-                            <Label Text="{localization:Localize TrainingSession_CompletionMessage}"
-                                   TextColor="White"
-                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                   HorizontalOptions="Center"
-                                   HorizontalTextAlignment="Center"
-                                   LineBreakMode="WordWrap"
-                                   Margin="10,0" />
-                        </StackLayout>
-                    </Frame>
-
-                    <!-- Primary Actions: New Game + Share (immediate access after completion) -->
-                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="{OnIdiom Phone=12, Tablet=16, Desktop=16}">
-
-                        <!-- Primary Action: New Game (takes most space) -->
-                        <Button Grid.Column="0"
-                                Command="{Binding StartNewSessionCommand}"
-                                Text="{localization:Localize Common_NewGame}"
-                                BackgroundColor="{StaticResource Primary}"
-                                TextColor="White"
-                                FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
-                                FontAttributes="Bold"
-                                CornerRadius="15"
-                                HeightRequest="{OnIdiom Phone=64, Tablet=72, Desktop=80}"
-                                Padding="20,10">
-                            <Button.ImageSource>
-                                <FontImageSource FontFamily="{StaticResource IconFont_Solid}"
-                                                 Glyph="{StaticResource Icon_Refresh}"
-                                                 Size="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
-                                                 Color="White" />
-                            </Button.ImageSource>
-                            <Button.Shadow>
-                                <Shadow Brush="{StaticResource Primary}"
-                                        Opacity="0.3"
-                                        Offset="0,4"
-                                        Radius="12" />
-                            </Button.Shadow>
-                        </Button>
-
-                        <!-- Secondary Action: Share (compact, icon-focused) -->
-                        <components:ShareButtonComponent Grid.Column="1"
-                                                       x:Name="FlashNumbersShareButton"
-                                                       ShareData="{Binding SessionShareData}"
-                                                       DisplayStyle="IconOnly"
-                                                       Context="celebration" />
-                    </Grid>
-
-                    <!-- Session Summary with integrated View Details action -->
-                    <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
-                           Padding="20"
-                           CornerRadius="15"
-                           HasShadow="True"
-                           IsVisible="{Binding SessionStatistics, Converter={StaticResource IsNotNullConverter}}">
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-
-                            <!-- Panel Title -->
-                            <Label Grid.Row="0" Grid.ColumnSpan="2"
-                                   Text="{localization:Localize TrainingSession_SessionSummary}"
-                                   Style="{StaticResource SubHeadline}"
-                                   HorizontalOptions="Center"
-                                   Margin="0,0,0,15" />
-
-                            <!-- Summary Statistics -->
-                            <Label Grid.Row="1" Grid.Column="0"
-                                   Text="{Binding SessionStatistics.TotalDuration, StringFormat='Duration: {0:mm\\:ss}'}"
-                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}" />
-
-                            <Label Grid.Row="1" Grid.Column="1"
-                                   Text="{Binding SessionStatistics.AverageResponseTime, StringFormat='Avg: {0:ss\\.ff}s'}"
-                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                   HorizontalOptions="End" />
-
-                            <!-- Integrated Action: View Details -->
-                            <Button Grid.Row="2" Grid.ColumnSpan="2"
-                                    Command="{Binding ShowStatisticsCommand}"
+                            <!-- View Details Action -->
+                            <Button Command="{Binding ShowStatisticsCommand}"
                                     Text="{localization:Localize Statistics_ViewDetails}"
                                     BackgroundColor="{StaticResource Secondary}"
                                     TextColor="White"
                                     FontSize="{OnIdiom Phone=15, Tablet=17, Desktop=19}"
                                     FontAttributes="Bold"
                                     CornerRadius="12"
-                                    HeightRequest="{OnIdiom Phone=52, Tablet=58, Desktop=64}"
-                                    Padding="{OnIdiom Phone='20,12', Tablet='24,14', Desktop='28,16'}"
-                                    Margin="0,24,0,8"
+                                    HeightRequest="{OnIdiom Phone=48, Tablet=54, Desktop=60}"
+                                    Padding="{OnIdiom Phone='16,10', Tablet='20,12', Desktop='24,14'}"
+                                    Margin="10,10,10,0"
                                     HorizontalOptions="Center">
                                 <Button.ImageSource>
                                     <FontImageSource FontFamily="{StaticResource IconFont_Solid}"
                                                      Glyph="{StaticResource Icon_Statistics}"
-                                                     Size="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                                     Size="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                                      Color="White" />
                                 </Button.ImageSource>
-                                <Button.Shadow>
-                                    <Shadow Brush="{StaticResource Secondary}"
-                                            Opacity="0.25"
-                                            Offset="0,2"
-                                            Radius="6" />
-                                </Button.Shadow>
                             </Button>
-
-                        </Grid>
+                        </StackLayout>
                     </Frame>
+
+                    <!-- Primary Actions Container with Motivation -->
+                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
+                            Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}"
+                            StrokeThickness="1"
+                            Padding="{OnIdiom Phone='16,20', Tablet='20,24', Desktop='24,28'}"
+                            StrokeShape="RoundRectangle 20">
+
+                        <StackLayout Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=16}">
+
+                            <!-- Primary Actions: New Game + Share -->
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="{OnIdiom Phone=12, Tablet=16, Desktop=16}">
+
+                                <!-- Primary Action: New Game (takes most space) -->
+                                <Button Grid.Column="0"
+                                        Command="{Binding StartNewSessionCommand}"
+                                        Text="{localization:Localize Common_NewGame}"
+                                        BackgroundColor="{StaticResource Primary}"
+                                        TextColor="White"
+                                        FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                        FontAttributes="Bold"
+                                        CornerRadius="15"
+                                        HeightRequest="{OnIdiom Phone=64, Tablet=72, Desktop=80}"
+                                        Padding="20,10">
+                                    <Button.ImageSource>
+                                        <FontImageSource FontFamily="{StaticResource IconFont_Solid}"
+                                                         Glyph="{StaticResource Icon_Refresh}"
+                                                         Size="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
+                                                         Color="White" />
+                                    </Button.ImageSource>
+                                    <Button.Shadow>
+                                        <Shadow Brush="{StaticResource Primary}"
+                                                Opacity="0.3"
+                                                Offset="0,4"
+                                                Radius="12" />
+                                    </Button.Shadow>
+                                </Button>
+
+                                <!-- Secondary Action: Share (compact, icon-focused) -->
+                                <components:ShareButtonComponent Grid.Column="1"
+                                                               x:Name="FlashNumbersShareButton"
+                                                               ShareData="{Binding SessionShareData}"
+                                                               DisplayStyle="IconOnly"
+                                                               Context="celebration" />
+                            </Grid>
+
+                            <!-- Achievement Celebration Text -->
+                            <Label Text="{localization:Localize FlashNumbers_AchievementCelebration}"
+                                   FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=15}"
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                                   Margin="0,8,0,0" />
+                        </StackLayout>
+                    </Border>
+
                 </StackLayout>
             </StackLayout>
         </ScrollView>

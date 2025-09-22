@@ -252,8 +252,12 @@
     <comment>Next number button</comment>
   </data>
   <data name="FlashNumbers_Complete" xml:space="preserve">
-    <value>Flash Numbers Complete!</value>
-    <comment>Flash Numbers completion title</comment>
+    <value>Flash Numbers completed in {0:mm\\:ss}</value>
+    <comment>Flash Numbers completion title with duration</comment>
+  </data>
+  <data name="FlashNumbers_AchievementCelebration" xml:space="preserve">
+    <value>Great job! Ready for the next challenge?</value>
+    <comment>Motivational text shown after completing Flash Numbers session</comment>
   </data>
   <data name="TrainingSession_Complete" xml:space="preserve">
     <value>Flash Numbers Complete!</value>
