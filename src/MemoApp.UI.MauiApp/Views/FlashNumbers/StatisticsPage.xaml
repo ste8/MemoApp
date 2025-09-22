@@ -48,6 +48,7 @@
                     <Label Grid.Row="0" Grid.ColumnSpan="2"
                            Text="{localization:Localize Statistics_SessionSummary}"
                            TextColor="White"
+                           FontFamily="OpenSansSemibold"
                            FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
@@ -103,6 +104,7 @@
                     <Label Grid.Row="0" Grid.ColumnSpan="2"
                            Text="{localization:Localize Statistics_ResponseDistribution}"
                            TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray100}}"
+                           FontFamily="OpenSansSemibold"
                            FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
@@ -195,6 +197,7 @@
                 <StackLayout Spacing="15">
                     <Label Text="{localization:Localize Statistics_NumbersToPracticeMoreIcon}"
                            TextColor="White"
+                           FontFamily="OpenSansSemibold"
                            FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
                            FontAttributes="Bold"
                            HorizontalOptions="Center" />
@@ -260,6 +263,7 @@
 
                         <Label Grid.Column="0"
                                Text="{localization:Localize Statistics_AllNumbersTitle}"
+                               FontFamily="OpenSansSemibold"
                                FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
                                FontAttributes="Bold"
                                VerticalOptions="Center"
