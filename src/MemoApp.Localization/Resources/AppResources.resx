@@ -252,7 +252,7 @@
     <comment>Next number button</comment>
   </data>
   <data name="FlashNumbers_Complete" xml:space="preserve">
-    <value>Flash Numbers completed in {0:mm\\:ss}</value>
+    <value>Flash Numbers completed in {0}</value>
     <comment>Flash Numbers completion title with duration</comment>
   </data>
   <data name="FlashNumbers_AchievementCelebration" xml:space="preserve">

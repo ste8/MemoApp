@@ -78,6 +78,42 @@ public partial class FlashNumbersViewModel : BaseViewModel
     [ObservableProperty]
     private ObservableCollection<NumberPerformance> performances = new();
 
+    /// <summary>
+    /// Gets the formatted completion time text with localized string
+    /// </summary>
+    public string CompletionTimeText
+    {
+        get
+        {
+            if (SessionStatistics?.TotalDuration == null)
+                return string.Empty;
+
+            var duration = SessionStatistics.Value.TotalDuration;
+            string timeFormat;
+
+            // Format time based on duration magnitude
+            if (duration.TotalHours >= 1)
+            {
+                // Show hours:minutes:seconds if >= 1 hour
+                timeFormat = duration.ToString(@"h\:mm\:ss");
+            }
+            else if (duration.TotalMinutes >= 1)
+            {
+                // Show minutes:seconds if >= 1 minute
+                timeFormat = duration.ToString(@"m\:ss");
+            }
+            else
+            {
+                // Show only seconds with 1 decimal if < 1 minute
+                timeFormat = $"{duration.TotalSeconds:F1}s";
+            }
+
+            // Get localized format string and apply the time
+            var format = _localizationService.GetString("FlashNumbers_Complete");
+            return string.Format(format, timeFormat);
+        }
+    }
+
     [ObservableProperty]
     private bool isAssociationRevealed;
 
@@ -92,6 +128,12 @@ public partial class FlashNumbersViewModel : BaseViewModel
 
     // Track reveal usage for analytics
     private int _revealUsageCount;
+
+    partial void OnSessionStatisticsChanged(SessionStatistics? value)
+    {
+        // Notify that CompletionTimeText has changed when statistics update
+        OnPropertyChanged(nameof(CompletionTimeText));
+    }
 
     [ObservableProperty]
     private string? currentAssociationWord;

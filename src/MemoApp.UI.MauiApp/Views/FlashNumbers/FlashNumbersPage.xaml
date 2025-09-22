@@ -386,11 +386,12 @@
                                    FontSize="{OnIdiom Phone=60, Tablet=80, Desktop=100}"
                                    HorizontalOptions="Center" />
 
-                            <Label Text="{Binding SessionStatistics.TotalDuration, StringFormat='{localization:Localize FlashNumbers_Complete}'}"
+                            <Label Text="{Binding CompletionTimeText}"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
                                    FontAttributes="Bold"
-                                   HorizontalOptions="Center" />
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center" />
 
                             <!-- View Details Action -->
                             <Button Command="{Binding ShowStatisticsCommand}"
