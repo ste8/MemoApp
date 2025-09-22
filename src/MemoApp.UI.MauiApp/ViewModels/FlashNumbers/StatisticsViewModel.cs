@@ -5,6 +5,7 @@ using System.Web;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.MajorSystem;
+using MemoApp.Core.Models;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Services.FlashNumbers;
 using MemoApp.UI.MauiApp.Utilities;
@@ -67,6 +68,9 @@ public partial class StatisticsViewModel : BaseViewModel
 
     [ObservableProperty]
     private string slowThresholdText = "";
+
+    [ObservableProperty]
+    private ShareableResult? sessionShareData;
 
     private string? _statisticsJson;
     public string? StatisticsJson
@@ -178,6 +182,17 @@ public partial class StatisticsViewModel : BaseViewModel
         {
             SlowestPerformances.Add(new NumberPerformanceDisplay(performance, _localizationService, _performanceService));
         }
+
+        // Create shareable result for the ShareButtonComponent
+        SessionShareData = new FlashNumbersShareResult
+        {
+            ExerciseType = "FlashNumbers",
+            Duration = Statistics.Value.TotalDuration,
+            TotalNumbers = Statistics.Value.TotalNumbers,
+            NumberRange = $"Detailed Statistics", // Could extract range from session data if available
+            AverageTimePerNumber = Statistics.Value.AverageResponseTime,
+            FastestTime = Statistics.Value.AllPerformances.Any() ? Statistics.Value.AllPerformances.Min(p => p.ResponseTime) : TimeSpan.Zero
+        };
     }
 
     private void CalculateResponseTimeDistribution()
