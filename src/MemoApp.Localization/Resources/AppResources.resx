@@ -450,7 +450,7 @@
     <comment>Consistency score label</comment>
   </data>
   <data name="Statistics_ViewDetails" xml:space="preserve">
-    <value>📊 View Details</value>
+    <value>View Details</value>
     <comment>Button text for viewing detailed statistics</comment>
   </data>
   <data name="FlashNumbers_NewSession" xml:space="preserve">
