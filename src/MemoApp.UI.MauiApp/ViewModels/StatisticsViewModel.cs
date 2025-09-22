@@ -57,9 +57,16 @@ public partial class StatisticsViewModel : BaseViewModel
                 {
                     var decodedJson = HttpUtility.UrlDecode(value);
                     var stats = JsonSerializer.Deserialize<SessionStatistics>(decodedJson);
-                    if (stats != null)
+
+                    // For structs, we need to check if the deserialized data is valid
+                    // by checking if it has meaningful data (e.g., TotalNumbers > 0)
+                    if (stats.TotalNumbers > 0 && stats.AllPerformances?.Count > 0)
                     {
                         Statistics = stats;
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("Deserialized statistics has no valid data");
                     }
                 }
                 catch (Exception ex)

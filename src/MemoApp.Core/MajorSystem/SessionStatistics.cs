@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace MemoApp.Core.MajorSystem;
 
 public readonly record struct SessionStatistics
@@ -12,6 +14,35 @@ public readonly record struct SessionStatistics
     public DateTime StartTime { get; }
     public DateTime EndTime { get; }
 
+    /// <summary>
+    /// JSON constructor for deserialization.
+    /// </summary>
+    [JsonConstructor]
+    public SessionStatistics(
+        TimeSpan totalDuration,
+        TimeSpan averageResponseTime,
+        int totalNumbers,
+        NumberPerformance fastestResponse,
+        NumberPerformance slowestResponse,
+        IReadOnlyList<NumberPerformance> slowestResponses,
+        IReadOnlyList<NumberPerformance> allPerformances,
+        DateTime startTime,
+        DateTime endTime)
+    {
+        TotalDuration = totalDuration;
+        AverageResponseTime = averageResponseTime;
+        TotalNumbers = totalNumbers;
+        FastestResponse = fastestResponse;
+        SlowestResponse = slowestResponse;
+        SlowestResponses = slowestResponses;
+        AllPerformances = allPerformances;
+        StartTime = startTime;
+        EndTime = endTime;
+    }
+
+    /// <summary>
+    /// Standard constructor for creating statistics from performance data.
+    /// </summary>
     public SessionStatistics(
         IEnumerable<NumberPerformance> performances,
         DateTime startTime,
