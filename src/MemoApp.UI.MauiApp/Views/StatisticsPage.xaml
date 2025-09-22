@@ -224,7 +224,7 @@
 
                 <Button Grid.Column="0"
                         Command="{Binding GoBackCommand}"
-                        Text="← Back"
+                        Text="{localization:Localize Common_Back}"
                         BackgroundColor="{StaticResource Secondary}"
                         TextColor="White"
                         CornerRadius="10"
@@ -232,7 +232,7 @@
                         FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}" />
                 <Button Grid.Column="1"
                         Command="{Binding StartNewSessionCommand}"
-                        Text="⊕ New Session"
+                        Text="{localization:Localize Common_NewSession}"
                         BackgroundColor="{StaticResource Primary}"
                         TextColor="White"
                         CornerRadius="10"

@@ -443,7 +443,11 @@
     <value>New Session</value>
     <comment>New session button</comment>
   </data>
-  
+  <data name="Common_Back" xml:space="preserve">
+    <value>Back</value>
+    <comment>Back navigation button</comment>
+  </data>
+
   <!-- Language Selection -->
   <data name="Language_Title" xml:space="preserve">
     <value>Language</value>

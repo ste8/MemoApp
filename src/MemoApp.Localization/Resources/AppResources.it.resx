@@ -442,7 +442,11 @@
     <value>Nuova Sessione</value>
     <comment>New session button</comment>
   </data>
-  
+  <data name="Common_Back" xml:space="preserve">
+    <value>Indietro</value>
+    <comment>Back navigation button</comment>
+  </data>
+
   <!-- Language Selection -->
   <data name="Language_Title" xml:space="preserve">
     <value>Lingua</value>
