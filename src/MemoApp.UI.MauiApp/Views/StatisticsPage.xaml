@@ -105,10 +105,9 @@
                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                            FontAttributes="Bold"
                            HorizontalOptions="Center" />
-                    <!-- Responsive CollectionView for slowest numbers -->
+                    <!-- Auto-expanded CollectionView for slowest numbers -->
                     <CollectionView ItemsSource="{Binding SlowestPerformances}"
-                                    SelectionMode="None"
-                                    HeightRequest="{OnIdiom Phone=200, Tablet=250, Desktop=300}">
+                                    SelectionMode="None">
 
                         <!-- Adaptive layout: Grid on tablet/desktop, linear on phone -->
                         <CollectionView.ItemsLayout>
@@ -137,7 +136,7 @@
                                                HorizontalOptions="Center"
                                                VerticalOptions="Center" />
                                         <Label Grid.Column="1"
-                                               Text="{Binding ResponseTime, StringFormat='{0:ss\\.ff}s'}"
+                                               Text="{Binding ResponseTime, Converter={StaticResource TimeSpanToDisplayConverter}}"
                                                FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
                                                TextColor="{StaticResource WarningText}"
                                                HorizontalOptions="Center"
@@ -158,14 +157,33 @@
                    Margin="0,0,0,20">
 
                 <StackLayout Spacing="15">
-                    <Label Text="{localization:Localize Statistics_AllNumbersTitle}"
-                           FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                           LineBreakMode="WordWrap" />
+                    <!-- Expandable header -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="0"
+                               Text="{localization:Localize Statistics_AllNumbersTitle}"
+                               FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+
+                        <Button Grid.Column="1"
+                                Command="{Binding ToggleAllNumbersExpansionCommand}"
+                                Text="{Binding AllNumbersExpandButtonText}"
+                                BackgroundColor="Transparent"
+                                TextColor="{StaticResource Primary}"
+                                FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                                Padding="8"
+                                VerticalOptions="Center"
+                                HorizontalOptions="End" />
+                    </Grid>
                     <!-- Responsive CollectionView for all performances -->
                     <CollectionView ItemsSource="{Binding AllPerformances}"
+                                    IsVisible="{Binding IsAllNumbersExpanded}"
                                     SelectionMode="None"
                                     RemainingItemsThreshold="5"
                                     BackgroundColor="Transparent">
@@ -200,7 +218,7 @@
                                            HorizontalOptions="Center" />
                                     <!-- Response time -->
                                     <Label Grid.Column="1"
-                                           Text="{Binding ResponseTime, StringFormat='{0:ss\\.ff} seconds'}"
+                                           Text="{Binding ResponseTime, Converter={StaticResource TimeSpanToDisplayConverter}}"
                                            FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                            VerticalOptions="Center"
                                            Margin="10,0" />

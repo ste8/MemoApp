@@ -29,6 +29,7 @@
             <converters:MultiBooleanAndConverter x:Key="MultiBooleanAndConverter" />
             <converters:DivisionConverter x:Key="DivisionConverter" />
             <converters:ResponseTimeToColorConverter x:Key="ResponseTimeToColorConverter" />
+            <converters:TimeSpanToDisplayConverter x:Key="TimeSpanToDisplayConverter" />
             <converters:BoolToDropdownArrowConverter x:Key="BoolToDropdownArrowConverter" />
             <converters:PercentageConverter x:Key="PercentageConverter" />
             <converters:FilePathToImageSourceConverter x:Key="FilePathToImageSourceConverter" />

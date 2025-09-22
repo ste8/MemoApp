@@ -430,7 +430,7 @@
     <comment>Statistics numbers to practice section title</comment>
   </data>
   <data name="Statistics_AllNumbersTitle" xml:space="preserve">
-    <value>📊 All Numbers (Fastest to Slowest)</value>
+    <value>📊 All Numbers (Numeric Order)</value>
     <comment>Statistics all numbers section title</comment>
   </data>
   <data name="Statistics_Back" xml:space="preserve">

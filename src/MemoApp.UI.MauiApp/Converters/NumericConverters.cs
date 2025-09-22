@@ -54,3 +54,32 @@ public class ResponseTimeToColorConverter : IValueConverter
         throw new NotImplementedException();
     }
 }
+
+/// <summary>
+/// Converts TimeSpan values to user-friendly display strings for response times.
+/// Formats times under 60 seconds as "2.45s", longer times as "1:23.45".
+/// </summary>
+public class TimeSpanToDisplayConverter : IValueConverter
+{
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is TimeSpan timeSpan)
+        {
+            // Format: "2.45s" for times under 60 seconds
+            if (timeSpan.TotalSeconds < 60)
+            {
+                return $"{timeSpan.TotalSeconds:F2}s";
+            }
+
+            // Format: "1:23.45" for longer times
+            return $"{timeSpan:mm\\:ss\\.ff}";
+        }
+
+        return "0.00s";
+    }
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException("TimeSpanToDisplayConverter is one-way only");
+    }
+}

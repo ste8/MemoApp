@@ -44,6 +44,12 @@ public partial class StatisticsViewModel : BaseViewModel
     [ObservableProperty]
     private bool returnToSummary;
 
+    [ObservableProperty]
+    private bool isAllNumbersExpanded = false;
+
+    [ObservableProperty]
+    private string allNumbersExpandButtonText = "▼";
+
     private string? _statisticsJson;
     public string? StatisticsJson
     {
@@ -112,6 +118,13 @@ public partial class StatisticsViewModel : BaseViewModel
     {
         // Navigate back to main page
         await Shell.Current.GoToAsync("//main");
+    }
+
+    [RelayCommand]
+    private void ToggleAllNumbersExpansion()
+    {
+        IsAllNumbersExpanded = !IsAllNumbersExpanded;
+        AllNumbersExpandButtonText = IsAllNumbersExpanded ? "▲" : "▼";
     }
 
     private void LoadStatisticsData()
