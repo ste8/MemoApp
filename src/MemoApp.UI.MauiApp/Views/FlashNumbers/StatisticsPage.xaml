@@ -161,54 +161,8 @@
                     </StackLayout>
                 </Grid>
             </Frame>
-            <!-- Performance Legend -->
-            <Frame Grid.Row="2"
-                   BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
-                   Padding="15,10"
-                   CornerRadius="8"
-                   HasShadow="False"
-                   Margin="0,0,0,15">
-                <StackLayout Orientation="Horizontal"
-                             Spacing="{OnIdiom Phone=15, Tablet=20, Desktop=25}"
-                             HorizontalOptions="Center"
-                             VerticalOptions="Center">
-                    <!-- Fast indicator -->
-                    <StackLayout Orientation="Horizontal" Spacing="5">
-                        <Label Text="●"
-                               TextColor="#10B981"
-                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                               VerticalOptions="Center" />
-                        <Label Text="{localization:Localize Statistics_FastLegend}"
-                               FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=16}"
-                               TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}"
-                               VerticalOptions="Center" />
-                    </StackLayout>
-                    <!-- Medium indicator -->
-                    <StackLayout Orientation="Horizontal" Spacing="5">
-                        <Label Text="▲"
-                               TextColor="#F59E0B"
-                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                               VerticalOptions="Center" />
-                        <Label Text="{localization:Localize Statistics_MediumLegend}"
-                               FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=16}"
-                               TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}"
-                               VerticalOptions="Center" />
-                    </StackLayout>
-                    <!-- Slow indicator -->
-                    <StackLayout Orientation="Horizontal" Spacing="5">
-                        <Label Text="■"
-                               TextColor="#EF4444"
-                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                               VerticalOptions="Center" />
-                        <Label Text="{localization:Localize Statistics_SlowLegend}"
-                               FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=16}"
-                               TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}"
-                               VerticalOptions="Center" />
-                    </StackLayout>
-                </StackLayout>
-            </Frame>
             <!-- Numbers to Focus On -->
-            <Frame Grid.Row="3"
+            <Frame Grid.Row="2"
                    BackgroundColor="{AppThemeBinding Light={StaticResource WarningTextSafe}, Dark={StaticResource WarningDark}}"
                    Padding="15"
                    CornerRadius="10"
@@ -276,7 +230,7 @@
                 </StackLayout>
             </Frame>
             <!-- Detailed Performance List -->
-            <Frame Grid.Row="4"
+            <Frame Grid.Row="3"
                    BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
                    Padding="15"
                    CornerRadius="10"
@@ -373,7 +327,7 @@
                 </StackLayout>
             </Frame>
             <!-- Action Buttons -->
-            <Grid Grid.Row="5"
+            <Grid Grid.Row="4"
                   ColumnDefinitions="*,*"
                   ColumnSpacing="15">
 
