@@ -460,7 +460,7 @@ public partial class FlashNumbersViewModel : BaseViewModel
         IsSessionActive = false;
         IsSessionCompleted = true;
         SessionStatistics = statistics;
-        Title = "Flash Numbers Complete!";
+        Title = "Results";
 
         // Create shareable result for the ShareButtonComponent
         var averageTime = TotalNumbers > 0 ? totalDuration / TotalNumbers : 0;
