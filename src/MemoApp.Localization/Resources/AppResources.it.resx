@@ -254,6 +254,10 @@
     <value>Flash Numbers completato in {0}</value>
     <comment>Flash Numbers completion title with duration</comment>
   </data>
+  <data name="FlashNumbers_CompletedText" xml:space="preserve">
+    <value>Flash Numbers completato in</value>
+    <comment>First line of two-line completion message (context)</comment>
+  </data>
   <data name="FlashNumbers_AchievementCelebration" xml:space="preserve">
     <value>Ottimo lavoro! Pronto per la prossima sfida?</value>
     <comment>Motivational text shown after completing Flash Numbers session</comment>

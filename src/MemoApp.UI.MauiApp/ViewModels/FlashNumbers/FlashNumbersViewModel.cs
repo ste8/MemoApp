@@ -114,6 +114,37 @@ public partial class FlashNumbersViewModel : BaseViewModel
         }
     }
 
+    /// <summary>
+    /// Gets the formatted time duration without localized text for two-line display
+    /// </summary>
+    public string FormattedTime
+    {
+        get
+        {
+            if (SessionStatistics?.TotalDuration == null)
+                return string.Empty;
+
+            var duration = SessionStatistics.Value.TotalDuration;
+
+            // Format time based on duration magnitude
+            if (duration.TotalHours >= 1)
+            {
+                // Show hours:minutes:seconds if >= 1 hour
+                return duration.ToString(@"h\:mm\:ss");
+            }
+            else if (duration.TotalMinutes >= 1)
+            {
+                // Show minutes:seconds if >= 1 minute
+                return duration.ToString(@"m\:ss");
+            }
+            else
+            {
+                // Show only seconds with 1 decimal if < 1 minute
+                return $"{duration.TotalSeconds:F1}s";
+            }
+        }
+    }
+
     [ObservableProperty]
     private bool isAssociationRevealed;
 
@@ -131,8 +162,9 @@ public partial class FlashNumbersViewModel : BaseViewModel
 
     partial void OnSessionStatisticsChanged(SessionStatistics? value)
     {
-        // Notify that CompletionTimeText has changed when statistics update
+        // Notify that CompletionTimeText and FormattedTime have changed when statistics update
         OnPropertyChanged(nameof(CompletionTimeText));
+        OnPropertyChanged(nameof(FormattedTime));
     }
 
     [ObservableProperty]
