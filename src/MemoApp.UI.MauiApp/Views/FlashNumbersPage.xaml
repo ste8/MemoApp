@@ -202,17 +202,9 @@
                                 </Button>
                             </Grid>
 
-                            <!-- Enhanced Number Display with Visual Elements -->
+                            <!-- Clean Number Display for Optimal Focus -->
                             <Grid Grid.Row="1">
-                                <!-- Subtle background decoration -->
-                                <Ellipse Fill="#22FFFFFF" 
-                                         WidthRequest="{OnIdiom Phone=180, Tablet=240, Desktop=300}" 
-                                         HeightRequest="{OnIdiom Phone=180, Tablet=240, Desktop=300}"
-                                         HorizontalOptions="Center" 
-                                         VerticalOptions="Center"
-                                         Opacity="0.3" />
-                                
-                                <!-- Large number display with enhanced styling -->
+                                <!-- Large number display with enhanced typography -->
                                 <Label x:Name="CurrentNumberLabel"
                                        Text="{Binding CurrentNumber}"
                                        TextColor="White"
@@ -222,8 +214,15 @@
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center"
                                        HorizontalTextAlignment="Center"
-                                       MinimumHeightRequest="{OnIdiom Phone=140, Tablet=180, Desktop=220}"
-                                       Margin="0,16,0,16" />
+                                       MinimumHeightRequest="{OnIdiom Phone=120, Tablet=160, Desktop=200}"
+                                       Margin="0,16,0,16">
+                                    <Label.Shadow>
+                                        <Shadow Brush="Black"
+                                                Opacity="0.4"
+                                                Offset="0,3"
+                                                Radius="6" />
+                                    </Label.Shadow>
+                                </Label>
                             </Grid>
 
                             <!-- Enhanced Think instruction with reveal hint -->
