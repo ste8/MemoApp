@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using MemoApp.UI.MauiApp.ViewModels;
+using MemoApp.UI.MauiApp.ViewModels.FlashNumbers;
 
 namespace MemoApp.UI.MauiApp.Views.Components;
 

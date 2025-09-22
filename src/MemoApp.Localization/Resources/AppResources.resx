@@ -450,7 +450,7 @@
     <comment>Statistics numbers to practice section title</comment>
   </data>
   <data name="Statistics_AllNumbersTitle" xml:space="preserve">
-    <value>📊 All Numbers (Numeric Order)</value>
+    <value>📊 All Numbers</value>
     <comment>Statistics all numbers section title</comment>
   </data>
   <data name="Statistics_Back" xml:space="preserve">

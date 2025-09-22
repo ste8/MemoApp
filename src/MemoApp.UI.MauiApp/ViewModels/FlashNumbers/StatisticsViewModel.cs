@@ -55,7 +55,7 @@ public partial class StatisticsViewModel : BaseViewModel
     private bool isAllNumbersExpanded = false;
 
     [ObservableProperty]
-    private string allNumbersExpandButtonText = "▼";
+    private string allNumbersExpandButtonText = "︾";
 
     private string? _statisticsJson;
     public string? StatisticsJson
@@ -131,7 +131,7 @@ public partial class StatisticsViewModel : BaseViewModel
     private void ToggleAllNumbersExpansion()
     {
         IsAllNumbersExpanded = !IsAllNumbersExpanded;
-        AllNumbersExpandButtonText = IsAllNumbersExpanded ? "▲" : "▼";
+        AllNumbersExpandButtonText = IsAllNumbersExpanded ? "︽" : "︾";
     }
 
     private void LoadStatisticsData()
