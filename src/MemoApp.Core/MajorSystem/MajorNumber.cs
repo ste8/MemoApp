@@ -1,5 +1,8 @@
+using System.Text.Json.Serialization;
+
 namespace MemoApp.Core.MajorSystem;
 
+[JsonConverter(typeof(MajorNumberJsonConverter))]
 public readonly record struct MajorNumber : IComparable<MajorNumber>, IComparable
 {
     public int Value { get; }
