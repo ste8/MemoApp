@@ -80,61 +80,6 @@
         <Setter Property="StrokeThickness" Value="1" />
     </Style>
 
-    <!-- Flash Numbers Skeleton Styles -->
-    <Style x:Key="SkeletonProgressCardStyle" TargetType="Border">
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}" />
-        <Setter Property="StrokeShape" Value="RoundRectangle 15" />
-        <Setter Property="Padding" Value="20" />
-        <Setter Property="HeightRequest" Value="120" />
-        <Setter Property="Shadow">
-            <Shadow Brush="{AppThemeBinding Light={StaticResource Gray200}, Dark=Transparent}"
-                    Offset="0,2"
-                    Radius="8"
-                    Opacity="0.25" />
-        </Setter>
-    </Style>
-
-    <Style x:Key="SkeletonNumberCardStyle" TargetType="Border">
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#E8E8FF, Dark=#2A2A3A}" />
-        <Setter Property="StrokeShape" Value="RoundRectangle 24" />
-        <Setter Property="Padding" Value="{OnIdiom Phone=32, Tablet=40, Desktop=48}" />
-        <Setter Property="Margin" Value="0,8" />
-        <Setter Property="HeightRequest" Value="{OnIdiom Phone=320, Tablet=400, Desktop=480}" />
-        <Setter Property="Shadow">
-            <Shadow Brush="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                    Offset="0,8"
-                    Radius="20"
-                    Opacity="0.15" />
-        </Setter>
-    </Style>
-
-    <Style x:Key="SkeletonLargeNumberStyle" TargetType="Border">
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#D0D0E0, Dark=#404050}" />
-        <Setter Property="StrokeShape" Value="RoundRectangle 12" />
-        <Setter Property="WidthRequest" Value="{OnIdiom Phone=200, Tablet=280, Desktop=360}" />
-        <Setter Property="HeightRequest" Value="{OnIdiom Phone=120, Tablet=160, Desktop=200}" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="VerticalOptions" Value="Center" />
-    </Style>
-
-    <Style x:Key="SkeletonButtonStyle" TargetType="Border">
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDark}}" />
-        <Setter Property="StrokeShape" Value="RoundRectangle 15" />
-        <Setter Property="HeightRequest" Value="{OnIdiom Phone=60, Tablet=70, Desktop=80}" />
-        <Setter Property="Margin" Value="20,0" />
-        <Setter Property="Opacity" Value="0.7" />
-    </Style>
-
-    <Style x:Key="SkeletonInstructionsCardStyle" TargetType="Border">
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}" />
-        <Setter Property="StrokeShape" Value="RoundRectangle 12" />
-        <Setter Property="Padding" Value="20,16" />
-        <Setter Property="Margin" Value="0,8" />
-        <Setter Property="HeightRequest" Value="100" />
-        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}" />
-        <Setter Property="StrokeThickness" Value="1" />
-    </Style>
-
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
     </Style>

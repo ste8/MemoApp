@@ -17,103 +17,13 @@
                AutomationProperties.IsInAccessibleTree="False"
                TextChanged="OnKeyboardTextChanged" />
         
-        <!-- Modern Skeleton Loading State -->
-        <ScrollView IsVisible="{Binding IsBusy}"
-                    BackgroundColor="Transparent"
-                    Padding="{OnPlatform iOS='20,16,20,20', Android='20,16,20,20', Default='20'}">
-
-            <StackLayout Spacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
-
-                <!-- Skeleton Progress Card -->
-                <Border Style="{StaticResource SkeletonProgressCardStyle}">
-                    <StackLayout Spacing="15">
-                        <!-- Skeleton progress title -->
-                        <Border Style="{StaticResource SkeletonHeaderStyle}"
-                                WidthRequest="120"
-                                HeightRequest="18"
-                                Margin="0,0,0,10" />
-
-                        <!-- Skeleton progress bar -->
-                        <Border BackgroundColor="{AppThemeBinding Light=#E0E0E0, Dark=#3A3A3A}"
-                                StrokeShape="RoundRectangle 4"
-                                HeightRequest="{OnIdiom Phone=8, Tablet=10, Desktop=12}"
-                                Margin="0,0,0,10" />
-
-                        <!-- Skeleton progress text grid -->
-                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
-                            <Border Grid.Column="0"
-                                    Style="{StaticResource SkeletonTextShortStyle}"
-                                    HorizontalOptions="Start" />
-                            <Border Grid.Column="1"
-                                    Style="{StaticResource SkeletonTextShortStyle}"
-                                    HorizontalOptions="Center" />
-                            <Border Grid.Column="2"
-                                    Style="{StaticResource SkeletonTextShortStyle}"
-                                    HorizontalOptions="End" />
-                        </Grid>
-                    </StackLayout>
-                </Border>
-
-                <!-- Skeleton Number Display Card -->
-                <Border Style="{StaticResource SkeletonNumberCardStyle}">
-                    <StackLayout Spacing="16" VerticalOptions="Center">
-
-                        <!-- Skeleton header with reveal button area -->
-                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
-                            <Border Grid.Column="0"
-                                    Style="{StaticResource SkeletonTextMediumStyle}"
-                                    HorizontalOptions="Center"
-                                    HeightRequest="24" />
-
-                            <!-- Skeleton reveal button -->
-                            <Border Grid.Column="1"
-                                    BackgroundColor="{AppThemeBinding Light=#D0D0E0, Dark=#404050}"
-                                    StrokeShape="RoundRectangle 28"
-                                    WidthRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
-                                    HeightRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
-                                    Stroke="{AppThemeBinding Light=#C0C0D0, Dark=#505060}"
-                                    StrokeThickness="2" />
-                        </Grid>
-
-                        <!-- Skeleton large number display -->
-                        <Border Style="{StaticResource SkeletonLargeNumberStyle}" />
-
-                        <!-- Skeleton instruction text -->
-                        <StackLayout Spacing="8" HorizontalOptions="Center">
-                            <Border Style="{StaticResource SkeletonTextMediumStyle}"
-                                    WidthRequest="180"
-                                    HorizontalOptions="Center" />
-                        </StackLayout>
-                    </StackLayout>
-                </Border>
-
-                <!-- Skeleton Action Button -->
-                <Border Style="{StaticResource SkeletonButtonStyle}" />
-
-                <!-- Skeleton Instructions Card -->
-                <Border Style="{StaticResource SkeletonInstructionsCardStyle}">
-                    <StackLayout Spacing="12">
-                        <!-- Skeleton main instruction -->
-                        <Border Style="{StaticResource SkeletonTextMediumStyle}"
-                                WidthRequest="220"
-                                HeightRequest="18"
-                                HorizontalOptions="Center" />
-
-                        <!-- Skeleton platform-specific instruction -->
-                        <Border BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                                StrokeShape="RoundRectangle 8"
-                                Padding="12,8"
-                                Opacity="0.8">
-                            <Border BackgroundColor="{AppThemeBinding Light=#F0F0FF, Dark=#2A2A3A}"
-                                    StrokeShape="RoundRectangle 4"
-                                    HeightRequest="16"
-                                    WidthRequest="160"
-                                    HorizontalOptions="Center" />
-                        </Border>
-                    </StackLayout>
-                </Border>
-            </StackLayout>
-        </ScrollView>
+        <!-- Loading indicator -->
+        <ActivityIndicator IsVisible="{Binding IsBusy}"
+                          IsRunning="{Binding IsBusy}"
+                          VerticalOptions="Center"
+                          HorizontalOptions="Center"
+                          Color="{StaticResource Primary}"
+                          AutomationProperties.Name="{localization:Localize Accessibility_LoadingIndicator}" />
 
         <!-- Main content -->
         <ScrollView IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
