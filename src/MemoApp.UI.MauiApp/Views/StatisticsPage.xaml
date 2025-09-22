@@ -7,7 +7,8 @@
              xmlns:utilities="clr-namespace:MemoApp.UI.MauiApp.Utilities"
              x:Class="MemoApp.UI.MauiApp.Views.StatisticsPage"
              x:DataType="viewmodels:StatisticsViewModel"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             Shell.TabBarIsVisible="{Binding ReturnToSummary}">
     <ScrollView>
         <!--
         Responsive statistics layout:

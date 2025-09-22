@@ -1,4 +1,6 @@
 using System.Collections.ObjectModel;
+using System.Text.Json;
+using System.Web;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.MajorSystem;
@@ -10,10 +12,14 @@ namespace MemoApp.UI.MauiApp.ViewModels;
 /// <summary>
 /// ViewModel for displaying detailed session statistics.
 /// Shows performance data with responsive CollectionView layouts.
+/// Uses navigation parameters for receiving statistics data.
 /// </summary>
+[QueryProperty(nameof(StatisticsJson), "statisticsJson")]
+[QueryProperty(nameof(ReturnToSummary), "returnToSummary")]
 public partial class StatisticsViewModel : BaseViewModel
 {
     private readonly ILocalizationService _localizationService;
+
     [ObservableProperty]
     private SessionStatistics? statistics;
 
@@ -35,24 +41,39 @@ public partial class StatisticsViewModel : BaseViewModel
     [ObservableProperty]
     private string slowestNumberText = "";
 
-    private static SessionStatistics? _pendingStatistics;
-    
+    [ObservableProperty]
+    private bool returnToSummary;
+
+    private string? _statisticsJson;
+    public string? StatisticsJson
+    {
+        get => _statisticsJson;
+        set
+        {
+            _statisticsJson = value;
+            if (!string.IsNullOrEmpty(value))
+            {
+                try
+                {
+                    var decodedJson = HttpUtility.UrlDecode(value);
+                    var stats = JsonSerializer.Deserialize<SessionStatistics>(decodedJson);
+                    if (stats != null)
+                    {
+                        Statistics = stats;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Failed to deserialize statistics: {ex.Message}");
+                }
+            }
+        }
+    }
+
     public StatisticsViewModel(ILocalizationService localizationService)
     {
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
         Title = "Session Statistics";
-        
-        // Check if there are pending statistics to load
-        if (_pendingStatistics.HasValue)
-        {
-            Statistics = _pendingStatistics;
-            _pendingStatistics = null;
-        }
-    }
-    
-    public static void SetPendingStatistics(SessionStatistics statistics)
-    {
-        _pendingStatistics = statistics;
     }
 
     partial void OnStatisticsChanged(SessionStatistics? value)
@@ -65,7 +86,18 @@ public partial class StatisticsViewModel : BaseViewModel
     [RelayCommand]
     private async Task GoBack()
     {
-        await Shell.Current.GoToAsync("..");
+        if (ReturnToSummary)
+        {
+            // When returning to summary, pass a flag to indicate we should preserve state
+            await Shell.Current.GoToAsync("..", new Dictionary<string, object>
+            {
+                ["preserveState"] = true
+            });
+        }
+        else
+        {
+            await Shell.Current.GoToAsync("..");
+        }
     }
 
     [RelayCommand]

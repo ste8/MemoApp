@@ -21,6 +21,7 @@ namespace MemoApp.UI.MauiApp.ViewModels;
 /// </summary>
 [QueryProperty(nameof(RangeStart), "rangeStart")]
 [QueryProperty(nameof(RangeEnd), "rangeEnd")]
+[QueryProperty(nameof(PreserveState), "preserveState")]
 public partial class FlashNumbersViewModel : BaseViewModel
 {
     private readonly ILocalizationService _localizationService;
@@ -30,10 +31,16 @@ public partial class FlashNumbersViewModel : BaseViewModel
     private readonly IExerciseCountService _exerciseCountService;
     private readonly IAssociationComposerService _associationComposerService;
     private GameSession? _gameSession;
-    
+
     // Analytics tracking
     private DateTime _sessionStartTime;
     private int _totalAdvances;
+
+    // Navigation state management
+    private bool _hasBeenInitialized;
+
+    [ObservableProperty]
+    private bool preserveState;
 
     [ObservableProperty]
     private string rangeStart = "00";
@@ -108,24 +115,38 @@ public partial class FlashNumbersViewModel : BaseViewModel
     }
 
     /// <summary>
-    /// Called when the page appears. Initializes the training session.
+    /// Called when the page appears. Initializes the training session only if needed.
     /// </summary>
     public async Task InitializeAsync()
     {
+        // If we're returning from navigation and session is completed, preserve state
+        if (PreserveState && IsSessionCompleted)
+        {
+            PreserveState = false; // Reset flag
+            return;
+        }
+
+        // If already initialized and session is active or completed, don't reinitialize
+        if (_hasBeenInitialized && (IsSessionActive || IsSessionCompleted))
+        {
+            return;
+        }
+
         try
         {
             IsBusy = true;
             Title = $"Flash Numbers: {RangeStart}-{RangeEnd}";
-            
+
             // Prepare interstitial ad for potential showing
             if (_interstitialAdManager != null)
             {
                 await _interstitialAdManager.PrepareAdForExerciseAsync(ExerciseTypes.FlashNumbers);
             }
-            
+
             _gameSession = new GameSession(RangeStart, RangeEnd);
             TotalNumbers = _gameSession.TotalNumbers;
-            
+
+            _hasBeenInitialized = true;
             StartSession();
         }
         catch (Exception ex)
@@ -316,11 +337,11 @@ public partial class FlashNumbersViewModel : BaseViewModel
     {
         if (SessionStatistics == null) return;
 
+        // Navigate with proper parameters using JSON serialization
+        var statisticsJson = System.Text.Json.JsonSerializer.Serialize(SessionStatistics.Value);
+        var encodedJson = System.Web.HttpUtility.UrlEncode(statisticsJson);
 
-        // Set the statistics data in the StatisticsViewModel
-        StatisticsViewModel.SetPendingStatistics(SessionStatistics.Value);
-        
-        await Shell.Current.GoToAsync("statistics");
+        await Shell.Current.GoToAsync($"statistics?statisticsJson={encodedJson}&returnToSummary=true");
     }
 
     [RelayCommand]
@@ -332,7 +353,7 @@ public partial class FlashNumbersViewModel : BaseViewModel
             // Session was abandoned before completion
             var currentTime = DateTime.UtcNow;
             var partialDuration = (currentTime - _sessionStartTime).TotalSeconds;
-            
+
             await _analyticsService.TrackEventAsync(AnalyticsEvents.ExerciseAbandoned, new Dictionary<string, object>
             {
                 [AnalyticsParameters.ExerciseType] = ExerciseTypes.FlashNumbers,
@@ -343,7 +364,9 @@ public partial class FlashNumbersViewModel : BaseViewModel
                 [AnalyticsParameters.ProgressPercentage] = (int)(ProgressValue * 100)
             });
         }
-        
+
+        // Reset state flags when leaving
+        _hasBeenInitialized = false;
         await Shell.Current.GoToAsync("..");
     }
 
