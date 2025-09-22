@@ -416,7 +416,6 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
                             <Label Grid.Row="0" Grid.ColumnSpan="2"
@@ -434,16 +433,6 @@
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    HorizontalOptions="End" />
 
-                            <Label Grid.Row="2" Grid.Column="0"
-                                   Text="{Binding SessionStatistics.FastestResponse.Number, StringFormat='Fastest: {0}'}"
-                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                                   TextColor="{StaticResource SuccessText}" />
-
-                            <Label Grid.Row="2" Grid.Column="1"
-                                   Text="{Binding SessionStatistics.SlowestResponse.Number, StringFormat='Slowest: {0}'}"
-                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                                   TextColor="{StaticResource WarningText}"
-                                   HorizontalOptions="End" />
                         </Grid>
                     </Frame>
 

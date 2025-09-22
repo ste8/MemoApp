@@ -60,15 +60,6 @@
                                TextColor="White"
                                FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
                                FontAttributes="Bold" />
-                        <Label Text="{localization:Localize Statistics_FastestNumber}"
-                               TextColor="White"
-                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                               Opacity="0.8"
-                               Margin="0,15,0,0" />
-                        <Label Text="{Binding FastestNumberText}"
-                               TextColor="White"
-                               FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                               FontAttributes="Bold" />
                     </StackLayout>
                     <!-- Right column stats -->
                     <StackLayout Grid.Row="1" Grid.Column="1" Spacing="10">
@@ -79,15 +70,6 @@
                         <Label Text="{Binding AverageTimeText}"
                                TextColor="White"
                                FontSize="{OnIdiom Phone=18, Tablet=22, Desktop=26}"
-                               FontAttributes="Bold" />
-                        <Label Text="{localization:Localize Statistics_SlowestNumber}"
-                               TextColor="White"
-                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                               Opacity="0.8"
-                               Margin="0,15,0,0" />
-                        <Label Text="{Binding SlowestNumberText}"
-                               TextColor="White"
-                               FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                FontAttributes="Bold" />
                     </StackLayout>
                 </Grid>

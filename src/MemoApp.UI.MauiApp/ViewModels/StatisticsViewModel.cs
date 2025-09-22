@@ -35,11 +35,6 @@ public partial class StatisticsViewModel : BaseViewModel
     [ObservableProperty]
     private string averageTimeText = "";
 
-    [ObservableProperty]
-    private string fastestNumberText = "";
-
-    [ObservableProperty]
-    private string slowestNumberText = "";
 
     [ObservableProperty]
     private bool returnToSummary;
@@ -134,8 +129,6 @@ public partial class StatisticsViewModel : BaseViewModel
         // Format summary statistics
         TotalDurationText = $"{Statistics.Value.TotalDuration:mm\\:ss}";
         AverageTimeText = $"{Statistics.Value.AverageResponseTime:ss\\.ff}s";
-        FastestNumberText = $"{NumberFormatHelper.FormatNumber(Statistics.Value.FastestResponse.Number, _localizationService)} ({Statistics.Value.FastestResponse.ResponseTime:ss\\.ff}s)";
-        SlowestNumberText = $"{NumberFormatHelper.FormatNumber(Statistics.Value.SlowestResponse.Number, _localizationService)} ({Statistics.Value.SlowestResponse.ResponseTime:ss\\.ff}s)";
 
         // Load all performances for detailed view
         AllPerformances.Clear();

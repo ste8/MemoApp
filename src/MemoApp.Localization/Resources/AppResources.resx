@@ -413,17 +413,9 @@
     <value>Total Duration</value>
     <comment>Statistics total duration label</comment>
   </data>
-  <data name="Statistics_FastestNumber" xml:space="preserve">
-    <value>Fastest Number</value>
-    <comment>Statistics fastest number label</comment>
-  </data>
   <data name="Statistics_AverageTime" xml:space="preserve">
     <value>Average Time</value>
     <comment>Statistics average time label</comment>
-  </data>
-  <data name="Statistics_SlowestNumber" xml:space="preserve">
-    <value>Slowest Number</value>
-    <comment>Statistics slowest number label</comment>
   </data>
   <data name="Statistics_NumbersToPracticeMoreIcon" xml:space="preserve">
     <value>📚 Numbers to Practice More</value>
