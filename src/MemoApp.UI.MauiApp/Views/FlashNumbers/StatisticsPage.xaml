@@ -368,6 +368,7 @@
 
                 <components:ShareButtonComponent Grid.Column="1"
                                                x:Name="StatisticsShareButton"
+                                               ShareData="{Binding SessionShareData}"
                                                DisplayStyle="IconOnly"
                                                Context="statistics" />
             </Grid>
@@ -414,6 +415,7 @@
 
                 <components:ShareButtonComponent Grid.Column="2"
                                                x:Name="StatisticsShareButtonDesktop"
+                                               ShareData="{Binding SessionShareData}"
                                                DisplayStyle="Compact"
                                                Context="statistics" />
             </Grid>
