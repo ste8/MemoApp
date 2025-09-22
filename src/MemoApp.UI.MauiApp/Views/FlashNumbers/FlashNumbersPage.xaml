@@ -479,17 +479,17 @@
                                     Text="{localization:Localize Statistics_ViewDetails}"
                                     BackgroundColor="{StaticResource Secondary}"
                                     TextColor="White"
-                                    FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                    FontSize="{OnIdiom Phone=15, Tablet=17, Desktop=19}"
                                     FontAttributes="Bold"
-                                    CornerRadius="10"
-                                    HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}"
-                                    Padding="16,8"
-                                    Margin="0,15,0,0"
+                                    CornerRadius="12"
+                                    HeightRequest="{OnIdiom Phone=52, Tablet=58, Desktop=64}"
+                                    Padding="{OnIdiom Phone='20,12', Tablet='24,14', Desktop='28,16'}"
+                                    Margin="0,24,0,8"
                                     HorizontalOptions="Center">
                                 <Button.ImageSource>
                                     <FontImageSource FontFamily="{StaticResource IconFont_Solid}"
                                                      Glyph="{StaticResource Icon_Statistics}"
-                                                     Size="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                                     Size="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                                      Color="White" />
                                 </Button.ImageSource>
                                 <Button.Shadow>
