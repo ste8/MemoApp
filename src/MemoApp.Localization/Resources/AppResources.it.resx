@@ -61,13 +61,13 @@
   
   <!-- App Title -->
   <data name="AppTitle" xml:space="preserve">
-    <value>Allenamento Sistema Maggiore</value>
+    <value>Allenamento Conversione fonetica</value>
     <comment>Main application title</comment>
   </data>
   
   <!-- Main Page -->
   <data name="MainPage_Title" xml:space="preserve">
-    <value>Allenamento Sistema Maggiore</value>
+    <value>Allenamento Conversione fonetica</value>
     <comment>Main page title</comment>
   </data>
   <data name="MainPage_Subtitle" xml:space="preserve">
@@ -87,7 +87,7 @@
     <comment>Quick start Flash Numbers button base text (without range)</comment>
   </data>
   <data name="MainPage_MajorSystemGuide" xml:space="preserve">
-    <value>Guida Sistema Maggiore</value>
+    <value>Guida Conversione fonetica</value>
     <comment>Help button text</comment>
   </data>
   <data name="MainPage_CustomRange" xml:space="preserve">
@@ -127,7 +127,7 @@
     <comment>Main page welcome title for ViewModel binding</comment>
   </data>
   <data name="MainPage_WelcomeSubtitle" xml:space="preserve">
-    <value>Padroneggia il Sistema Maggiore e migliora le tue abilità di memoria</value>
+    <value>Padroneggia il Conversione fonetica e migliora le tue abilità di memoria</value>
     <comment>Main page welcome subtitle</comment>
   </data>
   <data name="MainPage_FlashNumbersDescription" xml:space="preserve">
@@ -147,7 +147,7 @@
     <comment>Get started section title</comment>
   </data>
   <data name="MainPage_LearnMajorSystem" xml:space="preserve">
-    <value>Impara il Sistema Maggiore</value>
+    <value>Impara la Conversione fonetica</value>
     <comment>Learn Major System button text</comment>
   </data>
   <data name="MainPage_MajorSystemTitle" xml:space="preserve">
@@ -155,7 +155,7 @@
     <comment>Major System learning card title</comment>
   </data>
   <data name="MainPage_MajorSystemDescription" xml:space="preserve">
-    <value>Impara la tecnica del Sistema Maggiore che alimenta tutti gli esercizi di memoria. Trasforma i numeri in immagini memorabili con questo metodo collaudato.</value>
+    <value>Impara la tecnica della Conversione fonetica che alimenta tutti gli esercizi di memoria. Trasforma i numeri in immagini memorabili con questo metodo collaudato.</value>
     <comment>Major System learning card description</comment>
   </data>
   <data name="MainPage_ViewGuide" xml:space="preserve">
@@ -209,7 +209,7 @@
     <comment>Full range training option name</comment>
   </data>
   <data name="TrainingOption_FullRangeDesc" xml:space="preserve">
-    <value>Sistema Maggiore completo (00-99)</value>
+    <value>Conversione fonetica completo (00-99)</value>
     <comment>Full range training option description</comment>
   </data>
   
@@ -323,7 +323,7 @@
   
   <!-- Help Page -->
   <data name="Help_Title" xml:space="preserve">
-    <value>Guida Sistema Maggiore</value>
+    <value>Guida Conversione fonetica</value>
     <comment>Help page title</comment>
   </data>
   
@@ -345,11 +345,11 @@
   
   <!-- Help Page -->
   <data name="Help_WhatIsTitle" xml:space="preserve">
-    <value>🧠 Cos'è il Sistema Maggiore?</value>
+    <value>🧠 Cos'è il Conversione fonetica?</value>
     <comment>Help page - what is section title</comment>
   </data>
   <data name="Help_WhatIsDescription" xml:space="preserve">
-    <value>Il Sistema Maggiore è una potente tecnica mnemonica che converte i numeri in parole o immagini memorabili associando ogni cifra (0-9) a specifici suoni consonantici. Questo rende molto più facile ricordare lunghe sequenze di numeri trasformandole in storie vivide e memorabili.</value>
+    <value>Il Conversione fonetica è una potente tecnica mnemonica che converte i numeri in parole o immagini memorabili associando ogni cifra (0-9) a specifici suoni consonantici. Questo rende molto più facile ricordare lunghe sequenze di numeri trasformandole in storie vivide e memorabili.</value>
     <comment>Help page - what is section description</comment>
   </data>
   <data name="Help_TryQuickTraining" xml:space="preserve">
@@ -427,11 +427,11 @@
     <comment>Training session instruction (deprecated - use FlashNumbers_ThinkInstruction)</comment>
   </data>
   <data name="FlashNumbers_HelpTip" xml:space="preserve">
-    <value>💡 Prenditi il tempo per ricordare la tua parola o immagine del Sistema Maggiore per questo numero, poi tocca 'Numero Successivo' per continuare. Premi 'N' per l'accesso rapido.</value>
+    <value>💡 Prenditi il tempo per ricordare la tua parola o immagine del Conversione fonetica per questo numero, poi tocca 'Numero Successivo' per continuare. Premi 'N' per l'accesso rapido.</value>
     <comment>Flash Numbers help tip</comment>
   </data>
   <data name="TrainingSession_HelpTip" xml:space="preserve">
-    <value>💡 Prenditi il tempo per ricordare la tua parola o immagine del Sistema Maggiore per questo numero, poi tocca 'Numero Successivo' per continuare. Premi 'N' per l'accesso rapido.</value>
+    <value>💡 Prenditi il tempo per ricordare la tua parola o immagine del Conversione fonetica per questo numero, poi tocca 'Numero Successivo' per continuare. Premi 'N' per l'accesso rapido.</value>
     <comment>Training session help tip (deprecated - use FlashNumbers_HelpTip)</comment>
   </data>
   <data name="TrainingSession_Celebration" xml:space="preserve">
@@ -619,11 +619,11 @@
     <comment>Accessibility help text for begin Flash Numbers button</comment>
   </data>
   <data name="Accessibility_HelpButton" xml:space="preserve">
-    <value>Pulsante guida Major System</value>
+    <value>Pulsante guida Conversione fonetica</value>
     <comment>Accessibility label for help/guide button</comment>
   </data>
   <data name="Accessibility_HelpButtonHelp" xml:space="preserve">
-    <value>Visualizza la guida e le istruzioni del Major System</value>
+    <value>Visualizza la guida e le istruzioni della Conversione fonetica</value>
     <comment>Accessibility help text for help/guide button</comment>
   </data>
   <data name="Accessibility_StartNumberPicker" xml:space="preserve">
@@ -675,7 +675,7 @@
     <comment>Number format selection title</comment>
   </data>
   <data name="NumberFormat_Description" xml:space="preserve">
-    <value>Scegli come vengono visualizzati i numeri nel Sistema Maggiore</value>
+    <value>Scegli come vengono visualizzati i numeri nel Conversione fonetica</value>
     <comment>Number format setting description</comment>
   </data>
   <data name="NumberFormat_Padded" xml:space="preserve">
@@ -1784,7 +1784,7 @@
     <comment>Explanation of what we're doing with the number</comment>
   </data>
   <data name="Onboarding_Example_ConversionExplain" xml:space="preserve">
-    <value>Ogni cifra diventa un suono consonante usando il Sistema Maggiore</value>
+    <value>Ogni cifra diventa un suono consonante usando il Conversione fonetica</value>
     <comment>Explanation of the digit-to-sound conversion</comment>
   </data>
   <data name="Onboarding_Example_CallToAction" xml:space="preserve">
@@ -1796,7 +1796,7 @@
     <comment>Motivational text about the technique</comment>
   </data>
   <data name="Onboarding_Example_Explanation" xml:space="preserve">
-    <value>Guarda come i numeri diventano immagini memorabili usando il Sistema Maggiore</value>
+    <value>Guarda come i numeri diventano immagini memorabili usando il Conversione fonetica</value>
     <comment>Explanation for the example demonstration step</comment>
   </data>
   <data name="Onboarding_TapToContinue" xml:space="preserve">
@@ -2066,11 +2066,11 @@
     <comment>Share success message</comment>
   </data>
   <data name="Share_FlashNumbersMessage" xml:space="preserve">
-    <value>Ho appena completato Flash Numbers in MemoRaise! 🎯 Memorizzato {0} numeri in {1} con una velocità media di {2}s per numero. Alleno la mia memoria con il Sistema Maggiore!</value>
+    <value>Ho appena completato Flash Numbers in MemoRaise! 🎯 Memorizzato {0} numeri in {1} con una velocità media di {2}s per numero. Alleno la mia memoria con il Conversione fonetica!</value>
     <comment>Default share message for Flash Numbers exercise</comment>
   </data>
   <data name="Share_BigNumberMessage" xml:space="preserve">
-    <value>Ho appena memorizzato un numero di {0} cifre in {1} usando MemoRaise! 🧠 Alleno la mia memoria con la tecnica del Sistema Maggiore. Riesci a battere il mio tempo?</value>
+    <value>Ho appena memorizzato un numero di {0} cifre in {1} usando MemoRaise! 🧠 Alleno la mia memoria con la tecnica del Conversione fonetica. Riesci a battere il mio tempo?</value>
     <comment>Default share message for Big Number exercise</comment>
   </data>
   <data name="Share_Achievement_Fast" xml:space="preserve">
@@ -2107,7 +2107,7 @@
 • Media per numero: {AverageTime}
 • Più veloce: {FastestTime}
 
-Il Sistema Maggiore aiuta a convertire i numeri in immagini memorabili - incredibile cosa può fare il cervello!
+Il Conversione fonetica aiuta a convertire i numeri in immagini memorabili - incredibile cosa può fare il cervello!
 
 Scarica MemoRaise: {AppUrl}
 
@@ -2122,7 +2122,7 @@ Scarica MemoRaise: {AppUrl}
 • Lunghezza numero: {NumberOfDigits} cifre
 • Livello difficoltà: {DifficultyLevel}
 
-Il Sistema Maggiore trasforma i numeri in storie visive - prova a memorizzare {NumberOfDigits} cifre anche tu!
+Il Conversione fonetica trasforma i numeri in storie visive - prova a memorizzare {NumberOfDigits} cifre anche tu!
 
 Scarica MemoRaise: {AppUrl}
 
@@ -2248,7 +2248,7 @@ Scarica MemoRaise: {AppUrl}
     <comment>Difficulty label for hard challenge - avoids duplication with conclusion</comment>
   </data>
   <data name="Onboarding_ValueProposition" xml:space="preserve">
-    <value>Pratica il Sistema Maggiore con esercizi guidati</value>
+    <value>Pratica il Conversione fonetica con esercizi guidati</value>
     <comment>Value proposition for memory training</comment>
   </data>
   <data name="Onboarding_LearnHow" xml:space="preserve">
@@ -2418,7 +2418,7 @@ Scarica MemoRaise: {AppUrl}
     <comment>Label format showing the word association for a number</comment>
   </data>
   <data name="FlashNumbers_AssociationRevealed" xml:space="preserve">
-    <value>Associazione Sistema Maggiore</value>
+    <value>Associazione Conversione fonetica</value>
     <comment>Header text when showing the revealed association</comment>
   </data>
   <data name="FlashNumbers_KeyboardHintReveal" xml:space="preserve">
@@ -2430,7 +2430,7 @@ Scarica MemoRaise: {AppUrl}
     <comment>Accessibility name for the reveal association button</comment>
   </data>
   <data name="Accessibility_RevealAssociationButtonHelp" xml:space="preserve">
-    <value>Mostra la parola e l'immagine del Sistema Maggiore associate a questo numero</value>
+    <value>Mostra la parola e l'immagine del Conversione fonetica associate a questo numero</value>
     <comment>Accessibility help text for the reveal association button</comment>
   </data>
   <data name="Accessibility_AssociationImage" xml:space="preserve">
@@ -2953,7 +2953,7 @@ Scarica MemoRaise: {AppUrl}
     <comment>Button text to send feedback from settings</comment>
   </data>
   <data name="FlashNumbers_ConsolidatedInstructions" xml:space="preserve">
-    <value>💡 Prenditi il tempo per ricordare la tua parola o immagine del Sistema Maggiore per questo numero, poi continua.</value>
+    <value>💡 Prenditi il tempo per ricordare la tua parola o immagine del Conversione fonetica per questo numero, poi continua.</value>
     <comment>Primary instruction for Flash Numbers training</comment>
   </data>
   <data name="FlashNumbers_MobileInteractions" xml:space="preserve">
