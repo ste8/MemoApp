@@ -29,15 +29,12 @@
                            FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
                            FontAttributes="Bold"
                            HorizontalOptions="Center" />
-                    <Label TextColor="White"
+                    <Label Text="{localization:Localize Help_WhatIsDescription}"
+                           TextColor="White"
                            FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                            HorizontalTextAlignment="Center"
-                           LineHeight="1.4">
-                        <Label.Text>
-                            The Major System is a powerful mnemonic technique that converts numbers into memorable words or images by associating each digit (0-9) with specific consonant sounds.
-                            This makes it much easier to remember long sequences of numbers by turning them into vivid, memorable stories.
-                        </Label.Text>
-                    </Label>
+                           LineHeight="1.4"
+                           LineBreakMode="WordWrap" />
                 </StackLayout>
             </Frame>
             <!-- Digit Mappings Card -->
@@ -136,103 +133,115 @@
                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                            FontAttributes="Bold"
                            HorizontalOptions="Center" />
-                    <!-- Individual rule items with clean visual separation -->
+                    <!-- Individual rule items with proper text wrapping -->
                     <StackLayout Spacing="{OnIdiom Phone=12, Tablet=14, Desktop=16}">
                         <!-- Rule 1: Vowels -->
-                        <HorizontalStackLayout Spacing="12">
-                            <Label Text="✓"
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Label Grid.Column="0"
+                                   Text="✓"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    FontAttributes="Bold"
                                    VerticalOptions="Start"
                                    Margin="0,2,0,0" />
-                            <Label Text="{localization:Localize Help_Rule_Vowels}"
+                            <Label Grid.Column="1"
+                                   Text="{localization:Localize Help_Rule_Vowels}"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                    LineHeight="1.4"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="FillAndExpand" />
-                        </HorizontalStackLayout>
+                                   LineBreakMode="WordWrap"
+                                   VerticalOptions="Start" />
+                        </Grid>
 
                         <!-- Rule 2: Vivid Images -->
-                        <HorizontalStackLayout Spacing="12">
-                            <Label Text="✓"
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Label Grid.Column="0"
+                                   Text="✓"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    FontAttributes="Bold"
                                    VerticalOptions="Start"
                                    Margin="0,2,0,0" />
-                            <Label Text="{localization:Localize Help_Rule_VividImages}"
+                            <Label Grid.Column="1"
+                                   Text="{localization:Localize Help_Rule_VividImages}"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                    LineHeight="1.4"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="FillAndExpand" />
-                        </HorizontalStackLayout>
+                                   LineBreakMode="WordWrap"
+                                   VerticalOptions="Start" />
+                        </Grid>
 
                         <!-- Rule 3: Practice Regularly -->
-                        <HorizontalStackLayout Spacing="12">
-                            <Label Text="✓"
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Label Grid.Column="0"
+                                   Text="✓"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    FontAttributes="Bold"
                                    VerticalOptions="Start"
                                    Margin="0,2,0,0" />
-                            <Label Text="{localization:Localize Help_Rule_PracticeRegularly}"
+                            <Label Grid.Column="1"
+                                   Text="{localization:Localize Help_Rule_PracticeRegularly}"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                    LineHeight="1.4"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="FillAndExpand" />
-                        </HorizontalStackLayout>
+                                   LineBreakMode="WordWrap"
+                                   VerticalOptions="Start" />
+                        </Grid>
 
                         <!-- Rule 4: Silent Letters -->
-                        <HorizontalStackLayout Spacing="12">
-                            <Label Text="✓"
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Label Grid.Column="0"
+                                   Text="✓"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    FontAttributes="Bold"
                                    VerticalOptions="Start"
                                    Margin="0,2,0,0" />
-                            <Label Text="{localization:Localize Help_Rule_SilentLetters}"
+                            <Label Grid.Column="1"
+                                   Text="{localization:Localize Help_Rule_SilentLetters}"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                    LineHeight="1.4"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="FillAndExpand" />
-                        </HorizontalStackLayout>
+                                   LineBreakMode="WordWrap"
+                                   VerticalOptions="Start" />
+                        </Grid>
 
                         <!-- Rule 5: Consonant Sounds -->
-                        <HorizontalStackLayout Spacing="12">
-                            <Label Text="✓"
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Label Grid.Column="0"
+                                   Text="✓"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    FontAttributes="Bold"
                                    VerticalOptions="Start"
                                    Margin="0,2,0,0" />
-                            <Label Text="{localization:Localize Help_Rule_ConsonantSounds}"
+                            <Label Grid.Column="1"
+                                   Text="{localization:Localize Help_Rule_ConsonantSounds}"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                    LineHeight="1.4"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="FillAndExpand" />
-                        </HorizontalStackLayout>
+                                   LineBreakMode="WordWrap"
+                                   VerticalOptions="Start" />
+                        </Grid>
 
                         <!-- Rule 6: Start Small -->
-                        <HorizontalStackLayout Spacing="12">
-                            <Label Text="✓"
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Label Grid.Column="0"
+                                   Text="✓"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                    FontAttributes="Bold"
                                    VerticalOptions="Start"
                                    Margin="0,2,0,0" />
-                            <Label Text="{localization:Localize Help_Rule_StartSmall}"
+                            <Label Grid.Column="1"
+                                   Text="{localization:Localize Help_Rule_StartSmall}"
                                    TextColor="White"
                                    FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                    LineHeight="1.4"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="FillAndExpand" />
-                        </HorizontalStackLayout>
+                                   LineBreakMode="WordWrap"
+                                   VerticalOptions="Start" />
+                        </Grid>
                     </StackLayout>
                 </StackLayout>
             </Frame>

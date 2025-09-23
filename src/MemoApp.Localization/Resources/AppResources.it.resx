@@ -348,6 +348,10 @@
     <value>🧠 Cos'è il Sistema Maggiore?</value>
     <comment>Help page - what is section title</comment>
   </data>
+  <data name="Help_WhatIsDescription" xml:space="preserve">
+    <value>Il Sistema Maggiore è una potente tecnica mnemonica che converte i numeri in parole o immagini memorabili associando ogni cifra (0-9) a specifici suoni consonantici. Questo rende molto più facile ricordare lunghe sequenze di numeri trasformandole in storie vivide e memorabili.</value>
+    <comment>Help page - what is section description</comment>
+  </data>
   <data name="Help_TryQuickTraining" xml:space="preserve">
     <value>Prova Flash Numbers Veloce</value>
     <comment>Help page - try Flash Numbers button</comment>
