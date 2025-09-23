@@ -1772,7 +1772,7 @@
     <comment>Welcome screen title</comment>
   </data>
   <data name="Onboarding_Welcome_Subtitle" xml:space="preserve">
-    <value>Master the art of number memorization</value>
+    <value>Master the art of memorization techniques</value>
     <comment>Welcome screen subtitle</comment>
   </data>
   <data name="Onboarding_TimeEstimate" xml:space="preserve">
@@ -1780,8 +1780,8 @@
     <comment>Time estimate for onboarding</comment>
   </data>
   <data name="Onboarding_QuickTimeEstimate" xml:space="preserve">
-    <value>3 minutes to get started</value>
-    <comment>Quick time estimate for streamlined onboarding</comment>
+    <value>5 steps to get started</value>
+    <comment>Step count for streamlined onboarding</comment>
   </data>
   <data name="Onboarding_ValueProposition" xml:space="preserve">
     <value>Master the Major System in minutes</value>
@@ -1874,8 +1874,8 @@
   
   <!-- Challenge Screen -->
   <data name="Onboarding_Challenge_Title" xml:space="preserve">
-    <value>Can you memorize this?</value>
-    <comment>Challenge screen title</comment>
+    <value>Can you memorize this in less than a minute?</value>
+    <comment>Challenge screen title with time context</comment>
   </data>
   <data name="Onboarding_Challenge_Remember" xml:space="preserve">
     <value>Try to remember the number...</value>
