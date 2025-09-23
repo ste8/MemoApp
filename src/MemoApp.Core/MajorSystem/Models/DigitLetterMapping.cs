@@ -24,17 +24,12 @@ public class DigitLetterMapping
     /// </summary>
     public string Examples { get; init; } = string.Empty;
 
-    /// <summary>
-    /// Memory aid or explanation for remembering this mapping
-    /// </summary>
-    public string MemoryAid { get; init; } = string.Empty;
 
-    public DigitLetterMapping(int digit, string letters, string examples, string memoryAid)
+    public DigitLetterMapping(int digit, string letters, string examples)
     {
         Digit = digit;
         Letters = letters;
         Examples = examples;
-        MemoryAid = memoryAid;
     }
 }
 
@@ -103,16 +98,16 @@ public class DigitLetterMappingService : IDigitLetterMappingService
     {
         return new List<DigitLetterMapping>
         {
-            new(0, "S, soft C, Z", "Sue, Ace, Zoe", "Sounds like 'zero'"),
-            new(1, "T, D, TH (both in thing and this)", "Tea, Doe, Thigh, They", "One downstroke"),
-            new(2, "N", "No", "Two downstrokes"),
-            new(3, "M", "Moo", "Three downstrokes"),
-            new(4, "R", "Ray", "Last letter of 'four'"),
-            new(5, "L", "Lee", "Roman numeral L = 50"),
-            new(6, "CH (in cheese and chef), J, soft G, SH", "Chew, Cha, Jaw, Joe, She", "J looks like reversed 6"),
-            new(7, "K, hard C, Q, hard G, CH (as in loch)", "Key, Co, Q, Go, Loch", "K has two 7s"),
-            new(8, "F, PH, V", "Fee, Pho, Vee", "F looks like 8"),
-            new(9, "P, B", "Pee, Bee", "P looks like reversed 9")
+            new(0, "S, soft C, Z", "Sue, Ace, Zoe"),
+            new(1, "T, D, TH (both in thing and this)", "Tea, Doe, Thigh, They"),
+            new(2, "N", "No"),
+            new(3, "M", "Moo"),
+            new(4, "R", "Ray"),
+            new(5, "L", "Lee"),
+            new(6, "CH (in cheese and chef), J, soft G, SH", "Chew, Cha, Jaw, Joe, She"),
+            new(7, "K, hard C, Q, hard G, CH (as in loch)", "Key, Co, Q, Go, Loch"),
+            new(8, "F, PH, V", "Fee, Pho, Vee"),
+            new(9, "P, B", "Pee, Bee")
         };
     }
 
@@ -120,16 +115,16 @@ public class DigitLetterMappingService : IDigitLetterMappingService
     {
         return new List<DigitLetterMapping>
         {
-            new(0, "S, SC, Z", "sì, asso, sci, ascia, zio, zoo", "Suona come 'zero'"),
-            new(1, "T, D", "tè, dea", "Un tratto verso il basso"),
-            new(2, "N, GN", "neo, anno, gnu", "Due tratti verso il basso"),
-            new(3, "M", "amo, mio", "Tre tratti verso il basso"),
-            new(4, "R", "re, oro", "Ultima lettera di 'quattro'"),
-            new(5, "L, GL", "ali, aglio", "Numero romano L = 50"),
-            new(6, "C, G dolci", "ciao, ace, oggi", "C sembra un 6 al contrario"),
-            new(7, "C, G dure, K", "occhio, eco, qui, ago", "K ha due 7"),
-            new(8, "F, V", "ufo, uva, via", "F sembra un 8"),
-            new(9, "P, B", "boa, ape", "P sembra un 9 al contrario")
+            new(0, "S, SC, Z", "sì, asso, sci, ascia, zio, zoo"),
+            new(1, "T, D", "tè, dea"),
+            new(2, "N, GN", "neo, anno, gnu"),
+            new(3, "M", "amo, mio"),
+            new(4, "R", "re, oro"),
+            new(5, "L, GL", "ali, aglio"),
+            new(6, "C, G dolci", "ciao, ace, oggi"),
+            new(7, "C, G dure, K", "occhio, eco, qui, ago"),
+            new(8, "F, V", "ufo, uva, via"),
+            new(9, "P, B", "boa, ape")
         };
     }
 }

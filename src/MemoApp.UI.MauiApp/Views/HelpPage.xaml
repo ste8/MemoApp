@@ -63,63 +63,68 @@
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
                            Margin="0,0,0,10" />
-                    <!-- Expanded view of all mappings without scrolling -->
-                    <StackLayout BindableLayout.ItemsSource="{Binding Mappings}" Spacing="12">
+                    <!-- Compact grid layout for digit mappings -->
+                    <StackLayout BindableLayout.ItemsSource="{Binding Mappings}" Spacing="8">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="models:DigitLetterMapping">
+                                <!-- Compact card with horizontal layout -->
                                 <Frame BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray800}}"
-                                       Padding="20"
-                                       CornerRadius="12"
+                                       Padding="16"
+                                       CornerRadius="10"
                                        HasShadow="False"
                                        BorderColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
-                                       Margin="0,0,0,8">
+                                       Margin="0,0,0,4">
 
-                                    <StackLayout Spacing="12">
-                                        <!-- Digit header -->
-                                        <Label Text="{Binding Digit, StringFormat='Digit {0}'}"
-                                               FontSize="{OnIdiom Phone=22, Tablet=26, Desktop=30}"
-                                               FontAttributes="Bold"
-                                               TextColor="{StaticResource Primary}"
-                                               HorizontalOptions="Start" />
+                                    <HorizontalStackLayout Spacing="16">
 
-                                        <!-- Letters/Sounds -->
-                                        <StackLayout Spacing="4">
-                                            <Label Text="Letters/Sounds:"
-                                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                        <!-- Large prominent digit number -->
+                                        <Frame BackgroundColor="{StaticResource Primary}"
+                                               Padding="14,12"
+                                               CornerRadius="8"
+                                               HasShadow="False"
+                                               VerticalOptions="Center"
+                                               WidthRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}"
+                                               HeightRequest="{OnIdiom Phone=56, Tablet=64, Desktop=72}">
+                                            <Label Text="{Binding Digit}"
+                                                   FontSize="{OnIdiom Phone=28, Tablet=32, Desktop=36}"
                                                    FontAttributes="Bold"
-                                                   TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
-                                            <Label Text="{Binding Letters}"
-                                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray100}}"
-                                                   LineBreakMode="WordWrap" />
-                                        </StackLayout>
+                                                   TextColor="White"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+                                        </Frame>
 
-                                        <!-- Examples -->
-                                        <StackLayout Spacing="4">
-                                            <Label Text="Examples:"
-                                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                                                   FontAttributes="Bold"
-                                                   TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
-                                            <Label Text="{Binding Examples}"
-                                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                                   TextColor="{StaticResource Secondary}"
-                                                   FontAttributes="Bold"
-                                                   LineBreakMode="WordWrap" />
-                                        </StackLayout>
+                                        <!-- Content section with proper vertical stacking -->
+                                        <VerticalStackLayout Spacing="8" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+                                            <!-- Letters/Sounds section -->
+                                            <VerticalStackLayout Spacing="2">
+                                                <Label Text="{localization:Localize Help_DigitMappingLetters}"
+                                                       FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                                                       Margin="0,0,0,2" />
+                                                <Label Text="{Binding Letters}"
+                                                       FontSize="{OnIdiom Phone=15, Tablet=17, Desktop=19}"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray100}}"
+                                                       LineBreakMode="WordWrap" />
+                                            </VerticalStackLayout>
 
-                                        <!-- Memory Aid -->
-                                        <StackLayout Spacing="4">
-                                            <Label Text="Memory Aid:"
-                                                   FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                                   FontAttributes="Bold"
-                                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                                            <Label Text="{Binding MemoryAid}"
-                                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
-                                                   FontAttributes="Italic"
-                                                   LineBreakMode="WordWrap" />
-                                        </StackLayout>
-                                    </StackLayout>
+                                            <!-- Examples section -->
+                                            <VerticalStackLayout Spacing="2">
+                                                <Label Text="{localization:Localize Help_DigitMappingExamples}"
+                                                       FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                                                       Margin="0,0,0,2" />
+                                                <Label Text="{Binding Examples}"
+                                                       FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                                       FontAttributes="None"
+                                                       TextColor="{StaticResource Secondary}"
+                                                       LineBreakMode="WordWrap" />
+                                            </VerticalStackLayout>
+                                        </VerticalStackLayout>
+
+                                    </HorizontalStackLayout>
                                 </Frame>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>

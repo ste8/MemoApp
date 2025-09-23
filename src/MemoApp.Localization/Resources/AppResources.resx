@@ -2972,4 +2972,12 @@ Download MemoRaise: {AppUrl}
     <value>Language changed to {0}</value>
     <comment>Screen reader announcement when language changes</comment>
   </data>
+  <data name="Help_DigitMappingLetters" xml:space="preserve">
+    <value>Letters:</value>
+    <comment>Label for letters/sounds in digit mapping display</comment>
+  </data>
+  <data name="Help_DigitMappingExamples" xml:space="preserve">
+    <value>Examples:</value>
+    <comment>Label for examples in digit mapping display</comment>
+  </data>
 </root>

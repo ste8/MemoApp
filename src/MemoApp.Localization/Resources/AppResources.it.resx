@@ -2868,4 +2868,12 @@ Scarica MemoRaise: {AppUrl}
     <value>Lingua cambiata in {0}</value>
     <comment>Screen reader announcement when language changes</comment>
   </data>
+  <data name="Help_DigitMappingLetters" xml:space="preserve">
+    <value>Lettere:</value>
+    <comment>Label for letters/sounds in digit mapping display</comment>
+  </data>
+  <data name="Help_DigitMappingExamples" xml:space="preserve">
+    <value>Esempi:</value>
+    <comment>Label for examples in digit mapping display</comment>
+  </data>
 </root>
