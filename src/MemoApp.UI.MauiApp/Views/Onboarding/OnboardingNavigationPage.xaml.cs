@@ -6,7 +6,7 @@ public partial class OnboardingNavigationPage : ContentPage
 {
     private readonly OnboardingNavigationViewModel _viewModel;
     private readonly List<View> _onboardingViews = new();
-    private readonly List<Border> _indicators = new();
+    private readonly List<Border> _stepIndicators = new();
 
     public OnboardingNavigationPage(OnboardingNavigationViewModel viewModel)
     {
@@ -42,13 +42,15 @@ public partial class OnboardingNavigationPage : ContentPage
     private async Task InitializeViews()
     {
         await _viewModel.InitializeAsync();
-        
-        // Get all step indicators
-        _indicators.Clear();
-        _indicators.Add(PhaseIndicator0);
-        _indicators.Add(PhaseIndicator1);
-        _indicators.Add(PhaseIndicator2);
-        
+
+        // Get all 5 step indicators
+        _stepIndicators.Clear();
+        _stepIndicators.Add(StepIndicator0);
+        _stepIndicators.Add(StepIndicator1);
+        _stepIndicators.Add(StepIndicator2);
+        _stepIndicators.Add(StepIndicator3);
+        _stepIndicators.Add(StepIndicator4);
+
         // Store views from ViewModel
         _onboardingViews.Clear();
         _onboardingViews.AddRange(_viewModel.OnboardingPages);
@@ -88,55 +90,60 @@ public partial class OnboardingNavigationPage : ContentPage
     private void UpdateIndicators()
     {
         // Ensure indicators are initialized before updating
-        if (_indicators == null || _indicators.Count == 0)
+        if (_stepIndicators == null || _stepIndicators.Count == 0)
             return;
-            
+
         var primaryColor = (Color)Application.Current.Resources["Primary"];
         var grayColor = (Color)(Application.Current.Resources.TryGetValue("Gray300", out var gray) ? gray : Colors.Gray);
-        var warningColor = (Color)(Application.Current.Resources.TryGetValue("Orange400", out var orange) ? orange : Colors.Orange);
-        
-        // Map 4 steps to 4 visual indicators:
-        // Step 1 (Learn): Steps 0-1 (Welcome+Challenge, Major System)
-        // Step 2 (Practice): Step 2 (Interactive Practice)
-        // Step 3 (Content): Step 3 (Pack Download) - FINAL STEP
-        var currentStep = _viewModel.CurrentPosition switch
+        var successColor = (Color)(Application.Current.Resources.TryGetValue("Green400", out var green) ? green : Colors.Green);
+
+        // Linear mapping: CurrentPosition directly maps to step indicators (0-4)
+        var currentStep = _viewModel.CurrentPosition;
+
+        // Update step indicators with linear progression
+        for (int i = 0; i < _stepIndicators.Count; i++)
         {
-            0 or 1 => 0, // Learn step
-            2 => 1,      // Practice step
-            3 => 2,      // Content step (FINAL)
-            _ => 0
-        };
-        
-        // Update step indicators with special handling for content step
-        for (int i = 0; i < _indicators.Count; i++)
-        {
-            if (_indicators[i] != null)
+            if (_stepIndicators[i] != null)
             {
-                if (i == 2 && currentStep >= 2) // Content step - use warning color when active
+                if (i < currentStep)
                 {
-                    _indicators[i].BackgroundColor = currentStep == 2 ? warningColor : primaryColor;
+                    // Completed steps - use success color
+                    _stepIndicators[i].BackgroundColor = successColor;
+                }
+                else if (i == currentStep)
+                {
+                    // Current step - use primary color
+                    _stepIndicators[i].BackgroundColor = primaryColor;
                 }
                 else
                 {
-                    _indicators[i].BackgroundColor = i <= currentStep ? primaryColor : grayColor;
+                    // Future steps - use gray
+                    _stepIndicators[i].BackgroundColor = grayColor;
                 }
             }
         }
-        
-        // Update step labels colors with special handling for content step
-        var labelElements = new[] { PhaseLabel0, PhaseLabel1, PhaseLabel2 };
-        
+
+        // Update step label colors with same logic
+        var labelElements = new[] { StepLabel0, StepLabel1, StepLabel2, StepLabel3, StepLabel4 };
+
         for (int i = 0; i < labelElements.Length; i++)
         {
             if (labelElements[i] != null)
             {
-                if (i == 2 && currentStep >= 2) // Content step - use warning color when active
+                if (i < currentStep)
                 {
-                    labelElements[i].TextColor = currentStep == 2 ? warningColor : primaryColor;
+                    // Completed steps
+                    labelElements[i].TextColor = successColor;
+                }
+                else if (i == currentStep)
+                {
+                    // Current step
+                    labelElements[i].TextColor = primaryColor;
                 }
                 else
                 {
-                    labelElements[i].TextColor = i <= currentStep ? primaryColor : grayColor;
+                    // Future steps
+                    labelElements[i].TextColor = grayColor;
                 }
             }
         }

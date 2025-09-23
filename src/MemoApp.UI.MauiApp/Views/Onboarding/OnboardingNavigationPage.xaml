@@ -21,59 +21,89 @@
             <!-- Onboarding views will be dynamically added here -->
         </Grid>
 
-        <!-- Enhanced 4-Step Progress Indicator -->
-        <HorizontalStackLayout Grid.Row="1" 
+        <!-- 5-Step Linear Progress Indicator -->
+        <HorizontalStackLayout Grid.Row="1"
                               HorizontalOptions="Center"
-                              Spacing="10"
+                              Spacing="8"
                               Margin="0,20,0,15">
-            
-            <!-- Step 1: Learn -->
+
+            <!-- Step 1: Welcome -->
             <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                <Border x:Name="PhaseIndicator0" 
-                        BackgroundColor="{StaticResource Primary}" 
-                        WidthRequest="30" 
-                        HeightRequest="6" 
-                        StrokeShape="RoundRectangle 3" 
+                <Border x:Name="StepIndicator0"
+                        BackgroundColor="{StaticResource Primary}"
+                        WidthRequest="24"
+                        HeightRequest="6"
+                        StrokeShape="RoundRectangle 3"
                         Stroke="Transparent" />
-                <Label x:Name="PhaseLabel0"
-                       Text="{localization:Localize Onboarding_Step_Learn}"
-                       FontSize="11"
+                <Label x:Name="StepLabel0"
+                       Text="{localization:Localize Onboarding_Step_Welcome}"
+                       FontSize="10"
                        HorizontalOptions="Center"
                        TextColor="{StaticResource Primary}" />
             </VerticalStackLayout>
-            
-            <!-- Step 2: Practice -->
+
+            <!-- Step 2: Learn -->
             <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                <Border x:Name="PhaseIndicator1" 
-                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" 
-                        WidthRequest="30" 
-                        HeightRequest="6" 
-                        StrokeShape="RoundRectangle 3" 
+                <Border x:Name="StepIndicator1"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                        WidthRequest="24"
+                        HeightRequest="6"
+                        StrokeShape="RoundRectangle 3"
                         Stroke="Transparent" />
-                <Label x:Name="PhaseLabel1"
-                       Text="{localization:Localize Onboarding_Step_Practice}"
-                       FontSize="11"
+                <Label x:Name="StepLabel1"
+                       Text="{localization:Localize Onboarding_Step_Concept}"
+                       FontSize="10"
                        HorizontalOptions="Center"
                        TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
             </VerticalStackLayout>
-            
-            <!-- Step 3: Content (CRITICAL) -->
+
+            <!-- Step 3: Example -->
             <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                <Border x:Name="PhaseIndicator2" 
-                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" 
-                        WidthRequest="40" 
-                        HeightRequest="8" 
-                        StrokeShape="RoundRectangle 4" 
+                <Border x:Name="StepIndicator2"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                        WidthRequest="24"
+                        HeightRequest="6"
+                        StrokeShape="RoundRectangle 3"
+                        Stroke="Transparent" />
+                <Label x:Name="StepLabel2"
+                       Text="{localization:Localize Onboarding_Step_Example}"
+                       FontSize="10"
+                       HorizontalOptions="Center"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
+            </VerticalStackLayout>
+
+            <!-- Step 4: Practice -->
+            <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                <Border x:Name="StepIndicator3"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                        WidthRequest="24"
+                        HeightRequest="6"
+                        StrokeShape="RoundRectangle 3"
+                        Stroke="Transparent" />
+                <Label x:Name="StepLabel3"
+                       Text="{localization:Localize Onboarding_Step_Interactive}"
+                       FontSize="10"
+                       HorizontalOptions="Center"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
+            </VerticalStackLayout>
+
+            <!-- Step 5: Setup (FINAL) -->
+            <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                <Border x:Name="StepIndicator4"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                        WidthRequest="28"
+                        HeightRequest="8"
+                        StrokeShape="RoundRectangle 4"
                         Stroke="Transparent"
                         Shadow="{StaticResource CommonShadow}" />
-                <Label x:Name="PhaseLabel2"
-                       Text="{localization:Localize Onboarding_Step_Content}"
-                       FontSize="11"
+                <Label x:Name="StepLabel4"
+                       Text="{localization:Localize Onboarding_Step_Download}"
+                       FontSize="10"
                        FontAttributes="Bold"
                        HorizontalOptions="Center"
                        TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
             </VerticalStackLayout>
-            
+
         </HorizontalStackLayout>
 
         <!-- Enhanced Navigation Controls for Mobile -->

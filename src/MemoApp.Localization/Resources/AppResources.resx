@@ -1819,6 +1819,26 @@
     <value>Setup</value>
     <comment>Step 4 indicator label</comment>
   </data>
+  <data name="Onboarding_Step_Welcome" xml:space="preserve">
+    <value>Welcome</value>
+    <comment>Step 1 of 5 - Welcome and challenge introduction</comment>
+  </data>
+  <data name="Onboarding_Step_Concept" xml:space="preserve">
+    <value>Learn</value>
+    <comment>Step 2 of 5 - Major System concept introduction</comment>
+  </data>
+  <data name="Onboarding_Step_Example" xml:space="preserve">
+    <value>Example</value>
+    <comment>Step 3 of 5 - Concrete examples of number-to-image conversion</comment>
+  </data>
+  <data name="Onboarding_Step_Interactive" xml:space="preserve">
+    <value>Practice</value>
+    <comment>Step 4 of 5 - Interactive practice with user input</comment>
+  </data>
+  <data name="Onboarding_Step_Download" xml:space="preserve">
+    <value>Setup</value>
+    <comment>Step 5 of 5 - Pack download and final setup</comment>
+  </data>
   <data name="Onboarding_SkipOptionsTitle" xml:space="preserve">
     <value>Skip to which part?</value>
     <comment>Title for contextual skip options</comment>

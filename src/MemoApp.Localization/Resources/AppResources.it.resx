@@ -2211,6 +2211,26 @@ Scarica MemoRaise: {AppUrl}
     <value>Configura</value>
     <comment>Step 4 indicator label</comment>
   </data>
+  <data name="Onboarding_Step_Welcome" xml:space="preserve">
+    <value>Benvenuto</value>
+    <comment>Step 1 of 5 - Welcome and challenge introduction</comment>
+  </data>
+  <data name="Onboarding_Step_Concept" xml:space="preserve">
+    <value>Impara</value>
+    <comment>Step 2 of 5 - Major System concept introduction</comment>
+  </data>
+  <data name="Onboarding_Step_Example" xml:space="preserve">
+    <value>Esempio</value>
+    <comment>Step 3 of 5 - Concrete examples of number-to-image conversion</comment>
+  </data>
+  <data name="Onboarding_Step_Interactive" xml:space="preserve">
+    <value>Pratica</value>
+    <comment>Step 4 of 5 - Interactive practice with user input</comment>
+  </data>
+  <data name="Onboarding_Step_Download" xml:space="preserve">
+    <value>Configura</value>
+    <comment>Step 5 of 5 - Pack download and final setup</comment>
+  </data>
   <data name="Onboarding_SkipOptionsTitle" xml:space="preserve">
     <value>Salta a quale parte?</value>
     <comment>Title for contextual skip options</comment>
