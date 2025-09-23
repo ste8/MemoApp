@@ -372,6 +372,30 @@
     <value>📝 Regole Importanti &amp; Consigli</value>
     <comment>Help page - rules section title</comment>
   </data>
+  <data name="Help_Rule_Vowels" xml:space="preserve">
+    <value>Le vocali (A, E, I, O, U) non contano - usale liberamente</value>
+    <comment>Major System rule about vowels</comment>
+  </data>
+  <data name="Help_Rule_VividImages" xml:space="preserve">
+    <value>Crea immagini vivide e memorabili per ogni numero</value>
+    <comment>Major System rule about creating memorable images</comment>
+  </data>
+  <data name="Help_Rule_PracticeRegularly" xml:space="preserve">
+    <value>Pratica regolarmente per costruire associazioni forti</value>
+    <comment>Major System rule about regular practice</comment>
+  </data>
+  <data name="Help_Rule_SilentLetters" xml:space="preserve">
+    <value>Le lettere mute non contano (come 'b' in 'thumb')</value>
+    <comment>Major System rule about silent letters</comment>
+  </data>
+  <data name="Help_Rule_ConsonantSounds" xml:space="preserve">
+    <value>Concentrati sui suoni consonantici, non sull'ortografia</value>
+    <comment>Major System rule about focusing on sounds</comment>
+  </data>
+  <data name="Help_Rule_StartSmall" xml:space="preserve">
+    <value>Inizia con 00-09, poi espandi il tuo range</value>
+    <comment>Major System rule about starting with small ranges</comment>
+  </data>
   <data name="Help_StartTrainingNow" xml:space="preserve">
     <value>Esplora Associazioni</value>
     <comment>Help page - explore associations button</comment>

@@ -136,55 +136,104 @@
                            FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                            FontAttributes="Bold"
                            HorizontalOptions="Center" />
-                    <!-- Rules grid for better organization on larger screens -->
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="{OnIdiom Phone='*', Tablet='*', Desktop='*'}" />
-                            <ColumnDefinition Width="{OnIdiom Phone='0', Tablet='*', Desktop='*'}" />
-                        </Grid.ColumnDefinitions>
-                        <!-- Left column -->
-                        <StackLayout Grid.Column="0" Spacing="12">
-                            <Label TextColor="White"
+                    <!-- Individual rule items with clean visual separation -->
+                    <StackLayout Spacing="{OnIdiom Phone=12, Tablet=14, Desktop=16}">
+                        <!-- Rule 1: Vowels -->
+                        <HorizontalStackLayout Spacing="12">
+                            <Label Text="✓"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Start"
+                                   Margin="0,2,0,0" />
+                            <Label Text="{localization:Localize Help_Rule_Vowels}"
+                                   TextColor="White"
                                    FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                                   LineHeight="1.3">
-                                <Label.Text>
-                                    ✓ Vowels (A, E, I, O, U) don't count - use them freely
-                                    ✓ Create vivid, memorable images for each number
-                                    ✓ Practice regularly to build strong associations
-                                </Label.Text>
-                            </Label>
-                        </StackLayout>
-                        <!-- Right column (hidden on phone) -->
-                        <StackLayout Grid.Column="1"
-                                     Spacing="12"
-                                     Margin="{OnIdiom Phone='0', Tablet='20,0,0,0', Desktop='20,0,0,0'}"
-                                     IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}">
-                            <Label TextColor="White"
+                                   LineHeight="1.4"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="FillAndExpand" />
+                        </HorizontalStackLayout>
+
+                        <!-- Rule 2: Vivid Images -->
+                        <HorizontalStackLayout Spacing="12">
+                            <Label Text="✓"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Start"
+                                   Margin="0,2,0,0" />
+                            <Label Text="{localization:Localize Help_Rule_VividImages}"
+                                   TextColor="White"
                                    FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                                   LineHeight="1.3">
-                                <Label.Text>
-                                    ✓ Silent letters don't count (like 'b' in 'thumb')
-                                    ✓ Focus on consonant sounds, not spelling
-                                    ✓ Start with 00-09, then expand your range
-                                </Label.Text>
-                            </Label>
-                        </StackLayout>
-                        <!-- Show second set on phone in same column -->
-                        <StackLayout Grid.Column="0"
-                                     Spacing="12"
-                                     Margin="0,12,0,0"
-                                     IsVisible="{OnIdiom Phone=True, Tablet=False, Desktop=False}">
-                            <Label TextColor="White"
+                                   LineHeight="1.4"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="FillAndExpand" />
+                        </HorizontalStackLayout>
+
+                        <!-- Rule 3: Practice Regularly -->
+                        <HorizontalStackLayout Spacing="12">
+                            <Label Text="✓"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Start"
+                                   Margin="0,2,0,0" />
+                            <Label Text="{localization:Localize Help_Rule_PracticeRegularly}"
+                                   TextColor="White"
                                    FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                                   LineHeight="1.3">
-                                <Label.Text>
-                                    ✓ Silent letters don't count (like 'b' in 'thumb')
-                                    ✓ Focus on consonant sounds, not spelling
-                                    ✓ Start with 00-09, then expand your range
-                                </Label.Text>
-                            </Label>
-                        </StackLayout>
-                    </Grid>
+                                   LineHeight="1.4"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="FillAndExpand" />
+                        </HorizontalStackLayout>
+
+                        <!-- Rule 4: Silent Letters -->
+                        <HorizontalStackLayout Spacing="12">
+                            <Label Text="✓"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Start"
+                                   Margin="0,2,0,0" />
+                            <Label Text="{localization:Localize Help_Rule_SilentLetters}"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                   LineHeight="1.4"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="FillAndExpand" />
+                        </HorizontalStackLayout>
+
+                        <!-- Rule 5: Consonant Sounds -->
+                        <HorizontalStackLayout Spacing="12">
+                            <Label Text="✓"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Start"
+                                   Margin="0,2,0,0" />
+                            <Label Text="{localization:Localize Help_Rule_ConsonantSounds}"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                   LineHeight="1.4"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="FillAndExpand" />
+                        </HorizontalStackLayout>
+
+                        <!-- Rule 6: Start Small -->
+                        <HorizontalStackLayout Spacing="12">
+                            <Label Text="✓"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Start"
+                                   Margin="0,2,0,0" />
+                            <Label Text="{localization:Localize Help_Rule_StartSmall}"
+                                   TextColor="White"
+                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                   LineHeight="1.4"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="FillAndExpand" />
+                        </HorizontalStackLayout>
+                    </StackLayout>
                 </StackLayout>
             </Frame>
             <!-- Action Button -->

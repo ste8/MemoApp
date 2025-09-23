@@ -373,6 +373,30 @@
     <value>📝 Important Rules &amp; Tips</value>
     <comment>Help page - rules section title</comment>
   </data>
+  <data name="Help_Rule_Vowels" xml:space="preserve">
+    <value>Vowels (A, E, I, O, U) don't count - use them freely</value>
+    <comment>Major System rule about vowels</comment>
+  </data>
+  <data name="Help_Rule_VividImages" xml:space="preserve">
+    <value>Create vivid, memorable images for each number</value>
+    <comment>Major System rule about creating memorable images</comment>
+  </data>
+  <data name="Help_Rule_PracticeRegularly" xml:space="preserve">
+    <value>Practice regularly to build strong associations</value>
+    <comment>Major System rule about regular practice</comment>
+  </data>
+  <data name="Help_Rule_SilentLetters" xml:space="preserve">
+    <value>Silent letters don't count (like 'b' in 'thumb')</value>
+    <comment>Major System rule about silent letters</comment>
+  </data>
+  <data name="Help_Rule_ConsonantSounds" xml:space="preserve">
+    <value>Focus on consonant sounds, not spelling</value>
+    <comment>Major System rule about focusing on sounds</comment>
+  </data>
+  <data name="Help_Rule_StartSmall" xml:space="preserve">
+    <value>Start with 00-09, then expand your range</value>
+    <comment>Major System rule about starting with small ranges</comment>
+  </data>
   <data name="Help_StartTrainingNow" xml:space="preserve">
     <value>Explore Number Associations</value>
     <comment>Help page - explore associations button</comment>
