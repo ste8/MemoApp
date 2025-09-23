@@ -2,6 +2,7 @@ using MemoApp.Core.Services.Analytics;
 using MemoApp.Core.Services.ErrorMonitoring;
 using MemoApp.Core.Services.Sharing;
 using MemoApp.Core.MajorSystem.Services;
+using MemoApp.Core.MajorSystem.Models;
 using MemoApp.Core.BigNumber;
 using MemoApp.Core.Services.Packs;
 using MemoApp.Localization.Services;
@@ -162,6 +163,7 @@ public static class ServiceRegistration
     {
         // Major System services
         services.AddSingleton<IMajorSystemCategoryService, MajorSystemCategoryService>();
+        services.AddSingleton<IDigitLetterMappingService, DigitLetterMappingService>();
         services.AddSingleton<ITokenDefaultsService>(serviceProvider =>
         {
             var logger = serviceProvider.GetRequiredService<ILogger<TokenDefaultsService>>();
@@ -285,7 +287,11 @@ public static class ServiceRegistration
         });
         
         services.AddTransient<StatisticsViewModel>();
-        services.AddTransient<HelpViewModel>();
+        services.AddTransient<HelpViewModel>(serviceProvider =>
+        {
+            var mappingService = serviceProvider.GetRequiredService<IDigitLetterMappingService>();
+            return new HelpViewModel(mappingService);
+        });
         
         services.AddTransient<AssociationsViewModel>(serviceProvider =>
         {

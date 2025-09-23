@@ -4,6 +4,7 @@
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              xmlns:utilities="clr-namespace:MemoApp.UI.MauiApp.Utilities"
+             xmlns:models="clr-namespace:MemoApp.Core.MajorSystem.Models;assembly=MemoApp.Core"
              x:Class="MemoApp.UI.MauiApp.Views.HelpPage"
              x:DataType="viewmodels:HelpViewModel"
              Title="{Binding Title}">
@@ -62,138 +63,67 @@
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
                            Margin="0,0,0,10" />
-                    <!-- Responsive CollectionView for mappings -->
-                    <CollectionView ItemsSource="{Binding Mappings}"
-                                    SelectionMode="None"
-                                    HeightRequest="{OnIdiom Phone=400, Tablet=500, Desktop=600}">
-
-                        <!-- Adaptive grid layout -->
-                        <CollectionView.ItemsLayout>
-                            <GridItemsLayout Orientation="Vertical"
-                                           Span="{OnIdiom Phone=1, Tablet=2, Desktop=2}"
-                                           HorizontalItemSpacing="10"
-                                           VerticalItemSpacing="10" />
-                        </CollectionView.ItemsLayout>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="viewmodels:MajorSystemMapping">
+                    <!-- Expanded view of all mappings without scrolling -->
+                    <StackLayout BindableLayout.ItemsSource="{Binding Mappings}" Spacing="12">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:DigitLetterMapping">
                                 <Frame BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray800}}"
-                                       Padding="15"
-                                       CornerRadius="8"
-                                       HasShadow="False">
+                                       Padding="20"
+                                       CornerRadius="12"
+                                       HasShadow="False"
+                                       BorderColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                                       Margin="0,0,0,8">
 
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <!-- Icon and digit -->
-                                        <Label Grid.Column="0" Grid.Row="0"
-                                               Text="{Binding Icon}"
-                                               FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
-                                               VerticalOptions="Center"
-                                               Margin="0,0,10,0" />
-                                        <Label Grid.Column="1" Grid.Row="0"
-                                               Text="{Binding Digit, StringFormat='Digit {0}'}"
-                                               FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                    <StackLayout Spacing="12">
+                                        <!-- Digit header -->
+                                        <Label Text="{Binding Digit, StringFormat='Digit {0}'}"
+                                               FontSize="{OnIdiom Phone=22, Tablet=26, Desktop=30}"
                                                FontAttributes="Bold"
-                                               TextColor="{StaticResource Primary}" />
-                                        <!-- Consonants -->
-                                        <Label Grid.Column="1" Grid.Row="1"
-                                               Text="{Binding Consonants}"
-                                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                                               FontAttributes="Bold" />
-                                        <!-- Memory aid -->
-                                        <Label Grid.Column="1" Grid.Row="2"
-                                               Text="{Binding Memory}"
-                                               FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
-                                               TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
-                                               FontAttributes="Italic" />
-                                    </Grid>
-                                </Frame>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </StackLayout>
-            </Frame>
-            <!-- Examples Card -->
-            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDark}}"
-                   Padding="15"
-                   CornerRadius="10"
-                   HasShadow="True">
+                                               TextColor="{StaticResource Primary}"
+                                               HorizontalOptions="Start" />
 
-                <StackLayout Spacing="15">
-                    <Label Text="{localization:Localize Help_ExampleWordsTitle}"
-                           TextColor="White"
-                           FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center" />
-                    <Label Text="{localization:Localize Help_ExampleWordsDesc}"
-                           TextColor="White"
-                           FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                           Opacity="0.9"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                           Margin="0,0,0,10" />
-                    <!-- Responsive CollectionView for examples -->
-                    <CollectionView ItemsSource="{Binding Examples}"
-                                    SelectionMode="None"
-                                    HeightRequest="{OnIdiom Phone=300, Tablet=400, Desktop=500}">
-
-                        <!-- Different layouts for different screen sizes -->
-                        <CollectionView.ItemsLayout>
-                            <GridItemsLayout Orientation="Vertical"
-                                           Span="{OnIdiom Phone=1, Tablet=2, Desktop=3}"
-                                           HorizontalItemSpacing="10"
-                                           VerticalItemSpacing="10" />
-                        </CollectionView.ItemsLayout>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="viewmodels:ExampleWord">
-                                <Frame BackgroundColor="White"
-                                       Padding="12"
-                                       CornerRadius="8"
-                                       HasShadow="False">
-
-                                    <StackLayout Spacing="8">
-                                        <!-- Icon and number -->
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Label Grid.Column="0"
-                                                   Text="{Binding Icon}"
-                                                   FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
-                                                   VerticalOptions="Center"
-                                                   Margin="0,0,8,0" />
-                                            <Label Grid.Column="1"
-                                                   Text="{Binding Number}"
-                                                   FontSize="{OnIdiom Phone=20, Tablet=24, Desktop=28}"
+                                        <!-- Letters/Sounds -->
+                                        <StackLayout Spacing="4">
+                                            <Label Text="Letters/Sounds:"
+                                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                                    FontAttributes="Bold"
-                                                   TextColor="{StaticResource Primary}"
-                                                   VerticalOptions="Center" />
-                                        </Grid>
-                                        <!-- Word -->
-                                        <Label Text="{Binding Word}"
-                                               FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                                               FontAttributes="Bold"
-                                               TextColor="{StaticResource Secondary}"
-                                               HorizontalOptions="Center" />
-                                        <!-- Explanation -->
-                                        <Label Text="{Binding Explanation}"
-                                               FontSize="{OnIdiom Phone=11, Tablet=13, Desktop=15}"
-                                               TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
-                                               HorizontalTextAlignment="Center"
-                                               HorizontalOptions="Center" />
+                                                   TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
+                                            <Label Text="{Binding Letters}"
+                                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray100}}"
+                                                   LineBreakMode="WordWrap" />
+                                        </StackLayout>
+
+                                        <!-- Examples -->
+                                        <StackLayout Spacing="4">
+                                            <Label Text="Examples:"
+                                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
+                                            <Label Text="{Binding Examples}"
+                                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                                   TextColor="{StaticResource Secondary}"
+                                                   FontAttributes="Bold"
+                                                   LineBreakMode="WordWrap" />
+                                        </StackLayout>
+
+                                        <!-- Memory Aid -->
+                                        <StackLayout Spacing="4">
+                                            <Label Text="Memory Aid:"
+                                                   FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                            <Label Text="{Binding MemoryAid}"
+                                                   FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                                                   FontAttributes="Italic"
+                                                   LineBreakMode="WordWrap" />
+                                        </StackLayout>
                                     </StackLayout>
                                 </Frame>
                             </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
                 </StackLayout>
             </Frame>
             <!-- Tips and Rules Card -->
