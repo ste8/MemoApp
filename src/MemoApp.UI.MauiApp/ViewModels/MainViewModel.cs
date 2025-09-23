@@ -24,7 +24,7 @@ public partial class MainViewModel : BaseViewModel
         _localizationService = localizationService;
         _userNotificationService = userNotificationService;
         _logger = logger;
-        Title = _localizationService.GetString("MainPage_WelcomeTitle");
+        Title = _localizationService.GetString("Tab_Home");
     }
 
     [RelayCommand]
