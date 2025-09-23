@@ -404,7 +404,11 @@
     <value>Esplora Associazioni</value>
     <comment>Help page - explore associations button</comment>
   </data>
-  
+  <data name="Help_LearnMoreOnWikipedia" xml:space="preserve">
+    <value>Approfondisci su Wikipedia</value>
+    <comment>Help page - link to Wikipedia article about Major System</comment>
+  </data>
+
   <!-- Training Session Additional -->
   <data name="FlashNumbers_ThinkInstruction" xml:space="preserve">
     <value>Pensa alla tua associazione parola/immagine</value>

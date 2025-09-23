@@ -290,7 +290,8 @@ public static class ServiceRegistration
         services.AddTransient<HelpViewModel>(serviceProvider =>
         {
             var mappingService = serviceProvider.GetRequiredService<IDigitLetterMappingService>();
-            return new HelpViewModel(mappingService);
+            var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+            return new HelpViewModel(mappingService, localizationService);
         });
         
         services.AddTransient<AssociationsViewModel>(serviceProvider =>

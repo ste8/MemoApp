@@ -255,6 +255,31 @@
                     CornerRadius="15"
                     HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
                     Margin="20,10" />
+
+            <!-- Wikipedia Link Section -->
+            <VerticalStackLayout Spacing="8" Margin="0,10,0,20">
+                <!-- Optional separator line for visual distinction -->
+                <BoxView HeightRequest="1"
+                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                         HorizontalOptions="FillAndExpand"
+                         Margin="40,0" />
+
+                <!-- Wikipedia link styled as a tappable text element -->
+                <Label HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{localization:Localize Help_LearnMoreOnWikipedia}"
+                                  TextColor="{StaticResource Primary}"
+                                  FontSize="{OnIdiom Phone=15, Tablet=17, Desktop=19}"
+                                  TextDecorations="Underline" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenWikipediaCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </VerticalStackLayout>
         </StackLayout>
     </ScrollView>
 </ContentPage>
