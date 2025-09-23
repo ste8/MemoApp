@@ -2,7 +2,9 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
-             x:Class="MemoApp.UI.MauiApp.Views.Onboarding.WelcomeChallengeView">
+             xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels.Onboarding"
+             x:Class="MemoApp.UI.MauiApp.Views.Onboarding.WelcomeChallengeView"
+             x:DataType="viewmodels:WelcomeChallengeViewModel">
     
     <ScrollView Padding="30">
         <VerticalStackLayout Spacing="30">
@@ -46,61 +48,137 @@
                 </Frame>
             </VerticalStackLayout>
 
-            <!-- Challenge Section -->
-            <VerticalStackLayout Spacing="25">
-                <Label Text="{localization:Localize Onboarding_Challenge_Title}"
-                       Style="{StaticResource Headline}"
-                       HorizontalOptions="Center"
-                       HorizontalTextAlignment="Center"
-                       FontSize="24"
-                       FontAttributes="Bold" />
+            <!-- Rhetorical Demonstrations Section -->
+            <VerticalStackLayout Spacing="30">
 
-                <!-- Enhanced Number Display -->
-                <Frame x:Name="NumberFrame"
-                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
-                       BorderColor="{StaticResource Primary}"
-                       HasShadow="True"
-                       CornerRadius="20"
-                       Padding="40,25"
-                       HorizontalOptions="Center"
-                       MinimumHeightRequest="120"
-                       MinimumWidthRequest="280">
-                    <Label x:Name="ChallengeNumber"
-                           Text="4159265358"
-                           FontSize="42"
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center" />
-                </Frame>
+                <!-- Easy Challenge -->
+                <Border StrokeShape="RoundRectangle 16"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
+                        Stroke="{StaticResource Success}"
+                        Padding="20">
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="{Binding EasyQuestion}"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Success}"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center" />
 
-                <!-- Enhanced Status Message with Animation Container -->
-                <Border HeightRequest="50"
-                        BackgroundColor="Transparent"
-                        HorizontalOptions="Center">
-                    <Label x:Name="StatusLabel"
-                           Text="{localization:Localize Onboarding_Challenge_Remember}"
-                           Style="{StaticResource SubHeadline}"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                           VerticalOptions="Center"
-                           FontSize="16"
-                           Opacity="0" />
+                        <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                               BorderColor="{StaticResource Success}"
+                               CornerRadius="12"
+                               Padding="20,15"
+                               HorizontalOptions="Center">
+                            <Label Text="{Binding EasyNumber}"
+                                   FontSize="32"
+                                   FontFamily="Monospace"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Frame>
+
+                        <Label Text="Starter Level"
+                               FontSize="14"
+                               FontAttributes="Italic"
+                               Opacity="0.7"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
                 </Border>
 
-                <!-- Value Proposition -->
-                <VerticalStackLayout Spacing="15">
-                    <Label Text="{localization:Localize Onboarding_ValueProposition}"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                           FontSize="16"
+                <!-- Medium Challenge -->
+                <Border StrokeShape="RoundRectangle 16"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
+                        Stroke="{StaticResource Warning}"
+                        Padding="20">
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="{Binding MediumQuestion}"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Warning}"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center" />
+
+                        <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                               BorderColor="{StaticResource Warning}"
+                               CornerRadius="12"
+                               Padding="20,15"
+                               HorizontalOptions="Center">
+                            <Label Text="{Binding MediumNumber}"
+                                   FontSize="28"
+                                   FontFamily="Monospace"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Frame>
+
+                        <Label Text="Challenging"
+                               FontSize="14"
+                               FontAttributes="Italic"
+                               Opacity="0.7"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Hard Challenge -->
+                <Border StrokeShape="RoundRectangle 16"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
+                        Stroke="{StaticResource Danger}"
+                        Padding="20">
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="{Binding HardQuestion}"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Danger}"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center" />
+
+                        <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                               BorderColor="{StaticResource Danger}"
+                               CornerRadius="12"
+                               Padding="20,15"
+                               HorizontalOptions="Center">
+                            <Label Text="{Binding HardNumber}"
+                                   FontSize="22"
+                                   FontFamily="Monospace"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   LineBreakMode="WordWrap"
+                                   MaximumWidthRequest="300" />
+                        </Frame>
+
+                        <Label Text="Seems Impossible"
+                               FontSize="14"
+                               FontAttributes="Italic"
+                               Opacity="0.7"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Conclusion Message -->
+                <VerticalStackLayout Spacing="20">
+                    <Label Text="{Binding ConclusionMessage}"
+                           FontSize="24"
                            FontAttributes="Bold"
-                           TextColor="{StaticResource Primary}" />
-                    
-                    <Label Text="{localization:Localize Onboarding_LearnHow}"
+                           TextColor="{StaticResource Primary}"
                            HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                           FontSize="14"
-                           Opacity="0.8" />
+                           HorizontalTextAlignment="Center" />
+
+                    <!-- Value Proposition -->
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="{localization:Localize Onboarding_ValueProposition}"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Primary}" />
+
+                        <Label Text="{localization:Localize Onboarding_LearnHow}"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               FontSize="14"
+                               Opacity="0.8" />
+                    </VerticalStackLayout>
                 </VerticalStackLayout>
             </VerticalStackLayout>
 

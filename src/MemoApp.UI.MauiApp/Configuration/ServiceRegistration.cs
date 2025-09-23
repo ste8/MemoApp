@@ -395,6 +395,12 @@ public static class ServiceRegistration
         // Onboarding ViewModels
         services.AddTransient<ViewModels.Onboarding.OnboardingNavigationViewModel>();
         services.AddTransient<ViewModels.Onboarding.PersonalizationViewModel>();
+        services.AddTransient<ViewModels.Onboarding.WelcomeChallengeViewModel>(serviceProvider =>
+        {
+            var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+            var logger = serviceProvider.GetRequiredService<ILogger<ViewModels.Onboarding.WelcomeChallengeViewModel>>();
+            return new ViewModels.Onboarding.WelcomeChallengeViewModel(localizationService, logger);
+        });
         services.AddTransient<ViewModels.Onboarding.ExampleViewModel>(serviceProvider =>
         {
             var onboardingService = serviceProvider.GetRequiredService<IMajorSystemOnboardingService>();

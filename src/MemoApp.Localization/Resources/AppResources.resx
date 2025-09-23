@@ -1784,12 +1784,12 @@
     <comment>Step count for streamlined onboarding</comment>
   </data>
   <data name="Onboarding_ValueProposition" xml:space="preserve">
-    <value>Master the Major System in minutes</value>
+    <value>Practice the Major System with guided exercises</value>
     <comment>Value proposition for memory training</comment>
   </data>
   <data name="Onboarding_LearnHow" xml:space="preserve">
-    <value>Learn how to turn numbers into unforgettable images</value>
-    <comment>Description of what users will learn</comment>
+    <value>Perfect your number-to-image memory technique</value>
+    <comment>Description of what users will improve</comment>
   </data>
   <data name="Onboarding_Phase_Learn" xml:space="preserve">
     <value>Learn</value>
@@ -1884,6 +1884,50 @@
   <data name="Onboarding_Challenge_Hard" xml:space="preserve">
     <value>Hard, right? Let's make it easy!</value>
     <comment>Challenge conclusion message</comment>
+  </data>
+  <data name="Onboarding_Challenge_Level1" xml:space="preserve">
+    <value>Can you memorize this 4-digit number in {0} seconds?</value>
+    <comment>Level 1 challenge text with time parameter</comment>
+  </data>
+  <data name="Onboarding_Challenge_Level2" xml:space="preserve">
+    <value>Great! Now try this 6-digit number in {0} seconds:</value>
+    <comment>Level 2 challenge text with time parameter</comment>
+  </data>
+  <data name="Onboarding_Challenge_Level3" xml:space="preserve">
+    <value>Excellent! Challenge yourself with 10 digits in {0} seconds:</value>
+    <comment>Level 3 challenge text with time parameter</comment>
+  </data>
+  <data name="Onboarding_Challenge_Level4" xml:space="preserve">
+    <value>Amazing! Final challenge - 15 digits in {0} seconds:</value>
+    <comment>Level 4 challenge text with time parameter</comment>
+  </data>
+  <data name="Onboarding_Challenge_Success" xml:space="preserve">
+    <value>Well done! 🎉</value>
+    <comment>Success message between challenge levels</comment>
+  </data>
+  <data name="Onboarding_Challenge_NextLevel" xml:space="preserve">
+    <value>Ready for the next level?</value>
+    <comment>Transition message to next challenge level</comment>
+  </data>
+  <data name="Onboarding_Challenge_Complete" xml:space="preserve">
+    <value>Incredible memory skills! Let's learn how to make this even easier.</value>
+    <comment>Message when all challenges are completed</comment>
+  </data>
+  <data name="Onboarding_RhetoricalQuestion_Easy" xml:space="preserve">
+    <value>Can you memorize this 4-digit number in 30 seconds?</value>
+    <comment>Rhetorical question for easy memory demonstration</comment>
+  </data>
+  <data name="Onboarding_RhetoricalQuestion_Medium" xml:space="preserve">
+    <value>What about this 10-digit number in 1 minute?</value>
+    <comment>Rhetorical question for medium memory demonstration</comment>
+  </data>
+  <data name="Onboarding_RhetoricalQuestion_Hard" xml:space="preserve">
+    <value>And this 20-digit number in 1 minute?</value>
+    <comment>Rhetorical question for hard memory demonstration</comment>
+  </data>
+  <data name="Onboarding_RhetoricalConclusion" xml:space="preserve">
+    <value>Seems impossible? Let's make it easy!</value>
+    <comment>Conclusion message after showing rhetorical memory challenges</comment>
   </data>
   
   <!-- Major System Screen -->

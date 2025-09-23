@@ -2187,13 +2187,61 @@ Scarica MemoRaise: {AppUrl}
     <value>Riesci a memorizzarlo in meno di un minuto?</value>
     <comment>Challenge screen title with time context</comment>
   </data>
+  <data name="Onboarding_Challenge_Remember" xml:space="preserve">
+    <value>Prova a ricordare il numero...</value>
+    <comment>Challenge instruction</comment>
+  </data>
+  <data name="Onboarding_Challenge_Level1" xml:space="preserve">
+    <value>Riesci a memorizzare questo numero di 4 cifre in {0} secondi?</value>
+    <comment>Level 1 challenge text with time parameter</comment>
+  </data>
+  <data name="Onboarding_Challenge_Level2" xml:space="preserve">
+    <value>Ottimo! Ora prova questo numero di 6 cifre in {0} secondi:</value>
+    <comment>Level 2 challenge text with time parameter</comment>
+  </data>
+  <data name="Onboarding_Challenge_Level3" xml:space="preserve">
+    <value>Eccellente! Sfidati con 10 cifre in {0} secondi:</value>
+    <comment>Level 3 challenge text with time parameter</comment>
+  </data>
+  <data name="Onboarding_Challenge_Level4" xml:space="preserve">
+    <value>Incredibile! Sfida finale - 15 cifre in {0} secondi:</value>
+    <comment>Level 4 challenge text with time parameter</comment>
+  </data>
+  <data name="Onboarding_Challenge_Success" xml:space="preserve">
+    <value>Ben fatto! 🎉</value>
+    <comment>Success message between challenge levels</comment>
+  </data>
+  <data name="Onboarding_Challenge_NextLevel" xml:space="preserve">
+    <value>Pronto per il livello successivo?</value>
+    <comment>Transition message to next challenge level</comment>
+  </data>
+  <data name="Onboarding_Challenge_Complete" xml:space="preserve">
+    <value>Abilità di memoria incredibili! Impariamo come renderlo ancora più facile.</value>
+    <comment>Message when all challenges are completed</comment>
+  </data>
+  <data name="Onboarding_RhetoricalQuestion_Easy" xml:space="preserve">
+    <value>Riesci a memorizzare questo numero di 4 cifre in 30 secondi?</value>
+    <comment>Rhetorical question for easy memory demonstration</comment>
+  </data>
+  <data name="Onboarding_RhetoricalQuestion_Medium" xml:space="preserve">
+    <value>E questo numero di 10 cifre in 1 minuto?</value>
+    <comment>Rhetorical question for medium memory demonstration</comment>
+  </data>
+  <data name="Onboarding_RhetoricalQuestion_Hard" xml:space="preserve">
+    <value>E questo numero di 20 cifre in 1 minuto?</value>
+    <comment>Rhetorical question for hard memory demonstration</comment>
+  </data>
+  <data name="Onboarding_RhetoricalConclusion" xml:space="preserve">
+    <value>Sembra impossibile? Rendiamolo facile!</value>
+    <comment>Conclusion message after showing rhetorical memory challenges</comment>
+  </data>
   <data name="Onboarding_ValueProposition" xml:space="preserve">
-    <value>Padroneggia il Sistema Maggiore in pochi minuti</value>
+    <value>Pratica il Sistema Maggiore con esercizi guidati</value>
     <comment>Value proposition for memory training</comment>
   </data>
   <data name="Onboarding_LearnHow" xml:space="preserve">
-    <value>Impara come trasformare i numeri in immagini indimenticabili</value>
-    <comment>Description of what users will learn</comment>
+    <value>Perfeziona la tua tecnica di memorizzazione numero-immagine</value>
+    <comment>Description of what users will improve</comment>
   </data>
   <data name="Onboarding_Phase_Learn" xml:space="preserve">
     <value>Impara</value>
