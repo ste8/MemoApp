@@ -129,13 +129,12 @@
                                Padding="20,15"
                                HorizontalOptions="Center">
                             <Label Text="{Binding HardNumber}"
-                                   FontSize="22"
+                                   FontSize="20"
                                    FontFamily="Monospace"
                                    FontAttributes="Bold"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center"
-                                   LineBreakMode="WordWrap"
-                                   MaximumWidthRequest="300" />
+                                   LineBreakMode="NoWrap" />
                         </Frame>
 
                         <Label Text="{localization:Localize Onboarding_DifficultyLabel_Hard}"
