@@ -2235,6 +2235,18 @@ Scarica MemoRaise: {AppUrl}
     <value>Sembra impossibile? Rendiamolo facile!</value>
     <comment>Conclusion message after showing rhetorical memory challenges</comment>
   </data>
+  <data name="Onboarding_DifficultyLabel_Easy" xml:space="preserve">
+    <value>Facile, vero?</value>
+    <comment>Difficulty label for easy challenge - conversational Italian tone</comment>
+  </data>
+  <data name="Onboarding_DifficultyLabel_Medium" xml:space="preserve">
+    <value>Già più difficile, vero?</value>
+    <comment>Difficulty label for medium challenge - conversational Italian tone</comment>
+  </data>
+  <data name="Onboarding_DifficultyLabel_Hard" xml:space="preserve">
+    <value>Livello Avanzato</value>
+    <comment>Difficulty label for hard challenge - avoids duplication with conclusion</comment>
+  </data>
   <data name="Onboarding_ValueProposition" xml:space="preserve">
     <value>Pratica il Sistema Maggiore con esercizi guidati</value>
     <comment>Value proposition for memory training</comment>

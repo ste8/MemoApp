@@ -1929,6 +1929,22 @@
     <value>Seems impossible? Let's make it easy!</value>
     <comment>Conclusion message after showing rhetorical memory challenges</comment>
   </data>
+  <data name="Onboarding_DifficultyLabel_Easy" xml:space="preserve">
+    <value>Starter Level</value>
+    <comment>Difficulty label for easy challenge - professional English tone</comment>
+  </data>
+  <data name="Onboarding_DifficultyLabel_Medium" xml:space="preserve">
+    <value>Challenging</value>
+    <comment>Difficulty label for medium challenge - professional English tone</comment>
+  </data>
+  <data name="Onboarding_DifficultyLabel_Hard" xml:space="preserve">
+    <value>Advanced Level</value>
+    <comment>Difficulty label for hard challenge - avoids duplication with conclusion</comment>
+  </data>
+  <data name="Onboarding_ValueProposition" xml:space="preserve">
+    <value>Practice the Major System with guided exercises</value>
+    <comment>Value proposition explaining what the app offers</comment>
+  </data>
   
   <!-- Major System Screen -->
   <data name="Onboarding_MajorSystem_Title" xml:space="preserve">
