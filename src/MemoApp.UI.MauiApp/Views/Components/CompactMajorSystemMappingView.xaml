@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             xmlns:models="clr-namespace:MemoApp.Core.MajorSystem.Models;assembly=MemoApp.Core"
+             x:Class="MemoApp.UI.MauiApp.Views.Components.CompactMajorSystemMappingView">
+
+    <!--
+    Compact Major System mapping display component:
+    - Optimized for space-constrained contexts like onboarding
+    - 2-column grid layout for efficient vertical space usage
+    - Uses localized mapping service for consistency
+    - Clean, scannable design for quick reference
+    -->
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+            <!-- Header Section -->
+            <VerticalStackLayout Spacing="10">
+                <Label Text="{localization:Localize MajorSystemIntro_MappingTableTitle}"
+                       FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+                <Label Text="{localization:Localize MajorSystemIntro_MappingTableDescription}"
+                       FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                       Margin="0,0,0,10" />
+            </VerticalStackLayout>
+
+            <!-- Compact Grid Layout for Mappings -->
+            <Grid ColumnDefinitions="*,*"
+                  RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                  RowSpacing="10"
+                  ColumnSpacing="20"
+                  x:Name="MappingsGrid" />
+
+            <!-- Optional Tips Section -->
+            <VerticalStackLayout Spacing="8" Margin="0,10,0,0">
+                <BoxView HeightRequest="1"
+                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                         HorizontalOptions="FillAndExpand"
+                         Margin="20,0" />
+                <Label Text="{localization:Localize MajorSystemIntro_QuickTip}"
+                       FontSize="{OnIdiom Phone=13, Tablet=15, Desktop=17}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
+                       Margin="10,5" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentView>

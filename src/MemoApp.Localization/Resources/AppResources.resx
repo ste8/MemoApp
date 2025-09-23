@@ -3012,4 +3012,16 @@ Download MemoRaise: {AppUrl}
     <value>Examples:</value>
     <comment>Label for examples in digit mapping display</comment>
   </data>
+  <data name="MajorSystemIntro_MappingTableTitle" xml:space="preserve">
+    <value>Digit-Letter Mappings</value>
+    <comment>Title for compact digit-letter mapping table in onboarding</comment>
+  </data>
+  <data name="MajorSystemIntro_MappingTableDescription" xml:space="preserve">
+    <value>Each digit maps to specific letter sounds. Memorize these associations to create memorable words.</value>
+    <comment>Description for compact mapping table in onboarding</comment>
+  </data>
+  <data name="MajorSystemIntro_QuickTip" xml:space="preserve">
+    <value>Remember: vowels (a, e, i, o, u) and silent letters don't count!</value>
+    <comment>Quick tip shown below compact mapping table</comment>
+  </data>
 </root>

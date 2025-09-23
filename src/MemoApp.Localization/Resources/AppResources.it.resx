@@ -2908,4 +2908,16 @@ Scarica MemoRaise: {AppUrl}
     <value>Esempi:</value>
     <comment>Label for examples in digit mapping display</comment>
   </data>
+  <data name="MajorSystemIntro_MappingTableTitle" xml:space="preserve">
+    <value>Corrispondenze Cifra-Lettera</value>
+    <comment>Title for compact digit-letter mapping table in onboarding</comment>
+  </data>
+  <data name="MajorSystemIntro_MappingTableDescription" xml:space="preserve">
+    <value>Ogni cifra corrisponde a suoni di lettere specifiche. Memorizza queste associazioni per creare parole memorabili.</value>
+    <comment>Description for compact mapping table in onboarding</comment>
+  </data>
+  <data name="MajorSystemIntro_QuickTip" xml:space="preserve">
+    <value>Ricorda: le vocali (a, e, i, o, u) e le lettere mute non contano!</value>
+    <comment>Quick tip shown below compact mapping table</comment>
+  </data>
 </root>
