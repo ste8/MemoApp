@@ -165,18 +165,6 @@
                 </VerticalStackLayout>
             </VerticalStackLayout>
 
-            <!-- Floating Numbers Background (Simplified) -->
-            <AbsoluteLayout HeightRequest="100"
-                            IsClippedToBounds="True"
-                            InputTransparent="True">
-                <Label Text="42" FontSize="36" Opacity="0.06"
-                       AbsoluteLayout.LayoutBounds="0.2, 0.3, AutoSize, AutoSize"
-                       AbsoluteLayout.LayoutFlags="PositionProportional" />
-                <Label Text="91" FontSize="32" Opacity="0.05"
-                       AbsoluteLayout.LayoutBounds="0.8, 0.7, AutoSize, AutoSize"
-                       AbsoluteLayout.LayoutFlags="PositionProportional" />
-            </AbsoluteLayout>
-
         </VerticalStackLayout>
     </ScrollView>
 </ContentView>
