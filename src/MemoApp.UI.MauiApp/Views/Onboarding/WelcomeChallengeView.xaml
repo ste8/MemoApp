@@ -11,23 +11,17 @@
 
             <!-- Logo and Welcome Section -->
             <VerticalStackLayout Spacing="20">
-                <Label Text="🧠"
-                       FontSize="80"
+                <Image Source="{AppThemeBinding Light=logo_memoraise.png, Dark=logo_ivory_memoraise.png}"
+                       HeightRequest="{OnPlatform Android=70, iOS=70, Default=80}"
+                       WidthRequest="{OnPlatform Android=175, iOS=175, Default=200}"
+                       Aspect="AspectFit"
                        HorizontalOptions="Center" />
 
-                <VerticalStackLayout Spacing="15">
-                    <Label Text="{localization:Localize Onboarding_Welcome_Title}"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                           FontSize="28"
-                           FontAttributes="Bold" />
-                    
-                    <Label Text="{localization:Localize Onboarding_Welcome_Subtitle}"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                           FontSize="16"
-                           Opacity="0.8" />
-                </VerticalStackLayout>
+                <Label Text="{localization:Localize Onboarding_Welcome_Subtitle}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       FontSize="18"
+                       Opacity="0.9" />
 
                 <!-- Updated Time Estimate -->
                 <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
@@ -88,18 +82,18 @@
                 <!-- Medium Challenge -->
                 <Border StrokeShape="RoundRectangle 16"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
-                        Stroke="{StaticResource Warning}"
+                        Stroke="{StaticResource ElegantAmberDark}"
                         Padding="20">
                     <VerticalStackLayout Spacing="15">
                         <Label Text="{Binding MediumQuestion}"
                                FontSize="18"
                                FontAttributes="Bold"
-                               TextColor="{StaticResource Warning}"
+                               TextColor="{StaticResource ElegantAmberDark}"
                                HorizontalOptions="Center"
                                HorizontalTextAlignment="Center" />
 
                         <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
-                               BorderColor="{StaticResource Warning}"
+                               BorderColor="{StaticResource ElegantAmberDark}"
                                CornerRadius="12"
                                Padding="20,15"
                                HorizontalOptions="Center">
@@ -156,30 +150,12 @@
                 </Border>
 
                 <!-- Conclusion Message -->
-                <VerticalStackLayout Spacing="20">
-                    <Label Text="{Binding ConclusionMessage}"
-                           FontSize="24"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource Primary}"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center" />
-
-                    <!-- Value Proposition -->
-                    <VerticalStackLayout Spacing="15">
-                        <Label Text="{localization:Localize Onboarding_ValueProposition}"
-                               HorizontalOptions="Center"
-                               HorizontalTextAlignment="Center"
-                               FontSize="16"
-                               FontAttributes="Bold"
-                               TextColor="{StaticResource Primary}" />
-
-                        <Label Text="{localization:Localize Onboarding_LearnHow}"
-                               HorizontalOptions="Center"
-                               HorizontalTextAlignment="Center"
-                               FontSize="14"
-                               Opacity="0.8" />
-                    </VerticalStackLayout>
-                </VerticalStackLayout>
+                <Label Text="{Binding ConclusionMessage}"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource Primary}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
             </VerticalStackLayout>
 
             <!-- Floating Numbers Background (Simplified) -->

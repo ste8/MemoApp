@@ -1772,8 +1772,8 @@
     <comment>Welcome screen title</comment>
   </data>
   <data name="Onboarding_Welcome_Subtitle" xml:space="preserve">
-    <value>Master the art of memorization techniques</value>
-    <comment>Welcome screen subtitle</comment>
+    <value>Master the art of memorization</value>
+    <comment>Welcome screen subtitle - concise and impactful</comment>
   </data>
   <data name="Onboarding_TimeEstimate" xml:space="preserve">
     <value>5 minutes to get started</value>

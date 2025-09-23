@@ -2176,8 +2176,8 @@ Scarica MemoRaise: {AppUrl}
     <comment>Welcome screen title</comment>
   </data>
   <data name="Onboarding_Welcome_Subtitle" xml:space="preserve">
-    <value>Padroneggia l'arte delle tecniche di memorizzazione</value>
-    <comment>Welcome screen subtitle</comment>
+    <value>Padroneggia l'arte della memorizzazione</value>
+    <comment>Welcome screen subtitle - concise and impactful</comment>
   </data>
   <data name="Onboarding_QuickTimeEstimate" xml:space="preserve">
     <value>5 passi per iniziare</value>
