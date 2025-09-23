@@ -75,7 +75,7 @@
                                            VerticalItemSpacing="10" />
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate x:DataType="viewmodels:MajorSystemMapping">
                                 <Frame BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray800}}"
                                        Padding="15"
                                        CornerRadius="8"
@@ -152,7 +152,7 @@
                                            VerticalItemSpacing="10" />
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate x:DataType="viewmodels:ExampleWord">
                                 <Frame BackgroundColor="White"
                                        Padding="12"
                                        CornerRadius="8"

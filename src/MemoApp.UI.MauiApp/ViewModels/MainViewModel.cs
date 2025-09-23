@@ -107,7 +107,7 @@ public partial class MainViewModel : BaseViewModel
     {
         try
         {
-            await Shell.Current.GoToAsync("//help");
+            await Shell.Current.GoToAsync("help");
         }
         catch (Exception ex)
         {

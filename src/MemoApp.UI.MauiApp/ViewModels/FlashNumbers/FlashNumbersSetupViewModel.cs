@@ -226,7 +226,7 @@ public partial class FlashNumbersSetupViewModel : BaseViewModel
     {
         try
         {
-            await Shell.Current.GoToAsync("//help");
+            await Shell.Current.GoToAsync("help");
         }
         catch (Exception ex)
         {

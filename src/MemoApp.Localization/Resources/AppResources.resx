@@ -150,6 +150,18 @@
     <value>Learn the Major System</value>
     <comment>Learn Major System button text</comment>
   </data>
+  <data name="MainPage_MajorSystemTitle" xml:space="preserve">
+    <value>Master the Foundation</value>
+    <comment>Major System learning card title</comment>
+  </data>
+  <data name="MainPage_MajorSystemDescription" xml:space="preserve">
+    <value>Learn the Major System technique that powers all memory exercises. Transform numbers into memorable images with this proven method.</value>
+    <comment>Major System learning card description</comment>
+  </data>
+  <data name="MainPage_ViewGuide" xml:space="preserve">
+    <value>View Guide</value>
+    <comment>View guide button text</comment>
+  </data>
   
   <!-- Training Options -->
   <data name="TrainingOption_Beginner" xml:space="preserve">

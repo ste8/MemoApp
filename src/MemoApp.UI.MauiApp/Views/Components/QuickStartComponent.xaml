@@ -23,7 +23,8 @@
                     CornerRadius="8"
                     HeightRequest="{OnIdiom Phone=50, Tablet=55, Desktop=60}" />
 
-            <Button Text="ℹ️ Major System Guide"
+            <!-- Major System Guide Button with proper localization -->
+            <Button Text="{localization:Localize MainPage_MajorSystemGuide}"
                     Command="{Binding Source={RelativeSource AncestorType={x:Type components:QuickStartComponent}}, Path=ShowHelpCommand}"
                     BackgroundColor="Transparent"
                     TextColor="White"
@@ -32,7 +33,14 @@
                     CornerRadius="8"
                     HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
                     LineBreakMode="WordWrap"
-                    Padding="10,8" />
+                    Padding="10,8">
+                <Button.ImageSource>
+                    <FontImageSource FontFamily="{StaticResource IconFont_Solid}"
+                                     Glyph="{StaticResource Icon_Info}"
+                                     Size="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                                     Color="White" />
+                </Button.ImageSource>
+            </Button>
         </StackLayout>
     </Frame>
 

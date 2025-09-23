@@ -150,6 +150,18 @@
     <value>Impara il Sistema Maggiore</value>
     <comment>Learn Major System button text</comment>
   </data>
+  <data name="MainPage_MajorSystemTitle" xml:space="preserve">
+    <value>Padroneggia le Fondamenta</value>
+    <comment>Major System learning card title</comment>
+  </data>
+  <data name="MainPage_MajorSystemDescription" xml:space="preserve">
+    <value>Impara la tecnica del Sistema Maggiore che alimenta tutti gli esercizi di memoria. Trasforma i numeri in immagini memorabili con questo metodo collaudato.</value>
+    <comment>Major System learning card description</comment>
+  </data>
+  <data name="MainPage_ViewGuide" xml:space="preserve">
+    <value>Visualizza Guida</value>
+    <comment>View guide button text</comment>
+  </data>
   
   <!-- Training Options -->
   <data name="TrainingOption_Beginner" xml:space="preserve">

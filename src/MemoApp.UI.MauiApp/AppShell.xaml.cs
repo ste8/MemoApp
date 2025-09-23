@@ -19,5 +19,6 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute(nameof(ImageViewerPage), typeof(ImageViewerPage));
 		Routing.RegisterRoute(nameof(AddCustomAssociationPage), typeof(AddCustomAssociationPage));
 		Routing.RegisterRoute(nameof(FeedbackPage), typeof(FeedbackPage));
+		Routing.RegisterRoute("help", typeof(HelpPage));
 	}
 }

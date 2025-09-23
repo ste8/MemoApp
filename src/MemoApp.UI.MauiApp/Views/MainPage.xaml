@@ -57,6 +57,74 @@
                            Style="{StaticResource ElegantHeroSubtitle}" />
                 </StackLayout>
 
+                <!-- ===== MAJOR SYSTEM LEARNING CARD ===== -->
+                <Border Style="{StaticResource ElegantInfoCard}"
+                        Margin="{OnIdiom Phone='24,8,24,16', Tablet='32,12,32,24', Desktop='40,16,40,32'}"
+                        BackgroundColor="{AppThemeBinding Light='#F0F9FF', Dark='#1A2332'}"
+                        StrokeShape="RoundRectangle 16"
+                        Stroke="{AppThemeBinding Light='#E0F2FE', Dark='#2A3442'}"
+                        StrokeThickness="1"
+                        AutomationProperties.IsInAccessibleTree="True"
+                        SemanticProperties.Description="Button"
+                        SemanticProperties.Hint="Double tap to view Major System guide">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ShowHelpCommand}" />
+                    </Border.GestureRecognizers>
+
+                    <Grid ColumnDefinitions="Auto,*,Auto"
+                          ColumnSpacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}"
+                          Padding="{OnIdiom Phone='16,16', Tablet='20,20', Desktop='24,24'}">
+
+                        <!-- Learning Icon -->
+                        <Border Grid.Column="0"
+                                BackgroundColor="{AppThemeBinding Light='#3B82F6', Dark='#2563EB'}"
+                                StrokeShape="RoundRectangle 12"
+                                StrokeThickness="0"
+                                WidthRequest="{OnIdiom Phone=48, Tablet=56, Desktop=64}"
+                                HeightRequest="{OnIdiom Phone=48, Tablet=56, Desktop=64}"
+                                VerticalOptions="Center">
+                            <Label Text="&#xF19D;"
+                                   FontFamily="{StaticResource IconFont_Solid}"
+                                   FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+
+                        <!-- Content -->
+                        <StackLayout Grid.Column="1"
+                                     Spacing="4"
+                                     VerticalOptions="Center">
+                            <Label Text="{localization:Localize MainPage_MajorSystemTitle}"
+                                   FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                                   FontFamily="{OnPlatform iOS='SF Pro Display', Android='sans-serif-medium', Default='Segoe UI Semibold'}"
+                                   FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light='#1E293B', Dark='#F1F5F9'}" />
+                            <Label Text="{localization:Localize MainPage_MajorSystemDescription}"
+                                   FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=15}"
+                                   TextColor="{AppThemeBinding Light='#64748B', Dark='#94A3B8'}"
+                                   LineHeight="1.4"
+                                   LineBreakMode="WordWrap" />
+                        </StackLayout>
+
+                        <!-- Action Indicator -->
+                        <StackLayout Grid.Column="2"
+                                     VerticalOptions="Center"
+                                     Spacing="2">
+                            <Label Text="{localization:Localize MainPage_ViewGuide}"
+                                   FontSize="{OnIdiom Phone=12, Tablet=13, Desktop=14}"
+                                   FontFamily="{OnPlatform iOS='SF Pro Text', Android='sans-serif-medium', Default='Segoe UI Semibold'}"
+                                   TextColor="{AppThemeBinding Light='#3B82F6', Dark='#60A5FA'}"
+                                   HorizontalOptions="End" />
+                            <Label Text="&#xF054;"
+                                   FontFamily="{StaticResource IconFont_Solid}"
+                                   FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
+                                   TextColor="{AppThemeBinding Light='#3B82F6', Dark='#60A5FA'}"
+                                   HorizontalOptions="End" />
+                        </StackLayout>
+                    </Grid>
+                </Border>
+
                 <!-- ===== ELEGANT FEATURE CARDS SECTION ===== -->
                 <Grid ColumnSpacing="{OnIdiom Phone=0, Tablet=16, Desktop=20}"
                       RowSpacing="{OnIdiom Phone=0, Tablet=0, Desktop=0}"
