@@ -4,10 +4,28 @@
              x:Class="MemoApp.UI.MauiApp.Components.MemoRaiseLogoComponent"
              x:Name="LogoComponent">
 
-    <Image Source="{AppThemeBinding Light=logo_memoraise.png, Dark=logo_ivory_memoraise.png}"
-           HeightRequest="{Binding LogoHeight, Source={x:Reference LogoComponent}}"
-           WidthRequest="{Binding LogoWidth, Source={x:Reference LogoComponent}}"
-           Aspect="AspectFit"
-           HorizontalOptions="Center" />
+    <Border x:Name="LogoContainer"
+            StrokeThickness="2"
+            StrokeShape="RoundRectangle 24"
+            HorizontalOptions="Center"
+            Margin="{OnIdiom Phone='0,4', Tablet='0,6', Desktop='0,8'}">
+
+        <Border.Stroke>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#0072CE" Offset="0.0"/> <!-- Blue -->
+                <GradientStop Color="#FF7F00" Offset="1.0"/> <!-- Orange -->
+            </LinearGradientBrush>
+        </Border.Stroke>
+
+        <!-- MemoRaise Logo with Premium Feel -->
+        <Image x:Name="LogoImage"
+               Source="logo_memoraise.png"
+               HeightRequest="{OnIdiom Phone=120, Tablet=150, Desktop=180}"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               Aspect="AspectFit"
+               AutomationProperties.IsInAccessibleTree="True">
+        </Image>
+    </Border>
 
 </ContentView>
