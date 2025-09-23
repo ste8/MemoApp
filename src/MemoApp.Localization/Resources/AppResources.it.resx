@@ -344,6 +344,10 @@
   </data>
   
   <!-- Help Page -->
+  <data name="Help_IntroNote" xml:space="preserve">
+    <value>ℹ️ Esistono molte tecniche di memoria disponibili per migliorare il richiamo e la memorizzazione. Questa guida si concentra sulla Conversione fonetica, uno dei metodi più efficaci e ampiamente utilizzati per memorizzare i numeri.</value>
+    <comment>Help page - introductory note about memory techniques</comment>
+  </data>
   <data name="Help_WhatIsTitle" xml:space="preserve">
     <value>🧠 Cos'è il Conversione fonetica?</value>
     <comment>Help page - what is section title</comment>

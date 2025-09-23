@@ -17,6 +17,22 @@
         -->
         <StackLayout Padding="{OnPlatform iOS='20,40,20,20', Default='20'}"
                      Spacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
+
+            <!-- Introductory Note About Memory Techniques -->
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                   Padding="15"
+                   CornerRadius="10"
+                   HasShadow="False"
+                   BorderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                   Margin="0,0,0,10">
+                <Label Text="{localization:Localize Help_IntroNote}"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray200}}"
+                       FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
+                       LineHeight="1.4"
+                       LineBreakMode="WordWrap"
+                       HorizontalTextAlignment="Start" />
+            </Frame>
+
             <!-- Introduction Card -->
             <Frame BackgroundColor="{StaticResource Primary}"
                    Padding="20"

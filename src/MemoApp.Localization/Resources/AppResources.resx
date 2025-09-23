@@ -345,6 +345,10 @@
   </data>
   
   <!-- Help Page -->
+  <data name="Help_IntroNote" xml:space="preserve">
+    <value>ℹ️ There are many memory techniques available for improving recall and memorization. This guide focuses on the Major System, one of the most effective and widely-used methods for memorizing numbers.</value>
+    <comment>Help page - introductory note about memory techniques</comment>
+  </data>
   <data name="Help_WhatIsTitle" xml:space="preserve">
     <value>🧠 What is the Major System?</value>
     <comment>Help page - what is section title</comment>
