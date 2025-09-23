@@ -374,8 +374,8 @@
     <comment>Help page - rules section title</comment>
   </data>
   <data name="Help_StartTrainingNow" xml:space="preserve">
-    <value>Start Flash Numbers Now</value>
-    <comment>Help page - start Flash Numbers button</comment>
+    <value>Explore Number Associations</value>
+    <comment>Help page - explore associations button</comment>
   </data>
   
   <!-- Training Session Additional -->

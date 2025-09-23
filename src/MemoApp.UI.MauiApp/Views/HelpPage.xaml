@@ -38,13 +38,6 @@
                             This makes it much easier to remember long sequences of numbers by turning them into vivid, memorable stories.
                         </Label.Text>
                     </Label>
-                    <Button Command="{Binding StartQuickTrainingCommand}"
-                            Text="{localization:Localize Help_TryQuickTraining}"
-                            BackgroundColor="White"
-                            TextColor="{StaticResource Primary}"
-                            CornerRadius="10"
-                            HeightRequest="{OnIdiom Phone=50, Tablet=55, Desktop=60}"
-                            FontAttributes="Bold" />
                 </StackLayout>
             </Frame>
             <!-- Digit Mappings Card -->

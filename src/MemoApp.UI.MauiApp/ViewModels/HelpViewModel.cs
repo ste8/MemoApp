@@ -38,7 +38,7 @@ public partial class HelpViewModel : BaseViewModel
     [RelayCommand]
     private async Task GoToMainPage()
     {
-        await Shell.Current.GoToAsync("//main");
+        await Shell.Current.GoToAsync("//associations");
     }
 
     private void LoadMajorSystemData()
