@@ -477,18 +477,6 @@ public partial class FeedbackViewModel : BaseViewModel, IDisposable
         // This will be handled by the View to scroll to the first field with an error
         if (HasValidationErrors)
         {
-            // Trigger haptic feedback on mobile platforms
-#if ANDROID || IOS
-            try
-            {
-                HapticFeedback.Default.Perform(HapticFeedbackType.Click);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogDebug(ex, "Haptic feedback not available");
-            }
-#endif
-
             // Send a message to the view to scroll to the first error
             var firstErrorField = GetFirstErrorField();
             if (!string.IsNullOrEmpty(firstErrorField))

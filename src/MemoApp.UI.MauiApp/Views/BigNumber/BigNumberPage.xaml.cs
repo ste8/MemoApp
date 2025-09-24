@@ -128,21 +128,6 @@ public partial class BigNumberPage : ContentPage
             {
                 await AnimatePerfectScoreCelebration();
             }
-            
-            // Add haptic feedback on mobile platforms
-#if ANDROID || IOS
-            if (DeviceInfo.Platform == DevicePlatform.Android || DeviceInfo.Platform == DevicePlatform.iOS)
-            {
-                try 
-                {
-                    HapticFeedback.Default.Perform(HapticFeedbackType.Click);
-                }
-                catch 
-                {
-                    // Haptic feedback not available, continue without it
-                }
-            }
-#endif
         }
         catch (Exception ex)
         {
@@ -187,24 +172,6 @@ public partial class BigNumberPage : ContentPage
             await VerificationResultsSection.ScaleTo(0.98, 150, Easing.CubicIn);
             await VerificationResultsSection.ScaleTo(1.05, 150, Easing.CubicOut);
             await VerificationResultsSection.ScaleTo(1.0, 150, Easing.CubicIn);
-            
-            // Enhanced haptic feedback for perfect score
-#if ANDROID || IOS
-            if (DeviceInfo.Platform == DevicePlatform.Android || DeviceInfo.Platform == DevicePlatform.iOS)
-            {
-                try 
-                {
-                    // Double haptic pulse for celebration
-                    HapticFeedback.Default.Perform(HapticFeedbackType.Click);
-                    await Task.Delay(100);
-                    HapticFeedback.Default.Perform(HapticFeedbackType.Click);
-                }
-                catch 
-                {
-                    // Haptic feedback not available, continue without it
-                }
-            }
-#endif
         }
         catch (Exception ex)
         {
