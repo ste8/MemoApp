@@ -23,8 +23,8 @@
                Margin="0,0,0,5" />
         <Grid>
             <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
-                    Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
-                    StrokeThickness="1"
+                    Stroke="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}"
+                    StrokeThickness="1.5"
                     HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="4" />
@@ -54,7 +54,7 @@
         <!-- Dropdown for Desktop -->
         <Frame IsVisible="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=IsDropdownVisible}"
                BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray900}}"
-               BorderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+               BorderColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}"
                CornerRadius="8"
                Padding="0"
                HasShadow="True"
