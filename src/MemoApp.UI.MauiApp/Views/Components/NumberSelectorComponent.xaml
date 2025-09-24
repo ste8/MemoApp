@@ -6,13 +6,29 @@
              x:Class="MemoApp.UI.MauiApp.Views.Components.NumberSelectorComponent">
 
     <Grid>
-        <!-- Use Picker on mobile platforms -->
-        <Picker ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=NumberOptions}"
-                SelectedIndex="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=SelectedIndex}"
-                Title="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=Title}"
-                HorizontalOptions="FillAndExpand"
-                FontSize="{OnIdiom Phone=14, Default=16}"
-                IsVisible="{OnPlatform Android=True, iOS=True, Default=False}" />
+        <!-- Mobile Picker with enhanced border wrapper -->
+        <StackLayout IsVisible="{OnPlatform Android=True, iOS=True, Default=False}"
+                     HorizontalOptions="FillAndExpand">
+            <Label Text="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=Title}"
+                   FontSize="14"
+                   TextColor="{AppThemeBinding Light={StaticResource TextSubtle}, Dark={StaticResource Gray400}}"
+                   Margin="0,0,0,5" />
+
+            <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                    Stroke="{AppThemeBinding Light={StaticResource ElegantTextSecondary}, Dark={StaticResource Gray500}}"
+                    StrokeThickness="1.5"
+                    HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=52}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="4" />
+                </Border.StrokeShape>
+
+                <Picker ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=NumberOptions}"
+                        SelectedIndex="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=SelectedIndex}"
+                        Title=""
+                        Style="{StaticResource BorderlessPickerStyle}"
+                        HorizontalOptions="FillAndExpand" />
+            </Border>
+        </StackLayout>
 
         <!-- Desktop alternative -->
         <StackLayout IsVisible="{OnPlatform WinUI=True, MacCatalyst=True, Default=False}"
@@ -23,7 +39,7 @@
                Margin="0,0,0,5" />
         <Grid>
             <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
-                    Stroke="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}"
+                    Stroke="{AppThemeBinding Light={StaticResource ElegantTextSecondary}, Dark={StaticResource Gray500}}"
                     StrokeThickness="1.5"
                     HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}">
                 <Border.StrokeShape>
@@ -54,7 +70,7 @@
         <!-- Dropdown for Desktop -->
         <Frame IsVisible="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=IsDropdownVisible}"
                BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray900}}"
-               BorderColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}"
+               BorderColor="{AppThemeBinding Light={StaticResource ElegantTextSecondary}, Dark={StaticResource Gray500}}"
                CornerRadius="8"
                Padding="0"
                HasShadow="True"

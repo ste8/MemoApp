@@ -39,6 +39,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
+
                 <!-- Start Number Selector -->
                 <components:NumberSelectorComponent
                     Grid.Column="0"
@@ -53,12 +54,15 @@
                     AccessibilityName="{localization:Localize Accessibility_StartNumberPicker}"
                     AccessibilityHelp="{localization:Localize Accessibility_StartNumberPickerHelp}" />
 
+                <!-- Separator Label - positioned to align with picker controls, not full component -->
                 <Label Grid.Column="1" Grid.Row="0"
                        Text="{localization:Localize Common_To}"
-                       VerticalOptions="Center"
+                       VerticalOptions="End"
                        HorizontalOptions="Center"
-                       Margin="{OnIdiom Phone='5,0', Tablet='10,0', Desktop='15,0'}"
-                       FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=16}" />
+                       Margin="{OnIdiom Phone='5,0,5,12', Tablet='10,0,10,14', Desktop='15,0,15,16'}"
+                       FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=16}"
+                       TextColor="{AppThemeBinding Light={StaticResource ElegantTextSecondary}, Dark={StaticResource Gray400}}" />
+
                 <!-- End Number Selector -->
                 <components:NumberSelectorComponent
                     Grid.Column="2"

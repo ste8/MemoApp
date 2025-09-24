@@ -19,9 +19,10 @@ public static class MauiConfiguration
             .ConfigureFonts(ConfigureFonts)
             .ConfigureMauiHandlers(handlers =>
             {
-                // Configure borderless Entry and Editor controls for feedback forms
+                // Configure borderless Entry, Editor, and Picker controls for consistent styling
                 BorderlessEntryHandler.Configure();
                 BorderlessEditorHandler.Configure();
+                BorderlessPickerHandler.Configure();
 
                 // Configure Editor to support numeric keyboard on mobile platforms
                 Microsoft.Maui.Handlers.EditorHandler.Mapper.AppendToMapping("NumericKeyboard", (handler, view) =>
