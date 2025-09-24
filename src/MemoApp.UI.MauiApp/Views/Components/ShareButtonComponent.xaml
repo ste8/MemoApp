@@ -11,7 +11,7 @@
                 Command="{Binding ShareCommand}"
                 BackgroundColor="{Binding BackgroundColor}"
                 TextColor="{Binding TextColor}"
-                FontFamily="MaterialDesignIcons"
+                FontFamily="{StaticResource IconFont_Solid}"
                 FontSize="{Binding FontSize}"
                 Padding="{Binding Padding}"
                 CornerRadius="{Binding CornerRadius}"
@@ -50,7 +50,7 @@
 
                 <!-- IconOnly specific styling -->
                 <DataTrigger TargetType="Button" Binding="{Binding DisplayStyle}" Value="IconOnly">
-                    <Setter Property="FontFamily" Value="MaterialDesignIcons" />
+                    <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}" />
                     <Setter Property="Shadow" Value="{x:Null}" />
                 </DataTrigger>
 

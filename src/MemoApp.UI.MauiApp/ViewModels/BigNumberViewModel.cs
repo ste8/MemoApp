@@ -230,7 +230,9 @@ public partial class BigNumberViewModel : BaseViewModel
     /// <summary>
     /// Gets the icon for the current verification mode
     /// </summary>
-    public string CurrentModeIcon => VerificationMode == VerificationModePreference.InApp ? "\uf05a" : "\uf044";
+    public string CurrentModeIcon => VerificationMode == VerificationModePreference.InApp
+        ? MemoApp.UI.MauiApp.Utilities.FontAwesome.Icons.CircleInfo
+        : MemoApp.UI.MauiApp.Utilities.FontAwesome.Icons.PenToSquare;
 
     /// <summary>
     /// Gets the title for the current verification mode

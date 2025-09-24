@@ -208,7 +208,7 @@
                                 WidthRequest="40"
                                 HeightRequest="40"
                                 VerticalOptions="Center">
-                            <Label Text="&#xF059;"
+                            <Label Text="{StaticResource Icon_Info}"
                                    FontFamily="{StaticResource IconFont_Solid}"
                                    FontSize="18"
                                    TextColor="White"

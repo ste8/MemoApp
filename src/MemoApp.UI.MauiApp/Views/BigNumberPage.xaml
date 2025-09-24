@@ -101,8 +101,8 @@
                                     </Border.GestureRecognizers>
 
                                     <StackLayout Spacing="8">
-                                        <Label Text="&#xf05a;"
-                                               FontFamily="FontAwesomePro-Solid"
+                                        <Label Text="{StaticResource Icon_Info}"
+                                               FontFamily="{StaticResource IconFont_Solid}"
                                                FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
                                                TextColor="{StaticResource Primary}"
                                                HorizontalOptions="Center" />
@@ -130,8 +130,8 @@
                                     </Border.GestureRecognizers>
 
                                     <StackLayout Spacing="8">
-                                        <Label Text="&#xf044;"
-                                               FontFamily="FontAwesomePro-Solid"
+                                        <Label Text="{StaticResource Icon_Edit}"
+                                               FontFamily="{StaticResource IconFont_Solid}"
                                                FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
                                                TextColor="{StaticResource Primary}"
                                                HorizontalOptions="Center" />

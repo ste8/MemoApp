@@ -24,8 +24,10 @@
                             WidthRequest="40"
                             HeightRequest="40"
                             VerticalOptions="Start">
-                        <Label Text="ℹ️"
+                        <Label Text="{StaticResource Icon_Info}"
+                               FontFamily="{StaticResource IconFont_Solid}"
                                FontSize="20"
+                               TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
                                HorizontalOptions="Center"
                                VerticalOptions="Center" />
                     </Border>

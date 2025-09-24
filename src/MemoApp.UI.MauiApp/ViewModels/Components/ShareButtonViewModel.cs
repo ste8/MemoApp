@@ -173,8 +173,8 @@ public partial class ShareButtonViewModel : ObservableObject
     {
         if (DisplayStyle.ToLowerInvariant() == "icononly")
         {
-            // Icon only - use share-variant Material Design icon
-            ButtonText = "\uf72d"; // Material Design Icons share-variant
+            // Icon only - use FontAwesome share icon
+            ButtonText = MemoApp.UI.MauiApp.Utilities.FontAwesome.Icons.Share;
         }
         else
         {
