@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
+             xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels.BigNumber"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              xmlns:utilities="clr-namespace:MemoApp.UI.MauiApp.Utilities"
              xmlns:models="clr-namespace:MemoApp.Core.MajorSystem.Models;assembly=MemoApp.Core"
              xmlns:components="clr-namespace:MemoApp.UI.MauiApp.Views.Components"
-             x:Class="MemoApp.UI.MauiApp.Views.BigNumberPage"
+             x:Class="MemoApp.UI.MauiApp.Views.BigNumber.BigNumberPage"
              x:DataType="viewmodels:BigNumberViewModel"
              Title="{Binding Title}">
 

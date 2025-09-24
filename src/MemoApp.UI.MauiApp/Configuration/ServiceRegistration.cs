@@ -14,10 +14,12 @@ using MemoApp.UI.MauiApp.Services.Onboarding;
 using MemoApp.UI.MauiApp.Services.Sharing;
 using MemoApp.UI.MauiApp.ViewModels;
 using MemoApp.UI.MauiApp.ViewModels.Associations;
+using MemoApp.UI.MauiApp.ViewModels.BigNumber;
 using MemoApp.UI.MauiApp.ViewModels.Components;
 using MemoApp.UI.MauiApp.ViewModels.FlashNumbers;
 using MemoApp.UI.MauiApp.Views;
 using MemoApp.UI.MauiApp.Views.Associations;
+using MemoApp.UI.MauiApp.Views.BigNumber;
 using MemoApp.UI.MauiApp.Views.FlashNumbers;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Configuration;
@@ -459,10 +461,10 @@ public static class ServiceRegistration
         services.AddTransient<Views.SettingsPage>();
         services.AddTransient<AssociationsPage>();
         services.AddTransient<Views.PackDownloadPage>();
-        services.AddTransient<Views.BigNumberPage>(serviceProvider =>
+        services.AddTransient<Views.BigNumber.BigNumberPage>(serviceProvider =>
         {
             var viewModel = serviceProvider.GetRequiredService<BigNumberViewModel>();
-            return new Views.BigNumberPage(viewModel, serviceProvider);
+            return new Views.BigNumber.BigNumberPage(viewModel, serviceProvider);
         });
         services.AddTransient<TokenDetailPage>();
         services.AddTransient<AddCustomAssociationPage>();

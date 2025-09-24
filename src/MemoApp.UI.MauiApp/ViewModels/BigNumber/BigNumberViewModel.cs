@@ -15,7 +15,7 @@ using Microsoft.Maui.Graphics;
 using System.Globalization;
 using System.Text;
 
-namespace MemoApp.UI.MauiApp.ViewModels;
+namespace MemoApp.UI.MauiApp.ViewModels.BigNumber;
 
 public partial class BigNumberViewModel : BaseViewModel
 {

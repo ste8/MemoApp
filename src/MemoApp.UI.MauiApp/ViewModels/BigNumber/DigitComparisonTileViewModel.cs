@@ -2,7 +2,7 @@ using MemoApp.Core.BigNumber;
 using Microsoft.Maui.Graphics;
 using Microsoft.Maui.Controls;
 
-namespace MemoApp.UI.MauiApp.ViewModels;
+namespace MemoApp.UI.MauiApp.ViewModels.BigNumber;
 
 /// <summary>
 /// ViewModel for displaying a single digit tile in the Wordle-style comparison

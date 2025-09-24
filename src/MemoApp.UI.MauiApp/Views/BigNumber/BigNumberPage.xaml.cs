@@ -1,8 +1,8 @@
 using System.Collections;
-using MemoApp.UI.MauiApp.ViewModels;
+using MemoApp.UI.MauiApp.ViewModels.BigNumber;
 using MemoApp.UI.MauiApp.ViewModels.Components;
 
-namespace MemoApp.UI.MauiApp.Views;
+namespace MemoApp.UI.MauiApp.Views.BigNumber;
 
 public partial class BigNumberPage : ContentPage
 {
