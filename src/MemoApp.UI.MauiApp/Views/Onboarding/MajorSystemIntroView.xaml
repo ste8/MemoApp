@@ -61,7 +61,7 @@
                     
                     <!-- Numbers -->
                     <VerticalStackLayout Grid.Column="0" Spacing="5">
-                        <Label Text="🔢" FontSize="32" HorizontalOptions="Center" />
+                        <Label Text="{StaticResource Icon_Numbers}" FontFamily="{StaticResource IconFont_Solid}" FontSize="32" TextColor="White" HorizontalOptions="Center" />
                         <Label Text="{localization:Localize Onboarding_Numbers}"
                                TextColor="White"
                                HorizontalOptions="Center"

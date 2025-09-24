@@ -15,8 +15,10 @@
 
         <!-- Logo/Icon -->
         <Label Grid.Row="1"
-               Text="🧠"
+               Text="{StaticResource Icon_BigNumber}"
+               FontFamily="{StaticResource IconFont_Solid}"
                FontSize="80"
+               TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
                HorizontalOptions="Center"
                Margin="0,0,0,30" />
 
@@ -50,8 +52,10 @@
                 </LinearGradientBrush>
             </Border.Background>
             <HorizontalStackLayout Spacing="10">
-                <Label Text="⏱️"
+                <Label Text="{StaticResource Icon_Info}"
+                       FontFamily="{StaticResource IconFont_Solid}"
                        FontSize="18"
+                       TextColor="White"
                        VerticalOptions="Center" />
                 <Label Text="{localization:Localize Onboarding_TimeEstimate}"
                        TextColor="White"

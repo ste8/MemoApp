@@ -25,7 +25,7 @@
                        CornerRadius="10"
                        Padding="15">
                     <HorizontalStackLayout Spacing="15">
-                        <Label Text="📚" FontSize="28" VerticalOptions="Center" />
+                        <Label Text="{StaticResource Icon_Associations}" FontFamily="{StaticResource IconFont_Solid}" FontSize="28" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" VerticalOptions="Center" />
                         <VerticalStackLayout Spacing="5" VerticalOptions="Center">
                             <Label Text="{localization:Localize Associations_Title}"
                                    FontAttributes="Bold" />
@@ -42,7 +42,7 @@
                        CornerRadius="10"
                        Padding="15">
                     <HorizontalStackLayout Spacing="15">
-                        <Label Text="⚡" FontSize="28" VerticalOptions="Center" />
+                        <Label Text="{StaticResource Icon_FlashNumbers}" FontFamily="{StaticResource IconFont_Solid}" FontSize="28" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" VerticalOptions="Center" />
                         <VerticalStackLayout Spacing="5" VerticalOptions="Center">
                             <Label Text="{localization:Localize Tab_FlashNumbers}"
                                    FontAttributes="Bold" />
@@ -59,7 +59,7 @@
                        CornerRadius="10"
                        Padding="15">
                     <HorizontalStackLayout Spacing="15">
-                        <Label Text="🔢" FontSize="28" VerticalOptions="Center" />
+                        <Label Text="{StaticResource Icon_BigNumber}" FontFamily="{StaticResource IconFont_Solid}" FontSize="28" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" VerticalOptions="Center" />
                         <VerticalStackLayout Spacing="5" VerticalOptions="Center">
                             <Label Text="{localization:Localize BigNumber_Title}"
                                    FontAttributes="Bold" />
@@ -76,7 +76,7 @@
                        CornerRadius="10"
                        Padding="15">
                     <HorizontalStackLayout Spacing="15">
-                        <Label Text="⚙️" FontSize="28" VerticalOptions="Center" />
+                        <Label Text="{StaticResource Icon_Settings}" FontFamily="{StaticResource IconFont_Solid}" FontSize="28" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" VerticalOptions="Center" />
                         <VerticalStackLayout Spacing="5" VerticalOptions="Center">
                             <Label Text="{localization:Localize Tab_Settings}"
                                    FontAttributes="Bold" />

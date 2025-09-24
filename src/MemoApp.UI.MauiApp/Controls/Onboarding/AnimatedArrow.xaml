@@ -3,10 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MemoApp.UI.MauiApp.Controls.Onboarding.AnimatedArrow">
     
-    <!-- Simple animated arrow for flow indication -->
+    <!-- Enhanced animated arrow for flow indication -->
     <Label x:Name="ArrowLabel"
-           Text="↓"
+           Text="{StaticResource Icon_ChevronDown}"
+           FontFamily="{StaticResource IconFont_Solid}"
            FontSize="32"
+           TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
            HorizontalOptions="Center"
            VerticalOptions="Center" />
 </ContentView>

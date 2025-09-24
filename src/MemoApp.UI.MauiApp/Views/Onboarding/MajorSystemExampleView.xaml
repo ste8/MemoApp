@@ -15,7 +15,7 @@
             
             <!-- Title and Introduction -->
             <VerticalStackLayout Spacing="15" Margin="0,0,0,25">
-                <Label Text="🧠" FontSize="40" HorizontalOptions="Center" />
+                <Label Text="{StaticResource Icon_BigNumber}" FontFamily="{StaticResource IconFont_Solid}" FontSize="40" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" HorizontalOptions="Center" />
                 <Label Text="{Binding Title}"
                        Style="{StaticResource Headline}"
                        HorizontalOptions="Center"

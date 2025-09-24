@@ -27,8 +27,10 @@
                        Padding="12,8"
                        HorizontalOptions="Center">
                     <HorizontalStackLayout Spacing="8">
-                        <Label Text="⏱️" 
+                        <Label Text="{StaticResource Icon_Info}"
+                               FontFamily="{StaticResource IconFont_Solid}"
                                FontSize="16"
+                               TextColor="White"
                                VerticalOptions="Center" />
                         <Label Text="{localization:Localize Onboarding_QuickTimeEstimate}"
                                TextColor="White"
