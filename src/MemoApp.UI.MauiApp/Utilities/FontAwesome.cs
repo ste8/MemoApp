@@ -29,6 +29,7 @@ public static class FontAwesome
         public const string Bolt = "\uf0e7";
         public const string Box = "\uf466";
         public const string Brain = "\uf5dc";
+        public const string Camera = "\uf030";
         public const string ChartBar = "\uf080";
         public const string ChartLine = "\uf201";
         public const string Check = "\uf00c";

@@ -76,7 +76,7 @@
                 <RoundRectangle CornerRadius="12"/>
             </Border.StrokeShape>
             <VerticalStackLayout Spacing="12">
-                <Label Text="⚠️" FontSize="32" HorizontalOptions="Center"/>
+                <Label Text="{StaticResource Icon_Warning}" FontFamily="{StaticResource IconFont_Solid}" FontSize="32" HorizontalOptions="Center"/>
                 <Label Text="{localization:Localize PackDownload_ErrorTitle}"
                        FontSize="18"
                        FontAttributes="Bold"

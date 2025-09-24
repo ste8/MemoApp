@@ -36,7 +36,8 @@
             </Frame.GestureRecognizers>
             <Grid ColumnDefinitions="Auto,Auto" ColumnSpacing="8">
                 <Label Grid.Column="0"
-                       Text="⚠️"
+                       Text="{StaticResource Icon_Warning}"
+                       FontFamily="{StaticResource IconFont_Solid}"
                        FontSize="14"
                        VerticalOptions="Center" />
                 <Label Grid.Column="1"
@@ -176,14 +177,16 @@
                                                            Binding="{Binding SubjectError, Converter={StaticResource IsNotNullConverter}}"
                                                            Value="True">
                                                     <Setter Property="IsVisible" Value="True" />
-                                                    <Setter Property="Text" Value="⚠️" />
+                                                    <Setter Property="Text" Value="{StaticResource Icon_Warning}" />
+                                                    <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}" />
                                                     <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}" />
                                                 </DataTrigger>
                                                 <DataTrigger TargetType="Label"
                                                            Binding="{Binding IsSubjectValid}"
                                                            Value="True">
                                                     <Setter Property="IsVisible" Value="True" />
-                                                    <Setter Property="Text" Value="✅" />
+                                                    <Setter Property="Text" Value="{StaticResource Icon_Success}" />
+                                                    <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}" />
                                                     <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ValidationSuccessLight}, Dark={StaticResource ValidationSuccessDark}}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -250,14 +253,16 @@
                                                            Binding="{Binding MessageError, Converter={StaticResource IsNotNullConverter}}"
                                                            Value="True">
                                                     <Setter Property="IsVisible" Value="True" />
-                                                    <Setter Property="Text" Value="⚠️" />
+                                                    <Setter Property="Text" Value="{StaticResource Icon_Warning}" />
+                                                    <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}" />
                                                     <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}" />
                                                 </DataTrigger>
                                                 <DataTrigger TargetType="Label"
                                                            Binding="{Binding IsMessageValid}"
                                                            Value="True">
                                                     <Setter Property="IsVisible" Value="True" />
-                                                    <Setter Property="Text" Value="✅" />
+                                                    <Setter Property="Text" Value="{StaticResource Icon_Success}" />
+                                                    <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}" />
                                                     <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ValidationSuccessLight}, Dark={StaticResource ValidationSuccessDark}}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -330,14 +335,16 @@
                                                                Binding="{Binding EmailError, Converter={StaticResource IsNotNullConverter}}"
                                                                Value="True">
                                                         <Setter Property="IsVisible" Value="True" />
-                                                        <Setter Property="Text" Value="⚠️" />
+                                                        <Setter Property="Text" Value="{StaticResource Icon_Warning}" />
+                                                        <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}" />
                                                         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}" />
                                                     </DataTrigger>
                                                     <DataTrigger TargetType="Label"
                                                                Binding="{Binding IsEmailValid}"
                                                                Value="True">
                                                         <Setter Property="IsVisible" Value="True" />
-                                                        <Setter Property="Text" Value="✅" />
+                                                        <Setter Property="Text" Value="{StaticResource Icon_Success}" />
+                                                        <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}" />
                                                         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ValidationSuccessLight}, Dark={StaticResource ValidationSuccessDark}}" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -458,7 +465,8 @@
                                                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}" />
 
                                                     <!-- Fallback for missing images -->
-                                                    <Label Text="📷"
+                                                    <Label Text="{StaticResource Icon_Camera}"
+                                                           FontFamily="{StaticResource IconFont_Solid}"
                                                            FontSize="32"
                                                            HorizontalOptions="Center"
                                                            VerticalOptions="Center"
@@ -560,7 +568,8 @@
                            Orientation="Horizontal"
                            Spacing="8"
                            VerticalOptions="Center">
-                    <Label Text="⚠️"
+                    <Label Text="{StaticResource Icon_Warning}"
+                           FontFamily="{StaticResource IconFont_Solid}"
                            FontSize="16"
                            VerticalOptions="Center" />
                     <Label Text="{Binding ValidationErrorCount, StringFormat='{localization:Localize Feedback_ValidationErrorsCount}'}"

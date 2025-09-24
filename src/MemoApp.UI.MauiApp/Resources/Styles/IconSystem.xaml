@@ -102,6 +102,7 @@
     <x:Static x:Key="Icon_FlashNumbers" Member="utilities:FontAwesome+Icons.Bolt" />
     <x:Static x:Key="Icon_BigNumber" Member="utilities:FontAwesome+Icons.Brain" />
     <x:Static x:Key="Icon_Associations" Member="utilities:FontAwesome+Icons.Link" />
+    <x:Static x:Key="Icon_Camera" Member="utilities:FontAwesome+Icons.Camera" />
     <!-- ===========================================
          BASE ICON STYLES
          =========================================== -->
