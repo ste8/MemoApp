@@ -46,6 +46,7 @@ public static class FontAwesome
         public const string Globe = "\uf0ac";
         public const string Hashtag = "\uf292";
         public const string House = "\uf015";
+        public const string Image = "\uf03e";
         public const string Lightbulb = "\uf0eb";
         public const string Link = "\uf0c1";
         public const string MagnifyingGlass = "\uf002";
@@ -64,6 +65,7 @@ public static class FontAwesome
         public const string TriangleExclamation = "\uf071";
         public const string Trash = "\uf2ed";
         public const string Upload = "\uf093";
+        public const string VolumeHigh = "\uf028";
         public const string Xmark = "\uf00d";
     }
 }

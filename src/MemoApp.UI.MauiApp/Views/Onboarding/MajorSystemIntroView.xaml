@@ -69,15 +69,16 @@
                     </VerticalStackLayout>
                     
                     <!-- Arrow 1 -->
-                    <Label Grid.Column="1" 
-                           Text="→" 
-                           FontSize="24" 
+                    <Label Grid.Column="1"
+                           Text="{StaticResource Icon_Forward}"
+                           FontFamily="{StaticResource IconFont_Solid}"
+                           FontSize="24"
                            TextColor="White"
                            VerticalOptions="Center" />
                     
                     <!-- Sounds -->
                     <VerticalStackLayout Grid.Column="2" Spacing="5">
-                        <Label Text="🔊" FontSize="32" HorizontalOptions="Center" />
+                        <Label Text="{StaticResource Icon_VolumeHigh}" FontFamily="{StaticResource IconFont_Solid}" FontSize="32" TextColor="White" HorizontalOptions="Center" />
                         <Label Text="{localization:Localize Onboarding_Sounds}"
                                TextColor="White"
                                HorizontalOptions="Center"
@@ -85,15 +86,16 @@
                     </VerticalStackLayout>
                     
                     <!-- Arrow 2 -->
-                    <Label Grid.Column="3" 
-                           Text="→" 
-                           FontSize="24" 
+                    <Label Grid.Column="3"
+                           Text="{StaticResource Icon_Forward}"
+                           FontFamily="{StaticResource IconFont_Solid}"
+                           FontSize="24"
                            TextColor="White"
                            VerticalOptions="Center" />
                     
                     <!-- Images -->
                     <VerticalStackLayout Grid.Column="4" Spacing="5">
-                        <Label Text="🖼️" FontSize="32" HorizontalOptions="Center" />
+                        <Label Text="{StaticResource Icon_Image}" FontFamily="{StaticResource IconFont_Solid}" FontSize="32" TextColor="White" HorizontalOptions="Center" />
                         <Label Text="{localization:Localize Onboarding_Images}"
                                TextColor="White"
                                HorizontalOptions="Center"

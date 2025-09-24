@@ -103,6 +103,8 @@
     <x:Static x:Key="Icon_BigNumber" Member="utilities:FontAwesome+Icons.Brain" />
     <x:Static x:Key="Icon_Associations" Member="utilities:FontAwesome+Icons.Link" />
     <x:Static x:Key="Icon_Camera" Member="utilities:FontAwesome+Icons.Camera" />
+    <x:Static x:Key="Icon_Image" Member="utilities:FontAwesome+Icons.Image" />
+    <x:Static x:Key="Icon_VolumeHigh" Member="utilities:FontAwesome+Icons.VolumeHigh" />
     <!-- ===========================================
          BASE ICON STYLES
          =========================================== -->
