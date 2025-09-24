@@ -30,8 +30,8 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Left Column: Main content -->
-                <StackLayout Grid.Column="0" 
-                             Spacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
+                <StackLayout Grid.Column="0"
+                             Spacing="{OnIdiom Phone=24, Tablet=30, Desktop=36}">
                     
                     <!-- Enhanced Contextual Header - Primary page identifier -->
                     <StackLayout Spacing="8" Margin="0,0,0,16">
@@ -42,17 +42,58 @@
                     </StackLayout>
 
                     <!-- Quick Start Component -->
-                    <components:QuickStartComponent 
+                    <components:QuickStartComponent
                         QuickTrainingButtonText="{Binding QuickTrainingButtonText}"
                         QuickTrainingCommand="{Binding StartQuickTrainingCommand}"
                         ShowHelpCommand="{Binding ShowHelpCommand}" />
 
+                    <!-- Visual Separator -->
+                    <StackLayout IsVisible="{OnIdiom Phone=True, Tablet=False, Desktop=False}"
+                                 Spacing="8"
+                                 Margin="20,8,20,8">
+                        <BoxView BackgroundColor="{AppThemeBinding Light={StaticResource ElegantBorder}, Dark={StaticResource Gray700}}"
+                                 HeightRequest="1"
+                                 HorizontalOptions="FillAndExpand"
+                                 Opacity="0.6" />
+                        <Label Text="{localization:Localize Common_Or}"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource ElegantTextMuted}, Dark={StaticResource Gray400}}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               Margin="0,-4,0,-4" />
+                        <BoxView BackgroundColor="{AppThemeBinding Light={StaticResource ElegantBorder}, Dark={StaticResource Gray700}}"
+                                 HeightRequest="1"
+                                 HorizontalOptions="FillAndExpand"
+                                 Opacity="0.6" />
+                    </StackLayout>
+
                     <!-- Mobile Preset Training (only visible on phones) -->
-                    <components:PresetTrainingComponent 
+                    <components:PresetTrainingComponent
                         IsMobileLayout="True"
                         TrainingOptions="{Binding TrainingOptions}"
                         StartPresetTrainingCommand="{Binding StartPresetTrainingCommand}"
                         IsVisible="{OnIdiom Phone=True, Tablet=False, Desktop=False}" />
+
+                    <!-- Visual Separator between preset and custom -->
+                    <StackLayout Spacing="8"
+                                 Margin="20,8,20,8">
+                        <BoxView BackgroundColor="{AppThemeBinding Light={StaticResource ElegantBorder}, Dark={StaticResource Gray700}}"
+                                 HeightRequest="1"
+                                 HorizontalOptions="FillAndExpand"
+                                 Opacity="0.6" />
+                        <Label Text="{localization:Localize Common_Or}"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource ElegantTextMuted}, Dark={StaticResource Gray400}}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               Margin="0,-4,0,-4" />
+                        <BoxView BackgroundColor="{AppThemeBinding Light={StaticResource ElegantBorder}, Dark={StaticResource Gray700}}"
+                                 HeightRequest="1"
+                                 HorizontalOptions="FillAndExpand"
+                                 Opacity="0.6" />
+                    </StackLayout>
 
                     <!-- Custom Range Component -->
                     <components:CustomRangeComponent 

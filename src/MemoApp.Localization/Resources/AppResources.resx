@@ -343,7 +343,11 @@
     <value>to</value>
     <comment>Range separator</comment>
   </data>
-  
+  <data name="Common_Or" xml:space="preserve">
+    <value>OR</value>
+    <comment>Option separator for different choices</comment>
+  </data>
+
   <!-- Help Page -->
   <data name="Help_IntroNote" xml:space="preserve">
     <value>ℹ️ There are many memory techniques available for improving recall and memorization. This guide focuses on the Major System, one of the most effective and widely-used methods for memorizing numbers.</value>

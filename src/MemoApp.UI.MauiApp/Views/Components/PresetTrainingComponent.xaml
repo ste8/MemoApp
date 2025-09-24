@@ -7,16 +7,29 @@
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              x:Class="MemoApp.UI.MauiApp.Views.Components.PresetTrainingComponent">
     
-    <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
-           Padding="15"
-           CornerRadius="10"
-           HasShadow="True">
+    <Border BackgroundColor="{AppThemeBinding Light={StaticResource ElegantSurface}, Dark={StaticResource Gray900}}"
+            Stroke="{AppThemeBinding Light={StaticResource ElegantBlue}, Dark={StaticResource ElegantBlueLight}}"
+            StrokeThickness="1.5"
+            Padding="20">
         
-        <StackLayout Spacing="15">
-            <Label Text="{localization:Localize MainPage_PresetTraining}" 
-                   Style="{StaticResource SubHeadline}"
-                   HorizontalOptions="Center"
-                   Margin="0,0,0,10" />
+        <StackLayout Spacing="20">
+            <!-- Enhanced Section Header with visual prominence -->
+            <StackLayout Spacing="8" Margin="0,0,0,12">
+                <Label Text="{localization:Localize MainPage_PresetTraining}"
+                       FontSize="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource ElegantBlue}, Dark={StaticResource ElegantBlueLight}}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+
+                <!-- Accent line under header for visual separation -->
+                <BoxView BackgroundColor="{AppThemeBinding Light={StaticResource ElegantBlue}, Dark={StaticResource ElegantBlueLight}}"
+                         HeightRequest="2"
+                         WidthRequest="60"
+                         CornerRadius="1"
+                         HorizontalOptions="Center"
+                         Opacity="0.8" />
+            </StackLayout>
 
             <!-- Mobile CollectionView with compact grid layout -->
             <CollectionView ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type components:PresetTrainingComponent}}, Path=TrainingOptions}"
@@ -33,24 +46,47 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="{x:Type flashnumbersmodels:TrainingOption}">
-                        <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
-                               Padding="8,10"
-                               CornerRadius="6"
-                               HasShadow="False"
+                        <Border BackgroundColor="{AppThemeBinding Light={StaticResource ElegantWarmWhite}, Dark={StaticResource Gray800}}"
+                               Stroke="{AppThemeBinding Light={StaticResource ElegantBorder}, Dark={StaticResource Gray600}}"
+                               StrokeThickness="1"
+                               Padding="10,12"
                                Margin="0">
-                            
-                            <Frame.GestureRecognizers>
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10" />
+                            </Border.StrokeShape>
+
+                            <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type components:PresetTrainingComponent}}, Path=StartPresetTrainingCommand}"
                                                       CommandParameter="{Binding .}" />
-                            </Frame.GestureRecognizers>
+                            </Border.GestureRecognizers>
 
-                            <Label Text="{Binding Name}" 
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Normal" />
+                                    <VisualState Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource ElegantBlueLight}, Dark={StaticResource ElegantBlueDark}}" />
+                                            <Setter Property="Opacity" Value="0.9" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource ElegantBlueDark}, Dark={StaticResource ElegantBlue}}" />
+                                            <Setter Property="Scale" Value="0.95" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <Label Text="{Binding Name}"
                                    FontAttributes="Bold"
                                    FontSize="14"
+                                   TextColor="{AppThemeBinding Light={StaticResource ElegantText}, Dark={StaticResource White}}"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center"
                                    HorizontalTextAlignment="Center" />
-                        </Frame>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
@@ -68,27 +104,54 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="{x:Type flashnumbersmodels:TrainingOption}">
-                        <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
-                               Padding="10,12"
-                               CornerRadius="8"
-                               HasShadow="False"
-                               Margin="0,3">
-                            
-                            <Frame.GestureRecognizers>
+                        <Border BackgroundColor="{AppThemeBinding Light={StaticResource ElegantWarmWhite}, Dark={StaticResource Gray800}}"
+                               Stroke="{AppThemeBinding Light={StaticResource ElegantBorder}, Dark={StaticResource Gray600}}"
+                               StrokeThickness="1"
+                               Padding="16,14"
+                               Margin="0,4">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+
+                            <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type components:PresetTrainingComponent}}, Path=StartPresetTrainingCommand}"
                                                       CommandParameter="{Binding .}" />
-                            </Frame.GestureRecognizers>
+                            </Border.GestureRecognizers>
 
-                            <Label Text="{Binding Name}" 
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Normal" />
+                                    <VisualState Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource ElegantBlueLight}, Dark={StaticResource ElegantBlueDark}}" />
+                                            <Setter Property="Opacity" Value="0.9" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource ElegantBlueDark}, Dark={StaticResource ElegantBlue}}" />
+                                            <Setter Property="Scale" Value="0.98" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <Label Text="{Binding Name}"
                                    FontAttributes="Bold"
                                    FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                                   TextColor="{AppThemeBinding Light={StaticResource ElegantText}, Dark={StaticResource White}}"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center" />
-                        </Frame>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </StackLayout>
-    </Frame>
+
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="16" />
+        </Border.StrokeShape>
+    </Border>
     
 </ContentView>
