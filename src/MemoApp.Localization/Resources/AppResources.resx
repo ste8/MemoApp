@@ -1951,6 +1951,10 @@
   </data>
   
   <!-- Major System Screen -->
+  <data name="Onboarding_MemoryTechniquesNote" xml:space="preserve">
+    <value>There are many effective memory techniques available. MemoRaise focuses specifically on the Major System, one of the most powerful methods for memorizing numbers. The techniques you'll learn work great alongside other memory methods you may already know.</value>
+    <comment>Onboarding - introductory note about memory techniques on Major System page</comment>
+  </data>
   <data name="Onboarding_MajorSystem_Title" xml:space="preserve">
     <value>The Major System</value>
     <comment>Major System introduction title</comment>
