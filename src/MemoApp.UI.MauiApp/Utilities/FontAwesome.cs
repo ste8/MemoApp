@@ -43,6 +43,7 @@ public static class FontAwesome
         public const string Download = "\uf019";
         public const string Eye = "\uf06e";
         public const string EyeSlash = "\uf070";
+        public const string Gear = "\uf013";
         public const string Globe = "\uf0ac";
         public const string Hashtag = "\uf292";
         public const string House = "\uf015";

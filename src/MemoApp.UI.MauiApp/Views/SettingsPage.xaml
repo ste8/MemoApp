@@ -36,11 +36,20 @@
                              AutomationProperties.IsInAccessibleTree="True">
                     
                     <!-- Section Title -->
-                    <Label Text="{localization:Localize Settings_General}"
-                           FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                           FontFamily="OpenSansSemiBold"
-                           TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
-                           AutomationProperties.IsInAccessibleTree="True" />
+                    <StackLayout Orientation="Horizontal" Spacing="8">
+                        <Label Text="{StaticResource Icon_Gear}"
+                               FontFamily="{StaticResource IconFont_Solid}"
+                               FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                               TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                               VerticalOptions="Center"
+                               AutomationProperties.IsInAccessibleTree="False" />
+                        <Label Text="{localization:Localize Settings_General}"
+                               FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                               FontFamily="OpenSansSemiBold"
+                               TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                               VerticalOptions="Center"
+                               AutomationProperties.IsInAccessibleTree="True" />
+                    </StackLayout>
                     
                     <!-- Language Selection -->
                     <StackLayout Spacing="{OnIdiom Phone=8, Tablet=10, Desktop=12}">
@@ -60,7 +69,7 @@
                                 <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="0">
                                     <!-- Language Icon -->
                                     <Label Grid.Column="0"
-                                           Text="&#xF0AC;"
+                                           Text="{StaticResource Icon_Globe}"
                                            FontFamily="{StaticResource IconFont_Solid}"
                                            FontSize="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
                                            TextColor="{StaticResource Primary}"
@@ -133,7 +142,7 @@
                             <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="0">
                                 <!-- Number Format Icon -->
                                 <Label Grid.Column="0"
-                                       Text="&#xF1EC;"
+                                       Text="{StaticResource Icon_Numbers}"
                                        FontFamily="{StaticResource IconFont_Solid}"
                                        FontSize="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
                                        TextColor="{StaticResource Primary}"
@@ -174,11 +183,20 @@
                              AutomationProperties.IsInAccessibleTree="True">
                     
                     <!-- Section Title -->
-                    <Label Text="{localization:Localize Settings_PackManagement}"
-                           FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                           FontFamily="OpenSansSemiBold"
-                           TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
-                           AutomationProperties.IsInAccessibleTree="True" />
+                    <StackLayout Orientation="Horizontal" Spacing="8">
+                        <Label Text="{StaticResource Icon_Download}"
+                               FontFamily="{StaticResource IconFont_Solid}"
+                               FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                               TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                               VerticalOptions="Center"
+                               AutomationProperties.IsInAccessibleTree="False" />
+                        <Label Text="{localization:Localize Settings_PackManagement}"
+                               FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                               FontFamily="OpenSansSemiBold"
+                               TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                               VerticalOptions="Center"
+                               AutomationProperties.IsInAccessibleTree="True" />
+                    </StackLayout>
                     
                     <!-- Current Pack -->
                     <StackLayout Spacing="{OnIdiom Phone=8, Tablet=10, Desktop=12}">
@@ -196,7 +214,7 @@
                             <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="0">
                                 <!-- Pack Icon -->
                                 <Label Grid.Column="0"
-                                       Text="&#xF466;"
+                                       Text="{StaticResource Icon_Package}"
                                        FontFamily="{StaticResource IconFont_Solid}"
                                        FontSize="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
                                        TextColor="{StaticResource Primary}"
@@ -250,11 +268,20 @@
                              AutomationProperties.IsInAccessibleTree="True">
                     
                     <!-- Section Title -->
-                    <Label Text="{localization:Localize AppInfo_About}"
-                           FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
-                           FontFamily="OpenSansSemiBold"
-                           TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
-                           AutomationProperties.IsInAccessibleTree="True" />
+                    <StackLayout Orientation="Horizontal" Spacing="8">
+                        <Label Text="{StaticResource Icon_Info}"
+                               FontFamily="{StaticResource IconFont_Solid}"
+                               FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                               TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                               VerticalOptions="Center"
+                               AutomationProperties.IsInAccessibleTree="False" />
+                        <Label Text="{localization:Localize AppInfo_About}"
+                               FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                               FontFamily="OpenSansSemiBold"
+                               TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                               VerticalOptions="Center"
+                               AutomationProperties.IsInAccessibleTree="True" />
+                    </StackLayout>
                     
                     <!-- App Info Grid -->
                     <Grid RowSpacing="{OnIdiom Phone=8, Tablet=10, Desktop=12}" 

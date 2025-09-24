@@ -105,6 +105,8 @@
     <x:Static x:Key="Icon_Camera" Member="utilities:FontAwesome+Icons.Camera" />
     <x:Static x:Key="Icon_Image" Member="utilities:FontAwesome+Icons.Image" />
     <x:Static x:Key="Icon_VolumeHigh" Member="utilities:FontAwesome+Icons.VolumeHigh" />
+    <x:Static x:Key="Icon_Globe" Member="utilities:FontAwesome+Icons.Globe" />
+    <x:Static x:Key="Icon_Gear" Member="utilities:FontAwesome+Icons.Gear" />
     <!-- ===========================================
          BASE ICON STYLES
          =========================================== -->
