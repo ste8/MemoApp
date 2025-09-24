@@ -4,6 +4,7 @@ using MemoApp.Core.Services.Sharing;
 using MemoApp.Core.MajorSystem.Services;
 using MemoApp.Core.MajorSystem.Models;
 using MemoApp.Core.BigNumber;
+using MemoApp.Core.FlashNumbers;
 using MemoApp.Core.Services.Packs;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Services;
@@ -207,6 +208,7 @@ public static class ServiceRegistration
         services.AddSingleton<ITextMeasurementService, TextMeasurementService>();
         services.AddSingleton<IContainerSizeService, ContainerSizeService>();
         services.AddSingleton<IBigNumberSettingsService, BigNumberSettingsService>();
+        services.AddSingleton<IFlashNumbersSettingsService, FlashNumbersSettingsService>();
 
         // Flash Numbers performance service
         services.AddSingleton<Services.FlashNumbers.IFlashNumbersPerformanceService, Services.FlashNumbers.FlashNumbersPerformanceService>();
@@ -276,8 +278,9 @@ public static class ServiceRegistration
         {
             var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
             var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
+            var settingsService = serviceProvider.GetRequiredService<IFlashNumbersSettingsService>();
             var logger = serviceProvider.GetRequiredService<ILogger<FlashNumbersSetupViewModel>>();
-            return new FlashNumbersSetupViewModel(localizationService, userNotificationService, logger);
+            return new FlashNumbersSetupViewModel(localizationService, userNotificationService, settingsService, logger);
         });
         
         // Transient ViewModels (new instance per navigation)

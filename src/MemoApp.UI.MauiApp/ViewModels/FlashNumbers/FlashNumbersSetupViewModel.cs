@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.MajorSystem;
+using MemoApp.Core.FlashNumbers;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Utilities;
@@ -18,15 +19,18 @@ public partial class FlashNumbersSetupViewModel : BaseViewModel
 {
     private readonly ILocalizationService _localizationService;
     private readonly IUserNotificationService _userNotificationService;
+    private readonly IFlashNumbersSettingsService _settingsService;
     private readonly ILogger<FlashNumbersSetupViewModel> _logger;
 
     public FlashNumbersSetupViewModel(
         ILocalizationService localizationService,
         IUserNotificationService userNotificationService,
+        IFlashNumbersSettingsService settingsService,
         ILogger<FlashNumbersSetupViewModel> logger)
     {
         _localizationService = localizationService;
         _userNotificationService = userNotificationService;
+        _settingsService = settingsService;
         _logger = logger;
         
         _logger.LogInformation("FlashNumbersSetupViewModel constructor called");
@@ -44,9 +48,12 @@ public partial class FlashNumbersSetupViewModel : BaseViewModel
         
         // Initialize dropdown selected values
         InitializeDropdownValues();
-        
+
         // Initialize quick training button text
         UpdateQuickTrainingButtonText();
+
+        // Load saved custom range settings
+        LoadCustomRangeSettingsAsync();
         
         _logger.LogInformation($"QuickTrainingButtonText set to: {QuickTrainingButtonText}");
     }
@@ -340,6 +347,7 @@ public partial class FlashNumbersSetupViewModel : BaseViewModel
         {
             CustomRangeStart = MajorNumbers[value].Display;
             UpdateValidation();
+            SaveCustomRangeSettingsAsync();
         }
     }
 
@@ -349,6 +357,7 @@ public partial class FlashNumbersSetupViewModel : BaseViewModel
         {
             CustomRangeEnd = MajorNumbers[value].Display;
             UpdateValidation();
+            SaveCustomRangeSettingsAsync();
         }
     }
 
@@ -419,10 +428,51 @@ public partial class FlashNumbersSetupViewModel : BaseViewModel
     {
         var numberFormat = _localizationService.CurrentNumberFormat;
         var rangeText = numberFormat == NumberFormat.Padded ? "00-09" : "0-9";
-        
+
         // Get the base localized text without the hardcoded range
         var baseText = _localizationService.GetString("MainPage_BeginTrainingBase");
         QuickTrainingButtonText = $"{baseText} ({rangeText})";
+    }
+
+    private async void LoadCustomRangeSettingsAsync()
+    {
+        try
+        {
+            var settings = await _settingsService.LoadSettingsAsync();
+
+            // Restore saved values
+            SelectedStartIndex = settings.CustomRangeStartIndex;
+            SelectedEndIndex = settings.CustomRangeEndIndex;
+            CustomRangeStart = settings.CustomRangeStart;
+            CustomRangeEnd = settings.CustomRangeEnd;
+
+            _logger.LogInformation($"Loaded custom range settings: {CustomRangeStart}-{CustomRangeEnd}");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to load Flash Numbers settings, using defaults");
+        }
+    }
+
+    private async void SaveCustomRangeSettingsAsync()
+    {
+        try
+        {
+            var settings = new FlashNumbersSettings
+            {
+                CustomRangeStartIndex = SelectedStartIndex,
+                CustomRangeEndIndex = SelectedEndIndex,
+                CustomRangeStart = CustomRangeStart,
+                CustomRangeEnd = CustomRangeEnd
+            };
+
+            await _settingsService.SaveSettingsAsync(settings);
+            _logger.LogDebug($"Saved custom range settings: {CustomRangeStart}-{CustomRangeEnd}");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to save Flash Numbers settings");
+        }
     }
 
     #endregion
