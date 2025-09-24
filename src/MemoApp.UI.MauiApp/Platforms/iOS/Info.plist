@@ -236,5 +236,11 @@
 	<key>NSUserTrackingUsageDescription</key>
 	<string>This identifier will be used to deliver personalized ads to you.</string>
 	<!-- Settings for Google AdMob - END -->
+
+	<!-- Export Compliance Settings - START -->
+	<!-- Declares that this app uses encryption only for standard network communications (HTTPS) -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<!-- Export Compliance Settings - END -->
 </dict>
 </plist>
