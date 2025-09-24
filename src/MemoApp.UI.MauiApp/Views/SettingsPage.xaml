@@ -9,7 +9,7 @@
     
     <ScrollView>
         <StackLayout Padding="{OnIdiom Phone=16, Tablet=24, Desktop=32}"
-                     Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}">
+                     Spacing="{OnIdiom Phone=8, Tablet=10, Desktop=12}">
             
             <!-- Page Title -->
             <StackLayout Orientation="Horizontal" 

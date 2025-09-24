@@ -490,7 +490,7 @@
     <Style x:Key="SettingsSectionDividerStyle" TargetType="Border">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}" />
         <Setter Property="HeightRequest" Value="1" />
-        <Setter Property="Margin" Value="{OnIdiom Phone='32,16,32,16', Tablet='40,20,40,20', Desktop='48,24,48,24'}" />
+        <Setter Property="Margin" Value="{OnIdiom Phone='32,2,32,2', Tablet='40,3,40,3', Desktop='48,4,48,4'}" />
         <Setter Property="Opacity" Value="0.6" />
     </Style>
 
