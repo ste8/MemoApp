@@ -212,9 +212,8 @@
         <Setter Property="AutomationProperties.IsInAccessibleTree" Value="True" />
     </Style>
 
-    <!-- Animated success icon with initial scale -->
+    <!-- Animated success icon -->
     <Style x:Key="AnimatedSuccessIcon" TargetType="Label" BasedOn="{StaticResource SuccessIcon}">
-        <Setter Property="Scale" Value="0" />
     </Style>
 
     <!-- Animated error icon (shake handled in code-behind) -->

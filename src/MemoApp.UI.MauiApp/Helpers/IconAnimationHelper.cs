@@ -51,8 +51,15 @@ public static class IconAnimationHelper
     /// <param name="element">The success icon element</param>
     public static async Task AnimateSuccessIcon(VisualElement element)
     {
-        element.Scale = 0;
-        element.IsVisible = true;
+        // Only animate if visible
+        if (!element.IsVisible) return;
+
+        // Start from current scale if already visible, or from 0 for animation
+        var startScale = element.Scale > 0 ? element.Scale : 0;
+        if (startScale == 0)
+        {
+            element.Scale = 0;
+        }
 
         // Bounce in animation: scale to 1.2, then settle to 1.0
         await element.ScaleTo(1.2, Durations.Fast, Easing.BounceOut);

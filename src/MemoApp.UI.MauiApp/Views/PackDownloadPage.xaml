@@ -4,6 +4,7 @@
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              xmlns:vm="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
              xmlns:components="clr-namespace:MemoApp.UI.MauiApp.Views.Components"
+             xmlns:behaviors="clr-namespace:MemoApp.UI.MauiApp.Behaviors"
              x:Class="MemoApp.UI.MauiApp.Views.PackDownloadPage"
              x:DataType="vm:PackDownloadViewModel"
              Title="{Binding Title}">
@@ -19,15 +20,18 @@
                        Style="{StaticResource DescriptiveTextStyle}"
                        HorizontalOptions="Start"/>
             </StackLayout>
-            <!-- Refresh Button with Optional Update Counter Badge -->
+            <!-- Refresh Button with Animation and Optional Update Counter Badge -->
             <Grid Grid.Column="1">
                 <Button Text="{StaticResource Icon_Refresh}"
                         Command="{Binding RefreshCommand}"
                         IsEnabled="{Binding IsRefreshing, Converter={StaticResource InvertedBoolConverter}}"
-                        Style="{StaticResource EnhancedActionButtonStyle}"
+                        Style="{StaticResource AnimatedIconButton}"
                         HorizontalOptions="End"
-                        SemanticProperties.Description="{localization:Localize PackDownload_CheckForUpdatesButton}"
-/>
+                        SemanticProperties.Description="{localization:Localize PackDownload_CheckForUpdatesButton}">
+                    <Button.Behaviors>
+                        <behaviors:TapFeedbackBehavior />
+                    </Button.Behaviors>
+                </Button>
                 <!-- Optional: Update count badge on refresh button -->
                 <Border IsVisible="{Binding HasUpdatesAvailable}"
                         BackgroundColor="{StaticResource Danger}"
@@ -54,16 +58,20 @@
                      IsRefreshing="{Binding IsRefreshing}">
             <ScrollView>
                 <StackLayout Padding="16,8" Spacing="0">
-                <!-- Initial Loading Indicator -->
+                <!-- Initial Loading Indicator with Animated Spinner -->
                 <StackLayout IsVisible="{Binding IsInitialLoading}"
                              HorizontalOptions="Center"
                              VerticalOptions="Center"
                              Spacing="16"
                              Margin="40,60">
-                    <ActivityIndicator IsRunning="{Binding IsInitialLoading}"
-                                       Color="{AppThemeBinding Light=#007ACC, Dark=#4FC3F7}"
-                                       HeightRequest="32"
-                                       WidthRequest="32"/>
+                    <Label Style="{StaticResource LoadingSpinnerIcon}"
+                           FontSize="32"
+                           HorizontalOptions="Center"
+                           IsVisible="{Binding IsInitialLoading}">
+                        <Label.Behaviors>
+                            <behaviors:LoadingSpinnerBehavior />
+                        </Label.Behaviors>
+                    </Label>
                     <Label Text="{localization:Localize PackDownload_LoadingPacks}"
                            HorizontalTextAlignment="Center"
                            FontSize="16"
@@ -96,14 +104,17 @@
                 </StackLayout>
             </ScrollView>
         </RefreshView>
-        <!-- Cancel Download Button (shown during download) -->
+        <!-- Cancel Download Button with Animation (shown during download) -->
         <Button Grid.Row="2"
                 Text="{localization:Localize PackDownload_CancelButton}"
                 Command="{Binding CancelDownloadCommand}"
                 IsVisible="{Binding IsDownloading}"
-                Style="{StaticResource DownloadCancelButtonStyle}"
+                Style="{StaticResource IconButton_Danger}"
                 Margin="16,8,16,16"
-                SemanticProperties.Description="{localization:Localize PackDownload_CancelButton}"
-/>
+                SemanticProperties.Description="{localization:Localize PackDownload_CancelButton}">
+            <Button.Behaviors>
+                <behaviors:TapFeedbackBehavior />
+            </Button.Behaviors>
+        </Button>
     </Grid>
 </ContentPage>

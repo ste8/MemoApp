@@ -62,23 +62,39 @@ public class LoadingSpinnerBehavior : Behavior<VisualElement>
 /// </summary>
 public class SuccessAnimationBehavior : Behavior<VisualElement>
 {
+    private bool _hasAnimated = false;
+
     protected override void OnAttachedTo(VisualElement bindable)
     {
         bindable.PropertyChanged += OnElementPropertyChanged;
+
+        // If already visible when attached, animate immediately
+        if (bindable.IsVisible && !_hasAnimated)
+        {
+            _hasAnimated = true;
+            _ = IconAnimationHelper.AnimateSuccessIcon(bindable);
+        }
+
         base.OnAttachedTo(bindable);
     }
 
     protected override void OnDetachingFrom(VisualElement bindable)
     {
         bindable.PropertyChanged -= OnElementPropertyChanged;
+        _hasAnimated = false;
         base.OnDetachingFrom(bindable);
     }
 
     private async void OnElementPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(VisualElement.IsVisible) && sender is VisualElement element && element.IsVisible)
+        if (e.PropertyName == nameof(VisualElement.IsVisible) && sender is VisualElement element && element.IsVisible && !_hasAnimated)
         {
+            _hasAnimated = true;
             await IconAnimationHelper.AnimateSuccessIcon(element);
+        }
+        else if (e.PropertyName == nameof(VisualElement.IsVisible) && sender is VisualElement el && !el.IsVisible)
+        {
+            _hasAnimated = false; // Reset when hidden
         }
     }
 }
