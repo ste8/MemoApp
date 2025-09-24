@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              xmlns:vm="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
+             xmlns:behaviors="clr-namespace:MemoApp.UI.MauiApp.Behaviors"
              x:Class="MemoApp.UI.MauiApp.Views.Components.PackCardView"
              x:DataType="vm:PackCardViewModel">
     <Border Style="{StaticResource EnhancedPackCardStyle}"
@@ -34,35 +35,42 @@
                          VerticalOptions="Center"
                          Margin="{OnIdiom Phone='8,0,0,0', Tablet='12,0,0,0', Desktop='12,0,0,0'}">
 
-                <!-- Download/Update Button -->
+                <!-- Download/Update Button with Animation -->
                 <Button Text="{StaticResource Icon_Download}"
                         Command="{Binding DownloadCommand}"
                         CommandParameter="{Binding .}"
                         IsEnabled="{Binding CanExecuteDownload}"
                         IsVisible="{Binding ShowDownloadButton}"
-                        Style="{StaticResource EnhancedActionButtonStyle}"
-                        SemanticProperties.Description="{Binding ButtonText}"
-/>
-                <!-- Downloaded/Up-to-Date Indicator -->
-                <Label Text="{StaticResource Icon_Success}"
-                       FontFamily="{StaticResource IconFont_Solid}"
-                       TextColor="{StaticResource Success}"
-                       FontSize="{StaticResource IconSize_Responsive_Medium}"
+                        Style="{StaticResource AnimatedIconButton}"
+                        SemanticProperties.Description="{Binding ButtonText}">
+                    <Button.Behaviors>
+                        <behaviors:TapFeedbackBehavior />
+                    </Button.Behaviors>
+                </Button>
+                <!-- Downloaded/Up-to-Date Indicator with Animation -->
+                <Label Style="{StaticResource AnimatedSuccessIcon}"
                        HorizontalOptions="Center"
                        VerticalOptions="Center"
                        Margin="12,8"
                        SemanticProperties.Description="{localization:Localize PackDownload_UpToDate}"
-IsVisible="{Binding ShowDownloadButton, Converter={StaticResource InvertedBoolConverter}}"/>
+                       IsVisible="{Binding ShowDownloadButton, Converter={StaticResource InvertedBoolConverter}}">
+                    <Label.Behaviors>
+                        <behaviors:SuccessAnimationBehavior />
+                    </Label.Behaviors>
+                </Label>
 
-                <!-- Delete Button (only for downloaded packs) -->
+                <!-- Delete Button with Animation -->
                 <Button Text="{StaticResource Icon_Delete}"
                         Command="{Binding DeleteCommand}"
                         CommandParameter="{Binding .}"
                         IsEnabled="{Binding CanExecuteDelete}"
                         IsVisible="{Binding ShowDeleteButton}"
-                        Style="{StaticResource DestructiveActionButtonStyle}"
-                        SemanticProperties.Description="{localization:Localize Common_Delete}"
-/>
+                        Style="{StaticResource IconButton_Danger}"
+                        SemanticProperties.Description="{localization:Localize Common_Delete}">
+                    <Button.Behaviors>
+                        <behaviors:TapFeedbackBehavior />
+                    </Button.Behaviors>
+                </Button>
             </StackLayout>
             <!-- Description -->
             <Label Grid.Row="1" Grid.Column="0"
@@ -88,13 +96,24 @@ IsVisible="{Binding ShowDownloadButton, Converter={StaticResource InvertedBoolCo
                          Spacing="8"
                          Margin="0,8,0,0">
 
-                <!-- Progress Info Row -->
-                <Grid ColumnDefinitions="*,Auto">
+                <!-- Progress Info Row with Loading Spinner -->
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <!-- Loading Spinner Icon -->
                     <Label Grid.Column="0"
+                           Style="{StaticResource LoadingSpinnerIcon}"
+                           FontSize="14"
+                           Margin="0,0,8,0"
+                           IsVisible="{Binding IsDownloading}">
+                        <Label.Behaviors>
+                            <behaviors:LoadingSpinnerBehavior />
+                        </Label.Behaviors>
+                    </Label>
+
+                    <Label Grid.Column="1"
                            Text="{localization:Localize PackDownload_Downloading}"
                            FontSize="12"
                            FontAttributes="Bold"/>
-                    <Label Grid.Column="1"
+                    <Label Grid.Column="2"
                            Text="{Binding ProgressText}"
                            FontSize="12"
                            TextColor="Gray"/>

@@ -183,4 +183,56 @@
     <Style x:Key="IconButton_Danger" TargetType="Button" BasedOn="{StaticResource AccessibleIconButton}">
         <Setter Property="TextColor" Value="{StaticResource IconColor_Danger}" />
     </Style>
+
+    <!-- ===========================================
+         ICON ANIMATION STYLES
+         =========================================== -->
+
+    <!-- Animation durations -->
+    <OnIdiom x:Key="AnimationDuration_Fast" x:TypeArguments="x:Int32">
+        <OnIdiom.Phone>200</OnIdiom.Phone>
+        <OnIdiom.Tablet>180</OnIdiom.Tablet>
+        <OnIdiom.Desktop>150</OnIdiom.Desktop>
+    </OnIdiom>
+    <OnIdiom x:Key="AnimationDuration_Normal" x:TypeArguments="x:Int32">
+        <OnIdiom.Phone>300</OnIdiom.Phone>
+        <OnIdiom.Tablet>250</OnIdiom.Tablet>
+        <OnIdiom.Desktop>200</OnIdiom.Desktop>
+    </OnIdiom>
+    <OnIdiom x:Key="AnimationDuration_Slow" x:TypeArguments="x:Int32">
+        <OnIdiom.Phone>500</OnIdiom.Phone>
+        <OnIdiom.Tablet>400</OnIdiom.Tablet>
+        <OnIdiom.Desktop>350</OnIdiom.Desktop>
+    </OnIdiom>
+
+    <!-- Loading spinner icon (rotation handled in code-behind) -->
+    <Style x:Key="LoadingSpinnerIcon" TargetType="Label" BasedOn="{StaticResource IconMedium}">
+        <Setter Property="Text" Value="{StaticResource Icon_Loading}" />
+        <Setter Property="TextColor" Value="{StaticResource IconColor_Primary}" />
+        <Setter Property="AutomationProperties.IsInAccessibleTree" Value="True" />
+    </Style>
+
+    <!-- Animated success icon with initial scale -->
+    <Style x:Key="AnimatedSuccessIcon" TargetType="Label" BasedOn="{StaticResource SuccessIcon}">
+        <Setter Property="Scale" Value="0" />
+    </Style>
+
+    <!-- Animated error icon (shake handled in code-behind) -->
+    <Style x:Key="AnimatedErrorIcon" TargetType="Label" BasedOn="{StaticResource ErrorIcon}">
+    </Style>
+
+    <!-- Interactive button with tap feedback (scale handled in code-behind) -->
+    <Style x:Key="AnimatedIconButton" TargetType="Button" BasedOn="{StaticResource AccessibleIconButton}">
+        <Setter Property="Scale" Value="1.0" />
+    </Style>
+
+    <!-- Pulse animation for attention-grabbing (opacity handled in code-behind) -->
+    <Style x:Key="PulsingIcon" TargetType="Label" BasedOn="{StaticResource IconMedium}">
+    </Style>
+
+    <!-- Fade-in animation for appearing content -->
+    <Style x:Key="FadeInIcon" TargetType="Label" BasedOn="{StaticResource IconMedium}">
+        <Setter Property="Opacity" Value="0" />
+    </Style>
+
 </ResourceDictionary>
