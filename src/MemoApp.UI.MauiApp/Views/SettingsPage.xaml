@@ -46,6 +46,7 @@
                         <Label Text="{localization:Localize Settings_General}"
                                FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                FontFamily="OpenSansSemiBold"
+                               FontAttributes="Bold"
                                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
                                VerticalOptions="Center"
                                AutomationProperties.IsInAccessibleTree="True" />
@@ -193,6 +194,7 @@
                         <Label Text="{localization:Localize Settings_PackManagement}"
                                FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                FontFamily="OpenSansSemiBold"
+                               FontAttributes="Bold"
                                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
                                VerticalOptions="Center"
                                AutomationProperties.IsInAccessibleTree="True" />
@@ -278,6 +280,7 @@
                         <Label Text="{localization:Localize AppInfo_About}"
                                FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                FontFamily="OpenSansSemiBold"
+                               FontAttributes="Bold"
                                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
                                VerticalOptions="Center"
                                AutomationProperties.IsInAccessibleTree="True" />
