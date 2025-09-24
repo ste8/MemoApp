@@ -16,6 +16,7 @@
     <Color x:Key="SecondaryLight">#FCD34D</Color>   <!-- Amber-300: Light variant -->
     <Color x:Key="SecondaryDarkText">#7C2D12</Color> <!-- Orange-900: Better contrast -->
     <Color x:Key="Tertiary">#10B981</Color>         <!-- Emerald-500: Memory/growth theme -->
+    <Color x:Key="TertiaryDark">#047857</Color>      <!-- Emerald-700: Enhanced for dark mode -->
     
     <!-- App-specific colors -->
     <Color x:Key="Success">#28A745</Color>

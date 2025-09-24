@@ -437,6 +437,63 @@
         <Setter Property="MinimumHeightRequest" Value="88" />
     </Style>
 
+    <!-- Settings Section Styles for Enhanced Visual Separation -->
+    <!-- Primary Settings Section - Most Important (General Settings) -->
+    <Style x:Key="PrimarySettingsSectionStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardBackgroundColorLight}, Dark={StaticResource CardBackgroundColorDark}}" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+        <Setter Property="StrokeThickness" Value="2" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        <Setter Property="Padding" Value="{OnIdiom Phone=20, Tablet=24, Desktop=28}" />
+        <Setter Property="Margin" Value="{OnIdiom Phone='0,0,0,28', Tablet='0,0,0,32', Desktop='0,0,0,36'}" />
+        <Setter Property="Shadow">
+            <Shadow Brush="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                    Offset="0,4"
+                    Radius="12"
+                    Opacity="0.15" />
+        </Setter>
+    </Style>
+
+    <!-- Secondary Settings Section - Important Supportive (Pack Management) -->
+    <Style x:Key="SecondarySettingsSectionStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardBackgroundColorLight}, Dark={StaticResource CardBackgroundColorDark}}" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDark}}" />
+        <Setter Property="StrokeThickness" Value="2" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        <Setter Property="Padding" Value="{OnIdiom Phone=20, Tablet=24, Desktop=28}" />
+        <Setter Property="Margin" Value="{OnIdiom Phone='0,0,0,28', Tablet='0,0,0,32', Desktop='0,0,0,36'}" />
+        <Setter Property="Shadow">
+            <Shadow Brush="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDark}}"
+                    Offset="0,4"
+                    Radius="12"
+                    Opacity="0.15" />
+        </Setter>
+    </Style>
+
+    <!-- Tertiary Settings Section - Informational (About) -->
+    <Style x:Key="TertiarySettingsSectionStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardBackgroundColorLight}, Dark={StaticResource CardBackgroundColorDark}}" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Tertiary}, Dark={StaticResource TertiaryDark}}" />
+        <Setter Property="StrokeThickness" Value="2" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        <Setter Property="Padding" Value="{OnIdiom Phone=20, Tablet=24, Desktop=28}" />
+        <Setter Property="Margin" Value="{OnIdiom Phone='0,0,0,20', Tablet='0,0,0,24', Desktop='0,0,0,28'}" />
+        <Setter Property="Shadow">
+            <Shadow Brush="{AppThemeBinding Light={StaticResource Tertiary}, Dark={StaticResource TertiaryDark}}"
+                    Offset="0,4"
+                    Radius="12"
+                    Opacity="0.15" />
+        </Setter>
+    </Style>
+
+    <!-- Settings Section Divider for Additional Visual Separation -->
+    <Style x:Key="SettingsSectionDividerStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}" />
+        <Setter Property="HeightRequest" Value="1" />
+        <Setter Property="Margin" Value="{OnIdiom Phone='32,16,32,16', Tablet='40,20,40,20', Desktop='48,24,48,24'}" />
+        <Setter Property="Opacity" Value="0.6" />
+    </Style>
+
     <Style TargetType="ImageButton">
         <Setter Property="Opacity" Value="1" />
         <Setter Property="BorderColor" Value="Transparent"/>

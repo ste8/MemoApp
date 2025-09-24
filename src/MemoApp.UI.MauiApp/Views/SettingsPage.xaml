@@ -8,8 +8,8 @@
              Title="{localization:Localize Settings_Title}">
     
     <ScrollView>
-        <StackLayout Padding="{OnIdiom Phone=16, Tablet=24, Desktop=32}" 
-                     Spacing="{OnIdiom Phone=16, Tablet=20, Desktop=24}">
+        <StackLayout Padding="{OnIdiom Phone=16, Tablet=24, Desktop=32}"
+                     Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}">
             
             <!-- Page Title -->
             <StackLayout Orientation="Horizontal" 
@@ -31,7 +31,7 @@
             </StackLayout>
 
             <!-- General Settings Section -->
-            <Border Style="{StaticResource AssociationCardStyle}">
+            <Border Style="{StaticResource PrimarySettingsSectionStyle}">
                 <StackLayout Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}"
                              AutomationProperties.IsInAccessibleTree="True">
                     
@@ -178,8 +178,11 @@
                 </StackLayout>
             </Border>
 
+            <!-- Section Divider -->
+            <Border Style="{StaticResource SettingsSectionDividerStyle}" />
+
             <!-- Pack Management Section -->
-            <Border Style="{StaticResource AssociationCardStyle}">
+            <Border Style="{StaticResource SecondarySettingsSectionStyle}">
                 <StackLayout Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}"
                              AutomationProperties.IsInAccessibleTree="True">
                     
@@ -264,8 +267,11 @@
                 </StackLayout>
             </Border>
 
+            <!-- Section Divider -->
+            <Border Style="{StaticResource SettingsSectionDividerStyle}" />
+
             <!-- About Section -->
-            <Border Style="{StaticResource AssociationCardStyle}">
+            <Border Style="{StaticResource TertiarySettingsSectionStyle}">
                 <StackLayout Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}"
                              AutomationProperties.IsInAccessibleTree="True">
                     
