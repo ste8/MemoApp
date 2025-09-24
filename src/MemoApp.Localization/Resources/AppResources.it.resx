@@ -3020,4 +3020,50 @@ Scarica MemoRaise: {AppUrl}
     <value>Ricorda: le vocali (a, e, i, o, u) e le lettere mute non contano!</value>
     <comment>Quick tip shown below compact mapping table</comment>
   </data>
+
+  <!-- Centralized Error Messages for Exception Handler -->
+  <data name="Error_Title" xml:space="preserve">
+    <value>Errore</value>
+    <comment>Default title for error alert dialogs</comment>
+  </data>
+  <data name="Error_General" xml:space="preserve">
+    <value>Si è verificato un errore imprevisto. Riprova.</value>
+    <comment>Generic error message for unhandled exceptions</comment>
+  </data>
+  <data name="Error_Network_General" xml:space="preserve">
+    <value>Errore di rete. Controlla la connessione internet e riprova.</value>
+    <comment>General network error message</comment>
+  </data>
+  <data name="Error_Network_Connection" xml:space="preserve">
+    <value>Impossibile connettersi al server. Controlla la connessione internet.</value>
+    <comment>Network connection error message</comment>
+  </data>
+  <data name="Error_Network_Timeout" xml:space="preserve">
+    <value>La richiesta è scaduta. Riprova.</value>
+    <comment>Network timeout error message</comment>
+  </data>
+  <data name="Error_Authorization" xml:space="preserve">
+    <value>Accesso negato. Controlla i permessi o accedi nuovamente.</value>
+    <comment>Authorization/authentication error message</comment>
+  </data>
+  <data name="Error_Storage" xml:space="preserve">
+    <value>Impossibile accedere o salvare i file. Controlla lo spazio di archiviazione disponibile.</value>
+    <comment>File storage error message</comment>
+  </data>
+  <data name="Error_Validation" xml:space="preserve">
+    <value>Input non valido fornito. Controlla i dati e riprova.</value>
+    <comment>Data validation error message</comment>
+  </data>
+  <data name="Error_Business" xml:space="preserve">
+    <value>Questa operazione non può essere completata in questo momento. Riprova più tardi.</value>
+    <comment>Business logic error message</comment>
+  </data>
+  <data name="Error_External" xml:space="preserve">
+    <value>Servizio esterno non disponibile. Riprova più tardi.</value>
+    <comment>External service error message</comment>
+  </data>
+  <data name="Error_System" xml:space="preserve">
+    <value>Si è verificato un errore di sistema. Riavvia l'app e riprova.</value>
+    <comment>System-level error message</comment>
+  </data>
 </root>

@@ -12,6 +12,7 @@ using MemoApp.UI.MauiApp.Constants;
 using MemoApp.UI.MauiApp.Utilities;
 using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Services.Freemium;
+using MemoApp.UI.MauiApp.Services.ErrorHandling;
 
 namespace MemoApp.UI.MauiApp.ViewModels.FlashNumbers;
 
@@ -30,6 +31,7 @@ public partial class FlashNumbersViewModel : BaseViewModel
     private readonly IInterstitialAdManager? _interstitialAdManager;
     private readonly IExerciseCountService _exerciseCountService;
     private readonly IAssociationComposerService _associationComposerService;
+    private readonly IExceptionHandler _exceptionHandler;
     private GameSession? _gameSession;
 
     // Analytics tracking
@@ -180,6 +182,7 @@ public partial class FlashNumbersViewModel : BaseViewModel
         IShareService shareService,
         IExerciseCountService exerciseCountService,
         IAssociationComposerService associationComposerService,
+        IExceptionHandler exceptionHandler,
         IInterstitialAdManager? interstitialAdManager = null)
     {
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
@@ -187,6 +190,7 @@ public partial class FlashNumbersViewModel : BaseViewModel
         _shareService = shareService ?? throw new ArgumentNullException(nameof(shareService));
         _exerciseCountService = exerciseCountService ?? throw new ArgumentNullException(nameof(exerciseCountService));
         _associationComposerService = associationComposerService ?? throw new ArgumentNullException(nameof(associationComposerService));
+        _exceptionHandler = exceptionHandler ?? throw new ArgumentNullException(nameof(exceptionHandler));
         _interstitialAdManager = interstitialAdManager;
         Title = "Flash Numbers";
     }
@@ -228,7 +232,13 @@ public partial class FlashNumbersViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert("Error", $"Failed to initialize Flash Numbers session: {ex.Message}", "OK");
+            await _exceptionHandler.HandleExceptionAsync(ex, "flash_numbers_initialize",
+                new Dictionary<string, object>
+                {
+                    { "range_start", RangeStart },
+                    { "range_end", RangeEnd },
+                    { "preserve_state", PreserveState }
+                });
             await Shell.Current.GoToAsync("..");
         }
         finally
@@ -339,13 +349,13 @@ public partial class FlashNumbersViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            // Log the error but don't crash the training session
-            await _analyticsService.TrackEventAsync("association_reveal_error", new Dictionary<string, object>
-            {
-                [AnalyticsParameters.ErrorType] = "AssociationRevealError",
-                [AnalyticsParameters.ErrorMessage] = ex.Message,
-                [AnalyticsParameters.Token] = CurrentNumber
-            });
+            await _exceptionHandler.HandleExceptionAsync(ex, "flash_numbers_association_reveal",
+                new Dictionary<string, object>
+                {
+                    { "current_number", CurrentNumber },
+                    { "is_revealing", !IsAssociationRevealed },
+                    { "range", $"{RangeStart}_{RangeEnd}" }
+                }, showUserMessage: false);
         }
     }
 
@@ -393,14 +403,14 @@ public partial class FlashNumbersViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            // Log error but continue
-            await _analyticsService.TrackEventAsync("association_load_error", new Dictionary<string, object>
-            {
-                [AnalyticsParameters.ErrorType] = "LoadAssociationError",
-                [AnalyticsParameters.ErrorMessage] = ex.Message,
-                [AnalyticsParameters.Token] = CurrentNumber
-            });
-            
+            await _exceptionHandler.HandleExceptionAsync(ex, "flash_numbers_load_association",
+                new Dictionary<string, object>
+                {
+                    { "token", _gameSession.CurrentNumber?.Display ?? "unknown" },
+                    { "current_number", CurrentNumber },
+                    { "category_key", "numbers" }
+                }, showUserMessage: false);
+
             // Set as revealed but with no data to show error state
             IsAssociationRevealed = true;
             CurrentAssociation = null;
@@ -576,17 +586,14 @@ public partial class FlashNumbersViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert(
-                _localizationService.GetString("Error_Title"), 
-                $"Failed to share results: {ex.Message}", 
-                _localizationService.GetString("Common_OK"));
-
-            // Track share error
-            await _analyticsService.TrackEventAsync(AnalyticsEvents.ShareFailed, new Dictionary<string, object>
-            {
-                [AnalyticsParameters.ExerciseType] = "FlashNumbers",
-                ["error"] = ex.Message
-            });
+            await _exceptionHandler.HandleExceptionAsync(ex, "flash_numbers_share_results",
+                new Dictionary<string, object>
+                {
+                    { "exercise_type", "FlashNumbers" },
+                    { "total_numbers", TotalNumbers },
+                    { "range", $"{RangeStart}_{RangeEnd}" },
+                    { "has_statistics", SessionStatistics.HasValue }
+                });
         }
     }
 

@@ -12,6 +12,7 @@ using MemoApp.UI.MauiApp.Services.ErrorMonitoring;
 using MemoApp.UI.MauiApp.Services.Freemium;
 using MemoApp.UI.MauiApp.Services.Onboarding;
 using MemoApp.UI.MauiApp.Services.Sharing;
+using MemoApp.UI.MauiApp.Services.ErrorHandling;
 using MemoApp.UI.MauiApp.ViewModels;
 using MemoApp.UI.MauiApp.ViewModels.Associations;
 using MemoApp.UI.MauiApp.ViewModels.BigNumber;
@@ -46,6 +47,9 @@ public static class ServiceRegistration
         // Error Monitoring Services (early in pipeline)
         services.AddSingleton<IErrorMonitoringService, SentryErrorMonitoringService>();
         services.AddSingleton<GlobalExceptionHandler>();
+
+        // Centralized Exception Handler
+        services.AddSingleton<IExceptionHandler, ExceptionHandler>();
         
         // App Initialization Service
         services.AddSingleton<IAppInitializationService, AppInitializationService>();
@@ -284,8 +288,9 @@ public static class ServiceRegistration
             var shareService = serviceProvider.GetRequiredService<IShareService>();
             var exerciseCountService = serviceProvider.GetRequiredService<IExerciseCountService>();
             var associationComposerService = serviceProvider.GetRequiredService<IAssociationComposerService>();
+            var exceptionHandler = serviceProvider.GetRequiredService<IExceptionHandler>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
-            return new FlashNumbersViewModel(localizationService, analyticsService, shareService, exerciseCountService, associationComposerService, interstitialAdManager);
+            return new FlashNumbersViewModel(localizationService, analyticsService, shareService, exerciseCountService, associationComposerService, exceptionHandler, interstitialAdManager);
         });
         
         services.AddTransient<StatisticsViewModel>();
@@ -310,7 +315,8 @@ public static class ServiceRegistration
             var associationComposerService = serviceProvider.GetRequiredService<IAssociationComposerService>();
             var logger = serviceProvider.GetRequiredService<ILogger<AssociationsViewModel>>();
             var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-            return new AssociationsViewModel(categoryService, packAssociationsService, tokenDefaultsService, customAssociationsService, localizationService, messenger, imageCacheService, analyticsService, userNotificationService, associationComposerService, logger, configuration);
+            var exceptionHandler = serviceProvider.GetRequiredService<IExceptionHandler>();
+            return new AssociationsViewModel(categoryService, packAssociationsService, tokenDefaultsService, customAssociationsService, localizationService, messenger, imageCacheService, analyticsService, userNotificationService, associationComposerService, logger, configuration, exceptionHandler);
         });
         
         services.AddTransient<PackDownloadViewModel>(serviceProvider =>
@@ -322,7 +328,8 @@ public static class ServiceRegistration
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
             var messenger = serviceProvider.GetRequiredService<IMessenger>();
             var logger = serviceProvider.GetRequiredService<ILogger<PackDownloadViewModel>>();
-            return new PackDownloadViewModel(downloadService, packManager, mauiPackService, localizationService, analyticsService, messenger, logger);
+            var exceptionHandler = serviceProvider.GetRequiredService<IExceptionHandler>();
+            return new PackDownloadViewModel(downloadService, packManager, mauiPackService, localizationService, analyticsService, messenger, logger, exceptionHandler);
         });
         
         services.AddTransient<BigNumberViewModel>(serviceProvider =>
@@ -338,8 +345,9 @@ public static class ServiceRegistration
             var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
             var digitComparisonService = serviceProvider.GetRequiredService<IDigitComparisonService>();
             var associationComposerService = serviceProvider.GetRequiredService<IAssociationComposerService>();
+            var exceptionHandler = serviceProvider.GetRequiredService<IExceptionHandler>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
-            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, userNotificationService, digitComparisonService, associationComposerService, interstitialAdManager);
+            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, userNotificationService, digitComparisonService, associationComposerService, exceptionHandler, interstitialAdManager);
         });
         
         services.AddTransient<TokenDetailViewModel>(serviceProvider =>

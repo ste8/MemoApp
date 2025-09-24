@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using MemoApp.UI.MauiApp.Messages;
 using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Services.Freemium;
+using MemoApp.UI.MauiApp.Services.ErrorHandling;
 using Microsoft.Extensions.Configuration;
 
 namespace MemoApp.UI.MauiApp.ViewModels.Associations;
@@ -38,6 +39,7 @@ public partial class AssociationsViewModel : ObservableObject,
     private readonly IAssociationComposerService _associationComposerService;
     private readonly ILogger<AssociationsViewModel> _logger;
     private readonly IConfiguration _configuration;
+    private readonly IExceptionHandler _exceptionHandler;
     
     [ObservableProperty]
     private bool _isLoading;
@@ -94,7 +96,8 @@ public partial class AssociationsViewModel : ObservableObject,
         IUserNotificationService userNotificationService,
         IAssociationComposerService associationComposerService,
         ILogger<AssociationsViewModel> logger,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        IExceptionHandler exceptionHandler)
     {
         _categoryService = categoryService;
         _packAssociationsService = packAssociationsService;
@@ -108,6 +111,7 @@ public partial class AssociationsViewModel : ObservableObject,
         _associationComposerService = associationComposerService;
         _logger = logger;
         _configuration = configuration;
+        _exceptionHandler = exceptionHandler;
         
         // Always show ads in this version
         ShowAds = true;
@@ -503,11 +507,11 @@ public partial class AssociationsViewModel : ObservableObject,
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error navigating to pack download");
-            
-            // Show user-friendly error message
-            var errorMessage = _localizationService.GetString("Common_Error");
-            await _userNotificationService.ShowErrorToastAsync(errorMessage);
+            await _exceptionHandler.HandleExceptionAsync(ex, "associations_navigate_pack_download",
+                new Dictionary<string, object>
+                {
+                    { "has_pack_available", HasPackAvailable }
+                });
         }
     }
     

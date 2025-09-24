@@ -3112,4 +3112,50 @@ Download MemoRaise: {AppUrl}
     <value>Remember: vowels (a, e, i, o, u) and silent letters don't count!</value>
     <comment>Quick tip shown below compact mapping table</comment>
   </data>
+
+  <!-- Centralized Error Messages for Exception Handler -->
+  <data name="Error_Title" xml:space="preserve">
+    <value>Error</value>
+    <comment>Default title for error alert dialogs</comment>
+  </data>
+  <data name="Error_General" xml:space="preserve">
+    <value>An unexpected error occurred. Please try again.</value>
+    <comment>Generic error message for unhandled exceptions</comment>
+  </data>
+  <data name="Error_Network_General" xml:space="preserve">
+    <value>Network error. Please check your internet connection and try again.</value>
+    <comment>General network error message</comment>
+  </data>
+  <data name="Error_Network_Connection" xml:space="preserve">
+    <value>Unable to connect to the server. Please check your internet connection.</value>
+    <comment>Network connection error message</comment>
+  </data>
+  <data name="Error_Network_Timeout" xml:space="preserve">
+    <value>The request timed out. Please try again.</value>
+    <comment>Network timeout error message</comment>
+  </data>
+  <data name="Error_Authorization" xml:space="preserve">
+    <value>Access denied. Please check your permissions or sign in again.</value>
+    <comment>Authorization/authentication error message</comment>
+  </data>
+  <data name="Error_Storage" xml:space="preserve">
+    <value>Unable to access or save files. Please check available storage space.</value>
+    <comment>File storage error message</comment>
+  </data>
+  <data name="Error_Validation" xml:space="preserve">
+    <value>Invalid input provided. Please check your data and try again.</value>
+    <comment>Data validation error message</comment>
+  </data>
+  <data name="Error_Business" xml:space="preserve">
+    <value>This operation cannot be completed at this time. Please try again later.</value>
+    <comment>Business logic error message</comment>
+  </data>
+  <data name="Error_External" xml:space="preserve">
+    <value>External service unavailable. Please try again later.</value>
+    <comment>External service error message</comment>
+  </data>
+  <data name="Error_System" xml:space="preserve">
+    <value>System error occurred. Please restart the app and try again.</value>
+    <comment>System-level error message</comment>
+  </data>
 </root>

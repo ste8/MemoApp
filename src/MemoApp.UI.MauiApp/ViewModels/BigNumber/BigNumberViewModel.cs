@@ -10,6 +10,7 @@ using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Constants;
 using MemoApp.UI.MauiApp.Services;
 using MemoApp.UI.MauiApp.Services.Freemium;
+using MemoApp.UI.MauiApp.Services.ErrorHandling;
 using System.Collections.ObjectModel;
 using Microsoft.Maui.Graphics;
 using System.Globalization;
@@ -31,6 +32,7 @@ public partial class BigNumberViewModel : BaseViewModel
     private readonly IFirstTimeTooltipService _tooltipService;
     private readonly IUserNotificationService _userNotificationService;
     private readonly IAssociationComposerService _associationComposerService;
+    private readonly IExceptionHandler _exceptionHandler;
 
     // Confirmation dialog thresholds (based on UX agent recommendations)
     private const int MOBILE_RECALL_THRESHOLD_SECONDS = 5;
@@ -397,6 +399,7 @@ public partial class BigNumberViewModel : BaseViewModel
         IUserNotificationService userNotificationService,
         IDigitComparisonService digitComparisonService,
         IAssociationComposerService associationComposerService,
+        IExceptionHandler exceptionHandler,
         IInterstitialAdManager? interstitialAdManager = null)
     {
         _gameService = gameService ?? throw new ArgumentNullException(nameof(gameService));
@@ -410,6 +413,7 @@ public partial class BigNumberViewModel : BaseViewModel
         _userNotificationService = userNotificationService ?? throw new ArgumentNullException(nameof(userNotificationService));
         _digitComparisonService = digitComparisonService ?? throw new ArgumentNullException(nameof(digitComparisonService));
         _associationComposerService = associationComposerService ?? throw new ArgumentNullException(nameof(associationComposerService));
+        _exceptionHandler = exceptionHandler ?? throw new ArgumentNullException(nameof(exceptionHandler));
         _interstitialAdManager = interstitialAdManager;
 
         Title = _localizationService.GetString("BigNumber_Title");
@@ -1512,16 +1516,14 @@ public partial class BigNumberViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            await _userNotificationService.ShowErrorDialogAsync(
-                _localizationService.GetString("Error_Title"), 
-                $"Failed to share results: {ex.Message}");
-
-            // Track share error
-            await _analyticsService.TrackEventAsync(AnalyticsEvents.ShareFailed, new Dictionary<string, object>
-            {
-                [AnalyticsParameters.ExerciseType] = "BigNumber",
-                ["error"] = ex.Message
-            });
+            await _exceptionHandler.HandleExceptionAsync(ex, "big_number_share_results",
+                new Dictionary<string, object>
+                {
+                    { "exercise_type", "BigNumber" },
+                    { "number_of_digits", NumberOfDigits },
+                    { "current_phase", CurrentPhase.ToString() },
+                    { "has_statistics", _currentGame != null }
+                });
         }
     }
 

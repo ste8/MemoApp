@@ -10,6 +10,7 @@ using MemoApp.Core.Services.Analytics;
 using MemoApp.Core.Services.Packs;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Services;
+using MemoApp.UI.MauiApp.Services.ErrorHandling;
 using MemoApp.UI.MauiApp.Messages;
 using Microsoft.Extensions.Logging;
 
@@ -19,6 +20,7 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
 {
     private readonly IMessenger _messenger;
     private readonly ILogger<PackDownloadViewModel> _typedLogger;
+    private readonly IExceptionHandler _exceptionHandler;
 
     [ObservableProperty]
     private ObservableCollection<PackCardViewModel> packs = new();
@@ -53,11 +55,13 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
         ILocalizationService localizationService,
         IAnalyticsService analyticsService,
         IMessenger messenger,
-        ILogger<PackDownloadViewModel> logger)
+        ILogger<PackDownloadViewModel> logger,
+        IExceptionHandler exceptionHandler)
         : base(downloadService, packManager, mauiPackService, localizationService, analyticsService, logger)
     {
         _messenger = messenger;
         _typedLogger = logger;
+        _exceptionHandler = exceptionHandler;
 
         Title = _localizationService.GetString("PackDownload_Title");
 
@@ -72,23 +76,20 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
         try
         {
             IsInitialLoading = true;
+            _exceptionHandler.AddBreadcrumb("Starting pack download page initialization", "pack_download");
             await RefreshPacksAsync();
-        }
-        catch (HttpRequestException ex)
-        {
-            _typedLogger.LogError(ex, "Network error during pack download page initialization");
-            StatusMessage = _localizationService.GetString("PackDownload_NetworkErrorMessage");
-            HasNoPacks = true;
-        }
-        catch (TaskCanceledException ex) when (ex.InnerException is TimeoutException)
-        {
-            _typedLogger.LogError(ex, "Timeout during pack download page initialization");
-            StatusMessage = _localizationService.GetString("PackDownload_NetworkErrorMessage");
-            HasNoPacks = true;
         }
         catch (Exception ex)
         {
-            _typedLogger.LogError(ex, "Failed to initialize pack download page");
+            // Centralized exception handling with context
+            await _exceptionHandler.HandleExceptionAsync(ex, "pack_download_initialize",
+                new Dictionary<string, object>
+                {
+                    { "is_initial_load", true },
+                    { "packs_count", Packs.Count }
+                });
+
+            // Set UI state appropriately
             StatusMessage = _localizationService.GetString("PackDownload_ErrorMessage");
             HasNoPacks = true;
         }

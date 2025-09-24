@@ -97,8 +97,8 @@ public class PackDownloadService : IPackDownloadService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to fetch pack index");
-            return null;
+            _logger.LogError(ex, "Failed to fetch pack index from {Url}", _packsIndexUrl);
+            throw; // Let the exception bubble up to the UI layer for proper handling
         }
     }
 
@@ -382,7 +382,7 @@ public class PackDownloadService : IPackDownloadService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to extract pack from {ZipPath} to {DestPath}", zipPath, destinationPath);
-            return false;
+            throw new PackExtractionException($"Failed to extract pack from {zipPath} to {destinationPath}", ex);
         }
     }
 
@@ -430,7 +430,7 @@ public class PackDownloadService : IPackDownloadService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to validate pack integrity at {Path}", packPath);
-            return false;
+            throw new PackValidationException($"Failed to validate pack integrity at {packPath}", ex);
         }
     }
 
@@ -452,7 +452,7 @@ public class PackDownloadService : IPackDownloadService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to delete pack {PackId}", packId);
-            return false;
+            throw; // Let the exception bubble up to the UI layer
         }
     }
 
@@ -514,7 +514,7 @@ public class PackDownloadService : IPackDownloadService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to update pack {PackId}", pack.Id);
-            return false;
+            throw; // Let the exception bubble up to the UI layer
         }
     }
 
