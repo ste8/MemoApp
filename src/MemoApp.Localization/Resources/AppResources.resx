@@ -107,11 +107,11 @@
     <comment>Custom Flash Numbers button</comment>
   </data>
   <data name="MainPage_QuickFlashNumbers" xml:space="preserve">
-    <value>⚡ Quick Flash Numbers</value>
+    <value>Quick Flash Numbers</value>
     <comment>Quick Flash Numbers exercise button</comment>
   </data>
   <data name="MainPage_CustomFlashNumbers" xml:space="preserve">
-    <value>▶️ Custom Flash Numbers</value>
+    <value>Custom Flash Numbers</value>
     <comment>Custom Flash Numbers exercise button</comment>
   </data>
   <data name="MainPage_PresetTraining" xml:space="preserve">
@@ -1554,7 +1554,7 @@
     <comment>Error message when association loading fails</comment>
   </data>
   <data name="Associations_DownloadPack" xml:space="preserve">
-    <value>⬇️ Download Pack</value>
+    <value>Download Pack</value>
     <comment>Button text to download pack when no pack is available</comment>
   </data>
   <data name="Associations_CategoryLabel" xml:space="preserve">
