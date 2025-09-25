@@ -184,7 +184,7 @@ Remember: **Every user-visible string must be localized in both English and Ital
 ## Current Features
 
 - **Multi-language Support**: English/Italian localization with consistent branding
-- **Flash Numbers**: Number-to-image association exercises with social sharing
+- **Flash Numbers**: Number-to-image association exercises with social sharing and customizable ranges
 - **Big Number Challenges**: Timed memory exercises with detailed statistics
 - **Social Sharing**: Cross-platform sharing with consistent MemoRaise branding
 - **Pack Management**: Downloadable content packs with auto-updates
@@ -192,6 +192,25 @@ Remember: **Every user-visible string must be localized in both English and Ital
 - **Cross-platform**: iOS, Android, macOS, Windows support
 - **Offline-first**: Works without internet connection
 - **Custom Images**: User-generated content with AI assistance
+- **Settings Persistence**: Flash Numbers custom range settings saved between sessions
+
+## Recent Architecture Improvements
+
+### Exception Handling Architecture
+- **Centralized Exception Handling**: IExceptionHandler service for consistent error management
+- **Sentry Integration**: Comprehensive error monitoring with context and categorization
+- **No More Silent Failures**: Removed all exception swallowing anti-patterns
+- **Localized Error Messages**: User-friendly error messages in both English and Italian
+
+### UI/UX Enhancements
+- **Enhanced Visual Hierarchy**: Improved border prominence and component spacing
+- **Borderless Native Controls**: Custom handlers for consistent cross-platform appearance
+- **Accessibility Compliance**: WCAG-compliant font sizes and contrast ratios
+- **Haptic-Free Experience**: Removed all haptic feedback for consistent cross-platform behavior
+
+### iOS App Store Compliance
+- **Export Compliance**: Automated encryption declaration in Info.plist
+- **ITSAppUsesNonExemptEncryption**: Set to false for standard HTTPS-only encryption
 
 ## Git Commit Policy
 
