@@ -50,6 +50,8 @@ public partial class FlashNumbersViewModel : BaseViewModel
     [ObservableProperty]
     private string rangeEnd = "09";
 
+    public string CurrentRangeDisplay => $"{RangeStart}-{RangeEnd}";
+
     [ObservableProperty]
     private string currentNumber = "";
 
@@ -216,7 +218,7 @@ public partial class FlashNumbersViewModel : BaseViewModel
         try
         {
             IsBusy = true;
-            Title = $"Flash Numbers: {RangeStart}-{RangeEnd}";
+            Title = _localizationService.GetString("FlashNumbers_Title");
 
             // Prepare interstitial ad for potential showing
             if (_interstitialAdManager != null)
@@ -597,5 +599,13 @@ public partial class FlashNumbersViewModel : BaseViewModel
         }
     }
 
+    partial void OnRangeStartChanged(string value)
+    {
+        OnPropertyChanged(nameof(CurrentRangeDisplay));
+    }
 
+    partial void OnRangeEndChanged(string value)
+    {
+        OnPropertyChanged(nameof(CurrentRangeDisplay));
+    }
 }

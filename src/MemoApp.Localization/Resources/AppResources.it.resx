@@ -218,6 +218,10 @@
     <value>Flash Numbers</value>
     <comment>Flash Numbers exercise page title</comment>
   </data>
+  <data name="FlashNumbers_RangeAccessibility" xml:space="preserve">
+    <value>Attualmente praticando intervallo {0}</value>
+    <comment>Accessibility description for range display during training, {0} is the range like "00-09"</comment>
+  </data>
   <data name="TrainingSession_Title" xml:space="preserve">
     <value>Flash Numbers</value>
     <comment>Training session page title (deprecated - use FlashNumbers_Title)</comment>
