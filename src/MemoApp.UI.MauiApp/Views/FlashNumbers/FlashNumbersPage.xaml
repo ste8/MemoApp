@@ -38,8 +38,8 @@
             -->
             <StackLayout Spacing="{OnIdiom Phone=20, Tablet=25, Desktop=30}">
                 
-                <!-- Session Active View -->
-                <StackLayout IsVisible="{Binding IsSessionActive}"
+                <!-- Session Active View (includes ready state and active state) -->
+                <StackLayout IsVisible="{Binding IsSessionCompleted, Converter={StaticResource InvertedBoolConverter}}"
                             Spacing="{OnIdiom Phone=25, Tablet=30, Desktop=35}">
 
                     <!-- Progress indicator with responsive design -->
@@ -52,25 +52,17 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <Label Grid.Row="0"
-                                   Text="{Binding CurrentRangeDisplay}"
-                                   Style="{StaticResource SubHeadline}"
-                                   HorizontalOptions="Center"
-                                   Margin="0,0,0,15"
-                                   SemanticProperties.Description="{Binding CurrentRangeDisplay}" />
-
                             <!-- Progress bar with responsive sizing -->
-                            <ProgressBar Grid.Row="1"
+                            <ProgressBar Grid.Row="0"
                                         Progress="{Binding ProgressValue}"
                                         ProgressColor="{StaticResource Primary}"
                                         HeightRequest="{OnIdiom Phone=8, Tablet=10, Desktop=12}"
                                         Margin="0,0,0,10" />
 
                             <!-- Progress text with adaptive layout -->
-                            <Grid Grid.Row="2">
+                            <Grid Grid.Row="1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
@@ -114,36 +106,30 @@
                                     Radius="20" />
                         </Border.Shadow>
                         <Border.GestureRecognizers>
-                            <!-- Mobile-friendly swipe gestures for navigation -->
+                            <!-- Mobile-friendly swipe gestures for navigation (ViewModel guards when not active) -->
                             <SwipeGestureRecognizer Direction="Left"
                                                     Command="{Binding AdvanceToNextCommand}"
                                                     Threshold="80" />
-                            <!-- Double tap gesture for revealing associations on mobile -->
+                            <!-- Double tap gesture for revealing associations on mobile (ViewModel guards when not active) -->
                             <TapGestureRecognizer Command="{Binding ToggleAssociationRevealCommand}"
                                                   NumberOfTapsRequired="2" />
                         </Border.GestureRecognizers>
                         
-                        <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="16">
-                            
-                            <!-- Header with reveal button -->
-                            <Grid Grid.Row="0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                
-                                <Label Grid.Column="0"
-                                       Text="{localization:Localize FlashNumbers_CurrentNumber}"
-                                       TextColor="White"
-                                       Style="{StaticResource TitleLarge}"
-                                       FontAttributes="Bold"
-                                       HorizontalOptions="Center"
-                                       VerticalOptions="Center"
-                                       Opacity="0.95" />
-                                
-                                <!-- Enhanced Reveal association button with optimal icon sizing -->
-                                <Button Grid.Column="1"
-                                        x:Name="RevealButton"
+                        <VerticalStackLayout Spacing="16">
+
+                            <!--
+                            Left-Aligned Header Pattern with Visual Balance:
+                            - Labels left-aligned for better visual hierarchy
+                            - Button overlays in top-right corner (optimal touch target)
+                            - Creates intentional asymmetry following mobile design patterns
+                            - Consistent with iOS/Android navigation patterns
+                            -->
+                            <Grid>
+                                <!-- Single full-width column for both elements -->
+
+
+                                <!-- Reveal button - overlaid in top-right corner, enabled in both states -->
+                                <Button x:Name="RevealButton"
                                         Command="{Binding ToggleAssociationRevealCommand}"
                                         Text="{StaticResource Icon_Eye}"
                                         FontFamily="{StaticResource IconFont_Solid}"
@@ -157,9 +143,8 @@
                                         HeightRequest="{OnIdiom Phone=64, Tablet=72, Desktop=80}"
                                         Padding="{OnIdiom Phone=12, Tablet=14, Desktop=16}"
                                         LineBreakMode="NoWrap"
-                                        HorizontalOptions="Center"
-                                        VerticalOptions="Center"
-                                        Opacity="0.95">
+                                        HorizontalOptions="End"
+                                        VerticalOptions="Center">
                                     <Button.VisualStateManager.VisualStateGroups>
                                         <VisualStateGroupList>
                                             <VisualStateGroup x:Name="CommonStates">
@@ -190,12 +175,18 @@
                                         </VisualStateGroupList>
                                     </Button.VisualStateManager.VisualStateGroups>
                                     <Button.Triggers>
+                                        <!-- In ready state: show button with slightly reduced opacity to indicate preview mode -->
+                                        <DataTrigger TargetType="Button" Binding="{Binding IsReadyState}" Value="True">
+                                            <Setter Property="Opacity" Value="0.7" />
+                                            <Setter Property="BackgroundColor" Value="#22FFFFFF" />
+                                        </DataTrigger>
+                                        <!-- In active state when association revealed: highlighted appearance -->
                                         <DataTrigger TargetType="Button" Binding="{Binding IsAssociationRevealed}" Value="True">
                                             <Setter Property="BackgroundColor" Value="#44FFFFFF" />
                                             <Setter Property="Opacity" Value="1.0" />
                                             <Setter Property="Text" Value="{StaticResource Icon_EyeSlash}" />
                                         </DataTrigger>
-                                        <!-- Enhanced visibility when association is hidden -->
+                                        <!-- In active state when association hidden: enhanced visibility -->
                                         <DataTrigger TargetType="Button" Binding="{Binding IsAssociationRevealed}" Value="False">
                                             <Setter Property="Opacity" Value="1.0" />
                                             <Setter Property="Scale" Value="1.05" />
@@ -204,11 +195,33 @@
                                 </Button>
                             </Grid>
 
-                            <!-- Clean Number Display for Optimal Focus -->
-                            <Grid Grid.Row="1">
-                                <!-- Large number display with enhanced typography -->
+                            <!-- Clean Number/Range Display for Optimal Focus -->
+                            <Grid>
+                                <!-- Range display in ready state with optimized typography -->
+                                <Label x:Name="RangeDisplayLabel"
+                                       Text="{Binding DisplayValue}"
+                                       TextColor="White"
+                                       FontFamily="OpenSansExtraBold"
+                                       FontSize="{OnIdiom Phone=68, Tablet=104, Desktop=136}"
+                                       CharacterSpacing="{OnIdiom Phone=1.5, Tablet=2.0, Desktop=2.5}"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       HorizontalTextAlignment="Center"
+                                       HeightRequest="{OnIdiom Phone=120, Tablet=160, Desktop=200}"
+                                       Margin="0,16,0,16"
+                                       IsVisible="{Binding IsReadyState}">
+                                    <Label.Shadow>
+                                        <Shadow Brush="Black"
+                                                Opacity="0.4"
+                                                Offset="0,3"
+                                                Radius="6" />
+                                    </Label.Shadow>
+                                </Label>
+
+                                <!-- Number display in active state with enhanced typography -->
                                 <Label x:Name="CurrentNumberLabel"
-                                       Text="{Binding CurrentNumber}"
+                                       Text="{Binding DisplayValue}"
                                        TextColor="White"
                                        FontFamily="OpenSansExtraBold"
                                        FontSize="{OnIdiom Phone=88, Tablet=128, Desktop=168}"
@@ -216,8 +229,9 @@
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center"
                                        HorizontalTextAlignment="Center"
-                                       MinimumHeightRequest="{OnIdiom Phone=120, Tablet=160, Desktop=200}"
-                                       Margin="0,16,0,16">
+                                       HeightRequest="{OnIdiom Phone=120, Tablet=160, Desktop=200}"
+                                       Margin="0,16,0,16"
+                                       IsVisible="{Binding IsSessionActive}">
                                     <Label.Shadow>
                                         <Shadow Brush="Black"
                                                 Opacity="0.4"
@@ -227,23 +241,90 @@
                                 </Label>
                             </Grid>
 
-                            <!-- Enhanced Think instruction with reveal hint -->
-                            <StackLayout Grid.Row="2" 
-                                         Spacing="8"
-                                         IsVisible="{Binding IsAssociationRevealed, Converter={StaticResource InvertedBoolConverter}}">
+                            <!-- Hints/Instructions - MUST have identical structure in both states for button position consistency -->
+                            <StackLayout Spacing="8">
+                                <!-- Active state hint (only visible during active session, hidden when association revealed) -->
                                 <Label Text="{localization:Localize FlashNumbers_ThinkInstruction}"
                                        TextColor="White"
                                        Style="{StaticResource BodyLarge}"
                                        FontAttributes="Italic"
                                        Opacity="0.85"
                                        HorizontalOptions="Center"
-                                       HorizontalTextAlignment="Center" />
-                                       
+                                       HorizontalTextAlignment="Center"
+                                       IsVisible="{Binding IsSessionActive}" />
+
+                                <!-- Ready state hint (only visible in ready state) -->
+                                <Label Text="{localization:Localize FlashNumbers_ReadyStateHint}"
+                                       TextColor="White"
+                                       Style="{StaticResource BodyLarge}"
+                                       FontAttributes="Italic"
+                                       Opacity="0.85"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center"
+                                       IsVisible="{Binding IsReadyState}" />
                             </StackLayout>
 
-                            <!-- Enhanced Revealed association section -->
+                            <!-- Placeholder panel - shown when user clicks reveal in ready state -->
+                            <Border x:Name="AssociationPlaceholderBorder"
+                                    BackgroundColor="#0D0D0D"
+                                    Stroke="#33FFFFFF"
+                                    StrokeThickness="1"
+                                    StrokeDashArray="4,4"
+                                    StrokeShape="RoundRectangle 18"
+                                    Padding="24"
+                                    Margin="0,12,0,0"
+                                    Opacity="0.85"
+                                    IsVisible="{Binding IsAssociationRevealed}">
+                                <Border.Shadow>
+                                    <Shadow Brush="Black"
+                                            Opacity="0.3"
+                                            Offset="0,4"
+                                            Radius="12" />
+                                </Border.Shadow>
+                                <Border.Triggers>
+                                    <!-- Hide placeholder when in active state (show real association instead) -->
+                                    <DataTrigger TargetType="Border" Binding="{Binding IsSessionActive}" Value="True">
+                                        <Setter Property="IsVisible" Value="False" />
+                                    </DataTrigger>
+                                </Border.Triggers>
+
+                                <StackLayout Spacing="15"
+                                             HorizontalOptions="Center"
+                                             VerticalOptions="Center"
+                                             MinimumHeightRequest="{OnIdiom Phone=140, Tablet=160, Desktop=180}">
+
+                                    <!-- Info icon -->
+                                    <Label Text="ℹ"
+                                           FontSize="{OnIdiom Phone=32, Tablet=40, Desktop=48}"
+                                           TextColor="#66FFFFFF"
+                                           HorizontalOptions="Center"
+                                           Opacity="0.6" />
+
+                                    <!-- Descriptive text -->
+                                    <Label Text="{localization:Localize FlashNumbers_AssociationPlaceholder}"
+                                           TextColor="White"
+                                           FontSize="{OnIdiom Phone=15, Tablet=17, Desktop=19}"
+                                           FontAttributes="Italic"
+                                           HorizontalOptions="Center"
+                                           HorizontalTextAlignment="Center"
+                                           LineBreakMode="WordWrap"
+                                           Opacity="0.75"
+                                           Margin="0,8,0,0" />
+
+                                    <!-- Secondary hint (tap to preview) -->
+                                    <Label Text="{localization:Localize FlashNumbers_TapToPreview}"
+                                           TextColor="#66FFFFFF"
+                                           FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=15}"
+                                           FontAttributes="Italic"
+                                           HorizontalOptions="Center"
+                                           HorizontalTextAlignment="Center"
+                                           Opacity="0.6"
+                                           Margin="0,4,0,0" />
+                                </StackLayout>
+                            </Border>
+
+                            <!-- Enhanced Revealed association section - shown in active state when revealed -->
                             <Border x:Name="AssociationContentBorder"
-                                    Grid.Row="3"
                                     BackgroundColor="#1A1A1A"
                                     Stroke="#33FFFFFF"
                                     StrokeThickness="1"
@@ -252,11 +333,17 @@
                                     Margin="0,12,0,0"
                                     IsVisible="{Binding IsAssociationRevealed}">
                                 <Border.Shadow>
-                                    <Shadow Brush="Black" 
-                                            Opacity="0.5" 
-                                            Offset="0,4" 
+                                    <Shadow Brush="Black"
+                                            Opacity="0.5"
+                                            Offset="0,4"
                                             Radius="12" />
                                 </Border.Shadow>
+                                <Border.Triggers>
+                                    <!-- Hide real association when in ready state (show placeholder instead) -->
+                                    <DataTrigger TargetType="Border" Binding="{Binding IsReadyState}" Value="True">
+                                        <Setter Property="IsVisible" Value="False" />
+                                    </DataTrigger>
+                                </Border.Triggers>
                                 
                                 <StackLayout Spacing="15">
                                     <!-- Association content -->
@@ -297,16 +384,33 @@
                                            IsVisible="{Binding CurrentAssociation, Converter={StaticResource IsNullConverter}}" />
                                 </StackLayout>
                             </Border>
-                        </Grid>
+                        </VerticalStackLayout>
                     </Border>
 
                     <!-- Enhanced Action buttons with responsive sizing -->
                     <StackLayout Spacing="12">
+                        <!-- Start button (ready state) -->
+                        <Button x:Name="StartButton"
+                                Command="{Binding StartSessionCommand}"
+                                Text="{Binding PrimaryActionButtonText}"
+                                Style="{StaticResource ModernPrimaryButton}"
+                                BackgroundColor="{StaticResource Primary}"
+                                FontAttributes="Bold"
+                                CornerRadius="15"
+                                HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"
+                                LineBreakMode="WordWrap"
+                                Padding="20,10"
+                                Margin="20,0"
+                                IsVisible="{Binding IsReadyState}">
+                        </Button>
+
+                        <!-- Next button (active state) -->
                         <Button x:Name="NextButton"
                                 Command="{Binding AdvanceToNextCommand}"
-                                Text="{localization:Localize FlashNumbers_NextNumberArrow}"
+                                Text="{Binding PrimaryActionButtonText}"
                                 Style="{StaticResource ModernPrimaryButton}"
                                 BackgroundColor="{StaticResource Secondary}"
+                                IsVisible="{Binding IsSessionActive}"
                                 FontAttributes="Bold"
                                 CornerRadius="15"
                                 HeightRequest="{OnIdiom Phone=60, Tablet=70, Desktop=80}"

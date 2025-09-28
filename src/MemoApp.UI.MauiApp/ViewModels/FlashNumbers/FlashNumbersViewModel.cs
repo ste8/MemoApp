@@ -52,6 +52,24 @@ public partial class FlashNumbersViewModel : BaseViewModel
 
     public string CurrentRangeDisplay => $"{RangeStart}-{RangeEnd}";
 
+    /// <summary>
+    /// True when in ready state (before session starts)
+    /// </summary>
+    public bool IsReadyState => !IsSessionActive && !IsSessionCompleted;
+
+    /// <summary>
+    /// Gets the primary action button text based on current state
+    /// </summary>
+    public string PrimaryActionButtonText => IsReadyState
+        ? _localizationService.GetString("FlashNumbers_StartButton")
+        : _localizationService.GetString("FlashNumbers_NextNumberArrow");
+
+    /// <summary>
+    /// Gets the display value for the prominent number area
+    /// Shows range in ready state, current number in active state
+    /// </summary>
+    public string DisplayValue => IsReadyState ? CurrentRangeDisplay : (CurrentNumber ?? "");
+
     [ObservableProperty]
     private string currentNumber = "";
 
@@ -171,6 +189,28 @@ public partial class FlashNumbersViewModel : BaseViewModel
         OnPropertyChanged(nameof(FormattedTime));
     }
 
+    partial void OnIsSessionActiveChanged(bool value)
+    {
+        // Notify computed properties that depend on session state
+        OnPropertyChanged(nameof(IsReadyState));
+        OnPropertyChanged(nameof(PrimaryActionButtonText));
+        OnPropertyChanged(nameof(DisplayValue));
+    }
+
+    partial void OnIsSessionCompletedChanged(bool value)
+    {
+        // Notify computed properties that depend on session state
+        OnPropertyChanged(nameof(IsReadyState));
+        OnPropertyChanged(nameof(PrimaryActionButtonText));
+        OnPropertyChanged(nameof(DisplayValue));
+    }
+
+    partial void OnCurrentNumberChanged(string value)
+    {
+        // Notify DisplayValue when current number changes
+        OnPropertyChanged(nameof(DisplayValue));
+    }
+
     [ObservableProperty]
     private string? currentAssociationWord;
 
@@ -230,7 +270,16 @@ public partial class FlashNumbersViewModel : BaseViewModel
             TotalNumbers = _gameSession.TotalNumbers;
 
             _hasBeenInitialized = true;
-            StartSession();
+
+            // Set ready state (don't auto-start)
+            IsSessionActive = false;
+            IsSessionCompleted = false;
+
+            // Notify UI that ready state properties are available
+            OnPropertyChanged(nameof(IsReadyState));
+            OnPropertyChanged(nameof(DisplayValue));
+            OnPropertyChanged(nameof(PrimaryActionButtonText));
+            OnPropertyChanged(nameof(CurrentRangeDisplay));
         }
         catch (Exception ex)
         {
@@ -274,10 +323,13 @@ public partial class FlashNumbersViewModel : BaseViewModel
             [AnalyticsParameters.TokensAvailable] = TotalNumbers
         });
 
-        _gameSession.StartSession();
-        UpdateSessionStatus();
+        // Set session state FIRST before updating UI to avoid race conditions
         IsSessionActive = true;
         IsSessionCompleted = false;
+
+        // Then start the game session and update display
+        _gameSession.StartSession();
+        UpdateSessionStatus();
     }
 
     [RelayCommand]
@@ -314,39 +366,49 @@ public partial class FlashNumbersViewModel : BaseViewModel
     [RelayCommand]
     private async void ToggleAssociationReveal()
     {
-        if (_gameSession?.CurrentNumber == null || !IsSessionActive) return;
-
         try
         {
             if (IsAssociationRevealed)
             {
-                // Hide the association
+                // Hide the association (or placeholder in ready state)
                 IsAssociationRevealed = false;
-                CurrentAssociation = null;
-                CurrentAssociationWord = null;
-                CurrentAssociationImagePath = null;
-                
-                // Track hiding association
-                await _analyticsService.TrackEventAsync(AnalyticsEvents.FlashNumbersAssociationHidden, new Dictionary<string, object>
+
+                // Only clear association data if in active state
+                if (IsSessionActive)
                 {
-                    [AnalyticsParameters.ExerciseType] = ExerciseTypes.FlashNumbers,
-                    [AnalyticsParameters.Token] = CurrentNumber,
-                    [AnalyticsParameters.NumberRange] = $"{RangeStart}_{RangeEnd}"
-                });
+                    CurrentAssociation = null;
+                    CurrentAssociationWord = null;
+                    CurrentAssociationImagePath = null;
+
+                    // Track hiding association
+                    await _analyticsService.TrackEventAsync(AnalyticsEvents.FlashNumbersAssociationHidden, new Dictionary<string, object>
+                    {
+                        [AnalyticsParameters.ExerciseType] = ExerciseTypes.FlashNumbers,
+                        [AnalyticsParameters.Token] = CurrentNumber,
+                        [AnalyticsParameters.NumberRange] = $"{RangeStart}_{RangeEnd}"
+                    });
+                }
             }
             else
             {
-                // Load and show the association
-                await LoadAssociationForCurrentNumber();
-                
-                // Track revealing association
-                await _analyticsService.TrackEventAsync(AnalyticsEvents.FlashNumbersAssociationRevealed, new Dictionary<string, object>
+                // Show association or placeholder
+                IsAssociationRevealed = true;
+
+                // Only load actual association if in active state with a current number
+                if (IsSessionActive && _gameSession?.CurrentNumber != null)
                 {
-                    [AnalyticsParameters.ExerciseType] = ExerciseTypes.FlashNumbers,
-                    [AnalyticsParameters.Token] = CurrentNumber,
-                    [AnalyticsParameters.NumberRange] = $"{RangeStart}_{RangeEnd}",
-                    [AnalyticsParameters.HasAssociation] = CurrentAssociation != null
-                });
+                    // Load and show the association
+                    await LoadAssociationForCurrentNumber();
+
+                    // Track revealing association
+                    await _analyticsService.TrackEventAsync(AnalyticsEvents.FlashNumbersAssociationRevealed, new Dictionary<string, object>
+                    {
+                        [AnalyticsParameters.ExerciseType] = ExerciseTypes.FlashNumbers,
+                        [AnalyticsParameters.Token] = CurrentNumber,
+                        [AnalyticsParameters.NumberRange] = $"{RangeStart}_{RangeEnd}",
+                        [AnalyticsParameters.HasAssociation] = CurrentAssociation != null
+                    });
+                }
             }
         }
         catch (Exception ex)

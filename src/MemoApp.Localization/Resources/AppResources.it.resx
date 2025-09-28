@@ -2996,6 +2996,30 @@ Scarica MemoRaise: {AppUrl}
     <value>Numero Successivo →</value>
     <comment>Next number button with arrow</comment>
   </data>
+  <data name="FlashNumbers_GetReady" xml:space="preserve">
+    <value>Preparati</value>
+    <comment>Label shown above range display in ready state before exercise starts</comment>
+  </data>
+  <data name="FlashNumbers_StartButton" xml:space="preserve">
+    <value>Inizia ▶</value>
+    <comment>Button text to begin Flash Numbers exercise with play icon</comment>
+  </data>
+  <data name="FlashNumbers_StartAccessibility" xml:space="preserve">
+    <value>Inizia l'esercizio Flash Numbers per l'intervallo {0}</value>
+    <comment>Accessibility description for Start button. {0} is the range (e.g., 00-39)</comment>
+  </data>
+  <data name="FlashNumbers_ReadyStateHint" xml:space="preserve">
+    <value>Verifica l'intervallo e premi Inizia quando sei pronto</value>
+    <comment>Hint text displayed in ready state before exercise begins</comment>
+  </data>
+  <data name="FlashNumbers_AssociationPlaceholder" xml:space="preserve">
+    <value>Qui apparirà la parola/immagine associata al numero</value>
+    <comment>Placeholder text shown in ready state explaining where associations will appear</comment>
+  </data>
+  <data name="FlashNumbers_TapToPreview" xml:space="preserve">
+    <value>Tocca l'icona dell'occhio per l'anteprima</value>
+    <comment>Hint text for revealing placeholder association in ready state</comment>
+  </data>
   <data name="BigNumber_LegendThickBorder" xml:space="preserve">
     <value>Bordo spesso</value>
     <comment>Description of thick border pattern in legend</comment>
