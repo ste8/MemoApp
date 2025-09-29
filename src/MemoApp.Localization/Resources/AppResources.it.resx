@@ -672,6 +672,14 @@
     <value>Generale</value>
     <comment>General settings section title</comment>
   </data>
+  <data name="Settings_DisplayLanguage" xml:space="preserve">
+    <value>Lingua di Visualizzazione</value>
+    <comment>Display language settings section title</comment>
+  </data>
+  <data name="Settings_MemorySystem" xml:space="preserve">
+    <value>Sistema di Memoria</value>
+    <comment>Memory system settings section title</comment>
+  </data>
   <data name="Settings_Advanced" xml:space="preserve">
     <value>Avanzate</value>
     <comment>Advanced settings section title</comment>
@@ -721,7 +729,7 @@
     <comment>Title for padded number format option</comment>
   </data>
   <data name="OnboardingNumberFormat_PaddedDescription" xml:space="preserve">
-    <value>I numeri da 0 a 9 usano associazioni diverse da quelle di 00..09</value>
+    <value>I numeri da 00 a 09 usano associazioni diverse da 0 a 9</value>
     <comment>Description for padded number format</comment>
   </data>
   <data name="OnboardingNumberFormat_NaturalTitle" xml:space="preserve">

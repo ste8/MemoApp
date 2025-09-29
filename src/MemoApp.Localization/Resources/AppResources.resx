@@ -673,6 +673,14 @@
     <value>General</value>
     <comment>General settings section title</comment>
   </data>
+  <data name="Settings_DisplayLanguage" xml:space="preserve">
+    <value>Display Language</value>
+    <comment>Display language settings section title</comment>
+  </data>
+  <data name="Settings_MemorySystem" xml:space="preserve">
+    <value>Memory System</value>
+    <comment>Memory system settings section title</comment>
+  </data>
   <data name="Settings_Advanced" xml:space="preserve">
     <value>Advanced</value>
     <comment>Advanced settings section title</comment>
@@ -722,7 +730,7 @@
     <comment>Title for padded number format option</comment>
   </data>
   <data name="OnboardingNumberFormat_PaddedDescription" xml:space="preserve">
-    <value>The numbers from 0 to 9 use different associations from 00..09</value>
+    <value>Numbers from 00 to 09 use different associations than 0 to 9</value>
     <comment>Description for padded number format</comment>
   </data>
   <data name="OnboardingNumberFormat_NaturalTitle" xml:space="preserve">
@@ -730,7 +738,7 @@
     <comment>Title for natural number format option</comment>
   </data>
   <data name="OnboardingNumberFormat_NaturalDescription" xml:space="preserve">
-    <value>The numbers from 0 to 9 use the same associations as 00..09</value>
+    <value>Numbers from 0 to 9 use the same associations as 00..09</value>
     <comment>Description for natural number format</comment>
   </data>
   <data name="OnboardingNumberFormat_RecommendedBadge" xml:space="preserve">

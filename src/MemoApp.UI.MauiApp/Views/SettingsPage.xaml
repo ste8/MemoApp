@@ -30,20 +30,20 @@
                        TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
             </StackLayout>
 
-            <!-- General Settings Section -->
+            <!-- Display Language Section -->
             <Border Style="{StaticResource PrimarySettingsSectionStyle}">
                 <StackLayout Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}"
                              AutomationProperties.IsInAccessibleTree="True">
-                    
+
                     <!-- Section Title -->
                     <StackLayout Orientation="Horizontal" Spacing="8">
-                        <Label Text="{StaticResource Icon_Gear}"
+                        <Label Text="{StaticResource Icon_Globe}"
                                FontFamily="{StaticResource IconFont_Solid}"
                                FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
                                VerticalOptions="Center"
                                AutomationProperties.IsInAccessibleTree="False" />
-                        <Label Text="{localization:Localize Settings_General}"
+                        <Label Text="{localization:Localize Settings_DisplayLanguage}"
                                FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                                FontFamily="OpenSansSemiBold"
                                FontAttributes="Bold"
@@ -126,8 +126,36 @@
                                LineBreakMode="WordWrap"
                                AutomationProperties.IsInAccessibleTree="True" />
                     </StackLayout>
-                    
-                    <!-- Number Format Selection -->
+
+                </StackLayout>
+            </Border>
+
+            <!-- Section Divider -->
+            <Border Style="{StaticResource SettingsSectionDividerStyle}" />
+
+            <!-- Memory System Section (Number Format) -->
+            <Border Style="{StaticResource PrimarySettingsSectionStyle}">
+                <StackLayout Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}"
+                             AutomationProperties.IsInAccessibleTree="True">
+
+                    <!-- Section Title -->
+                    <StackLayout Orientation="Horizontal" Spacing="8">
+                        <Label Text="{StaticResource Icon_Numbers}"
+                               FontFamily="{StaticResource IconFont_Solid}"
+                               FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                               TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                               VerticalOptions="Center"
+                               AutomationProperties.IsInAccessibleTree="False" />
+                        <Label Text="{localization:Localize Settings_MemorySystem}"
+                               FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
+                               FontFamily="OpenSansSemiBold"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                               VerticalOptions="Center"
+                               AutomationProperties.IsInAccessibleTree="True" />
+                    </StackLayout>
+
+                    <!-- Number Format Selection with Description -->
                     <StackLayout Spacing="{OnIdiom Phone=8, Tablet=10, Desktop=12}">
                         <Label Text="{localization:Localize NumberFormat_Title}"
                                FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
@@ -135,8 +163,7 @@
                                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
                                AutomationProperties.IsInAccessibleTree="True" />
 
-                        <Border Style="{StaticResource IconPickerContainerStyle}"
-                                >
+                        <Border Style="{StaticResource IconPickerContainerStyle}">
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectNumberFormatCommand}" />
                             </Border.GestureRecognizers>
@@ -151,7 +178,7 @@
                                        Margin="16,0,8,0"
                                        AutomationProperties.IsInAccessibleTree="False" />
 
-                                <!-- Number Format Display -->
+                                <!-- Number Format Display (Title Only) -->
                                 <Label Grid.Column="1"
                                        Text="{Binding CurrentNumberFormatName}"
                                        FontFamily="OpenSansRegular"
@@ -168,13 +195,71 @@
                             </Grid>
                         </Border>
 
-                        <Label Text="{localization:Localize NumberFormat_Description}"
+                        <!-- Visual Examples -->
+                        <HorizontalStackLayout Spacing="16"
+                                               HorizontalOptions="Center"
+                                               Margin="0,8,0,8">
+                            <!-- Comparison pair 1: 01 ≠ 1 -->
+                            <HorizontalStackLayout Spacing="4">
+                                <Border BackgroundColor="{StaticResource Primary}"
+                                        Padding="6,3"
+                                        StrokeShape="RoundRectangle 4">
+                                    <Label Text="01"
+                                           TextColor="White"
+                                           FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=11}"
+                                           FontAttributes="Bold" />
+                                </Border>
+                                <Label Text="{Binding CurrentNumberFormatComparisonSymbol}"
+                                       FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=12}"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="Center"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
+                                <Border BackgroundColor="{StaticResource Primary}"
+                                        Padding="6,3"
+                                        StrokeShape="RoundRectangle 4">
+                                    <Label Text="1"
+                                           TextColor="White"
+                                           FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=11}"
+                                           FontAttributes="Bold" />
+                                </Border>
+                            </HorizontalStackLayout>
+
+                            <!-- Comparison pair 2: 05 ≠ 5 -->
+                            <HorizontalStackLayout Spacing="4">
+                                <Border BackgroundColor="{StaticResource Primary}"
+                                        Padding="6,3"
+                                        StrokeShape="RoundRectangle 4">
+                                    <Label Text="05"
+                                           TextColor="White"
+                                           FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=11}"
+                                           FontAttributes="Bold" />
+                                </Border>
+                                <Label Text="{Binding CurrentNumberFormatComparisonSymbol}"
+                                       FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=12}"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="Center"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
+                                <Border BackgroundColor="{StaticResource Primary}"
+                                        Padding="6,3"
+                                        StrokeShape="RoundRectangle 4">
+                                    <Label Text="5"
+                                           TextColor="White"
+                                           FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=11}"
+                                           FontAttributes="Bold" />
+                                </Border>
+                            </HorizontalStackLayout>
+                        </HorizontalStackLayout>
+
+                        <!-- External Description -->
+                        <Label Text="{Binding CurrentNumberFormatDescription}"
                                FontSize="{OnIdiom Phone=12, Tablet=13, Desktop=14}"
                                TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}"
                                LineBreakMode="WordWrap"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"
                                AutomationProperties.IsInAccessibleTree="True" />
                     </StackLayout>
-                    
+
                 </StackLayout>
             </Border>
 

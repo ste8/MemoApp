@@ -31,6 +31,12 @@ public partial class SettingsViewModel : BaseViewModel
     private string currentNumberFormatName = string.Empty;
 
     [ObservableProperty]
+    private string currentNumberFormatDescription = string.Empty;
+
+    [ObservableProperty]
+    private string currentNumberFormatComparisonSymbol = string.Empty;
+
+    [ObservableProperty]
     private string currentPackName = string.Empty;
 
     [ObservableProperty]
@@ -86,6 +92,8 @@ public partial class SettingsViewModel : BaseViewModel
         // Initialize with fallback values to ensure UI never shows empty
         CurrentLanguageName = _localizationService.GetString("Language_English");
         CurrentNumberFormatName = _localizationService.GetString("NumberFormat_Padded");
+        CurrentNumberFormatDescription = _localizationService.GetString("OnboardingNumberFormat_PaddedDescription");
+        CurrentNumberFormatComparisonSymbol = GetNumberFormatComparisonSymbol(NumberFormat.Padded);
         CurrentPackName = _localizationService.GetString("Settings_NoPacksDownloaded");
         
         // Initialize app info properties
@@ -206,7 +214,9 @@ public partial class SettingsViewModel : BaseViewModel
                     });
                     
                     CurrentNumberFormatName = selectedFormat;
-                    
+                    CurrentNumberFormatDescription = GetNumberFormatDescription(numberFormat.Value);
+                    CurrentNumberFormatComparisonSymbol = GetNumberFormatComparisonSymbol(numberFormat.Value);
+
                     _logger.LogInformation("Number format changed successfully to: {Format}", selectedFormat);
                 }
             }
@@ -338,6 +348,8 @@ public partial class SettingsViewModel : BaseViewModel
             if (string.IsNullOrEmpty(CurrentNumberFormatName))
             {
                 CurrentNumberFormatName = _localizationService.GetString("NumberFormat_Padded");
+                CurrentNumberFormatDescription = _localizationService.GetString("OnboardingNumberFormat_PaddedDescription");
+                CurrentNumberFormatComparisonSymbol = GetNumberFormatComparisonSymbol(NumberFormat.Padded);
                 if (AvailableNumberFormats.Count == 0)
                 {
                     AvailableNumberFormats.Add(_localizationService.GetString("NumberFormat_Padded"));
@@ -402,13 +414,15 @@ public partial class SettingsViewModel : BaseViewModel
         try
         {
             AvailableNumberFormats.Clear();
-            
+
             // Add available number format options
             AvailableNumberFormats.Add(_localizationService.GetString("NumberFormat_Padded"));
             AvailableNumberFormats.Add(_localizationService.GetString("NumberFormat_Natural"));
-            
-            // Set current number format display name
+
+            // Set current number format display name, description, and comparison symbol
             CurrentNumberFormatName = GetNumberFormatDisplayName(_localizationService.CurrentNumberFormat);
+            CurrentNumberFormatDescription = GetNumberFormatDescription(_localizationService.CurrentNumberFormat);
+            CurrentNumberFormatComparisonSymbol = GetNumberFormatComparisonSymbol(_localizationService.CurrentNumberFormat);
         }
         catch (Exception ex)
         {
@@ -417,6 +431,8 @@ public partial class SettingsViewModel : BaseViewModel
             AvailableNumberFormats.Add(_localizationService.GetString("NumberFormat_Padded"));
             AvailableNumberFormats.Add(_localizationService.GetString("NumberFormat_Natural"));
             CurrentNumberFormatName = _localizationService.GetString("NumberFormat_Padded");
+            CurrentNumberFormatDescription = _localizationService.GetString("OnboardingNumberFormat_PaddedDescription");
+            CurrentNumberFormatComparisonSymbol = GetNumberFormatComparisonSymbol(NumberFormat.Padded);
         }
     }
 
@@ -435,6 +451,42 @@ public partial class SettingsViewModel : BaseViewModel
         {
             _logger.LogError(ex, "Error getting number format display name for format: {Format}", numberFormat);
             return _localizationService.GetString("NumberFormat_Padded");
+        }
+    }
+
+    private string GetNumberFormatDescription(NumberFormat numberFormat)
+    {
+        try
+        {
+            return numberFormat switch
+            {
+                NumberFormat.Padded => _localizationService.GetString("OnboardingNumberFormat_PaddedDescription"),
+                NumberFormat.Natural => _localizationService.GetString("OnboardingNumberFormat_NaturalDescription"),
+                _ => _localizationService.GetString("OnboardingNumberFormat_PaddedDescription")
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting number format description for format: {Format}", numberFormat);
+            return _localizationService.GetString("OnboardingNumberFormat_PaddedDescription");
+        }
+    }
+
+    private string GetNumberFormatComparisonSymbol(NumberFormat numberFormat)
+    {
+        try
+        {
+            return numberFormat switch
+            {
+                NumberFormat.Padded => "≠", // Zero counts: 01 ≠ 1
+                NumberFormat.Natural => "=", // Zero doesn't count: 01 = 1
+                _ => "≠"
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting number format comparison symbol for format: {Format}", numberFormat);
+            return "≠";
         }
     }
 
