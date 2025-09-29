@@ -67,29 +67,33 @@
                                    FontSize="18"
                                    FontAttributes="Bold" />
 
-                            <!-- Visual Examples -->
-                            <HorizontalStackLayout Spacing="8">
-                                <Border BackgroundColor="{StaticResource Primary}"
-                                        Padding="6,4"
-                                        StrokeShape="RoundRectangle 6">
-                                    <Label Text="00" TextColor="White" FontSize="14" FontAttributes="Bold" />
-                                </Border>
-                                <Border BackgroundColor="{StaticResource Primary}"
-                                        Padding="6,4"
-                                        StrokeShape="RoundRectangle 6">
-                                    <Label Text="05" TextColor="White" FontSize="14" FontAttributes="Bold" />
-                                </Border>
-                                <Border BackgroundColor="{StaticResource Primary}"
-                                        Padding="6,4"
-                                        StrokeShape="RoundRectangle 6">
-                                    <Label Text="23" TextColor="White" FontSize="14" FontAttributes="Bold" />
-                                </Border>
-                                <Border BackgroundColor="{StaticResource Primary}"
-                                        Padding="6,4"
-                                        StrokeShape="RoundRectangle 6">
-                                    <Label Text="99" TextColor="White" FontSize="14" FontAttributes="Bold" />
-                                </Border>
-                            </HorizontalStackLayout>
+                            <!-- Behavioral Examples -->
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="{localization:Localize OnboardingNumberFormat_DifferentAssociations}" FontSize="12" Opacity="0.7" />
+                                <HorizontalStackLayout Spacing="24">
+                                    <!-- Comparison pair 1: 01 ≠ 1 -->
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Border BackgroundColor="{StaticResource Primary}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                            <Label Text="01" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                        </Border>
+                                        <Label Text="≠" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
+                                        <Border BackgroundColor="{StaticResource Primary}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                            <Label Text="1" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                        </Border>
+                                    </HorizontalStackLayout>
+
+                                    <!-- Comparison pair 2: 05 ≠ 5 -->
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Border BackgroundColor="{StaticResource Primary}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                            <Label Text="05" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                        </Border>
+                                        <Label Text="≠" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
+                                        <Border BackgroundColor="{StaticResource Primary}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                            <Label Text="5" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                        </Border>
+                                    </HorizontalStackLayout>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
                         </VerticalStackLayout>
 
                         <!-- Selection Indicator -->
@@ -136,29 +140,33 @@
                                    FontSize="18"
                                    FontAttributes="Bold" />
 
-                            <!-- Visual Examples -->
-                            <HorizontalStackLayout Spacing="8">
-                                <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}"
-                                        Padding="6,4"
-                                        StrokeShape="RoundRectangle 6">
-                                    <Label Text="0" TextColor="White" FontSize="14" FontAttributes="Bold" />
-                                </Border>
-                                <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}"
-                                        Padding="6,4"
-                                        StrokeShape="RoundRectangle 6">
-                                    <Label Text="5" TextColor="White" FontSize="14" FontAttributes="Bold" />
-                                </Border>
-                                <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}"
-                                        Padding="6,4"
-                                        StrokeShape="RoundRectangle 6">
-                                    <Label Text="23" TextColor="White" FontSize="14" FontAttributes="Bold" />
-                                </Border>
-                                <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}"
-                                        Padding="6,4"
-                                        StrokeShape="RoundRectangle 6">
-                                    <Label Text="99" TextColor="White" FontSize="14" FontAttributes="Bold" />
-                                </Border>
-                            </HorizontalStackLayout>
+                            <!-- Behavioral Examples -->
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="{localization:Localize OnboardingNumberFormat_SameAssociations}" FontSize="12" Opacity="0.7" />
+                                <HorizontalStackLayout Spacing="24">
+                                    <!-- Comparison pair 1: 01 = 1 -->
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                            <Label Text="01" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                        </Border>
+                                        <Label Text="=" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
+                                        <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                            <Label Text="1" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                        </Border>
+                                    </HorizontalStackLayout>
+
+                                    <!-- Comparison pair 2: 05 = 5 -->
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                            <Label Text="05" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                        </Border>
+                                        <Label Text="=" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
+                                        <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                            <Label Text="5" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                        </Border>
+                                    </HorizontalStackLayout>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
                         </VerticalStackLayout>
 
                         <!-- Selection Indicator -->

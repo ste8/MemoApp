@@ -717,7 +717,7 @@
     <comment>Description for number format selection in onboarding</comment>
   </data>
   <data name="OnboardingNumberFormat_PaddedTitle" xml:space="preserve">
-    <value>Lo zero conta (es. 01 ≠ 1)</value>
+    <value>Lo zero conta</value>
     <comment>Title for padded number format option</comment>
   </data>
   <data name="OnboardingNumberFormat_PaddedDescription" xml:space="preserve">
@@ -725,7 +725,7 @@
     <comment>Description for padded number format</comment>
   </data>
   <data name="OnboardingNumberFormat_NaturalTitle" xml:space="preserve">
-    <value>Lo zero non conta (es. 01 = 1)</value>
+    <value>Lo zero non conta</value>
     <comment>Title for natural number format option</comment>
   </data>
   <data name="OnboardingNumberFormat_NaturalDescription" xml:space="preserve">
@@ -739,6 +739,14 @@
   <data name="OnboardingNumberFormat_SettingsNote" xml:space="preserve">
     <value>Puoi cambiare questa impostazione più tardi in Impostazioni > Formato Numeri</value>
     <comment>Note about changing the setting later</comment>
+  </data>
+  <data name="OnboardingNumberFormat_DifferentAssociations" xml:space="preserve">
+    <value>Associazioni diverse:</value>
+    <comment>Label showing that numbers have different memory associations</comment>
+  </data>
+  <data name="OnboardingNumberFormat_SameAssociations" xml:space="preserve">
+    <value>Stesse associazioni:</value>
+    <comment>Label showing that numbers have the same memory associations</comment>
   </data>
 
   <!-- Updated Onboarding Step Labels for 7-step flow -->
