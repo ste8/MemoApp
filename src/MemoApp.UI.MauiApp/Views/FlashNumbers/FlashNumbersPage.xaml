@@ -436,7 +436,7 @@
                         </Border.Shadow>
 
                         <StackLayout Spacing="16">
-                            <!-- PRIMARY: Main instruction -->
+                            <!-- Instructions -->
                             <Label Text="{localization:Localize FlashNumbers_ConsolidatedInstructions}"
                                    TextColor="{AppThemeBinding Light={StaticResource ElegantText}, Dark={StaticResource Gray100}}"
                                    FontSize="{OnIdiom Phone=15, Tablet=16, Desktop=17}"
@@ -444,35 +444,6 @@
                                    HorizontalOptions="Center"
                                    HorizontalTextAlignment="Center"
                                    LineBreakMode="WordWrap" />
-
-                            <!-- SECONDARY: Platform-specific interactions -->
-                            <Border BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                                    StrokeShape="RoundRectangle 8"
-                                    Padding="12,8">
-
-                                <ContentView>
-                                    <ContentView.Content>
-                                        <OnPlatform x:TypeArguments="View">
-                                            <On Platform="iOS,Android">
-                                                <Label Text="{localization:Localize FlashNumbers_MobileInteractions}"
-                                                       TextColor="White"
-                                                       FontSize="{OnIdiom Phone=13, Tablet=14, Default=13}"
-                                                       HorizontalOptions="Center"
-                                                       HorizontalTextAlignment="Center"
-                                                       LineBreakMode="WordWrap" />
-                                            </On>
-                                            <On Platform="MacCatalyst,WinUI">
-                                                <Label Text="{localization:Localize FlashNumbers_DesktopInteractions}"
-                                                       TextColor="White"
-                                                       FontSize="14"
-                                                       HorizontalOptions="Center"
-                                                       HorizontalTextAlignment="Center"
-                                                       LineBreakMode="WordWrap" />
-                                            </On>
-                                        </OnPlatform>
-                                    </ContentView.Content>
-                                </ContentView>
-                            </Border>
                         </StackLayout>
                     </Border>
                 </StackLayout>
