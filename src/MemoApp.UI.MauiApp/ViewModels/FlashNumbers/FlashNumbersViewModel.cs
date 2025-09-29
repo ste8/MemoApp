@@ -311,6 +311,9 @@ public partial class FlashNumbersViewModel : BaseViewModel
             [AnalyticsParameters.TokensAvailable] = TotalNumbers
         });
 
+        // Increment exercise count for ad frequency tracking when user starts training
+        await _exerciseCountService.IncrementExerciseCountAsync(ExerciseTypes.FlashNumbers);
+
         // Set session state FIRST before updating UI to avoid race conditions
         IsSessionActive = true;
         IsSessionCompleted = false;
@@ -535,9 +538,6 @@ public partial class FlashNumbersViewModel : BaseViewModel
         var sessionEndTime = DateTime.UtcNow;
         var totalDuration = (sessionEndTime - _sessionStartTime).TotalSeconds;
         var statistics = _gameSession.GetStatistics();
-
-        // Increment exercise count for ad frequency tracking
-        await _exerciseCountService.IncrementExerciseCountAsync(ExerciseTypes.FlashNumbers);
 
         // Track session completion analytics
         await _analyticsService.TrackEventAsync(AnalyticsEvents.FlashNumbersCompleted, new Dictionary<string, object>
