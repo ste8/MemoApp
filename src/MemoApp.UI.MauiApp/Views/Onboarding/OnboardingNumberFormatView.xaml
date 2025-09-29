@@ -6,14 +6,14 @@
              x:Class="MemoApp.UI.MauiApp.Views.Onboarding.OnboardingNumberFormatView"
              x:DataType="viewmodels:OnboardingNumberFormatViewModel">
 
-    <ScrollView Padding="30">
-        <VerticalStackLayout Spacing="30">
+    <ScrollView Padding="24,20,24,20">
+        <VerticalStackLayout Spacing="20">
 
             <!-- Header -->
-            <VerticalStackLayout Spacing="20" Margin="0,10,0,25">
+            <VerticalStackLayout Spacing="15" Margin="0,8,0,20">
                 <Label Text="{StaticResource Icon_Numbers}"
                        FontFamily="{StaticResource IconFont_Solid}"
-                       FontSize="48"
+                       FontSize="42"
                        TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
                        HorizontalOptions="Center" />
 
@@ -21,7 +21,7 @@
                        Style="{StaticResource Headline}"
                        HorizontalOptions="Center"
                        HorizontalTextAlignment="Center"
-                       FontSize="26"
+                       FontSize="24"
                        FontAttributes="Bold" />
 
                 <Label Text="{localization:Localize OnboardingNumberFormat_Description}"
@@ -32,14 +32,14 @@
             </VerticalStackLayout>
 
             <!-- Format Options -->
-            <VerticalStackLayout Spacing="20">
+            <VerticalStackLayout Spacing="16">
 
                 <!-- Padded Format Option (Recommended) -->
                 <Frame x:Name="PaddedFormatFrame"
                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
                        BorderColor="{Binding IsPaddedFormatSelected, Converter={StaticResource BoolToPrimaryOrGrayConverter}}"
                        CornerRadius="15"
-                       Padding="20"
+                       Padding="16"
                        HasShadow="False"
                        AutomationProperties.IsInAccessibleTree="True"
                        AutomationProperties.Name="{localization:Localize OnboardingNumberFormat_PaddedAccessibilityName}"
@@ -67,7 +67,7 @@
 
                     <Grid RowDefinitions="Auto,Auto,Auto"
                           ColumnDefinitions="*,Auto"
-                          RowSpacing="10">
+                          RowSpacing="8">
 
                         <!-- Title with Inline Badge -->
                         <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="8" VerticalOptions="Center">
@@ -104,7 +104,7 @@
                         </Border>
 
                         <!-- Behavioral Examples -->
-                        <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="8">
+                        <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="6">
                             <Label Text="{localization:Localize OnboardingNumberFormat_DifferentAssociations}" FontSize="12" Opacity="0.7" />
                             <HorizontalStackLayout Spacing="24">
                                 <!-- Comparison pair 1: 01 ≠ 1 -->
@@ -144,7 +144,7 @@
                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
                        BorderColor="{Binding IsNaturalFormatSelected, Converter={StaticResource BoolToPrimaryOrGrayConverter}}"
                        CornerRadius="15"
-                       Padding="20"
+                       Padding="16"
                        HasShadow="False"
                        AutomationProperties.IsInAccessibleTree="True"
                        AutomationProperties.Name="{localization:Localize OnboardingNumberFormat_NaturalAccessibilityName}"
@@ -172,7 +172,7 @@
 
                     <Grid RowDefinitions="Auto,Auto,Auto"
                           ColumnDefinitions="*,Auto"
-                          RowSpacing="10">
+                          RowSpacing="8">
 
                         <!-- Title Only -->
                         <Label Grid.Row="0" Grid.Column="0"
@@ -198,7 +198,7 @@
                         </Border>
 
                         <!-- Behavioral Examples -->
-                        <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="8">
+                        <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="6">
                             <Label Text="{localization:Localize OnboardingNumberFormat_SameAssociations}" FontSize="12" Opacity="0.7" />
                             <HorizontalStackLayout Spacing="24">
                                 <!-- Comparison pair 1: 01 = 1 -->
@@ -239,8 +239,8 @@
             <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
                    BorderColor="Transparent"
                    CornerRadius="10"
-                   Padding="15">
-                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                   Padding="12">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                     <Label Grid.Column="0"
                            Text="{StaticResource Icon_Info}"
                            FontFamily="{StaticResource IconFont_Solid}"
