@@ -91,7 +91,7 @@
                     <Border Stroke="Transparent"
                             StrokeThickness="0"
                             StrokeShape="RoundRectangle 24"
-                            Padding="{OnIdiom Phone=32, Tablet=40, Desktop=48}"
+                            Padding="{OnIdiom Phone=24, Tablet=32, Desktop=40}"
                             Margin="0,8">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -115,7 +115,7 @@
                                                   NumberOfTapsRequired="2" />
                         </Border.GestureRecognizers>
                         
-                        <VerticalStackLayout Spacing="16">
+                        <VerticalStackLayout Spacing="12">
 
                             <!--
                             Left-Aligned Header Pattern with Visual Balance:
@@ -208,8 +208,8 @@
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center"
                                        HorizontalTextAlignment="Center"
-                                       HeightRequest="{OnIdiom Phone=120, Tablet=160, Desktop=200}"
-                                       Margin="0,16,0,16"
+                                       HeightRequest="{OnIdiom Phone=100, Tablet=140, Desktop=180}"
+                                       Margin="0,8,0,8"
                                        IsVisible="{Binding IsReadyState}">
                                     <Label.Shadow>
                                         <Shadow Brush="Black"
@@ -229,8 +229,8 @@
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center"
                                        HorizontalTextAlignment="Center"
-                                       HeightRequest="{OnIdiom Phone=120, Tablet=160, Desktop=200}"
-                                       Margin="0,16,0,16"
+                                       HeightRequest="{OnIdiom Phone=100, Tablet=140, Desktop=180}"
+                                       Margin="0,8,0,8"
                                        IsVisible="{Binding IsSessionActive}">
                                     <Label.Shadow>
                                         <Shadow Brush="Black"
@@ -242,7 +242,7 @@
                             </Grid>
 
                             <!-- Hints/Instructions - MUST have identical structure in both states for button position consistency -->
-                            <StackLayout Spacing="8">
+                            <StackLayout Spacing="6">
                                 <!-- Active state hint (only visible during active session, hidden when association revealed) -->
                                 <Label Text="{localization:Localize FlashNumbers_ThinkInstruction}"
                                        TextColor="White"
