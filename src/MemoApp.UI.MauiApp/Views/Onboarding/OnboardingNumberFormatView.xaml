@@ -6,22 +6,16 @@
              x:Class="MemoApp.UI.MauiApp.Views.Onboarding.OnboardingNumberFormatView"
              x:DataType="viewmodels:OnboardingNumberFormatViewModel">
 
-    <ScrollView Padding="24,20,24,20">
+    <ScrollView Padding="24,12,24,20">
         <VerticalStackLayout Spacing="20">
 
             <!-- Header -->
-            <VerticalStackLayout Spacing="15" Margin="0,8,0,20">
-                <Label Text="{StaticResource Icon_Numbers}"
-                       FontFamily="{StaticResource IconFont_Solid}"
-                       FontSize="42"
-                       TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                       HorizontalOptions="Center" />
-
+            <VerticalStackLayout Spacing="15" Margin="0,4,0,12">
                 <Label Text="{localization:Localize OnboardingNumberFormat_Title}"
                        Style="{StaticResource Headline}"
                        HorizontalOptions="Center"
                        HorizontalTextAlignment="Center"
-                       FontSize="24"
+                       FontSize="26"
                        FontAttributes="Bold" />
 
                 <Label Text="{localization:Localize OnboardingNumberFormat_Description}"
