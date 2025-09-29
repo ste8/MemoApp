@@ -420,8 +420,9 @@
                         </Button>
                     </StackLayout>
 
-                    <!-- Consolidated Instructions Card -->
-                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
+                    <!-- Consolidated Instructions Card - Show only in ready state -->
+                    <Border IsVisible="{Binding IsReadyState}"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
                             Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}"
                             StrokeThickness="1"
                             StrokeShape="RoundRectangle 12"
