@@ -198,7 +198,7 @@
                            FontSize="16"
                            TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
                            VerticalOptions="Center" />
-                    <Label Text="You can change this later in Settings > Number Format"
+                    <Label Text="{localization:Localize OnboardingNumberFormat_SettingsNote}"
                            FontSize="13"
                            Opacity="0.8"
                            VerticalOptions="Center" />

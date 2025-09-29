@@ -718,24 +718,28 @@
     <comment>Description for number format selection in onboarding</comment>
   </data>
   <data name="OnboardingNumberFormat_PaddedTitle" xml:space="preserve">
-    <value>Padded Format (00-99)</value>
+    <value>Zero counts (e.g. 01 ≠ 1)</value>
     <comment>Title for padded number format option</comment>
   </data>
   <data name="OnboardingNumberFormat_PaddedDescription" xml:space="preserve">
-    <value>Practice with 100 numbers including leading zeros (00, 01, 02... 99)</value>
+    <value>The numbers from 0 to 9 use different associations from 00..09</value>
     <comment>Description for padded number format</comment>
   </data>
   <data name="OnboardingNumberFormat_NaturalTitle" xml:space="preserve">
-    <value>Natural Format (0-99)</value>
+    <value>Zero doesn't count (e.g. 01 = 1)</value>
     <comment>Title for natural number format option</comment>
   </data>
   <data name="OnboardingNumberFormat_NaturalDescription" xml:space="preserve">
-    <value>Practice with 100 numbers in natural format (0, 1, 2... 99)</value>
+    <value>The numbers from 0 to 9 use the same associations as 00..09</value>
     <comment>Description for natural number format</comment>
   </data>
   <data name="OnboardingNumberFormat_RecommendedBadge" xml:space="preserve">
     <value>Recommended</value>
     <comment>Badge text for recommended option</comment>
+  </data>
+  <data name="OnboardingNumberFormat_SettingsNote" xml:space="preserve">
+    <value>You can change this later in Settings > Number Format</value>
+    <comment>Note about changing the setting later</comment>
   </data>
 
   <!-- Updated Onboarding Step Labels for 7-step flow -->
@@ -758,11 +762,11 @@
     <comment>Number format setting description</comment>
   </data>
   <data name="NumberFormat_Padded" xml:space="preserve">
-    <value>00-99 (Padded)</value>
+    <value>Zero counts</value>
     <comment>Padded number format option</comment>
   </data>
   <data name="NumberFormat_Natural" xml:space="preserve">
-    <value>0-99 (Natural)</value>
+    <value>Zero doesn't count</value>
     <comment>Natural number format option</comment>
   </data>
   <data name="NumberFormat_SelectPrompt" xml:space="preserve">
