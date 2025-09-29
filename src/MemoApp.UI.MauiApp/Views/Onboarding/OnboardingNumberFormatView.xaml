@@ -109,22 +109,22 @@
                             <HorizontalStackLayout Spacing="24">
                                 <!-- Comparison pair 1: 01 ≠ 1 -->
                                 <HorizontalStackLayout Spacing="6">
-                                    <Border BackgroundColor="{StaticResource Primary}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                    <Border BackgroundColor="{Binding IsPaddedFormatSelected, Converter={StaticResource BoolToPrimaryOrGrayConverter}}" Padding="8,6" StrokeShape="RoundRectangle 6">
                                         <Label Text="01" TextColor="White" FontSize="14" FontAttributes="Bold" />
                                     </Border>
                                     <Label Text="≠" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
-                                    <Border BackgroundColor="{StaticResource Primary}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                    <Border BackgroundColor="{Binding IsPaddedFormatSelected, Converter={StaticResource BoolToPrimaryOrGrayConverter}}" Padding="8,6" StrokeShape="RoundRectangle 6">
                                         <Label Text="1" TextColor="White" FontSize="14" FontAttributes="Bold" />
                                     </Border>
                                 </HorizontalStackLayout>
 
                                 <!-- Comparison pair 2: 05 ≠ 5 -->
                                 <HorizontalStackLayout Spacing="6">
-                                    <Border BackgroundColor="{StaticResource Primary}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                    <Border BackgroundColor="{Binding IsPaddedFormatSelected, Converter={StaticResource BoolToPrimaryOrGrayConverter}}" Padding="8,6" StrokeShape="RoundRectangle 6">
                                         <Label Text="05" TextColor="White" FontSize="14" FontAttributes="Bold" />
                                     </Border>
                                     <Label Text="≠" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
-                                    <Border BackgroundColor="{StaticResource Primary}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                    <Border BackgroundColor="{Binding IsPaddedFormatSelected, Converter={StaticResource BoolToPrimaryOrGrayConverter}}" Padding="8,6" StrokeShape="RoundRectangle 6">
                                         <Label Text="5" TextColor="White" FontSize="14" FontAttributes="Bold" />
                                     </Border>
                                 </HorizontalStackLayout>
@@ -203,22 +203,22 @@
                             <HorizontalStackLayout Spacing="24">
                                 <!-- Comparison pair 1: 01 = 1 -->
                                 <HorizontalStackLayout Spacing="6">
-                                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                    <Border BackgroundColor="{Binding IsNaturalFormatSelected, Converter={StaticResource BoolToPrimaryOrGrayConverter}}" Padding="8,6" StrokeShape="RoundRectangle 6">
                                         <Label Text="01" TextColor="White" FontSize="14" FontAttributes="Bold" />
                                     </Border>
                                     <Label Text="=" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
-                                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                    <Border BackgroundColor="{Binding IsNaturalFormatSelected, Converter={StaticResource BoolToPrimaryOrGrayConverter}}" Padding="8,6" StrokeShape="RoundRectangle 6">
                                         <Label Text="1" TextColor="White" FontSize="14" FontAttributes="Bold" />
                                     </Border>
                                 </HorizontalStackLayout>
 
                                 <!-- Comparison pair 2: 05 = 5 -->
                                 <HorizontalStackLayout Spacing="6">
-                                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                    <Border BackgroundColor="{Binding IsNaturalFormatSelected, Converter={StaticResource BoolToPrimaryOrGrayConverter}}" Padding="8,6" StrokeShape="RoundRectangle 6">
                                         <Label Text="05" TextColor="White" FontSize="14" FontAttributes="Bold" />
                                     </Border>
                                     <Label Text="=" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
-                                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                    <Border BackgroundColor="{Binding IsNaturalFormatSelected, Converter={StaticResource BoolToPrimaryOrGrayConverter}}" Padding="8,6" StrokeShape="RoundRectangle 6">
                                         <Label Text="5" TextColor="White" FontSize="14" FontAttributes="Bold" />
                                     </Border>
                                 </HorizontalStackLayout>
@@ -240,17 +240,21 @@
                    BorderColor="Transparent"
                    CornerRadius="10"
                    Padding="15">
-                <HorizontalStackLayout Spacing="10">
-                    <Label Text="{StaticResource Icon_Info}"
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                    <Label Grid.Column="0"
+                           Text="{StaticResource Icon_Info}"
                            FontFamily="{StaticResource IconFont_Solid}"
                            FontSize="16"
                            TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                           VerticalOptions="Center" />
-                    <Label Text="{localization:Localize OnboardingNumberFormat_SettingsNote}"
+                           VerticalOptions="Start"
+                           Margin="0,2,0,0" />
+                    <Label Grid.Column="1"
+                           Text="{localization:Localize OnboardingNumberFormat_SettingsNote}"
                            FontSize="13"
                            Opacity="0.8"
+                           LineBreakMode="WordWrap"
                            VerticalOptions="Center" />
-                </HorizontalStackLayout>
+                </Grid>
             </Frame>
 
         </VerticalStackLayout>
