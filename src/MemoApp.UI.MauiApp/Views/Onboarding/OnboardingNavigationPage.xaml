@@ -16,95 +16,107 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <!-- Phase Title Header -->
+        <VerticalStackLayout Grid.Row="0" VerticalOptions="Start" Margin="0,20,0,0">
+            <Label Text="{Binding CurrentPhaseTitle}"
+                   FontSize="14"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource Primary}"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,5" />
+        </VerticalStackLayout>
+
         <!-- Content Area -->
-        <Grid x:Name="ContentArea" Grid.Row="0">
+        <Grid x:Name="ContentArea" Grid.Row="0" Margin="0,60,0,0">
             <!-- Onboarding views will be dynamically added here -->
         </Grid>
 
-        <!-- 5-Step Linear Progress Indicator -->
-        <HorizontalStackLayout Grid.Row="1"
-                              HorizontalOptions="Center"
-                              Spacing="8"
-                              Margin="0,20,0,15">
+        <!-- Phase-Aware Progress Indicator -->
+        <VerticalStackLayout Grid.Row="1" Spacing="15" Margin="0,20,0,15">
 
-            <!-- Step 1: Welcome -->
-            <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                <Border x:Name="StepIndicator0"
-                        BackgroundColor="{StaticResource Primary}"
-                        WidthRequest="24"
-                        HeightRequest="6"
-                        StrokeShape="RoundRectangle 3"
-                        Stroke="Transparent" />
-                <Label x:Name="StepLabel0"
-                       Text="{localization:Localize Onboarding_Step_Welcome}"
-                       FontSize="10"
-                       HorizontalOptions="Center"
-                       TextColor="{StaticResource Primary}" />
-            </VerticalStackLayout>
+            <!-- Phase Progress Indicator -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
 
-            <!-- Step 2: Learn -->
-            <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                <Border x:Name="StepIndicator1"
-                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
-                        WidthRequest="24"
-                        HeightRequest="6"
-                        StrokeShape="RoundRectangle 3"
-                        Stroke="Transparent" />
-                <Label x:Name="StepLabel1"
-                       Text="{localization:Localize Onboarding_Step_Concept}"
-                       FontSize="10"
-                       HorizontalOptions="Center"
-                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
-            </VerticalStackLayout>
+                <!-- Phase 1: Tutorial (4 steps) -->
+                <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                    <Label Text="Phase 1: Tutorial"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}"
+                           HorizontalOptions="Center" />
 
-            <!-- Step 3: Example -->
-            <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                <Border x:Name="StepIndicator2"
-                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
-                        WidthRequest="24"
-                        HeightRequest="6"
-                        StrokeShape="RoundRectangle 3"
-                        Stroke="Transparent" />
-                <Label x:Name="StepLabel2"
-                       Text="{localization:Localize Onboarding_Step_Example}"
-                       FontSize="10"
-                       HorizontalOptions="Center"
-                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
-            </VerticalStackLayout>
+                    <HorizontalStackLayout Spacing="4">
+                        <!-- Tutorial Step Indicators -->
+                        <Border x:Name="TutorialStep0"
+                                BackgroundColor="{StaticResource Primary}"
+                                WidthRequest="20"
+                                HeightRequest="6"
+                                StrokeShape="RoundRectangle 3" />
+                        <Border x:Name="TutorialStep1"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                WidthRequest="20"
+                                HeightRequest="6"
+                                StrokeShape="RoundRectangle 3" />
+                        <Border x:Name="TutorialStep2"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                WidthRequest="20"
+                                HeightRequest="6"
+                                StrokeShape="RoundRectangle 3" />
+                        <Border x:Name="TutorialStep3"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                WidthRequest="20"
+                                HeightRequest="6"
+                                StrokeShape="RoundRectangle 3" />
+                    </HorizontalStackLayout>
 
-            <!-- Step 4: Practice -->
-            <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                <Border x:Name="StepIndicator3"
-                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
-                        WidthRequest="24"
-                        HeightRequest="6"
-                        StrokeShape="RoundRectangle 3"
-                        Stroke="Transparent" />
-                <Label x:Name="StepLabel3"
-                       Text="{localization:Localize Onboarding_Step_Interactive}"
-                       FontSize="10"
-                       HorizontalOptions="Center"
-                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
-            </VerticalStackLayout>
+                    <Label Text="{localization:Localize Onboarding_Phase1_StepLabels}"
+                           FontSize="8"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
 
-            <!-- Step 5: Setup (FINAL) -->
-            <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                <Border x:Name="StepIndicator4"
-                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
-                        WidthRequest="28"
-                        HeightRequest="8"
-                        StrokeShape="RoundRectangle 4"
-                        Stroke="Transparent"
-                        Shadow="{StaticResource CommonShadow}" />
-                <Label x:Name="StepLabel4"
-                       Text="{localization:Localize Onboarding_Step_Download}"
-                       FontSize="10"
-                       FontAttributes="Bold"
-                       HorizontalOptions="Center"
-                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
-            </VerticalStackLayout>
+                <!-- Phase Separator -->
+                <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                        WidthRequest="2"
+                        HeightRequest="30"
+                        VerticalOptions="Center" />
 
-        </HorizontalStackLayout>
+                <!-- Phase 2: Setup (3 steps) -->
+                <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                    <Label Text="Phase 2: Setup"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
+                           HorizontalOptions="Center" />
+
+                    <HorizontalStackLayout Spacing="4">
+                        <!-- Setup Step Indicators -->
+                        <Border x:Name="SetupStep0"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                WidthRequest="20"
+                                HeightRequest="6"
+                                StrokeShape="RoundRectangle 3" />
+                        <Border x:Name="SetupStep1"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                WidthRequest="20"
+                                HeightRequest="6"
+                                StrokeShape="RoundRectangle 3" />
+                        <Border x:Name="SetupStep2"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                WidthRequest="26"
+                                HeightRequest="8"
+                                StrokeShape="RoundRectangle 4" />
+                    </HorizontalStackLayout>
+
+                    <Label Text="{localization:Localize Onboarding_Phase2_StepLabels}"
+                           FontSize="8"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
 
         <!-- Enhanced Navigation Controls for Mobile -->
         <Grid Grid.Row="2" 

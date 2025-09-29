@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels.Onboarding"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             x:Class="MemoApp.UI.MauiApp.Views.Onboarding.OnboardingNumberFormatView"
+             x:DataType="viewmodels:OnboardingNumberFormatViewModel">
+
+    <ScrollView Padding="30">
+        <VerticalStackLayout Spacing="30">
+
+            <!-- Header -->
+            <VerticalStackLayout Spacing="20" Margin="0,10,0,25">
+                <Label Text="{StaticResource Icon_Numbers}"
+                       FontFamily="{StaticResource IconFont_Solid}"
+                       FontSize="48"
+                       TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                       HorizontalOptions="Center" />
+
+                <Label Text="{localization:Localize OnboardingNumberFormat_Title}"
+                       Style="{StaticResource Headline}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       FontSize="26"
+                       FontAttributes="Bold" />
+
+                <Label Text="{localization:Localize OnboardingNumberFormat_Description}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       FontSize="16"
+                       Opacity="0.85" />
+            </VerticalStackLayout>
+
+            <!-- Format Options -->
+            <VerticalStackLayout Spacing="20">
+
+                <!-- Padded Format Option (Recommended) -->
+                <Frame x:Name="PaddedFormatFrame"
+                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                       BorderColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                       CornerRadius="15"
+                       Padding="20"
+                       HasShadow="True">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectPaddedFormatCommand}" />
+                    </Frame.GestureRecognizers>
+
+                    <Grid RowDefinitions="Auto,Auto,Auto"
+                          ColumnDefinitions="*,Auto"
+                          RowSpacing="10">
+
+                        <!-- Recommended Badge -->
+                        <Border Grid.Row="0" Grid.ColumnSpan="2"
+                                BackgroundColor="{StaticResource Success}"
+                                Padding="8,4"
+                                HorizontalOptions="Start"
+                                StrokeShape="RoundRectangle 12">
+                            <Label Text="{localization:Localize OnboardingNumberFormat_RecommendedBadge}"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="White" />
+                        </Border>
+
+                        <!-- Title and Examples -->
+                        <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="8">
+                            <Label Text="{localization:Localize OnboardingNumberFormat_PaddedTitle}"
+                                   FontSize="18"
+                                   FontAttributes="Bold" />
+
+                            <!-- Visual Examples -->
+                            <HorizontalStackLayout Spacing="8">
+                                <Border BackgroundColor="{StaticResource Primary}"
+                                        Padding="6,4"
+                                        StrokeShape="RoundRectangle 6">
+                                    <Label Text="00" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                </Border>
+                                <Border BackgroundColor="{StaticResource Primary}"
+                                        Padding="6,4"
+                                        StrokeShape="RoundRectangle 6">
+                                    <Label Text="05" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                </Border>
+                                <Border BackgroundColor="{StaticResource Primary}"
+                                        Padding="6,4"
+                                        StrokeShape="RoundRectangle 6">
+                                    <Label Text="23" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                </Border>
+                                <Border BackgroundColor="{StaticResource Primary}"
+                                        Padding="6,4"
+                                        StrokeShape="RoundRectangle 6">
+                                    <Label Text="99" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                </Border>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+
+                        <!-- Selection Indicator -->
+                        <Border Grid.Row="1" Grid.Column="1"
+                                BackgroundColor="{StaticResource Primary}"
+                                WidthRequest="24"
+                                HeightRequest="24"
+                                StrokeShape="RoundRectangle 12"
+                                VerticalOptions="Center"
+                                IsVisible="{Binding IsPaddedFormatSelected}">
+                            <Label Text="✓"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+
+                        <!-- Description -->
+                        <Label Grid.Row="2" Grid.ColumnSpan="2"
+                               Text="{localization:Localize OnboardingNumberFormat_PaddedDescription}"
+                               FontSize="14"
+                               Opacity="0.8" />
+                    </Grid>
+                </Frame>
+
+                <!-- Natural Format Option -->
+                <Frame x:Name="NaturalFormatFrame"
+                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                       BorderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                       CornerRadius="15"
+                       Padding="20">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectNaturalFormatCommand}" />
+                    </Frame.GestureRecognizers>
+
+                    <Grid RowDefinitions="Auto,Auto"
+                          ColumnDefinitions="*,Auto"
+                          RowSpacing="10">
+
+                        <!-- Title and Examples -->
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="8">
+                            <Label Text="{localization:Localize OnboardingNumberFormat_NaturalTitle}"
+                                   FontSize="18"
+                                   FontAttributes="Bold" />
+
+                            <!-- Visual Examples -->
+                            <HorizontalStackLayout Spacing="8">
+                                <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}"
+                                        Padding="6,4"
+                                        StrokeShape="RoundRectangle 6">
+                                    <Label Text="0" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                </Border>
+                                <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}"
+                                        Padding="6,4"
+                                        StrokeShape="RoundRectangle 6">
+                                    <Label Text="5" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                </Border>
+                                <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}"
+                                        Padding="6,4"
+                                        StrokeShape="RoundRectangle 6">
+                                    <Label Text="23" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                </Border>
+                                <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}"
+                                        Padding="6,4"
+                                        StrokeShape="RoundRectangle 6">
+                                    <Label Text="99" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                </Border>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+
+                        <!-- Selection Indicator -->
+                        <Border Grid.Row="0" Grid.Column="1"
+                                BackgroundColor="{StaticResource Primary}"
+                                WidthRequest="24"
+                                HeightRequest="24"
+                                StrokeShape="RoundRectangle 12"
+                                VerticalOptions="Center"
+                                IsVisible="{Binding IsNaturalFormatSelected}">
+                            <Label Text="✓"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+
+                        <!-- Description -->
+                        <Label Grid.Row="1" Grid.ColumnSpan="2"
+                               Text="{localization:Localize OnboardingNumberFormat_NaturalDescription}"
+                               FontSize="14"
+                               Opacity="0.8" />
+                    </Grid>
+                </Frame>
+
+            </VerticalStackLayout>
+
+            <!-- Settings Note -->
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                   BorderColor="Transparent"
+                   CornerRadius="10"
+                   Padding="15">
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="{StaticResource Icon_Info}"
+                           FontFamily="{StaticResource IconFont_Solid}"
+                           FontSize="16"
+                           TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                           VerticalOptions="Center" />
+                    <Label Text="You can change this later in Settings > Number Format"
+                           FontSize="13"
+                           Opacity="0.8"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentView>

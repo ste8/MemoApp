@@ -680,7 +680,73 @@
     <value>Seleziona la lingua preferita per l'interfaccia dell'app</value>
     <comment>Language setting description</comment>
   </data>
-  
+
+  <!-- Onboarding: Expectation-Setting Transition Page -->
+  <data name="OnboardingSettings_Title" xml:space="preserve">
+    <value>Configuriamo il Tuo Allenamento</value>
+    <comment>Title for the expectation-setting transition page in onboarding</comment>
+  </data>
+  <data name="OnboardingSettings_Description" xml:space="preserve">
+    <value>Prima di iniziare, personalizziamo MemoRaise per il tuo stile di apprendimento. Ci vorrà solo un momento.</value>
+    <comment>Description explaining why settings are important</comment>
+  </data>
+  <data name="OnboardingSettings_WhatWellConfigure" xml:space="preserve">
+    <value>Cosa configureremo:</value>
+    <comment>Header for the list of settings to be configured</comment>
+  </data>
+  <data name="OnboardingSettings_NumberFormatBenefit" xml:space="preserve">
+    <value>Formato numeri - influenza i numeri con cui ti allenerai</value>
+    <comment>Explanation of number format setting benefit</comment>
+  </data>
+  <data name="OnboardingSettings_ContentBenefit" xml:space="preserve">
+    <value>Contenuti di apprendimento - scarica pacchetti di immagini per l'allenamento</value>
+    <comment>Explanation of content download benefit</comment>
+  </data>
+  <data name="OnboardingSettings_ReadyPrompt" xml:space="preserve">
+    <value>Procediamo?</value>
+    <comment>Call to action to proceed with configuration</comment>
+  </data>
+
+  <!-- Onboarding: Number Format Selection -->
+  <data name="OnboardingNumberFormat_Title" xml:space="preserve">
+    <value>Scegli il Formato dei Numeri</value>
+    <comment>Title for number format selection in onboarding</comment>
+  </data>
+  <data name="OnboardingNumberFormat_Description" xml:space="preserve">
+    <value>Questo influenza i numeri con cui ti allenerai. Puoi cambiarlo in seguito nelle Impostazioni.</value>
+    <comment>Description for number format selection in onboarding</comment>
+  </data>
+  <data name="OnboardingNumberFormat_PaddedTitle" xml:space="preserve">
+    <value>Formato con Zero (00-99)</value>
+    <comment>Title for padded number format option</comment>
+  </data>
+  <data name="OnboardingNumberFormat_PaddedDescription" xml:space="preserve">
+    <value>Allenati con 100 numeri inclusi gli zeri iniziali (00, 01, 02... 99)</value>
+    <comment>Description for padded number format</comment>
+  </data>
+  <data name="OnboardingNumberFormat_NaturalTitle" xml:space="preserve">
+    <value>Formato Naturale (0-99)</value>
+    <comment>Title for natural number format option</comment>
+  </data>
+  <data name="OnboardingNumberFormat_NaturalDescription" xml:space="preserve">
+    <value>Allenati con 100 numeri in formato naturale (0, 1, 2... 99)</value>
+    <comment>Description for natural number format</comment>
+  </data>
+  <data name="OnboardingNumberFormat_RecommendedBadge" xml:space="preserve">
+    <value>Consigliato</value>
+    <comment>Badge text for recommended option</comment>
+  </data>
+
+  <!-- Updated Onboarding Step Labels for 7-step flow -->
+  <data name="Onboarding_Step_Settings" xml:space="preserve">
+    <value>Impostazioni</value>
+    <comment>Step label for the settings configuration step</comment>
+  </data>
+  <data name="Onboarding_Step_Format" xml:space="preserve">
+    <value>Formato</value>
+    <comment>Step label for the number format selection step</comment>
+  </data>
+
   <!-- Number Format Selection -->
   <data name="NumberFormat_Title" xml:space="preserve">
     <value>Formato Numeri</value>
@@ -1866,6 +1932,36 @@
   <data name="Onboarding_CompletionError" xml:space="preserve">
     <value>Impossibile completare l'onboarding. Si prega di riavviare l'app.</value>
     <comment>Error message when onboarding completion fails</comment>
+  </data>
+
+  <!-- Two-Phase Onboarding Labels -->
+  <data name="Onboarding_Phase1_Tutorial" xml:space="preserve">
+    <value>Fase 1: Tutorial</value>
+    <comment>Label for Phase 1 of onboarding (Tutorial phase)</comment>
+  </data>
+  <data name="Onboarding_Phase2_Setup" xml:space="preserve">
+    <value>Fase 2: Configurazione</value>
+    <comment>Label for Phase 2 of onboarding (Setup phase)</comment>
+  </data>
+  <data name="Onboarding_StartSetup" xml:space="preserve">
+    <value>Inizia Configurazione</value>
+    <comment>Button text to transition from tutorial to setup phase</comment>
+  </data>
+  <data name="Onboarding_SkipThisStep" xml:space="preserve">
+    <value>Salta Questo Passo</value>
+    <comment>Option to skip current setup step</comment>
+  </data>
+  <data name="Onboarding_Phase1_CompleteCelebration" xml:space="preserve">
+    <value>🎉 Tutorial Completato!</value>
+    <comment>Celebration message when Phase 1 (Tutorial) is completed</comment>
+  </data>
+  <data name="Onboarding_Phase1_StepLabels" xml:space="preserve">
+    <value>Benvenuto • Impara • Esempio • Pratica</value>
+    <comment>Labels for Phase 1 tutorial steps</comment>
+  </data>
+  <data name="Onboarding_Phase2_StepLabels" xml:space="preserve">
+    <value>Impostazioni • Formato • Download</value>
+    <comment>Labels for Phase 2 setup steps</comment>
   </data>
   
   <!-- Pack Download Onboarding Screen -->

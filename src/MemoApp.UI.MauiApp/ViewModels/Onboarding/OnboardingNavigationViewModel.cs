@@ -20,10 +20,16 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
     private int currentPosition;
 
     [ObservableProperty]
-    private bool canSkip = true;
+    private bool canSkip = false; // Start with no skip for Phase 1
 
     [ObservableProperty]
     private bool canGoBack;
+
+    [ObservableProperty]
+    private string currentPhaseTitle = "";
+
+    [ObservableProperty]
+    private bool isPhase1Complete = false;
 
     [ObservableProperty]
     private string nextButtonText;
@@ -50,26 +56,48 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
         {
             _logger.LogInformation("Initializing onboarding pages");
             
-            // Create comprehensive 5-step onboarding pages
+            // Create comprehensive 7-step onboarding pages
             OnboardingPages.Clear();
-            
+
             // Step 1: Welcome + Challenge (merged)
             var welcomeChallengeView = _serviceProvider.GetRequiredService<WelcomeChallengeView>();
             OnboardingPages.Add(welcomeChallengeView);
-            
+
             // Step 2: Major System Introduction (concept explanation)
             var majorSystemView = _serviceProvider.GetRequiredService<MajorSystemIntroView>();
             OnboardingPages.Add(majorSystemView);
-            
+
             // Step 3: Concrete Example (41→RAT, 31→MOTO demonstration)
             var exampleView = _serviceProvider.GetRequiredService<MajorSystemExampleView>();
             OnboardingPages.Add(exampleView);
-            
+
             // Step 4: Interactive Practice (quiz)
             var practiceView = _serviceProvider.GetRequiredService<InteractivePracticeView>();
             OnboardingPages.Add(practiceView);
-            
-            // Step 5: Pack Download (final step, leads directly to main app)
+
+            // Step 5: Expectation-Setting Transition Page
+            _logger.LogInformation("Creating OnboardingSettingsView...");
+            var settingsTransitionView = _serviceProvider.GetRequiredService<OnboardingSettingsView>();
+            if (settingsTransitionView == null)
+            {
+                _logger.LogError("OnboardingSettingsView is null!");
+                throw new InvalidOperationException("Failed to create OnboardingSettingsView");
+            }
+            OnboardingPages.Add(settingsTransitionView);
+            _logger.LogInformation("OnboardingSettingsView added successfully at index {Index}", OnboardingPages.Count - 1);
+
+            // Step 6: Number Format Selection
+            _logger.LogInformation("Creating OnboardingNumberFormatView...");
+            var numberFormatView = _serviceProvider.GetRequiredService<OnboardingNumberFormatView>();
+            if (numberFormatView == null)
+            {
+                _logger.LogError("OnboardingNumberFormatView is null!");
+                throw new InvalidOperationException("Failed to create OnboardingNumberFormatView");
+            }
+            OnboardingPages.Add(numberFormatView);
+            _logger.LogInformation("OnboardingNumberFormatView added successfully at index {Index}", OnboardingPages.Count - 1);
+
+            // Step 7: Pack Download (final step, leads directly to main app)
             _logger.LogInformation("Creating PackDownloadOnboardingView...");
             var packDownloadView = _serviceProvider.GetRequiredService<PackDownloadOnboardingView>();
             if (packDownloadView == null)
@@ -79,14 +107,15 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
             }
             OnboardingPages.Add(packDownloadView);
             _logger.LogInformation("PackDownloadOnboardingView added successfully at index {Index}", OnboardingPages.Count - 1);
-            
+
             _logger.LogInformation("Total onboarding pages added: {PageCount}", OnboardingPages.Count);
-            
+
             // Validate that all expected views were added
-            if (OnboardingPages.Count != 5)
+            if (OnboardingPages.Count != OnboardingPhaseConfig.TOTAL_STEP_COUNT)
             {
-                _logger.LogError("Expected 5 onboarding pages but got {ActualCount}!", OnboardingPages.Count);
-                throw new InvalidOperationException($"Expected 5 onboarding pages but got {OnboardingPages.Count}");
+                _logger.LogError("Expected {ExpectedCount} onboarding pages but got {ActualCount}!",
+                    OnboardingPhaseConfig.TOTAL_STEP_COUNT, OnboardingPages.Count);
+                throw new InvalidOperationException($"Expected {OnboardingPhaseConfig.TOTAL_STEP_COUNT} onboarding pages but got {OnboardingPages.Count}");
             }
             
             // Log all view types for debugging
@@ -111,25 +140,53 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
     private void UpdateNavigationState()
     {
         CanGoBack = CurrentPosition > 0;
-        CanSkip = CurrentPosition < OnboardingPages.Count - 1;
-        
-        _logger.LogInformation("UpdateNavigationState - Position: {CurrentPosition}/{TotalPages}, CanGoBack: {CanGoBack}, CanSkip: {CanSkip}",
-            CurrentPosition, OnboardingPages.Count - 1, CanGoBack, CanSkip);
-        
-        // Update progress text
-        ProgressText = $"{CurrentPosition + 1} of {OnboardingPages.Count}";
-        
-        // Update button text for last page
-        if (CurrentPosition == OnboardingPages.Count - 1)
+
+        // Phase-based navigation logic using configuration
+        var isInPhase1 = OnboardingPhaseConfig.IsInTutorialPhase(CurrentPosition);
+        var isInPhase2 = OnboardingPhaseConfig.IsInSetupPhase(CurrentPosition);
+
+        // Phase 1: No skip allowed (tutorial must be completed)
+        // Phase 2: Skip allowed (setup can be customized or postponed)
+        CanSkip = isInPhase2 && CurrentPosition < OnboardingPages.Count - 1;
+
+        // Update phase indicators
+        IsPhase1Complete = CurrentPosition > OnboardingPhaseConfig.TUTORIAL_PHASE_LAST_POSITION;
+
+        // Update phase title and progress text
+        if (isInPhase1)
         {
+            CurrentPhaseTitle = _localizationService.GetString("Onboarding_Phase1_Tutorial");
+            var phaseStep = OnboardingPhaseConfig.GetPhaseStepNumber(CurrentPosition);
+            ProgressText = $"Tutorial: {phaseStep} of {OnboardingPhaseConfig.TUTORIAL_PHASE_STEP_COUNT}";
+        }
+        else
+        {
+            CurrentPhaseTitle = _localizationService.GetString("Onboarding_Phase2_Setup");
+            var phaseStep = OnboardingPhaseConfig.GetPhaseStepNumber(CurrentPosition);
+            ProgressText = $"Setup: {phaseStep} of {OnboardingPhaseConfig.SETUP_PHASE_STEP_COUNT}";
+        }
+
+        _logger.LogInformation("UpdateNavigationState - Position: {CurrentPosition}/{TotalPages}, Phase: {Phase}, CanGoBack: {CanGoBack}, CanSkip: {CanSkip}",
+            CurrentPosition, OnboardingPages.Count - 1, isInPhase1 ? "Tutorial" : "Setup", CanGoBack, CanSkip);
+
+        // Update button text based on position and phase
+        if (CurrentPosition == OnboardingPhaseConfig.TUTORIAL_PHASE_LAST_POSITION)
+        {
+            // End of Phase 1 - transition to Phase 2
+            NextButtonText = _localizationService.GetString("Onboarding_StartSetup");
+            _logger.LogInformation("End of Phase 1 - NextButtonText set to 'Start Setup'");
+        }
+        else if (CurrentPosition == OnboardingPages.Count - 1)
+        {
+            // Final page - complete onboarding
             NextButtonText = _localizationService.GetString("Onboarding_StartTraining");
-            CanSkip = false; // Hide skip on final step for clear completion flow
+            CanSkip = false; // Never allow skip on final step
             _logger.LogInformation("On last page - NextButtonText set to 'Start Training'");
         }
         else
         {
             NextButtonText = _localizationService.GetString("Onboarding_Next");
-            _logger.LogInformation("Not on last page - NextButtonText set to 'Next'");
+            _logger.LogInformation("Standard navigation - NextButtonText set to 'Next'");
         }
     }
 
@@ -187,9 +244,21 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
     [RelayCommand]
     private async Task Skip()
     {
-        // Provide contextual skip options based on current phase
-        var skipOptions = GetContextualSkipOptions();
-        
+        // Only allow skip in Phase 2 (Setup)
+        if (OnboardingPhaseConfig.IsInTutorialPhase(CurrentPosition))
+        {
+            // Should not reach here due to CanSkip logic, but add safety check
+            _logger.LogWarning("Skip attempted during Phase 1 (Tutorial), but this should not be allowed");
+            return;
+        }
+
+        // Phase 2 skip options: either skip current step or complete onboarding
+        var skipOptions = new List<string>
+        {
+            _localizationService.GetString("Onboarding_SkipToEnd"),
+            _localizationService.GetString("Onboarding_SkipThisStep")
+        };
+
         var action = await Application.Current.MainPage.DisplayActionSheet(
             _localizationService.GetString("Onboarding_SkipOptionsTitle"),
             _localizationService.GetString("Common_Cancel"),
@@ -200,43 +269,18 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
         {
             await CompleteOnboarding();
         }
-        else if (action == _localizationService.GetString("Onboarding_SkipToPractice") && CurrentPosition < 2)
+        else if (action == _localizationService.GetString("Onboarding_SkipThisStep"))
         {
-            CurrentPosition = 2; // Jump to practice
+            // Skip to next step in Phase 2
+            if (CurrentPosition < OnboardingPages.Count - 1)
+            {
+                CurrentPosition++;
+            }
+            else
+            {
+                await CompleteOnboarding();
+            }
         }
-        else if (action == _localizationService.GetString("Onboarding_SkipToSetup") && CurrentPosition < 3)
-        {
-            CurrentPosition = 3; // Jump to pack download (final step)
-        }
-    }
-    
-    private List<string> GetContextualSkipOptions()
-    {
-        var options = new List<string>();
-        
-        // Always allow skipping to the end
-        options.Add(_localizationService.GetString("Onboarding_SkipToEnd"));
-        
-        // Phase-specific skip options
-        switch (CurrentPosition)
-        {
-            case 0: // Welcome+Challenge - offer skip to practice or pack download
-                options.Add(_localizationService.GetString("Onboarding_SkipToPractice"));
-                options.Add(_localizationService.GetString("Onboarding_SkipToSetup"));
-                break;
-            case 1: // Major System - offer skip to practice or pack download  
-                options.Add(_localizationService.GetString("Onboarding_SkipToPractice"));
-                options.Add(_localizationService.GetString("Onboarding_SkipToSetup"));
-                break;
-            case 2: // Practice - offer skip to pack download (final step)
-                options.Add(_localizationService.GetString("Onboarding_SkipToSetup"));
-                break;
-            default:
-                // For later phases, only offer complete skip
-                break;
-        }
-        
-        return options;
     }
 
     private async Task CompleteOnboarding()

@@ -19,6 +19,7 @@ using MemoApp.UI.MauiApp.ViewModels.Associations;
 using MemoApp.UI.MauiApp.ViewModels.BigNumber;
 using MemoApp.UI.MauiApp.ViewModels.Components;
 using MemoApp.UI.MauiApp.ViewModels.FlashNumbers;
+using MemoApp.UI.MauiApp.ViewModels.Onboarding;
 using MemoApp.UI.MauiApp.Views;
 using MemoApp.UI.MauiApp.Views.Associations;
 using MemoApp.UI.MauiApp.Views.BigNumber;
@@ -447,6 +448,19 @@ public static class ServiceRegistration
             return new ViewModels.Onboarding.PackDownloadOnboardingViewModel(downloadService, packManager, mauiPackService, localizationService, analyticsService, logger);
         });
 
+        // New onboarding ViewModels for 7-step flow
+        services.AddTransient<ViewModels.Onboarding.OnboardingSettingsViewModel>(serviceProvider =>
+        {
+            var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+            return new ViewModels.Onboarding.OnboardingSettingsViewModel(localizationService);
+        });
+        services.AddTransient<ViewModels.Onboarding.OnboardingNumberFormatViewModel>(serviceProvider =>
+        {
+            var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+            var logger = serviceProvider.GetRequiredService<ILogger<ViewModels.Onboarding.OnboardingNumberFormatViewModel>>();
+            return new ViewModels.Onboarding.OnboardingNumberFormatViewModel(localizationService, logger);
+        });
+
         // Component ViewModels
         services.AddTransient<ShareButtonViewModel>();
 
@@ -494,6 +508,10 @@ public static class ServiceRegistration
         services.AddTransient<Views.Onboarding.InteractivePracticeView>();
         services.AddTransient<Views.Onboarding.PackDownloadOnboardingView>();
         services.AddTransient<Views.Onboarding.PersonalizationView>();
+
+        // New onboarding Views for 7-step flow
+        services.AddTransient<Views.Onboarding.OnboardingSettingsView>();
+        services.AddTransient<Views.Onboarding.OnboardingNumberFormatView>();
         
         return services;
     }

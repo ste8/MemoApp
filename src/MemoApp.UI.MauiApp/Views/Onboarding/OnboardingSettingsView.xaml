@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels.Onboarding"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             x:Class="MemoApp.UI.MauiApp.Views.Onboarding.OnboardingSettingsView"
+             x:DataType="viewmodels:OnboardingSettingsViewModel">
+
+    <ScrollView Padding="30">
+        <VerticalStackLayout Spacing="20">
+
+            <!-- Header with Settings Icon -->
+            <VerticalStackLayout Spacing="20" Margin="0,20,0,20">
+                <Label Text="{StaticResource Icon_Settings}"
+                       FontFamily="{StaticResource IconFont_Solid}"
+                       FontSize="52"
+                       TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                       HorizontalOptions="Center" />
+
+                <Label Text="{localization:Localize OnboardingSettings_Title}"
+                       Style="{StaticResource Headline}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       FontSize="28"
+                       FontAttributes="Bold" />
+
+                <!-- Enhanced Description -->
+                <Label Text="{localization:Localize OnboardingSettings_Description}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       FontSize="17"
+                       Opacity="0.85"
+                       LineHeight="1.4"
+                       Margin="0,10,0,0" />
+            </VerticalStackLayout>
+
+            <!-- Call to Action -->
+            <VerticalStackLayout Spacing="20" Margin="0,0,0,20">
+                <Label Text="{localization:Localize OnboardingSettings_ReadyPrompt}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentView>

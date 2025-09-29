@@ -6,14 +6,15 @@ public partial class OnboardingNavigationPage : ContentPage
 {
     private readonly OnboardingNavigationViewModel _viewModel;
     private readonly List<View> _onboardingViews = new();
-    private readonly List<Border> _stepIndicators = new();
+    private readonly List<Border> _tutorialStepIndicators = new();
+    private readonly List<Border> _setupStepIndicators = new();
 
     public OnboardingNavigationPage(OnboardingNavigationViewModel viewModel)
     {
         InitializeComponent();
         BindingContext = viewModel;
         _viewModel = viewModel;
-        
+
         // Subscribe to position changes
         _viewModel.PropertyChanged += OnViewModelPropertyChanged;
     }
@@ -43,13 +44,17 @@ public partial class OnboardingNavigationPage : ContentPage
     {
         await _viewModel.InitializeAsync();
 
-        // Get all 5 step indicators
-        _stepIndicators.Clear();
-        _stepIndicators.Add(StepIndicator0);
-        _stepIndicators.Add(StepIndicator1);
-        _stepIndicators.Add(StepIndicator2);
-        _stepIndicators.Add(StepIndicator3);
-        _stepIndicators.Add(StepIndicator4);
+        // Get phase-based step indicators
+        _tutorialStepIndicators.Clear();
+        _tutorialStepIndicators.Add(TutorialStep0);
+        _tutorialStepIndicators.Add(TutorialStep1);
+        _tutorialStepIndicators.Add(TutorialStep2);
+        _tutorialStepIndicators.Add(TutorialStep3);
+
+        _setupStepIndicators.Clear();
+        _setupStepIndicators.Add(SetupStep0);
+        _setupStepIndicators.Add(SetupStep1);
+        _setupStepIndicators.Add(SetupStep2);
 
         // Store views from ViewModel
         _onboardingViews.Clear();
@@ -90,63 +95,81 @@ public partial class OnboardingNavigationPage : ContentPage
     private void UpdateIndicators()
     {
         // Ensure indicators are initialized before updating
-        if (_stepIndicators == null || _stepIndicators.Count == 0)
+        if (_tutorialStepIndicators.Count == 0 || _setupStepIndicators.Count == 0)
             return;
 
-        var primaryColor = (Color)Application.Current.Resources["Primary"];
-        var grayColor = (Color)(Application.Current.Resources.TryGetValue("Gray300", out var gray) ? gray : Colors.Gray);
-        var successColor = (Color)(Application.Current.Resources.TryGetValue("Green400", out var green) ? green : Colors.Green);
+        var primaryColor = GetColorResource("Primary", Colors.Blue);
+        var grayColor = GetColorResource("Gray300", Colors.Gray);
+        var successColor = GetColorResource("Success", Colors.Green);
 
-        // Linear mapping: CurrentPosition directly maps to step indicators (0-4)
-        var currentStep = _viewModel.CurrentPosition;
+        var currentPosition = _viewModel.CurrentPosition;
+        var isInTutorialPhase = OnboardingPhaseConfig.IsInTutorialPhase(currentPosition);
+        var isInSetupPhase = OnboardingPhaseConfig.IsInSetupPhase(currentPosition);
 
-        // Update step indicators with linear progression
-        for (int i = 0; i < _stepIndicators.Count; i++)
+        // Update Tutorial Phase Indicators (positions 0-3)
+        for (int i = 0; i < _tutorialStepIndicators.Count; i++)
         {
-            if (_stepIndicators[i] != null)
+            if (_tutorialStepIndicators[i] != null)
             {
-                if (i < currentStep)
+                if (isInTutorialPhase)
                 {
-                    // Completed steps - use success color
-                    _stepIndicators[i].BackgroundColor = successColor;
-                }
-                else if (i == currentStep)
-                {
-                    // Current step - use primary color
-                    _stepIndicators[i].BackgroundColor = primaryColor;
+                    // Currently in tutorial phase
+                    if (i < currentPosition)
+                    {
+                        _tutorialStepIndicators[i].BackgroundColor = successColor; // Completed
+                    }
+                    else if (i == currentPosition)
+                    {
+                        _tutorialStepIndicators[i].BackgroundColor = primaryColor; // Current
+                    }
+                    else
+                    {
+                        _tutorialStepIndicators[i].BackgroundColor = grayColor; // Future
+                    }
                 }
                 else
                 {
-                    // Future steps - use gray
-                    _stepIndicators[i].BackgroundColor = grayColor;
+                    // Tutorial phase completed - all green
+                    _tutorialStepIndicators[i].BackgroundColor = successColor;
                 }
             }
         }
 
-        // Update step label colors with same logic
-        var labelElements = new[] { StepLabel0, StepLabel1, StepLabel2, StepLabel3, StepLabel4 };
-
-        for (int i = 0; i < labelElements.Length; i++)
+        // Update Setup Phase Indicators (positions 4-6)
+        for (int i = 0; i < _setupStepIndicators.Count; i++)
         {
-            if (labelElements[i] != null)
+            if (_setupStepIndicators[i] != null)
             {
-                if (i < currentStep)
+                var setupPosition = i + OnboardingPhaseConfig.TUTORIAL_PHASE_STEP_COUNT; // Convert to absolute position
+
+                if (isInSetupPhase)
                 {
-                    // Completed steps
-                    labelElements[i].TextColor = successColor;
-                }
-                else if (i == currentStep)
-                {
-                    // Current step
-                    labelElements[i].TextColor = primaryColor;
+                    // Currently in setup phase
+                    if (setupPosition < currentPosition)
+                    {
+                        _setupStepIndicators[i].BackgroundColor = successColor; // Completed
+                    }
+                    else if (setupPosition == currentPosition)
+                    {
+                        _setupStepIndicators[i].BackgroundColor = primaryColor; // Current
+                    }
+                    else
+                    {
+                        _setupStepIndicators[i].BackgroundColor = grayColor; // Future
+                    }
                 }
                 else
                 {
-                    // Future steps
-                    labelElements[i].TextColor = grayColor;
+                    // Still in tutorial phase - all gray
+                    _setupStepIndicators[i].BackgroundColor = grayColor;
                 }
             }
         }
+    }
+
+    private Color GetColorResource(string key, Color fallback)
+    {
+        return Application.Current.Resources.TryGetValue(key, out var color) && color is Color c ? c : fallback;
     }
 
     protected override void OnDisappearing()
