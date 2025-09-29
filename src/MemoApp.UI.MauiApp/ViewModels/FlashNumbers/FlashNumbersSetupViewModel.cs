@@ -5,6 +5,8 @@ using MemoApp.Core.MajorSystem;
 using MemoApp.Core.FlashNumbers;
 using MemoApp.Localization.Services;
 using MemoApp.UI.MauiApp.Services;
+using MemoApp.UI.MauiApp.Services.Freemium;
+using MemoApp.UI.MauiApp.Constants;
 using MemoApp.UI.MauiApp.Utilities;
 using Microsoft.Extensions.Logging;
 using System.Globalization;
@@ -21,17 +23,20 @@ public partial class FlashNumbersSetupViewModel : BaseViewModel
     private readonly IUserNotificationService _userNotificationService;
     private readonly IFlashNumbersSettingsService _settingsService;
     private readonly ILogger<FlashNumbersSetupViewModel> _logger;
+    private readonly IInterstitialAdManager? _interstitialAdManager;
 
     public FlashNumbersSetupViewModel(
         ILocalizationService localizationService,
         IUserNotificationService userNotificationService,
         IFlashNumbersSettingsService settingsService,
-        ILogger<FlashNumbersSetupViewModel> logger)
+        ILogger<FlashNumbersSetupViewModel> logger,
+        IInterstitialAdManager? interstitialAdManager = null)
     {
         _localizationService = localizationService;
         _userNotificationService = userNotificationService;
         _settingsService = settingsService;
         _logger = logger;
+        _interstitialAdManager = interstitialAdManager;
         
         _logger.LogInformation("FlashNumbersSetupViewModel constructor called");
         
@@ -109,8 +114,15 @@ public partial class FlashNumbersSetupViewModel : BaseViewModel
     [RelayCommand]
     private async Task StartQuickTraining()
     {
+        // Prepare and show interstitial ad before starting exercise
+        if (_interstitialAdManager != null)
+        {
+            await _interstitialAdManager.PrepareAdForExerciseAsync(ExerciseTypes.FlashNumbers);
+            await _interstitialAdManager.ShowAdIfNeededAsync(ExerciseTypes.FlashNumbers);
+        }
+
         var numberFormat = _localizationService.CurrentNumberFormat;
-        
+
         var parameters = new Dictionary<string, object>
         {
             // In padded mode, use "00-09" (zero-prefixed numbers only)
@@ -118,7 +130,7 @@ public partial class FlashNumbersSetupViewModel : BaseViewModel
             { "rangeStart", numberFormat == NumberFormat.Padded ? "00" : "0" },
             { "rangeEnd", numberFormat == NumberFormat.Padded ? "09" : "9" }
         };
-        
+
         try
         {
             await Shell.Current.GoToAsync("flashnumbers", parameters);
@@ -136,12 +148,19 @@ public partial class FlashNumbersSetupViewModel : BaseViewModel
     {
         if (IsRangeValid())
         {
+            // Prepare and show interstitial ad before starting exercise
+            if (_interstitialAdManager != null)
+            {
+                await _interstitialAdManager.PrepareAdForExerciseAsync(ExerciseTypes.FlashNumbers);
+                await _interstitialAdManager.ShowAdIfNeededAsync(ExerciseTypes.FlashNumbers);
+            }
+
             var parameters = new Dictionary<string, object>
             {
                 { "rangeStart", CustomRangeStart },
                 { "rangeEnd", CustomRangeEnd }
             };
-            
+
             await Shell.Current.GoToAsync("flashnumbers", parameters);
         }
         else
@@ -154,12 +173,19 @@ public partial class FlashNumbersSetupViewModel : BaseViewModel
     [RelayCommand]
     private async Task StartPresetTraining(TrainingOption option)
     {
+        // Prepare and show interstitial ad before starting exercise
+        if (_interstitialAdManager != null)
+        {
+            await _interstitialAdManager.PrepareAdForExerciseAsync(ExerciseTypes.FlashNumbers);
+            await _interstitialAdManager.ShowAdIfNeededAsync(ExerciseTypes.FlashNumbers);
+        }
+
         var parameters = new Dictionary<string, object>
         {
             { "rangeStart", option.RangeStart },
             { "rangeEnd", option.RangeEnd }
         };
-        
+
         try
         {
             await Shell.Current.GoToAsync("flashnumbers", parameters);

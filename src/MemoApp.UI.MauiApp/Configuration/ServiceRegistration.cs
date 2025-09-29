@@ -280,7 +280,8 @@ public static class ServiceRegistration
             var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
             var settingsService = serviceProvider.GetRequiredService<IFlashNumbersSettingsService>();
             var logger = serviceProvider.GetRequiredService<ILogger<FlashNumbersSetupViewModel>>();
-            return new FlashNumbersSetupViewModel(localizationService, userNotificationService, settingsService, logger);
+            var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>();
+            return new FlashNumbersSetupViewModel(localizationService, userNotificationService, settingsService, logger, interstitialAdManager);
         });
         
         // Transient ViewModels (new instance per navigation)

@@ -260,12 +260,6 @@ public partial class FlashNumbersViewModel : BaseViewModel
             IsBusy = true;
             Title = _localizationService.GetString("FlashNumbers_Title");
 
-            // Prepare interstitial ad for potential showing
-            if (_interstitialAdManager != null)
-            {
-                await _interstitialAdManager.PrepareAdForExerciseAsync(ExerciseTypes.FlashNumbers);
-            }
-
             _gameSession = new GameSession(RangeStart, RangeEnd);
             TotalNumbers = _gameSession.TotalNumbers;
 
@@ -302,12 +296,6 @@ public partial class FlashNumbersViewModel : BaseViewModel
     private async void StartSession()
     {
         if (_gameSession == null) return;
-
-        // Show interstitial ad if needed (before starting exercise)
-        if (_interstitialAdManager != null)
-        {
-            await _interstitialAdManager.ShowAdIfNeededAsync(ExerciseTypes.FlashNumbers);
-        }
 
         // Track session start analytics
         _sessionStartTime = DateTime.UtcNow;
