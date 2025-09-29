@@ -36,6 +36,12 @@
             <converters:BoolToStringConverter x:Key="BoolToStringConverter" />
             <converters:FeedbackTypeConverter x:Key="FeedbackTypeConverter" />
             <converters:EqualsConverter x:Key="EqualsConverter" />
+
+            <!-- Selection State Converters for Mobile UI -->
+            <converters:BoolToPrimaryOrGrayConverter x:Key="BoolToPrimaryOrGrayConverter" />
+            <converters:BoolToPrimaryDarkOrGrayConverter x:Key="BoolToPrimaryDarkOrGrayConverter" />
+            <converters:BoolToPrimaryOrRecommendedConverter x:Key="BoolToPrimaryOrRecommendedConverter" />
+            <converters:BoolToPrimaryDarkOrRecommendedDarkConverter x:Key="BoolToPrimaryDarkOrRecommendedDarkConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

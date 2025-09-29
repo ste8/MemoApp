@@ -748,6 +748,22 @@
     <value>Stesse associazioni:</value>
     <comment>Label showing that numbers have the same memory associations</comment>
   </data>
+  <data name="OnboardingNumberFormat_PaddedAccessibilityName" xml:space="preserve">
+    <value>Formato zero conta, opzione consigliata</value>
+    <comment>Accessibility name for padded number format selection</comment>
+  </data>
+  <data name="OnboardingNumberFormat_PaddedAccessibilityDescription" xml:space="preserve">
+    <value>I numeri 0-9 hanno associazioni di memoria diverse da 00-09. Questo è il formato raccomandato per un migliore allenamento della memoria.</value>
+    <comment>Accessibility description for padded number format selection</comment>
+  </data>
+  <data name="OnboardingNumberFormat_NaturalAccessibilityName" xml:space="preserve">
+    <value>Formato zero non conta</value>
+    <comment>Accessibility name for natural number format selection</comment>
+  </data>
+  <data name="OnboardingNumberFormat_NaturalAccessibilityDescription" xml:space="preserve">
+    <value>I numeri 0-9 usano le stesse associazioni di memoria di 00-09. Più semplice ma meno completo per l'allenamento.</value>
+    <comment>Accessibility description for natural number format selection</comment>
+  </data>
 
   <!-- Updated Onboarding Step Labels for 7-step flow -->
   <data name="Onboarding_Step_Settings" xml:space="preserve">

@@ -37,67 +37,58 @@
                 <!-- Padded Format Option (Recommended) -->
                 <Frame x:Name="PaddedFormatFrame"
                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
-                       BorderColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                       BorderColor="{Binding IsPaddedFormatSelected, Converter={StaticResource BoolToPrimaryOrGrayConverter}}"
                        CornerRadius="15"
                        Padding="20"
-                       HasShadow="True">
+                       HasShadow="False"
+                       AutomationProperties.IsInAccessibleTree="True"
+                       AutomationProperties.Name="{localization:Localize OnboardingNumberFormat_PaddedAccessibilityName}"
+                       AutomationProperties.HelpText="{localization:Localize OnboardingNumberFormat_PaddedAccessibilityDescription}">
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SelectPaddedFormatCommand}" />
                     </Frame.GestureRecognizers>
+
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup Name="CommonStates">
+                            <VisualState Name="Normal" />
+                            <VisualState Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="Opacity" Value="0.9" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="0.98" />
+                                    <Setter Property="Opacity" Value="0.8" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
 
                     <Grid RowDefinitions="Auto,Auto,Auto"
                           ColumnDefinitions="*,Auto"
                           RowSpacing="10">
 
-                        <!-- Recommended Badge -->
-                        <Border Grid.Row="0" Grid.ColumnSpan="2"
-                                BackgroundColor="{StaticResource Success}"
-                                Padding="8,4"
-                                HorizontalOptions="Start"
-                                StrokeShape="RoundRectangle 12">
-                            <Label Text="{localization:Localize OnboardingNumberFormat_RecommendedBadge}"
-                                   FontSize="12"
-                                   FontAttributes="Bold"
-                                   TextColor="White" />
-                        </Border>
-
-                        <!-- Title and Examples -->
-                        <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="8">
+                        <!-- Title with Inline Badge -->
+                        <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="8" VerticalOptions="Center">
                             <Label Text="{localization:Localize OnboardingNumberFormat_PaddedTitle}"
                                    FontSize="18"
-                                   FontAttributes="Bold" />
-
-                            <!-- Behavioral Examples -->
-                            <VerticalStackLayout Spacing="8">
-                                <Label Text="{localization:Localize OnboardingNumberFormat_DifferentAssociations}" FontSize="12" Opacity="0.7" />
-                                <HorizontalStackLayout Spacing="24">
-                                    <!-- Comparison pair 1: 01 ≠ 1 -->
-                                    <HorizontalStackLayout Spacing="6">
-                                        <Border BackgroundColor="{StaticResource Primary}" Padding="8,6" StrokeShape="RoundRectangle 6">
-                                            <Label Text="01" TextColor="White" FontSize="14" FontAttributes="Bold" />
-                                        </Border>
-                                        <Label Text="≠" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
-                                        <Border BackgroundColor="{StaticResource Primary}" Padding="8,6" StrokeShape="RoundRectangle 6">
-                                            <Label Text="1" TextColor="White" FontSize="14" FontAttributes="Bold" />
-                                        </Border>
-                                    </HorizontalStackLayout>
-
-                                    <!-- Comparison pair 2: 05 ≠ 5 -->
-                                    <HorizontalStackLayout Spacing="6">
-                                        <Border BackgroundColor="{StaticResource Primary}" Padding="8,6" StrokeShape="RoundRectangle 6">
-                                            <Label Text="05" TextColor="White" FontSize="14" FontAttributes="Bold" />
-                                        </Border>
-                                        <Label Text="≠" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
-                                        <Border BackgroundColor="{StaticResource Primary}" Padding="8,6" StrokeShape="RoundRectangle 6">
-                                            <Label Text="5" TextColor="White" FontSize="14" FontAttributes="Bold" />
-                                        </Border>
-                                    </HorizontalStackLayout>
-                                </HorizontalStackLayout>
-                            </VerticalStackLayout>
-                        </VerticalStackLayout>
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center" />
+                            <Border BackgroundColor="{StaticResource Success}"
+                                    Padding="6,2"
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="Center"
+                                    StrokeShape="RoundRectangle 8">
+                                <Label Text="{localization:Localize OnboardingNumberFormat_RecommendedBadge}"
+                                       FontSize="11"
+                                       FontAttributes="Bold"
+                                       TextColor="White" />
+                            </Border>
+                        </HorizontalStackLayout>
 
                         <!-- Selection Indicator -->
-                        <Border Grid.Row="1" Grid.Column="1"
+                        <Border Grid.Row="0" Grid.Column="1"
                                 BackgroundColor="{StaticResource Primary}"
                                 WidthRequest="24"
                                 HeightRequest="24"
@@ -112,6 +103,34 @@
                                    VerticalOptions="Center" />
                         </Border>
 
+                        <!-- Behavioral Examples -->
+                        <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="8">
+                            <Label Text="{localization:Localize OnboardingNumberFormat_DifferentAssociations}" FontSize="12" Opacity="0.7" />
+                            <HorizontalStackLayout Spacing="24">
+                                <!-- Comparison pair 1: 01 ≠ 1 -->
+                                <HorizontalStackLayout Spacing="6">
+                                    <Border BackgroundColor="{StaticResource Primary}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                        <Label Text="01" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                    </Border>
+                                    <Label Text="≠" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
+                                    <Border BackgroundColor="{StaticResource Primary}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                        <Label Text="1" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                    </Border>
+                                </HorizontalStackLayout>
+
+                                <!-- Comparison pair 2: 05 ≠ 5 -->
+                                <HorizontalStackLayout Spacing="6">
+                                    <Border BackgroundColor="{StaticResource Primary}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                        <Label Text="05" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                    </Border>
+                                    <Label Text="≠" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
+                                    <Border BackgroundColor="{StaticResource Primary}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                        <Label Text="5" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                    </Border>
+                                </HorizontalStackLayout>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+
                         <!-- Description -->
                         <Label Grid.Row="2" Grid.ColumnSpan="2"
                                Text="{localization:Localize OnboardingNumberFormat_PaddedDescription}"
@@ -123,51 +142,44 @@
                 <!-- Natural Format Option -->
                 <Frame x:Name="NaturalFormatFrame"
                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
-                       BorderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                       BorderColor="{Binding IsNaturalFormatSelected, Converter={StaticResource BoolToPrimaryOrGrayConverter}}"
                        CornerRadius="15"
-                       Padding="20">
+                       Padding="20"
+                       HasShadow="False"
+                       AutomationProperties.IsInAccessibleTree="True"
+                       AutomationProperties.Name="{localization:Localize OnboardingNumberFormat_NaturalAccessibilityName}"
+                       AutomationProperties.HelpText="{localization:Localize OnboardingNumberFormat_NaturalAccessibilityDescription}">
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SelectNaturalFormatCommand}" />
                     </Frame.GestureRecognizers>
 
-                    <Grid RowDefinitions="Auto,Auto"
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup Name="CommonStates">
+                            <VisualState Name="Normal" />
+                            <VisualState Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="Opacity" Value="0.9" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="Scale" Value="0.98" />
+                                    <Setter Property="Opacity" Value="0.8" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+
+                    <Grid RowDefinitions="Auto,Auto,Auto"
                           ColumnDefinitions="*,Auto"
                           RowSpacing="10">
 
-                        <!-- Title and Examples -->
-                        <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="8">
-                            <Label Text="{localization:Localize OnboardingNumberFormat_NaturalTitle}"
-                                   FontSize="18"
-                                   FontAttributes="Bold" />
-
-                            <!-- Behavioral Examples -->
-                            <VerticalStackLayout Spacing="8">
-                                <Label Text="{localization:Localize OnboardingNumberFormat_SameAssociations}" FontSize="12" Opacity="0.7" />
-                                <HorizontalStackLayout Spacing="24">
-                                    <!-- Comparison pair 1: 01 = 1 -->
-                                    <HorizontalStackLayout Spacing="6">
-                                        <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" Padding="8,6" StrokeShape="RoundRectangle 6">
-                                            <Label Text="01" TextColor="White" FontSize="14" FontAttributes="Bold" />
-                                        </Border>
-                                        <Label Text="=" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
-                                        <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" Padding="8,6" StrokeShape="RoundRectangle 6">
-                                            <Label Text="1" TextColor="White" FontSize="14" FontAttributes="Bold" />
-                                        </Border>
-                                    </HorizontalStackLayout>
-
-                                    <!-- Comparison pair 2: 05 = 5 -->
-                                    <HorizontalStackLayout Spacing="6">
-                                        <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" Padding="8,6" StrokeShape="RoundRectangle 6">
-                                            <Label Text="05" TextColor="White" FontSize="14" FontAttributes="Bold" />
-                                        </Border>
-                                        <Label Text="=" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
-                                        <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" Padding="8,6" StrokeShape="RoundRectangle 6">
-                                            <Label Text="5" TextColor="White" FontSize="14" FontAttributes="Bold" />
-                                        </Border>
-                                    </HorizontalStackLayout>
-                                </HorizontalStackLayout>
-                            </VerticalStackLayout>
-                        </VerticalStackLayout>
+                        <!-- Title Only -->
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="{localization:Localize OnboardingNumberFormat_NaturalTitle}"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center" />
 
                         <!-- Selection Indicator -->
                         <Border Grid.Row="0" Grid.Column="1"
@@ -185,8 +197,36 @@
                                    VerticalOptions="Center" />
                         </Border>
 
+                        <!-- Behavioral Examples -->
+                        <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="8">
+                            <Label Text="{localization:Localize OnboardingNumberFormat_SameAssociations}" FontSize="12" Opacity="0.7" />
+                            <HorizontalStackLayout Spacing="24">
+                                <!-- Comparison pair 1: 01 = 1 -->
+                                <HorizontalStackLayout Spacing="6">
+                                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                        <Label Text="01" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                    </Border>
+                                    <Label Text="=" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
+                                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                        <Label Text="1" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                    </Border>
+                                </HorizontalStackLayout>
+
+                                <!-- Comparison pair 2: 05 = 5 -->
+                                <HorizontalStackLayout Spacing="6">
+                                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                        <Label Text="05" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                    </Border>
+                                    <Label Text="=" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
+                                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" Padding="8,6" StrokeShape="RoundRectangle 6">
+                                        <Label Text="5" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                    </Border>
+                                </HorizontalStackLayout>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+
                         <!-- Description -->
-                        <Label Grid.Row="1" Grid.ColumnSpan="2"
+                        <Label Grid.Row="2" Grid.ColumnSpan="2"
                                Text="{localization:Localize OnboardingNumberFormat_NaturalDescription}"
                                FontSize="14"
                                Opacity="0.8" />
