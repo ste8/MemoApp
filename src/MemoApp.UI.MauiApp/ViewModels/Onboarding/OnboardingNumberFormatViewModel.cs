@@ -8,6 +8,7 @@ namespace MemoApp.UI.MauiApp.ViewModels.Onboarding;
 
 public partial class OnboardingNumberFormatViewModel : BaseViewModel
 {
+    private readonly ILocalizationService _localizationService;
     private readonly ILogger<OnboardingNumberFormatViewModel> _logger;
 
     [ObservableProperty]
@@ -20,8 +21,28 @@ public partial class OnboardingNumberFormatViewModel : BaseViewModel
         ILocalizationService localizationService,
         ILogger<OnboardingNumberFormatViewModel> logger)
     {
+        _localizationService = localizationService;
         _logger = logger;
         Title = localizationService.GetString("OnboardingNumberFormat_Title");
+
+        // Initialize with current number format preference (if any)
+        InitializeCurrentSelection();
+    }
+
+    private void InitializeCurrentSelection()
+    {
+        try
+        {
+            var currentFormat = _localizationService.CurrentNumberFormat;
+            IsPaddedFormatSelected = currentFormat == NumberFormat.Padded;
+            IsNaturalFormatSelected = currentFormat == NumberFormat.Natural;
+            _logger.LogInformation("Initialized number format selection with current preference: {Format}", currentFormat);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to initialize number format selection, using defaults");
+            // Keep defaults: Padded = true, Natural = false
+        }
     }
 
     [RelayCommand]
@@ -46,12 +67,13 @@ public partial class OnboardingNumberFormatViewModel : BaseViewModel
         SaveNumberFormatPreference(NumberFormat.Natural);
     }
 
-    private void SaveNumberFormatPreference(NumberFormat format)
+    private async void SaveNumberFormatPreference(NumberFormat format)
     {
         try
         {
-            // Save to preferences
-            Preferences.Set("NumberFormat", format.ToString());
+            // Save through localization service to ensure consistency with settings
+            _localizationService.SetNumberFormat(format);
+            await _localizationService.SaveNumberFormatPreferenceAsync();
             _logger.LogInformation("Number format preference saved: {Format}", format);
         }
         catch (Exception ex)
