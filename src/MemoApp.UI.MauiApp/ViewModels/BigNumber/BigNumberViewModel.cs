@@ -682,7 +682,10 @@ public partial class BigNumberViewModel : BaseViewModel
         // Track analytics for exercise start
         _exerciseStartTime = DateTime.UtcNow;
         _memorizationStartTime = _exerciseStartTime;
-        
+
+        // Increment started exercise count for ad frequency tracking when user starts training
+        await _exerciseCountService.IncrementExerciseStartedCountAsync(ExerciseTypes.BigNumber);
+
         await _analyticsService.TrackEventAsync(AnalyticsEvents.BigNumberStarted, new Dictionary<string, object>
         {
             [AnalyticsParameters.DifficultyDigits] = NumberOfDigits,
@@ -824,8 +827,8 @@ public partial class BigNumberViewModel : BaseViewModel
                 await _interstitialAdManager.ShowAdIfNeededAsync(ExerciseTypes.BigNumber);
             }
             
-            // Increment exercise count for ad frequency tracking
-            await _exerciseCountService.IncrementExerciseCountAsync(ExerciseTypes.BigNumber);
+            // Increment completed exercise count for comprehensive analytics tracking
+            await _exerciseCountService.IncrementExerciseCompletedCountAsync(ExerciseTypes.BigNumber);
         }
         
         _timer?.Stop();

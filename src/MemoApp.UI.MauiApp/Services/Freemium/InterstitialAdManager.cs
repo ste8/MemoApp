@@ -42,11 +42,11 @@ public class InterstitialAdManager : IInterstitialAdManager
     {
         try
         {
-            // Check total exercise count across all exercise types
-            var totalCount = await _exerciseCountService.GetTotalExerciseCountAsync();
-            
+            // Check total started exercise count across all exercise types (for ad frequency based on usage, not completions)
+            var totalStartedCount = await _exerciseCountService.GetTotalExerciseStartedCountAsync();
+
             // Show ad every 5 sessions
-            return totalCount > 0 && totalCount % AdFrequency == 0;
+            return totalStartedCount > 0 && totalStartedCount % AdFrequency == 0;
         }
         catch (Exception ex)
         {
