@@ -123,14 +123,28 @@
   <data name="MainPage_StartCustomTraining" xml:space="preserve">
     <value>Inizia Flash Numbers Personalizzato</value>
     <comment>Custom Flash Numbers button</comment>
-  </data>  <data name="MainPage_CustomFlashNumbers" xml:space="preserve">
+  </data>
+  <data name="MainPage_QuickFlashNumbers" xml:space="preserve">
+    <value>Flash Numbers Veloce</value>
+    <comment>Quick Flash Numbers exercise button</comment>
+  </data>
+  <data name="MainPage_CustomFlashNumbers" xml:space="preserve">
     <value>Flash Numbers Personalizzato</value>
     <comment>Custom Flash Numbers exercise button</comment>
   </data>
   <data name="MainPage_PresetTraining" xml:space="preserve">
     <value>Allenamenti Predefiniti</value>
     <comment>Preset training section title</comment>
-  </data>  <data name="MainPage_WelcomeSubtitle" xml:space="preserve">
+  </data>
+  <data name="MainPage_Welcome" xml:space="preserve">
+    <value>Benvenuto in MemoRaise</value>
+    <comment>Main page welcome title</comment>
+  </data>
+  <data name="MainPage_WelcomeTitle" xml:space="preserve">
+    <value>Benvenuto in MemoRaise</value>
+    <comment>Main page welcome title for ViewModel binding</comment>
+  </data>
+  <data name="MainPage_WelcomeSubtitle" xml:space="preserve">
     <value>Padroneggia il Conversione fonetica e migliora le tue abilità di memoria</value>
     <comment>Main page welcome subtitle</comment>
   </data>
@@ -153,10 +167,20 @@
   <data name="MainPage_LearnMajorSystem" xml:space="preserve">
     <value>Impara la Conversione fonetica</value>
     <comment>Learn Major System button text</comment>
-  </data>  <data name="MainPage_MajorSystemDescription" xml:space="preserve">
+  </data>
+  <data name="MainPage_MajorSystemTitle" xml:space="preserve">
+    <value>Padroneggia le Fondamenta</value>
+    <comment>Major System learning card title</comment>
+  </data>
+  <data name="MainPage_MajorSystemDescription" xml:space="preserve">
     <value>Impara la tecnica della Conversione fonetica che alimenta tutti gli esercizi di memoria. Trasforma i numeri in immagini memorabili con questo metodo collaudato.</value>
     <comment>Major System learning card description</comment>
-  </data>  
+  </data>
+  <data name="MainPage_ViewGuide" xml:space="preserve">
+    <value>Visualizza Guida</value>
+    <comment>View guide button text</comment>
+  </data>
+  
   <!-- Training Options -->
   <data name="TrainingOption_Beginner" xml:space="preserve">
     <value>Principiante</value>
@@ -211,7 +235,25 @@
   <data name="FlashNumbers_Title" xml:space="preserve">
     <value>Flash Numbers</value>
     <comment>Flash Numbers exercise page title</comment>
-  </data>  
+  </data>
+  <data name="FlashNumbers_RangeAccessibility" xml:space="preserve">
+    <value>Attualmente praticando intervallo {0}</value>
+    <comment>Accessibility description for range display during training, {0} is the range like "00-09"</comment>
+  </data>  <data name="FlashNumbers_CurrentNumber" xml:space="preserve">
+    <value>Numero Corrente</value>
+    <comment>Flash Numbers current number display title</comment>
+  </data>  <data name="FlashNumbers_AchievementCelebration" xml:space="preserve">
+    <value>Ottimo lavoro! Pronto per la prossima sfida?</value>
+    <comment>Motivational text shown after completing Flash Numbers session</comment>
+  </data>  <data name="Statistics_NumbersToPracticeMore" xml:space="preserve">
+    <value>Numeri da Praticare di Più</value>
+    <comment>Numbers to practice more section title</comment>
+  </data>
+  <data name="Statistics_AllNumbers" xml:space="preserve">
+    <value>Tutti i Numeri</value>
+    <comment>All numbers section title</comment>
+  </data>
+  
   <!-- Help Page -->
   <data name="Help_Title" xml:space="preserve">
     <value>Guida Conversione fonetica</value>
@@ -233,6 +275,11 @@
     <value>a</value>
     <comment>Range separator</comment>
   </data>
+  <data name="Common_Or" xml:space="preserve">
+    <value>OPPURE</value>
+    <comment>Option separator for different choices</comment>
+  </data>
+
   <!-- Help Page -->
   <data name="Help_IntroNote" xml:space="preserve">
     <value>ℹ️ Esistono molte tecniche di memoria disponibili per migliorare il richiamo e la memorizzazione. Questa guida si concentra sulla Conversione fonetica, uno dei metodi più efficaci e ampiamente utilizzati per memorizzare i numeri.</value>
@@ -245,14 +292,32 @@
   <data name="Help_WhatIsDescription" xml:space="preserve">
     <value>Il Conversione fonetica è una potente tecnica mnemonica che converte i numeri in parole o immagini memorabili associando ogni cifra (0-9) a specifici suoni consonantici. Questo rende molto più facile ricordare lunghe sequenze di numeri trasformandole in storie vivide e memorabili.</value>
     <comment>Help page - what is section description</comment>
-  </data>  <data name="Help_DigitMappingsTitle" xml:space="preserve">
+  </data>
+  <data name="Help_TryQuickTraining" xml:space="preserve">
+    <value>Prova Flash Numbers Veloce</value>
+    <comment>Help page - try Flash Numbers button</comment>
+  </data>
+  <data name="Help_DigitMappingsTitle" xml:space="preserve">
     <value>🔢 Mappatura Cifre-Suoni</value>
     <comment>Help page - digit mappings section title</comment>
   </data>
   <data name="Help_DigitMappingsDesc" xml:space="preserve">
     <value>Ogni cifra corrisponde a specifici suoni consonantici:</value>
     <comment>Help page - digit mappings description</comment>
-  </data>  <data name="Help_Rule_Vowels" xml:space="preserve">
+  </data>
+  <data name="Help_ExampleWordsTitle" xml:space="preserve">
+    <value>💡 Parole di Esempio</value>
+    <comment>Help page - example words section title</comment>
+  </data>
+  <data name="Help_ExampleWordsDesc" xml:space="preserve">
+    <value>Ecco alcuni esempi di come i numeri diventano parole:</value>
+    <comment>Help page - example words description</comment>
+  </data>
+  <data name="Help_RulesTitle" xml:space="preserve">
+    <value>📝 Regole Importanti &amp; Consigli</value>
+    <comment>Help page - rules section title</comment>
+  </data>
+  <data name="Help_Rule_Vowels" xml:space="preserve">
     <value>Le vocali (A, E, I, O, U) non contano - usale liberamente</value>
     <comment>Major System rule about vowels</comment>
   </data>
@@ -289,7 +354,29 @@
   <data name="FlashNumbers_ThinkInstruction" xml:space="preserve">
     <value>Pensa alla tua associazione parola/immagine</value>
     <comment>Flash Numbers instruction</comment>
-  </data>  <data name="Statistics_ResponseDistribution" xml:space="preserve">
+  </data>
+  <data name="FlashNumbers_RevealHint" xml:space="preserve">
+    <value>👁️ Tocca l'icona dell'occhio sopra per rivelare l'associazione</value>
+    <comment>Suggerimento per gli utenti per scoprire la funzione di rivelazione dell'associazione</comment>
+  </data>
+  <data name="FlashNumbers_DoubleTapHint" xml:space="preserve">
+    <value>👁️ Tocca due volte il numero per rivelare l'associazione</value>
+    <comment>Suggerimento per utenti mobili sul gesto double-tap</comment>
+  </data>  <data name="FlashNumbers_HelpTip" xml:space="preserve">
+    <value>💡 Prenditi il tempo per ricordare la tua parola o immagine del Conversione fonetica per questo numero, poi tocca 'Numero Successivo' per continuare. Premi 'N' per l'accesso rapido.</value>
+    <comment>Flash Numbers help tip</comment>
+  </data>  <data name="TrainingSession_Celebration" xml:space="preserve">
+    <value>🎉</value>
+    <comment>Celebration emoji</comment>
+  </data>  <data name="Statistics_TotalDuration" xml:space="preserve">
+    <value>Durata Totale</value>
+    <comment>Statistics total duration label</comment>
+  </data>
+  <data name="Statistics_AverageTime" xml:space="preserve">
+    <value>Tempo Medio</value>
+    <comment>Statistics average time label</comment>
+  </data>
+  <data name="Statistics_ResponseDistribution" xml:space="preserve">
     <value>Distribuzione Tempi</value>
     <comment>Response time distribution section title</comment>
   </data>
@@ -304,15 +391,46 @@
   <data name="Statistics_SlowLabel" xml:space="preserve">
     <value>Lento</value>
     <comment>Slow response time category label</comment>
-  </data>  <data name="Statistics_NumbersToPracticeMoreIcon" xml:space="preserve">
+  </data>
+  <data name="Statistics_FastThreshold" xml:space="preserve">
+    <value>(&lt; 1,5s)</value>
+    <comment>Fast response threshold indicator</comment>
+  </data>
+  <data name="Statistics_MediumThreshold" xml:space="preserve">
+    <value>(1,5-4,0s)</value>
+    <comment>Medium response threshold indicator</comment>
+  </data>
+  <data name="Statistics_SlowThreshold" xml:space="preserve">
+    <value>(&gt; 4,0s)</value>
+    <comment>Slow response threshold indicator</comment>
+  </data>
+  <data name="Statistics_Consistency" xml:space="preserve">
+    <value>Consistenza</value>
+    <comment>Consistency score label</comment>
+  </data>
+  <data name="Statistics_ViewDetails" xml:space="preserve">
+    <value>Vedi Dettagli</value>
+    <comment>Button text for viewing detailed statistics</comment>
+  </data>
+  <data name="Statistics_NumbersToPracticeMoreIcon" xml:space="preserve">
     <value>📚 Numeri da Praticare di Più</value>
     <comment>Statistics numbers to practice section title</comment>
   </data>
   <data name="Statistics_AllNumbersTitle" xml:space="preserve">
     <value>📊 Tutti i Numeri</value>
     <comment>Statistics all numbers section title</comment>
-  </data>  
-  <!-- Common buttons -->  <data name="Common_Back" xml:space="preserve">
+  </data>
+  <data name="Statistics_Back" xml:space="preserve">
+    <value>Indietro</value>
+    <comment>Back button</comment>
+  </data>
+  
+  <!-- Common buttons -->
+  <data name="Common_NewSession" xml:space="preserve">
+    <value>Nuova Sessione</value>
+    <comment>New session button</comment>
+  </data>
+  <data name="Common_Back" xml:space="preserve">
     <value>Indietro</value>
     <comment>Back navigation button</comment>
   </data>
@@ -329,14 +447,28 @@
   <data name="Language_Italian" xml:space="preserve">
     <value>Italiano</value>
     <comment>Italian language option</comment>
-  </data>  <data name="Common_Cancel" xml:space="preserve">
+  </data>
+  <data name="Language_SelectPrompt" xml:space="preserve">
+    <value>Seleziona Lingua</value>
+    <comment>Language selection prompt</comment>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
     <value>Annulla</value>
     <comment>Cancel button text</comment>
   </data>
   <data name="Common_NewGame" xml:space="preserve">
     <value>Nuova Partita</value>
     <comment>New game button text for starting a fresh game</comment>
-  </data>  <data name="Accessibility_EndNumberPickerHelp" xml:space="preserve">
+  </data>
+  <data name="FlashNumbers_KeyboardShortcutHint" xml:space="preserve">
+    <value>Premi Spazio o N per andare al numero successivo</value>
+    <comment>Flash Numbers keyboard shortcut hint for Next button</comment>
+  </data>  
+  <!-- Accessibility Labels -->  <data name="Accessibility_EndNumberPicker" xml:space="preserve">
+    <value>Selettore numero finale</value>
+    <comment>Accessibility label for end number picker</comment>
+  </data>
+  <data name="Accessibility_EndNumberPickerHelp" xml:space="preserve">
     <value>Seleziona il numero finale per l'intervallo di addestramento personalizzato</value>
     <comment>Accessibility help text for end number picker</comment>
   </data>  
@@ -364,7 +496,25 @@
   <data name="OnboardingSettings_Description" xml:space="preserve">
     <value>Prima di iniziare, personalizziamo MemoRaise per il tuo stile di apprendimento. Ci vorrà solo un momento.</value>
     <comment>Description explaining why settings are important</comment>
-  </data>  <!-- Onboarding: Number Format Selection -->
+  </data>
+  <data name="OnboardingSettings_WhatWellConfigure" xml:space="preserve">
+    <value>Cosa configureremo:</value>
+    <comment>Header for the list of settings to be configured</comment>
+  </data>
+  <data name="OnboardingSettings_NumberFormatBenefit" xml:space="preserve">
+    <value>Formato numeri - influenza i numeri con cui ti allenerai</value>
+    <comment>Explanation of number format setting benefit</comment>
+  </data>
+  <data name="OnboardingSettings_ContentBenefit" xml:space="preserve">
+    <value>Contenuti di apprendimento - scarica pacchetti di immagini per l'allenamento</value>
+    <comment>Explanation of content download benefit</comment>
+  </data>
+  <data name="OnboardingSettings_ReadyPrompt" xml:space="preserve">
+    <value>Procediamo?</value>
+    <comment>Call to action to proceed with configuration</comment>
+  </data>
+
+  <!-- Onboarding: Number Format Selection -->
   <data name="OnboardingNumberFormat_Title" xml:space="preserve">
     <value>Scegli il Formato dei Numeri</value>
     <comment>Title for number format selection in onboarding</comment>
@@ -422,18 +572,49 @@
     <comment>Accessibility description for natural number format selection</comment>
   </data>
 
-  <!-- Updated Onboarding Step Labels for 7-step flow -->  <!-- Number Format Selection -->
+  <!-- Updated Onboarding Step Labels for 7-step flow -->
+  <data name="Onboarding_Step_Settings" xml:space="preserve">
+    <value>Impostazioni</value>
+    <comment>Step label for the settings configuration step</comment>
+  </data>
+  <data name="Onboarding_Step_Format" xml:space="preserve">
+    <value>Formato</value>
+    <comment>Step label for the number format selection step</comment>
+  </data>
+
+  <!-- Number Format Selection -->
   <data name="NumberFormat_Title" xml:space="preserve">
     <value>Formato Numeri</value>
     <comment>Number format selection title</comment>
-  </data>  <data name="NumberFormat_Padded" xml:space="preserve">
+  </data>
+  <data name="NumberFormat_Description" xml:space="preserve">
+    <value>Scegli come vengono visualizzati i numeri nel Conversione fonetica</value>
+    <comment>Number format setting description</comment>
+  </data>
+  <data name="NumberFormat_Padded" xml:space="preserve">
     <value>Lo zero conta</value>
     <comment>Padded number format option</comment>
   </data>
   <data name="NumberFormat_Natural" xml:space="preserve">
     <value>Lo zero non conta</value>
     <comment>Natural number format option</comment>
-  </data>  <data name="Tab_FlashNumbers" xml:space="preserve">
+  </data>
+  <data name="NumberFormat_SelectPrompt" xml:space="preserve">
+    <value>Seleziona Formato Numeri</value>
+    <comment>Number format selection prompt</comment>
+  </data>
+  
+  <data name="Cancel" xml:space="preserve">
+    <value>Annulla</value>
+    <comment>Cancel button text</comment>
+  </data>
+  
+  <!-- Tab Labels -->
+  <data name="Tab_Home" xml:space="preserve">
+    <value>Casa</value>
+    <comment>Home tab label</comment>
+  </data>
+  <data name="Tab_FlashNumbers" xml:space="preserve">
     <value>Flash Numbers</value>
     <comment>Flash Numbers tab label</comment>
   </data>
@@ -510,7 +691,20 @@
   <data name="BigNumber_ConfirmNewGame_Confirm" xml:space="preserve">
     <value>Inizia Nuovo</value>
     <comment>Confirm button for new game confirmation - starts fresh</comment>
-  </data>  <data name="BigNumber_DigitsHelp" xml:space="preserve">
+  </data>
+  <data name="BigNumber_YourResult" xml:space="preserve">
+    <value>Il Tuo Risultato:</value>
+    <comment>Label for results summary</comment>
+  </data>
+  <data name="BigNumber_ViewStats" xml:space="preserve">
+    <value>Vedi Statistiche</value>
+    <comment>Button text for viewing detailed statistics</comment>
+  </data>
+  <data name="Common_BackToMenu" xml:space="preserve">
+    <value>Torna al Menu</value>
+    <comment>Button text for returning to main menu</comment>
+  </data>
+  <data name="BigNumber_DigitsHelp" xml:space="preserve">
     <value>Scegli tra 1 e 500 cifre</value>
     <comment>Help text for number of digits</comment>
   </data>
@@ -582,7 +776,12 @@
   <data name="PackDownload_DownloadedLabel" xml:space="preserve">
     <value>Scaricato</value>
     <comment>Label for downloaded packs</comment>
-  </data>  <data name="Statistics_FastIndicator" xml:space="preserve">
+  </data>
+  <data name="Statistics_PerformanceLegend" xml:space="preserve">
+    <value>● Veloce (&lt;1,5s)  ▲ Medio (1,5-4s)  ■ Lento (&gt;4s)</value>
+    <comment>Legend explaining performance indicator shapes and thresholds</comment>
+  </data>
+  <data name="Statistics_FastIndicator" xml:space="preserve">
     <value>Tempo di risposta veloce</value>
     <comment>Accessibility description for fast response indicator</comment>
   </data>
@@ -609,7 +808,12 @@
   <data name="PackDownload_GeneratingThumbnailsLabel" xml:space="preserve">
     <value>Generazione miniature...</value>
     <comment>Label shown during thumbnail generation</comment>
-  </data>  <data name="PackDownload_ErrorMessage" xml:space="preserve">
+  </data>
+  <data name="PackDownload_SuccessMessage" xml:space="preserve">
+    <value>Pacchetto scaricato con successo!</value>
+    <comment>Success message after download</comment>
+  </data>
+  <data name="PackDownload_ErrorMessage" xml:space="preserve">
     <value>Download del pacchetto fallito. Riprova.</value>
     <comment>Error message on download failure</comment>
   </data>
@@ -651,7 +855,28 @@
   <data name="Navigation_Failed" xml:space="preserve">
     <value>Impossibile aprire quella schermata al momento. Riprova.</value>
     <comment>Error when navigation fails</comment>
-  </data>  <data name="PackDownload_Version" xml:space="preserve">
+  </data>
+  <data name="UpdateCheck_Failed" xml:space="preserve">
+    <value>Impossibile controllare gli aggiornamenti dei pacchetti. Controlla la connessione internet.</value>
+    <comment>Error when update checking fails</comment>
+  </data>
+  <data name="Service_InitializationFailed" xml:space="preserve">
+    <value>Alcune funzioni dell'app potrebbero non funzionare correttamente a causa di errori di inizializzazione.</value>
+    <comment>Warning when app services fail to initialize</comment>
+  </data>
+  <data name="PackDownload_NetworkErrorMessage" xml:space="preserve">
+    <value>Errore di rete. Controlla la connessione.</value>
+    <comment>Network error message</comment>
+  </data>
+  <data name="PackDownload_InsufficientStorageMessage" xml:space="preserve">
+    <value>Spazio di archiviazione insufficiente</value>
+    <comment>Message when not enough storage</comment>
+  </data>
+  <data name="PackDownload_UpdateAvailable" xml:space="preserve">
+    <value>Aggiornamento disponibile</value>
+    <comment>Label for packs with updates</comment>
+  </data>
+  <data name="PackDownload_Version" xml:space="preserve">
     <value>Versione: {0}</value>
     <comment>Version display format</comment>
   </data>
@@ -662,10 +887,32 @@
   <data name="PackDownload_Author" xml:space="preserve">
     <value>Autore: {0}</value>
     <comment>Author display format</comment>
-  </data>  <data name="PackDownload_CheckForUpdatesButton" xml:space="preserve">
+  </data>
+  <data name="PackDownload_RefreshButton" xml:space="preserve">
+    <value>Aggiorna</value>
+    <comment>Refresh packs list button</comment>
+  </data>
+  <data name="PackDownload_CheckForUpdatesButton" xml:space="preserve">
     <value>Controlla Aggiornamenti</value>
     <comment>Check for updates button text</comment>
-  </data>  <data name="PackDownload_CancelButton" xml:space="preserve">
+  </data>
+  <data name="PackDownload_AllPacksUpToDate" xml:space="preserve">
+    <value>Tutti i pacchetti sono aggiornati</value>
+    <comment>Message when all packs are current</comment>
+  </data>
+  <data name="PackDownload_CheckingForUpdates" xml:space="preserve">
+    <value>Controllo aggiornamenti...</value>
+    <comment>Status while checking for pack updates</comment>
+  </data>
+  <data name="PackDownload_RefreshCompleted" xml:space="preserve">
+    <value>Stato pacchetti aggiornato</value>
+    <comment>Brief confirmation after refresh</comment>
+  </data>
+  <data name="PackDownload_DismissStatus" xml:space="preserve">
+    <value>Chiudi</value>
+    <comment>Button to dismiss status message</comment>
+  </data>
+  <data name="PackDownload_CancelButton" xml:space="preserve">
     <value>Annulla Download</value>
     <comment>Cancel download button</comment>
   </data>
@@ -688,7 +935,24 @@
   <data name="PackDownload_Downloading" xml:space="preserve">
     <value>Scaricando</value>
     <comment>Status label during download progress</comment>
-  </data>  <data name="Settings_CurrentPack" xml:space="preserve">
+  </data>
+  <data name="PackDownload_ETA" xml:space="preserve">
+    <value>Tempo stimato: {0}</value>
+    <comment>Estimated time remaining format</comment>
+  </data>
+  <data name="PackDownload_GlobalDownloadingTitle" xml:space="preserve">
+    <value>Scaricando {0}</value>
+    <comment>Global download progress title showing pack name</comment>
+  </data>
+  <data name="PackDownload_GlobalProgressInfo" xml:space="preserve">
+    <value>{0} di {1}</value>
+    <comment>Download progress showing current/total size</comment>
+  </data>
+  <data name="PackDownload_TapToView" xml:space="preserve">
+    <value>Tocca per vedere</value>
+    <comment>Hint to tap the progress bar to scroll to downloading pack</comment>
+  </data>
+  <data name="Settings_CurrentPack" xml:space="preserve">
     <value>Pacchetto Corrente</value>
     <comment>Current pack label in settings</comment>
   </data>  <data name="Settings_SelectPack" xml:space="preserve">
@@ -710,7 +974,24 @@
   <data name="Settings_PackManagement" xml:space="preserve">
     <value>Gestione Pacchetti</value>
     <comment>Pack management section title</comment>
-  </data>  <data name="Common_Confirm" xml:space="preserve">
+  </data>
+  <data name="FirstLaunch_WelcomeTitle" xml:space="preserve">
+    <value>Benvenuto in MemoRaise!</value>
+    <comment>First launch welcome title</comment>
+  </data>
+  <data name="FirstLaunch_DownloadPackMessage" xml:space="preserve">
+    <value>Per iniziare, scarica un pacchetto lingua.</value>
+    <comment>First launch download pack message</comment>
+  </data>
+  <data name="FirstLaunch_GetStartedButton" xml:space="preserve">
+    <value>Inizia</value>
+    <comment>Get started button on first launch</comment>
+  </data>
+  <data name="Common_Delete" xml:space="preserve">
+    <value>Elimina</value>
+    <comment>Delete button text</comment>
+  </data>
+  <data name="Common_Confirm" xml:space="preserve">
     <value>Conferma</value>
     <comment>Confirm button text</comment>
   </data>
@@ -732,6 +1013,12 @@
     <value>Aggiorna</value>
     <comment>Refresh button text</comment>
   </data>
+
+  <data name="Common_Change" xml:space="preserve">
+    <value>Cambia</value>
+    <comment>Button text to change current selection</comment>
+  </data>
+
   <!-- Update Notifications -->
   <data name="Update_SinglePackAvailable" xml:space="preserve">
     <value>1 aggiornamento pacchetto disponibile</value>
@@ -760,7 +1047,11 @@
   <data name="Time_DaysAgo" xml:space="preserve">
     <value>{0} giorni fa</value>
     <comment>Time indicator for days ago</comment>
-  </data>  <data name="Associations_Category_Numbers" xml:space="preserve">
+  </data>  <data name="Associations_SelectCategory" xml:space="preserve">
+    <value>Seleziona Categoria</value>
+    <comment>Placeholder text for category picker</comment>
+  </data>
+  <data name="Associations_Category_Numbers" xml:space="preserve">
     <value>Numeri</value>
     <comment>Category name for numbers</comment>
   </data>
@@ -783,14 +1074,32 @@
   <data name="Associations_NoPackDownloaded" xml:space="preserve">
     <value>Nessun Schedario Scaricato</value>
     <comment>Empty state title when no pack is downloaded</comment>
-  </data>  <data name="TokenDetail_Title" xml:space="preserve">
+  </data>
+  <data name="Associations_DownloadPackMessage" xml:space="preserve">
+    <value>Scarica uno schedario per visualizzare le associazioni</value>
+    <comment>Empty state message to prompt pack download</comment>
+  </data>
+  <data name="Associations_DownloadPacks" xml:space="preserve">
+    <value>Scarica Schedari</value>
+    <comment>Button text to navigate to pack download</comment>
+  </data>
+  <data name="Associations_NoAssociationsFound" xml:space="preserve">
+    <value>Nessuna associazione trovata</value>
+    <comment>Message when no associations exist for selected category</comment>
+  </data>
+  <data name="TokenDetail_Title" xml:space="preserve">
     <value>Associazioni Token {0}</value>
     <comment>Token detail page title with token placeholder</comment>
   </data>
   <data name="TokenDetail_Title_Generic" xml:space="preserve">
     <value>Associazioni Token</value>
     <comment>Generic token detail page title</comment>
-  </data>  <data name="TokenDetail_SetAsDefaultConfirmTitle" xml:space="preserve">
+  </data>
+  <data name="TokenDetail_SetAsDefault" xml:space="preserve">
+    <value>Imposta come Predefinita</value>
+    <comment>Set association as default button</comment>
+  </data>
+  <data name="TokenDetail_SetAsDefaultConfirmTitle" xml:space="preserve">
     <value>Imposta come Predefinita</value>
     <comment>Confirmation dialog title for setting default association</comment>
   </data>
@@ -805,7 +1114,66 @@
   <data name="TokenDetail_AlreadyDefaultMessage" xml:space="preserve">
     <value>"{0}" è già l'associazione predefinita per il token {1}.</value>
     <comment>Info dialog message when user taps already-default association</comment>
-  </data>  <data name="TokenDetail_DeleteCustomSuccess" xml:space="preserve">
+  </data>
+  <data name="TokenDetail_ViewFullImage" xml:space="preserve">
+    <value>Vedi Immagine Completa</value>
+    <comment>View full image button</comment>
+  </data>
+  <data name="TokenDetail_DefaultIndicator" xml:space="preserve">
+    <value>Predefinita</value>
+    <comment>Default association indicator text</comment>
+  </data>
+  <data name="TokenDetail_NoAssociations" xml:space="preserve">
+    <value>Nessuna associazione trovata per questo token</value>
+    <comment>Empty state message when no associations are found</comment>
+  </data>
+  <data name="TokenDetail_AssociationCount" xml:space="preserve">
+    <value>{0} associazioni</value>
+    <comment>Association count display in token header</comment>
+  </data>
+  <data name="Associations_Default" xml:space="preserve">
+    <value>Predefinito</value>
+    <comment>Label for default association</comment>
+  </data>
+  <data name="Associations_SetAsDefault" xml:space="preserve">
+    <value>Imposta come Predefinito</value>
+    <comment>Button text to set association as default</comment>
+  </data>
+  <data name="Associations_LoadingPack" xml:space="preserve">
+    <value>Caricamento dati schedario...</value>
+    <comment>Loading message while reading pack data</comment>
+  </data>
+  <data name="Associations_ErrorLoadingPack" xml:space="preserve">
+    <value>Errore nel caricamento dello schedario</value>
+    <comment>Error message when pack data cannot be loaded</comment>
+  </data>
+  <data name="Associations_DefaultUpdated" xml:space="preserve">
+    <value>Associazione predefinita aggiornata</value>
+    <comment>Toast message when default is changed</comment>
+  </data>
+  
+  <!-- Custom Associations -->
+  <data name="TokenDetail_AssociationsHeader" xml:space="preserve">
+    <value>Associazioni Disponibili</value>
+    <comment>Header for associations list in token detail page</comment>
+  </data>
+  <data name="TokenDetail_AddCustom" xml:space="preserve">
+    <value>Aggiungi Personalizzata</value>
+    <comment>Button text to add custom association</comment>
+  </data>
+  <data name="TokenDetail_CustomBadge" xml:space="preserve">
+    <value>PERSONALIZZATA</value>
+    <comment>Badge label for custom associations</comment>
+  </data>
+  <data name="TokenDetail_DeleteCustomTitle" xml:space="preserve">
+    <value>Elimina Associazione Personalizzata</value>
+    <comment>Confirmation dialog title for deleting custom association</comment>
+  </data>
+  <data name="TokenDetail_DeleteCustomMessage" xml:space="preserve">
+    <value>Sei sicuro di voler eliminare l'associazione personalizzata "{0}" per il token "{1}"? Questa azione non può essere annullata.</value>
+    <comment>Confirmation dialog message for deleting custom association. Parameters: {0} = word, {1} = token</comment>
+  </data>
+  <data name="TokenDetail_DeleteCustomSuccess" xml:space="preserve">
     <value>L'associazione personalizzata "{0}" per il token "{1}" è stata eliminata con successo.</value>
     <comment>Success message after deleting custom association. Parameters: {0} = word, {1} = token</comment>
   </data>
@@ -846,7 +1214,12 @@
   <data name="AddCustomAssociation_CreditsRemaining" xml:space="preserve">
     <value>Crediti rimanenti</value>
     <comment>Label for AI credits display</comment>
-  </data>  <data name="AddCustomAssociation_NoImageSelected" xml:space="preserve">
+  </data>
+  <data name="AddCustomAssociation_ImageSelected" xml:space="preserve">
+    <value>Immagine selezionata con successo</value>
+    <comment>Message when image is selected</comment>
+  </data>
+  <data name="AddCustomAssociation_NoImageSelected" xml:space="preserve">
     <value>Nessuna immagine selezionata</value>
     <comment>Placeholder message when no image is selected</comment>
   </data>
@@ -877,21 +1250,36 @@
   <data name="AddCustomAssociation_ErrorSelectingImage" xml:space="preserve">
     <value>Si è verificato un errore durante la selezione dell'immagine. Riprova.</value>
     <comment>Error message when image selection fails</comment>
-  </data>  <data name="AddCustomAssociation_AIComingSoon" xml:space="preserve">
+  </data>
+  <data name="AddCustomAssociation_AINotAvailable" xml:space="preserve">
+    <value>La generazione di immagini IA non è disponibile al momento.</value>
+    <comment>Error message when AI generation is not available</comment>
+  </data>
+  <data name="AddCustomAssociation_AIComingSoon" xml:space="preserve">
     <value>La generazione di immagini IA arriverà presto! Per ora, seleziona un'immagine dal tuo dispositivo.</value>
     <comment>Info message for AI feature coming soon</comment>
   </data>
   <data name="AddCustomAssociation_NoPackError" xml:space="preserve">
     <value>Nessun pacchetto è attualmente selezionato. Scarica prima un pacchetto.</value>
     <comment>Error message when no pack is available</comment>
-  </data>  <data name="AddCustomAssociation_FormComplete" xml:space="preserve">
+  </data>
+  <data name="AddCustomAssociation_SaveError" xml:space="preserve">
+    <value>Si è verificato un errore durante il salvataggio dell'associazione personalizzata. Riprova.</value>
+    <comment>Error message when saving custom association fails</comment>
+  </data>
+  <data name="AddCustomAssociation_FormComplete" xml:space="preserve">
     <value>Il modulo è completo e pronto per il salvataggio</value>
     <comment>Accessibility description when form is valid and complete</comment>
   </data>
   <data name="AddCustomAssociation_FormIncomplete" xml:space="preserve">
     <value>Completa tutti i campi obbligatori</value>
     <comment>Accessibility description when form has validation errors</comment>
-  </data>  <data name="AddCustomAssociation_SuccessMessage" xml:space="preserve">
+  </data>
+  <data name="AddCustomAssociation_FormStatusHelp" xml:space="preserve">
+    <value>Indicatore dello stato di completamento del modulo</value>
+    <comment>Help text explaining the purpose of the completion indicator</comment>
+  </data>
+  <data name="AddCustomAssociation_SuccessMessage" xml:space="preserve">
     <value>L'associazione personalizzata "{0}" per il token "{1}" è stata creata con successo!</value>
     <comment>Success message after creating custom association. Parameters: {0} = word, {1} = token</comment>
   </data>
@@ -926,10 +1314,44 @@
   <data name="AppInfo_Version" xml:space="preserve">
     <value>Versione</value>
     <comment>App version label</comment>
-  </data>  <data name="AppInfo_AppName" xml:space="preserve">
+  </data>
+  <data name="AppInfo_Build" xml:space="preserve">
+    <value>Build</value>
+    <comment>App build number label</comment>
+  </data>
+  <data name="AppInfo_Platform" xml:space="preserve">
+    <value>Piattaforma</value>
+    <comment>Platform label</comment>
+  </data>
+  <data name="AppInfo_AppName" xml:space="preserve">
     <value>Nome App</value>
     <comment>Application name label</comment>
-  </data>  <data name="MainPage_FeedbackSubtitle" xml:space="preserve">
+  </data>
+  <data name="AppInfo_PackageName" xml:space="preserve">
+    <value>ID Pacchetto</value>
+    <comment>Package/bundle identifier label</comment>
+  </data>
+  <data name="AppInfo_Framework" xml:space="preserve">
+    <value>Framework</value>
+    <comment>.NET framework version label</comment>
+  </data>
+  <data name="AppInfo_BuildDate" xml:space="preserve">
+    <value>Data Build</value>
+    <comment>Application build date label</comment>
+  </data>
+  <data name="AppInfo_Copyright" xml:space="preserve">
+    <value>Copyright</value>
+    <comment>Copyright information label</comment>
+  </data>
+  <data name="MainPage_Version" xml:space="preserve">
+    <value>Versione {0}</value>
+    <comment>Version display on main page (parameter is version number)</comment>
+  </data>
+  <data name="MainPage_FeedbackTitle" xml:space="preserve">
+    <value>Aiutaci a migliorare MemoRaise</value>
+    <comment>Title for feedback invitation on main page</comment>
+  </data>
+  <data name="MainPage_FeedbackSubtitle" xml:space="preserve">
     <value>Condividi suggerimenti o segnala problemi per migliorare la tua esperienza</value>
     <comment>Subtitle explaining feedback invitation</comment>
   </data>
@@ -938,7 +1360,12 @@
   <data name="ImageProcessing_Failed" xml:space="preserve">
     <value>Elaborazione immagine fallita. Prova con un'immagine diversa.</value>
     <comment>Error message when image processing fails</comment>
-  </data>  <data name="ImageProcessing_InvalidFormat" xml:space="preserve">
+  </data>
+  <data name="ImageProcessing_ThumbnailFailed" xml:space="preserve">
+    <value>Generazione miniatura fallita. L'associazione è stata creata ma potrebbe caricarsi lentamente.</value>
+    <comment>Warning message when thumbnail generation fails</comment>
+  </data>
+  <data name="ImageProcessing_InvalidFormat" xml:space="preserve">
     <value>Formato immagine non valido. Seleziona un file PNG, JPG o altro formato supportato.</value>
     <comment>Error message when image format is not supported</comment>
   </data>
@@ -965,17 +1392,46 @@
   <data name="Associations_CategoriesLabel" xml:space="preserve">
     <value>Categorie:</value>
     <comment>Label for categories selection on desktop</comment>
-  </data>  <data name="Associations_LoadedCount" xml:space="preserve">
+  </data>
+  <data name="Associations_RefreshButton" xml:space="preserve">
+    <value>Aggiorna</value>
+    <comment>Button text to refresh associations list</comment>
+  </data>
+  <data name="Associations_LoadedCount" xml:space="preserve">
     <value>Associazioni caricate: </value>
     <comment>Debug info showing number of loaded associations</comment>
-  </data>  
-  <!-- BigNumber Associations -->  <data name="BigNumber_AssociationsTitle" xml:space="preserve">
+  </data>
+  <data name="Associations_AllCategories" xml:space="preserve">
+    <value>Tutte</value>
+    <comment>Option to show all categories</comment>
+  </data>
+  
+  <!-- BigNumber Associations -->
+  <data name="BigNumber_ShowAssociations" xml:space="preserve">
+    <value>Mostra associazioni visive</value>
+    <comment>Toggle to show visual associations during recall</comment>
+  </data>
+  <data name="BigNumber_AssociationsTitle" xml:space="preserve">
     <value>Associazioni Visive</value>
     <comment>Title for the associations display section</comment>
-  </data>  <data name="BigNumber_ShowAssociations_Button" xml:space="preserve">
+  </data>
+  <data name="BigNumber_ToggleAssociations" xml:space="preserve">
+    <value>💡</value>
+    <comment>Button to toggle associations visibility during recall</comment>
+  </data>
+  <data name="BigNumber_ShowAssociations_Button" xml:space="preserve">
     <value>Mostra</value>
     <comment>Button text to show associations during recall</comment>
-  </data>  <data name="BigNumber_EnterNumber" xml:space="preserve">
+  </data>
+  <data name="BigNumber_EnableInputVerification" xml:space="preserve">
+    <value>Abilita Verifica Input</value>
+    <comment>BigNumber settings toggle for enabling input verification</comment>
+  </data>
+  <data name="BigNumber_InputVerificationHelp" xml:space="preserve">
+    <value>Digita quello che hai memorizzato per verificare l'accuratezza</value>
+    <comment>Help text for input verification setting</comment>
+  </data>
+  <data name="BigNumber_EnterNumber" xml:space="preserve">
     <value>Inserisci il numero che hai memorizzato...</value>
     <comment>Placeholder text for number input field</comment>
   </data>
@@ -990,7 +1446,12 @@
   <data name="BigNumber_CheckAnswer_Completed" xml:space="preserve">
     <value>Completato!</value>
     <comment>Button text shown briefly when verification completes</comment>
-  </data>  <data name="BigNumber_Accuracy" xml:space="preserve">
+  </data>
+  <data name="BigNumber_ClearInput" xml:space="preserve">
+    <value>Cancella</value>
+    <comment>Button text to clear input field</comment>
+  </data>
+  <data name="BigNumber_Accuracy" xml:space="preserve">
     <value>Accuratezza</value>
     <comment>Label for accuracy percentage display</comment>
   </data>
@@ -1005,7 +1466,12 @@
   <data name="BigNumber_InputProgress" xml:space="preserve">
     <value>{0} di {1} cifre inserite</value>
     <comment>Progress indicator for input field</comment>
-  </data>  <data name="BigNumber_HideAssociations" xml:space="preserve">
+  </data>
+  <data name="BigNumber_VerifyAgain" xml:space="preserve">
+    <value>Riprova</value>
+    <comment>Button text to retry input verification</comment>
+  </data>
+  <data name="BigNumber_HideAssociations" xml:space="preserve">
     <value>Nascondi</value>
     <comment>Button text to hide associations during recall</comment>
   </data>
@@ -1018,7 +1484,12 @@
     <comment>Accessibility hint for scrolling through associations</comment>
   </data>
   
-  <!-- New BigNumber UI Architecture Resources -->  <data name="BigNumber_ManualVerification" xml:space="preserve">
+  <!-- New BigNumber UI Architecture Resources -->
+  <data name="BigNumber_ChooseMode" xml:space="preserve">
+    <value>Come vuoi verificare la tua memoria?</value>
+    <comment>Header for verification mode selection</comment>
+  </data>
+  <data name="BigNumber_ManualVerification" xml:space="preserve">
     <value>Verifica Manuale</value>
     <comment>Manual verification mode where user checks their own recall</comment>
   </data>
@@ -1034,7 +1505,29 @@
     <value>Digita la risposta per un feedback immediato</value>
     <comment>Description of app verification mode</comment>
   </data>
-  <!-- Legacy keys for backward compatibility - will be removed in future -->  <data name="BigNumber_RecallGuidanceBody" xml:space="preserve">
+  <!-- Legacy keys for backward compatibility - will be removed in future -->
+  <data name="BigNumber_TraditionalMode" xml:space="preserve">
+    <value>Verifica Manuale</value>
+    <comment>DEPRECATED: Use BigNumber_ManualVerification instead</comment>
+  </data>
+  <data name="BigNumber_TraditionalModeDescription" xml:space="preserve">
+    <value>Rivela il numero per controllare da solo la memoria</value>
+    <comment>DEPRECATED: Use BigNumber_ManualVerificationDescription instead</comment>
+  </data>
+  <data name="BigNumber_GuidedMode" xml:space="preserve">
+    <value>Verifica App</value>
+    <comment>DEPRECATED: Use BigNumber_AppVerification instead</comment>
+  </data>
+  <data name="BigNumber_GuidedModeDescription" xml:space="preserve">
+    <value>Digita la risposta per un feedback immediato</value>
+    <comment>DEPRECATED: Use BigNumber_AppVerificationDescription instead</comment>
+  </data>
+  <!-- Manual Verification Guidance -->
+  <data name="BigNumber_RecallGuidanceHeader" xml:space="preserve">
+    <value>Prenditi il Tempo per Ricordare</value>
+    <comment>Header for guidance card shown during stopped phase</comment>
+  </data>
+  <data name="BigNumber_RecallGuidanceBody" xml:space="preserve">
     <value>Il numero è ora nascosto. Prenditi un momento per ripassare mentalmente quello che hai memorizzato. Quando sei pronto per metterti alla prova, tocca il pulsante 'Richiama' qui sotto.</value>
     <comment>Main guidance text for manual verification mode</comment>
   </data>
@@ -1045,7 +1538,12 @@
   <data name="Accessibility_GuidanceCardDescription" xml:space="preserve">
     <value>Scheda guida memoria con suggerimenti utili per il richiamo</value>
     <comment>Screen reader description for guidance card</comment>
-  </data>  <data name="BigNumber_AdvancedSettings" xml:space="preserve">
+  </data>
+  <data name="BigNumber_EssentialSettings" xml:space="preserve">
+    <value>Impostazioni Essenziali</value>
+    <comment>Essential settings section header</comment>
+  </data>
+  <data name="BigNumber_AdvancedSettings" xml:space="preserve">
     <value>Impostazioni Avanzate</value>
     <comment>Advanced settings section header</comment>
   </data>
@@ -1060,7 +1558,12 @@
   <data name="BigNumber_Hide" xml:space="preserve">
     <value>Nascondi</value>
     <comment>Generic hide button text</comment>
-  </data>  <data name="BigNumber_SettingsIcon" xml:space="preserve">
+  </data>
+  <data name="BigNumber_TraditionalRecall" xml:space="preserve">
+    <value>Richiamo Tradizionale</value>
+    <comment>Traditional recall button text in guided mode</comment>
+  </data>
+  <data name="BigNumber_SettingsIcon" xml:space="preserve">
     <value>⚙️</value>
     <comment>Settings icon/emoji for advanced settings button</comment>
   </data>
@@ -1072,10 +1575,20 @@
   <data name="Onboarding_Skip" xml:space="preserve">
     <value>Salta</value>
     <comment>Skip onboarding button</comment>
-  </data>  <data name="Onboarding_Next" xml:space="preserve">
+  </data>
+  <data name="Onboarding_Back" xml:space="preserve">
+    <value>Indietro</value>
+    <comment>Back button in onboarding</comment>
+  </data>
+  <data name="Onboarding_Next" xml:space="preserve">
     <value>Avanti</value>
     <comment>Next button in onboarding</comment>
-  </data>  <data name="Onboarding_Example_Title" xml:space="preserve">
+  </data>
+  <data name="Onboarding_StartTraining" xml:space="preserve">
+    <value>Inizia Flash Numbers!</value>
+    <comment>Start Flash Numbers button</comment>
+  </data>
+  <data name="Onboarding_Example_Title" xml:space="preserve">
     <value>Esempio</value>
     <comment>Example section title</comment>
   </data>
@@ -1118,14 +1631,60 @@
   <data name="Onboarding_Example_Explanation" xml:space="preserve">
     <value>Guarda come i numeri diventano immagini memorabili usando il Conversione fonetica</value>
     <comment>Explanation for the example demonstration step</comment>
-  </data>  <data name="Onboarding_TapToSkipAnimation" xml:space="preserve">
+  </data>
+  <data name="Onboarding_TapToContinue" xml:space="preserve">
+    <value>Continua</value>
+    <comment>Button text to continue from example step</comment>
+  </data>
+  <data name="Onboarding_TapToSkipAnimation" xml:space="preserve">
     <value>Tocca ovunque per saltare l'animazione</value>
     <comment>Hint text to skip animation during demonstration</comment>
   </data>
   <data name="Onboarding_Practice_Title" xml:space="preserve">
     <value>Pratica</value>
     <comment>Practice section title</comment>
-  </data>  <data name="Onboarding_Practice_FallbackFeedback" xml:space="preserve">
+  </data>
+  <data name="Onboarding_Practice_Question" xml:space="preserve">
+    <value>Quale immagine rappresenta questo numero?</value>
+    <comment>Practice question text</comment>
+  </data>
+  <data name="Onboarding_Moon" xml:space="preserve">
+    <value>Luna</value>
+    <comment>Moon option</comment>
+  </data>
+  <data name="Onboarding_Mum" xml:space="preserve">
+    <value>Mamma</value>
+    <comment>Mom option</comment>
+  </data>
+  <data name="Onboarding_Onion" xml:space="preserve">
+    <value>Cipolla</value>
+    <comment>Onion option</comment>
+  </data>
+  <data name="Onboarding_Man" xml:space="preserve">
+    <value>Uomo</value>
+    <comment>Man option</comment>
+  </data>
+  <data name="Onboarding_Mano" xml:space="preserve">
+    <value>Mano</value>
+    <comment>Hand option for Italian Major System (32 = Mano)</comment>
+  </data>
+  <data name="Onboarding_Mamma" xml:space="preserve">
+    <value>Mamma</value>
+    <comment>Mom option for Italian Major System</comment>
+  </data>
+  <data name="Onboarding_Rana" xml:space="preserve">
+    <value>Rana</value>
+    <comment>Frog option for Italian Major System</comment>
+  </data>
+  <data name="Onboarding_Practice_Correct" xml:space="preserve">
+    <value>Corretto! 32 = MN = Mano</value>
+    <comment>Correct answer feedback</comment>
+  </data>
+  <data name="Onboarding_Practice_TryAgain" xml:space="preserve">
+    <value>Riprova! La risposta corretta è evidenziata</value>
+    <comment>Try again feedback</comment>
+  </data>
+  <data name="Onboarding_Practice_FallbackFeedback" xml:space="preserve">
     <value>Opzione selezionata!</value>
     <comment>Fallback feedback when specific feedback fails to load</comment>
   </data>
@@ -1150,7 +1709,12 @@
   <data name="Onboarding_SkipThisStep" xml:space="preserve">
     <value>Salta Questo Passo</value>
     <comment>Option to skip current setup step</comment>
-  </data>  <data name="Onboarding_Phase1_StepLabels" xml:space="preserve">
+  </data>
+  <data name="Onboarding_Phase1_CompleteCelebration" xml:space="preserve">
+    <value>🎉 Tutorial Completato!</value>
+    <comment>Celebration message when Phase 1 (Tutorial) is completed</comment>
+  </data>
+  <data name="Onboarding_Phase1_StepLabels" xml:space="preserve">
     <value>Benvenuto • Impara • Esempio • Pratica</value>
     <comment>Labels for Phase 1 tutorial steps</comment>
   </data>
@@ -1187,7 +1751,32 @@
   <data name="OnboardingPackDownload_AlreadyDownloadedMessage" xml:space="preserve">
     <value>Hai già un pacchetto di contenuti installato. Puoi procedere al prossimo passaggio o scaricare pacchetti aggiuntivi dalle Impostazioni.</value>
     <comment>Message when user already has a pack downloaded</comment>
-  </data>  <data name="OnboardingPackDownload_SkipMessage" xml:space="preserve">
+  </data>
+  <data name="OnboardingPackDownload_RecommendedPack" xml:space="preserve">
+    <value>Pacchetto Consigliato</value>
+    <comment>Label for the recommended pack to download</comment>
+  </data>
+  <data name="OnboardingPackDownload_DownloadButton" xml:space="preserve">
+    <value>Scarica Ora (Consigliato)</value>
+    <comment>Button text to download the recommended pack</comment>
+  </data>
+  <data name="OnboardingPackDownload_SelectButton" xml:space="preserve">
+    <value>Seleziona</value>
+    <comment>Button text to select an alternative pack</comment>
+  </data>
+  <data name="OnboardingPackDownload_AlternativePacksTitle" xml:space="preserve">
+    <value>Altri Pacchetti Disponibili</value>
+    <comment>Title for alternative packs section</comment>
+  </data>
+  <data name="OnboardingPackDownload_AvailablePacksTitle" xml:space="preserve">
+    <value>Pacchetti di Contenuto Disponibili</value>
+    <comment>Title for available packs section (no recommendations)</comment>
+  </data>
+  <data name="OnboardingPackDownload_SkipTitle" xml:space="preserve">
+    <value>Scarica Più Tardi</value>
+    <comment>Title for skip option</comment>
+  </data>
+  <data name="OnboardingPackDownload_SkipMessage" xml:space="preserve">
     <value>Puoi scaricare i pacchetti più tardi dalla pagina Impostazioni. Alcune funzionalità potrebbero essere limitate senza un pacchetto di contenuti.</value>
     <comment>Message explaining consequences of skipping pack download</comment>
   </data>
@@ -1214,7 +1803,70 @@
   <data name="OnboardingPackDownload_ValidationError" xml:space="preserve">
     <value>Validazione del pacchetto fallita. Il contenuto scaricato potrebbe essere corrotto.</value>
     <comment>Validation error message during pack download</comment>
-  </data>  <data name="Onboarding_Navigation_TrainingDesc" xml:space="preserve">
+  </data>
+  <data name="OnboardingPackDownload_CriticalTitle" xml:space="preserve">
+    <value>Contenuto Richiesto</value>
+    <comment>Critical banner title for pack download requirement</comment>
+  </data>
+  <data name="OnboardingPackDownload_CriticalMessage" xml:space="preserve">
+    <value>MemoRaise richiede pacchetti di contenuti per funzionare correttamente. Senza di essi, la maggior parte delle funzioni di allenamento non sarà disponibile.</value>
+    <comment>Critical message explaining pack requirement</comment>
+  </data>
+  <data name="OnboardingPackDownload_WithoutPacks" xml:space="preserve">
+    <value>Senza Pacchetti</value>
+    <comment>Header for limitations without packs</comment>
+  </data>
+  <data name="OnboardingPackDownload_WithPacks" xml:space="preserve">
+    <value>Con Pacchetti</value>
+    <comment>Header for benefits with packs</comment>
+  </data>
+  <data name="OnboardingPackDownload_Limitation1" xml:space="preserve">
+    <value>Solo visualizzazione numeri base</value>
+    <comment>First limitation without packs</comment>
+  </data>
+  <data name="OnboardingPackDownload_Limitation2" xml:space="preserve">
+    <value>Nessuna associazione visiva</value>
+    <comment>Second limitation without packs</comment>
+  </data>
+  <data name="OnboardingPackDownload_Limitation3" xml:space="preserve">
+    <value>Efficacia di apprendimento ridotta</value>
+    <comment>Third limitation without packs</comment>
+  </data>
+  <data name="OnboardingPackDownload_RecommendedBadge" xml:space="preserve">
+    <value>Consigliato</value>
+    <comment>Badge text for recommended pack</comment>
+  </data>
+  <data name="OnboardingPackDownload_DownloadButtonProminent" xml:space="preserve">
+    <value>🚀 Scarica Pacchetto Essenziale</value>
+    <comment>Prominent download button text with icon</comment>
+  </data>
+  <data name="OnboardingPackDownload_ImagesCount" xml:space="preserve">
+    <value>1000+ Immagini</value>
+    <comment>Pack images count display</comment>
+  </data>
+  <data name="OnboardingPackDownload_SkipForNow" xml:space="preserve">
+    <value>Salta per ora (funzioni limitate)</value>
+    <comment>Skip button text with consequence reminder</comment>
+  </data>
+  <data name="OnboardingPackDownload_SkipWarningTitle" xml:space="preserve">
+    <value>Avviso Esperienza Limitata</value>
+    <comment>Warning title for skip consequences</comment>
+  </data>
+  <data name="OnboardingPackDownload_SkipWarningMessage" xml:space="preserve">
+    <value>Senza pacchetti di contenuti, avrai accesso solo alla visualizzazione base dei numeri. Le tecniche di memoria visiva richiedono associazioni di immagini dai pacchetti di contenuti.</value>
+    <comment>Detailed warning about consequences of skipping pack download</comment>
+  </data>
+  
+  <!-- Navigation Guide Screen -->
+  <data name="Onboarding_Navigation_Title" xml:space="preserve">
+    <value>Esplora l'App</value>
+    <comment>Navigation guide title</comment>
+  </data>
+  <data name="Onboarding_Navigation_AssociationsDesc" xml:space="preserve">
+    <value>Il tuo dizionario visivo</value>
+    <comment>Associations tab description</comment>
+  </data>
+  <data name="Onboarding_Navigation_TrainingDesc" xml:space="preserve">
     <value>Pratica Flash Numbers con esercizi veloci numero-parola</value>
     <comment>Flash Numbers tab description</comment>
   </data>
@@ -1284,7 +1936,44 @@
   <data name="Onboarding_Challenge_Remember" xml:space="preserve">
     <value>Prova a ricordare il numero...</value>
     <comment>Challenge instruction</comment>
-  </data>  <data name="Onboarding_RhetoricalQuestion_Hard" xml:space="preserve">
+  </data>
+  <data name="Onboarding_Challenge_Level1" xml:space="preserve">
+    <value>Riesci a memorizzare questo numero di 4 cifre in {0} secondi?</value>
+    <comment>Level 1 challenge text with time parameter</comment>
+  </data>
+  <data name="Onboarding_Challenge_Level2" xml:space="preserve">
+    <value>Ottimo! Ora prova questo numero di 6 cifre in {0} secondi:</value>
+    <comment>Level 2 challenge text with time parameter</comment>
+  </data>
+  <data name="Onboarding_Challenge_Level3" xml:space="preserve">
+    <value>Eccellente! Sfidati con 10 cifre in {0} secondi:</value>
+    <comment>Level 3 challenge text with time parameter</comment>
+  </data>
+  <data name="Onboarding_Challenge_Level4" xml:space="preserve">
+    <value>Incredibile! Sfida finale - 15 cifre in {0} secondi:</value>
+    <comment>Level 4 challenge text with time parameter</comment>
+  </data>
+  <data name="Onboarding_Challenge_Success" xml:space="preserve">
+    <value>Ben fatto! 🎉</value>
+    <comment>Success message between challenge levels</comment>
+  </data>
+  <data name="Onboarding_Challenge_NextLevel" xml:space="preserve">
+    <value>Pronto per il livello successivo?</value>
+    <comment>Transition message to next challenge level</comment>
+  </data>
+  <data name="Onboarding_Challenge_Complete" xml:space="preserve">
+    <value>Abilità di memoria incredibili! Impariamo come renderlo ancora più facile.</value>
+    <comment>Message when all challenges are completed</comment>
+  </data>
+  <data name="Onboarding_RhetoricalQuestion_Easy" xml:space="preserve">
+    <value>Riesci a memorizzare questo numero di 4 cifre in 30 secondi?</value>
+    <comment>Rhetorical question for easy memory demonstration</comment>
+  </data>
+  <data name="Onboarding_RhetoricalQuestion_Medium" xml:space="preserve">
+    <value>E questo numero di 10 cifre in 1 minuto?</value>
+    <comment>Rhetorical question for medium memory demonstration</comment>
+  </data>
+  <data name="Onboarding_RhetoricalQuestion_Hard" xml:space="preserve">
     <value>E questo numero di 20 cifre in 1 minuto?</value>
     <comment>Rhetorical question for hard memory demonstration</comment>
   </data>
@@ -1331,18 +2020,140 @@
   <data name="Onboarding_ConversionTable" xml:space="preserve">
     <value>Conversione Numero a Suono</value>
     <comment>Conversion table title</comment>
-  </data>  <data name="BigNumber_ContextualHeader" xml:space="preserve">
+  </data>
+  <data name="Onboarding_LearnHow" xml:space="preserve">
+    <value>Perfeziona la tua tecnica di memorizzazione numero-immagine</value>
+    <comment>Description of what users will improve</comment>
+  </data>
+  <data name="Onboarding_Phase_Learn" xml:space="preserve">
+    <value>Impara</value>
+    <comment>Phase 1 indicator label</comment>
+  </data>
+  <data name="Onboarding_Phase_Practice" xml:space="preserve">
+    <value>Pratica</value>
+    <comment>Phase 2 indicator label</comment>
+  </data>
+  <data name="Onboarding_Phase_Setup" xml:space="preserve">
+    <value>Configura</value>
+    <comment>Phase 3 indicator label</comment>
+  </data>
+  <data name="Onboarding_Step_Learn" xml:space="preserve">
+    <value>Impara</value>
+    <comment>Step 1 indicator label</comment>
+  </data>
+  <data name="Onboarding_Step_Practice" xml:space="preserve">
+    <value>Pratica</value>
+    <comment>Step 2 indicator label</comment>
+  </data>
+  <data name="Onboarding_Step_Content" xml:space="preserve">
+    <value>Contenuto</value>
+    <comment>Step 3 indicator label - critical pack download step</comment>
+  </data>
+  <data name="Onboarding_Step_Setup" xml:space="preserve">
+    <value>Configura</value>
+    <comment>Step 4 indicator label</comment>
+  </data>
+  <data name="Onboarding_Step_Welcome" xml:space="preserve">
+    <value>Benvenuto</value>
+    <comment>Step 1 of 5 - Welcome and challenge introduction</comment>
+  </data>
+  <data name="Onboarding_Step_Concept" xml:space="preserve">
+    <value>Impara</value>
+    <comment>Step 2 of 5 - Major System concept introduction</comment>
+  </data>
+  <data name="Onboarding_Step_Example" xml:space="preserve">
+    <value>Esempio</value>
+    <comment>Step 3 of 5 - Concrete examples of number-to-image conversion</comment>
+  </data>
+  <data name="Onboarding_Step_Interactive" xml:space="preserve">
+    <value>Pratica</value>
+    <comment>Step 4 of 5 - Interactive practice with user input</comment>
+  </data>
+  <data name="Onboarding_Step_Download" xml:space="preserve">
+    <value>Configura</value>
+    <comment>Step 5 of 5 - Pack download and final setup</comment>
+  </data>
+  <data name="Onboarding_SkipOptionsTitle" xml:space="preserve">
+    <value>Salta a quale parte?</value>
+    <comment>Title for contextual skip options</comment>
+  </data>
+  <data name="Onboarding_SkipToEnd" xml:space="preserve">
+    <value>Completa introduzione</value>
+    <comment>Option to skip to end of onboarding</comment>
+  </data>
+  <data name="Onboarding_SkipToPractice" xml:space="preserve">
+    <value>Vai alla pratica</value>
+    <comment>Option to skip to practice phase</comment>
+  </data>
+  <data name="Onboarding_SkipToSetup" xml:space="preserve">
+    <value>Vai alla configurazione</value>
+    <comment>Option to skip to setup phase</comment>
+  </data>
+  <data name="OnboardingPackDownload_Benefit1" xml:space="preserve">
+    <value>Oltre 1000 immagini di qualità incluse</value>
+    <comment>First benefit of downloading pack</comment>
+  </data>
+  <data name="OnboardingPackDownload_Benefit2" xml:space="preserve">
+    <value>Funziona offline una volta scaricato</value>
+    <comment>Second benefit of downloading pack</comment>
+  </data>
+  <data name="OnboardingPackDownload_Benefit3" xml:space="preserve">
+    <value>Gratuito e senza pubblicità</value>
+    <comment>Third benefit of downloading pack</comment>
+  </data>
+  <data name="OnboardingPackDownload_SkipNote" xml:space="preserve">
+    <value>Puoi sempre scaricare i pacchetti più tardi dalle Impostazioni</value>
+    <comment>Reassuring note about skipping pack download</comment>
+  </data>
+  
+  <!-- Settings Page Missing Strings -->
+  <data name="Language_SelectButton" xml:space="preserve">
+    <value>Seleziona Lingua</value>
+    <comment>Button text for language selection</comment>
+  </data>
+  
+  <!-- Contextual Headers for Training Pages -->
+  <data name="FlashNumbers_ContextualHeader" xml:space="preserve">
+    <value>Pratica il riconoscimento rapido con intervalli numerici personalizzabili</value>
+    <comment>Subtle contextual header shown below Flash Numbers title</comment>
+  </data>
+  <data name="Associations_ContextualHeader" xml:space="preserve">
+    <value>Sfoglia e impara la tua libreria di riferimento numero-immagine</value>
+    <comment>Subtle contextual header shown below Associations title</comment>
+  </data>
+  <data name="BigNumber_ContextualHeader" xml:space="preserve">
     <value>Sfida la tua memoria con sequenze numeriche cronometrate</value>
     <comment>Subtle contextual header shown below Big Number title</comment>
-  </data>  <data name="Settings_DownloadPacks" xml:space="preserve">
+  </data>
+  <data name="NumberFormat_SelectButton" xml:space="preserve">
+    <value>Formato Numero</value>
+    <comment>Button text for number format selection</comment>
+  </data>
+  <data name="Settings_DownloadPacks" xml:space="preserve">
     <value>Scarica Pacchetti</value>
     <comment>Button text for downloading content packs</comment>
   </data>
   
-  <!-- Settings Page Accessibility Strings -->  <data name="FlashNumbers_AssociationWord" xml:space="preserve">
+  <!-- Settings Page Accessibility Strings -->  <data name="FlashNumbers_HideAssociation" xml:space="preserve">
+    <value>Nascondi Associazione</value>
+    <comment>Button text to hide the revealed Major System association</comment>
+  </data>
+  <data name="FlashNumbers_AssociationWord" xml:space="preserve">
     <value>Parola: {0}</value>
     <comment>Label format showing the word association for a number</comment>
-  </data>  <data name="BigNumber_AccuracyExcellent" xml:space="preserve">
+  </data>
+  <data name="FlashNumbers_AssociationRevealed" xml:space="preserve">
+    <value>Associazione Conversione fonetica</value>
+    <comment>Header text when showing the revealed association</comment>
+  </data>
+  <data name="FlashNumbers_KeyboardHintReveal" xml:space="preserve">
+    <value>Premi R o H per rivelare • Premi S per statistiche • Premi Esc per uscire</value>
+    <comment>Keyboard shortcut hints for all desktop actions</comment>
+  </data>  <data name="Error_NoResultsToShare" xml:space="preserve">
+    <value>Nessun risultato da condividere</value>
+    <comment>Error message when trying to share but no results available</comment>
+  </data>
+  <data name="BigNumber_AccuracyExcellent" xml:space="preserve">
     <value>Eccellente!</value>
     <comment>Title for excellent accuracy results (95%+)</comment>
   </data>
@@ -1353,15 +2164,119 @@
   <data name="BigNumber_AccuracyKeepPracticing" xml:space="preserve">
     <value>Continua a praticare!</value>
     <comment>Title for lower accuracy results (below 80%)</comment>
-  </data>  <data name="Common_Plus" xml:space="preserve">
+  </data>
+  <data name="BigNumber_VerifyInput" xml:space="preserve">
+    <value>Verifica Input</value>
+    <comment>Button to start on-demand input verification</comment>
+  </data>
+  <data name="BigNumber_CancelVerification" xml:space="preserve">
+    <value>Annulla</value>
+    <comment>Button to cancel input verification and exit verification mode</comment>
+  </data>
+  <data name="Common_Minus" xml:space="preserve">
+    <value>-</value>
+    <comment>Minus symbol for decrement buttons</comment>
+  </data>
+  <data name="Common_Plus" xml:space="preserve">
     <value>+</value>
     <comment>Plus symbol for increment buttons</comment>
   </data>
   
-  <!-- Big Number Comparison Feature -->  <data name="BigNumber_YourAnswer" xml:space="preserve">
+  <!-- Big Number Comparison Feature -->
+  <data name="BigNumber_ComparisonTitle" xml:space="preserve">
+    <value>Confronto Cifra per Cifra</value>
+    <comment>Title for the Wordle-style digit comparison section</comment>
+  </data>
+  <data name="BigNumber_ComparisonDescription" xml:space="preserve">
+    <value>Vedi come la tua risposta si confronta con il numero originale</value>
+    <comment>Description explaining the comparison feature</comment>
+  </data>
+  <data name="BigNumber_OriginalNumber" xml:space="preserve">
+    <value>Numero Originale</value>
+    <comment>Label for the original number row in comparison</comment>
+  </data>
+  <data name="BigNumber_YourAnswer" xml:space="preserve">
     <value>La Tua Risposta</value>
     <comment>Label for the user's answer row in comparison</comment>
-  </data>  <data name="BigNumber_LegendIncorrect" xml:space="preserve">
+  </data>
+  <data name="BigNumber_CorrectPosition" xml:space="preserve">
+    <value>Posizione Corretta</value>
+    <comment>Label for digits in correct position (green)</comment>
+  </data>
+  <data name="BigNumber_WrongPosition" xml:space="preserve">
+    <value>Posizione Sbagliata</value>
+    <comment>Label for digits that exist but are in wrong position (orange)</comment>
+  </data>
+  <data name="BigNumber_IncorrectDigit" xml:space="preserve">
+    <value>Errata</value>
+    <comment>Label for digits that don't exist in original (gray)</comment>
+  </data>
+  <data name="BigNumber_MissingDigit" xml:space="preserve">
+    <value>Mancante</value>
+    <comment>Label for positions where user didn't provide a digit (red)</comment>
+  </data>
+  <data name="BigNumber_ComparisonLegend" xml:space="preserve">
+    <value>Guida Colori</value>
+    <comment>Title for the color legend explaining comparison colors</comment>
+  </data>
+  <data name="BigNumber_ShowComparison" xml:space="preserve">
+    <value>Mostra Confronto</value>
+    <comment>Button to show the digit-by-digit comparison</comment>
+  </data>
+  <data name="BigNumber_HideComparison" xml:space="preserve">
+    <value>Nascondi Confronto</value>
+    <comment>Button to hide the digit-by-digit comparison</comment>
+  </data>
+  
+  <!-- Accessibility labels for comparison -->
+  <data name="Accessibility_ComparisonArea" xml:space="preserve">
+    <value>Area di confronto cifre che mostra il numero originale e la tua risposta</value>
+    <comment>Accessibility description for the comparison area</comment>
+  </data>  
+  <!-- Additional Accessibility strings for Wordle-style comparison -->
+  <data name="BigNumber_OriginalDigitAccessibility" xml:space="preserve">
+    <value>Cifra originale {0} alla posizione {1}</value>
+    <comment>Accessibility description for original digit tiles, {0} is the digit, {1} is the position</comment>
+  </data>
+  <data name="BigNumber_CorrectDigitAccessibility" xml:space="preserve">
+    <value>La tua cifra {0} alla posizione {1} è corretta</value>
+    <comment>Accessibility description for correct user digit, {0} is the digit, {1} is the position</comment>
+  </data>
+  <data name="BigNumber_WrongPositionDigitAccessibility" xml:space="preserve">
+    <value>La tua cifra {0} alla posizione {1} esiste nel numero ma è nella posizione sbagliata</value>
+    <comment>Accessibility description for wrong position user digit, {0} is the digit, {1} is the position</comment>
+  </data>
+  <data name="BigNumber_IncorrectDigitAccessibility" xml:space="preserve">
+    <value>La tua cifra {0} alla posizione {1} non è nel numero originale</value>
+    <comment>Accessibility description for incorrect user digit, {0} is the digit, {1} is the position</comment>
+  </data>
+  <data name="BigNumber_MissingDigitAccessibility" xml:space="preserve">
+    <value>Cifra mancante alla posizione {0}</value>
+    <comment>Accessibility description for missing user digit, {0} is the position</comment>
+  </data>
+  
+  <!-- Enhanced Digit Comparison UI strings -->
+  <data name="BigNumber_ScrollLeft" xml:space="preserve">
+    <value>Scorri a sinistra per vedere le cifre precedenti</value>
+    <comment>Accessibility description for scroll left button in digit comparison</comment>
+  </data>
+  <data name="BigNumber_ScrollRight" xml:space="preserve">
+    <value>Scorri a destra per vedere le cifre successive</value>
+    <comment>Accessibility description for scroll right button in digit comparison</comment>
+  </data>
+  <data name="BigNumber_CenterView" xml:space="preserve">
+    <value>Centra la vista sull'area di confronto</value>
+    <comment>Accessibility description for center view button in digit comparison</comment>
+  </data>
+  <data name="BigNumber_LegendCorrect" xml:space="preserve">
+    <value>Corretta</value>
+    <comment>Label for correct digit in comparison legend</comment>
+  </data>
+  <data name="BigNumber_LegendWrongPosition" xml:space="preserve">
+    <value>Posizione sbagliata</value>
+    <comment>Label for wrong position digit in comparison legend</comment>
+  </data>
+  <data name="BigNumber_LegendIncorrect" xml:space="preserve">
     <value>Non nel numero</value>
     <comment>Label for incorrect digit in comparison legend</comment>
   </data>
@@ -1369,12 +2284,39 @@
     <value>Mancante</value>
     <comment>Label for missing digit in comparison legend</comment>
   </data>
+
+  <data name="BigNumber_LegendTitle" xml:space="preserve">
+    <value>Come leggere i risultati</value>
+    <comment>Title for the comparison legend section</comment>
+  </data>
+
   <data name="BigNumber_AchievementCelebration" xml:space="preserve">
     <value>Ottimo lavoro! Pronto per la prossima sfida?</value>
     <comment>Celebration text shown after completing a challenge</comment>
   </data>
 
-  <!-- Enhanced Accessibility Descriptions for Color-Blind Support -->  <data name="BigNumber_ColorBlindFriendlyLegendTitle" xml:space="preserve">
+  <!-- Enhanced Accessibility Descriptions for Color-Blind Support -->
+  <data name="BigNumber_CorrectDigitEnhancedAccessibility" xml:space="preserve">
+    <value>{0} alla posizione {1}: Corretto - sfondo verde con spunta</value>
+    <comment>Enhanced accessibility description for correct digits including visual indicators</comment>
+  </data>
+
+  <data name="BigNumber_WrongPositionDigitEnhancedAccessibility" xml:space="preserve">
+    <value>{0} alla posizione {1}: Cifra giusta, posizione sbagliata - sfondo arancione con doppia freccia</value>
+    <comment>Enhanced accessibility description for wrong position digits including visual indicators</comment>
+  </data>
+
+  <data name="BigNumber_IncorrectDigitEnhancedAccessibility" xml:space="preserve">
+    <value>{0} alla posizione {1}: Sbagliato - sfondo grigio con X</value>
+    <comment>Enhanced accessibility description for incorrect digits including visual indicators</comment>
+  </data>
+
+  <data name="BigNumber_MissingDigitEnhancedAccessibility" xml:space="preserve">
+    <value>Posizione {0}: Cifra mancante - sfondo bianco con bordo rosso tratteggiato e punto interrogativo</value>
+    <comment>Enhanced accessibility description for missing digits including visual indicators</comment>
+  </data>
+
+  <data name="BigNumber_ColorBlindFriendlyLegendTitle" xml:space="preserve">
     <value>Guida Visiva</value>
     <comment>Titolo universale della leggenda che enfatizza i benefici delle prestazioni per tutti gli utenti</comment>
   </data>
@@ -1408,7 +2350,22 @@
   <data name="BigNumber_AccuracyWithErrors" xml:space="preserve">
     <value>Precisione {0}% ({1} errori)</value>
     <comment>Accuracy message with error count, {0} is percentage, {1} is error count</comment>
-  </data>  <data name="Accessibility_DynamicPositionDescription" xml:space="preserve">
+  </data>
+  <data name="BigNumber_NavigatePrevious" xml:space="preserve">
+    <value>Precedente</value>
+    <comment>Previous navigation button text</comment>
+  </data>
+  <data name="BigNumber_NavigateNext" xml:space="preserve">
+    <value>Successivo</value>
+    <comment>Next navigation button text</comment>
+  </data>
+  
+  <!-- Dynamic Position Indicator strings -->
+  <data name="BigNumber_DynamicPosition" xml:space="preserve">
+    <value>Posizione {0}-{1} di {2}</value>
+    <comment>Dynamic position indicator showing current scroll position in real-time</comment>
+  </data>
+  <data name="Accessibility_DynamicPositionDescription" xml:space="preserve">
     <value>Posizione corrente nella comparazione delle cifre</value>
     <comment>Accessibility description for dynamic position indicator</comment>
   </data>
@@ -1488,7 +2445,16 @@
   <data name="Feedback_NamePlaceholder" xml:space="preserve">
     <value>Il tuo nome completo</value>
     <comment>Placeholder text for full name field</comment>
-  </data>  <data name="Feedback_SubmitButton" xml:space="preserve">
+  </data>
+  <data name="Feedback_IncludeScreenshot" xml:space="preserve">
+    <value>Includi Screenshot</value>
+    <comment>Label for include screenshot checkbox</comment>
+  </data>
+  <data name="Feedback_IncludeSystemInfo" xml:space="preserve">
+    <value>Includi Informazioni Sistema</value>
+    <comment>Label for include system info checkbox</comment>
+  </data>
+  <data name="Feedback_SubmitButton" xml:space="preserve">
     <value>Invia Feedback</value>
     <comment>Text for submit feedback button</comment>
   </data>
@@ -1499,7 +2465,12 @@
   <data name="Feedback_ValidationSubjectRequired" xml:space="preserve">
     <value>L'oggetto è obbligatorio</value>
     <comment>Validation error for required subject field</comment>
-  </data>  <data name="Feedback_ValidationSubjectTooShort" xml:space="preserve">
+  </data>
+  <data name="Feedback_ValidationSubjectLength" xml:space="preserve">
+    <value>L'oggetto deve essere tra 5 e 200 caratteri</value>
+    <comment>Validation error for subject length</comment>
+  </data>
+  <data name="Feedback_ValidationSubjectTooShort" xml:space="preserve">
     <value>L'oggetto deve essere di almeno 5 caratteri</value>
     <comment>Validation error for subject too short</comment>
   </data>
@@ -1510,14 +2481,24 @@
   <data name="Feedback_ValidationMessageRequired" xml:space="preserve">
     <value>Il messaggio è obbligatorio</value>
     <comment>Validation error for required message field</comment>
-  </data>  <data name="Feedback_ValidationMessageTooShort" xml:space="preserve">
+  </data>
+  <data name="Feedback_ValidationMessageLength" xml:space="preserve">
+    <value>Il messaggio deve essere tra 10 e 2000 caratteri</value>
+    <comment>Validation error for message length</comment>
+  </data>
+  <data name="Feedback_ValidationMessageTooShort" xml:space="preserve">
     <value>Il messaggio deve essere di almeno 10 caratteri</value>
     <comment>Validation error for message too short</comment>
   </data>
   <data name="Feedback_ValidationMessageTooLong" xml:space="preserve">
     <value>Il messaggio non può superare i 2000 caratteri</value>
     <comment>Validation error for message too long</comment>
-  </data>  <data name="Feedback_ValidationErrorsCount" xml:space="preserve">
+  </data>
+  <data name="Feedback_ValidationSummaryTitle" xml:space="preserve">
+    <value>Si prega di correggere i seguenti problemi:</value>
+    <comment>Validation summary title when there are errors</comment>
+  </data>
+  <data name="Feedback_ValidationErrorsCount" xml:space="preserve">
     <value>{0} problema(i) trovato(i)</value>
     <comment>Count of validation errors in summary</comment>
   </data>
@@ -1536,7 +2517,12 @@
   <data name="Feedback_ValidationEmailInvalid" xml:space="preserve">
     <value>Inserisci un indirizzo email valido</value>
     <comment>Validation error for invalid email format</comment>
-  </data>  <data name="Feedback_SubmissionSuccess" xml:space="preserve">
+  </data>
+  <data name="Feedback_ValidationTypeRequired" xml:space="preserve">
+    <value>Seleziona un tipo di feedback</value>
+    <comment>Validation error for required feedback type</comment>
+  </data>
+  <data name="Feedback_SubmissionSuccess" xml:space="preserve">
     <value>Grazie! Il tuo feedback è stato inviato con successo.</value>
     <comment>Success message after feedback submission</comment>
   </data>
@@ -1547,7 +2533,32 @@
   <data name="Feedback_NetworkError" xml:space="preserve">
     <value>Errore di rete. Controlla la connessione internet e riprova.</value>
     <comment>Error message for network connectivity issues</comment>
-  </data>  <data name="Feedback_AttachImagesHelp" xml:space="preserve">
+  </data>
+  <data name="Feedback_TakingScreenshot" xml:space="preserve">
+    <value>Catturando screenshot...</value>
+    <comment>Loading message while capturing screenshot</comment>
+  </data>
+  <data name="Feedback_ScreenshotError" xml:space="preserve">
+    <value>Impossibile catturare lo screenshot</value>
+    <comment>Error message when screenshot capture fails</comment>
+  </data>
+  <data name="Feedback_Submitting" xml:space="preserve">
+    <value>Invio feedback...</value>
+    <comment>Loading message while submitting feedback</comment>
+  </data>
+  <data name="Feedback_ReviewBeforeSubmit" xml:space="preserve">
+    <value>Controlla tutte le informazioni prima di inviare il feedback</value>
+    <comment>Reminder to review form before submission</comment>
+  </data>
+  <data name="Feedback_SystemInfoHelp" xml:space="preserve">
+    <value>Include versione app, piattaforma e informazioni dispositivo per aiutarci a risolvere problemi</value>
+    <comment>Help text explaining what system information includes</comment>
+  </data>
+  <data name="Feedback_AttachImages" xml:space="preserve">
+    <value>Allega Immagini</value>
+    <comment>Label for image attachment section</comment>
+  </data>
+  <data name="Feedback_AttachImagesHelp" xml:space="preserve">
     <value>Allega screenshot o immagini dalla tua galleria per aiutarci a comprendere il problema</value>
     <comment>Help text explaining image attachment functionality</comment>
   </data>
@@ -1586,7 +2597,16 @@
   <data name="Common_Discard" xml:space="preserve">
     <value>Scarta</value>
     <comment>Button text to discard changes</comment>
-  </data>  <data name="Common_ClearAll" xml:space="preserve">
+  </data>
+  <data name="Common_Capture" xml:space="preserve">
+    <value>Cattura</value>
+    <comment>Button text to capture screenshot</comment>
+  </data>
+  <data name="Common_Remove" xml:space="preserve">
+    <value>Rimuovi</value>
+    <comment>Button text to remove item</comment>
+  </data>
+  <data name="Common_ClearAll" xml:space="preserve">
     <value>Rimuovi Tutto</value>
     <comment>Button text to clear all items</comment>
   </data>
@@ -1600,7 +2620,20 @@
   <data name="FlashNumbers_ConsolidatedInstructions" xml:space="preserve">
     <value>💡 Prenditi il tempo per ricordare la tua parola o immagine del Conversione fonetica per questo numero, poi continua.</value>
     <comment>Primary instruction for Flash Numbers training</comment>
-  </data>  <data name="Share_IconOnlyHint" xml:space="preserve">
+  </data>
+  <data name="FlashNumbers_MobileInteractions" xml:space="preserve">
+    <value></value>
+    <comment>Mobile navigation instructions for Flash Numbers (removed for cleaner interface)</comment>
+  </data>
+  <data name="FlashNumbers_DesktopInteractions" xml:space="preserve">
+    <value></value>
+    <comment>Desktop keyboard shortcuts for Flash Numbers (removed for cleaner interface)</comment>
+  </data>
+  <data name="Share_IconOnlyDescription" xml:space="preserve">
+    <value>Condividi i tuoi risultati</value>
+    <comment>Accessibility description for icon-only share button</comment>
+  </data>
+  <data name="Share_IconOnlyHint" xml:space="preserve">
     <value>Tocca due volte per condividere i risultati dell'esercizio</value>
     <comment>Accessibility hint for icon-only share button interaction</comment>
   </data>
@@ -1611,10 +2644,20 @@
   <data name="FlashNumbers_NextNumberArrow" xml:space="preserve">
     <value>Numero Successivo →</value>
     <comment>Next number button with arrow</comment>
-  </data>  <data name="FlashNumbers_StartButton" xml:space="preserve">
+  </data>
+  <data name="FlashNumbers_GetReady" xml:space="preserve">
+    <value>Preparati</value>
+    <comment>Label shown above range display in ready state before exercise starts</comment>
+  </data>
+  <data name="FlashNumbers_StartButton" xml:space="preserve">
     <value>Inizia ▶</value>
     <comment>Button text to begin Flash Numbers exercise with play icon</comment>
-  </data>  <data name="FlashNumbers_ReadyStateHint" xml:space="preserve">
+  </data>
+  <data name="FlashNumbers_StartAccessibility" xml:space="preserve">
+    <value>Inizia l'esercizio Flash Numbers per l'intervallo {0}</value>
+    <comment>Accessibility description for Start button. {0} is the range (e.g., 00-39)</comment>
+  </data>
+  <data name="FlashNumbers_ReadyStateHint" xml:space="preserve">
     <value>Verifica l'intervallo e premi Inizia quando sei pronto</value>
     <comment>Hint text displayed in ready state before exercise begins</comment>
   </data>
