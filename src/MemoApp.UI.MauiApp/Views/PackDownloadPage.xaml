@@ -8,7 +8,7 @@
              x:Class="MemoApp.UI.MauiApp.Views.PackDownloadPage"
              x:DataType="vm:PackDownloadViewModel"
              Title="{Binding Title}">
-    <Grid RowDefinitions="Auto,*,Auto">
+    <Grid RowDefinitions="Auto,*,Auto,Auto">
         <!-- Enhanced Header with Title and Subtitle -->
         <Grid Grid.Row="0" Padding="16,8" ColumnDefinitions="*,Auto">
             <StackLayout Grid.Column="0" VerticalOptions="Center" Spacing="4">
@@ -104,11 +104,11 @@
                 </StackLayout>
             </ScrollView>
         </RefreshView>
-        <!-- Cancel Download Button with Animation (shown during download) -->
+        <!-- Legacy Cancel Download Button (kept for backward compatibility, but hidden when using global progress) -->
         <Button Grid.Row="2"
                 Text="{localization:Localize PackDownload_CancelButton}"
                 Command="{Binding CancelDownloadCommand}"
-                IsVisible="{Binding IsDownloading}"
+                IsVisible="False"
                 Style="{StaticResource IconButton_Danger}"
                 Margin="16,8,16,16"
                 SemanticProperties.Description="{localization:Localize PackDownload_CancelButton}">
@@ -116,5 +116,13 @@
                 <behaviors:TapFeedbackBehavior />
             </Button.Behaviors>
         </Button>
+
+        <!-- Global Download Progress Indicator (Sticky Bottom) -->
+        <components:GlobalDownloadProgressView Grid.Row="3"
+                                                x:Name="GlobalProgressView"
+                                                BindingContext="{Binding CurrentDownloadingPack}"
+                                                CancelCommand="{Binding CancelDownloadCommand}"
+                                                ScrollToPackCommand="{Binding ScrollToPackCommand}"
+                                                VerticalOptions="End" />
     </Grid>
 </ContentPage>

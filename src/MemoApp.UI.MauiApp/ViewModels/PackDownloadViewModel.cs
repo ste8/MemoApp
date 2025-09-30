@@ -43,10 +43,14 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
     [ObservableProperty]
     private bool hasUpdatesAvailable;
 
+    [ObservableProperty]
+    private PackCardViewModel? currentDownloadingPack;
+
     public ICommand RefreshCommand { get; }
     public ICommand DownloadPackCommand { get; }
     public ICommand CancelDownloadCommand { get; }
     public ICommand DeletePackCommand { get; }
+    public ICommand ScrollToPackCommand { get; }
 
     public PackDownloadViewModel(
         IPackDownloadService downloadService,
@@ -69,6 +73,7 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
         DownloadPackCommand = new AsyncRelayCommand<PackItemViewModel>(DownloadPackAsync);
         CancelDownloadCommand = new RelayCommand(CancelDownload);
         DeletePackCommand = new AsyncRelayCommand<PackItemViewModel>(DeletePackAsync);
+        ScrollToPackCommand = new AsyncRelayCommand<PackCardViewModel>(ScrollToPackAsync);
     }
 
     public async Task InitializeAsync()
@@ -197,6 +202,30 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
     private void CancelDownload()
     {
         _downloadCancellation?.Cancel();
+        CurrentDownloadingPack = null;
+    }
+
+    private async Task ScrollToPackAsync(PackCardViewModel? packCard)
+    {
+        if (packCard == null)
+            return;
+
+        try
+        {
+            // Find the pack in the collection
+            var index = Packs.IndexOf(packCard);
+            if (index >= 0)
+            {
+                // TODO: Implement scroll to item in CollectionView
+                // This would require passing the CollectionView reference or using MessagingCenter
+                _typedLogger.LogInformation("Scroll to pack requested for {PackId} at index {Index}",
+                    packCard.Pack.Id, index);
+            }
+        }
+        catch (Exception ex)
+        {
+            _typedLogger.LogError(ex, "Failed to scroll to pack {PackId}", packCard.Pack.Id);
+        }
     }
 
     private async Task DeletePackAsync(PackItemViewModel? packItem)
@@ -294,6 +323,18 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
         return isUpdate ? AnalyticsEvents.PackUpdated : AnalyticsEvents.PackDownloaded;
     }
 
+    protected override void OnDownloadStarted(PackCardViewModel packCard)
+    {
+        base.OnDownloadStarted(packCard);
+        CurrentDownloadingPack = packCard;
+    }
+
+    protected override void OnDownloadFinished(PackCardViewModel? packCard)
+    {
+        base.OnDownloadFinished(packCard);
+        CurrentDownloadingPack = null; // Clear global progress on any finish (cancel, fail, or complete)
+    }
+
     protected override async Task OnDownloadCompleted(PackCardViewModel packCard, double downloadDuration)
     {
         var isUpdate = packCard.Pack.HasUpdate;
@@ -303,7 +344,7 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
         var packPath = await _packManager.GetPackDirectoryAsync(packCard.Pack.Id);
         _typedLogger.LogInformation("Pack {PackId} downloaded successfully to: {PackPath}", packCard.Pack.Id, packPath);
 
-        StatusMessage = isUpdate 
+        StatusMessage = isUpdate
             ? _localizationService.GetString("PackDownload_UpdateCompleted").Replace("{0}", packCard.Pack.GetDisplayName(true))
             : _localizationService.GetString("PackDownload_DownloadCompleted").Replace("{0}", packCard.Pack.GetDisplayName(true));
 

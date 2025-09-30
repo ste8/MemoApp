@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
+             xmlns:vm="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
+             xmlns:behaviors="clr-namespace:MemoApp.UI.MauiApp.Behaviors"
+             x:Class="MemoApp.UI.MauiApp.Views.Components.GlobalDownloadProgressView"
+             x:DataType="vm:PackCardViewModel"
+             x:Name="RootView">
+
+    <!-- Sticky Bottom Progress Bar with Enhanced Mobile UX -->
+    <Border BackgroundColor="{AppThemeBinding Light='#FAFAFA', Dark='#1A1A1A'}"
+            StrokeThickness="0"
+            Padding="0">
+
+        <!-- Shadow Effect for Elevation -->
+        <Border.Shadow>
+            <Shadow Brush="{AppThemeBinding Light='Black', Dark='White'}"
+                    Opacity="0.1"
+                    Radius="8"
+                    Offset="0,-2" />
+        </Border.Shadow>
+
+        <Grid RowDefinitions="Auto,Auto"
+              ColumnDefinitions="*,Auto"
+              Padding="{OnPlatform iOS='16,12,16,22', Default='16,12,16,12'}"
+              BackgroundColor="{AppThemeBinding Light='#FFFFFF', Dark='#212121'}">
+
+            <!-- Row 0: Pack Name and Cancel Button -->
+            <HorizontalStackLayout Grid.Row="0" Grid.Column="0"
+                                   Spacing="8"
+                                   VerticalOptions="Center">
+                <!-- Animated Download Icon -->
+                <Label Style="{StaticResource LoadingSpinnerIcon}"
+                       FontSize="18"
+                       VerticalOptions="Center"
+                       IsVisible="{Binding IsDownloading}">
+                    <Label.Behaviors>
+                        <behaviors:LoadingSpinnerBehavior />
+                    </Label.Behaviors>
+                </Label>
+
+                <!-- Pack Name with Progress -->
+                <Label VerticalOptions="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{Binding DisplayName}"
+                                  FontAttributes="Bold"
+                                  FontSize="15" />
+                            <Span Text=" · "
+                                  TextColor="Gray"
+                                  FontSize="15" />
+                            <Span Text="{Binding DownloadProgress, StringFormat='{0:F0}%'}"
+                                  TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                  FontAttributes="Bold"
+                                  FontSize="15" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </HorizontalStackLayout>
+
+            <!-- Cancel Button -->
+            <Button Grid.Row="0" Grid.Column="1"
+                    Text="{StaticResource Icon_Close}"
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=CancelCommand}"
+                    Style="{StaticResource IconButton_Danger}"
+                    FontSize="16"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    Padding="0"
+                    VerticalOptions="Center"
+                    SemanticProperties.Description="{localization:Localize PackDownload_CancelButton}">
+                <Button.Behaviors>
+                    <behaviors:TapFeedbackBehavior />
+                </Button.Behaviors>
+            </Button>
+
+            <!-- Row 1: Progress Bar and Info -->
+            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                  RowDefinitions="Auto,Auto"
+                  RowSpacing="6"
+                  Margin="0,8,0,0">
+
+                <!-- High-Visibility Progress Bar -->
+                <Border Grid.Row="0"
+                        BackgroundColor="{AppThemeBinding Light='#E8E8E8', Dark='#383838'}"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 4"
+                        HeightRequest="6">
+                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 4"
+                            HorizontalOptions="Start"
+                            WidthRequest="{Binding DownloadProgress, Converter={StaticResource PercentageConverter}}"
+                            SemanticProperties.Description="{Binding ProgressText}"
+                            SemanticProperties.Hint="Download progress indicator">
+                        <!-- Subtle animation for progress changes -->
+                        <Border.Behaviors>
+                            <behaviors:ProgressAnimationBehavior />
+                        </Border.Behaviors>
+                    </Border>
+                </Border>
+
+                <!-- Size and ETA Info -->
+                <Grid Grid.Row="1" ColumnDefinitions="*,Auto">
+                    <!-- Size Information -->
+                    <Label Grid.Column="0"
+                           Text="{Binding SizeProgressText}"
+                           FontSize="12"
+                           TextColor="Gray"
+                           HorizontalOptions="Start"
+                           IsVisible="{Binding ShowSizeProgress}" />
+
+                    <!-- ETA -->
+                    <Label Grid.Column="1"
+                           Text="{Binding EtaText}"
+                           FontSize="12"
+                           TextColor="Gray"
+                           HorizontalOptions="End"
+                           IsVisible="{Binding ShowETA}" />
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+
+    <!-- Tap Gesture to Scroll to Pack -->
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=ScrollToPackCommand}"
+                              CommandParameter="{Binding .}" />
+    </ContentView.GestureRecognizers>
+</ContentView>

@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MemoApp.Core.Packs;
@@ -25,6 +26,9 @@ public partial class PackDownloadOnboardingViewModel : PackDownloadBaseViewModel
 
     [ObservableProperty]
     private bool showSkipOption = true;
+
+    [ObservableProperty]
+    private PackCardViewModel? currentDownloadingPack;
 
     public bool HasMultiplePacks => AvailablePacks?.Count > 1;
 
@@ -114,6 +118,7 @@ public partial class PackDownloadOnboardingViewModel : PackDownloadBaseViewModel
     private void CancelDownload()
     {
         _downloadCancellation?.Cancel();
+        CurrentDownloadingPack = null;
         IsDownloading = false;
         ShowSkipOption = true;
     }
@@ -138,11 +143,15 @@ public partial class PackDownloadOnboardingViewModel : PackDownloadBaseViewModel
     // Virtual method overrides for onboarding-specific behavior
     protected override void OnDownloadStarted(PackCardViewModel packCard)
     {
+        base.OnDownloadStarted(packCard);
+        CurrentDownloadingPack = packCard;
         ShowSkipOption = false;
     }
 
     protected override void OnDownloadFinished(PackCardViewModel? packCard)
     {
+        base.OnDownloadFinished(packCard);
+        CurrentDownloadingPack = null;
         ShowSkipOption = true;
     }
 

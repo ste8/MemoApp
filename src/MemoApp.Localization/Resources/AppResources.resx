@@ -1178,6 +1178,18 @@
     <value>ETA: {0}</value>
     <comment>Estimated time remaining format</comment>
   </data>
+  <data name="PackDownload_GlobalDownloadingTitle" xml:space="preserve">
+    <value>Downloading {0}</value>
+    <comment>Global download progress title showing pack name</comment>
+  </data>
+  <data name="PackDownload_GlobalProgressInfo" xml:space="preserve">
+    <value>{0} of {1}</value>
+    <comment>Download progress showing current/total size</comment>
+  </data>
+  <data name="PackDownload_TapToView" xml:space="preserve">
+    <value>Tap to view</value>
+    <comment>Hint to tap the progress bar to scroll to downloading pack</comment>
+  </data>
   <data name="Settings_CurrentPack" xml:space="preserve">
     <value>Current Pack</value>
     <comment>Current pack label in settings</comment>

@@ -9,8 +9,9 @@
              x:Class="MemoApp.UI.MauiApp.Views.Onboarding.PackDownloadOnboardingView"
              x:DataType="viewmodels:PackDownloadOnboardingViewModel">
     
-    <!-- Fully Scrollable Page -->
-    <ScrollView>
+    <Grid>
+        <!-- Fully Scrollable Page -->
+        <ScrollView>
         <StackLayout Spacing="0">
             <!-- Scrollable Header with increased bottom padding for visual separation -->
             <VerticalStackLayout Spacing="6" Padding="20,20,20,16">
@@ -134,4 +135,11 @@
             </StackLayout>
         </StackLayout>
     </ScrollView>
+
+        <!-- Global Download Progress Indicator (Sticky Bottom) -->
+        <components:GlobalDownloadProgressView x:Name="GlobalProgressView"
+                                                BindingContext="{Binding CurrentDownloadingPack}"
+                                                CancelCommand="{Binding CancelDownloadCommand}"
+                                                VerticalOptions="End" />
+    </Grid>
 </ContentView>

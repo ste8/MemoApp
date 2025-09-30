@@ -35,6 +35,12 @@ public partial class PackCardViewModel : ObservableObject
     [ObservableProperty]
     private bool showETA;
 
+    [ObservableProperty]
+    private string? sizeProgressText;
+
+    [ObservableProperty]
+    private bool showSizeProgress;
+
     public string DisplayName => GetDisplayName();
     public string DisplayDescription => GetDisplayDescription();
     public string SizeText => _localizationService.GetString("PackDownload_Size").Replace("{0}", Pack.GetFormattedFileSize());
@@ -60,7 +66,10 @@ public partial class PackCardViewModel : ObservableObject
     public bool CanDownload => !Pack.IsDownloaded || Pack.HasUpdate;
     public bool ShowUpdateBadge => Pack.IsDownloaded && Pack.HasUpdate;
     public bool ShowDownloadButton => !IsDownloading && (!Pack.IsDownloaded || Pack.HasUpdate);
-    
+
+    // Explicit computed property with guaranteed evaluation - prevents stale bindings during CollectionView refresh
+    public bool ShouldShowInCardProgress => IsDownloading && _context == PackCardContext.Onboarding; // Combined check: only show in-card progress during onboarding AND while downloading
+
     // Safe command execution checks
     public bool CanExecuteDownload => DownloadCommand != null && CanDownload && !IsDownloading;
     public bool CanExecuteDelete => DeleteCommand != null && Pack.IsDownloaded && !IsDownloading;
@@ -74,13 +83,19 @@ public partial class PackCardViewModel : ObservableObject
         Pack = pack;
         _localizationService = localizationService;
         _context = context;
-        
-        // Explicitly initialize download state
+
+        // Explicitly initialize download state to ensure clean state for new instances
         IsDownloading = false;
         DownloadProgress = 0.0;
         ProgressText = null;
         EtaText = null;
         ShowETA = false;
+        SizeProgressText = null;
+        ShowSizeProgress = false;
+
+        // Ensure UI bindings are immediately aware of the initial state
+        // This prevents any stale binding state from CollectionView cell reuse
+        OnPropertyChanged(nameof(ShouldShowInCardProgress));
     }
 
     private string GetDisplayName()
@@ -113,5 +128,15 @@ public partial class PackCardViewModel : ObservableObject
         OnPropertyChanged(nameof(CanExecuteDelete));
         OnPropertyChanged(nameof(EtaText));
         OnPropertyChanged(nameof(ShowETA));
+        OnPropertyChanged(nameof(ShouldShowInCardProgress));
+    }
+
+    partial void OnIsDownloadingChanged(bool value)
+    {
+        // Notify dependent properties when IsDownloading changes
+        OnPropertyChanged(nameof(ShowDownloadButton));
+        OnPropertyChanged(nameof(CanExecuteDownload));
+        OnPropertyChanged(nameof(CanExecuteDelete));
+        OnPropertyChanged(nameof(ShouldShowInCardProgress));
     }
 }

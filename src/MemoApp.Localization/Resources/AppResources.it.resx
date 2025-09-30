@@ -1177,6 +1177,18 @@
     <value>Tempo stimato: {0}</value>
     <comment>Estimated time remaining format</comment>
   </data>
+  <data name="PackDownload_GlobalDownloadingTitle" xml:space="preserve">
+    <value>Scaricando {0}</value>
+    <comment>Global download progress title showing pack name</comment>
+  </data>
+  <data name="PackDownload_GlobalProgressInfo" xml:space="preserve">
+    <value>{0} di {1}</value>
+    <comment>Download progress showing current/total size</comment>
+  </data>
+  <data name="PackDownload_TapToView" xml:space="preserve">
+    <value>Tocca per vedere</value>
+    <comment>Hint to tap the progress bar to scroll to downloading pack</comment>
+  </data>
   <data name="Settings_CurrentPack" xml:space="preserve">
     <value>Pacchetto Corrente</value>
     <comment>Current pack label in settings</comment>
