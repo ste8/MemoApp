@@ -61,19 +61,9 @@
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding SelectLanguageCommand}" />
                                 </Border.GestureRecognizers>
-                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="0">
-                                    <!-- Language Icon -->
-                                    <Label Grid.Column="0"
-                                           Text="{StaticResource Icon_Globe}"
-                                           FontFamily="{StaticResource IconFont_Solid}"
-                                           FontSize="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
-                                           TextColor="{StaticResource Primary}"
-                                           VerticalOptions="Center"
-                                           Margin="16,0,8,0"
-                                           AutomationProperties.IsInAccessibleTree="False" />
-
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="0">
                                     <!-- Language Display -->
-                                    <Label Grid.Column="1"
+                                    <Label Grid.Column="0"
                                            Text="{Binding CurrentLanguageName}"
                                            FontFamily="OpenSansRegular"
                                            FontSize="{OnIdiom Phone=15, Tablet=16, Desktop=15}"
@@ -81,10 +71,10 @@
                                            VerticalOptions="Center"
                                            VerticalTextAlignment="Center"
                                            HorizontalOptions="FillAndExpand"
-                                           Margin="0" />
+                                           Margin="16,0,0,0" />
 
                                     <!-- Dropdown Arrow -->
-                                    <Path Grid.Column="2"
+                                    <Path Grid.Column="1"
                                           Style="{StaticResource ModernDropdownIconStyle}" />
                                 </Grid>
                             </Border>
@@ -152,19 +142,9 @@
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectNumberFormatCommand}" />
                             </Border.GestureRecognizers>
-                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="0">
-                                <!-- Number Format Icon -->
-                                <Label Grid.Column="0"
-                                       Text="{StaticResource Icon_Numbers}"
-                                       FontFamily="{StaticResource IconFont_Solid}"
-                                       FontSize="{OnIdiom Phone=20, Tablet=22, Desktop=24}"
-                                       TextColor="{StaticResource Primary}"
-                                       VerticalOptions="Center"
-                                       Margin="16,0,8,0"
-                                       AutomationProperties.IsInAccessibleTree="False" />
-
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="0">
                                 <!-- Number Format Display (Title Only) -->
-                                <Label Grid.Column="1"
+                                <Label Grid.Column="0"
                                        Text="{Binding CurrentNumberFormatName}"
                                        FontFamily="OpenSansRegular"
                                        FontSize="{OnIdiom Phone=15, Tablet=16, Desktop=15}"
@@ -172,10 +152,10 @@
                                        VerticalOptions="Center"
                                        VerticalTextAlignment="Center"
                                        HorizontalOptions="FillAndExpand"
-                                       Margin="0" />
+                                       Margin="16,0,0,0" />
 
                                 <!-- Dropdown Arrow -->
-                                <Path Grid.Column="2"
+                                <Path Grid.Column="1"
                                       Style="{StaticResource ModernDropdownIconStyle}" />
                             </Grid>
                         </Border>
