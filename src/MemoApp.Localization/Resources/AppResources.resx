@@ -222,90 +222,13 @@
   <data name="FlashNumbers_RangeAccessibility" xml:space="preserve">
     <value>Currently practicing range {0}</value>
     <comment>Accessibility description for range display during training, {0} is the range like "00-09"</comment>
-  </data>
-  <data name="TrainingSession_Progress" xml:space="preserve">
-    <value>Progress</value>
-    <comment>Progress section title</comment>
-  </data>
-  <data name="TrainingSession_Completed" xml:space="preserve">
-    <value>Completed: {0}</value>
-    <comment>Completed count label</comment>
-  </data>
-  <data name="TrainingSession_Total" xml:space="preserve">
-    <value>Total: {0}</value>
-    <comment>Total count label</comment>
-  </data>
-  <data name="TrainingSession_Remaining" xml:space="preserve">
-    <value>Remaining: {0}</value>
-    <comment>Remaining count label</comment>
-  </data>
-  <data name="FlashNumbers_CurrentNumber" xml:space="preserve">
+  </data>  <data name="FlashNumbers_CurrentNumber" xml:space="preserve">
     <value>Current Number</value>
     <comment>Flash Numbers current number display title</comment>
-  </data>
-  <data name="TrainingSession_YourAnswer" xml:space="preserve">
-    <value>Your Answer</value>
-    <comment>Answer input title</comment>
-  </data>
-  <data name="TrainingSession_EnterYourAnswer" xml:space="preserve">
-    <value>Enter your answer...</value>
-    <comment>Answer input placeholder</comment>
-  </data>
-  <data name="TrainingSession_Submit" xml:space="preserve">
-    <value>Submit</value>
-    <comment>Submit answer button</comment>
-  </data>
-  <data name="TrainingSession_NextNumber" xml:space="preserve">
-    <value>Next Number</value>
-    <comment>Next number button</comment>
-  </data>
-  <data name="FlashNumbers_Complete" xml:space="preserve">
-    <value>Flash Numbers completed in {0}</value>
-    <comment>Flash Numbers completion title with duration</comment>
-  </data>
-  <data name="FlashNumbers_CompletedText" xml:space="preserve">
-    <value>Flash Numbers completed in</value>
-    <comment>First line of two-line completion message (context)</comment>
-  </data>
-  <data name="FlashNumbers_AchievementCelebration" xml:space="preserve">
+  </data>  <data name="FlashNumbers_AchievementCelebration" xml:space="preserve">
     <value>Great job! Ready for the next challenge?</value>
     <comment>Motivational text shown after completing Flash Numbers session</comment>
-  </data>
-  <data name="TrainingSession_Statistics" xml:space="preserve">
-    <value>Session Statistics</value>
-    <comment>Statistics section title</comment>
-  </data>
-  <data name="TrainingSession_TotalDuration" xml:space="preserve">
-    <value>Total Duration:</value>
-    <comment>Total duration label</comment>
-  </data>
-  <data name="TrainingSession_AverageTime" xml:space="preserve">
-    <value>Average Time:</value>
-    <comment>Average response time label</comment>
-  </data>
-  <data name="TrainingSession_FastestTime" xml:space="preserve">
-    <value>Fastest Time:</value>
-    <comment>Fastest response time label</comment>
-  </data>
-  <data name="TrainingSession_SlowestTime" xml:space="preserve">
-    <value>Slowest Time:</value>
-    <comment>Slowest response time label</comment>
-  </data>
-  <data name="TrainingSession_ViewDetails" xml:space="preserve">
-    <value>View Details</value>
-    <comment>View details button</comment>
-  </data>
-  <data name="TrainingSession_BackToHome" xml:space="preserve">
-    <value>Back to Home</value>
-    <comment>Back to home button</comment>
-  </data>
-  
-  <!-- Statistics Page -->
-  <data name="Statistics_Title" xml:space="preserve">
-    <value>Session Details</value>
-    <comment>Statistics page title</comment>
-  </data>
-  <data name="Statistics_NumbersToPracticeMore" xml:space="preserve">
+  </data>  <data name="Statistics_NumbersToPracticeMore" xml:space="preserve">
     <value>Numbers to Practice More</value>
     <comment>Numbers to practice more section title</comment>
   </data>
@@ -431,15 +354,6 @@
     <value>🎉</value>
     <comment>Celebration emoji</comment>
   </data>
-  <data name="TrainingSession_CompletionMessage" xml:space="preserve">
-    <value>Great job! You've completed all numbers in this range.</value>
-    <comment>Session completion message</comment>
-  </data>
-  <data name="TrainingSession_SessionSummary" xml:space="preserve">
-    <value>Session Summary</value>
-    <comment>Session summary title</comment>
-  </data>
-
   <!-- Statistics Page -->
   <data name="Statistics_SessionSummary" xml:space="preserve">
     <value>Session Summary</value>
@@ -542,114 +456,26 @@
     <comment>Flash Numbers keyboard shortcut hint for Next button</comment>
   </data>
 
-  <!-- Accessibility Labels -->
-  <data name="Accessibility_NextButton" xml:space="preserve">
-    <value>Next number button</value>
-    <comment>Accessibility label for next number button</comment>
-  </data>
-  <data name="Accessibility_NextButtonHelp" xml:space="preserve">
-    <value>Proceed to the next number in the training sequence</value>
-    <comment>Accessibility help text for next number button</comment>
-  </data>
-  <data name="Accessibility_ProgressBar" xml:space="preserve">
-    <value>Training progress</value>
-    <comment>Accessibility label for progress bar</comment>
-  </data>
-  <data name="Accessibility_CurrentNumber" xml:space="preserve">
-    <value>Current training number</value>
-    <comment>Accessibility label for current number display</comment>
-  </data>
-  <data name="Accessibility_LanguageButton" xml:space="preserve">
-    <value>Change language</value>
-    <comment>Accessibility label for language selection button</comment>
-  </data>
-  <data name="Accessibility_LanguageButtonHelp" xml:space="preserve">
-    <value>Select the application language</value>
-    <comment>Accessibility help text for language button</comment>
-  </data>
-  <data name="Accessibility_StartTrainingButton" xml:space="preserve">
-    <value>Start Flash Numbers session</value>
-    <comment>Accessibility label for start Flash Numbers button</comment>
-  </data>
-  <data name="Accessibility_StatisticsButton" xml:space="preserve">
-    <value>View detailed statistics</value>
-    <comment>Accessibility label for statistics button</comment>
-  </data>
-  <data name="Accessibility_NewSessionButton" xml:space="preserve">
-    <value>Start new training session</value>
-    <comment>Accessibility label for new session button</comment>
-  </data>
-  <data name="Accessibility_BackButton" xml:space="preserve">
-    <value>Go back</value>
-    <comment>Accessibility label for back button</comment>
-  </data>
-  <data name="Accessibility_LoadingIndicator" xml:space="preserve">
-    <value>Loading</value>
-    <comment>Accessibility label for loading indicator</comment>
-  </data>
-  <data name="Accessibility_BeginTrainingButton" xml:space="preserve">
-    <value>Begin Flash Numbers button</value>
-    <comment>Accessibility label for begin Flash Numbers button</comment>
-  </data>
-  <data name="Accessibility_BeginTrainingButtonHelp" xml:space="preserve">
-    <value>Start a quick Flash Numbers session with numbers 0-9</value>
-    <comment>Accessibility help text for begin Flash Numbers button</comment>
-  </data>
-  <data name="Accessibility_HelpButton" xml:space="preserve">
-    <value>Major System guide button</value>
-    <comment>Accessibility label for help/guide button</comment>
-  </data>
-  <data name="Accessibility_HelpButtonHelp" xml:space="preserve">
-    <value>View the Major System guide and instructions</value>
-    <comment>Accessibility help text for help/guide button</comment>
-  </data>
-  <data name="Accessibility_StartNumberPicker" xml:space="preserve">
-    <value>Start number picker</value>
-    <comment>Accessibility label for start number picker</comment>
-  </data>
-  <data name="Accessibility_StartNumberPickerHelp" xml:space="preserve">
-    <value>Select the starting number for custom training range</value>
-    <comment>Accessibility help text for start number picker</comment>
-  </data>
-  <data name="Accessibility_EndNumberPicker" xml:space="preserve">
+  <!-- Accessibility Labels -->  <data name="Accessibility_EndNumberPicker" xml:space="preserve">
     <value>End number picker</value>
     <comment>Accessibility label for end number picker</comment>
   </data>
   <data name="Accessibility_EndNumberPickerHelp" xml:space="preserve">
     <value>Select the ending number for custom training range</value>
     <comment>Accessibility help text for end number picker</comment>
-  </data>
-  <data name="Accessibility_StartCustomTrainingButton" xml:space="preserve">
-    <value>Start custom Flash Numbers button</value>
-    <comment>Accessibility label for start custom Flash Numbers button</comment>
-  </data>
-  <data name="Accessibility_StartCustomTrainingButtonHelp" xml:space="preserve">
-    <value>Start Flash Numbers session with your selected number range</value>
-    <comment>Accessibility help text for start custom Flash Numbers button</comment>
-  </data>
-  
+  </data>  
   <!-- Settings Page -->
   <data name="Settings_Title" xml:space="preserve">
     <value>Settings</value>
     <comment>Settings page title</comment>
-  </data>
-  <data name="Settings_General" xml:space="preserve">
-    <value>General</value>
-    <comment>General settings section title</comment>
-  </data>
-  <data name="Settings_DisplayLanguage" xml:space="preserve">
+  </data>  <data name="Settings_DisplayLanguage" xml:space="preserve">
     <value>Language</value>
     <comment>Display language settings section title</comment>
   </data>
   <data name="Settings_MemorySystem" xml:space="preserve">
     <value>Number Format</value>
     <comment>Number format settings section title</comment>
-  </data>
-  <data name="Settings_Advanced" xml:space="preserve">
-    <value>Advanced</value>
-    <comment>Advanced settings section title</comment>
-  </data>
-  <data name="Language_Description" xml:space="preserve">
+  </data>  <data name="Language_Description" xml:space="preserve">
     <value>Select your preferred language for the app interface</value>
     <comment>Language setting description</comment>
   </data>
@@ -923,30 +749,7 @@
   <data name="Accessibility_IncrementMaxPairValue" xml:space="preserve">
     <value>Increase maximum pair value</value>
     <comment>Accessibility label for increment max pair button</comment>
-  </data>
-  <data name="Accessibility_ViewImageButton" xml:space="preserve">
-    <value>View full image</value>
-    <comment>Accessibility label for view full image button</comment>
-  </data>
-  <data name="Accessibility_SetAsDefaultButton" xml:space="preserve">
-    <value>Set as default</value>
-    <comment>Accessibility label for set as default button</comment>
-  </data>
-  <data name="Accessibility_DeleteCustomButton" xml:space="preserve">
-    <value>Delete custom association</value>
-    <comment>Accessibility label for delete custom button</comment>
-  </data>
-  <data name="BigNumber_ExampleLabel" xml:space="preserve">
-    <value>Example:</value>
-    <comment>Label for format example display</comment>
-  </data>
-  
-  <!-- Pack Management -->
-  <data name="PackDownload_Title" xml:space="preserve">
-    <value>Download Packs</value>
-    <comment>Pack download page title</comment>
-  </data>
-  <data name="PackDownload_LoadingPacks" xml:space="preserve">
+  </data>  <data name="PackDownload_LoadingPacks" xml:space="preserve">
     <value>Loading available packs...</value>
     <comment>Loading message when initially retrieving pack list</comment>
   </data>
@@ -1033,12 +836,7 @@
   <data name="Dialog_No" xml:space="preserve">
     <value>No</value>
     <comment>No button text in confirmation dialogs</comment>
-  </data>
-  <data name="Settings_LoadFailed_Title" xml:space="preserve">
-    <value>Settings Load Failed</value>
-    <comment>Title for settings load error dialog</comment>
-  </data>
-  <data name="Settings_LoadFailed_UsingDefaults" xml:space="preserve">
+  </data>  <data name="Settings_LoadFailed_UsingDefaults" xml:space="preserve">
     <value>Failed to load your preferences. Using default settings for now.</value>
     <comment>Warning when settings fail to load</comment>
   </data>
@@ -1149,16 +947,7 @@
   <data name="Settings_CurrentPack" xml:space="preserve">
     <value>Current Pack</value>
     <comment>Current pack label in settings</comment>
-  </data>
-  <data name="Settings_DownloadNewPacks" xml:space="preserve">
-    <value>Manage Packs</value>
-    <comment>Button to manage packs (download, update, delete)</comment>
-  </data>
-  <data name="Settings_ManagePacks" xml:space="preserve">
-    <value>Manage Packs</value>
-    <comment>Manage packs button in settings</comment>
-  </data>
-  <data name="Settings_SelectPack" xml:space="preserve">
+  </data>  <data name="Settings_SelectPack" xml:space="preserve">
     <value>Select Pack</value>
     <comment>Select pack prompt</comment>
   </data>
@@ -1250,54 +1039,7 @@
   <data name="Time_DaysAgo" xml:space="preserve">
     <value>{0} days ago</value>
     <comment>Time indicator for days ago</comment>
-  </data>
-  <data name="Settings_UpdateCheck" xml:space="preserve">
-    <value>Update Check</value>
-    <comment>Update check settings section</comment>
-  </data>
-  <data name="Settings_EnableBackgroundChecks" xml:space="preserve">
-    <value>Check for updates automatically</value>
-    <comment>Enable background update checks setting</comment>
-  </data>
-  <data name="Settings_UpdateCheckInterval" xml:space="preserve">
-    <value>Check interval (hours)</value>
-    <comment>Update check interval setting</comment>
-  </data>
-  <data name="Settings_NotificationLevel" xml:space="preserve">
-    <value>Notification level</value>
-    <comment>Update notification level setting</comment>
-  </data>
-  <data name="Settings_CheckNow" xml:space="preserve">
-    <value>Check Now</value>
-    <comment>Check for updates now button</comment>
-  </data>
-  <data name="Settings_LastUpdateCheck" xml:space="preserve">
-    <value>Last checked: {0}</value>
-    <comment>Last update check time in settings</comment>
-  </data>
-  <data name="Settings_CheckingForUpdates" xml:space="preserve">
-    <value>Checking for updates...</value>
-    <comment>Status message while checking for updates</comment>
-  </data>
-  <data name="Settings_GoToDownloadPage" xml:space="preserve">
-    <value>Would you like to view available updates?</value>
-    <comment>Prompt to go to download page</comment>
-  </data>
-  <data name="Settings_NoUpdatesAvailable" xml:space="preserve">
-    <value>All packs are up to date</value>
-    <comment>Message when no updates are available</comment>
-  </data>
-  <data name="Settings_UpdateCheckError" xml:space="preserve">
-    <value>Failed to check for updates</value>
-    <comment>Error message for update check failure</comment>
-  </data>
-  
-  <!-- Associations Tab -->
-  <data name="Associations_Title" xml:space="preserve">
-    <value>Associations</value>
-    <comment>Title for the associations tab</comment>
-  </data>
-  <data name="Associations_SelectCategory" xml:space="preserve">
+  </data>  <data name="Associations_SelectCategory" xml:space="preserve">
     <value>Select Category</value>
     <comment>Placeholder text for category picker</comment>
   </data>
@@ -2386,170 +2128,7 @@
   <data name="Share_ButtonText" xml:space="preserve">
     <value>Share Results</value>
     <comment>Main share button text</comment>
-  </data>
-  <data name="Share_Title" xml:space="preserve">
-    <value>Share Your Achievement</value>
-    <comment>Share dialog title</comment>
-  </data>
-  <data name="Share_Time" xml:space="preserve">
-    <value>Time</value>
-    <comment>Time label in share preview</comment>
-  </data>
-  <data name="Share_Numbers" xml:space="preserve">
-    <value>Numbers</value>
-    <comment>Numbers completed label in share preview</comment>
-  </data>
-  <data name="Share_Speed" xml:space="preserve">
-    <value>Avg Speed</value>
-    <comment>Average speed label in share preview</comment>
-  </data>
-  <data name="Share_PersonalBest" xml:space="preserve">
-    <value>New Personal Best!</value>
-    <comment>Personal best indicator text</comment>
-  </data>
-  <data name="Share_MessagePlaceholder" xml:space="preserve">
-    <value>Add a personal message (optional)</value>
-    <comment>Share message editor placeholder</comment>
-  </data>
-  <data name="Share_IncludeStats" xml:space="preserve">
-    <value>Include Statistics</value>
-    <comment>Include statistics toggle label</comment>
-  </data>
-  <data name="Share_IncludeAppLink" xml:space="preserve">
-    <value>Include App Link</value>
-    <comment>Include app link toggle label</comment>
-  </data>
-  <data name="Share_ChoosePlatform" xml:space="preserve">
-    <value>Choose where to share</value>
-    <comment>Platform selection prompt</comment>
-  </data>
-  <data name="Share_More" xml:space="preserve">
-    <value>More</value>
-    <comment>More sharing options button text</comment>
-  </data>
-  <data name="Share_CopyToClipboard" xml:space="preserve">
-    <value>Copy to Clipboard</value>
-    <comment>Copy to clipboard button text</comment>
-  </data>
-  <data name="Share_Success" xml:space="preserve">
-    <value>Shared Successfully!</value>
-    <comment>Share success message</comment>
-  </data>
-  <data name="Share_FlashNumbersMessage" xml:space="preserve">
-    <value>Just completed Flash Numbers in MemoRaise! 🎯 Memorized {0} numbers in {1} with an average speed of {2}s per number. Training my memory with the Major System!</value>
-    <comment>Default share message for Flash Numbers exercise</comment>
-  </data>
-  <data name="Share_BigNumberMessage" xml:space="preserve">
-    <value>Just memorized a {0}-digit number in {1} using MemoRaise! 🧠 Training my memory with the Major System technique. Can you beat my time?</value>
-    <comment>Default share message for Big Number exercise</comment>
-  </data>
-  <data name="Share_Achievement_Fast" xml:space="preserve">
-    <value>Speed Demon</value>
-    <comment>Achievement text for fast completion</comment>
-  </data>
-  <data name="Share_Achievement_Perfect" xml:space="preserve">
-    <value>Perfect Score</value>
-    <comment>Achievement text for perfect completion</comment>
-  </data>
-  <data name="Share_Achievement_Milestone" xml:space="preserve">
-    <value>Milestone Reached</value>
-    <comment>Achievement text for reaching milestone</comment>
-  </data>
-  
-  <!-- New Share Feature Strings -->
-  <data name="Share_Results" xml:space="preserve">
-    <value>Share</value>
-    <comment>Share button text</comment>
-  </data>
-  <data name="Share_FlashNumbers_Title" xml:space="preserve">
-    <value>Flash Numbers Results</value>
-    <comment>Title for sharing Flash Numbers results</comment>
-  </data>
-  <data name="Share_BigNumber_Title" xml:space="preserve">
-    <value>Big Number Results</value>
-    <comment>Title for sharing Big Number results</comment>
-  </data>
-  <data name="Share_FlashNumbers_Template" xml:space="preserve">
-    <value>🧠 Just memorized {TotalNumbers} numbers ({NumberRange}) in MemoRaise!
-
-📊 My Results:
-• Total Time: {TotalDuration}
-• Average per Number: {AverageTime}
-• Fastest: {FastestTime}
-
-The Major System helps convert numbers into memorable images - amazing what your brain can do!
-
-Download MemoRaise: {AppUrl}
-
-#FlashNumbers #MemoryTraining #MajorSystem</value>
-    <comment>Template for sharing Flash Numbers results</comment>
-  </data>
-  <data name="Share_BigNumber_Template" xml:space="preserve">
-    <value>🧠 Just memorized a {NumberOfDigits}-digit number in MemoRaise!
-
-📊 My Results:
-• Memorization Time: {MemorizationTime}
-• Number Length: {NumberOfDigits} digits
-• Difficulty Level: {DifficultyLevel}
-
-The Major System transforms numbers into visual stories - try memorizing {NumberOfDigits} digits yourself!
-
-Download MemoRaise: {AppUrl}
-
-#BigNumber #MemoryChallenge #MajorSystem</value>
-    <comment>Template for sharing Big Number results</comment>
-  </data>
-  <data name="Share_Difficulty_Beginner" xml:space="preserve">
-    <value>Beginner</value>
-    <comment>Beginner difficulty level for sharing</comment>
-  </data>
-  <data name="Share_Difficulty_Intermediate" xml:space="preserve">
-    <value>Intermediate</value>
-    <comment>Intermediate difficulty level for sharing</comment>
-  </data>
-  <data name="Share_Difficulty_Advanced" xml:space="preserve">
-    <value>Advanced</value>
-    <comment>Advanced difficulty level for sharing</comment>
-  </data>
-  <data name="Accessibility_ShareButton" xml:space="preserve">
-    <value>Share results</value>
-    <comment>Accessibility label for share button</comment>
-  </data>
-  <data name="Accessibility_ShareButtonHelp" xml:space="preserve">
-    <value>Share your exercise results on social media or messaging apps</value>
-    <comment>Accessibility help text for share button</comment>
-  </data>
-  <data name="Share_ResultsDescription" xml:space="preserve">
-    <value>Share your memory training results</value>
-    <comment>Semantic description for share button</comment>
-  </data>
-  <data name="Share_ButtonIcon" xml:space="preserve">
-    <value>📤</value>
-    <comment>Share button icon for mobile devices</comment>
-  </data>
-  <data name="Share_AccessibilityHint" xml:space="preserve">
-    <value>Double tap to share your results</value>
-    <comment>Accessibility hint for share button</comment>
-  </data>
-  <data name="Share_AccessibilityDescription" xml:space="preserve">
-    <value>Share {0} results from {1} context</value>
-    <comment>Accessibility description template - {0}=exercise type, {1}=context</comment>
-  </data>
-  <data name="Share_NotAvailable" xml:space="preserve">
-    <value>No results available to share</value>
-    <comment>Accessibility description when no share data available</comment>
-  </data>
-  
-  <!-- Contextual Headers for Training Pages -->
-  <data name="FlashNumbers_ContextualHeader" xml:space="preserve">
-    <value>Practice quick recognition with customizable number ranges</value>
-    <comment>Subtle contextual header shown below Flash Numbers title</comment>
-  </data>
-  <data name="Associations_ContextualHeader" xml:space="preserve">
-    <value>Browse and learn your number-to-image reference library</value>
-    <comment>Subtle contextual header shown below Associations title</comment>
-  </data>
-  <data name="BigNumber_ContextualHeader" xml:space="preserve">
+  </data>  <data name="BigNumber_ContextualHeader" xml:space="preserve">
     <value>Challenge your memory with timed number sequences</value>
     <comment>Subtle contextual header shown below Big Number title</comment>
   </data>
@@ -2568,33 +2147,7 @@ Download MemoRaise: {AppUrl}
     <comment>Button text for downloading content packs</comment>
   </data>
   
-  <!-- Settings Page Accessibility Strings -->
-  <data name="Accessibility_NumberFormatButton" xml:space="preserve">
-    <value>Select number format</value>
-    <comment>Accessibility name for number format selection button</comment>
-  </data>
-  <data name="Accessibility_NumberFormatButtonHelp" xml:space="preserve">
-    <value>Choose how numbers are displayed in the application</value>
-    <comment>Accessibility help text for number format selection button</comment>
-  </data>
-  <data name="Accessibility_PackSelectionButton" xml:space="preserve">
-    <value>Select content pack</value>
-    <comment>Accessibility name for pack selection button</comment>
-  </data>
-  <data name="Accessibility_PackSelectionButtonHelp" xml:space="preserve">
-    <value>Choose which content pack to use for associations</value>
-    <comment>Accessibility help text for pack selection button</comment>
-  </data>
-  <data name="Accessibility_DownloadPacksButton" xml:space="preserve">
-    <value>Download content packs</value>
-    <comment>Accessibility name for download packs button</comment>
-  </data>
-  <data name="Accessibility_DownloadPacksButtonHelp" xml:space="preserve">
-    <value>Download additional content packs with new associations and languages</value>
-    <comment>Accessibility help text for download packs button</comment>
-  </data>
-
-  <!-- Flash Numbers Association Reveal Feature -->
+  <!-- Settings Page Accessibility Strings -->  <!-- Flash Numbers Association Reveal Feature -->
   <data name="FlashNumbers_RevealAssociation" xml:space="preserve">
     <value>Show Association</value>
     <comment>Button text to reveal the Major System association for the current number</comment>
@@ -2614,24 +2167,7 @@ Download MemoRaise: {AppUrl}
   <data name="FlashNumbers_KeyboardHintReveal" xml:space="preserve">
     <value>Press R or H to reveal association • Press S for statistics • Press Esc to exit</value>
     <comment>Keyboard shortcut hints for all desktop actions</comment>
-  </data>
-  <data name="Accessibility_RevealAssociationButton" xml:space="preserve">
-    <value>Reveal association</value>
-    <comment>Accessibility name for the reveal association button</comment>
-  </data>
-  <data name="Accessibility_RevealAssociationButtonHelp" xml:space="preserve">
-    <value>Shows the Major System word and image association for this number</value>
-    <comment>Accessibility help text for the reveal association button</comment>
-  </data>
-  <data name="Accessibility_AssociationImage" xml:space="preserve">
-    <value>Association image</value>
-    <comment>Accessibility name for the association image</comment>
-  </data>
-  <data name="FlashNumbers_NoAssociation" xml:space="preserve">
-    <value>No association found for this number</value>
-    <comment>Message shown when no Major System association is available</comment>
-  </data>
-  <data name="Error_NoResultsToShare" xml:space="preserve">
+  </data>  <data name="Error_NoResultsToShare" xml:space="preserve">
     <value>No results to share</value>
     <comment>Error message when trying to share but no results available</comment>
   </data>
@@ -2714,28 +2250,7 @@ Download MemoRaise: {AppUrl}
   <data name="Accessibility_ComparisonArea" xml:space="preserve">
     <value>Digit comparison area showing original number and your answer</value>
     <comment>Accessibility description for the comparison area</comment>
-  </data>
-  <data name="Accessibility_DigitCorrect" xml:space="preserve">
-    <value>Digit {0} is correct</value>
-    <comment>Accessibility description for correct digit, {0} is the digit value</comment>
-  </data>
-  <data name="Accessibility_DigitWrongPosition" xml:space="preserve">
-    <value>Digit {0} exists but is in wrong position</value>
-    <comment>Accessibility description for wrong position digit, {0} is the digit value</comment>
-  </data>
-  <data name="Accessibility_DigitIncorrect" xml:space="preserve">
-    <value>Digit {0} is incorrect</value>
-    <comment>Accessibility description for incorrect digit, {0} is the digit value</comment>
-  </data>
-  <data name="Accessibility_DigitMissing" xml:space="preserve">
-    <value>Missing digit at position {0}</value>
-    <comment>Accessibility description for missing digit, {0} is the position</comment>
-  </data>
-  <data name="Accessibility_ScrollComparisonHint" xml:space="preserve">
-    <value>Scroll horizontally to see all digits</value>
-    <comment>Accessibility hint for scrolling through digit comparison</comment>
-  </data>
-  
+  </data>  
   <!-- Additional Accessibility strings for Wordle-style comparison -->
   <data name="BigNumber_OriginalDigitAccessibility" xml:space="preserve">
     <value>Original digit {0} at position {1}</value>
@@ -3116,12 +2631,7 @@ Download MemoRaise: {AppUrl}
   <data name="Settings_ContactInformation" xml:space="preserve">
     <value>Contact Information</value>
     <comment>Section header for contact information</comment>
-  </data>
-  <data name="Settings_Options" xml:space="preserve">
-    <value>Options</value>
-    <comment>Section header for options</comment>
-  </data>
-  <data name="Settings_SendFeedback" xml:space="preserve">
+  </data>  <data name="Settings_SendFeedback" xml:space="preserve">
     <value>Send Feedback</value>
     <comment>Button text to send feedback from settings</comment>
   </data>
@@ -3218,41 +2728,7 @@ Download MemoRaise: {AppUrl}
   <data name="Error_General" xml:space="preserve">
     <value>An unexpected error occurred. Please try again.</value>
     <comment>Generic error message for unhandled exceptions</comment>
-  </data>
-  <data name="Error_Network_General" xml:space="preserve">
-    <value>Network error. Please check your internet connection and try again.</value>
-    <comment>General network error message</comment>
-  </data>
-  <data name="Error_Network_Connection" xml:space="preserve">
-    <value>Unable to connect to the server. Please check your internet connection.</value>
-    <comment>Network connection error message</comment>
-  </data>
-  <data name="Error_Network_Timeout" xml:space="preserve">
-    <value>The request timed out. Please try again.</value>
-    <comment>Network timeout error message</comment>
-  </data>
-  <data name="Error_Authorization" xml:space="preserve">
-    <value>Access denied. Please check your permissions or sign in again.</value>
-    <comment>Authorization/authentication error message</comment>
-  </data>
-  <data name="Error_Storage" xml:space="preserve">
-    <value>Unable to access or save files. Please check available storage space.</value>
-    <comment>File storage error message</comment>
-  </data>
-  <data name="Error_Validation" xml:space="preserve">
+  </data>  <data name="Error_Validation" xml:space="preserve">
     <value>Invalid input provided. Please check your data and try again.</value>
     <comment>Data validation error message</comment>
-  </data>
-  <data name="Error_Business" xml:space="preserve">
-    <value>This operation cannot be completed at this time. Please try again later.</value>
-    <comment>Business logic error message</comment>
-  </data>
-  <data name="Error_External" xml:space="preserve">
-    <value>External service unavailable. Please try again later.</value>
-    <comment>External service error message</comment>
-  </data>
-  <data name="Error_System" xml:space="preserve">
-    <value>System error occurred. Please restart the app and try again.</value>
-    <comment>System-level error message</comment>
-  </data>
-</root>
+  </data></root>
