@@ -47,13 +47,27 @@
                         <behaviors:TapFeedbackBehavior />
                     </Button.Behaviors>
                 </Button>
-                <!-- Downloaded/Up-to-Date Indicator with Animation -->
+
+                <!-- Loading Spinner (During Download) -->
+                <Label Style="{StaticResource LoadingSpinnerIcon}"
+                       FontSize="24"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       Margin="12,8"
+                       SemanticProperties.Description="{localization:Localize PackDownload_Downloading}"
+                       IsVisible="{Binding ShowLoadingSpinner}">
+                    <Label.Behaviors>
+                        <behaviors:LoadingSpinnerBehavior />
+                    </Label.Behaviors>
+                </Label>
+
+                <!-- Downloaded/Up-to-Date Indicator with Animation (Only When Complete) -->
                 <Label Style="{StaticResource AnimatedSuccessIcon}"
                        HorizontalOptions="Center"
                        VerticalOptions="Center"
                        Margin="12,8"
                        SemanticProperties.Description="{localization:Localize PackDownload_UpToDate}"
-                       IsVisible="{Binding ShowDownloadButton, Converter={StaticResource InvertedBoolConverter}}">
+                       IsVisible="{Binding ShowSuccessIcon}">
                     <Label.Behaviors>
                         <behaviors:SuccessAnimationBehavior />
                     </Label.Behaviors>

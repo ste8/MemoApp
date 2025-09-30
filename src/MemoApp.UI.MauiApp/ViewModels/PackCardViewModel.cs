@@ -67,6 +67,10 @@ public partial class PackCardViewModel : ObservableObject
     public bool ShowUpdateBadge => Pack.IsDownloaded && Pack.HasUpdate;
     public bool ShowDownloadButton => !IsDownloading && (!Pack.IsDownloaded || Pack.HasUpdate);
 
+    // Three distinct visual states for pack status (following platform conventions)
+    public bool ShowLoadingSpinner => IsDownloading; // Show animated spinner during active download
+    public bool ShowSuccessIcon => !IsDownloading && Pack.IsDownloaded && !Pack.HasUpdate; // Only show check when truly complete and up-to-date
+
     // Explicit computed property with guaranteed evaluation - prevents stale bindings during CollectionView refresh
     public bool ShouldShowInCardProgress => IsDownloading && _context == PackCardContext.Onboarding; // Combined check: only show in-card progress during onboarding AND while downloading
 
@@ -124,6 +128,8 @@ public partial class PackCardViewModel : ObservableObject
         OnPropertyChanged(nameof(CanDownload));
         OnPropertyChanged(nameof(ShowUpdateBadge));
         OnPropertyChanged(nameof(ShowDownloadButton));
+        OnPropertyChanged(nameof(ShowLoadingSpinner));
+        OnPropertyChanged(nameof(ShowSuccessIcon));
         OnPropertyChanged(nameof(CanExecuteDownload));
         OnPropertyChanged(nameof(CanExecuteDelete));
         OnPropertyChanged(nameof(EtaText));
@@ -135,6 +141,8 @@ public partial class PackCardViewModel : ObservableObject
     {
         // Notify dependent properties when IsDownloading changes
         OnPropertyChanged(nameof(ShowDownloadButton));
+        OnPropertyChanged(nameof(ShowLoadingSpinner));
+        OnPropertyChanged(nameof(ShowSuccessIcon));
         OnPropertyChanged(nameof(CanExecuteDownload));
         OnPropertyChanged(nameof(CanExecuteDelete));
         OnPropertyChanged(nameof(ShouldShowInCardProgress));
