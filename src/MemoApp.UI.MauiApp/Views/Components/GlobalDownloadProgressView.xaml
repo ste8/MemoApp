@@ -82,24 +82,13 @@
                   Margin="0,8,0,0">
 
                 <!-- High-Visibility Progress Bar -->
-                <Border Grid.Row="0"
-                        BackgroundColor="{AppThemeBinding Light='#E8E8E8', Dark='#383838'}"
-                        StrokeThickness="0"
-                        StrokeShape="RoundRectangle 4"
-                        HeightRequest="6">
-                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                            StrokeThickness="0"
-                            StrokeShape="RoundRectangle 4"
-                            HorizontalOptions="Start"
-                            WidthRequest="{Binding DownloadProgress, Converter={StaticResource PercentageConverter}}"
-                            SemanticProperties.Description="{Binding ProgressText}"
-                            SemanticProperties.Hint="Download progress indicator">
-                        <!-- Subtle animation for progress changes -->
-                        <Border.Behaviors>
-                            <behaviors:ProgressAnimationBehavior />
-                        </Border.Behaviors>
-                    </Border>
-                </Border>
+                <ProgressBar Grid.Row="0"
+                             Progress="{Binding DownloadProgress, Converter={StaticResource PercentageConverter}}"
+                             ProgressColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                             HeightRequest="6"
+                             ScaleY="1.5"
+                             SemanticProperties.Description="{Binding ProgressText}"
+                             SemanticProperties.Hint="Download progress indicator" />
 
                 <!-- Size and ETA Info -->
                 <Grid Grid.Row="1" ColumnDefinitions="*,Auto">
