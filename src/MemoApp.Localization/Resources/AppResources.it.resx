@@ -107,11 +107,11 @@
     <comment>Custom Flash Numbers button</comment>
   </data>
   <data name="MainPage_QuickFlashNumbers" xml:space="preserve">
-    <value>Flash Numeri Veloce</value>
+    <value>Flash Numbers Veloce</value>
     <comment>Quick Flash Numbers exercise button</comment>
   </data>
   <data name="MainPage_CustomFlashNumbers" xml:space="preserve">
-    <value>Flash Numeri Personalizzato</value>
+    <value>Flash Numbers Personalizzato</value>
     <comment>Custom Flash Numbers exercise button</comment>
   </data>
   <data name="MainPage_PresetTraining" xml:space="preserve">
@@ -458,10 +458,6 @@
     <value>Riepilogo Sessione</value>
     <comment>Session summary title</comment>
   </data>
-  <data name="FlashNumbers_NewSession" xml:space="preserve">
-    <value>Nuovo Flash Numbers</value>
-    <comment>New Flash Numbers session button text</comment>
-  </data>
   <data name="TrainingSession_NewSession" xml:space="preserve">
     <value>Nuovo Flash Numbers</value>
     <comment>New session button (deprecated - use FlashNumbers_NewSession)</comment>
@@ -515,10 +511,6 @@
   <data name="Statistics_ViewDetails" xml:space="preserve">
     <value>Vedi Dettagli</value>
     <comment>Button text for viewing detailed statistics</comment>
-  </data>
-  <data name="FlashNumbers_NewSession" xml:space="preserve">
-    <value>⊕ Nuova Sessione</value>
-    <comment>Button text for starting a new Flash Numbers session</comment>
   </data>
   <data name="Statistics_NumbersToPracticeMoreIcon" xml:space="preserve">
     <value>📚 Numeri da Praticare di Più</value>
@@ -904,10 +896,6 @@
   <data name="BigNumber_ConfirmNewGame_Confirm" xml:space="preserve">
     <value>Inizia Nuovo</value>
     <comment>Confirm button for new game confirmation - starts fresh</comment>
-  </data>
-  <data name="BigNumber_PerfectScore" xml:space="preserve">
-    <value>Punteggio Perfetto!</value>
-    <comment>Celebration text for 100% accuracy</comment>
   </data>
   <data name="BigNumber_YourResult" xml:space="preserve">
     <value>Il Tuo Risultato:</value>
@@ -1961,6 +1949,10 @@
     <value>Cipolla</value>
     <comment>Onion option</comment>
   </data>
+  <data name="Onboarding_Man" xml:space="preserve">
+    <value>Uomo</value>
+    <comment>Man option</comment>
+  </data>
   <data name="Onboarding_Mano" xml:space="preserve">
     <value>Mano</value>
     <comment>Hand option for Italian Major System (32 = Mano)</comment>
@@ -2175,7 +2167,41 @@
     <value>Personalizza la tua esperienza</value>
     <comment>Settings tab description</comment>
   </data>
-  
+
+  <!-- Personalization Screen -->
+  <data name="Onboarding_Personalization_Title" xml:space="preserve">
+    <value>Personalizza la Tua Esperienza</value>
+    <comment>Personalization screen title</comment>
+  </data>
+  <data name="Onboarding_Personalization_Level" xml:space="preserve">
+    <value>Il Tuo Livello di Esperienza</value>
+    <comment>Experience level label</comment>
+  </data>
+  <data name="Onboarding_Level_Beginner" xml:space="preserve">
+    <value>Principiante - Nuovo alle tecniche di memoria</value>
+    <comment>Beginner level option</comment>
+  </data>
+  <data name="Onboarding_Level_Intermediate" xml:space="preserve">
+    <value>Intermedio - Con qualche esperienza</value>
+    <comment>Intermediate level option</comment>
+  </data>
+  <data name="Onboarding_Level_Expert" xml:space="preserve">
+    <value>Esperto - Maestro della Conversione fonetica</value>
+    <comment>Expert level option</comment>
+  </data>
+  <data name="Onboarding_Personalization_Reminder" xml:space="preserve">
+    <value>Promemoria Pratica Quotidiana</value>
+    <comment>Reminder toggle label</comment>
+  </data>
+  <data name="Onboarding_Personalization_ReminderDesc" xml:space="preserve">
+    <value>Ricevi una notifica quotidiana per esercitarti</value>
+    <comment>Reminder description</comment>
+  </data>
+  <data name="Onboarding_Personalization_Ready" xml:space="preserve">
+    <value>Tutto pronto! Iniziamo ad allenarci!</value>
+    <comment>Ready message</comment>
+  </data>
+
   <!-- Sharing Feature -->
   <data name="Share_ButtonText" xml:space="preserve">
     <value>Condividi Risultati</value>
@@ -2343,9 +2369,17 @@ Scarica MemoRaise: {AppUrl}
     <value>Padroneggia l'arte della memorizzazione</value>
     <comment>Welcome screen subtitle - concise and impactful</comment>
   </data>
+  <data name="Onboarding_TimeEstimate" xml:space="preserve">
+    <value>5 minuti per iniziare</value>
+    <comment>Time estimate for onboarding</comment>
+  </data>
   <data name="Onboarding_QuickTimeEstimate" xml:space="preserve">
     <value>5 passi per iniziare</value>
     <comment>Step count for streamlined onboarding</comment>
+  </data>
+  <data name="Onboarding_Challenge_Hard" xml:space="preserve">
+    <value>Difficile, vero? Rendiamolo facile!</value>
+    <comment>Challenge conclusion message</comment>
   </data>
   <data name="Onboarding_Challenge_Title" xml:space="preserve">
     <value>Riesci a memorizzarlo in meno di un minuto?</value>
@@ -2418,6 +2452,26 @@ Scarica MemoRaise: {AppUrl}
   <data name="Onboarding_MemoryTechniquesNote" xml:space="preserve">
     <value>Esistono molte tecniche di memoria efficaci disponibili. MemoRaise si concentra specificamente sulla Conversione fonetica, uno dei metodi più potenti per memorizzare i numeri. Le tecniche che imparerai funzionano benissimo insieme ad altri metodi di memoria che potresti già conoscere.</value>
     <comment>Onboarding - introductory note about memory techniques on Major System page</comment>
+  </data>
+  <data name="Onboarding_MajorSystem_Title" xml:space="preserve">
+    <value>La Conversione fonetica</value>
+    <comment>Major System introduction title</comment>
+  </data>
+  <data name="Onboarding_Numbers" xml:space="preserve">
+    <value>Numeri</value>
+    <comment>Numbers label in conversion flow</comment>
+  </data>
+  <data name="Onboarding_Sounds" xml:space="preserve">
+    <value>Suoni</value>
+    <comment>Sounds label in conversion flow</comment>
+  </data>
+  <data name="Onboarding_Images" xml:space="preserve">
+    <value>Immagini</value>
+    <comment>Images label in conversion flow</comment>
+  </data>
+  <data name="Onboarding_ConversionTable" xml:space="preserve">
+    <value>Conversione Numero a Suono</value>
+    <comment>Conversion table title</comment>
   </data>
   <data name="Onboarding_LearnHow" xml:space="preserve">
     <value>Perfeziona la tua tecnica di memorizzazione numero-immagine</value>
@@ -2557,21 +2611,6 @@ Scarica MemoRaise: {AppUrl}
     <value>Scarica pacchetti aggiuntivi con nuove associazioni e lingue</value>
     <comment>Accessibility help text for download packs button</comment>
   </data>
-  
-  <!-- Contextual Page Headers -->
-  <data name="FlashNumbers_ContextualHeader" xml:space="preserve">
-    <value>Esercitati nel riconoscimento rapido con intervalli di numeri personalizzabili</value>
-    <comment>Contextual header for Flash Numbers setup page explaining its purpose</comment>
-  </data>
-  <data name="Associations_ContextualHeader" xml:space="preserve">
-    <value>Esplora e impara la tua libreria di associazioni numero-immagine</value>
-    <comment>Contextual header for Associations page explaining its purpose</comment>
-  </data>
-  <data name="BigNumber_ContextualHeader" xml:space="preserve">
-    <value>Metti alla prova la tua memoria con sequenze di numeri cronometrate</value>
-    <comment>Contextual header for Big Number page explaining its purpose</comment>
-  </data>
-  
   <!-- Flash Numbers Association Reveal Feature -->
   <data name="FlashNumbers_RevealAssociation" xml:space="preserve">
     <value>Mostra Associazione</value>
@@ -2861,23 +2900,6 @@ Scarica MemoRaise: {AppUrl}
     <comment>Digit count indicator showing current vs target digits (e.g., "45 di 100 cifre")</comment>
   </data>
 
-  <!-- Enhanced accessibility strings for color-blind users -->
-  <data name="BigNumber_CorrectDigitEnhancedAccessibility" xml:space="preserve">
-    <value>{0} alla posizione {1}: Corretto - sfondo verde con simbolo di spunta</value>
-    <comment>Enhanced accessibility description for correct digits including visual indicators</comment>
-  </data>
-  <data name="BigNumber_WrongPositionDigitEnhancedAccessibility" xml:space="preserve">
-    <value>{0} alla posizione {1}: Cifra giusta, posizione sbagliata - sfondo arancione a righe con simbolo freccia doppia</value>
-    <comment>Enhanced accessibility description for wrong position digits including visual indicators</comment>
-  </data>
-  <data name="BigNumber_IncorrectDigitEnhancedAccessibility" xml:space="preserve">
-    <value>{0} alla posizione {1}: Sbagliato - sfondo grigio punteggiato con simbolo X</value>
-    <comment>Enhanced accessibility description for incorrect digits including visual indicators</comment>
-  </data>
-  <data name="BigNumber_MissingDigitEnhancedAccessibility" xml:space="preserve">
-    <value>Posizione {0}: Cifra mancante - sfondo bianco con bordo rosso tratteggiato e simbolo punto interrogativo</value>
-    <comment>Enhanced accessibility description for missing digits including visual indicators</comment>
-  </data>
   <data name="BigNumber_VerificationTimeout" xml:space="preserve">
     <value>Il processo di verifica è scaduto. Riprova.</value>
     <comment>Error message when verification process times out</comment>
