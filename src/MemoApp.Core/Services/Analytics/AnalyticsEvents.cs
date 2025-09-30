@@ -39,6 +39,7 @@ public static class AnalyticsEvents
     public const string PackUpdateStarted = "pack_update_started";
     public const string PackUpdated = "pack_updated";
     public const string PackDeleted = "pack_deleted";
+    public const string PackDeleteCanceled = "pack_delete_canceled";
     public const string PackSelected = "pack_selected";
     
     // Navigation Events

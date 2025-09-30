@@ -332,12 +332,40 @@ public partial class PackDownloadViewModel : PackDownloadBaseViewModel
         if (packCard == null)
             return;
 
+        // Show confirmation dialog
+        var packName = packCard.DisplayName;
+        var confirm = await Application.Current!.MainPage!.DisplayAlert(
+            _localizationService.GetString("Settings_DeletePack"),
+            _localizationService.GetString("Settings_DeletePackConfirmation").Replace("{0}", packName),
+            _localizationService.GetString("Common_Delete"),
+            _localizationService.GetString("Common_Cancel"));
+
+        if (!confirm)
+        {
+            // Track cancellation analytics
+            await _analyticsService.TrackEventAsync(AnalyticsEvents.PackDeleteCanceled,
+                new Dictionary<string, object>
+                {
+                    [AnalyticsParameters.PackName] = packCard.Pack.InternationalName,
+                    [AnalyticsParameters.PackLanguage] = packCard.Pack.LanguageCode
+                });
+            return;
+        }
+
         try
         {
             var success = await _downloadService.DeletePackAsync(packCard.Pack.Id);
             packCard.Pack.IsDownloaded = false;
             packCard.Pack.HasUpdate = false;
             packCard.RefreshState();
+
+            // Track successful deletion
+            await _analyticsService.TrackEventAsync(AnalyticsEvents.PackDeleted,
+                new Dictionary<string, object>
+                {
+                    [AnalyticsParameters.PackName] = packCard.Pack.InternationalName,
+                    [AnalyticsParameters.PackLanguage] = packCard.Pack.LanguageCode
+                });
 
             StatusMessage = _localizationService.GetString("PackDownload_DeleteCompleted").Replace("{0}", packCard.Pack.GetDisplayName(true));
             _typedLogger.LogInformation("Pack {PackId} deleted successfully", packCard.Pack.Id);
