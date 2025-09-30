@@ -157,12 +157,6 @@
 
                     <!-- Number Format Selection with Description -->
                     <StackLayout Spacing="{OnIdiom Phone=8, Tablet=10, Desktop=12}">
-                        <Label Text="{localization:Localize NumberFormat_Title}"
-                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                               FontFamily="OpenSansSemiBold"
-                               TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
-                               AutomationProperties.IsInAccessibleTree="True" />
-
                         <Border Style="{StaticResource IconPickerContainerStyle}">
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectNumberFormatCommand}" />
@@ -200,51 +194,51 @@
                                                HorizontalOptions="Center"
                                                Margin="0,8,0,8">
                             <!-- Comparison pair 1: 01 ≠ 1 -->
-                            <HorizontalStackLayout Spacing="4">
+                            <HorizontalStackLayout Spacing="6">
                                 <Border BackgroundColor="{StaticResource Primary}"
-                                        Padding="6,3"
-                                        StrokeShape="RoundRectangle 4">
+                                        Padding="8,4"
+                                        StrokeShape="RoundRectangle 6">
                                     <Label Text="01"
                                            TextColor="White"
-                                           FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=11}"
+                                           FontSize="{OnIdiom Phone=14, Tablet=15, Desktop=14}"
                                            FontAttributes="Bold" />
                                 </Border>
                                 <Label Text="{Binding CurrentNumberFormatComparisonSymbol}"
-                                       FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=12}"
+                                       FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=16}"
                                        FontAttributes="Bold"
                                        VerticalOptions="Center"
                                        TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
                                 <Border BackgroundColor="{StaticResource Primary}"
-                                        Padding="6,3"
-                                        StrokeShape="RoundRectangle 4">
+                                        Padding="8,4"
+                                        StrokeShape="RoundRectangle 6">
                                     <Label Text="1"
                                            TextColor="White"
-                                           FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=11}"
+                                           FontSize="{OnIdiom Phone=14, Tablet=15, Desktop=14}"
                                            FontAttributes="Bold" />
                                 </Border>
                             </HorizontalStackLayout>
 
                             <!-- Comparison pair 2: 05 ≠ 5 -->
-                            <HorizontalStackLayout Spacing="4">
+                            <HorizontalStackLayout Spacing="6">
                                 <Border BackgroundColor="{StaticResource Primary}"
-                                        Padding="6,3"
-                                        StrokeShape="RoundRectangle 4">
+                                        Padding="8,4"
+                                        StrokeShape="RoundRectangle 6">
                                     <Label Text="05"
                                            TextColor="White"
-                                           FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=11}"
+                                           FontSize="{OnIdiom Phone=14, Tablet=15, Desktop=14}"
                                            FontAttributes="Bold" />
                                 </Border>
                                 <Label Text="{Binding CurrentNumberFormatComparisonSymbol}"
-                                       FontSize="{OnIdiom Phone=12, Tablet=14, Desktop=12}"
+                                       FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=16}"
                                        FontAttributes="Bold"
                                        VerticalOptions="Center"
                                        TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
                                 <Border BackgroundColor="{StaticResource Primary}"
-                                        Padding="6,3"
-                                        StrokeShape="RoundRectangle 4">
+                                        Padding="8,4"
+                                        StrokeShape="RoundRectangle 6">
                                     <Label Text="5"
                                            TextColor="White"
-                                           FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=11}"
+                                           FontSize="{OnIdiom Phone=14, Tablet=15, Desktop=14}"
                                            FontAttributes="Bold" />
                                 </Border>
                             </HorizontalStackLayout>

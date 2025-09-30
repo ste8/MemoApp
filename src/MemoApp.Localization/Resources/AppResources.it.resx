@@ -673,12 +673,12 @@
     <comment>General settings section title</comment>
   </data>
   <data name="Settings_DisplayLanguage" xml:space="preserve">
-    <value>Lingua di Visualizzazione</value>
+    <value>Lingua</value>
     <comment>Display language settings section title</comment>
   </data>
   <data name="Settings_MemorySystem" xml:space="preserve">
-    <value>Sistema di Memoria</value>
-    <comment>Memory system settings section title</comment>
+    <value>Formato dei Numeri</value>
+    <comment>Number format settings section title</comment>
   </data>
   <data name="Settings_Advanced" xml:space="preserve">
     <value>Avanzate</value>

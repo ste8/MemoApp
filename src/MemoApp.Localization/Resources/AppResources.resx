@@ -674,12 +674,12 @@
     <comment>General settings section title</comment>
   </data>
   <data name="Settings_DisplayLanguage" xml:space="preserve">
-    <value>Display Language</value>
+    <value>Language</value>
     <comment>Display language settings section title</comment>
   </data>
   <data name="Settings_MemorySystem" xml:space="preserve">
-    <value>Memory System</value>
-    <comment>Memory system settings section title</comment>
+    <value>Number Format</value>
+    <comment>Number format settings section title</comment>
   </data>
   <data name="Settings_Advanced" xml:space="preserve">
     <value>Advanced</value>
