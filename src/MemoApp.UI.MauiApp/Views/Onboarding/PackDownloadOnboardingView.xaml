@@ -4,141 +4,136 @@
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels.Onboarding"
              xmlns:vm="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
              xmlns:components="clr-namespace:MemoApp.UI.MauiApp.Views.Components"
+             xmlns:behaviors="clr-namespace:MemoApp.UI.MauiApp.Behaviors"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              x:Class="MemoApp.UI.MauiApp.Views.Onboarding.PackDownloadOnboardingView"
              x:DataType="viewmodels:PackDownloadOnboardingViewModel">
     
-    <ScrollView Padding="30">
-        <VerticalStackLayout Spacing="25">
-            
-            <!-- Enhanced Title -->
-            <VerticalStackLayout Spacing="15" Margin="0,0,0,25">
-                <Label Text="{StaticResource Icon_Download}" FontFamily="{StaticResource IconFont_Solid}" FontSize="40" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" HorizontalOptions="Center" />
-                <Label Text="{localization:Localize OnboardingPackDownload_Title}"
-                       Style="{StaticResource Headline}"
-                       HorizontalOptions="Center"
-                       HorizontalTextAlignment="Center"
-                       FontSize="24"
-                       FontAttributes="Bold" />
-                
-                <!-- Reassuring Description -->
-                <Label Text="{localization:Localize OnboardingPackDownload_Description}"
-                       HorizontalOptions="Center"
-                       HorizontalTextAlignment="Center"
-                       FontSize="16"
-                       Opacity="0.9" />
-                       
-                <!-- Benefits List -->
-                <VerticalStackLayout Spacing="8" Margin="20,15,20,0">
-                    <HorizontalStackLayout Spacing="10">
-                        <Label Style="{StaticResource SuccessIcon}" 
-                               FontSize="16" 
-                               VerticalOptions="Center" />
-                        <Label Text="{localization:Localize OnboardingPackDownload_Benefit1}"
-                               FontSize="14"
-                               VerticalOptions="Center"
-                               Opacity="0.8" />
-                    </HorizontalStackLayout>
-                    <HorizontalStackLayout Spacing="10">
-                        <Label Style="{StaticResource SuccessIcon}" 
-                               FontSize="16" 
-                               VerticalOptions="Center" />
-                        <Label Text="{localization:Localize OnboardingPackDownload_Benefit2}"
-                               FontSize="14"
-                               VerticalOptions="Center"
-                               Opacity="0.8" />
-                    </HorizontalStackLayout>
-                    <HorizontalStackLayout Spacing="10">
-                        <Label Style="{StaticResource SuccessIcon}" 
-                               FontSize="16" 
-                               VerticalOptions="Center" />
-                        <Label Text="{localization:Localize OnboardingPackDownload_Benefit3}"
-                               FontSize="14"
-                               VerticalOptions="Center"
-                               Opacity="0.8" />
-                    </HorizontalStackLayout>
-                </VerticalStackLayout>
-            </VerticalStackLayout>
-            
-            <!-- Loading State -->
-            <VerticalStackLayout IsVisible="{Binding IsLoading}" Spacing="15">
-                <ActivityIndicator IsRunning="{Binding IsLoading}" 
-                                   Color="{StaticResource Primary}"
-                                   HeightRequest="40" />
-                <Label Text="{localization:Localize OnboardingPackDownload_LoadingMessage}"
-                       HorizontalOptions="Center"
-                       HorizontalTextAlignment="Center" />
-            </VerticalStackLayout>
+    <Grid RowDefinitions="Auto,*">
+        <!-- Enhanced Header -->
+        <VerticalStackLayout Grid.Row="0" Spacing="15" Padding="30,30,30,20">
+            <Label Text="{StaticResource Icon_Download}"
+                   FontFamily="{StaticResource IconFont_Solid}"
+                   FontSize="40"
+                   TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                   HorizontalOptions="Center" />
+            <Label Text="{localization:Localize OnboardingPackDownload_Title}"
+                   Style="{StaticResource Headline}"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   FontSize="24"
+                   FontAttributes="Bold" />
 
-            <!-- Error State -->
-            <Frame IsVisible="{Binding HasError}"
-                   BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
-                   BorderColor="{AppThemeBinding Light={StaticResource Danger}, Dark={StaticResource DangerDark}}"
-                   CornerRadius="10"
-                   Padding="20">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="{localization:Localize Common_Error}"
-                           FontAttributes="Bold"
-                           TextColor="{AppThemeBinding Light={StaticResource Danger}, Dark={StaticResource DangerDark}}" />
-                    <Label Text="{Binding ErrorMessage}"
-                           TextColor="{AppThemeBinding Light={StaticResource Danger}, Dark={StaticResource DangerDark}}" />
-                </VerticalStackLayout>
-            </Frame>
+            <!-- Reassuring Description -->
+            <Label Text="{localization:Localize OnboardingPackDownload_Description}"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   FontSize="16"
+                   Opacity="0.9" />
 
-            <!-- Already Downloaded State -->
-            <Frame IsVisible="{Binding HasDownloadedPack}"
-                   BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
-                   BorderColor="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource SuccessDark}}"
-                   CornerRadius="10"
-                   Padding="20">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="{localization:Localize OnboardingPackDownload_AlreadyDownloadedTitle}"
-                           FontAttributes="Bold"
-                           TextColor="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource SuccessDark}}" />
-                    <Label Text="{localization:Localize OnboardingPackDownload_AlreadyDownloadedMessage}"
-                           TextColor="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource SuccessDark}}" />
-                </VerticalStackLayout>
-            </Frame>
-
-            <!-- Pack Selection and Download -->
-            <VerticalStackLayout IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" Spacing="20">
-                
-
-                <!-- Download Progress -->
-                <VerticalStackLayout IsVisible="{Binding IsDownloading}" Spacing="10">
-                    <ProgressBar Progress="{Binding DownloadProgress, Converter={StaticResource PercentageConverter}}"
-                                 ProgressColor="{StaticResource Primary}"
-                                 HeightRequest="8" />
-                    <Label Text="{Binding ProgressText}"
-                           HorizontalOptions="Center"
+            <!-- Benefits List -->
+            <VerticalStackLayout Spacing="8" Margin="20,15,20,0">
+                <HorizontalStackLayout Spacing="10">
+                    <Label Style="{StaticResource SuccessIcon}"
+                           FontSize="16"
+                           VerticalOptions="Center" />
+                    <Label Text="{localization:Localize OnboardingPackDownload_Benefit1}"
                            FontSize="14"
-                           TextColor="{StaticResource Primary}" />
-                    <Button Text="{localization:Localize Common_Cancel}"
-                            Command="{Binding CancelDownloadCommand}"
-                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray800}}"
-                            TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}"
-                            WidthRequest="150"
-                            HorizontalOptions="Center" />
-                </VerticalStackLayout>
+                           VerticalOptions="Center"
+                           Opacity="0.8" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="10">
+                    <Label Style="{StaticResource SuccessIcon}"
+                           FontSize="16"
+                           VerticalOptions="Center" />
+                    <Label Text="{localization:Localize OnboardingPackDownload_Benefit2}"
+                           FontSize="14"
+                           VerticalOptions="Center"
+                           Opacity="0.8" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="10">
+                    <Label Style="{StaticResource SuccessIcon}"
+                           FontSize="16"
+                           VerticalOptions="Center" />
+                    <Label Text="{localization:Localize OnboardingPackDownload_Benefit3}"
+                           FontSize="14"
+                           VerticalOptions="Center"
+                           Opacity="0.8" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
 
-                <!-- Available Packs -->
-                <VerticalStackLayout Spacing="15">
-                    <Label Text="{localization:Localize OnboardingPackDownload_AvailablePacksTitle}"
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center" />
-                    
-                    <CollectionView ItemsSource="{Binding AvailablePacks}">
-                        <CollectionView.ItemsLayout>
-                            <LinearItemsLayout Orientation="Vertical"
-                                               ItemSpacing="10" />
-                        </CollectionView.ItemsLayout>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="vm:PackCardViewModel">
-                                <components:PackCardView />
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </VerticalStackLayout>
+        <!-- Pack List with Enhanced Structure -->
+        <ScrollView Grid.Row="1">
+            <StackLayout Padding="16,8" Spacing="16">
+
+                <!-- Initial Loading Indicator with Animated Spinner -->
+                <StackLayout IsVisible="{Binding IsLoading}"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             Spacing="16"
+                             Margin="40,60">
+                    <Label Style="{StaticResource LoadingSpinnerIcon}"
+                           FontSize="32"
+                           HorizontalOptions="Center"
+                           IsVisible="{Binding IsLoading}">
+                        <Label.Behaviors>
+                            <behaviors:LoadingSpinnerBehavior />
+                        </Label.Behaviors>
+                    </Label>
+                    <Label Text="{localization:Localize OnboardingPackDownload_LoadingMessage}"
+                           HorizontalTextAlignment="Center"
+                           FontSize="16"
+                           TextColor="Gray"/>
+                </StackLayout>
+
+                <!-- Error State -->
+                <Frame IsVisible="{Binding HasError}"
+                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                       BorderColor="{AppThemeBinding Light={StaticResource Danger}, Dark={StaticResource DangerDark}}"
+                       CornerRadius="10"
+                       Padding="20"
+                       Margin="16,0">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="{localization:Localize Common_Error}"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource Danger}, Dark={StaticResource DangerDark}}" />
+                        <Label Text="{Binding ErrorMessage}"
+                               TextColor="{AppThemeBinding Light={StaticResource Danger}, Dark={StaticResource DangerDark}}" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Already Downloaded State -->
+                <Frame IsVisible="{Binding HasDownloadedPack}"
+                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}"
+                       BorderColor="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource SuccessDark}}"
+                       CornerRadius="10"
+                       Padding="20"
+                       Margin="16,0">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="{localization:Localize OnboardingPackDownload_AlreadyDownloadedTitle}"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource SuccessDark}}" />
+                        <Label Text="{localization:Localize OnboardingPackDownload_AlreadyDownloadedMessage}"
+                               TextColor="{AppThemeBinding Light={StaticResource Success}, Dark={StaticResource SuccessDark}}" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Available Packs Collection -->
+                <CollectionView ItemsSource="{Binding AvailablePacks}"
+                                SelectionMode="None"
+                                BackgroundColor="Transparent"
+                                ItemSizingStrategy="MeasureAllItems"
+                                IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:PackCardViewModel">
+                            <components:PackCardView />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="4"/>
+                    </CollectionView.ItemsLayout>
+                </CollectionView>
 
                 <!-- Reassuring Skip Option -->
                 <Frame IsVisible="{Binding ShowSkipOption}"
@@ -146,10 +141,14 @@
                        BorderColor="Transparent"
                        CornerRadius="15"
                        Padding="20,15"
-                       Margin="0,20,0,0">
+                       Margin="16,20,16,0">
                     <VerticalStackLayout Spacing="8">
                         <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
-                            <Label Text="{StaticResource Icon_Info}" FontFamily="{StaticResource IconFont_Solid}" FontSize="16" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" VerticalOptions="Center" />
+                            <Label Text="{StaticResource Icon_Info}"
+                                   FontFamily="{StaticResource IconFont_Solid}"
+                                   FontSize="16"
+                                   TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                                   VerticalOptions="Center" />
                             <Label Text="{localization:Localize OnboardingPackDownload_SkipTitle}"
                                    FontAttributes="Bold"
                                    VerticalOptions="Center" />
@@ -162,8 +161,7 @@
                     </VerticalStackLayout>
                 </Frame>
 
-            </VerticalStackLayout>
-
-        </VerticalStackLayout>
-    </ScrollView>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
 </ContentView>
