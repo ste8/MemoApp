@@ -9,7 +9,7 @@
     
     <ScrollView>
         <StackLayout Padding="{OnIdiom Phone=16, Tablet=24, Desktop=32}"
-                     Spacing="{OnIdiom Phone=8, Tablet=10, Desktop=12}">
+                     Spacing="{OnIdiom Phone=6, Tablet=8, Desktop=10}">
             
             <!-- Page Title -->
             <StackLayout Orientation="Horizontal" 
@@ -54,12 +54,6 @@
                     
                     <!-- Language Selection -->
                     <StackLayout Spacing="{OnIdiom Phone=8, Tablet=10, Desktop=12}">
-                        <Label Text="{localization:Localize Language_Title}"
-                               FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
-                               FontFamily="OpenSansSemiBold"
-                               TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
-                               AutomationProperties.IsInAccessibleTree="True" />
-
                         <!-- Language Picker with Loading Overlay -->
                         <Grid>
                             <Border Style="{StaticResource IconPickerContainerStyle}"
@@ -129,9 +123,6 @@
 
                 </StackLayout>
             </Border>
-
-            <!-- Section Divider -->
-            <Border Style="{StaticResource SettingsSectionDividerStyle}" />
 
             <!-- Memory System Section (Number Format) -->
             <Border Style="{StaticResource PrimarySettingsSectionStyle}">
@@ -257,9 +248,6 @@
                 </StackLayout>
             </Border>
 
-            <!-- Section Divider -->
-            <Border Style="{StaticResource SettingsSectionDividerStyle}" />
-
             <!-- Pack Management Section -->
             <Border Style="{StaticResource SecondarySettingsSectionStyle}">
                 <StackLayout Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}"
@@ -345,9 +333,6 @@
                     
                 </StackLayout>
             </Border>
-
-            <!-- Section Divider -->
-            <Border Style="{StaticResource SettingsSectionDividerStyle}" />
 
             <!-- About Section -->
             <Border Style="{StaticResource TertiarySettingsSectionStyle}">
