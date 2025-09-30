@@ -9,31 +9,32 @@
              x:Class="MemoApp.UI.MauiApp.Views.Onboarding.PackDownloadOnboardingView"
              x:DataType="viewmodels:PackDownloadOnboardingViewModel">
     
-    <Grid RowDefinitions="Auto,*">
-        <!-- Compact Header -->
-        <VerticalStackLayout Grid.Row="0" Spacing="6" Padding="20,20,20,12">
-            <Label Text="{StaticResource Icon_Download}"
-                   FontFamily="{StaticResource IconFont_Solid}"
-                   FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
-                   TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                   HorizontalOptions="Center" />
-            <Label Text="{localization:Localize OnboardingPackDownload_Title}"
-                   Style="{StaticResource Headline}"
-                   HorizontalOptions="Center"
-                   HorizontalTextAlignment="Center"
-                   FontSize="22"
-                   FontAttributes="Bold" />
+    <!-- Fully Scrollable Page -->
+    <ScrollView>
+        <StackLayout Spacing="0">
+            <!-- Scrollable Header with increased bottom padding for visual separation -->
+            <VerticalStackLayout Spacing="6" Padding="20,20,20,16">
+                <Label Text="{StaticResource Icon_Download}"
+                       FontFamily="{StaticResource IconFont_Solid}"
+                       FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
+                       TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                       HorizontalOptions="Center" />
+                <Label Text="{localization:Localize OnboardingPackDownload_Title}"
+                       Style="{StaticResource Headline}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       FontSize="22"
+                       FontAttributes="Bold" />
 
-            <!-- Reassuring Description -->
-            <Label Text="{localization:Localize OnboardingPackDownload_Description}"
-                   HorizontalOptions="Center"
-                   HorizontalTextAlignment="Center"
-                   FontSize="15"
-                   Opacity="0.9" />
-        </VerticalStackLayout>
+                <!-- Reassuring Description -->
+                <Label Text="{localization:Localize OnboardingPackDownload_Description}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       FontSize="15"
+                       Opacity="0.9" />
+            </VerticalStackLayout>
 
-        <!-- Pack List with Enhanced Structure -->
-        <ScrollView Grid.Row="1">
+            <!-- Pack List Content -->
             <StackLayout Padding="16,8" Spacing="16">
 
                 <!-- Initial Loading Indicator with Animated Spinner -->
@@ -131,6 +132,6 @@
                 </Frame>
 
             </StackLayout>
-        </ScrollView>
-    </Grid>
+        </StackLayout>
+    </ScrollView>
 </ContentView>
