@@ -2731,4 +2731,84 @@
   </data>  <data name="Error_Validation" xml:space="preserve">
     <value>Invalid input provided. Please check your data and try again.</value>
     <comment>Data validation error message</comment>
-  </data></root>
+  </data>  <data name="Accessibility_LoadingIndicator" xml:space="preserve">
+    <value>Loading</value>
+    <comment>Accessibility label for loading indicator</comment>
+  </data>
+  <data name="Accessibility_ScrollComparisonHint" xml:space="preserve">
+    <value>Scroll horizontally to see all digits</value>
+    <comment>Accessibility hint for scrolling through digit comparison</comment>
+  </data>
+  <data name="Accessibility_StartNumberPicker" xml:space="preserve">
+    <value>Start number picker</value>
+    <comment>Accessibility label for start number picker</comment>
+  </data>
+  <data name="Accessibility_StartNumberPickerHelp" xml:space="preserve">
+    <value>Select the starting number for custom training range</value>
+    <comment>Accessibility help text for start number picker</comment>
+  </data>
+  <data name="Associations_ContextualHeader" xml:space="preserve">
+    <value>Browse and learn your number-to-image reference library</value>
+    <comment>Subtle contextual header shown below Associations title</comment>
+  </data>
+  <data name="Associations_Title" xml:space="preserve">
+    <value>Associations</value>
+    <comment>Title for the associations tab</comment>
+  </data>
+  <data name="BigNumber_ExampleLabel" xml:space="preserve">
+    <value>Example:</value>
+    <comment>Label for format example display</comment>
+  </data>
+  <data name="FlashNumbers_CompletedText" xml:space="preserve">
+    <value>Flash Numbers completed in</value>
+    <comment>First line of two-line completion message (context)</comment>
+  </data>
+  <data name="FlashNumbers_ContextualHeader" xml:space="preserve">
+    <value>Practice quick recognition with customizable number ranges</value>
+    <comment>Subtle contextual header shown below Flash Numbers title</comment>
+  </data>
+  <data name="FlashNumbers_NoAssociation" xml:space="preserve">
+    <value>No association found for this number</value>
+    <comment>Message shown when no Major System association is available</comment>
+  </data>
+  <data name="Share_AccessibilityHint" xml:space="preserve">
+    <value>Double tap to share your results</value>
+    <comment>Accessibility hint for share button</comment>
+  </data>
+  <data name="Common_Retry" xml:space="preserve">
+    <value>Retry</value>
+    <comment>Retry button</comment>
+  </data>
+  <data name="Common_Skip" xml:space="preserve">
+    <value>Skip</value>
+    <comment>Skip button</comment>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Language</value>
+    <comment>Language setting label</comment>
+  </data>
+  <data name="PackDownload_DownloadSelected" xml:space="preserve">
+    <value>Download Selected</value>
+    <comment>Download selected packs button</comment>
+  </data>
+  <data name="PackDownload_ErrorTitle" xml:space="preserve">
+    <value>Error</value>
+    <comment>Error title for pack download</comment>
+  </data>
+  <data name="PackDownload_FilterByCompany" xml:space="preserve">
+    <value>Filter by Company</value>
+    <comment>Filter packs by company picker</comment>
+  </data>
+  <data name="PackDownload_FilterByLanguage" xml:space="preserve">
+    <value>Filter by Language</value>
+    <comment>Filter packs by language picker</comment>
+  </data>
+  <data name="PackDownload_NoPacksTitle" xml:space="preserve">
+    <value>No Packs Available</value>
+    <comment>No packs available message title</comment>
+  </data>
+  <data name="Associations_NoPackDownloadedMessage" xml:space="preserve">
+    <value>Download a content pack to view associations</value>
+    <comment>Message shown when no pack is downloaded in associations view</comment>
+  </data>
+</root>

@@ -2713,4 +2713,76 @@
   </data>  <data name="Error_Validation" xml:space="preserve">
     <value>Input non valido fornito. Controlla i dati e riprova.</value>
     <comment>Data validation error message</comment>
-  </data></root>
+  </data>  <data name="Accessibility_LoadingIndicator" xml:space="preserve">
+    <value>Caricamento</value>
+    <comment>Accessibility label for loading indicator</comment>
+  </data>
+  <data name="Accessibility_ScrollComparisonHint" xml:space="preserve">
+    <value>Scorri orizzontalmente per vedere tutte le cifre</value>
+    <comment>Accessibility hint for scrolling through digit comparison</comment>
+  </data>
+  <data name="Accessibility_StartNumberPicker" xml:space="preserve">
+    <value>Selettore numero iniziale</value>
+    <comment>Accessibility label for start number picker</comment>
+  </data>
+  <data name="Accessibility_StartNumberPickerHelp" xml:space="preserve">
+    <value>Seleziona il numero iniziale per l'intervallo di addestramento personalizzato</value>
+    <comment>Accessibility help text for start number picker</comment>
+  </data>
+  <data name="Associations_Title" xml:space="preserve">
+    <value>Schedario</value>
+    <comment>Title for the associations tab</comment>
+  </data>
+  <data name="BigNumber_ExampleLabel" xml:space="preserve">
+    <value>Esempio:</value>
+    <comment>Label for format example display</comment>
+  </data>
+  <data name="FlashNumbers_CompletedText" xml:space="preserve">
+    <value>Flash Numbers completato in</value>
+    <comment>First line of two-line completion message (context)</comment>
+  </data>
+  <data name="FlashNumbers_NoAssociation" xml:space="preserve">
+    <value>Nessuna associazione trovata per questo numero</value>
+    <comment>Message shown when no Major System association is available</comment>
+  </data>
+  <data name="Share_AccessibilityHint" xml:space="preserve">
+    <value>Tocca due volte per condividere i tuoi risultati</value>
+    <comment>Accessibility hint for share button</comment>
+  </data>
+  <data name="Common_Retry" xml:space="preserve">
+    <value>Riprova</value>
+    <comment>Retry button</comment>
+  </data>
+  <data name="Common_Skip" xml:space="preserve">
+    <value>Salta</value>
+    <comment>Skip button</comment>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Lingua</value>
+    <comment>Language setting label</comment>
+  </data>
+  <data name="PackDownload_DownloadSelected" xml:space="preserve">
+    <value>Scarica Selezionati</value>
+    <comment>Download selected packs button</comment>
+  </data>
+  <data name="PackDownload_ErrorTitle" xml:space="preserve">
+    <value>Errore</value>
+    <comment>Error title for pack download</comment>
+  </data>
+  <data name="PackDownload_FilterByCompany" xml:space="preserve">
+    <value>Filtra per Azienda</value>
+    <comment>Filter packs by company picker</comment>
+  </data>
+  <data name="PackDownload_FilterByLanguage" xml:space="preserve">
+    <value>Filtra per Lingua</value>
+    <comment>Filter packs by language picker</comment>
+  </data>
+  <data name="PackDownload_NoPacksTitle" xml:space="preserve">
+    <value>Nessun Pacchetto Disponibile</value>
+    <comment>No packs available message title</comment>
+  </data>
+  <data name="Associations_NoPackDownloadedMessage" xml:space="preserve">
+    <value>Scarica un pacchetto contenuti per visualizzare le associazioni</value>
+    <comment>Message shown when no pack is downloaded in associations view</comment>
+  </data>
+</root>
