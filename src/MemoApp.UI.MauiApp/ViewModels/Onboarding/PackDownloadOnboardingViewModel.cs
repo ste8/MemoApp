@@ -115,12 +115,49 @@ public partial class PackDownloadOnboardingViewModel : PackDownloadBaseViewModel
     }
 
     [RelayCommand]
-    private void CancelDownload()
+    private async Task CancelDownload()
     {
-        _downloadCancellation?.Cancel();
-        CurrentDownloadingPack = null;
-        IsDownloading = false;
-        ShowSkipOption = true;
+        if (_downloadCancellation == null || CurrentDownloadingPack == null)
+            return;
+
+        // Show confirmation dialog
+        var packName = CurrentDownloadingPack.DisplayName;
+        var confirm = await Application.Current!.MainPage!.DisplayAlert(
+            _localizationService.GetString("PackDownload_CancelConfirmTitle"),
+            _localizationService.GetString("PackDownload_CancelConfirmMessage").Replace("{0}", packName),
+            _localizationService.GetString("Common_Yes"),
+            _localizationService.GetString("Common_No"));
+
+        if (!confirm)
+            return;
+
+        try
+        {
+            // Cancel the download
+            _downloadCancellation.Cancel();
+
+            // Track analytics
+            await _analyticsService.TrackEventAsync(AnalyticsEvents.OnboardingPackDownloadCanceled,
+                new Dictionary<string, object>
+                {
+                    [AnalyticsParameters.PackName] = CurrentDownloadingPack.Pack.InternationalName,
+                    ["progress_percent"] = CurrentDownloadingPack.DownloadProgress
+                });
+
+            _typedLogger.LogInformation("User canceled download of pack {PackId} at {Progress}% during onboarding",
+                CurrentDownloadingPack.Pack.Id, CurrentDownloadingPack.DownloadProgress);
+        }
+        catch (Exception ex)
+        {
+            _typedLogger.LogError(ex, "Failed to cancel download for pack {PackId} during onboarding",
+                CurrentDownloadingPack?.Pack.Id);
+        }
+        finally
+        {
+            CurrentDownloadingPack = null;
+            IsDownloading = false;
+            ShowSkipOption = true;
+        }
     }
 
     // Abstract method implementations for base class

@@ -61,14 +61,15 @@
 
             <!-- Cancel Button -->
             <Button Grid.Row="0" Grid.Column="1"
-                    Text="{StaticResource Icon_Close}"
+                    Text="{localization:Localize Common_Cancel}"
                     Command="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=CancelCommand}"
-                    Style="{StaticResource IconButton_Danger}"
-                    FontSize="16"
-                    WidthRequest="40"
-                    HeightRequest="40"
-                    Padding="0"
+                    FontSize="14"
+                    HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=40}"
+                    MinimumWidthRequest="72"
+                    Padding="8,0"
                     VerticalOptions="Center"
+                    BackgroundColor="Transparent"
+                    TextColor="{AppThemeBinding Light={StaticResource Danger}, Dark={StaticResource DangerDark}}"
                     SemanticProperties.Description="{localization:Localize PackDownload_CancelButton}">
                 <Button.Behaviors>
                     <behaviors:TapFeedbackBehavior />

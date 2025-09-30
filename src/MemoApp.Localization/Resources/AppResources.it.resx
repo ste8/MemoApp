@@ -1161,6 +1161,14 @@
     <value>Annulla Download</value>
     <comment>Cancel download button</comment>
   </data>
+  <data name="PackDownload_CancelConfirmTitle" xml:space="preserve">
+    <value>Annullare il download?</value>
+    <comment>Confirmation dialog title for canceling download</comment>
+  </data>
+  <data name="PackDownload_CancelConfirmMessage" xml:space="preserve">
+    <value>Sei sicuro di voler annullare il download di {0}? Tutti i progressi andranno persi.</value>
+    <comment>Confirmation dialog message with pack name parameter</comment>
+  </data>
   <data name="PackDownload_ContentPacks" xml:space="preserve">
     <value>Pacchetti Contenuti</value>
     <comment>Updated page title for content pack management</comment>

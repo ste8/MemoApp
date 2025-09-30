@@ -64,7 +64,9 @@ public static class AnalyticsEvents
     public const string OnboardingStepViewed = "onboarding_step_viewed";
     public const string OnboardingPackDownloadStarted = "onboarding_pack_download_started";
     public const string OnboardingPackDownloadCompleted = "onboarding_pack_download_completed";
-    
+    public const string OnboardingPackDownloadCanceled = "onboarding_pack_download_canceled";
+    public const string PackDownloadCanceled = "pack_download_canceled";
+
     // User Engagement Events
     public const string FirstTimeUser = "first_time_user";
     public const string UserRetention = "user_retention";

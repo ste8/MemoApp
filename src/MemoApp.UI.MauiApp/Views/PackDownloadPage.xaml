@@ -121,8 +121,8 @@
         <components:GlobalDownloadProgressView Grid.Row="3"
                                                 x:Name="GlobalProgressView"
                                                 BindingContext="{Binding CurrentDownloadingPack}"
-                                                CancelCommand="{Binding CancelDownloadCommand}"
-                                                ScrollToPackCommand="{Binding ScrollToPackCommand}"
+                                                CancelCommand="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CancelDownloadCommand}"
+                                                ScrollToPackCommand="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ScrollToPackCommand}"
                                                 VerticalOptions="End" />
     </Grid>
 </ContentPage>
