@@ -10,57 +10,26 @@
              x:DataType="viewmodels:PackDownloadOnboardingViewModel">
     
     <Grid RowDefinitions="Auto,*">
-        <!-- Enhanced Header -->
-        <VerticalStackLayout Grid.Row="0" Spacing="15" Padding="30,30,30,20">
+        <!-- Compact Header -->
+        <VerticalStackLayout Grid.Row="0" Spacing="6" Padding="20,20,20,12">
             <Label Text="{StaticResource Icon_Download}"
                    FontFamily="{StaticResource IconFont_Solid}"
-                   FontSize="40"
+                   FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"
                    TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
                    HorizontalOptions="Center" />
             <Label Text="{localization:Localize OnboardingPackDownload_Title}"
                    Style="{StaticResource Headline}"
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center"
-                   FontSize="24"
+                   FontSize="22"
                    FontAttributes="Bold" />
 
             <!-- Reassuring Description -->
             <Label Text="{localization:Localize OnboardingPackDownload_Description}"
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center"
-                   FontSize="16"
+                   FontSize="15"
                    Opacity="0.9" />
-
-            <!-- Benefits List -->
-            <VerticalStackLayout Spacing="8" Margin="20,15,20,0">
-                <HorizontalStackLayout Spacing="10">
-                    <Label Style="{StaticResource SuccessIcon}"
-                           FontSize="16"
-                           VerticalOptions="Center" />
-                    <Label Text="{localization:Localize OnboardingPackDownload_Benefit1}"
-                           FontSize="14"
-                           VerticalOptions="Center"
-                           Opacity="0.8" />
-                </HorizontalStackLayout>
-                <HorizontalStackLayout Spacing="10">
-                    <Label Style="{StaticResource SuccessIcon}"
-                           FontSize="16"
-                           VerticalOptions="Center" />
-                    <Label Text="{localization:Localize OnboardingPackDownload_Benefit2}"
-                           FontSize="14"
-                           VerticalOptions="Center"
-                           Opacity="0.8" />
-                </HorizontalStackLayout>
-                <HorizontalStackLayout Spacing="10">
-                    <Label Style="{StaticResource SuccessIcon}"
-                           FontSize="16"
-                           VerticalOptions="Center" />
-                    <Label Text="{localization:Localize OnboardingPackDownload_Benefit3}"
-                           FontSize="14"
-                           VerticalOptions="Center"
-                           Opacity="0.8" />
-                </HorizontalStackLayout>
-            </VerticalStackLayout>
         </VerticalStackLayout>
 
         <!-- Pack List with Enhanced Structure -->
