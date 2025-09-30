@@ -223,10 +223,6 @@
     <value>Currently practicing range {0}</value>
     <comment>Accessibility description for range display during training, {0} is the range like "00-09"</comment>
   </data>
-  <data name="TrainingSession_Title" xml:space="preserve">
-    <value>Flash Numbers</value>
-    <comment>Training session page title (deprecated - use FlashNumbers_Title)</comment>
-  </data>
   <data name="TrainingSession_Progress" xml:space="preserve">
     <value>Progress</value>
     <comment>Progress section title</comment>
@@ -246,10 +242,6 @@
   <data name="FlashNumbers_CurrentNumber" xml:space="preserve">
     <value>Current Number</value>
     <comment>Flash Numbers current number display title</comment>
-  </data>
-  <data name="TrainingSession_CurrentNumber" xml:space="preserve">
-    <value>Current Number</value>
-    <comment>Current number display title (deprecated - use FlashNumbers_CurrentNumber)</comment>
   </data>
   <data name="TrainingSession_YourAnswer" xml:space="preserve">
     <value>Your Answer</value>
@@ -278,10 +270,6 @@
   <data name="FlashNumbers_AchievementCelebration" xml:space="preserve">
     <value>Great job! Ready for the next challenge?</value>
     <comment>Motivational text shown after completing Flash Numbers session</comment>
-  </data>
-  <data name="TrainingSession_Complete" xml:space="preserve">
-    <value>Flash Numbers Complete!</value>
-    <comment>Session completion title (deprecated - use FlashNumbers_Complete)</comment>
   </data>
   <data name="TrainingSession_Statistics" xml:space="preserve">
     <value>Session Statistics</value>
@@ -435,17 +423,9 @@
     <value>👁️ Double-tap the number to reveal the association</value>
     <comment>Hint for mobile users about double-tap gesture</comment>
   </data>
-  <data name="TrainingSession_ThinkInstruction" xml:space="preserve">
-    <value>Think of your word/image association</value>
-    <comment>Training session instruction (deprecated - use FlashNumbers_ThinkInstruction)</comment>
-  </data>
   <data name="FlashNumbers_HelpTip" xml:space="preserve">
     <value>💡 Take your time to recall your Major System word or image for this number, then tap 'Next Number' to continue. Press 'N' for quick access.</value>
     <comment>Flash Numbers help tip</comment>
-  </data>
-  <data name="TrainingSession_HelpTip" xml:space="preserve">
-    <value>💡 Take your time to recall your Major System word or image for this number, then tap 'Next Number' to continue. Press 'N' for quick access.</value>
-    <comment>Training session help tip (deprecated - use FlashNumbers_HelpTip)</comment>
   </data>
   <data name="TrainingSession_Celebration" xml:space="preserve">
     <value>🎉</value>
@@ -459,11 +439,7 @@
     <value>Session Summary</value>
     <comment>Session summary title</comment>
   </data>
-  <data name="TrainingSession_NewSession" xml:space="preserve">
-    <value>New Flash Numbers</value>
-    <comment>New session button (deprecated - use FlashNumbers_NewSession)</comment>
-  </data>
-  
+
   <!-- Statistics Page -->
   <data name="Statistics_SessionSummary" xml:space="preserve">
     <value>Session Summary</value>
@@ -565,11 +541,7 @@
     <value>Press Space or N to go to next number</value>
     <comment>Flash Numbers keyboard shortcut hint for Next button</comment>
   </data>
-  <data name="TrainingSession_KeyboardShortcutHint" xml:space="preserve">
-    <value>Press N to go to next number</value>
-    <comment>Keyboard shortcut hint for Next button (deprecated - use FlashNumbers_KeyboardShortcutHint)</comment>
-  </data>
-  
+
   <!-- Accessibility Labels -->
   <data name="Accessibility_NextButton" xml:space="preserve">
     <value>Next number button</value>
@@ -808,25 +780,13 @@
     <value>Home</value>
     <comment>Home tab label</comment>
   </data>
-  <data name="Tab_Training" xml:space="preserve">
-    <value>Training</value>
-    <comment>Training tab label</comment>
-  </data>
   <data name="Tab_FlashNumbers" xml:space="preserve">
     <value>Flash Numbers</value>
     <comment>Flash Numbers tab label</comment>
   </data>
-  <data name="Tab_Help" xml:space="preserve">
-    <value>Help</value>
-    <comment>Help tab label</comment>
-  </data>
   <data name="Tab_Settings" xml:space="preserve">
     <value>Settings</value>
     <comment>Settings tab label</comment>
-  </data>
-  <data name="Tab_NumberMemory" xml:space="preserve">
-    <value>Big Number</value>
-    <comment>Number Memory tab label</comment>
   </data>
   
   <!-- Big Number Exercise -->

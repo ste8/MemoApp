@@ -58,7 +58,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  
+
+  <!--
+    INTENTIONAL TRANSLATION CHOICES:
+
+    1. "Flash Numbers" - Brand name, intentionally kept in English throughout Italian translations
+       - Per CLAUDE.md guidelines, "Flash Numbers" is a branded exercise name
+       - Do NOT translate to "Flash Numeri" or similar
+       - Examples: Tab_FlashNumbers, MainPage_QuickFlashNumbers, MainPage_CustomFlashNumbers
+
+    2. "MemoRaise" - Commercial brand name, always kept as-is in all languages
+       - Do NOT translate or localize
+       - Used in user-facing contexts (welcome messages, sharing, about pages)
+
+    3. "Major System" vs "Conversione fonetica"
+       - Italian uses "Conversione fonetica" (phonetic conversion) throughout
+       - This is the established Italian term for this memory technique
+       - More familiar to Italian users than literal "Sistema Maggiore"
+  -->
+
   <!-- App Title -->
   <data name="AppTitle" xml:space="preserve">
     <value>Allenamento Conversione fonetica</value>
@@ -221,12 +239,7 @@
   <data name="FlashNumbers_RangeAccessibility" xml:space="preserve">
     <value>Attualmente praticando intervallo {0}</value>
     <comment>Accessibility description for range display during training, {0} is the range like "00-09"</comment>
-  </data>
-  <data name="TrainingSession_Title" xml:space="preserve">
-    <value>Flash Numbers</value>
-    <comment>Training session page title (deprecated - use FlashNumbers_Title)</comment>
-  </data>
-  <data name="TrainingSession_Progress" xml:space="preserve">
+  </data>  <data name="TrainingSession_Progress" xml:space="preserve">
     <value>Progresso</value>
     <comment>Progress section title</comment>
   </data>
@@ -245,12 +258,7 @@
   <data name="FlashNumbers_CurrentNumber" xml:space="preserve">
     <value>Numero Corrente</value>
     <comment>Flash Numbers current number display title</comment>
-  </data>
-  <data name="TrainingSession_CurrentNumber" xml:space="preserve">
-    <value>Numero Corrente</value>
-    <comment>Current number display title (deprecated - use FlashNumbers_CurrentNumber)</comment>
-  </data>
-  <data name="TrainingSession_YourAnswer" xml:space="preserve">
+  </data>  <data name="TrainingSession_YourAnswer" xml:space="preserve">
     <value>La Tua Risposta</value>
     <comment>Answer input title</comment>
   </data>
@@ -277,12 +285,7 @@
   <data name="FlashNumbers_AchievementCelebration" xml:space="preserve">
     <value>Ottimo lavoro! Pronto per la prossima sfida?</value>
     <comment>Motivational text shown after completing Flash Numbers session</comment>
-  </data>
-  <data name="TrainingSession_Complete" xml:space="preserve">
-    <value>Flash Numbers Completato!</value>
-    <comment>Session completion title (deprecated - use FlashNumbers_Complete)</comment>
-  </data>
-  <data name="TrainingSession_Statistics" xml:space="preserve">
+  </data>  <data name="TrainingSession_Statistics" xml:space="preserve">
     <value>Statistiche della Sessione</value>
     <comment>Statistics section title</comment>
   </data>
@@ -433,20 +436,10 @@
   <data name="FlashNumbers_DoubleTapHint" xml:space="preserve">
     <value>👁️ Tocca due volte il numero per rivelare l'associazione</value>
     <comment>Suggerimento per utenti mobili sul gesto double-tap</comment>
-  </data>
-  <data name="TrainingSession_ThinkInstruction" xml:space="preserve">
-    <value>Pensa alla tua associazione parola/immagine</value>
-    <comment>Training session instruction (deprecated - use FlashNumbers_ThinkInstruction)</comment>
-  </data>
-  <data name="FlashNumbers_HelpTip" xml:space="preserve">
+  </data>  <data name="FlashNumbers_HelpTip" xml:space="preserve">
     <value>💡 Prenditi il tempo per ricordare la tua parola o immagine del Conversione fonetica per questo numero, poi tocca 'Numero Successivo' per continuare. Premi 'N' per l'accesso rapido.</value>
     <comment>Flash Numbers help tip</comment>
-  </data>
-  <data name="TrainingSession_HelpTip" xml:space="preserve">
-    <value>💡 Prenditi il tempo per ricordare la tua parola o immagine del Conversione fonetica per questo numero, poi tocca 'Numero Successivo' per continuare. Premi 'N' per l'accesso rapido.</value>
-    <comment>Training session help tip (deprecated - use FlashNumbers_HelpTip)</comment>
-  </data>
-  <data name="TrainingSession_Celebration" xml:space="preserve">
+  </data>  <data name="TrainingSession_Celebration" xml:space="preserve">
     <value>🎉</value>
     <comment>Celebration emoji</comment>
   </data>
@@ -457,12 +450,7 @@
   <data name="TrainingSession_SessionSummary" xml:space="preserve">
     <value>Riepilogo Sessione</value>
     <comment>Session summary title</comment>
-  </data>
-  <data name="TrainingSession_NewSession" xml:space="preserve">
-    <value>Nuovo Flash Numbers</value>
-    <comment>New session button (deprecated - use FlashNumbers_NewSession)</comment>
-  </data>
-  
+  </data>  
   <!-- Statistics Page -->
   <data name="Statistics_SessionSummary" xml:space="preserve">
     <value>Riepilogo Sessione</value>
@@ -563,12 +551,7 @@
   <data name="FlashNumbers_KeyboardShortcutHint" xml:space="preserve">
     <value>Premi Spazio o N per andare al numero successivo</value>
     <comment>Flash Numbers keyboard shortcut hint for Next button</comment>
-  </data>
-  <data name="TrainingSession_KeyboardShortcutHint" xml:space="preserve">
-    <value>Premi N per andare al numero successivo</value>
-    <comment>Keyboard shortcut hint for Next button (deprecated - use FlashNumbers_KeyboardShortcutHint)</comment>
-  </data>
-  
+  </data>  
   <!-- Accessibility Labels -->
   <data name="Accessibility_NextButton" xml:space="preserve">
     <value>Pulsante numero successivo</value>
@@ -807,25 +790,13 @@
     <value>Casa</value>
     <comment>Home tab label</comment>
   </data>
-  <data name="Tab_Training" xml:space="preserve">
-    <value>Allenamento</value>
-    <comment>Training tab label</comment>
-  </data>
   <data name="Tab_FlashNumbers" xml:space="preserve">
     <value>Flash Numbers</value>
     <comment>Flash Numbers tab label</comment>
   </data>
-  <data name="Tab_Help" xml:space="preserve">
-    <value>Aiuto</value>
-    <comment>Help tab label</comment>
-  </data>
   <data name="Tab_Settings" xml:space="preserve">
     <value>Impostazioni</value>
     <comment>Settings tab label</comment>
-  </data>
-  <data name="Tab_NumberMemory" xml:space="preserve">
-    <value>Numerone</value>
-    <comment>Number Memory tab label</comment>
   </data>
   
   <!-- Big Number Exercise -->
