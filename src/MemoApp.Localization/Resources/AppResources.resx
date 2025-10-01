@@ -1607,10 +1607,6 @@
     <value>4 steps to get started</value>
     <comment>Step count for streamlined onboarding</comment>
   </data>
-  <data name="Onboarding_ValueProposition" xml:space="preserve">
-    <value>Practice the Major System with guided exercises</value>
-    <comment>Value proposition for memory training</comment>
-  </data>
   <data name="Onboarding_LearnHow" xml:space="preserve">
     <value>Perfect your number-to-image memory technique</value>
     <comment>Description of what users will improve</comment>

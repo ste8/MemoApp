@@ -148,22 +148,12 @@
                 </Border>
 
                 <!-- Conclusion Message -->
-                <VerticalStackLayout Spacing="20">
-                    <Label Text="{Binding ConclusionMessage}"
-                           FontSize="24"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource Primary}"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center" />
-
-                    <!-- Value Proposition -->
-                    <Label Text="{localization:Localize Onboarding_ValueProposition}"
-                           FontSize="16"
-                           FontAttributes="Italic"
-                           TextColor="{StaticResource Gray600}"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center" />
-                </VerticalStackLayout>
+                <Label Text="{Binding ConclusionMessage}"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource Primary}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
             </VerticalStackLayout>
 
         </VerticalStackLayout>
