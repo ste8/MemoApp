@@ -11,7 +11,7 @@
         <VerticalStackLayout Spacing="30">
 
             <!-- Logo and Welcome Section -->
-            <VerticalStackLayout Spacing="20">
+            <VerticalStackLayout Spacing="12">
                 <components:MemoRaiseLogoComponent />
 
                 <Label Text="{localization:Localize Onboarding_Welcome_Subtitle}"
