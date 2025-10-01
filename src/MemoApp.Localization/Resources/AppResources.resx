@@ -1604,7 +1604,7 @@
     <comment>Time estimate for onboarding</comment>
   </data>
   <data name="Onboarding_QuickTimeEstimate" xml:space="preserve">
-    <value>5 steps to get started</value>
+    <value>4 steps to get started</value>
     <comment>Step count for streamlined onboarding</comment>
   </data>
   <data name="Onboarding_ValueProposition" xml:space="preserve">
@@ -1758,11 +1758,11 @@
     <comment>Difficulty label for easy challenge - professional English tone</comment>
   </data>
   <data name="Onboarding_DifficultyLabel_Medium" xml:space="preserve">
-    <value>Challenging</value>
+    <value>Bit trickier now, huh?</value>
     <comment>Difficulty label for medium challenge - professional English tone</comment>
   </data>
   <data name="Onboarding_DifficultyLabel_Hard" xml:space="preserve">
-    <value>Advanced Level</value>
+    <value>Even tougher!</value>
     <comment>Difficulty label for hard challenge - avoids duplication with conclusion</comment>
   </data>
 

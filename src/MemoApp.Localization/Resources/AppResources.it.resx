@@ -1922,7 +1922,7 @@
     <comment>Time estimate for onboarding</comment>
   </data>
   <data name="Onboarding_QuickTimeEstimate" xml:space="preserve">
-    <value>5 passi per iniziare</value>
+    <value>4 passi per iniziare</value>
     <comment>Step count for streamlined onboarding</comment>
   </data>
   <data name="Onboarding_Challenge_Hard" xml:space="preserve">
@@ -1986,11 +1986,11 @@
     <comment>Difficulty label for easy challenge - conversational Italian tone</comment>
   </data>
   <data name="Onboarding_DifficultyLabel_Medium" xml:space="preserve">
-    <value>Già più difficile, vero?</value>
+    <value>Già più difficile, eh?</value>
     <comment>Difficulty label for medium challenge - conversational Italian tone</comment>
   </data>
   <data name="Onboarding_DifficultyLabel_Hard" xml:space="preserve">
-    <value>Livello Avanzato</value>
+    <value>Ancora più tosta!</value>
     <comment>Difficulty label for hard challenge - avoids duplication with conclusion</comment>
   </data>
   <data name="Onboarding_ValueProposition" xml:space="preserve">
@@ -2784,5 +2784,8 @@
   <data name="Associations_NoPackDownloadedMessage" xml:space="preserve">
     <value>Scarica un pacchetto contenuti per visualizzare le associazioni</value>
     <comment>Message shown when no pack is downloaded in associations view</comment>
+  </data>
+  <data name="Onboarding_Welcome_Subtitle" xml:space="preserve">
+    <value>Padroneggia l’arte della memorizzazione</value>
   </data>
 </root>
