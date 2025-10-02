@@ -22,7 +22,7 @@
             </VerticalStackLayout>
 
             <!-- Rhetorical Demonstrations Section -->
-            <VerticalStackLayout Spacing="20">
+            <VerticalStackLayout Spacing="20" Padding="0,10,0,0">
 
                 <!-- Easy Challenge -->
                 <Border StrokeShape="RoundRectangle 16"
