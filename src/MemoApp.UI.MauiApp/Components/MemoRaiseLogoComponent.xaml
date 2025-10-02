@@ -8,7 +8,7 @@
             StrokeThickness="2"
             StrokeShape="RoundRectangle 24"
             HorizontalOptions="Center"
-            Margin="{OnIdiom Phone='0,4', Tablet='0,6', Desktop='0,8'}">
+            Margin="{OnIdiom Phone='0,2', Tablet='0,4', Desktop='0,6'}">
 
         <Border.Stroke>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -20,7 +20,7 @@
         <!-- MemoRaise Logo with Premium Feel -->
         <Image x:Name="LogoImage"
                Source="logo_memoraise.png"
-               HeightRequest="{OnIdiom Phone=120, Tablet=150, Desktop=180}"
+               HeightRequest="{OnIdiom Phone=90, Tablet=120, Desktop=150}"
                HorizontalOptions="Center"
                VerticalOptions="Center"
                Aspect="AspectFit"

@@ -7,11 +7,11 @@
              x:Class="MemoApp.UI.MauiApp.Views.Onboarding.WelcomeChallengeView"
              x:DataType="viewmodels:WelcomeChallengeViewModel">
     
-    <ScrollView Padding="30">
-        <VerticalStackLayout Spacing="30">
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="20">
 
             <!-- Logo and Welcome Section -->
-            <VerticalStackLayout Spacing="12">
+            <VerticalStackLayout Spacing="10">
                 <components:MemoRaiseLogoComponent />
 
                 <Label Text="{localization:Localize Onboarding_Welcome_Subtitle}"
@@ -19,37 +19,17 @@
                        HorizontalTextAlignment="Center"
                        FontSize="18"
                        Opacity="0.9" />
-
-                <!-- Updated Time Estimate -->
-                <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                       BorderColor="Transparent"
-                       CornerRadius="15"
-                       Padding="12,8"
-                       HorizontalOptions="Center">
-                    <HorizontalStackLayout Spacing="8">
-                        <Label Text="{StaticResource Icon_Info}"
-                               FontFamily="{StaticResource IconFont_Solid}"
-                               FontSize="16"
-                               TextColor="White"
-                               VerticalOptions="Center" />
-                        <Label Text="{localization:Localize Onboarding_QuickTimeEstimate}"
-                               TextColor="White"
-                               FontSize="14"
-                               FontAttributes="Bold"
-                               VerticalOptions="Center" />
-                    </HorizontalStackLayout>
-                </Frame>
             </VerticalStackLayout>
 
             <!-- Rhetorical Demonstrations Section -->
-            <VerticalStackLayout Spacing="30">
+            <VerticalStackLayout Spacing="20">
 
                 <!-- Easy Challenge -->
                 <Border StrokeShape="RoundRectangle 16"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
                         Stroke="{StaticResource Success}"
-                        Padding="20">
-                    <VerticalStackLayout Spacing="15">
+                        Padding="16">
+                    <VerticalStackLayout Spacing="12">
                         <Label Text="{Binding EasyQuestion}"
                                FontSize="18"
                                FontAttributes="Bold"
@@ -60,10 +40,10 @@
                         <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
                                BorderColor="{StaticResource Success}"
                                CornerRadius="12"
-                               Padding="20,15"
+                               Padding="16,12"
                                HorizontalOptions="Center">
                             <Label Text="{Binding EasyNumber}"
-                                   FontSize="32"
+                                   FontSize="28"
                                    FontFamily="Monospace"
                                    FontAttributes="Bold"
                                    HorizontalOptions="Center"
@@ -82,8 +62,8 @@
                 <Border StrokeShape="RoundRectangle 16"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
                         Stroke="{StaticResource ElegantAmberDark}"
-                        Padding="20">
-                    <VerticalStackLayout Spacing="15">
+                        Padding="16">
+                    <VerticalStackLayout Spacing="12">
                         <Label Text="{Binding MediumQuestion}"
                                FontSize="18"
                                FontAttributes="Bold"
@@ -94,10 +74,10 @@
                         <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
                                BorderColor="{StaticResource ElegantAmberDark}"
                                CornerRadius="12"
-                               Padding="20,15"
+                               Padding="16,12"
                                HorizontalOptions="Center">
                             <Label Text="{Binding MediumNumber}"
-                                   FontSize="28"
+                                   FontSize="24"
                                    FontFamily="Monospace"
                                    FontAttributes="Bold"
                                    HorizontalOptions="Center"
@@ -116,8 +96,8 @@
                 <Border StrokeShape="RoundRectangle 16"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
                         Stroke="{StaticResource Danger}"
-                        Padding="20">
-                    <VerticalStackLayout Spacing="15">
+                        Padding="16">
+                    <VerticalStackLayout Spacing="12">
                         <Label Text="{Binding HardQuestion}"
                                FontSize="18"
                                FontAttributes="Bold"
@@ -128,10 +108,10 @@
                         <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
                                BorderColor="{StaticResource Danger}"
                                CornerRadius="12"
-                               Padding="20,15"
+                               Padding="16,12"
                                HorizontalOptions="Center">
                             <Label Text="{Binding HardNumber}"
-                                   FontSize="20"
+                                   FontSize="18"
                                    FontFamily="Monospace"
                                    FontAttributes="Bold"
                                    HorizontalOptions="Center"
