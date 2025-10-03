@@ -20,14 +20,11 @@
                    Opacity="0.9" />
         </VerticalStackLayout>
 
-        <!-- Panel Container with Clipping -->
-        <Border Grid.Row="1"
-                StrokeThickness="0"
-                BackgroundColor="Transparent"
-                Margin="0,0,0,0">
-            <Grid x:Name="PanelContainer"
-                  HorizontalOptions="Fill"
-                  VerticalOptions="Center">
+        <!-- Panel Container -->
+        <Grid x:Name="PanelContainer"
+              Grid.Row="1"
+              HorizontalOptions="Fill"
+              VerticalOptions="Center">
 
                 <!-- Easy Challenge Panel -->
                 <Border x:Name="EasyPanel"
@@ -159,8 +156,7 @@
                            VerticalOptions="Center" />
                 </VerticalStackLayout>
 
-            </Grid>
-        </Border>
+        </Grid>
 
     </Grid>
 </ContentView>

@@ -42,7 +42,6 @@ public partial class WelcomeChallengeViewModel : BaseViewModel
         _localizationService = localizationService;
         _logger = logger;
 
-        Title = _localizationService.GetString("Onboarding_Welcome_Title");
         LoadRhetoricalQuestions();
 
         _logger.LogInformation("Initialized rhetorical challenge demonstration with sequential panels");

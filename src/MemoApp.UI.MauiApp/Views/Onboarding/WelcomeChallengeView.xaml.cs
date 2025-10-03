@@ -6,7 +6,6 @@ namespace MemoApp.UI.MauiApp.Views.Onboarding;
 public partial class WelcomeChallengeView : ContentView
 {
     private readonly ILogger<WelcomeChallengeView> _logger;
-    private readonly WelcomeChallengeViewModel _viewModel;
     private readonly List<View> _panels;
     private int _currentPanelIndex = 0;
     private bool _isAnimating = false;
@@ -22,7 +21,6 @@ public partial class WelcomeChallengeView : ContentView
         ILogger<WelcomeChallengeView> logger)
     {
         InitializeComponent();
-        _viewModel = viewModel;
         _logger = logger;
         BindingContext = viewModel;
 
@@ -66,16 +64,6 @@ public partial class WelcomeChallengeView : ContentView
         return true; // At first panel, allow parent to go back
     }
 
-    /// <summary>
-    /// Returns true if we're at the last panel (ready to advance)
-    /// </summary>
-    public bool IsAtLastPanel => _currentPanelIndex >= _panels.Count - 1;
-
-    /// <summary>
-    /// Returns true if we're at the first panel
-    /// </summary>
-    public bool IsAtFirstPanel => _currentPanelIndex == 0;
-
     private async Task TransitionToPanel(int newIndex)
     {
         if (_isAnimating || newIndex == _currentPanelIndex || newIndex < 0 || newIndex >= _panels.Count)
@@ -89,24 +77,7 @@ public partial class WelcomeChallengeView : ContentView
             var enteringPanel = _panels[newIndex];
             var forward = newIndex > _currentPanelIndex;
 
-            // Check for reduced motion preference
-            // Note: .NET MAUI doesn't have built-in API for this yet, so we default to false
-            // In the future, this could check platform-specific settings
-            var prefersReducedMotion = false;
-
-            if (prefersReducedMotion)
-            {
-                // Simple fade for reduced motion
-                await exitingPanel.FadeTo(0, 150);
-                exitingPanel.IsVisible = false;
-                enteringPanel.IsVisible = true;
-                await enteringPanel.FadeTo(1, 150);
-            }
-            else
-            {
-                // Full slide animation
-                await AnimatePanelTransition(exitingPanel, enteringPanel, forward);
-            }
+            await AnimatePanelTransition(exitingPanel, enteringPanel, forward);
 
             _currentPanelIndex = newIndex;
             _logger.LogInformation("Transitioned to panel {PanelIndex}", newIndex);
@@ -152,19 +123,5 @@ public partial class WelcomeChallengeView : ContentView
         exitingPanel.TranslationX = 0;
         exitingPanel.Scale = 1;
         exitingPanel.Opacity = 1;
-    }
-
-    protected override void OnHandlerChanged()
-    {
-        base.OnHandlerChanged();
-
-        if (Handler != null)
-        {
-            // Initialize first panel
-            EasyPanel.IsVisible = true;
-            MediumPanel.IsVisible = false;
-            HardPanel.IsVisible = false;
-            ConclusionPanel.IsVisible = false;
-        }
     }
 }
