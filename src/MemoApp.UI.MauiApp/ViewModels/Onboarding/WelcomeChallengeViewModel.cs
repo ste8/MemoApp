@@ -7,6 +7,7 @@ namespace MemoApp.UI.MauiApp.ViewModels.Onboarding;
 /// <summary>
 /// ViewModel for the Welcome Challenge view with rhetorical demonstrations.
 /// Shows multiple "would you be able to..." examples to create desire for training.
+/// Uses sequential panel reveal with animations controlled by the View.
 /// </summary>
 public partial class WelcomeChallengeViewModel : BaseViewModel
 {
@@ -44,7 +45,7 @@ public partial class WelcomeChallengeViewModel : BaseViewModel
         Title = _localizationService.GetString("Onboarding_Welcome_Title");
         LoadRhetoricalQuestions();
 
-        _logger.LogInformation("Initialized rhetorical challenge demonstration");
+        _logger.LogInformation("Initialized rhetorical challenge demonstration with sequential panels");
     }
 
     private void LoadRhetoricalQuestions()

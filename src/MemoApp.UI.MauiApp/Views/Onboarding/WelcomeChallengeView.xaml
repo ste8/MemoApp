@@ -6,30 +6,37 @@
              xmlns:components="clr-namespace:MemoApp.UI.MauiApp.Components"
              x:Class="MemoApp.UI.MauiApp.Views.Onboarding.WelcomeChallengeView"
              x:DataType="viewmodels:WelcomeChallengeViewModel">
-    
-    <ScrollView Padding="20">
-        <VerticalStackLayout Spacing="20">
 
-            <!-- Logo and Welcome Section -->
-            <VerticalStackLayout Spacing="10">
-                <components:MemoRaiseLogoComponent />
+    <Grid RowDefinitions="Auto,*"
+          Padding="{OnPlatform iOS='20,20,20,0', Android='20,20,20,0', Default='20'}">
 
-                <Label Text="{localization:Localize Onboarding_Welcome_Subtitle}"
-                       HorizontalOptions="Center"
-                       HorizontalTextAlignment="Center"
-                       FontSize="18"
-                       Opacity="0.9" />
-            </VerticalStackLayout>
+        <!-- Fixed Header - Always Visible -->
+        <VerticalStackLayout Grid.Row="0" Spacing="10">
+            <components:MemoRaiseLogoComponent />
+            <Label Text="{localization:Localize Onboarding_Welcome_Subtitle}"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   FontSize="18"
+                   Opacity="0.9" />
+        </VerticalStackLayout>
 
-            <!-- Rhetorical Demonstrations Section -->
-            <VerticalStackLayout Spacing="20">
+        <!-- Panel Container with Clipping -->
+        <Border Grid.Row="1"
+                StrokeThickness="0"
+                BackgroundColor="Transparent"
+                Margin="0,20,0,0">
+            <Grid x:Name="PanelContainer"
+                  HorizontalOptions="Fill"
+                  VerticalOptions="Center">
 
-                <!-- Easy Challenge -->
-                <Border StrokeShape="RoundRectangle 16"
+                <!-- Easy Challenge Panel -->
+                <Border x:Name="EasyPanel"
+                        StrokeShape="RoundRectangle 16"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
                         Stroke="{StaticResource Success}"
-                        Padding="16">
-                    <VerticalStackLayout Spacing="12">
+                        Padding="16"
+                        IsVisible="True">
+                    <VerticalStackLayout Spacing="20">
                         <Label Text="{Binding EasyQuestion}"
                                FontSize="18"
                                FontAttributes="Bold"
@@ -58,12 +65,14 @@
                     </VerticalStackLayout>
                 </Border>
 
-                <!-- Medium Challenge -->
-                <Border StrokeShape="RoundRectangle 16"
+                <!-- Medium Challenge Panel -->
+                <Border x:Name="MediumPanel"
+                        StrokeShape="RoundRectangle 16"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
                         Stroke="{StaticResource ElegantAmberDark}"
-                        Padding="16">
-                    <VerticalStackLayout Spacing="12">
+                        Padding="16"
+                        IsVisible="False">
+                    <VerticalStackLayout Spacing="20">
                         <Label Text="{Binding MediumQuestion}"
                                FontSize="18"
                                FontAttributes="Bold"
@@ -92,12 +101,14 @@
                     </VerticalStackLayout>
                 </Border>
 
-                <!-- Hard Challenge -->
-                <Border StrokeShape="RoundRectangle 16"
+                <!-- Hard Challenge Panel -->
+                <Border x:Name="HardPanel"
+                        StrokeShape="RoundRectangle 16"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
                         Stroke="{StaticResource Danger}"
-                        Padding="16">
-                    <VerticalStackLayout Spacing="12">
+                        Padding="16"
+                        IsVisible="False">
+                    <VerticalStackLayout Spacing="20">
                         <Label Text="{Binding HardQuestion}"
                                FontSize="18"
                                FontAttributes="Bold"
@@ -127,15 +138,24 @@
                     </VerticalStackLayout>
                 </Border>
 
-                <!-- Conclusion Message -->
-                <Label Text="{Binding ConclusionMessage}"
-                       FontSize="24"
-                       FontAttributes="Bold"
-                       TextColor="{StaticResource Primary}"
-                       HorizontalOptions="Center"
-                       HorizontalTextAlignment="Center" />
-            </VerticalStackLayout>
+                <!-- Conclusion Panel -->
+                <Border x:Name="ConclusionPanel"
+                        StrokeShape="RoundRectangle 16"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
+                        Stroke="{StaticResource Primary}"
+                        Padding="20"
+                        IsVisible="False">
+                    <Label Text="{Binding ConclusionMessage}"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           VerticalOptions="Center" />
+                </Border>
 
-        </VerticalStackLayout>
-    </ScrollView>
+            </Grid>
+        </Border>
+
+    </Grid>
 </ContentView>

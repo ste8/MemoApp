@@ -145,9 +145,8 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
         var isInPhase1 = OnboardingPhaseConfig.IsInTutorialPhase(CurrentPosition);
         var isInPhase2 = OnboardingPhaseConfig.IsInSetupPhase(CurrentPosition);
 
-        // Phase 1: No skip allowed (tutorial must be completed)
-        // Phase 2: Skip allowed (setup can be customized or postponed)
-        CanSkip = isInPhase2 && CurrentPosition < OnboardingPages.Count - 1;
+        // Allow skip on both Phase 1 and Phase 2, except on the final step
+        CanSkip = CurrentPosition < OnboardingPages.Count - 1;
 
         // Update phase indicators
         IsPhase1Complete = CurrentPosition > OnboardingPhaseConfig.TUTORIAL_PHASE_LAST_POSITION;
@@ -195,9 +194,9 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
     {
         try
         {
-            _logger.LogInformation("Next command executed. CurrentPosition: {CurrentPosition}, TotalPages: {TotalPages}", 
+            _logger.LogInformation("Next command executed. CurrentPosition: {CurrentPosition}, TotalPages: {TotalPages}",
                 CurrentPosition, OnboardingPages.Count);
-            
+
             // Defensive check
             if (OnboardingPages.Count == 0)
             {
@@ -205,36 +204,68 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
                 await CompleteOnboarding();
                 return;
             }
-            
+
+            // Check if current view is WelcomeChallengeView and delegate to it
+            if (CurrentPosition >= 0 && CurrentPosition < OnboardingPages.Count)
+            {
+                var currentView = OnboardingPages[CurrentPosition];
+                if (currentView is WelcomeChallengeView welcomeView)
+                {
+                    var canAdvance = await welcomeView.HandleNextAsync();
+                    if (!canAdvance)
+                    {
+                        // WelcomeChallengeView handled it internally (showing next panel)
+                        return;
+                    }
+                    // Otherwise fall through to advance to next onboarding step
+                }
+            }
+
             if (CurrentPosition < OnboardingPages.Count - 1)
             {
                 int newPosition = CurrentPosition + 1;
-                _logger.LogInformation("Advancing from position {CurrentPosition} to {NewPosition}. Next view: {ViewType}", 
-                    CurrentPosition, newPosition, 
+                _logger.LogInformation("Advancing from position {CurrentPosition} to {NewPosition}. Next view: {ViewType}",
+                    CurrentPosition, newPosition,
                     newPosition < OnboardingPages.Count ? OnboardingPages[newPosition].GetType().Name : "None");
-                
+
                 CurrentPosition = newPosition;
             }
             else
             {
-                _logger.LogInformation("At final position {CurrentPosition}/{TotalPages}. Completing onboarding.", 
+                _logger.LogInformation("At final position {CurrentPosition}/{TotalPages}. Completing onboarding.",
                     CurrentPosition, OnboardingPages.Count - 1);
                 await CompleteOnboarding();
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error in Next command. CurrentPosition: {CurrentPosition}, TotalPages: {TotalPages}", 
+            _logger.LogError(ex, "Error in Next command. CurrentPosition: {CurrentPosition}, TotalPages: {TotalPages}",
                 CurrentPosition, OnboardingPages.Count);
-            
+
             // Don't complete onboarding on error - let user try again
             throw;
         }
     }
 
     [RelayCommand]
-    private void Back()
+    private async Task Back()
     {
+        // Check if current view is WelcomeChallengeView and delegate to it
+        if (CurrentPosition >= 0 && CurrentPosition < OnboardingPages.Count)
+        {
+            var currentView = OnboardingPages[CurrentPosition];
+            if (currentView is WelcomeChallengeView welcomeView)
+            {
+                var canGoBack = await welcomeView.HandleBackAsync();
+                if (!canGoBack)
+                {
+                    // WelcomeChallengeView handled it internally (showing previous panel)
+                    return;
+                }
+                // Otherwise fall through to go to previous onboarding step
+            }
+        }
+
         if (CurrentPosition > 0)
         {
             CurrentPosition--;
