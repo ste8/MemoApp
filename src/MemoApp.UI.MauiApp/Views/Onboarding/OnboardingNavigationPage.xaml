@@ -68,11 +68,6 @@
                                 HeightRequest="6"
                                 StrokeShape="RoundRectangle 3" />
                     </HorizontalStackLayout>
-
-                    <Label Text="{localization:Localize Onboarding_Phase1_StepLabels}"
-                           FontSize="8"
-                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
-                           HorizontalOptions="Center" />
                 </VerticalStackLayout>
 
                 <!-- Phase Separator -->
@@ -107,11 +102,6 @@
                                 HeightRequest="8"
                                 StrokeShape="RoundRectangle 4" />
                     </HorizontalStackLayout>
-
-                    <Label Text="{localization:Localize Onboarding_Phase2_StepLabels}"
-                           FontSize="8"
-                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
-                           HorizontalOptions="Center" />
                 </VerticalStackLayout>
 
             </HorizontalStackLayout>
@@ -167,13 +157,13 @@
                     HorizontalOptions="End"
                     VerticalOptions="Center" />
                     
-            <!-- Progress Text Helper (Mobile) -->
+            <!-- Progress Text Helper (All Platforms) -->
             <Label Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1"
                    Text="{Binding ProgressText}"
                    FontSize="12"
                    TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
                    HorizontalOptions="Center"
-                   IsVisible="{OnIdiom Phone=True, Tablet=False, Desktop=False}" />
+                   IsVisible="True" />
                    
         </Grid>
     </Grid>
