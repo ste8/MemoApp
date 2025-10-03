@@ -1994,7 +1994,8 @@
     <comment>Difficulty label for hard challenge - avoids duplication with conclusion</comment>
   </data>
   <data name="Onboarding_MemoryTechniquesNote" xml:space="preserve">
-    <value>Esistono molte tecniche di memoria efficaci disponibili. MemoRaise si concentra specificamente sulla Conversione fonetica, uno dei metodi più potenti per memorizzare i numeri. Le tecniche che imparerai funzionano benissimo insieme ad altri metodi di memoria che potresti già conoscere.</value>
+    <value>Esistono molte tecniche di memorizzazione efficaci. Se non le conosci ancora, ti presentiamo una delle più famose: la conversione fonetica. Questo metodo ti permette di ricordare non solo numeri, ma anche parole e altre informazioni. 
+In ogni caso, con MemoRaise potrai divertirti con esercizi e giochi utilizzando qualsiasi tecnica preferisci, non solo la conversione fonetica.</value>
     <comment>Onboarding - introductory note about memory techniques on Major System page</comment>
   </data>
   <data name="Onboarding_MajorSystem_Title" xml:space="preserve">

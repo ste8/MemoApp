@@ -1764,7 +1764,8 @@
 
   <!-- Major System Screen -->
   <data name="Onboarding_MemoryTechniquesNote" xml:space="preserve">
-    <value>There are many effective memory techniques available. MemoRaise focuses specifically on the Major System, one of the most powerful methods for memorizing numbers. The techniques you'll learn work great alongside other memory methods you may already know.</value>
+    <value>There are many effective memory techniques. If you’re not familiar with them yet, we’ll introduce you to one of the most popular: the Major System. This method helps you remember not only numbers, but also words and other types of information.
+In any case, with MemoRaise you can enjoy exercises and games using any technique you like, not just the Major System.</value>
     <comment>Onboarding - introductory note about memory techniques on Major System page</comment>
   </data>
   <data name="Onboarding_MajorSystem_Title" xml:space="preserve">

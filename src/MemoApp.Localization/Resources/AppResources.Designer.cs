@@ -2283,12 +2283,6 @@ namespace MemoApp.Localization.Resources {
             }
         }
         
-        internal static string Onboarding_ValueProposition {
-            get {
-                return ResourceManager.GetString("Onboarding_ValueProposition", resourceCulture);
-            }
-        }
-        
         internal static string Onboarding_LearnHow {
             get {
                 return ResourceManager.GetString("Onboarding_LearnHow", resourceCulture);
