@@ -142,11 +142,13 @@
                 </Border>
 
                 <!-- Conclusion Panel -->
-                <VerticalStackLayout x:Name="ConclusionPanel"
-                                     HeightRequest="220"
-                                     IsVisible="False"
-                                     VerticalOptions="Center"
-                                     HorizontalOptions="Center">
+                <Border x:Name="ConclusionPanel"
+                        StrokeShape="RoundRectangle 16"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
+                        StrokeThickness="0"
+                        Padding="16"
+                        HeightRequest="220"
+                        IsVisible="False">
                     <Label Text="{Binding ConclusionMessage}"
                            FontSize="24"
                            FontAttributes="Bold"
@@ -154,7 +156,7 @@
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
                            VerticalOptions="Center" />
-                </VerticalStackLayout>
+                </Border>
 
         </Grid>
 
