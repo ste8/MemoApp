@@ -7,7 +7,7 @@ public partial class WelcomeChallengeView : ContentView
 {
     private readonly ILogger<WelcomeChallengeView> _logger;
     private readonly WelcomeChallengeViewModel _viewModel;
-    private readonly List<Border> _panels;
+    private readonly List<View> _panels;
     private int _currentPanelIndex = 0;
     private bool _isAnimating = false;
 
@@ -27,7 +27,7 @@ public partial class WelcomeChallengeView : ContentView
         BindingContext = viewModel;
 
         // Initialize panels list
-        _panels = new List<Border>
+        _panels = new List<View>
         {
             EasyPanel,
             MediumPanel,

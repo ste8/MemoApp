@@ -24,7 +24,7 @@
         <Border Grid.Row="1"
                 StrokeThickness="0"
                 BackgroundColor="Transparent"
-                Margin="0,20,0,0">
+                Margin="0,0,0,0">
             <Grid x:Name="PanelContainer"
                   HorizontalOptions="Fill"
                   VerticalOptions="Center">
@@ -35,8 +35,10 @@
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
                         Stroke="{StaticResource Success}"
                         Padding="16"
+                        HeightRequest="220"
                         IsVisible="True">
-                    <VerticalStackLayout Spacing="20">
+                    <VerticalStackLayout Spacing="20"
+                                         VerticalOptions="Center">
                         <Label Text="{Binding EasyQuestion}"
                                FontSize="18"
                                FontAttributes="Bold"
@@ -71,8 +73,10 @@
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
                         Stroke="{StaticResource ElegantAmberDark}"
                         Padding="16"
+                        HeightRequest="220"
                         IsVisible="False">
-                    <VerticalStackLayout Spacing="20">
+                    <VerticalStackLayout Spacing="20"
+                                         VerticalOptions="Center">
                         <Label Text="{Binding MediumQuestion}"
                                FontSize="18"
                                FontAttributes="Bold"
@@ -107,8 +111,10 @@
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
                         Stroke="{StaticResource Danger}"
                         Padding="16"
+                        HeightRequest="220"
                         IsVisible="False">
-                    <VerticalStackLayout Spacing="20">
+                    <VerticalStackLayout Spacing="20"
+                                         VerticalOptions="Center">
                         <Label Text="{Binding HardQuestion}"
                                FontSize="18"
                                FontAttributes="Bold"
@@ -139,12 +145,11 @@
                 </Border>
 
                 <!-- Conclusion Panel -->
-                <Border x:Name="ConclusionPanel"
-                        StrokeShape="RoundRectangle 16"
-                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
-                        Stroke="{StaticResource Primary}"
-                        Padding="20"
-                        IsVisible="False">
+                <VerticalStackLayout x:Name="ConclusionPanel"
+                                     HeightRequest="220"
+                                     IsVisible="False"
+                                     VerticalOptions="Center"
+                                     HorizontalOptions="Center">
                     <Label Text="{Binding ConclusionMessage}"
                            FontSize="24"
                            FontAttributes="Bold"
@@ -152,7 +157,7 @@
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
                            VerticalOptions="Center" />
-                </Border>
+                </VerticalStackLayout>
 
             </Grid>
         </Border>

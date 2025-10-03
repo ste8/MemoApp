@@ -19,7 +19,7 @@
         <!-- Phase Title Header -->
         <VerticalStackLayout Grid.Row="0" VerticalOptions="Start" Margin="0,20,0,0">
             <Label Text="{Binding CurrentPhaseTitle}"
-                   FontSize="14"
+                   FontSize="16"
                    FontAttributes="Bold"
                    TextColor="{StaticResource Primary}"
                    HorizontalOptions="Center"
