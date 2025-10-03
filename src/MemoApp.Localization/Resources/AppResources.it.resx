@@ -1994,9 +1994,21 @@
     <comment>Difficulty label for hard challenge - avoids duplication with conclusion</comment>
   </data>
   <data name="Onboarding_MemoryTechniquesNote" xml:space="preserve">
-    <value>Esistono molte tecniche di memorizzazione efficaci. Se non le conosci ancora, ti presentiamo una delle più famose: la conversione fonetica. Questo metodo ti permette di ricordare non solo numeri, ma anche parole e altre informazioni. 
+    <value>Esistono molte tecniche di memorizzazione efficaci. Se non le conosci ancora, ti presentiamo una delle più famose: la conversione fonetica. Questo metodo ti permette di ricordare non solo numeri, ma anche parole e altre informazioni.
 In ogni caso, con MemoRaise potrai divertirti con esercizi e giochi utilizzando qualsiasi tecnica preferisci, non solo la conversione fonetica.</value>
     <comment>Onboarding - introductory note about memory techniques on Major System page</comment>
+  </data>
+  <data name="Onboarding_MemoryTechniques_Title" xml:space="preserve">
+    <value>Tecniche di Memoria</value>
+    <comment>Title for memory techniques context page</comment>
+  </data>
+  <data name="Onboarding_MemoryTechniques_Description" xml:space="preserve">
+    <value>Esistono molte tecniche di memorizzazione efficaci. Ogni metodo ha i suoi punti di forza per ricordare diversi tipi di informazioni.</value>
+    <comment>Description explaining that various memory techniques exist</comment>
+  </data>
+  <data name="Onboarding_MemoRaiseFocus" xml:space="preserve">
+    <value>MemoRaise si concentra sulla Conversione fonetica</value>
+    <comment>Statement about MemoRaise's focus on the Major System</comment>
   </data>
   <data name="Onboarding_MajorSystem_Title" xml:space="preserve">
     <value>La Conversione fonetica</value>

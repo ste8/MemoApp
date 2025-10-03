@@ -55,27 +55,31 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
         try
         {
             _logger.LogInformation("Initializing onboarding pages");
-            
-            // Create comprehensive 7-step onboarding pages
+
+            // Create comprehensive 8-step onboarding pages
             OnboardingPages.Clear();
 
             // Step 1: Welcome + Challenge (merged)
             var welcomeChallengeView = _serviceProvider.GetRequiredService<WelcomeChallengeView>();
             OnboardingPages.Add(welcomeChallengeView);
 
-            // Step 2: Major System Introduction (concept explanation)
+            // Step 2: Memory Techniques Context
+            var memoryTechniquesView = _serviceProvider.GetRequiredService<MemoryTechniquesContextView>();
+            OnboardingPages.Add(memoryTechniquesView);
+
+            // Step 3: Major System Introduction (concept explanation)
             var majorSystemView = _serviceProvider.GetRequiredService<MajorSystemIntroView>();
             OnboardingPages.Add(majorSystemView);
 
-            // Step 3: Concrete Example (41→RAT, 31→MOTO demonstration)
+            // Step 4: Concrete Example (41→RAT, 31→MOTO demonstration)
             var exampleView = _serviceProvider.GetRequiredService<MajorSystemExampleView>();
             OnboardingPages.Add(exampleView);
 
-            // Step 4: Interactive Practice (quiz)
+            // Step 5: Interactive Practice (quiz)
             var practiceView = _serviceProvider.GetRequiredService<InteractivePracticeView>();
             OnboardingPages.Add(practiceView);
 
-            // Step 5: Expectation-Setting Transition Page
+            // Step 6: Expectation-Setting Transition Page
             _logger.LogInformation("Creating OnboardingSettingsView...");
             var settingsTransitionView = _serviceProvider.GetRequiredService<OnboardingSettingsView>();
             if (settingsTransitionView == null)
@@ -86,7 +90,7 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
             OnboardingPages.Add(settingsTransitionView);
             _logger.LogInformation("OnboardingSettingsView added successfully at index {Index}", OnboardingPages.Count - 1);
 
-            // Step 6: Number Format Selection
+            // Step 7: Number Format Selection
             _logger.LogInformation("Creating OnboardingNumberFormatView...");
             var numberFormatView = _serviceProvider.GetRequiredService<OnboardingNumberFormatView>();
             if (numberFormatView == null)
@@ -97,7 +101,7 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
             OnboardingPages.Add(numberFormatView);
             _logger.LogInformation("OnboardingNumberFormatView added successfully at index {Index}", OnboardingPages.Count - 1);
 
-            // Step 7: Pack Download (final step, leads directly to main app)
+            // Step 8: Pack Download (final step, leads directly to main app)
             _logger.LogInformation("Creating PackDownloadOnboardingView...");
             var packDownloadView = _serviceProvider.GetRequiredService<PackDownloadOnboardingView>();
             if (packDownloadView == null)

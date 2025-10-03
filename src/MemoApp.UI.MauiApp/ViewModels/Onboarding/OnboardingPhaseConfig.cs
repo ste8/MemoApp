@@ -2,8 +2,8 @@ namespace MemoApp.UI.MauiApp.ViewModels.Onboarding;
 
 /// <summary>
 /// Configuration constants for the two-phase onboarding system.
-/// Phase 1: Tutorial (no skip allowed) - positions 0-3
-/// Phase 2: Setup (skip allowed) - positions 4-6
+/// Phase 1: Tutorial (no skip allowed) - positions 0-4
+/// Phase 2: Setup (skip allowed) - positions 5-7
 /// </summary>
 public static class OnboardingPhaseConfig
 {
@@ -11,12 +11,12 @@ public static class OnboardingPhaseConfig
     /// The last position index for Phase 1 (Tutorial phase).
     /// Positions 0 through this value are considered Phase 1.
     /// </summary>
-    public const int TUTORIAL_PHASE_LAST_POSITION = 3;
+    public const int TUTORIAL_PHASE_LAST_POSITION = 4;
 
     /// <summary>
     /// Number of steps in Phase 1 (Tutorial).
     /// </summary>
-    public const int TUTORIAL_PHASE_STEP_COUNT = 4;
+    public const int TUTORIAL_PHASE_STEP_COUNT = 5;
 
     /// <summary>
     /// Number of steps in Phase 2 (Setup).

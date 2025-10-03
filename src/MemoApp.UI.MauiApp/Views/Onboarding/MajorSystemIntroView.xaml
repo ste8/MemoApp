@@ -8,41 +8,6 @@
     <ScrollView Padding="30">
         <VerticalStackLayout Spacing="20">
 
-            <!-- Memory Techniques Context Note -->
-            <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
-                    StrokeShape="RoundRectangle 12"
-                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}"
-                    StrokeThickness="1"
-                    Padding="16"
-                    Margin="0,0,0,10">
-
-                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                    <!-- Info Icon -->
-                    <Border Grid.Column="0"
-                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
-                            StrokeShape="RoundRectangle 20"
-                            WidthRequest="40"
-                            HeightRequest="40"
-                            VerticalOptions="Start">
-                        <Label Text="{StaticResource Icon_Info}"
-                               FontFamily="{StaticResource IconFont_Solid}"
-                               FontSize="20"
-                               TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center" />
-                    </Border>
-
-                    <!-- Note Content -->
-                    <Label Grid.Column="1"
-                           Text="{localization:Localize Onboarding_MemoryTechniquesNote}"
-                           FontSize="{OnIdiom Phone=14, Tablet=15, Desktop=16}"
-                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}"
-                           LineHeight="1.4"
-                           LineBreakMode="WordWrap"
-                           VerticalOptions="Center" />
-                </Grid>
-            </Border>
-
             <!-- Title -->
             <Label Text="{localization:Localize Onboarding_MajorSystem_Title}"
                    Style="{StaticResource Headline}"
