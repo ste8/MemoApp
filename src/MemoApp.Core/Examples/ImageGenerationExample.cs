@@ -26,7 +26,7 @@ public class ImageGenerationExample
 
         var options = new ImageGenerationOptions
         {
-            Width = 2048,
+            Width = 7096,
             Height = 1024,
             Style = "vivid",
             AdditionalContext = "Make it colorful - Just a TEST for PR",
