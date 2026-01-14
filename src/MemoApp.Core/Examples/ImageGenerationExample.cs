@@ -26,22 +26,19 @@ public class ImageGenerationExample
 
         var options = new ImageGenerationOptions
         {
-            Width = 1024,
+            Width = 2048,
             Height = 1024,
             Style = "vivid",
-            AdditionalContext = "Make it colorful and visually appealing",
+            AdditionalContext = "Make it colorful - Just a TEST for PR",
             DownloadImageData = true
         };
 
         var result = await _imageGenerator.GenerateImageAsync(description, options);
 
-        if (result.IsSuccess)
-        {
+        if (result.IsSuccess) {
             _logger.LogInformation("Successfully generated image for '{Description}'. Image size: {Size} bytes", 
                 description, result.ImageData?.Length ?? 0);
-        }
-        else
-        {
+        } else {
             _logger.LogError("Failed to generate image for '{Description}': {Error}", description, result.ErrorMessage);
         }
 
