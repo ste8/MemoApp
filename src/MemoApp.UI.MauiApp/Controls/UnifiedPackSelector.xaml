@@ -5,13 +5,6 @@
              x:Class="MemoApp.UI.MauiApp.Controls.UnifiedPackSelector">
     
     <ContentView.Resources>
-        <!-- Define adaptive layouts for different screen sizes -->
-        <OnIdiom x:Key="CardColumns" x:TypeArguments="GridLength">
-            <OnIdiom.Phone>*</OnIdiom.Phone>
-            <OnIdiom.Tablet>*,*</OnIdiom.Tablet>
-            <OnIdiom.Desktop>*,*,*</OnIdiom.Desktop>
-        </OnIdiom>
-        
         <OnIdiom x:Key="CardSpacing" x:TypeArguments="x:Double">
             <OnIdiom.Phone>12</OnIdiom.Phone>
             <OnIdiom.Tablet>16</OnIdiom.Tablet>
