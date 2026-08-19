@@ -415,7 +415,7 @@
 
                             <!-- Attachment Status -->
                             <Label IsVisible="{Binding HasAttachedImages}"
-                                   Text="{Binding AttachedImageCount, StringFormat='{localization:Localize Feedback_ImagesAttached}'}"
+                                   Text="{Binding AttachedImageCount, Converter={StaticResource LocalizedFormatConverter}, ConverterParameter=Feedback_ImagesAttached}"
                                    Style="{StaticResource BodyMedium}"
                                    TextColor="{DynamicResource Primary}" />
 
@@ -572,7 +572,7 @@
                            FontFamily="{StaticResource IconFont_Solid}"
                            FontSize="16"
                            VerticalOptions="Center" />
-                    <Label Text="{Binding ValidationErrorCount, StringFormat='{localization:Localize Feedback_ValidationErrorsCount}'}"
+                    <Label Text="{Binding ValidationErrorCount, Converter={StaticResource LocalizedFormatConverter}, ConverterParameter=Feedback_ValidationErrorsCount}"
                            FontSize="14"
                            FontAttributes="Bold"
                            TextColor="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}"

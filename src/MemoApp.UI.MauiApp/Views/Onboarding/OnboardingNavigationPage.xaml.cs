@@ -50,6 +50,7 @@ public partial class OnboardingNavigationPage : ContentPage
         _tutorialStepIndicators.Add(TutorialStep1);
         _tutorialStepIndicators.Add(TutorialStep2);
         _tutorialStepIndicators.Add(TutorialStep3);
+        _tutorialStepIndicators.Add(TutorialStep4);
 
         _setupStepIndicators.Clear();
         _setupStepIndicators.Add(SetupStep0);

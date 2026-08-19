@@ -351,7 +351,7 @@
                                                 Spacing="12">
                                         
                                         <!-- Association word -->
-                                        <Label Text="{Binding CurrentAssociationWord, StringFormat='{localization:Localize FlashNumbers_AssociationWord}'}"
+                                        <Label Text="{Binding CurrentAssociationWord, Converter={StaticResource LocalizedFormatConverter}, ConverterParameter=FlashNumbers_AssociationWord}"
                                                TextColor="White"
                                                FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
                                                FontAttributes="Bold"
@@ -491,7 +491,7 @@
                             <!-- View Details Action -->
                             <Button Command="{Binding ShowStatisticsCommand}"
                                     Text="{localization:Localize Statistics_ViewDetails}"
-                                    BackgroundColor="{StaticResource Secondary}"
+                                    BackgroundColor="{StaticResource WarningAccessible}"
                                     TextColor="White"
                                     FontSize="{OnIdiom Phone=15, Tablet=17, Desktop=19}"
                                     FontAttributes="Bold"

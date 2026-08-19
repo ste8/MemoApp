@@ -234,7 +234,7 @@ public partial class FlashNumbersViewModel : BaseViewModel
         _associationComposerService = associationComposerService ?? throw new ArgumentNullException(nameof(associationComposerService));
         _exceptionHandler = exceptionHandler ?? throw new ArgumentNullException(nameof(exceptionHandler));
         _interstitialAdManager = interstitialAdManager;
-        Title = "Flash Numbers";
+        Title = _localizationService.GetString("FlashNumbers_Title");
     }
 
     /// <summary>
@@ -293,16 +293,22 @@ public partial class FlashNumbersViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async void StartSession()
+    private async Task StartSession()
     {
         if (_gameSession == null) return;
 
+        try
+        {
         // Track session start analytics
         _sessionStartTime = DateTime.UtcNow;
         _totalAdvances = 0;
-        
-        var rangeSize = int.Parse(RangeEnd) - int.Parse(RangeStart) + 1;
-        
+
+        // Guarded: an unparseable range previously crashed the app outright.
+        var rangeSize = int.TryParse(RangeEnd, out var rangeEndValue)
+                     && int.TryParse(RangeStart, out var rangeStartValue)
+            ? rangeEndValue - rangeStartValue + 1
+            : TotalNumbers;
+
         await _analyticsService.TrackEventAsync(AnalyticsEvents.FlashNumbersStarted, new Dictionary<string, object>
         {
             [AnalyticsParameters.ExerciseType] = ExerciseTypes.FlashNumbers,
@@ -321,13 +327,25 @@ public partial class FlashNumbersViewModel : BaseViewModel
         // Then start the game session and update display
         _gameSession.StartSession();
         UpdateSessionStatus();
+        }
+        catch (Exception ex)
+        {
+            await _exceptionHandler.HandleExceptionAsync(ex, "flash_numbers_start_session",
+                new Dictionary<string, object>
+                {
+                    { "range_start", RangeStart },
+                    { "range_end", RangeEnd }
+                });
+        }
     }
 
     [RelayCommand]
-    private async void AdvanceToNext()
+    private async Task AdvanceToNext()
     {
         if (_gameSession == null || !IsSessionActive) return;
 
+        try
+        {
         _totalAdvances++;
 
         // Track Flash Numbers step completion
@@ -344,7 +362,7 @@ public partial class FlashNumbersViewModel : BaseViewModel
 
         if (_gameSession.State == SessionState.Completed)
         {
-            CompleteSession();
+            await CompleteSession();
         }
         
         // Reset association reveal when advancing to next number
@@ -352,10 +370,16 @@ public partial class FlashNumbersViewModel : BaseViewModel
         CurrentAssociation = null;
         CurrentAssociationWord = null;
         CurrentAssociationImagePath = null;
+        }
+        catch (Exception ex)
+        {
+            await _exceptionHandler.HandleExceptionAsync(ex, "flash_numbers_advance_to_next",
+                new Dictionary<string, object> { { "current_number", CurrentNumber ?? string.Empty } });
+        }
     }
 
     [RelayCommand]
-    private async void ToggleAssociationReveal()
+    private async Task ToggleAssociationReveal()
     {
         try
         {
@@ -531,46 +555,54 @@ public partial class FlashNumbersViewModel : BaseViewModel
         }
     }
 
-    private async void CompleteSession()
+    private async Task CompleteSession()
     {
         if (_gameSession == null) return;
 
-        var sessionEndTime = DateTime.UtcNow;
-        var totalDuration = (sessionEndTime - _sessionStartTime).TotalSeconds;
         var statistics = _gameSession.GetStatistics();
 
-        // Increment completed exercise count for comprehensive analytics tracking
-        await _exerciseCountService.IncrementExerciseCompletedCountAsync(ExerciseTypes.FlashNumbers);
-
-        // Track session completion analytics
-        await _analyticsService.TrackEventAsync(AnalyticsEvents.FlashNumbersCompleted, new Dictionary<string, object>
-        {
-            [AnalyticsParameters.ExerciseType] = ExerciseTypes.FlashNumbers,
-            [AnalyticsParameters.NumberRange] = $"{RangeStart}_{RangeEnd}",
-            [AnalyticsParameters.DurationSeconds] = (int)totalDuration,
-            [AnalyticsParameters.Success] = true,
-            [AnalyticsParameters.TokensAvailable] = TotalNumbers,
-            [AnalyticsParameters.Attempts] = _totalAdvances,
-            [AnalyticsParameters.ProgressPercentage] = 100
-        });
-
+        // Close the re-entry window BEFORE awaiting anything. AdvanceToNext guards on
+        // IsSessionActive; awaiting analytics first left that guard open long enough for
+        // a second tap to re-enter a completed GameSession and throw.
         IsSessionActive = false;
         IsSessionCompleted = true;
         SessionStatistics = statistics;
-        Title = "Results";
+        Title = _localizationService.GetString("FlashNumbers_Results");
 
-        // Create shareable result for the ShareButtonComponent
-        var averageTime = TotalNumbers > 0 ? totalDuration / TotalNumbers : 0;
-        var fastestTime = averageTime; // For now, use average as fastest time
+        // Share data now comes from the session's own measurements rather than a second
+        // ViewModel-side clock, and reports the real fastest response instead of the average.
         SessionShareData = new FlashNumbersShareResult
         {
             ExerciseType = "FlashNumbers",
-            Duration = TimeSpan.FromSeconds(totalDuration),
+            Duration = statistics.TotalDuration,
             TotalNumbers = TotalNumbers,
             NumberRange = $"{RangeStart}-{RangeEnd}",
-            AverageTimePerNumber = TimeSpan.FromSeconds(averageTime),
-            FastestTime = TimeSpan.FromSeconds(fastestTime)
+            AverageTimePerNumber = statistics.AverageResponseTime,
+            FastestTime = statistics.FastestResponse.ResponseTime
         };
+
+        try
+        {
+            // Increment completed exercise count for comprehensive analytics tracking
+            await _exerciseCountService.IncrementExerciseCompletedCountAsync(ExerciseTypes.FlashNumbers);
+
+            // Track session completion analytics
+            await _analyticsService.TrackEventAsync(AnalyticsEvents.FlashNumbersCompleted, new Dictionary<string, object>
+            {
+                [AnalyticsParameters.ExerciseType] = ExerciseTypes.FlashNumbers,
+                [AnalyticsParameters.NumberRange] = $"{RangeStart}_{RangeEnd}",
+                [AnalyticsParameters.DurationSeconds] = (int)statistics.TotalDuration.TotalSeconds,
+                [AnalyticsParameters.Success] = true,
+                [AnalyticsParameters.TokensAvailable] = TotalNumbers,
+                [AnalyticsParameters.Attempts] = _totalAdvances,
+                [AnalyticsParameters.ProgressPercentage] = 100
+            });
+        }
+        catch (Exception ex)
+        {
+            await _exceptionHandler.HandleExceptionAsync(ex, "flash_numbers_complete_session",
+                showUserMessage: false);
+        }
     }
 
     [RelayCommand]
@@ -587,23 +619,17 @@ public partial class FlashNumbersViewModel : BaseViewModel
                 return;
             }
 
-            // Calculate totals for sharing
-            var sessionEndTime = DateTime.UtcNow;
-            var totalDuration = (sessionEndTime - _sessionStartTime).TotalSeconds;
-            var averageTime = TotalNumbers > 0 ? totalDuration / TotalNumbers : 0;
-            
-            // For now, use average as fastest time (we don't have individual timing data readily available)
-            var fastestTime = averageTime;
-
-            // Create shareable result
-            var shareResult = new FlashNumbersShareResult
+            // Reuse the result captured at completion. Recomputing here measured from
+            // session start to the moment Share was tapped, so time spent reading the
+            // results screen was published as part of the session.
+            var shareResult = SessionShareData as FlashNumbersShareResult ?? new FlashNumbersShareResult
             {
                 ExerciseType = "FlashNumbers",
-                Duration = TimeSpan.FromSeconds(totalDuration),
+                Duration = statistics.TotalDuration,
                 TotalNumbers = TotalNumbers,
                 NumberRange = $"{RangeStart}-{RangeEnd}",
-                AverageTimePerNumber = TimeSpan.FromSeconds(averageTime),
-                FastestTime = TimeSpan.FromSeconds(fastestTime)
+                AverageTimePerNumber = statistics.AverageResponseTime,
+                FastestTime = statistics.FastestResponse.ResponseTime
             };
 
             // Generate localized share content

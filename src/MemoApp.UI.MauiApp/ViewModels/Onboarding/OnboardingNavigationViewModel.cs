@@ -160,13 +160,17 @@ public partial class OnboardingNavigationViewModel : BaseViewModel
         {
             CurrentPhaseTitle = _localizationService.GetString("Onboarding_Phase1_Tutorial");
             var phaseStep = OnboardingPhaseConfig.GetPhaseStepNumber(CurrentPosition);
-            ProgressText = $"Tutorial: {phaseStep} of {OnboardingPhaseConfig.TUTORIAL_PHASE_STEP_COUNT}";
+            ProgressText = string.Format(
+                _localizationService.GetString("Onboarding_TutorialProgressFormat"),
+                phaseStep, OnboardingPhaseConfig.TUTORIAL_PHASE_STEP_COUNT);
         }
         else
         {
             CurrentPhaseTitle = _localizationService.GetString("Onboarding_Phase2_Setup");
             var phaseStep = OnboardingPhaseConfig.GetPhaseStepNumber(CurrentPosition);
-            ProgressText = $"Setup: {phaseStep} of {OnboardingPhaseConfig.SETUP_PHASE_STEP_COUNT}";
+            ProgressText = string.Format(
+                _localizationService.GetString("Onboarding_SetupProgressFormat"),
+                phaseStep, OnboardingPhaseConfig.SETUP_PHASE_STEP_COUNT);
         }
 
         _logger.LogInformation("UpdateNavigationState - Position: {CurrentPosition}/{TotalPages}, Phase: {Phase}, CanGoBack: {CanGoBack}, CanSkip: {CanSkip}",

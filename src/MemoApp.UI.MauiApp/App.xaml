@@ -42,6 +42,7 @@
             <converters:BoolToPrimaryDarkOrGrayConverter x:Key="BoolToPrimaryDarkOrGrayConverter" />
             <converters:BoolToPrimaryOrRecommendedConverter x:Key="BoolToPrimaryOrRecommendedConverter" />
             <converters:BoolToPrimaryDarkOrRecommendedDarkConverter x:Key="BoolToPrimaryDarkOrRecommendedDarkConverter" />
+            <converters:LocalizedFormatConverter x:Key="LocalizedFormatConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

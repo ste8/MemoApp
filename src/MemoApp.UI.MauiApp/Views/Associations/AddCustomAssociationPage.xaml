@@ -183,7 +183,7 @@
                                 <Button Grid.Column="0"
                                         Text="{localization:Localize AddCustomAssociation_SelectImage}"
                                         Command="{Binding SelectImageCommand}"
-                                        BackgroundColor="{StaticResource Secondary}"
+                                        BackgroundColor="{StaticResource WarningAccessible}"
                                         TextColor="White"
                                         FontSize="14"
                                         CornerRadius="8"
@@ -234,7 +234,7 @@
                             </Grid>
 
                             <!-- AI Credits info -->
-                            <Label Text="{Binding RemainingCredits, StringFormat='{localization:Localize AddCustomAssociation_CreditsRemaining}: {0}'}"
+                            <Label Text="{Binding RemainingCredits, Converter={StaticResource LocalizedFormatConverter}, ConverterParameter=AddCustomAssociation_CreditsRemaining}"
                                    FontSize="12"
                                    TextColor="{StaticResource Gray600}"
                                    IsVisible="{Binding IsAIGenerationAvailable}"
@@ -360,7 +360,7 @@
                            FontFamily="{StaticResource IconFont_Solid}"
                            FontSize="16"
                            VerticalOptions="Center" />
-                    <Label Text="{Binding ValidationErrorCount, StringFormat='{localization:Localize AddCustomAssociation_ValidationErrorsCount}'}"
+                    <Label Text="{Binding ValidationErrorCount, Converter={StaticResource LocalizedFormatConverter}, ConverterParameter=AddCustomAssociation_ValidationErrorsCount}"
                            FontSize="14"
                            FontAttributes="Bold"
                            TextColor="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}"

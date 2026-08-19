@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -1212,7 +1212,7 @@
     <comment>Button text to generate image with AI</comment>
   </data>
   <data name="AddCustomAssociation_CreditsRemaining" xml:space="preserve">
-    <value>Crediti rimanenti</value>
+    <value>Crediti rimanenti: {0}</value>
     <comment>Label for AI credits display</comment>
   </data>
   <data name="AddCustomAssociation_ImageSelected" xml:space="preserve">
@@ -1637,7 +1637,7 @@
     <comment>Button text to continue from example step</comment>
   </data>
   <data name="Onboarding_TapToSkipAnimation" xml:space="preserve">
-    <value>Tocca ovunque per saltare l'animazione</value>
+    <value>👆 Tocca ovunque per saltare l'animazione</value>
     <comment>Hint text to skip animation during demonstration</comment>
   </data>
   <data name="Onboarding_Practice_Title" xml:space="preserve">
@@ -2796,5 +2796,45 @@ In ogni caso, con MemoRaise potrai divertirti con esercizi e giochi utilizzando 
   </data>
   <data name="Onboarding_Welcome_Subtitle" xml:space="preserve">
     <value>Padroneggia l’arte della memorizzazione</value>
+  </data>
+  <data name="Onboarding_Welcome_Title" xml:space="preserve">
+    <value>Benvenuto in MemoRaise</value>
+    <comment>Onboarding welcome screen title</comment>
+  </data>
+  <data name="Statistics_SessionSummary" xml:space="preserve">
+    <value>Riepilogo Sessione</value>
+    <comment>Statistics page session summary header</comment>
+  </data>
+  <data name="Onboarding_TutorialProgressFormat" xml:space="preserve">
+    <value>Tutorial: {0} di {1}</value>
+    <comment>Onboarding tutorial phase progress. {0}=current step, {1}=total steps</comment>
+  </data>
+  <data name="Onboarding_SetupProgressFormat" xml:space="preserve">
+    <value>Configurazione: {0} di {1}</value>
+    <comment>Onboarding setup phase progress. {0}=current step, {1}=total steps</comment>
+  </data>
+  <data name="FlashNumbers_Results" xml:space="preserve">
+    <value>Risultati</value>
+    <comment>Page title shown when a Flash Numbers session completes</comment>
+  </data>
+  <data name="MainPage_AssociationsHint" xml:space="preserve">
+    <value>Tocca due volte per sfogliare le associazioni</value>
+    <comment>Screen-reader hint for the corresponding home screen card</comment>
+  </data>
+  <data name="MainPage_FlashNumbersHint" xml:space="preserve">
+    <value>Tocca due volte per iniziare l'allenamento Flash Numbers</value>
+    <comment>Screen-reader hint for the corresponding home screen card</comment>
+  </data>
+  <data name="MainPage_BigNumberHint" xml:space="preserve">
+    <value>Tocca due volte per iniziare la sfida Big Number</value>
+    <comment>Screen-reader hint for the corresponding home screen card</comment>
+  </data>
+  <data name="MainPage_MajorSystemGuideHint" xml:space="preserve">
+    <value>Tocca due volte per consultare la guida al Sistema Major</value>
+    <comment>Screen-reader hint for the corresponding home screen card</comment>
+  </data>
+  <data name="MainPage_FeedbackHint" xml:space="preserve">
+    <value>Tocca due volte per inviare un feedback</value>
+    <comment>Screen-reader hint for the corresponding home screen card</comment>
   </data>
 </root>

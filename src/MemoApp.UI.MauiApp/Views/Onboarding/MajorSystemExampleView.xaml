@@ -180,7 +180,7 @@
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="8" />
                 </Border.StrokeShape>
-                <Label Text="👆 {localization:Localize Onboarding_TapToSkipAnimation}"
+                <Label Text="{localization:Localize Onboarding_TapToSkipAnimation}"
                        FontSize="14"
                        HorizontalOptions="Center"
                        TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />

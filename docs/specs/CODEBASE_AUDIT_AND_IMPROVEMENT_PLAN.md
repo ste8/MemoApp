@@ -3,7 +3,11 @@
 **Date:** 2026-08-19
 **Scope:** ~51,000 lines across `MemoApp.Core`, `MemoApp.Localization`, `MemoApp.UI.MauiApp`, `MemoApp.UI.ConsoleApp`, `src/Azure`
 **Method:** Four parallel specialist reviews (architecture, clean code, MAUI runtime, UI/UX). Every load-bearing claim was independently re-verified against the source before being recorded here.
-**Baseline:** Build exits 0 with 294 unique warnings. 51 unit tests pass. No files were modified in producing this audit.
+**Baseline at audit time:** Build exits 0 with 294 unique warnings. 51 unit tests pass.
+
+> **Status: Phase 0 complete · Phase 1 complete.** Tests 51 → 100. `MVVMTK0039` warnings 3 → 0.
+> CI now runs `dotnet test` before it can publish to TestFlight.
+> See the [Progress log](#9-progress-log) for exactly what changed and what was corrected along the way.
 
 ---
 
@@ -17,6 +21,7 @@
 6. [**The plan — sequenced phases**](#6-the-plan--sequenced-phases)
 7. [Verified sound — do not re-audit](#7-verified-sound--do-not-re-audit)
 8. [Limits of this audit](#8-limits-of-this-audit)
+9. [**Progress log**](#9-progress-log)
 
 ---
 
@@ -334,30 +339,30 @@ Check `MajorSystemImageGenerator` against product intent before deleting — it 
 
 Ordered so each phase makes the next cheaper, and so nothing is refactored before it can be verified. The numbering is a dependency chain, not a ranking.
 
-### Phase 0 — Safety net
-**~1 day. Unblocks everything else.**
+### Phase 0 — Safety net  ✅ DONE
+**~1 day. Unblocks everything else.** — shipped in commit `750fa61`.
 
-- [ ] Add `dotnet test` to `azure-pipelines.yml`. One line; starts protecting the 51 tests you already have.
-- [ ] Write characterisation tests for `NumberSequence` + `GameSession` covering the `00-99` duplicate case. **Expect them to fail** — that is the point.
-- [ ] Add the first tests for `BigNumberService`. Its generator is correct (verified across 25k generations: length, `maxPairValue` clamping, leading-zero suppression, argument validation) — lock that in before touching it.
+- [x] Add `dotnet test` to `azure-pipelines.yml`. One line; starts protecting the 51 tests you already have.
+- [x] Write characterisation tests for `NumberSequence` + `GameSession` covering the `00-99` duplicate case. **Expect them to fail** — that is the point.
+- [x] Add the first tests for `BigNumberService`. Its generator is correct (verified across 25k generations: length, `maxPairValue` clamping, leading-zero suppression, argument validation) — lock that in before touching it.
 
-### Phase 1 — Ship the cheap user-visible fixes
-**~1–2 days. Items are independent; any order.**
+### Phase 1 — Ship the cheap user-visible fixes  ✅ DONE
+**~1–2 days. Items are independent; any order.** — applied, build clean, 100 tests green.
 
-- [ ] §2.1 onboarding step-count regression + §2.2 progress-text localization
-- [ ] §3.1 `FontSize` persistence (2 lines)
-- [ ] §3.2 `async void` commands → `async Task` + try/catch
-- [ ] §3.3 move `BigNumberPage` subscriptions to `OnAppearing`, add missing `-=`
-- [ ] §3.4 five broken `StringFormat` labels
-- [ ] §3.5 literal markup on the onboarding screen
-- [ ] §3.6 `SemanticProperties.Description="Button"` on MainPage
-- [ ] §3.7 fabricated share statistics
-- [ ] §3.8 unify accuracy tiers behind named constants
-- [ ] §3.9 localize the advanced-settings toggle
-- [ ] §3.10 add the two missing Italian strings
-- [ ] §3.11 switch amber buttons to `WarningAccessible`
+- [x] §2.1 onboarding step-count regression + §2.2 progress-text localization
+- [x] §3.1 `FontSize` persistence (2 lines)
+- [x] §3.2 `async void` commands → `async Task` + try/catch
+- [x] §3.3 move `BigNumberPage` subscriptions to `OnAppearing`, add missing `-=`
+- [x] §3.4 five broken `StringFormat` labels
+- [x] §3.5 literal markup on the onboarding screen
+- [x] §3.6 `SemanticProperties.Description="Button"` on MainPage
+- [x] §3.7 fabricated share statistics
+- [x] §3.8 unify accuracy tiers behind named constants
+- [x] §3.9 localize the advanced-settings toggle
+- [x] §3.10 add the two missing Italian strings
+- [x] §3.11 switch amber buttons to `WarningAccessible`
 
-### Phase 2 — Unify sequence generation
+### Phase 2 — Unify sequence generation  ⬅ NEXT
 **~2–3 days. Fixes the duplicate-numbers bug.**
 
 - [ ] Add `NumberFormat` to the Core generator; fold in `GenerateTrainingSequence`'s dedup rule
@@ -421,3 +426,73 @@ Ordered so each phase makes the next cheaper, and so nothing is refactored befor
 - **§4.2**: the DST/timezone corruption path is confirmed from code but not reproduced with a shifted clock.
 - **§3.2**: the last-number race window depends on real analytics latency; the code path and throw site are confirmed, the timing on a device is not.
 - Where the two duplication reviews differed on whether the natural-format variant counts as a fifth generator, the count reflects what was independently verified.
+
+---
+
+## 9. Progress log
+
+### Phase 0 — Safety net ✅ (commit `750fa61`)
+
+| Change | File |
+|---|---|
+| `dotnet test` step added between NuGet restore and the iOS build, so a failing test stops the pipeline before TestFlight | `azure-pipelines.yml` |
+| Characterisation tests for the §1 duplication defect | `tests/MemoApp.Core.Tests/NumberSequenceDuplicationTests.cs` *(new)* |
+| First tests for `BigNumberService` | `tests/MemoApp.Core.Tests/BigNumber/BigNumberServiceTests.cs` *(new)* |
+
+**Tests: 51 → 100** (96 passing, 4 skipped).
+
+`MemoApp.Core.IntegrationTests` is deliberately excluded from CI — it requires live OpenAI credentials.
+
+**On the 4 skipped tests.** The plan said the new tests should fail. They don't, deliberately: a red pipeline on day one is a pipeline people learn to ignore, which would defeat the step being added. Instead each desired-behaviour assertion sits as `[Fact(Skip = "Phase N…")]` directly beneath its characterisation counterpart. These were verified to be genuine tripwires — with the `Skip` attributes temporarily stripped, **all 4 fail**:
+
+- `GenerateSequence_CompleteMajorSystemPreset_ShouldYield100DistinctNumbers`
+- `GenerateSequence_AnyRange_ShouldNeverRepeatARenderedLabel`
+- `FormatTime_ShouldRollOverIntoHours`
+- `FormatTime_ShouldClampNegativeSpansToZero`
+
+When a phase lands, unskip the test and delete its characterisation twin.
+
+### Phase 1 — Cheap user-visible fixes ✅
+
+| § | Fix | Files |
+|---|---|---|
+| 2.1 | Added the missing 5th tutorial dot (`TutorialStep4`) and registered it; localized the two hardcoded phase labels using the already-existing `Onboarding_Phase1_Tutorial` / `Onboarding_Phase2_Setup` keys | `OnboardingNavigationPage.xaml`, `.xaml.cs` |
+| 2.2 | English string interpolation → localized format strings | `OnboardingNavigationViewModel.cs` |
+| 3.1 | `FontSize` now persisted (key + load + save) | `BigNumberSettingsService.cs` |
+| 3.2 | 3 × `async void` → `async Task`; `int.Parse` → guarded `TryParse`; try/catch → `IExceptionHandler`; `CompleteSession` is now awaited | `FlashNumbersViewModel.cs` |
+| 3.3 | Subscriptions moved from constructor to `OnAppearing` via an idempotent `SubscribeToViewModel`/`UnsubscribeFromViewModel` pair; the missing 6th `-=` added | `BigNumberPage.xaml.cs` |
+| 3.4 | 5 broken `StringFormat` bindings replaced with a new converter | `LocalizedFormatConverter.cs` *(new)*, `App.xaml`, `FeedbackPage.xaml`, `AddCustomAssociationPage.xaml`, `FlashNumbersPage.xaml` |
+| 3.5 | Emoji folded into the resource value so the binding evaluates | `MajorSystemExampleView.xaml`, both `.resx` |
+| 3.6 | 5 × `Description="Button"` → localized card names; hints localized | `MainPage.xaml`, both `.resx` |
+| 3.7 | Share data now reads `TotalDuration` / `AverageResponseTime` / `FastestResponse.ResponseTime` from `SessionStatistics`; `ShareResultsAsync` reuses the completion snapshot instead of recomputing at share time | `FlashNumbersViewModel.cs` |
+| 3.8 | Two conflicting accuracy paths → one `ResolveAccuracyColor` behind named constants | `BigNumberViewModel.cs` |
+| 3.9 | Toggle text localized | `BigNumberViewModel.cs` |
+| 3.10 | `Onboarding_Welcome_Title` + `Statistics_SessionSummary` added to Italian | `AppResources.it.resx` |
+| 3.11 | 3 failing-contrast buttons moved onto `WarningAccessible` — **and that token itself corrected**, see below | `Colors.xaml`, 3 pages |
+
+**Verification:** build 0 errors, `MVVMTK0039` 3 → 0, warnings 345 → 340, 100 tests green, EN/IT parity 673/669.
+
+### Corrections found while implementing
+
+Three things turned out differently from the audit:
+
+1. **`WarningAccessible` did not meet its own documented contract.** Both the audit and the inline comment in `Colors.xaml` claimed `#CC5500` was 4.9:1 against white. Measured, it is **4.31:1** — below the 4.5:1 AA floor for normal text. Two of the three buttons are bold ≥14pt and so qualify as large text (3:1), but `AddCustomAssociationPage.xaml:186` is 14pt regular and would still have failed. The token was therefore changed to **`#B45309` (amber-700, 5.02:1 verified)**, which passes for both normal and large text and stays in the amber family. Four consumers, all checked.
+2. **`BigNumber_Hide` already existed** in both resource files — §3.9 was purely a code fix, no resource work needed.
+3. **§3.4 needed more than a binding edit.** `StringFormat='{localization:Localize Key}'` has no in-place fix; a converter was required. `AddCustomAssociation_CreditsRemaining` also had no `{0}` placeholder — its value was changed to `"Credits remaining: {0}"` / `"Crediti rimanenti: {0}"` (single consumer, verified).
+
+### Two small items done outside the Phase 1 list
+
+Both sit inside code that was already being edited:
+
+- `BigNumberPage.OnAppearing` — `await viewModel.InitializeAsync()` wrapped in try/catch. Unguarded, a corrupt settings payload crashed the app every time the page opened, permanently locking the user out of the exercise.
+- `FlashNumbersViewModel.cs:237` — a second hardcoded `Title = "Flash Numbers"` now uses `FlashNumbers_Title`, matching the correctly-localized assignment already present at `:261`.
+
+### New resource keys added
+
+`Onboarding_TutorialProgressFormat`, `Onboarding_SetupProgressFormat`, `FlashNumbers_Results`, `MainPage_AssociationsHint`, `MainPage_FlashNumbersHint`, `MainPage_BigNumberHint`, `MainPage_MajorSystemGuideHint`, `MainPage_FeedbackHint` — all in both languages.
+
+### Still outstanding
+
+The 4 keys missing from Italian (`FlashNumbers_RevealAssociation`, `Onboarding_Money`, `Onboarding_SkipMessage`, `Onboarding_SkipTitle`) are **orphaned — referenced nowhere**, so they are deletion candidates in Phase 4 rather than translation work.
+
+Nothing in Phase 1 was verified on a device. The accessibility and contrast changes are measured, not observed with a screen reader.

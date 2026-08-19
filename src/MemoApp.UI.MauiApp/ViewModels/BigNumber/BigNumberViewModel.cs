@@ -37,6 +37,18 @@ public partial class BigNumberViewModel : BaseViewModel
     // Confirmation dialog thresholds (based on UX agent recommendations)
     private const int MOBILE_RECALL_THRESHOLD_SECONDS = 5;
     private const int DESKTOP_RECALL_THRESHOLD_SECONDS = 15;
+
+    // Accuracy tiers - single source of truth. The verification summary and the
+    // digit-comparison carousel previously used different thresholds (95/80 vs 90/70)
+    // and different palettes, so the same result could render green in one view and
+    // orange in the other.
+    private const double ACCURACY_EXCELLENT_THRESHOLD = 95;
+    private const double ACCURACY_GOOD_THRESHOLD = 80;
+
+    private static Color ResolveAccuracyColor(double accuracy) =>
+        accuracy >= ACCURACY_EXCELLENT_THRESHOLD ? Color.FromArgb("#4CAF50") :
+        accuracy >= ACCURACY_GOOD_THRESHOLD ? Color.FromArgb("#FF9800") :
+                                              Color.FromArgb("#F44336");
     private readonly IDigitComparisonService _digitComparisonService;
     private IDispatcherTimer? _timer;
     
@@ -1712,24 +1724,21 @@ public partial class BigNumberViewModel : BaseViewModel
         AccuracyPercentageText = $"{accuracy:F1}%";
 
         // Set colors and icons based on accuracy
-        if (accuracy >= 95)
+        AccuracyColor = ResolveAccuracyColor(accuracy);
+        AccuracyBorderColor = AccuracyColor;
+
+        if (accuracy >= ACCURACY_EXCELLENT_THRESHOLD)
         {
-            AccuracyColor = Color.FromArgb("#4CAF50"); // Green
-            AccuracyBorderColor = Color.FromArgb("#4CAF50");
             AccuracyIcon = "✅";
             AccuracyTitle = _localizationService.GetString("BigNumber_AccuracyExcellent");
         }
-        else if (accuracy >= 80)
+        else if (accuracy >= ACCURACY_GOOD_THRESHOLD)
         {
-            AccuracyColor = Color.FromArgb("#FF9800"); // Orange
-            AccuracyBorderColor = Color.FromArgb("#FF9800");
             AccuracyIcon = "👍";
             AccuracyTitle = _localizationService.GetString("BigNumber_AccuracyGood");
         }
         else
         {
-            AccuracyColor = Color.FromArgb("#F44336"); // Red
-            AccuracyBorderColor = Color.FromArgb("#F44336");
             AccuracyIcon = "💪";
             AccuracyTitle = _localizationService.GetString("BigNumber_AccuracyKeepPracticing");
         }
@@ -2047,7 +2056,8 @@ public partial class BigNumberViewModel : BaseViewModel
             ShowAdvancedSettings = true;
             ShowAdvancedSettingsToggle = false;
             IsAdvancedSettingsExpanded = !IsAdvancedSettingsExpanded;
-            AdvancedSettingsToggleText = IsAdvancedSettingsExpanded ? "Hide" : "Show";
+            AdvancedSettingsToggleText = _localizationService.GetString(
+                IsAdvancedSettingsExpanded ? "BigNumber_Hide" : "BigNumber_Show");
         }
     }
     
@@ -2466,9 +2476,7 @@ public partial class BigNumberViewModel : BaseViewModel
         
         // Set accuracy color
         var accuracy = _comparisonResult.AccuracyPercentage;
-        AccuracyColor = accuracy >= 90 ? Color.FromArgb("#28A745") : // Green
-                       accuracy >= 70 ? Color.FromArgb("#FD7E14") : // Orange  
-                                       Color.FromArgb("#DC3545");   // Red
+        AccuracyColor = ResolveAccuracyColor(accuracy);
     }
 
     /// <summary>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -1204,7 +1204,7 @@
     <comment>Button text to generate image with AI</comment>
   </data>
   <data name="AddCustomAssociation_CreditsRemaining" xml:space="preserve">
-    <value>Credits remaining</value>
+    <value>Credits remaining: {0}</value>
     <comment>Label for AI credits display</comment>
   </data>
   <data name="AddCustomAssociation_ImageSelected" xml:space="preserve">
@@ -1851,7 +1851,7 @@ In any case, with MemoRaise you can enjoy exercises and games using any techniqu
     <comment>Button text to continue from example step</comment>
   </data>
   <data name="Onboarding_TapToSkipAnimation" xml:space="preserve">
-    <value>Tap anywhere to skip animation</value>
+    <value>👆 Tap anywhere to skip animation</value>
     <comment>Hint text to skip animation during demonstration</comment>
   </data>
   
@@ -2819,5 +2819,37 @@ In any case, with MemoRaise you can enjoy exercises and games using any techniqu
   <data name="Associations_NoPackDownloadedMessage" xml:space="preserve">
     <value>Download a content pack to view associations</value>
     <comment>Message shown when no pack is downloaded in associations view</comment>
+  </data>
+  <data name="Onboarding_TutorialProgressFormat" xml:space="preserve">
+    <value>Tutorial: {0} of {1}</value>
+    <comment>Onboarding tutorial phase progress. {0}=current step, {1}=total steps</comment>
+  </data>
+  <data name="Onboarding_SetupProgressFormat" xml:space="preserve">
+    <value>Setup: {0} of {1}</value>
+    <comment>Onboarding setup phase progress. {0}=current step, {1}=total steps</comment>
+  </data>
+  <data name="FlashNumbers_Results" xml:space="preserve">
+    <value>Results</value>
+    <comment>Page title shown when a Flash Numbers session completes</comment>
+  </data>
+  <data name="MainPage_AssociationsHint" xml:space="preserve">
+    <value>Double tap to browse associations</value>
+    <comment>Screen-reader hint for the corresponding home screen card</comment>
+  </data>
+  <data name="MainPage_FlashNumbersHint" xml:space="preserve">
+    <value>Double tap to start Flash Numbers training</value>
+    <comment>Screen-reader hint for the corresponding home screen card</comment>
+  </data>
+  <data name="MainPage_BigNumberHint" xml:space="preserve">
+    <value>Double tap to start Big Number challenge</value>
+    <comment>Screen-reader hint for the corresponding home screen card</comment>
+  </data>
+  <data name="MainPage_MajorSystemGuideHint" xml:space="preserve">
+    <value>Double tap to view Major System guide</value>
+    <comment>Screen-reader hint for the corresponding home screen card</comment>
+  </data>
+  <data name="MainPage_FeedbackHint" xml:space="preserve">
+    <value>Double tap to send feedback</value>
+    <comment>Screen-reader hint for the corresponding home screen card</comment>
   </data>
 </root>

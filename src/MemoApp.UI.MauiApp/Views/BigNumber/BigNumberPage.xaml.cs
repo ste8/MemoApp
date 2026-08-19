@@ -18,23 +18,36 @@ public partial class BigNumberPage : ContentPage
         // Initialize ShareButton components with their ViewModels
         InitializeShareButtonComponents(serviceProvider, viewModel);
 
-        // Subscribe to auto-scroll events from ViewModel
+        // NOTE: ViewModel event subscriptions live in OnAppearing, not here. This page is a
+        // Shell tab, so the constructor runs once while OnDisappearing fires on every tab
+        // switch - subscribing here meant the handlers were detached permanently after the
+        // first switch away, leaving the results panel stuck at Opacity 0.
+    }
+
+    /// <summary>
+    /// Subscribes to ViewModel events. Idempotent: each handler is detached before being
+    /// attached, so repeated OnAppearing calls cannot produce duplicate subscriptions.
+    /// </summary>
+    private void SubscribeToViewModel(BigNumberViewModel viewModel)
+    {
+        UnsubscribeFromViewModel(viewModel);
+
         viewModel.ScrollToVerificationResults += OnScrollToVerificationResults;
-
-        // Subscribe to focus request events from ViewModel
         viewModel.FocusUserInputRequested += OnFocusUserInputRequested;
-
-        // Subscribe to navigation scroll requests from ViewModel
         viewModel.ScrollToPositionRequested += OnScrollToPositionRequested;
-
-        // Subscribe to legend scroll requests from ViewModel
         viewModel.ScrollToLegendRequested += OnScrollToLegendRequested;
-
-        // Subscribe to property changes to reset animation state when results are hidden
         viewModel.PropertyChanged += OnViewModelPropertyChanged;
-
-        // Subscribe to BigNumberViewModel changes to update ShareButtonViewModels
         viewModel.PropertyChanged += OnBigNumberViewModelPropertyChanged;
+    }
+
+    private void UnsubscribeFromViewModel(BigNumberViewModel viewModel)
+    {
+        viewModel.ScrollToVerificationResults -= OnScrollToVerificationResults;
+        viewModel.FocusUserInputRequested -= OnFocusUserInputRequested;
+        viewModel.ScrollToPositionRequested -= OnScrollToPositionRequested;
+        viewModel.ScrollToLegendRequested -= OnScrollToLegendRequested;
+        viewModel.PropertyChanged -= OnViewModelPropertyChanged;
+        viewModel.PropertyChanged -= OnBigNumberViewModelPropertyChanged;
     }
 
     // Single ShareButtonViewModel instance for all share buttons
@@ -395,13 +408,24 @@ public partial class BigNumberPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        
+
         if (BindingContext is BigNumberViewModel viewModel)
         {
+            SubscribeToViewModel(viewModel);
+
             // Set the container element reference for accurate size measurement
             viewModel.SetContainerElement(NumberDisplayFrame);
-            
-            await viewModel.InitializeAsync();
+
+            try
+            {
+                await viewModel.InitializeAsync();
+            }
+            catch (Exception ex)
+            {
+                // Unguarded, a corrupt settings payload crashed the app every time this
+                // page was opened, permanently locking the user out of the exercise.
+                System.Diagnostics.Debug.WriteLine($"BigNumberPage initialization error: {ex.Message}");
+            }
         }
     }
     
@@ -412,11 +436,7 @@ public partial class BigNumberPage : ContentPage
         // Unsubscribe from events to prevent memory leaks
         if (BindingContext is BigNumberViewModel viewModel)
         {
-            viewModel.ScrollToVerificationResults -= OnScrollToVerificationResults;
-            viewModel.FocusUserInputRequested -= OnFocusUserInputRequested;
-            viewModel.ScrollToPositionRequested -= OnScrollToPositionRequested;
-            viewModel.ScrollToLegendRequested -= OnScrollToLegendRequested;
-            viewModel.PropertyChanged -= OnViewModelPropertyChanged;
+            UnsubscribeFromViewModel(viewModel);
         }
     }
     

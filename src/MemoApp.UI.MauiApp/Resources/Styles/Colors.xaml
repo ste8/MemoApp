@@ -23,7 +23,7 @@
     <Color x:Key="SuccessDark">#1E7E34</Color>
     <Color x:Key="Warning">#FFC107</Color>
     <Color x:Key="WarningDark">#FF8C00</Color>  <!-- Amber/Gold for better contrast with white text -->
-    <Color x:Key="WarningAccessible">#CC5500</Color>  <!-- Deep Orange - 4.9:1 contrast ratio, warm and professional -->
+    <Color x:Key="WarningAccessible">#B45309</Color>  <!-- Amber-700 - 5.02:1 with white text (verified). Was #CC5500, which measured 4.31:1 and did not meet the 4.5:1 AA floor its own comment claimed. -->
     <Color x:Key="WarningTextSafe">#FF8C00</Color>  <!-- Safe for white text on warning backgrounds -->
     <Color x:Key="Danger">#DC3545</Color>
     <Color x:Key="DangerDark">#C82333</Color>

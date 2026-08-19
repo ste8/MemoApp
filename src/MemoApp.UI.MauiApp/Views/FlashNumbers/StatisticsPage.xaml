@@ -382,7 +382,7 @@
                 <Button Grid.Column="0"
                         Command="{Binding GoBackCommand}"
                         Text="{localization:Localize Common_Back}"
-                        BackgroundColor="{StaticResource Secondary}"
+                        BackgroundColor="{StaticResource WarningAccessible}"
                         TextColor="White"
                         CornerRadius="12"
                         HeightRequest="{OnIdiom Phone=50, Tablet=60, Desktop=70}"

@@ -27,9 +27,9 @@
             <!-- Phase Progress Indicator -->
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
 
-                <!-- Phase 1: Tutorial (4 steps) -->
+                <!-- Phase 1: Tutorial (5 steps) -->
                 <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
-                    <Label Text="Phase 1: Tutorial"
+                    <Label Text="{localization:Localize Onboarding_Phase1_Tutorial}"
                            FontSize="11"
                            FontAttributes="Bold"
                            TextColor="{StaticResource Primary}"
@@ -57,6 +57,11 @@
                                 WidthRequest="20"
                                 HeightRequest="6"
                                 StrokeShape="RoundRectangle 3" />
+                        <Border x:Name="TutorialStep4"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                WidthRequest="20"
+                                HeightRequest="6"
+                                StrokeShape="RoundRectangle 3" />
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
 
@@ -68,7 +73,7 @@
 
                 <!-- Phase 2: Setup (3 steps) -->
                 <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
-                    <Label Text="Phase 2: Setup"
+                    <Label Text="{localization:Localize Onboarding_Phase2_Setup}"
                            FontSize="11"
                            FontAttributes="Bold"
                            TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
