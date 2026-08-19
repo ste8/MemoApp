@@ -1,0 +1,423 @@
+# MemoRaise — Codebase Audit & Improvement Plan
+
+**Date:** 2026-08-19
+**Scope:** ~51,000 lines across `MemoApp.Core`, `MemoApp.Localization`, `MemoApp.UI.MauiApp`, `MemoApp.UI.ConsoleApp`, `src/Azure`
+**Method:** Four parallel specialist reviews (architecture, clean code, MAUI runtime, UI/UX). Every load-bearing claim was independently re-verified against the source before being recorded here.
+**Baseline:** Build exits 0 with 294 unique warnings. 51 unit tests pass. No files were modified in producing this audit.
+
+---
+
+## Table of contents
+
+1. [Verdict: sequence-generation duplication](#1-verdict-sequence-generation-duplication)
+2. [Blocking — fix before committing the current merge](#2-blocking--fix-before-committing-the-current-merge)
+3. [Critical & cheap](#3-critical--cheap)
+4. [Structural](#4-structural)
+5. [Larger, lower urgency](#5-larger-lower-urgency)
+6. [**The plan — sequenced phases**](#6-the-plan--sequenced-phases)
+7. [Verified sound — do not re-audit](#7-verified-sound--do-not-re-audit)
+8. [Limits of this audit](#8-limits-of-this-audit)
+
+---
+
+## 1. Verdict: sequence-generation duplication
+
+**Confirmed.** There are **five implementations** of Major System sequence generation. Four are live. The fifth — the only *correct* one — is dead code with zero callers.
+
+| # | Location | Status |
+|---|---|---|
+| 1 | `src/MemoApp.Core/MajorSystem/NumberSequence.cs:30-43` `GetAllNumbersInOrder()` | Live — canonical, used by `GameSession` |
+| 2 | `src/MemoApp.UI.MauiApp/Utilities/NumberFormatHelper.cs:102-115` `GetPaddedFormatNumbers()` | Live — **byte-identical to #1, comments included** |
+| 3 | `src/MemoApp.UI.MauiApp/Utilities/NumberFormatHelper.cs:117-124` `GetNaturalFormatNumbers()` | Live — natural-format variant |
+| 4 | `src/MemoApp.Core/MajorSystem/Services/MajorSystemCategoryService.cs:138-169` `GenerateNumberTokens()` | Live — comment at `:153` admits the copy |
+| 5 | `src/MemoApp.UI.MauiApp/Utilities/NumberFormatHelper.cs:54-81` `GenerateTrainingSequence()` | **DEAD — zero callers, and it is the correct one** |
+
+`ParseRangeValue` is duplicated verbatim as well: `NumberSequence.cs:45-62` vs `NumberFormatHelper.cs:83-100` — same validation, same zero-prefix detection, same exception text.
+
+### The user-visible consequence
+
+Verified empirically by running the shipped `MemoApp.Core` assembly against its own presets:
+
+```
+Preset "Complete Major System"  (00 -> 99)
+  Items generated : 110      <-- should be 100
+  Distinct labels : 100
+  Duplicated      : "00"x2  "01"x2  ...  "09"x2
+  User sees       : 00 01 02 ... 09 00 01 02 ... 09 10 11 ...
+
+Preset "Numbers 00 to 69"       (00 -> 69)
+  80 items, 70 distinct, 10 duplicates
+
+Preset "Natural 0-99"  -> 100 items, 0 duplicates   OK
+Preset "00-09"         ->  10 items, 0 duplicates   OK
+```
+
+The duplicates are invisible in code but visible on screen because of a **dead ternary** at `NumberFormatHelper.cs:24` — both branches are identical:
+
+```csharp
+NumberFormat.Padded => number.IsZeroPrefixed
+    ? number.Value.ToString("00")
+    : number.Value.ToString("00"),
+```
+
+So `MajorNumber(7, zeroPrefixed:true)` and `MajorNumber(7, zeroPrefixed:false)` both render `"07"`. The sequence legitimately holds two distinct domain objects; the formatter collapses them into one label.
+
+The dead `GenerateTrainingSequence` exists specifically to prevent this. Its own doc comment at `:48` reads *"This prevents duplicates by respecting the format when generating the sequence."* Nothing calls it.
+
+### Root cause
+
+The same concept carries four different names across three files — `GetAllNumbersInOrder`, `GetPaddedFormatNumbers`, `GenerateTrainingSequence`, `GenerateNumberTokens`. That is plausibly *why* there are four copies: nobody could tell which one to call.
+
+Deeper: `NumberFormat` is a domain concept living behind `ILocalizationService.CurrentNumberFormat`, so sequence generation needs an i18n service to do its job. That inversion is the origin of the tangle, not a symptom of it.
+
+### Not duplication — leave these alone
+
+- `GameSession.cs:36-37` shuffle — ordering, not generation; the only shuffle in the codebase.
+- `BigNumberService.GenerateNumber` — random digit-pair generation, a genuinely different domain.
+- `MajorSystemCategoryService` letter/month token generators — distinct domains.
+
+---
+
+## 2. Blocking — fix before committing the current merge
+
+### 2.1 Onboarding progress bar shows 100% before the last step — REGRESSION
+
+- `src/MemoApp.UI.MauiApp/ViewModels/Onboarding/OnboardingPhaseConfig.cs:19` — `TUTORIAL_PHASE_STEP_COUNT = 5`
+- `src/MemoApp.UI.MauiApp/Views/Onboarding/OnboardingNavigationPage.xaml` — declares only `TutorialStep0`..`TutorialStep3`
+- `src/MemoApp.UI.MauiApp/Views/Onboarding/OnboardingNavigationPage.xaml.cs:49-52` — adds only those four
+
+Commit `5ec019a "Split Major System introduction into two onboarding pages"` raised the tutorial from 4 steps to 5 without updating the indicator markup. On the real final tutorial step the dot bar reads fully complete while the text beneath correctly says "Tutorial: 5 of 5".
+
+**Fix:** add the fifth dot, then generate the dots from `OnboardingPhaseConfig` via `BindableLayout` so config and markup cannot drift again.
+
+### 2.2 Progress text built by English string interpolation
+
+`src/MemoApp.UI.MauiApp/ViewModels/Onboarding/OnboardingNavigationViewModel.cs:163,169`
+
+```csharp
+ProgressText = $"Tutorial: {phaseStep} of {OnboardingPhaseConfig.TUTORIAL_PHASE_STEP_COUNT}";
+```
+
+A hardcoded user-facing string on the first screen every user sees. Italian users read "Tutorial: 3 of 5".
+
+**Fix:** add `Onboarding_ProgressFormat` to both `.resx` files — `"Tutorial: {0} of {1}"` / `"Tutorial: {0} di {1}"`.
+
+---
+
+## 3. Critical & cheap
+
+Every item here is user-visible, verified, and small.
+
+### 3.1 The Big Number font-size setting is never saved
+
+- `src/MemoApp.Core/BigNumber/BigNumberSettings.cs:9` declares `FontSize`
+- `src/MemoApp.UI.MauiApp/Services/BigNumberSettingsService.cs:18-23` (Load) and `:31-36` (Save) both omit it
+
+Load and Save each handle six properties; `FontSize` is not among them in either direction — while `BigNumberViewModel.cs:438` reads it and `:703` writes it. The write is silently discarded. A user sets font size to Large and it is back to Auto on every launch. A fully-built UI feature that has never once worked.
+
+**Fix:** two lines. Then collapse `BigNumberSettingsService` and `FlashNumbersSettingsService` — the same `Preferences` round-trip written twice — into one generic store.
+
+### 3.2 `async void` commands on the Flash Numbers main path
+
+`src/MemoApp.UI.MauiApp/ViewModels/FlashNumbers/FlashNumbersViewModel.cs:296, 327, 534`
+
+`[RelayCommand]` on `async void` generates a plain `RelayCommand`, so the task is never tracked and an exception goes straight to the synchronization context — process termination, not an error dialog. None of the three has a try/catch.
+
+- `:304` — `int.Parse(RangeEnd)` with no guard.
+- On the final number, `CompleteSession` sets `IsSessionActive = false` only *after* two awaited analytics calls. During that window the re-entry guard still passes, so a second tap re-enters `GameSession.AdvanceToNext()` and throws from `GameSession.cs:58`. App dies, session lost.
+
+**Fix:** all three to `private async Task`; `await` the call at `:347`; move state writes ahead of the awaits; route catches to the `IExceptionHandler` this class already injects and uses correctly at `:280`.
+
+### 3.3 Big Number results render invisible after one tab switch
+
+`src/MemoApp.UI.MauiApp/Views/BigNumber/BigNumberPage.xaml.cs` — subscribes six handlers at `:22,25,28,31,34,37`; unsubscribes five at `:415-419`. `OnBigNumberViewModelPropertyChanged` (`:37`) has no `-=` anywhere.
+
+Because this is a Shell tab the instance is reused and the constructor never runs again, but `OnDisappearing` fires on every tab switch. After switching away once: no auto-scroll to results, no input focus, and — since that handler resets the entrance animation — **the results panel renders at opacity 0**.
+
+**Fix:** move the six `+=` into `OnAppearing()`; add the missing `-=`.
+
+### 3.4 Five labels render raw markup instead of their value
+
+- `src/MemoApp.UI.MauiApp/Views/FeedbackPage.xaml:418, 575`
+- `src/MemoApp.UI.MauiApp/Views/Associations/AddCustomAssociationPage.xaml:237, 363`
+- `src/MemoApp.UI.MauiApp/Views/FlashNumbers/FlashNumbersPage.xaml:354`
+
+```xml
+Text="{Binding AttachedImageCount, StringFormat='{localization:Localize Feedback_ImagesAttached}'}"
+```
+
+A single-quoted markup-extension argument is a literal string — the inner extension never evaluates. The resources genuinely contain `{0}`, so the format was intended.
+
+**Fix:** use a converter or a bound `FormattedString`; the nested-extension form cannot work here.
+
+### 3.5 New users see raw markup on the onboarding screen
+
+`src/MemoApp.UI.MauiApp/Views/Onboarding/MajorSystemExampleView.xaml:183`
+
+```xml
+Text="👆 {localization:Localize Onboarding_TapToSkipAnimation}"
+```
+
+Because the value does not *start* with `{`, XAML treats the whole thing as a literal.
+
+**Fix:** move the emoji into the resource value, or compose with a `FormattedString`.
+
+### 3.6 The home screen announces "Button, button" five times
+
+`src/MemoApp.UI.MauiApp/Views/MainPage.xaml:81-82, 119-120, 157-158, 195-196, 238-239`
+
+`SemanticProperties.Description="Button"` on all five navigation cards. In MAUI an explicit `Description` on a container *replaces* narration of its children, so VoiceOver/TalkBack read "Button" instead of the card's actual label. A blind user cannot tell Associations from Flash Numbers from Big Number. The hardcoded English hints are a second violation on the same lines.
+
+App-wide, `SemanticProperties.HeadingLevel` has **zero** occurrences across ~9,900 lines of XAML.
+
+### 3.7 Publicly shared results report fabricated statistics
+
+`src/MemoApp.UI.MauiApp/ViewModels/FlashNumbers/FlashNumbersViewModel.cs:564, 591-596`
+
+```csharp
+var fastestTime = averageTime; // "we don't have individual timing data readily available"
+```
+
+The comment is false — `SessionStatistics.FastestResponse` is computed by `MinBy(p => p.ResponseTime)` at `SessionStatistics.cs:64` on the very object the method already holds. Every shared, MemoRaise-branded result publishes the **average** as the "fastest time". `StatisticsViewModel.cs:194` computes it correctly, so the same session shares different numbers depending on which screen you share from.
+
+At `:591` the shared duration is recomputed as `DateTime.UtcNow - _sessionStartTime` **at share time**. Finish in 2 minutes, read the results for 10, tap Share — it publishes a 12-minute session with a proportionally inflated average.
+
+### 3.8 Accuracy tiers disagree with themselves inside one class
+
+`src/MemoApp.UI.MauiApp/ViewModels/BigNumber/BigNumberViewModel.cs:1715,1722` vs `:2468-2470`
+
+One path uses thresholds 95/80 with `#4CAF50`/`#FF9800`/`#F44336`; the other 90/70 with `#28A745`/`#FD7E14`/`#DC3545` — same class, same `AccuracyPercentage`, two threshold sets and two palettes. A 92% result is green or orange depending on which path last wrote `AccuracyColor`. No named constants.
+
+### 3.9 Advanced-settings toggle reverts to English after the first tap
+
+`src/MemoApp.UI.MauiApp/ViewModels/BigNumber/BigNumberViewModel.cs:2050`
+
+```csharp
+AdvancedSettingsToggleText = IsAdvancedSettingsExpanded ? "Hide" : "Show";
+```
+
+The initial value is correctly localized at `:457`; every toggle overwrites it with a literal.
+
+**Fix:** localize both; add `BigNumber_Hide` to both resource files.
+
+### 3.10 Two live strings have no Italian translation
+
+- `src/MemoApp.UI.MauiApp/Views/Onboarding/WelcomeView.xaml:27` — `Onboarding_Welcome_Title` ("Welcome to MemoRaise") — the first screen an Italian user ever sees
+- `src/MemoApp.UI.MauiApp/Views/FlashNumbers/StatisticsPage.xaml:50` — `Statistics_SessionSummary` ("Session Summary")
+
+Of 665 English keys, 6 are missing from Italian; the other four are orphaned. Separately ~205 of 665 keys (31%) are orphaned, including a fully-translated 22-key `OnboardingPackDownload_*` cluster for a screen that does not exist.
+
+### 3.11 Amber buttons fail WCAG; the accessible color already exists unused
+
+`src/MemoApp.UI.MauiApp/Resources/Styles/Colors.xaml` — white on `Secondary #F59E0B` ≈ 2.15:1, on `SecondaryDark #F97316` ≈ 2.80:1, on `Warning #FFC107` ≈ 1.63:1. The floor is 4.5:1.
+
+Live at `StatisticsPage.xaml:384-386`, `FlashNumbersPage.xaml:492-497`, `AddCustomAssociationPage.xaml:183-191`.
+
+A correctly-contrasted `WarningAccessible #CC5500` (4.9:1) already exists in the same file and is never wired up. The Gray and Primary families, by contrast, are genuinely diligent and annotated with real ratios.
+
+---
+
+## 4. Structural
+
+### 4.1 Nothing verifies this codebase, and CI does not run the tests that exist
+
+`azure-pipelines.yml` has **no `dotnet test` step** — grepping for "test" matches only `TestFlight`.
+
+51 tests pass, covering 5 of 76 `MemoApp.Core` public types. Untested: `BigNumberService`, `PackAssociationsService` (868 lines), `PackDownloadService` (595), `CustomAssociationsService`, `PackManagerService`, `SessionStatistics`, every settings service.
+
+Structurally worse: `tests/MemoApp.Core.Tests/MemoApp.Core.Tests.csproj` references only Core, so the 38.8k-line UI project — where the logic actually lives — is not merely untested but untestable as arranged.
+
+### 4.2 Two engines, two clocks, one DST-unsafe
+
+- `src/MemoApp.Core/BigNumber/BigNumberService.cs:59,71` use `DateTime.Now`
+- `src/MemoApp.Core/MajorSystem/GameSession.cs:50,64,94` use `DateTime.UtcNow`
+
+The Big Number timer derives from the local clock, so any discontinuity mid-round corrupts it — realistically not DST but iOS auto-updating the timezone when a user lands in a new country. Elapsed can go negative and `FormatTime` then renders `"00:-30"`. All analytics durations use UTC, so after a clock shift the timer the user sees and the duration recorded diverge by exactly the offset.
+
+Both engines derive elapsed from wall-clock, so backgrounding for five minutes adds five minutes to the result. Flash Numbers separately stamps its own `_sessionStartTime` at `FlashNumbersViewModel.cs:301`, two awaits before `GameSession.StartSession()`.
+
+`FormatTime` also renders 2 hours as `"120:00"`.
+
+### 4.3 One domain rule written four times, already diverging
+
+```csharp
+associations.FirstOrDefault(a => a.IsDefault) ?? associations.First()   // three sites
+sortedAssociations.FirstOrDefault(a => a.IsDefault)                     // TokenDetail — no fallback
+```
+
+- `src/MemoApp.UI.MauiApp/ViewModels/FlashNumbers/FlashNumbersViewModel.cs:440`
+- `src/MemoApp.UI.MauiApp/ViewModels/BigNumber/BigNumberViewModel.cs:1423`
+- `src/MemoApp.UI.MauiApp/ViewModels/Associations/AssociationsViewModel.cs:707`
+- `src/MemoApp.UI.MauiApp/ViewModels/Associations/TokenDetailViewModel.cs:198` — **diverges**
+
+A user whose pack has no explicitly-defaulted association sees an association on three screens and nothing on Token Detail.
+
+**Fix:** one `ResolveDefault` on `IAssociationComposerService`. Cheapest high-value fix in this report.
+
+### 4.4 188 lines of unreachable duplicate logic
+
+`src/MemoApp.Core/MajorSystem/Services/PackAssociationsService.cs:443-531` and `:532-630`
+
+Two private methods reimplementing the same fallback chain as `GetDefaultAssociationForTokenSynchronous`, which is the one actually called. Both have exactly one reference each — their own declaration. That is 21% of an 868-line file.
+
+**Fix:** delete both.
+
+### 4.5 The centralized exception handler exists and is barely used
+
+~28 catch blocks swallow to `Debug.WriteLine`, which is `[Conditional("DEBUG")]` — every one is literally `catch { }` in Release. `AssociationsViewModel` receives `IExceptionHandler` via DI and never calls it; 18 catches go to `_logger` only.
+
+Worst instances:
+- `BigNumberViewModel.cs:2396` — swallows digit-comparison failures, so the Wordle-style breakdown silently fails to render
+- `Platforms/Android/MainApplication.cs` and `Platforms/iOS/AppDelegate.cs` — swallow **Firebase initialization failure**
+- `MauiProgram.cs:172-175` — empty catch around *reporting a startup failure to Sentry*
+- `Services/ErrorMonitoring/GlobalExceptionHandler.cs:152` — the crash reporter is `async void`, returns at its first `await`, and the process dies before Sentry's call completes
+
+In fairness: only 4 catch blocks are truly empty and all are commented. The problem is reach, not intent.
+
+### 4.6 Unsubscribe placed in finalizers that can never run
+
+- `src/MemoApp.UI.MauiApp/ViewModels/Onboarding/InteractivePracticeViewModel.cs:75` → finalizer ~`:345`
+- `src/MemoApp.UI.MauiApp/ViewModels/Onboarding/ExampleViewModel.cs:41` → finalizer ~`:108`
+
+Self-defeating by construction: the singleton `ILocalizationService.CultureChanged` delegate holds a strong reference to the ViewModel, so it is never eligible for finalization, so the finalizer never runs. Neither implements `IDisposable`. After onboarding completes the whole 8-view tree stays resident.
+
+Related: `BigNumberViewModel.cs:426` attaches `_timer.Tick` with no `-=` anywhere and the page never stops it on navigation.
+
+### 4.7 Pack update interval off by the user's UTC offset
+
+`src/MemoApp.UI.MauiApp/Services/PackUpdateBackgroundService.cs:97` parses, `:307` subtracts.
+
+Written with `.ToString("O")` but read with a bare `DateTime.TryParse` — no `RoundtripKind` — so it returns `Local` and is subtracted from `DateTime.UtcNow`. A user at UTC−8 gets an unnecessary network fetch on every cold start; one at UTC+13 stalls for a day and a half.
+
+---
+
+## 5. Larger, lower urgency
+
+### 5.1 `BigNumberViewModel` — 2,675 lines, 87 observable properties, 14 dependencies
+
+Distinct responsibilities with verified ranges: font-fitting (`:941-1142`), example-number generation reimplementing `BigNumberService`'s pairing with its own `new Random(12345)` (`:1189-1213`), associations loading (`:1236-1445`), verification state machine (`:1587-1983`), digit-comparison carousel (`:2351-2673`).
+
+Dead cluster: ~15 members including 9 unbound `[RelayCommand]`s — two commented "Legacy command for backward compatibility" — plus `ComparisonResults`/`OriginalNumberDigits`, superseded and never written. Two byte-identical 14-line blocks at `:1461-1474` and `:1547-1560` fabricate missing analytics timing (`AddSeconds(-30) // Estimate`) and report it as measured.
+
+Precedent exists: `FlashNumbersSetupViewModel` was already split out of `FlashNumbersViewModel` successfully.
+
+### 5.2 Four card systems coexist; the one named "unified" is dead
+
+`Resources/Styles/Styles.xaml:1307-1403` defines a "UNIFIED HOMEPAGE CARD SYSTEM" with zero usages; `MainPage.xaml:79,117,155,192,236` uses a different, later `Elegant*` family. The "Enhanced Typography Scale" (`:542-607`) is used only by onboarding.
+
+Measured drift: **261 hardcoded `FontSize` literals across 35 of 46 XAML files**, 50 hardcoded hex colors across 10 files, 11 distinct corner-radius values used inline.
+
+Visible cost: the three duplicated challenge panels in `WelcomeChallengeView.xaml:30-142` — commit `46456f9` had to hand-edit the same change three times.
+
+### 5.3 Fixed heights and nested scrollers that collapse
+
+`CollectionView` inside `ScrollView` (kills virtualization, can collapse height):
+`TokenDetailPage.xaml:33/67`, `StatisticsPage.xaml:14/206/287`, `PackDownloadPage.xaml:59/90`, `PackDownloadOnboardingView.xaml:14/94`.
+
+`*` row inside a `ScrollView`: `StatisticsPage.xaml:28` (wraps New Game and Share buttons), `BigNumberPage.xaml:560`, `PersonalizationView.xaml:54`.
+
+Fixed `HeightRequest` against scalable text: `FlashNumbersPage.xaml:211,232` (88pt digits in 100px), `WelcomeChallengeView.xaml:35,73,111,150` (220px panels), `BigNumberPage.xaml:437-495` (8pt labels in 44×44 buttons).
+
+Correct pattern already exists at `AssociationsPage.xaml:157-284`.
+
+### 5.4 ~1,400 lines of confirmed dead code
+
+`MemoApp.Core/Examples/` (129) · `MajorSystemImageGenerator.cs` (132) · `NumberFormatHelper.GenerateTrainingSequence` · `Views/TestPage` (registered singleton, no route) · `ExampleManualVerificationUsage` · five onboarding views and two ViewModels registered but never resolved · dead animation controls (`ParticleFieldView`, `SynapticNetworkView`, `BrainWavePulse`) containing unstoppable animation loops.
+
+The whole OpenAI image-generation path is referenced only by integration tests, yet `OpenAI 2.1.0` ships in every mobile build. `src/Azure/MemoAppFeedback` is **not in `MemoApp.sln`** — it never builds with the solution and no CI step covers it.
+
+Check `MajorSystemImageGenerator` against product intent before deleting — it is complete and working, just never wired in.
+
+---
+
+## 6. The plan — sequenced phases
+
+Ordered so each phase makes the next cheaper, and so nothing is refactored before it can be verified. The numbering is a dependency chain, not a ranking.
+
+### Phase 0 — Safety net
+**~1 day. Unblocks everything else.**
+
+- [ ] Add `dotnet test` to `azure-pipelines.yml`. One line; starts protecting the 51 tests you already have.
+- [ ] Write characterisation tests for `NumberSequence` + `GameSession` covering the `00-99` duplicate case. **Expect them to fail** — that is the point.
+- [ ] Add the first tests for `BigNumberService`. Its generator is correct (verified across 25k generations: length, `maxPairValue` clamping, leading-zero suppression, argument validation) — lock that in before touching it.
+
+### Phase 1 — Ship the cheap user-visible fixes
+**~1–2 days. Items are independent; any order.**
+
+- [ ] §2.1 onboarding step-count regression + §2.2 progress-text localization
+- [ ] §3.1 `FontSize` persistence (2 lines)
+- [ ] §3.2 `async void` commands → `async Task` + try/catch
+- [ ] §3.3 move `BigNumberPage` subscriptions to `OnAppearing`, add missing `-=`
+- [ ] §3.4 five broken `StringFormat` labels
+- [ ] §3.5 literal markup on the onboarding screen
+- [ ] §3.6 `SemanticProperties.Description="Button"` on MainPage
+- [ ] §3.7 fabricated share statistics
+- [ ] §3.8 unify accuracy tiers behind named constants
+- [ ] §3.9 localize the advanced-settings toggle
+- [ ] §3.10 add the two missing Italian strings
+- [ ] §3.11 switch amber buttons to `WarningAccessible`
+
+### Phase 2 — Unify sequence generation
+**~2–3 days. Fixes the duplicate-numbers bug.**
+
+- [ ] Add `NumberFormat` to the Core generator; fold in `GenerateTrainingSequence`'s dedup rule
+- [ ] Fix the dead ternary at `NumberFormatHelper.cs:24`
+- [ ] Change `GameSession` to accept a supplied sequence rather than building its own — removes the hidden dependency, makes it trivially testable
+- [ ] Delete generators #2 and #3, the duplicated `ParseRangeValue`, and the dead `GenerateTrainingSequence`
+- [ ] Reduce `MajorSystemCategoryService.GenerateNumberTokens` to a projection over the Core generator
+- [ ] Replace `OrderBy(_ => random.Next())` at `GameSession.cs:37` — a biased shuffle — with `Random.Shared.Shuffle()`
+
+### Phase 3 — One clock, one statistics owner
+**~2 days.**
+
+- [ ] Delete the ViewModel-side session clock; `GameSession` becomes the single time authority
+- [ ] Inject `TimeProvider` into `GameSession` and `BigNumberService`; standardise on UTC, with a monotonic source (`Stopwatch`) for elapsed display
+- [ ] Pause/resume elapsed tracking on `OnSleep`/`OnResume` so backgrounded time is excluded
+- [ ] Guard `FormatTime` against negative spans; add hour rollover
+- [ ] Read `FastestResponse` from `SessionStatistics`; delete both `fastestTime = averageTime` lines
+- [ ] Delete the two analytics-fabrication blocks in `BigNumberViewModel` — emit no analytics rather than invented analytics
+- [ ] Move `CalculateConsistencyScore` and `CalculateResponseTimeDistribution` from `StatisticsViewModel` into Core
+- [ ] One `FormatDuration` in Core; delete the three copies
+
+### Phase 4 — Collapse the remaining duplication
+**~2 days.**
+
+- [ ] `ResolveDefault` on `IAssociationComposerService`; rewire all four call sites
+- [ ] Generic settings store over an injectable `IPreferences`; makes settings testable and fixes `FontSize` permanently
+- [ ] Delete the 188 dead lines in `PackAssociationsService`
+- [ ] Delete the ~1,400 dead lines catalogued in §5.4
+- [ ] Sweep `Debug.WriteLine` catches to `IExceptionHandler`, Firebase init sites first
+- [ ] Make `GlobalExceptionHandler.LogAppCrash` awaitable so crash reports actually flush
+
+### Phase 5 — Decompose and consolidate
+**Ongoing. Only after Phases 0–3 provide tests and a single clock.**
+
+- [ ] Dead-code pass on `BigNumberViewModel` first (~15 members), then split by `GamePhase` behind the existing binding surface
+- [ ] Pick one card system and one typography scale; delete the other
+- [ ] DI cleanup: captive `HttpClient` in singleton `IPackDownloadService`; singleton `Page` registrations; never-assigned `_tooltipService` field; dead registrations
+- [ ] Fix `CollectionView`-in-`ScrollView` nesting; replace fixed `HeightRequest` with `MinimumHeightRequest`
+- [ ] Accessibility pass: `SemanticProperties` on the ~154 interactive elements that lack them, starting with `FlashNumbersPage` (currently zero); add `HeadingLevel`
+
+---
+
+## 7. Verified sound — do not re-audit
+
+- **`MemoApp.Core` is genuinely UI-agnostic.** `UseMaui=false`, and a repo-wide grep for `Microsoft.Maui` inside Core returns zero hits. The layering premise is sound — Core is simply under-populated. Domain logic did not leak *into* the UI; it was never put in Core.
+- **The Big Number generator algorithm is correct.** 25k+ generations verified: digit length, `maxPairValue` clamping, leading-zero suppression, argument validation all behave. It is untested, not buggy.
+- **Destructive actions are consistently confirmed** — phase-aware dialogs across Big Number, token deletion, pack deletion. Worth preserving.
+- **Navigation is uniform** — 33 `Shell.Current.GoToAsync` sites across 14 ViewModels, no push/modal inconsistency.
+- **No sync-over-async** except one `Dispose`. No `MessagingCenter`, no `Device.StartTimer`. Every `SemaphoreSlim` acquire/release pair is correct.
+- **Only 4 truly empty catch blocks exist**, all commented and defensible.
+- **The Gray and Primary color families are properly contrast-checked**, annotated inline with real ratios.
+- **Italian translations are largely well-crafted** — translators already compressed tab titles ("Associations" → "Schedario"). 659 of 665 keys present.
+
+---
+
+## 8. Limits of this audit
+
+- **Nothing was run on a device or simulator.** Every runtime symptom is inferred from code, not observed. The layout-collapse and accessibility-scale predictions in §5.3 need a real device at 130%/200% font scale to confirm.
+- **Only `net10.0-maccatalyst` Debug was built.** The iOS and Android Release paths — where the `IL2026` trimming warnings and every `Debug.WriteLine`-only catch actually bite — were not compiled or exercised.
+- **§3.4**: the breakage is certain; whether MAUI throws `FormatException` or renders the literal is platform-dependent and unverified.
+- **§4.2**: the DST/timezone corruption path is confirmed from code but not reproduced with a shifted clock.
+- **§3.2**: the last-number race window depends on real analytics latency; the code path and throw site are confirmed, the timing on a device is not.
+- Where the two duplication reviews differed on whether the natural-format variant counts as a fifth generator, the count reflects what was independently verified.
