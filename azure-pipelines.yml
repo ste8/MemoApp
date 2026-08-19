@@ -76,7 +76,7 @@ stages:
           targetType: 'inline'
           script: >
             dotnet publish $(app_csproj_path)
-            -f net9.0-ios 
+            -f $(dotnet_version_ios) 
             -c $(build_configuration) 
             -o '$(Build.ArtifactStagingDirectory)/iOS' 
             -p:RuntimeIdentifier=ios-arm64 
