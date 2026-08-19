@@ -69,6 +69,17 @@ stages:
       - task: NuGetAuthenticate@1      
       - script: dotnet restore $(app_sln_path)
         displayName: NuGet restore
+
+      # Unit tests gate the release: a failure here stops the pipeline before it
+      # can publish to TestFlight. Integration tests (tests/MemoApp.Core.IntegrationTests)
+      # are deliberately excluded - they require live OpenAI credentials.
+      - task: DotNetCoreCLI@2
+        displayName: Run unit tests
+        inputs:
+          command: 'test'
+          projects: 'tests/MemoApp.Core.Tests/MemoApp.Core.Tests.csproj'
+          arguments: '--configuration $(build_configuration) --logger trx --results-directory $(Agent.TempDirectory)'
+          publishTestResults: true
           
       - task: Bash@3
         displayName: Build iOS app
