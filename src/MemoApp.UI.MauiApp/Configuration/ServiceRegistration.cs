@@ -1,3 +1,4 @@
+using MemoApp.UI.MauiApp.Services.BigNumber;
 using MemoApp.Core.Services.Analytics;
 using MemoApp.Core.Services.ErrorMonitoring;
 using MemoApp.Core.Services.Sharing;
@@ -183,6 +184,7 @@ public static class ServiceRegistration
         // stops services reaching for DateTime.Now directly.
         services.AddSingleton(TimeProvider.System);
         services.AddSingleton<IBigNumberService, BigNumberService>();
+        services.AddSingleton<INumberDisplayFontSizer, NumberDisplayFontSizer>();
         services.AddSingleton<IDigitComparisonService, DigitComparisonService>();
         
         // Onboarding service
@@ -348,6 +350,7 @@ public static class ServiceRegistration
             var shareService = serviceProvider.GetRequiredService<IShareService>();
             var textMeasurementService = serviceProvider.GetRequiredService<ITextMeasurementService>();
             var containerSizeService = serviceProvider.GetRequiredService<IContainerSizeService>();
+            var fontSizer = serviceProvider.GetRequiredService<INumberDisplayFontSizer>();
             var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
             var exerciseCountService = serviceProvider.GetRequiredService<IExerciseCountService>();
             var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
@@ -355,7 +358,7 @@ public static class ServiceRegistration
             var associationComposerService = serviceProvider.GetRequiredService<IAssociationComposerService>();
             var exceptionHandler = serviceProvider.GetRequiredService<IExceptionHandler>();
             var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
-            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, analyticsService, exerciseCountService, userNotificationService, digitComparisonService, associationComposerService, exceptionHandler, interstitialAdManager);
+            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, fontSizer, analyticsService, exerciseCountService, userNotificationService, digitComparisonService, associationComposerService, exceptionHandler, interstitialAdManager);
         });
         
         services.AddTransient<TokenDetailViewModel>(serviceProvider =>
