@@ -69,7 +69,6 @@ public static class ServiceRegistration
         services.AddSingleton<IShareService, MauiShareService>();
         
         // First-time tooltip service
-        services.AddSingleton<IFirstTimeTooltipService, FirstTimeTooltipService>();
 
         // Feedback service for user feedback collection
         services.AddTransient<IFeedbackService, FeedbackService>();
@@ -150,10 +149,10 @@ public static class ServiceRegistration
         services.AddSingleton<MauiPackService>();
         services.AddSingleton<IPackDownloadService>(serviceProvider =>
         {
-            var httpClient = serviceProvider.GetRequiredService<HttpClient>();
+            var httpClientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
             var packManager = serviceProvider.GetRequiredService<IPackManagerService>();
             var logger = serviceProvider.GetRequiredService<ILogger<PackDownloadService>>();
-            return new PackDownloadService(httpClient, packManager, logger, packsIndexUrl, FileSystem.Current.AppDataDirectory, cacheMinutes);
+            return new PackDownloadService(httpClientFactory, packManager, logger, packsIndexUrl, FileSystem.Current.AppDataDirectory, cacheMinutes);
         });
         
         // Background update service
@@ -488,8 +487,10 @@ public static class ServiceRegistration
         services.AddSingleton<AppShell>();
         
         // Register pages
-        services.AddSingleton<Views.MainPage>();
-        services.AddSingleton<FlashNumbersSetupPage>();
+        // Pages are transient: Shell caches its own ShellContent instances, so a singleton
+        // here only pins the page and its whole visual tree for the process lifetime.
+        services.AddTransient<Views.MainPage>();
+        services.AddTransient<FlashNumbersSetupPage>();
         services.AddTransient<FlashNumbersPage>();
         services.AddTransient<StatisticsPage>();
         services.AddTransient<Views.HelpPage>();

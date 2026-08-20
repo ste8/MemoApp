@@ -2836,4 +2836,16 @@ In any case, with MemoRaise you can enjoy exercises and games using any techniqu
     <value>Double tap to send feedback</value>
     <comment>Screen-reader hint for the corresponding home screen card</comment>
   </data>
+  <data name="FlashNumbers_RevealAssociationLabel" xml:space="preserve">
+    <value>Reveal association</value>
+    <comment>Screen-reader name for the icon-only reveal button during a Flash Numbers drill</comment>
+  </data>
+  <data name="FlashNumbers_RevealAssociationHint" xml:space="preserve">
+    <value>Shows the word and image linked to this number</value>
+    <comment>Screen-reader hint for the reveal button</comment>
+  </data>
+  <data name="FlashNumbers_NumberCardHint" xml:space="preserve">
+    <value>Double tap to reveal the association, swipe left for the next number</value>
+    <comment>Screen-reader hint describing the gestures available on the number card</comment>
+  </data>
 </root>

@@ -2837,4 +2837,16 @@ In ogni caso, con MemoRaise potrai divertirti con esercizi e giochi utilizzando 
     <value>Tocca due volte per inviare un feedback</value>
     <comment>Screen-reader hint for the corresponding home screen card</comment>
   </data>
+  <data name="FlashNumbers_RevealAssociationLabel" xml:space="preserve">
+    <value>Mostra associazione</value>
+    <comment>Screen-reader name for the icon-only reveal button during a Flash Numbers drill</comment>
+  </data>
+  <data name="FlashNumbers_RevealAssociationHint" xml:space="preserve">
+    <value>Mostra la parola e l'immagine collegate a questo numero</value>
+    <comment>Screen-reader hint for the reveal button</comment>
+  </data>
+  <data name="FlashNumbers_NumberCardHint" xml:space="preserve">
+    <value>Tocca due volte per mostrare l'associazione, scorri a sinistra per il numero successivo</value>
+    <comment>Screen-reader hint describing the gestures available on the number card</comment>
+  </data>
 </root>

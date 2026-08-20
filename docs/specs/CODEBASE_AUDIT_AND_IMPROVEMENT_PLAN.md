@@ -5,7 +5,7 @@
 **Method:** Four parallel specialist reviews (architecture, clean code, MAUI runtime, UI/UX). Every load-bearing claim was independently re-verified against the source before being recorded here.
 **Baseline at audit time:** Build exits 0 with 294 unique warnings. 51 unit tests pass.
 
-> **Status: Phases 0–4 complete.** Tests 51 → 142, none skipped. `MVVMTK0039` warnings 3 → 0.
+> **Status: Phases 0–4 complete. Phase 5 partially done — see its log for what remains.** Tests 51 → 142, none skipped. `MVVMTK0039` warnings 3 → 0.
 > EN/IT translation parity is complete (669/669).
 > **The duplicate-number defect in §1 is fixed** — the shipped presets now present 100 distinct numbers.
 > CI now runs `dotnet test` before it can publish to TestFlight.
@@ -396,7 +396,7 @@ Ordered so each phase makes the next cheaper, and so nothing is refactored befor
 - [x] Sweep `Debug.WriteLine` catches to `IExceptionHandler`, Firebase init sites first
 - [x] Make `GlobalExceptionHandler.LogAppCrash` awaitable so crash reports actually flush
 
-### Phase 5 — Decompose and consolidate  ⬅ NEXT
+### Phase 5 — Decompose and consolidate  ◐ PARTIAL
 **Ongoing. Only after Phases 0–3 provide tests and a single clock.**
 
 - [ ] Dead-code pass on `BigNumberViewModel` first (~15 members), then split by `GamePhase` behind the existing binding surface
@@ -700,3 +700,56 @@ objection did not apply and the rewrite went ahead.*
 
 `AssociationDefaults.Resolve` (explicit default, first-available fallback, multiple defaults,
 empty, null) and the settings round-trip suite (both models, plus defaults when nothing is stored).
+
+### Phase 5 — Decompose and consolidate ◐ PARTIAL
+
+Phase 5 is open-ended by design. The contained, verifiable items are done; the large
+restructuring items are not, and are listed below rather than half-started.
+
+#### Done
+
+| Change | Effect |
+|---|---|
+| Dead-code pass on `BigNumberViewModel`: 10 unreferenced `[RelayCommand]` methods deleted, and `[RelayCommand]` dropped from `StopAndHide` / `StartRecall` (called internally, so the generated command was the unused part) | 2675 → 2476 lines |
+| `IFirstTimeTooltipService` deleted entirely — interface, implementation, registration, and the never-assigned field that was its only consumer | one dead service gone |
+| `PackDownloadService` takes `IHttpClientFactory` instead of a captured `HttpClient` | handler rotation and DNS refresh restored |
+| `MainPage` and `FlashNumbersSetupPage` registrations Singleton → Transient | no page pins its visual tree for the process lifetime; all 14 pages now consistent |
+| `RevealButton` on `FlashNumbersPage` given a localized accessible name and hint; the gesture-bearing card documented | the only route to an association is no longer a bare glyph to a screen reader |
+
+**Verification:** all three mobile targets build with 0 errors; 142 tests green; EN/IT parity holds
+at 672/672.
+
+#### A build setting that looked promising and was not
+
+A deliberately invalid binding (`{Binding ThisCommandDoesNotExistCommand}`) **does not fail the
+build**, even though the pages carry `x:DataType`. Enabling
+`MauiEnableXamlCBindingWithSourceCompilation` produced 0 errors across the solution — so the
+codebase is ready for it — but a clean rebuild with it enabled *still* did not reject the invalid
+binding, so the safety benefit could not be demonstrated. The change was reverted rather than
+committed on the strength of an unverified claim.
+
+Worth revisiting: it compiles cleanly today, and compiled bindings are a real performance win on
+list-heavy screens such as `UnifiedPackSelector`. It needs a device run to confirm nothing changes
+at runtime before being adopted.
+
+The consequence for now is that **XAML binding errors are only caught by review**, which is why
+the dead-command removal above was driven by an explicit search across every `.xaml` and `.cs`
+file rather than by trusting the compiler.
+
+#### Not done, and why
+
+- **Splitting `BigNumberViewModel` by `GamePhase`.** The dead-code pass removed ~200 lines, but the
+  file is still 2,476 lines with a ~200-line font-fitting algorithm, a ~400-line verification state
+  machine, and a ~320-line comparison carousel tangled together. Splitting it means moving a large
+  binding surface with no compile-time binding validation (above) and no device to test on — the
+  combination that turns a refactor into a silent regression. It wants either the binding-validation
+  question settled first, or a person with the app running.
+- **Consolidating the four card systems and two typography scales.** Purely visual, and there is no
+  way to confirm the result looks right without running the app.
+- **The broader accessibility sweep.** ~154 interactive elements still lack `SemanticProperties`,
+  and `SemanticProperties.HeadingLevel` remains at zero app-wide. Mechanical but large, and it
+  should be verified with a real screen reader rather than by counting attributes.
+- **Layout fixes** (`CollectionView` inside `ScrollView`, fixed `HeightRequest` against scalable
+  text). Each needs visual confirmation on a small screen at a large font scale.
+- **The remaining ~26 `Debug.WriteLine` catches**, most of which live in the two files above and are
+  best swept as part of that work.

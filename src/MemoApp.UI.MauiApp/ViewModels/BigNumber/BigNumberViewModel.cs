@@ -29,7 +29,6 @@ public partial class BigNumberViewModel : BaseViewModel
     private readonly IAnalyticsService _analyticsService;
     private readonly IInterstitialAdManager? _interstitialAdManager;
     private readonly IExerciseCountService _exerciseCountService;
-    private readonly IFirstTimeTooltipService _tooltipService;
     private readonly IUserNotificationService _userNotificationService;
     private readonly IAssociationComposerService _associationComposerService;
     private readonly IExceptionHandler _exceptionHandler;
@@ -726,7 +725,6 @@ public partial class BigNumberViewModel : BaseViewModel
         UpdateTimerDisplay();
     }
 
-    [RelayCommand]
     private async Task StopAndHide()
     {
         // Track exercise abandonment
@@ -771,7 +769,6 @@ public partial class BigNumberViewModel : BaseViewModel
         }
     }
 
-    [RelayCommand]
     private async Task StartRecall()
     {
         if (_currentGame.Phase == GamePhase.Stopped)
@@ -1455,88 +1452,6 @@ public partial class BigNumberViewModel : BaseViewModel
         }
     }
 
-    [RelayCommand]
-    private async Task ShareResults()
-    {
-        try
-        {
-            // Check if we have results to share (either verification results or general exercise completion)
-            if (!ShowVerificationResults && !CanShareResults)
-            {
-                await _userNotificationService.ShowErrorDialogAsync(
-                    _localizationService.GetString("Error_Title"), 
-                    _localizationService.GetString("Error_NoResultsToShare"));
-                return;
-            }
-
-            // Fall back to the exercise start when the memorization stamp is missing.
-            // No fabricated stamps: if a round was not actually measured, report zero
-            // rather than inventing a plausible-looking duration and recording it as real.
-            var memorizationStart = _memorizationStartTime != default
-                ? _memorizationStartTime
-                : _exerciseStartTime;
-
-            var memorizationTime = memorizationStart != default && _recallStartTime != default
-                ? _recallStartTime - memorizationStart
-                : TimeSpan.Zero;
-
-            // Create shareable result
-            var shareResult = new BigNumberShareResult
-            {
-                ExerciseType = "BigNumber",
-                Duration = memorizationTime,
-                NumberOfDigits = _currentGame.GeneratedNumber.Length,
-                MaxPairValue = MaxPairValue,
-                MemorizationTime = memorizationTime
-            };
-
-            // Generate localized share content
-            var shareContent = shareResult.GenerateShareContent(key => _localizationService.GetString(key));
-
-            // Track share initiation
-            // Track share initiation
-            await _analyticsService.TrackEventAsync(AnalyticsEvents.ShareInitiated, new Dictionary<string, object>
-            {
-                [AnalyticsParameters.ExerciseType] = shareResult.ExerciseType,
-                ["number_digits"] = shareResult.NumberOfDigits,
-                ["memorization_seconds"] = (int)shareResult.MemorizationTime.TotalSeconds
-            });
-
-            // Attempt to share
-            var shareSuccess = await _shareService.ShareTextAsync(shareContent.Title, shareContent.Message);
-
-            if (shareSuccess)
-            {
-                // Track successful share
-                await _analyticsService.TrackEventAsync(AnalyticsEvents.ShareCompleted, new Dictionary<string, object>
-                {
-                    [AnalyticsParameters.ExerciseType] = shareResult.ExerciseType,
-                    ["share_method"] = "native"
-                });
-            }
-            else
-            {
-                // Track failed share
-                await _analyticsService.TrackEventAsync(AnalyticsEvents.ShareFailed, new Dictionary<string, object>
-                {
-                    [AnalyticsParameters.ExerciseType] = shareResult.ExerciseType,
-                    ["error"] = "share_cancelled_or_failed"
-                });
-            }
-        }
-        catch (Exception ex)
-        {
-            await _exceptionHandler.HandleExceptionAsync(ex, "big_number_share_results",
-                new Dictionary<string, object>
-                {
-                    { "exercise_type", "BigNumber" },
-                    { "number_of_digits", NumberOfDigits },
-                    { "current_phase", CurrentPhase.ToString() },
-                    { "has_statistics", _currentGame != null }
-                });
-        }
-    }
-
     /// <summary>
     /// Updates the ShareData property with current exercise information
     /// </summary>
@@ -1586,33 +1501,6 @@ public partial class BigNumberViewModel : BaseViewModel
         // Use existing StartNewGame logic for new challenge
         StartNewGame();
     }
-
-    // Input Verification Commands
-    [RelayCommand]
-    private void ToggleInputVerification()
-    {
-        EnableInputVerification = !EnableInputVerification;
-    }
-
-    [RelayCommand]
-    private void StartOnDemandInputVerification()
-    {
-        IsOnDemandVerificationActive = true;
-        IsVerificationPanelManuallyClosed = false; // Reset the manually closed flag when reopening
-
-        // Start with associations collapsed for optimal UX
-        // User can expand if they want to review
-        IsAssociationsVisible = false;
-
-        // Load associations in background so they're ready if user expands
-        if (NumberAssociations.Count == 0)
-        {
-            _ = LoadNumberAssociationsAsync();
-        }
-
-        UpdateUIState(); // This will hide the on-demand button and show input verification interface
-    }
-
 
     [RelayCommand(CanExecute = nameof(CanVerifyInput))]
     private async Task VerifyInput()
@@ -1811,15 +1699,6 @@ public partial class BigNumberViewModel : BaseViewModel
     }
 
 
-    [RelayCommand]
-    private void CancelVerification()
-    {
-        // Always close the verification panel and show the reopen button
-        ClearInputVerificationState();
-        IsVerificationPanelManuallyClosed = true;
-        UpdateUIState();
-    }
-
     /// <summary>
     /// Initializes the verification button to its default state
     /// </summary>
@@ -1994,12 +1873,6 @@ public partial class BigNumberViewModel : BaseViewModel
         UpdateContextActions();
     }
     
-    // Legacy command for backward compatibility
-    [RelayCommand]
-    private void SelectTraditionalMode()
-    {
-        SelectManualVerification();
-    }
     
     [RelayCommand]
     private void SelectAppVerification()
@@ -2010,26 +1883,6 @@ public partial class BigNumberViewModel : BaseViewModel
         UpdateContextActions();
     }
 
-    [RelayCommand]
-    private void ToggleVerificationMode()
-    {
-        // Toggle between InApp and Manual verification modes
-        VerificationMode = VerificationMode == VerificationModePreference.InApp
-            ? VerificationModePreference.Manual
-            : VerificationModePreference.InApp;
-
-        // Reset verification flags when switching modes
-        IsOnDemandVerificationActive = false;
-        IsVerificationPanelManuallyClosed = false;
-        UpdateContextActions();
-    }
-
-    // Legacy command for backward compatibility
-    [RelayCommand]
-    private void SelectGuidedMode()
-    {
-        SelectAppVerification();
-    }
     
     [RelayCommand]
     private void ToggleAdvancedSettings()
@@ -2585,57 +2438,6 @@ public partial class BigNumberViewModel : BaseViewModel
                 _localizationService.GetString("BigNumber_AccuracyWithErrors"),
                 accuracy.ToString("F1"),
                 errorCount);
-        }
-    }
-
-    /// <summary>
-    /// Navigation command to scroll left in comparison
-    /// </summary>
-    [RelayCommand]
-    private void NavigateComparisonLeft()
-    {
-        if (_comparisonResult != null && _currentScrollPosition > 0)
-        {
-            _currentScrollPosition = Math.Max(0, _currentScrollPosition - DIGITS_PER_CHUNK);
-            UpdateNavigationState();
-            ScrollToPositionRequested?.Invoke(this, _currentScrollPosition);
-        }
-    }
-
-    /// <summary>
-    /// Navigation command to scroll right in comparison
-    /// </summary>
-    [RelayCommand]
-    private void NavigateComparisonRight()
-    {
-        if (_comparisonResult != null)
-        {
-            var totalDigits = _comparisonResult.DigitResults.Count;
-            if (totalDigits <= DIGITS_PER_CHUNK)
-            {
-                // All digits fit in one chunk, no need to navigate
-                return;
-            }
-            
-            var maxPosition = totalDigits - DIGITS_PER_CHUNK;
-            _currentScrollPosition = Math.Min(maxPosition, _currentScrollPosition + DIGITS_PER_CHUNK);
-            _currentScrollPosition = Math.Max(0, _currentScrollPosition); // Additional safeguard
-            UpdateNavigationState();
-            ScrollToPositionRequested?.Invoke(this, _currentScrollPosition);
-        }
-    }
-
-    /// <summary>
-    /// Command to center/reset the comparison view
-    /// </summary>
-    [RelayCommand]
-    private void CenterComparison()
-    {
-        if (_comparisonResult != null)
-        {
-            _currentScrollPosition = 0;
-            UpdateNavigationState();
-            ScrollToPositionRequested?.Invoke(this, _currentScrollPosition);
         }
     }
 

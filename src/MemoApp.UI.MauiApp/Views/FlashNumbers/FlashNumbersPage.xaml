@@ -106,7 +106,7 @@
                                     Radius="20" />
                         </Border.Shadow>
                         <Border.GestureRecognizers>
-                            <!-- Mobile-friendly swipe gestures for navigation (ViewModel guards when not active) -->
+                            <!-- Gestures are invisible to a screen reader, so the card carries a hint describing them -->
                             <SwipeGestureRecognizer Direction="Left"
                                                     Command="{Binding AdvanceToNextCommand}"
                                                     Threshold="80" />
@@ -131,6 +131,8 @@
                                 <!-- Reveal button - overlaid in top-right corner, enabled in both states -->
                                 <Button x:Name="RevealButton"
                                         Command="{Binding ToggleAssociationRevealCommand}"
+                                        SemanticProperties.Description="{localization:Localize FlashNumbers_RevealAssociationLabel}"
+                                        SemanticProperties.Hint="{localization:Localize FlashNumbers_RevealAssociationHint}"
                                         Text="{StaticResource Icon_Eye}"
                                         FontFamily="{StaticResource IconFont_Solid}"
                                         FontSize="{OnIdiom Phone=24, Tablet=28, Desktop=32}"

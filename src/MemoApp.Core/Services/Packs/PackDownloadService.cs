@@ -8,7 +8,7 @@ namespace MemoApp.Core.Services.Packs;
 
 public class PackDownloadService : IPackDownloadService
 {
-    private readonly HttpClient _httpClient;
+    private readonly IHttpClientFactory _httpClientFactory;
     private readonly IPackManagerService _packManager;
     private readonly ILogger<PackDownloadService> _logger;
     private readonly string _packsIndexUrl;
@@ -17,14 +17,14 @@ public class PackDownloadService : IPackDownloadService
     private PackIndex? _cachedIndex;
 
     public PackDownloadService(
-        HttpClient httpClient,
+        IHttpClientFactory httpClientFactory,
         IPackManagerService packManager,
         ILogger<PackDownloadService> logger,
         string packsIndexUrl,
         string dataDirectory,
         int cacheMinutes = 30)
     {
-        _httpClient = httpClient;
+        _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         _packManager = packManager;
         _logger = logger;
         _packsIndexUrl = packsIndexUrl;
@@ -43,7 +43,7 @@ public class PackDownloadService : IPackDownloadService
             }
 
             _logger.LogInformation("Fetching pack index from {Url}", _packsIndexUrl);
-            var response = await _httpClient.GetAsync(_packsIndexUrl);
+            var response = await _httpClientFactory.CreateClient().GetAsync(_packsIndexUrl);
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
@@ -147,7 +147,7 @@ public class PackDownloadService : IPackDownloadService
             var tempFile = Path.Combine(Path.GetTempPath(), $"{pack.Id}_{pack.Version}.zip");
             
             // Download the file and ensure all streams are properly closed
-            using (var response = await _httpClient.GetAsync(pack.DownloadUrl, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
+            using (var response = await _httpClientFactory.CreateClient().GetAsync(pack.DownloadUrl, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
             {
                 try
                 {
