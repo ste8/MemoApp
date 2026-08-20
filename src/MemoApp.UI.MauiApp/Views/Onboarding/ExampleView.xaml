@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
              xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels.Onboarding"
+             xmlns:models="clr-namespace:MemoApp.UI.MauiApp.Models.Onboarding"
              x:Class="MemoApp.UI.MauiApp.Views.Onboarding.ExampleView"
              x:DataType="viewmodels:ExampleViewModel">
     
@@ -44,7 +45,7 @@
             <!-- Conversion Steps -->
             <VerticalStackLayout Spacing="15" x:Name="ConversionSteps" BindableLayout.ItemsSource="{Binding Example.ConversionSteps}">
                 <BindableLayout.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate x:DataType="models:ConversionStep">
                         <Frame x:Name="ConversionStep"
                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
                                BorderColor="Transparent"

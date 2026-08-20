@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using MemoApp.Localization.Services;
+using Microsoft.Maui.Controls.Xaml;
 
 namespace MemoApp.Localization.Extensions;
 
@@ -9,6 +10,7 @@ namespace MemoApp.Localization.Extensions;
 /// Usage with args: Text="{localization:Localize TrainingSession_Completed, {Binding CompletedNumbers}}"
 /// </summary>
 [ContentProperty(nameof(Key))]
+[AcceptEmptyServiceProvider]
 public class LocalizeExtension : IMarkupExtension<BindingBase>
 {
     public string Key { get; set; } = string.Empty;
