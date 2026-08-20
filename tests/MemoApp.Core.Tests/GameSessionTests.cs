@@ -7,7 +7,7 @@ public class GameSessionTests
     [Fact]
     public void Constructor_ValidRange_InitializesCorrectly()
     {
-        var session = new GameSession("00", "05");
+        var session = new GameSession("00", "05", NumberFormat.Padded);
         
         Assert.Equal("00", session.RangeStart);
         Assert.Equal("05", session.RangeEnd);
@@ -21,7 +21,7 @@ public class GameSessionTests
     [Fact]
     public void StartSession_NotStartedState_StartsSuccessfully()
     {
-        var session = new GameSession("0", "2");
+        var session = new GameSession("0", "2", NumberFormat.Padded);
         
         session.StartSession();
         
@@ -34,7 +34,7 @@ public class GameSessionTests
     [Fact]
     public void StartSession_AlreadyStarted_ThrowsException()
     {
-        var session = new GameSession("0", "1");
+        var session = new GameSession("0", "1", NumberFormat.Padded);
         session.StartSession();
         
         Assert.Throws<InvalidOperationException>(() => session.StartSession());
@@ -43,7 +43,7 @@ public class GameSessionTests
     [Fact]
     public void AdvanceToNext_InProgress_AdvancesCorrectly()
     {
-        var session = new GameSession("0", "1");
+        var session = new GameSession("0", "1", NumberFormat.Padded);
         session.StartSession();
         var firstNumber = session.CurrentNumber;
         
@@ -59,7 +59,7 @@ public class GameSessionTests
     [Fact]
     public void AdvanceToNext_LastNumber_CompletesSession()
     {
-        var session = new GameSession("0", "0");
+        var session = new GameSession("0", "0", NumberFormat.Padded);
         session.StartSession();
         
         Thread.Sleep(10);
@@ -74,7 +74,7 @@ public class GameSessionTests
     [Fact]
     public void GetStatistics_CompletedSession_ReturnsValidStatistics()
     {
-        var session = new GameSession("0", "1");
+        var session = new GameSession("0", "1", NumberFormat.Padded);
         session.StartSession();
         
         Thread.Sleep(10);
@@ -93,9 +93,45 @@ public class GameSessionTests
     [Fact]
     public void GetStatistics_NotCompleted_ThrowsException()
     {
-        var session = new GameSession("0", "1");
+        var session = new GameSession("0", "1", NumberFormat.Padded);
         session.StartSession();
         
         Assert.Throws<InvalidOperationException>(() => session.GetStatistics());
+    }
+
+    [Fact]
+    public void Constructor_FullRange_PresentsOneNumberPerLabel()
+    {
+        var session = new GameSession("00", "99", NumberFormat.Padded);
+
+        Assert.Equal(100, session.TotalNumbers);
+    }
+
+    [Fact]
+    public void Constructor_SuppliedSequence_PresentsExactlyThatSequence()
+    {
+        var sequence = NumberSequence.GenerateSequence("00", "04", NumberFormat.Padded).ToList();
+
+        var session = new GameSession("00", "04", sequence);
+
+        Assert.Equal(5, session.TotalNumbers);
+    }
+
+    [Fact]
+    public void Constructor_ShufflesWithoutLosingOrRepeatingANumber()
+    {
+        var sequence = NumberSequence.GenerateSequence("00", "99", NumberFormat.Padded).ToList();
+
+        var session = new GameSession("00", "99", sequence);
+        session.StartSession();
+
+        var presented = new List<MajorNumber>();
+        while (session.CurrentNumber.HasValue)
+        {
+            presented.Add(session.CurrentNumber.Value);
+            session.AdvanceToNext();
+        }
+
+        Assert.Equal(sequence.OrderBy(n => n.Value), presented.OrderBy(n => n.Value));
     }
 }

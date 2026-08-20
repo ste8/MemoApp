@@ -135,37 +135,16 @@ public class MajorSystemCategoryService : IMajorSystemCategoryService
         return await Task.FromResult(tokens);
     }
     
+    /// <summary>
+    /// Projection over the Core token vocabulary. This used to re-implement the ordering
+    /// inline; the comment it carried even acknowledged that it was a copy of the
+    /// generator in NumberFormatHelper. Output is unchanged - only the duplication is gone.
+    /// </summary>
     private List<string> GenerateNumberTokens(NumberFormat numberFormat)
     {
-        var tokens = new List<string>();
-        
-        if (numberFormat == NumberFormat.Natural)
-        {
-            // Natural format: 0-99 without zero padding
-            for (int i = 0; i <= 99; i++)
-            {
-                tokens.Add(i.ToString());
-            }
-        }
-        else
-        {
-            // Padded format: First add 00-09 (zero-prefixed), then 0-99 (regular)
-            // This matches the logic in NumberFormatHelper.GetPaddedFormatNumbers()
-            
-            // First: 00-09 (zero-prefixed)
-            for (int i = 0; i <= 9; i++)
-            {
-                tokens.Add(i.ToString("00"));
-            }
-            
-            // Then: 0-99 (regular numbers)
-            for (int i = 0; i <= 99; i++)
-            {
-                tokens.Add(i.ToString());
-            }
-        }
-        
-        return tokens;
+        return NumberSequence.GetAllTokens(numberFormat)
+                             .Select(number => number.Display)
+                             .ToList();
     }
     
     private List<string> GenerateUpperLetterTokens()

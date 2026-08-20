@@ -260,7 +260,7 @@ public partial class FlashNumbersViewModel : BaseViewModel
             IsBusy = true;
             Title = _localizationService.GetString("FlashNumbers_Title");
 
-            _gameSession = new GameSession(RangeStart, RangeEnd);
+            _gameSession = new GameSession(RangeStart, RangeEnd, _localizationService.CurrentNumberFormat);
             TotalNumbers = _gameSession.TotalNumbers;
 
             _hasBeenInitialized = true;

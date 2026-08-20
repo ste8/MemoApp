@@ -24,22 +24,48 @@ public class GameSession
     public int RemainingNumbers => _remainingNumbers.Count + (_currentNumber.HasValue ? 1 : 0);
     public IReadOnlyList<NumberPerformance> Performances => _performances.AsReadOnly();
 
-    public GameSession(string rangeStart, string rangeEnd)
+    /// <summary>
+    /// Creates a session over a range, resolved with the caller's number format.
+    /// </summary>
+    public GameSession(string rangeStart, string rangeEnd, NumberFormat format)
+        : this(rangeStart, rangeEnd, NumberSequence.GenerateSequence(rangeStart, rangeEnd, format).ToList())
+    {
+    }
+
+    /// <summary>
+    /// Creates a session over an already-resolved sequence. Preferred where the caller
+    /// has built the sequence itself: the session no longer decides what to present,
+    /// only the order in which to present it, which makes it testable in isolation.
+    /// </summary>
+    public GameSession(string rangeStart, string rangeEnd, IReadOnlyList<MajorNumber> sequence)
     {
         RangeStart = rangeStart ?? throw new ArgumentNullException(nameof(rangeStart));
         RangeEnd = rangeEnd ?? throw new ArgumentNullException(nameof(rangeEnd));
-        
-        var sequence = NumberSequence.GenerateSequence(rangeStart, rangeEnd).ToList();
+        ArgumentNullException.ThrowIfNull(sequence);
+
         TotalNumbers = sequence.Count;
-        
-        // Shuffle the sequence for random presentation
-        var random = new Random();
-        var shuffledSequence = sequence.OrderBy(_ => random.Next()).ToList();
-        
-        foreach (var number in shuffledSequence)
+
+        foreach (var number in Shuffle(sequence))
         {
             _remainingNumbers.Enqueue(number);
         }
+    }
+
+    /// <summary>
+    /// Fisher-Yates. Replaces OrderBy(_ =&gt; random.Next()), which is a biased shuffle:
+    /// equal sort keys leave the affected elements in their original relative order.
+    /// </summary>
+    private static List<MajorNumber> Shuffle(IReadOnlyList<MajorNumber> source)
+    {
+        var items = source.ToList();
+
+        for (int i = items.Count - 1; i > 0; i--)
+        {
+            int j = Random.Shared.Next(i + 1);
+            (items[i], items[j]) = (items[j], items[i]);
+        }
+
+        return items;
     }
 
     public void StartSession()

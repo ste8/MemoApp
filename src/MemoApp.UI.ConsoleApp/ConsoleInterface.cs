@@ -57,7 +57,7 @@ public static class ConsoleInterface
 
         try
         {
-            var session = new GameSession(rangeStart, rangeEnd);
+            var session = new GameSession(rangeStart, rangeEnd, NumberFormat.Padded);
             session.StartSession();
 
             Console.WriteLine($"Starting session with {session.TotalNumbers} numbers.");

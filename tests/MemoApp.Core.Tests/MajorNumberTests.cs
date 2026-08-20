@@ -63,4 +63,12 @@ public class MajorNumberTests
         
         Assert.Equal(15, value);
     }
+
+    [Fact]
+    public void Display_DistinguishesZeroPrefixedFromNatural()
+    {
+        Assert.Equal("07", MajorNumber.FromZeroPrefixed(7).Display);
+        Assert.Equal("7", MajorNumber.FromValue(7).Display);
+        Assert.NotEqual(MajorNumber.FromZeroPrefixed(7), MajorNumber.FromValue(7));
+    }
 }

@@ -3,19 +3,18 @@ using MemoApp.Core.BigNumber;
 namespace MemoApp.Core.Tests.BigNumber;
 
 /// <summary>
-/// First tests for BigNumberService, which had none despite owning number generation
-/// for the Big Number exercise. See docs/specs/CODEBASE_AUDIT_AND_IMPROVEMENT_PLAN.md §6 Phase 0.
+/// BigNumberService generates the digit string for the Big Number exercise, formats it for
+/// display, and drives the game's phase transitions.
 ///
-/// The generation algorithm was verified correct across 25k+ generations before these
-/// were written; the point of these tests is to LOCK THAT IN before Phase 2/3 touch it.
-/// FormatTime, by contrast, has two real defects — characterised below and marked.
+/// A generated number is built from digit pairs: every pair is at most maxPairValue, the
+/// number is exactly the requested length, and it never starts with a zero.
 /// </summary>
 public class BigNumberServiceTests
 {
     private readonly BigNumberService _sut = new();
 
     // ---------------------------------------------------------------
-    // GenerateNumber — verified correct, locking in
+    // GenerateNumber
     // ---------------------------------------------------------------
 
     [Theory]
@@ -93,8 +92,7 @@ public class BigNumberServiceTests
     {
         var results = Enumerable.Range(0, 200).Select(_ => _sut.GenerateNumber(10, 99)).ToHashSet();
 
-        // Guards against a future refactor accidentally fixing the seed
-        // (as BigNumberViewModel.cs:1192 does with new Random(12345)).
+        // A fixed seed would make every session present the same number.
         Assert.True(results.Count > 150, $"expected varied output, got {results.Count} distinct of 200");
     }
 
@@ -153,7 +151,11 @@ public class BigNumberServiceTests
     }
 
     // ---------------------------------------------------------------
-    // FormatTime — characterisation of two real defects (plan §4.2)
+    // FormatTime
+    //
+    // Renders minutes and seconds only. The two tests at the end of this section
+    // pin down what it does at the edges; the skipped pair above them states the
+    // behaviour that is wanted there instead.
     // ---------------------------------------------------------------
 
     [Theory]
@@ -166,27 +168,28 @@ public class BigNumberServiceTests
     }
 
     [Fact]
-    public void FormatTime_DoesNotRollOverIntoHours()
+    public void FormatTime_SpanOverAnHour_KeepsCountingInMinutes()
     {
-        // DEFECT: a two-hour session displays as "120:00" rather than "2:00:00".
+        // Minutes accumulate past 60 rather than carrying into an hours field.
         Assert.Equal("120:00", _sut.FormatTime(TimeSpan.FromHours(2)));
     }
 
     [Fact]
-    public void FormatTime_ProducesMalformedOutputForNegativeSpans()
+    public void FormatTime_NegativeSpan_PutsTheSignOnTheSeconds()
     {
-        // DEFECT: reachable via BigNumberService's DateTime.Now arithmetic when the
-        // device clock moves backwards (timezone change mid-session). See plan §4.2.
+        // The sign lands on the seconds component only, so the output is not a
+        // readable duration. Negative spans arise when the device clock moves backwards
+        // while a round is in progress.
         Assert.Equal("00:-30", _sut.FormatTime(TimeSpan.FromSeconds(-30)));
     }
 
-    [Fact(Skip = "Phase 3: hour rollover not implemented yet. See plan §6 Phase 3.")]
+    [Fact(Skip = "Not implemented: FormatTime has no hours component.")]
     public void FormatTime_ShouldRollOverIntoHours()
     {
         Assert.Equal("2:00:00", _sut.FormatTime(TimeSpan.FromHours(2)));
     }
 
-    [Fact(Skip = "Phase 3: negative-span guard not implemented yet. See plan §6 Phase 3.")]
+    [Fact(Skip = "Not implemented: FormatTime does not guard against negative spans.")]
     public void FormatTime_ShouldClampNegativeSpansToZero()
     {
         Assert.Equal("00:00", _sut.FormatTime(TimeSpan.FromSeconds(-30)));

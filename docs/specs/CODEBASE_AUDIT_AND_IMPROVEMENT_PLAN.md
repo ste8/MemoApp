@@ -5,7 +5,8 @@
 **Method:** Four parallel specialist reviews (architecture, clean code, MAUI runtime, UI/UX). Every load-bearing claim was independently re-verified against the source before being recorded here.
 **Baseline at audit time:** Build exits 0 with 294 unique warnings. 51 unit tests pass.
 
-> **Status: Phase 0 complete · Phase 1 complete.** Tests 51 → 100. `MVVMTK0039` warnings 3 → 0.
+> **Status: Phases 0, 1 and 2 complete.** Tests 51 → 117. `MVVMTK0039` warnings 3 → 0.
+> **The duplicate-number defect in §1 is fixed** — the shipped presets now present 100 distinct numbers.
 > CI now runs `dotnet test` before it can publish to TestFlight.
 > See the [Progress log](#9-progress-log) for exactly what changed and what was corrected along the way.
 
@@ -362,17 +363,17 @@ Ordered so each phase makes the next cheaper, and so nothing is refactored befor
 - [x] §3.10 add the two missing Italian strings
 - [x] §3.11 switch amber buttons to `WarningAccessible`
 
-### Phase 2 — Unify sequence generation  ⬅ NEXT
-**~2–3 days. Fixes the duplicate-numbers bug.**
+### Phase 2 — Unify sequence generation  ✅ DONE
+**~2–3 days. Fixes the duplicate-numbers bug.** — applied, solution builds clean, 117 tests green.
 
-- [ ] Add `NumberFormat` to the Core generator; fold in `GenerateTrainingSequence`'s dedup rule
-- [ ] Fix the dead ternary at `NumberFormatHelper.cs:24`
-- [ ] Change `GameSession` to accept a supplied sequence rather than building its own — removes the hidden dependency, makes it trivially testable
-- [ ] Delete generators #2 and #3, the duplicated `ParseRangeValue`, and the dead `GenerateTrainingSequence`
-- [ ] Reduce `MajorSystemCategoryService.GenerateNumberTokens` to a projection over the Core generator
-- [ ] Replace `OrderBy(_ => random.Next())` at `GameSession.cs:37` — a biased shuffle — with `Random.Shared.Shuffle()`
+- [x] Add `NumberFormat` to the Core generator; fold in `GenerateTrainingSequence`'s dedup rule
+- [x] Fix the dead ternary at `NumberFormatHelper.cs:24`
+- [x] Change `GameSession` to accept a supplied sequence rather than building its own — removes the hidden dependency, makes it trivially testable
+- [x] Delete generators #2 and #3, the duplicated `ParseRangeValue`, and the dead `GenerateTrainingSequence`
+- [x] Reduce `MajorSystemCategoryService.GenerateNumberTokens` to a projection over the Core generator
+- [x] Replace `OrderBy(_ => random.Next())` at `GameSession.cs:37` — a biased shuffle — with `Random.Shared.Shuffle()`
 
-### Phase 3 — One clock, one statistics owner
+### Phase 3 — One clock, one statistics owner  ⬅ NEXT
 **~2 days.**
 
 - [ ] Delete the ViewModel-side session clock; `GameSession` becomes the single time authority
@@ -436,14 +437,14 @@ Ordered so each phase makes the next cheaper, and so nothing is refactored befor
 | Change | File |
 |---|---|
 | `dotnet test` step added between NuGet restore and the iOS build, so a failing test stops the pipeline before TestFlight | `azure-pipelines.yml` |
-| Characterisation tests for the §1 duplication defect | `tests/MemoApp.Core.Tests/NumberSequenceDuplicationTests.cs` *(new)* |
+| Characterisation tests for the §1 duplication defect | `NumberSequenceDuplicationTests.cs` *(since folded into `NumberSequenceTests.cs`)* |
 | First tests for `BigNumberService` | `tests/MemoApp.Core.Tests/BigNumber/BigNumberServiceTests.cs` *(new)* |
 
 **Tests: 51 → 100** (96 passing, 4 skipped).
 
 `MemoApp.Core.IntegrationTests` is deliberately excluded from CI — it requires live OpenAI credentials.
 
-**On the 4 skipped tests.** The plan said the new tests should fail. They don't, deliberately: a red pipeline on day one is a pipeline people learn to ignore, which would defeat the step being added. Instead each desired-behaviour assertion sits as `[Fact(Skip = "Phase N…")]` directly beneath its characterisation counterpart. These were verified to be genuine tripwires — with the `Skip` attributes temporarily stripped, **all 4 fail**:
+**On the 4 skipped tests.** The plan said the new tests should fail. They don't, deliberately: a red pipeline on day one is a pipeline people learn to ignore, which would defeat the step being added. Instead each desired-behaviour assertion sits as a skipped `[Fact]` directly beneath its characterisation counterpart. These were verified to be genuine tripwires — with the `Skip` attributes temporarily stripped, **all 4 fail**:
 
 - `GenerateSequence_CompleteMajorSystemPreset_ShouldYield100DistinctNumbers`
 - `GenerateSequence_AnyRange_ShouldNeverRepeatARenderedLabel`
@@ -496,3 +497,59 @@ Both sit inside code that was already being edited:
 The 4 keys missing from Italian (`FlashNumbers_RevealAssociation`, `Onboarding_Money`, `Onboarding_SkipMessage`, `Onboarding_SkipTitle`) are **orphaned — referenced nowhere**, so they are deletion candidates in Phase 4 rather than translation work.
 
 Nothing in Phase 1 was verified on a device. The accessibility and contrast changes are measured, not observed with a screen reader.
+
+### Phase 2 — Unify sequence generation ✅
+
+**The §1 defect is fixed.** Verified by running the built `MemoApp.Core` assembly:
+
+```
+Padded (the default for new users)
+  Complete Major System  "00"->"99" : 100 items, 100 distinct,  0 duplicate   OK   (was 110 / 100 / 10)
+  Numbers 00 to 69       "00"->"69" :  70 items,  70 distinct,  0 duplicate   OK   (was  80 /  70 / 10)
+  Zero-prefixed 00-09    "00"->"09" :  10 items,  10 distinct,  0 duplicate   OK
+  first 12 on screen     : 00 01 02 03 04 05 06 07 08 09 10 11               (was 00..09 00..09 10 11)
+Natural
+  Complete 0-99          "0"->"99"  : 100 items, 100 distinct,  0 duplicate   OK
+```
+
+| Change | File |
+|---|---|
+| Format-aware generator; `ParseRangeValue` made public and normalising; `GetAllTokens` added | `NumberSequence.cs` (43 → 119 lines) |
+| Constructor now takes a supplied sequence; Fisher–Yates replaces the biased shuffle | `GameSession.cs` |
+| Three duplicate generators, the duplicated `ParseRangeValue`, and the dead `GenerateTrainingSequence` all deleted; the rest delegates to Core | `NumberFormatHelper.cs` (**125 → 39 lines**) |
+| `GenerateNumberTokens` reduced to a projection (28 → 5 lines) | `MajorSystemCategoryService.cs` |
+| Pass the user's format when building a session | `FlashNumbersViewModel.cs`, `ConsoleInterface.cs` |
+
+All sequence-generation loops now live in exactly one file. `grep "yield return MajorNumber.From"` returns `NumberSequence.cs` only.
+
+#### The design decision that mattered
+
+The audit framed this as "delete the duplicates". Doing that literally would have introduced a data bug, because **two different concepts were tangled in the duplicated code**:
+
+- **Presentation sequence** — what a training session shows, rendered through `NumberFormatHelper.FormatNumber`. Under Padded, `Value.ToString("00")` turns the natural `7` and the zero-prefixed `07` into the same on-screen `"07"`. This is the bug, and Padded must therefore exclude natural values below 10 → **100 items**.
+- **Token vocabulary** — what the Associations browser and authoring surface address, keyed by `MajorNumber.Display`, under which `"07"` and `"7"` are different strings *and* different mnemonics (07 = S-K, 7 = K). Narrowing this would have orphaned any association saved against a bare single-digit token.
+
+They are now separate methods — `GetAllNumbersInOrder(format)` and `GetAllTokens(format)` — with the distinction documented and covered by tests. The vocabulary output was verified byte-for-byte identical to pre-Phase-2 (Padded 110, Natural 100), so **no association data is affected**.
+
+#### Behaviour changes
+
+1. **Padded presentation sequences lost their duplicates** — 110 → 100 for `00-99`. This is the fix.
+2. **`GameSession`'s two-argument constructor is gone.** It is now `(rangeStart, rangeEnd, NumberFormat)` or `(rangeStart, rangeEnd, IReadOnlyList<MajorNumber>)`. Every call site updated.
+3. **Range endpoints normalise per format.** Under Padded, `"0"` and `"00"` resolve to the same token, so `"2"→"08"` is now a valid ascending range (02..08) where it previously threw. A test covered the old behaviour and was rewritten.
+4. **Crossing-boundary ranges no longer exist.** `"08"→"2"` used to yield `08, 09, 0, 1, 2` by running off the zero-prefixed block into the natural one. That ordering was the defect; the test asserting it was replaced with format-explicit coverage.
+
+#### Shuffle
+
+`OrderBy(_ => random.Next())` is a biased shuffle — equal sort keys leave elements in their original relative order. Replaced with Fisher–Yates over `Random.Shared`. Measured across 60,000 sessions, one token's landing position spreads 4.4% across the ten slots, consistent with uniform.
+
+#### Tests: 100 → 117
+
+The two Phase 2 tripwires are now live assertions and the characterisation tests that locked in the broken behaviour were deleted, as planned. Two remain skipped, both on `FormatTime`: no hours component, and no guard against negative spans.
+
+Tests were also reorganised to one file per unit under test — the sequence tests folded into `NumberSequenceTests.cs`, the session tests into `GameSessionTests.cs`, the `Display` test into `MajorNumberTests.cs`, and `NumberSequenceDuplicationTests.cs` removed. Their comments describe what the code does and why, with no reference to this plan or to what the behaviour used to be: a test read a year from now should explain the contract, not the changelog.
+
+New coverage: presentation-vs-vocabulary distinction, per-format range generation, endpoint normalisation, descending-range rejection, `GameSession` accepting a supplied sequence, and a shuffle test asserting no number is lost or duplicated.
+
+#### Not verified
+
+No device run. The Flash Numbers range picker and the Associations browser were reasoned about from code and covered by unit tests, but not observed on screen.
