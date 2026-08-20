@@ -94,7 +94,15 @@ public class PackUpdateBackgroundService : IPackUpdateBackgroundService, IDispos
             
             // Load last check time
             var lastCheckStr = Preferences.Get(LastCheckKey, string.Empty);
-            if (!string.IsNullOrEmpty(lastCheckStr) && DateTime.TryParse(lastCheckStr, out var lastCheck))
+            // RoundtripKind is required: the value is written with ToString("O") and ends in Z,
+            // and a bare TryParse converts it to local time. It is later subtracted from
+            // DateTime.UtcNow, so without this the update interval is wrong by the device's
+            // UTC offset - and changes when the user travels.
+            if (!string.IsNullOrEmpty(lastCheckStr) && DateTime.TryParse(
+                    lastCheckStr,
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.DateTimeStyles.RoundtripKind,
+                    out var lastCheck))
             {
                 _lastCheckTime = lastCheck;
                 _logger.LogInformation("Last update check was at: {LastCheck}", lastCheck);
