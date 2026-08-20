@@ -2982,4 +2982,36 @@ Difficulty: {DifficultyLevel}
     <value>Available packs could not be loaded. Check your connection and try again.</value>
     <comment>Pack list load failure message</comment>
   </data>
+  <data name="FlashNumbers_ProgressCompleted" xml:space="preserve">
+    <value>Completed: {0}</value>
+    <comment>Flash Numbers session progress. {0} = count of numbers completed</comment>
+  </data>
+  <data name="FlashNumbers_ProgressTotal" xml:space="preserve">
+    <value>Total: {0}</value>
+    <comment>Flash Numbers session progress. {0} = total numbers in the session</comment>
+  </data>
+  <data name="FlashNumbers_ProgressRemaining" xml:space="preserve">
+    <value>Remaining: {0}</value>
+    <comment>Flash Numbers session progress. {0} = numbers left to go</comment>
+  </data>
+  <data name="Statistics_Title" xml:space="preserve">
+    <value>Session Statistics</value>
+    <comment>Statistics page title</comment>
+  </data>
+  <data name="ImageViewer_Title" xml:space="preserve">
+    <value>Image Viewer</value>
+    <comment>Full-screen image viewer page title</comment>
+  </data>
+  <data name="AppShell_Title" xml:space="preserve">
+    <value>MemoRaise</value>
+    <comment>Application shell title. Uses the commercial brand name</comment>
+  </data>
+  <data name="BigNumber_Start" xml:space="preserve">
+    <value>Start</value>
+    <comment>Big Number primary action before a round begins</comment>
+  </data>
+  <data name="BigNumber_Stop" xml:space="preserve">
+    <value>Stop</value>
+    <comment>Big Number secondary action during a round</comment>
+  </data>
 </root>

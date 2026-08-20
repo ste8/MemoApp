@@ -386,7 +386,8 @@ public static class ServiceRegistration
         services.AddTransient<ImageViewerViewModel>(serviceProvider =>
         {
             var logger = serviceProvider.GetRequiredService<ILogger<ImageViewerViewModel>>();
-            return new ImageViewerViewModel(logger);
+            var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
+            return new ImageViewerViewModel(logger, localizationService);
         });
 
         services.AddTransient<FeedbackViewModel>(serviceProvider =>

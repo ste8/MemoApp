@@ -70,17 +70,17 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Label Grid.Column="0"
-                                       Text="{Binding CompletedNumbers, StringFormat='Completed: {0}'}"
+                                       Text="{Binding CompletedNumbers, Converter={StaticResource LocalizedFormatConverter}, ConverterParameter=FlashNumbers_ProgressCompleted}"
                                        FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                        HorizontalOptions="Start" />
 
                                 <Label Grid.Column="1"
-                                       Text="{Binding TotalNumbers, StringFormat='Total: {0}'}"
+                                       Text="{Binding TotalNumbers, Converter={StaticResource LocalizedFormatConverter}, ConverterParameter=FlashNumbers_ProgressTotal}"
                                        FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                        HorizontalOptions="Center" />
 
                                 <Label Grid.Column="2"
-                                       Text="{Binding RemainingNumbers, StringFormat='Remaining: {0}'}"
+                                       Text="{Binding RemainingNumbers, Converter={StaticResource LocalizedFormatConverter}, ConverterParameter=FlashNumbers_ProgressRemaining}"
                                        FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                        HorizontalOptions="End" />
                             </Grid>

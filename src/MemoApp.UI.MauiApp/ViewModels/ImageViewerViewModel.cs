@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MemoApp.Localization.Services;
 using Microsoft.Extensions.Logging;
 
 namespace MemoApp.UI.MauiApp.ViewModels;
@@ -13,6 +14,7 @@ namespace MemoApp.UI.MauiApp.ViewModels;
 public partial class ImageViewerViewModel : ObservableObject
 {
     private readonly ILogger<ImageViewerViewModel> _logger;
+    private readonly ILocalizationService _localizationService;
 
     [ObservableProperty]
     private string _imagePath = string.Empty;
@@ -32,9 +34,10 @@ public partial class ImageViewerViewModel : ObservableObject
     [ObservableProperty]
     private bool _showInfo = true;
 
-    public ImageViewerViewModel(ILogger<ImageViewerViewModel> logger)
+    public ImageViewerViewModel(ILogger<ImageViewerViewModel> logger, ILocalizationService localizationService)
     {
         _logger = logger;
+        _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
     }
 
     partial void OnTokenChanged(string value)
@@ -61,7 +64,7 @@ public partial class ImageViewerViewModel : ObservableObject
         }
         else
         {
-            Title = "Image Viewer";
+            Title = _localizationService.GetString("ImageViewer_Title");
             InfoText = string.Empty;
         }
     }

@@ -2983,4 +2983,36 @@ Difficoltà: {DifficultyLevel}
     <value>Impossibile caricare i pacchetti disponibili. Verifica la connessione e riprova.</value>
     <comment>Pack list load failure message</comment>
   </data>
+  <data name="FlashNumbers_ProgressCompleted" xml:space="preserve">
+    <value>Completate: {0}</value>
+    <comment>Flash Numbers session progress. {0} = count of numbers completed</comment>
+  </data>
+  <data name="FlashNumbers_ProgressTotal" xml:space="preserve">
+    <value>Totale: {0}</value>
+    <comment>Flash Numbers session progress. {0} = total numbers in the session</comment>
+  </data>
+  <data name="FlashNumbers_ProgressRemaining" xml:space="preserve">
+    <value>Rimanenti: {0}</value>
+    <comment>Flash Numbers session progress. {0} = numbers left to go</comment>
+  </data>
+  <data name="Statistics_Title" xml:space="preserve">
+    <value>Statistiche Sessione</value>
+    <comment>Statistics page title</comment>
+  </data>
+  <data name="ImageViewer_Title" xml:space="preserve">
+    <value>Visualizzatore Immagini</value>
+    <comment>Full-screen image viewer page title</comment>
+  </data>
+  <data name="AppShell_Title" xml:space="preserve">
+    <value>MemoRaise</value>
+    <comment>Application shell title. Uses the commercial brand name</comment>
+  </data>
+  <data name="BigNumber_Start" xml:space="preserve">
+    <value>Inizia</value>
+    <comment>Big Number primary action before a round begins</comment>
+  </data>
+  <data name="BigNumber_Stop" xml:space="preserve">
+    <value>Ferma</value>
+    <comment>Big Number secondary action during a round</comment>
+  </data>
 </root>

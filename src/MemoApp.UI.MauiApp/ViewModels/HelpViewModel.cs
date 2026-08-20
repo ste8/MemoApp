@@ -24,7 +24,7 @@ public partial class HelpViewModel : BaseViewModel
     {
         _mappingService = mappingService;
         _localizationService = localizationService;
-        Title = "Major System Guide";
+        Title = _localizationService.GetString("Help_Title");
         LoadMajorSystemData();
     }
 

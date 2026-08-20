@@ -9,7 +9,7 @@
     xmlns:flashNumbersViews="clr-namespace:MemoApp.UI.MauiApp.Views.FlashNumbers"
     xmlns:viewmodels="clr-namespace:MemoApp.UI.MauiApp.ViewModels"
     xmlns:localization="clr-namespace:MemoApp.Localization.Extensions;assembly=MemoApp.Localization"
-    Title="Major System Training">
+    Title="{localization:Localize AppShell_Title}">
 
     <TabBar>
         <!-- First Tab: Welcome/Home -->

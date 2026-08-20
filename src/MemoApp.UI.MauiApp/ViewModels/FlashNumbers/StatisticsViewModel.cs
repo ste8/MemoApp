@@ -109,7 +109,7 @@ public partial class StatisticsViewModel : BaseViewModel
     {
         _localizationService = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
         _performanceService = performanceService ?? throw new ArgumentNullException(nameof(performanceService));
-        Title = "Session Statistics";
+        Title = _localizationService.GetString("Statistics_Title");
     }
 
     partial void OnStatisticsChanged(SessionStatistics? value)

@@ -4,14 +4,56 @@
 # https://aka.ms/yaml
 
 trigger:
-- build/iOS
+  branches:
+    include:
+      - main
+      - build/iOS
+      - feat/*
 
 variables:
   - group: VariablesGroup01
 
 stages:
+  # Runs on every triggering branch. Nothing here touches signing or the App Store,
+  # so it is safe on feature branches and gives fast feedback.
+  - stage: tests
+    displayName: Unit Tests
+    pool:
+      vmImage: "$(macos_version)"
+    jobs:
+    - job: unit_tests
+      displayName: Unit Tests
+      steps:
+      - task: UseDotNet@2
+        displayName: Set .NET Version
+        inputs:
+          packageType: 'sdk'
+          version: $(dotnet_version)
+
+      # MemoApp.Core multi-targets the platform TFMs, so the workloads are needed to
+      # restore it even though the test project itself is plain net10.0.
+      - task: Bash@3
+        displayName: Install MAUI workloads
+        inputs:
+          targetType: 'inline'
+          script: dotnet workload install maui --version $(dotnet_workload_version)
+
+      # Integration tests (tests/MemoApp.Core.IntegrationTests) are deliberately excluded:
+      # they require live OpenAI credentials.
+      - task: DotNetCoreCLI@2
+        displayName: Run unit tests
+        inputs:
+          command: 'test'
+          projects: 'tests/MemoApp.Core.Tests/MemoApp.Core.Tests.csproj'
+          arguments: '--configuration $(build_configuration) --logger trx --results-directory $(Agent.TempDirectory)'
+          publishTestResults: true
+
+  # Signing, packaging and TestFlight. Restricted to build/iOS so that widening the
+  # trigger above cannot publish a feature branch to testers.
   - stage: ios_build
     displayName:  iOS Build
+    dependsOn: tests
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/build/iOS'))
     pool:
       vmImage: "$(macos_version)"
       demands: xcode
@@ -69,17 +111,6 @@ stages:
       - task: NuGetAuthenticate@1      
       - script: dotnet restore $(app_sln_path)
         displayName: NuGet restore
-
-      # Unit tests gate the release: a failure here stops the pipeline before it
-      # can publish to TestFlight. Integration tests (tests/MemoApp.Core.IntegrationTests)
-      # are deliberately excluded - they require live OpenAI credentials.
-      - task: DotNetCoreCLI@2
-        displayName: Run unit tests
-        inputs:
-          command: 'test'
-          projects: 'tests/MemoApp.Core.Tests/MemoApp.Core.Tests.csproj'
-          arguments: '--configuration $(build_configuration) --logger trx --results-directory $(Agent.TempDirectory)'
-          publishTestResults: true
           
       - task: Bash@3
         displayName: Build iOS app
