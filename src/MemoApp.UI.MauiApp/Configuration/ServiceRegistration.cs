@@ -342,24 +342,11 @@ public static class ServiceRegistration
             return new PackDownloadViewModel(downloadService, packManager, mauiPackService, localizationService, analyticsService, messenger, logger, exceptionHandler);
         });
         
-        services.AddTransient<BigNumberViewModel>(serviceProvider =>
-        {
-            var gameService = serviceProvider.GetRequiredService<IBigNumberService>();
-            var settingsService = serviceProvider.GetRequiredService<IBigNumberSettingsService>();
-            var localizationService = serviceProvider.GetRequiredService<ILocalizationService>();
-            var shareService = serviceProvider.GetRequiredService<IShareService>();
-            var textMeasurementService = serviceProvider.GetRequiredService<ITextMeasurementService>();
-            var containerSizeService = serviceProvider.GetRequiredService<IContainerSizeService>();
-            var fontSizer = serviceProvider.GetRequiredService<INumberDisplayFontSizer>();
-            var analyticsService = serviceProvider.GetRequiredService<IAnalyticsService>();
-            var exerciseCountService = serviceProvider.GetRequiredService<IExerciseCountService>();
-            var userNotificationService = serviceProvider.GetRequiredService<IUserNotificationService>();
-            var digitComparisonService = serviceProvider.GetRequiredService<IDigitComparisonService>();
-            var associationComposerService = serviceProvider.GetRequiredService<IAssociationComposerService>();
-            var exceptionHandler = serviceProvider.GetRequiredService<IExceptionHandler>();
-            var interstitialAdManager = serviceProvider.GetService<IInterstitialAdManager>(); // Optional
-            return new BigNumberViewModel(gameService, settingsService, localizationService, shareService, textMeasurementService, containerSizeService, fontSizer, analyticsService, exerciseCountService, userNotificationService, digitComparisonService, associationComposerService, exceptionHandler, interstitialAdManager);
-        });
+        // Plain constructor injection: every dependency is registered, so the container can
+        // build this itself. The previous hand-written factory passed 13 arguments positionally,
+        // which had to be edited for every constructor change and would silently misorder any
+        // two parameters that share a type.
+        services.AddTransient<BigNumberViewModel>();
         
         services.AddTransient<TokenDetailViewModel>(serviceProvider =>
         {

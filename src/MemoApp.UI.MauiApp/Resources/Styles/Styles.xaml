@@ -297,63 +297,7 @@
     <Color x:Key="ValidationSuccessBackgroundDark">#1F2937</Color>  <!-- Dark green background -->
 
     <!-- Input Field Validation Styles -->
-    <Style x:Key="ValidationErrorEntryStyle" TargetType="Entry">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource PlaceholderLight}, Dark={StaticResource PlaceholderDark}}" />
-        <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="MinimumWidthRequest" Value="44"/>
-    </Style>
-
-    <Style x:Key="ValidationSuccessEntryStyle" TargetType="Entry">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource PlaceholderLight}, Dark={StaticResource PlaceholderDark}}" />
-        <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="MinimumWidthRequest" Value="44"/>
-    </Style>
-
-    <Style x:Key="ValidationErrorEditorStyle" TargetType="Editor">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource PlaceholderLight}, Dark={StaticResource PlaceholderDark}}" />
-        <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="MinimumWidthRequest" Value="44"/>
-    </Style>
-
-    <Style x:Key="ValidationSuccessEditorStyle" TargetType="Editor">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource PlaceholderLight}, Dark={StaticResource PlaceholderDark}}" />
-        <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="MinimumWidthRequest" Value="44"/>
-    </Style>
-
     <!-- Validation Container Styles -->
-    <Style x:Key="ValidationErrorFrameStyle" TargetType="Frame">
-        <Setter Property="HasShadow" Value="False" />
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource ValidationErrorLight}, Dark={StaticResource ValidationErrorDark}}" />
-        <Setter Property="CornerRadius" Value="8" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="Padding" Value="16,12" />
-    </Style>
-
-    <Style x:Key="ValidationSuccessFrameStyle" TargetType="Frame">
-        <Setter Property="HasShadow" Value="False" />
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource ValidationSuccessLight}, Dark={StaticResource ValidationSuccessDark}}" />
-        <Setter Property="CornerRadius" Value="8" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="Padding" Value="16,12" />
-    </Style>
-
     <!-- Validation Error Text Style -->
     <Style x:Key="ValidationErrorTextStyle" TargetType="Label">
         <Setter Property="FontFamily" Value="OpenSansRegular" />
@@ -364,14 +308,6 @@
     </Style>
 
     <!-- Validation Success Text Style -->
-    <Style x:Key="ValidationSuccessTextStyle" TargetType="Label">
-        <Setter Property="FontFamily" Value="OpenSansRegular" />
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ValidationSuccessLight}, Dark={StaticResource ValidationSuccessDark}}" />
-        <Setter Property="LineBreakMode" Value="WordWrap" />
-        <Setter Property="Margin" Value="0,4,0,0" />
-    </Style>
-
     <!-- Enhanced Category Button Style -->
     <Style x:Key="CategoryButtonStyle" TargetType="Button">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SecondaryButtonBackgroundColorLight}, Dark={StaticResource SecondaryButtonBackgroundColorDark}}" />
@@ -487,13 +423,6 @@
     </Style>
 
     <!-- Settings Section Divider for Additional Visual Separation -->
-    <Style x:Key="SettingsSectionDividerStyle" TargetType="Border">
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}" />
-        <Setter Property="HeightRequest" Value="1" />
-        <Setter Property="Margin" Value="{OnIdiom Phone='32,2,32,2', Tablet='40,3,40,3', Desktop='48,4,48,4'}" />
-        <Setter Property="Opacity" Value="0.6" />
-    </Style>
-
     <Style TargetType="ImageButton">
         <Setter Property="Opacity" Value="1" />
         <Setter Property="BorderColor" Value="Transparent"/>
@@ -1172,124 +1101,9 @@
     </Style>
 
     <!-- Enhanced Action Button Style for Pack Downloads -->
-    <Style x:Key="EnhancedActionButtonStyle" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
-        <Setter Property="TextColor" Value="White"/>
-        <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}"/>
-        <Setter Property="FontSize" Value="{StaticResource IconSize_Responsive_Medium}"/>
-        <Setter Property="CornerRadius" Value="8"/>
-        <Setter Property="HeightRequest" Value="{OnIdiom Phone=48, Tablet=48, Desktop=44}"/>
-        <Setter Property="WidthRequest" Value="{OnIdiom Phone=48, Tablet=48, Desktop=44}"/>
-        <Setter Property="MinimumWidthRequest" Value="{OnIdiom Phone=48, Tablet=48, Desktop=44}"/>
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="Shadow">
-            <Shadow Brush="{StaticResource Primary}"
-                    Offset="0,2"
-                    Radius="4"
-                    Opacity="0.25"/>
-        </Setter>
-        <Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal"/>
-                    <VisualState x:Name="Pressed">
-                        <VisualState.Setters>
-                            <Setter Property="Scale" Value="0.96"/>
-                            <Setter Property="Opacity" Value="0.8"/>
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="Disabled">
-                        <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"/>
-                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>
-    </Style>
-
     <!-- Secondary Action Button Style (for Delete) -->
-    <Style x:Key="SecondaryActionButtonStyle" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="Transparent"/>
-        <Setter Property="TextColor" Value="{StaticResource Danger}"/>
-        <Setter Property="BorderColor" Value="{StaticResource Danger}"/>
-        <Setter Property="BorderWidth" Value="1"/>
-        <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}"/>
-        <Setter Property="FontSize" Value="{StaticResource IconSize_Responsive_Medium}"/>
-        <Setter Property="CornerRadius" Value="8"/>
-        <Setter Property="HeightRequest" Value="{OnIdiom Phone=48, Tablet=48, Desktop=44}"/>
-        <Setter Property="WidthRequest" Value="{OnIdiom Phone=48, Tablet=48, Desktop=44}"/>
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal"/>
-                    <VisualState x:Name="Pressed">
-                        <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="{StaticResource Danger}"/>
-                            <Setter Property="TextColor" Value="White"/>
-                            <Setter Property="Scale" Value="0.96"/>
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>
-    </Style>
-
     <!-- Destructive Action Button Style (for Delete with filled background) -->
-    <Style x:Key="DestructiveActionButtonStyle" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{StaticResource Danger}"/>
-        <Setter Property="TextColor" Value="White"/>
-        <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}"/>
-        <Setter Property="FontSize" Value="{StaticResource IconSize_Responsive_Medium}"/>
-        <Setter Property="CornerRadius" Value="8"/>
-        <Setter Property="HeightRequest" Value="{OnIdiom Phone=48, Tablet=48, Desktop=44}"/>
-        <Setter Property="WidthRequest" Value="{OnIdiom Phone=48, Tablet=48, Desktop=44}"/>
-        <Setter Property="MinimumWidthRequest" Value="{OnIdiom Phone=48, Tablet=48, Desktop=44}"/>
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="Shadow">
-            <Shadow Brush="{StaticResource Danger}"
-                    Offset="0,2"
-                    Radius="4"
-                    Opacity="0.25"/>
-        </Setter>
-        <Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal"/>
-                    <VisualState x:Name="Pressed">
-                        <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="{StaticResource DangerDark}"/>
-                            <Setter Property="Scale" Value="0.96"/>
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="Disabled">
-                        <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"/>
-                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
-                            <Setter Property="Shadow" Value="{x:Null}"/>
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>
-    </Style>
-
     <!-- Status Indicator Style -->
-    <Style x:Key="StatusIndicatorStyle" TargetType="Border">
-        <Setter Property="BackgroundColor" Value="{StaticResource Success}"/>
-        <Setter Property="StrokeShape" Value="RoundRectangle 8"/>
-        <Setter Property="StrokeThickness" Value="0"/>
-        <Setter Property="Padding" Value="12,8"/>
-        <Setter Property="Shadow">
-            <Shadow Brush="{StaticResource Success}"
-                    Offset="0,1"
-                    Radius="2"
-                    Opacity="0.2"/>
-        </Setter>
-    </Style>
-
     <!-- Enhanced Update Badge Style -->
     <Style x:Key="UpdateBadgeStyle" TargetType="Border">
         <Setter Property="BackgroundColor" Value="{StaticResource Warning}"/>
@@ -1307,101 +1121,8 @@
     <!-- ===== UNIFIED HOMEPAGE CARD SYSTEM ===== -->
 
     <!-- Tier 1: Primary Action Cards - Main navigation to core features -->
-    <Style x:Key="PrimaryActionCardStyle" TargetType="Border">
-        <Setter Property="Stroke" Value="Transparent" />
-        <Setter Property="StrokeThickness" Value="0" />
-        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
-        <Setter Property="Padding" Value="24" />
-        <Setter Property="Margin" Value="0,4" />
-        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=140, Tablet=160, Desktop=150}" />
-        <Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="Pressed">
-                        <VisualState.Setters>
-                            <Setter Property="Scale" Value="0.98" />
-                            <Setter Property="Opacity" Value="0.9" />
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="PointerOver">
-                        <VisualState.Setters>
-                            <Setter Property="Scale" Value="1.02" />
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>
-    </Style>
-
     <!-- Primary Card Style with Primary Shadow -->
-    <Style x:Key="PrimaryActionCardPrimaryStyle" TargetType="Border" BasedOn="{StaticResource PrimaryActionCardStyle}">
-        <Setter Property="Shadow">
-            <Shadow Brush="{StaticResource Primary}"
-                    Opacity="0.25"
-                    Offset="0,6"
-                    Radius="16" />
-        </Setter>
-        <Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="Pressed">
-                        <VisualState.Setters>
-                            <Setter Property="Scale" Value="0.98" />
-                            <Setter Property="Opacity" Value="0.9" />
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="PointerOver">
-                        <VisualState.Setters>
-                            <Setter Property="Scale" Value="1.02" />
-                            <Setter Property="Shadow">
-                                <Shadow Brush="{StaticResource Primary}"
-                                        Opacity="0.35"
-                                        Offset="0,8"
-                                        Radius="20" />
-                            </Setter>
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>
-    </Style>
-
     <!-- Primary Card Style with Secondary Shadow -->
-    <Style x:Key="PrimaryActionCardSecondaryStyle" TargetType="Border" BasedOn="{StaticResource PrimaryActionCardStyle}">
-        <Setter Property="Shadow">
-            <Shadow Brush="{StaticResource Secondary}"
-                    Opacity="0.25"
-                    Offset="0,6"
-                    Radius="16" />
-        </Setter>
-        <Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="Pressed">
-                        <VisualState.Setters>
-                            <Setter Property="Scale" Value="0.98" />
-                            <Setter Property="Opacity" Value="0.9" />
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="PointerOver">
-                        <VisualState.Setters>
-                            <Setter Property="Scale" Value="1.02" />
-                            <Setter Property="Shadow">
-                                <Shadow Brush="{StaticResource Secondary}"
-                                        Opacity="0.35"
-                                        Offset="0,8"
-                                        Radius="20" />
-                            </Setter>
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>
-    </Style>
-
     <!-- ===== ELEGANT FOCUS DESIGN SYSTEM ===== -->
 
     <!-- Compact Horizontal Card Layout Styles -->
@@ -1623,43 +1344,6 @@
     </Style>
 
     <!-- Download Cancel Button Style (Full-width on mobile, properly sized on tablet/desktop) -->
-    <Style x:Key="DownloadCancelButtonStyle" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{StaticResource Danger}"/>
-        <Setter Property="TextColor" Value="White"/>
-        <Setter Property="FontSize" Value="{OnIdiom Phone=17, Tablet=16, Desktop=15}"/>
-        <Setter Property="FontAttributes" Value="Bold"/>
-        <Setter Property="CornerRadius" Value="8"/>
-        <Setter Property="HeightRequest" Value="{OnIdiom Phone=52, Tablet=48, Desktop=44}"/>
-        <Setter Property="HorizontalOptions" Value="{OnIdiom Phone=FillAndExpand, Tablet=Center, Desktop=Center}"/>
-        <Setter Property="WidthRequest" Value="{OnIdiom Phone=-1, Tablet=280, Desktop=220}"/>
-        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=52, Tablet=48, Desktop=44}"/>
-        <Setter Property="Padding" Value="16,0"/>
-        <Setter Property="Shadow">
-            <Shadow Brush="{StaticResource Black}"
-                    Radius="4"
-                    Opacity="0.2"
-                    Offset="0,2"/>
-        </Setter>
-        <Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal"/>
-                    <VisualState x:Name="Pressed">
-                        <VisualState.Setters>
-                            <Setter Property="Scale" Value="0.98"/>
-                            <Setter Property="Opacity" Value="0.9"/>
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="Disabled">
-                        <VisualState.Setters>
-                            <Setter Property="Opacity" Value="0.5"/>
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>
-    </Style>
-
     <!-- Information Card -->
     <Style x:Key="ElegantInfoCard" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource ElegantCardBackground}" />
@@ -1677,418 +1361,33 @@
     </Style>
 
     <!-- Tier 2: Secondary Action Cards - Important supportive actions -->
-    <Style x:Key="SecondaryActionCardStyle" TargetType="Border">
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardBackgroundColorLight}, Dark={StaticResource CardBackgroundColorDark}}" />
-        <Setter Property="Stroke" Value="{StaticResource Tertiary}" />
-        <Setter Property="StrokeThickness" Value="2" />
-        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
-        <Setter Property="Padding" Value="24,20" />
-        <Setter Property="Margin" Value="0,4" />
-        <Setter Property="MinimumHeightRequest" Value="72" />
-        <Setter Property="Shadow">
-            <Shadow Brush="{StaticResource Tertiary}"
-                    Opacity="0.2"
-                    Offset="0,4"
-                    Radius="12" />
-        </Setter>
-        <Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="Pressed">
-                        <VisualState.Setters>
-                            <Setter Property="Scale" Value="0.98" />
-                            <Setter Property="Opacity" Value="0.9" />
-                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}" />
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="PointerOver">
-                        <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray800}}" />
-                            <Setter Property="Scale" Value="1.01" />
-                            <Setter Property="Shadow">
-                                <Shadow Brush="{StaticResource Tertiary}"
-                                        Opacity="0.3"
-                                        Offset="0,6"
-                                        Radius="16" />
-                            </Setter>
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>
-    </Style>
-
     <!-- Tier 3: Tertiary Information Cards - Informational content -->
-    <Style x:Key="TertiaryInfoCardStyle" TargetType="Border">
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardBackgroundColorLight}, Dark={StaticResource CardBackgroundColorDark}}" />
-        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource CardStrokeColorLight}, Dark={StaticResource CardStrokeColorDark}}" />
-        <Setter Property="StrokeThickness" Value="1" />
-        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
-        <Setter Property="Padding" Value="28" />
-        <Setter Property="Margin" Value="0,4" />
-        <Setter Property="Shadow">
-            <Shadow Brush="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Black}}"
-                    Opacity="0.15"
-                    Offset="0,4"
-                    Radius="12" />
-        </Setter>
-    </Style>
-
     <!-- Consistent Icon Badge Style for Secondary Cards -->
-    <Style x:Key="IconBadgeStyle" TargetType="Border">
-        <Setter Property="BackgroundColor" Value="{StaticResource Tertiary}" />
-        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
-        <Setter Property="WidthRequest" Value="40" />
-        <Setter Property="HeightRequest" Value="40" />
-        <Setter Property="VerticalOptions" Value="Center" />
-    </Style>
-
     <!-- Consistent Arrow Badge Style for Secondary Cards -->
-    <Style x:Key="ArrowBadgeStyle" TargetType="Border">
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray700}}" />
-        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
-        <Setter Property="WidthRequest" Value="32" />
-        <Setter Property="HeightRequest" Value="32" />
-        <Setter Property="VerticalOptions" Value="Center" />
-    </Style>
-
     <!-- Primary Card Content Grid Style -->
-    <Style x:Key="PrimaryCardContentStyle" TargetType="Grid">
-        <Setter Property="RowDefinitions" Value="Auto,Auto,Auto" />
-        <Setter Property="RowSpacing" Value="12" />
-    </Style>
-
     <!-- Secondary Card Content Grid Style -->
-    <Style x:Key="SecondaryCardContentStyle" TargetType="Grid">
-        <Setter Property="ColumnDefinitions" Value="Auto,*,Auto" />
-        <Setter Property="ColumnSpacing" Value="16" />
-    </Style>
-
     <!-- Primary Card Icon Style -->
-    <Style x:Key="PrimaryCardIconStyle" TargetType="Label">
-        <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}" />
-        <Setter Property="FontSize" Value="{OnIdiom Phone=32, Tablet=36, Desktop=40}" />
-        <Setter Property="TextColor" Value="White" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="Opacity" Value="0.9" />
-    </Style>
-
     <!-- Primary Card Title Style -->
-    <Style x:Key="PrimaryCardTitleStyle" TargetType="Label">
-        <Setter Property="Style" Value="{StaticResource TitleLarge}" />
-        <Setter Property="TextColor" Value="White" />
-        <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-    </Style>
-
     <!-- Primary Card Description Style -->
-    <Style x:Key="PrimaryCardDescriptionStyle" TargetType="Label">
-        <Setter Property="Style" Value="{StaticResource BodyMedium}" />
-        <Setter Property="TextColor" Value="White" />
-        <Setter Property="Opacity" Value="0.9" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="HorizontalTextAlignment" Value="Center" />
-        <Setter Property="LineBreakMode" Value="WordWrap" />
-    </Style>
-
     <!-- Secondary Card Title Style -->
-    <Style x:Key="SecondaryCardTitleStyle" TargetType="Label">
-        <Setter Property="Style" Value="{StaticResource BodyLarge}" />
-        <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="TextColor" Value="{StaticResource Tertiary}" />
-    </Style>
-
     <!-- Secondary Card Subtitle Style -->
-    <Style x:Key="SecondaryCardSubtitleStyle" TargetType="Label">
-        <Setter Property="Style" Value="{StaticResource BodyMedium}" />
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
-        <Setter Property="LineBreakMode" Value="WordWrap" />
-    </Style>
-
     <!-- Tertiary Card Icon Style -->
-    <Style x:Key="TertiaryCardIconStyle" TargetType="Label">
-        <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}" />
-        <Setter Property="FontSize" Value="{OnIdiom Phone=28, Tablet=32, Desktop=36}" />
-        <Setter Property="TextColor" Value="{StaticResource Tertiary}" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="Opacity" Value="0.8" />
-    </Style>
-
     <!-- Tertiary Card Title Style -->
-    <Style x:Key="TertiaryCardTitleStyle" TargetType="Label">
-        <Setter Property="Style" Value="{StaticResource TitleLarge}" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="HorizontalTextAlignment" Value="Center" />
-    </Style>
-
     <!-- Icon Badge Content Style -->
-    <Style x:Key="IconBadgeContentStyle" TargetType="Label">
-        <Setter Property="FontFamily" Value="{StaticResource IconFont_Solid}" />
-        <Setter Property="FontSize" Value="{OnIdiom Phone=18, Tablet=20, Desktop=22}" />
-        <Setter Property="TextColor" Value="White" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="VerticalOptions" Value="Center" />
-    </Style>
-
     <!-- Arrow Badge Content Style -->
-    <Style x:Key="ArrowBadgeContentStyle" TargetType="Label">
-        <Setter Property="Text" Value="➤" />
-        <Setter Property="FontSize" Value="16" />
-        <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="TextColor" Value="{StaticResource Tertiary}" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="VerticalOptions" Value="Center" />
-    </Style>
-
     <!-- ===== ELEGANT FOCUS INTERACTION ENHANCEMENTS ===== -->
 
     <!-- Elegant button style for subtle interactions -->
-    <Style x:Key="ElegantInteractionButton" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="BorderWidth" Value="0" />
-        <Setter Property="FontFamily" Value="{OnPlatform iOS='SF Pro Text', Android='sans-serif-medium', Default='Segoe UI Semibold'}" />
-        <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="CornerRadius" Value="16" />
-        <Setter Property="MinimumHeightRequest" Value="44" />
-        <Setter Property="Shadow">
-            <Shadow Brush="{StaticResource ElegantShadowLight}"
-                    Opacity="0.0"
-                    Offset="0,2"
-                    Radius="8" />
-        </Setter>
-        <Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="Pressed">
-                        <VisualState.Setters>
-                            <Setter Property="Scale" Value="0.96" />
-                            <Setter Property="Opacity" Value="0.8" />
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="PointerOver">
-                        <VisualState.Setters>
-                            <Setter Property="Scale" Value="1.02" />
-                            <Setter Property="Shadow">
-                                <Shadow Brush="{StaticResource ElegantShadowMedium}"
-                                        Opacity="0.3"
-                                        Offset="0,4"
-                                        Radius="12" />
-                            </Setter>
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>
-    </Style>
-
     <!-- Enhanced card container for smooth transitions -->
-    <Style x:Key="ElegantAnimatedCard" TargetType="Border">
-        <Setter Property="BackgroundColor" Value="{StaticResource ElegantCardBackground}" />
-        <Setter Property="Stroke" Value="{StaticResource ElegantBorder}" />
-        <Setter Property="StrokeThickness" Value="1" />
-        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
-        <Setter Property="Shadow">
-            <Shadow Brush="{StaticResource ElegantShadowLight}"
-                    Opacity="0.2"
-                    Offset="0,2"
-                    Radius="8" />
-        </Setter>
-        <Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal">
-                        <VisualState.Setters>
-                            <Setter Property="Scale" Value="1.0" />
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="Pressed">
-                        <VisualState.Setters>
-                            <Setter Property="Scale" Value="0.98" />
-                            <Setter Property="Opacity" Value="0.9" />
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="PointerOver">
-                        <VisualState.Setters>
-                            <Setter Property="Scale" Value="1.01" />
-                            <Setter Property="Shadow">
-                                <Shadow Brush="{StaticResource ElegantShadowMedium}"
-                                        Opacity="0.4"
-                                        Offset="0,6"
-                                        Radius="16" />
-                            </Setter>
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>
-    </Style>
-
     <!-- ===== PREMIUM LOGO PRESENTATION STYLES ===== -->
 
     <!-- Glass Morphism Logo Container Style -->
-    <Style x:Key="GlassMorphismLogoContainer" TargetType="Border">
-        <Setter Property="StrokeShape" Value="RoundRectangle 20" />
-        <Setter Property="StrokeThickness" Value="0" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="Background">
-            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="{AppThemeBinding Light='#FFFFFF', Dark='#1A1A1ACC'}" Offset="0.0" />
-                <GradientStop Color="{AppThemeBinding Light='#FAFAFA', Dark='#2A2A2ACC'}" Offset="0.3" />
-                <GradientStop Color="{AppThemeBinding Light='#F5F5F5', Dark='#1F1F1FCC'}" Offset="0.7" />
-                <GradientStop Color="{AppThemeBinding Light='#FFFFFF', Dark='#1A1A1ACC'}" Offset="1.0" />
-            </LinearGradientBrush>
-        </Setter>
-        <Setter Property="Shadow">
-            <Shadow Brush="{AppThemeBinding Light='#E5E7EB', Dark='#00000080'}"
-                    Offset="0,8"
-                    Radius="20"
-                    Opacity="{AppThemeBinding Light=0.25, Dark=0.5}" />
-        </Setter>
-    </Style>
-
     <!-- Premium Logo Glow Effect -->
-    <Style x:Key="LogoGlowEffect" TargetType="Border">
-        <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="VerticalOptions" Value="Center" />
-        <Setter Property="Opacity" Value="0.3" />
-        <Setter Property="Background">
-            <RadialGradientBrush Center="0.5,0.5" Radius="0.8">
-                <GradientStop Color="{AppThemeBinding Light='#6366F120', Dark='#8B5CF640'}" Offset="0.0" />
-                <GradientStop Color="{AppThemeBinding Light='#6366F108', Dark='#8B5CF620'}" Offset="0.5" />
-                <GradientStop Color="Transparent" Offset="1.0" />
-            </RadialGradientBrush>
-        </Setter>
-    </Style>
-
     <!-- Neumorphic Logo Container (Alternative Style) -->
-    <Style x:Key="NeumorphicLogoContainer" TargetType="Border">
-        <Setter Property="StrokeShape" Value="RoundRectangle 24" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource ElegantWarmWhite}, Dark='#1A1A1A'}" />
-        <Setter Property="StrokeThickness" Value="0" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="Shadow">
-            <Shadow Brush="{AppThemeBinding Light='#D1D5DB', Dark='#000000'}"
-                    Offset="{OnPlatform iOS='8,8', Android='8,8', WinUI='10,10', MacCatalyst='8,8'}"
-                    Radius="12"
-                    Opacity="{AppThemeBinding Light=0.3, Dark=0.7}" />
-        </Setter>
-    </Style>
-
     <!-- Frosted Glass Effect (iOS-inspired) -->
-    <Style x:Key="FrostedGlassLogoContainer" TargetType="Border">
-        <Setter Property="StrokeShape" Value="RoundRectangle 18" />
-        <Setter Property="Stroke" Value="{AppThemeBinding Light='#FFFFFF60', Dark='#FFFFFF10'}" />
-        <Setter Property="StrokeThickness" Value="1" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light='#FAFAFAEE', Dark='#1A1A1AEE'}" />
-        <Setter Property="Shadow">
-            <Shadow Brush="{AppThemeBinding Light='#00000015', Dark='#00000080'}"
-                    Offset="0,4"
-                    Radius="16"
-                    Opacity="1" />
-        </Setter>
-    </Style>
-
     <!-- ===== KEYBOARD ACCESSIBILITY & FOCUS STYLES ===== -->
 
     <!-- Universal Focus Ring Style for Buttons -->
-    <Style x:Key="FocusRingButtonStyle" TargetType="Button" BasedOn="{StaticResource ModernPrimaryButton}">
-        <Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="Pressed">
-                        <VisualState.Setters>
-                            <Setter Property="Scale" Value="0.96" />
-                            <Setter Property="Opacity" Value="0.9" />
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="PointerOver">
-                        <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}" />
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="Focused">
-                        <VisualState.Setters>
-                            <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryLight}}" />
-                            <Setter Property="BorderWidth" Value="2" />
-                            <Setter Property="Shadow">
-                                <Shadow Brush="{StaticResource Primary}"
-                                        Offset="0,0"
-                                        Radius="8"
-                                        Opacity="0.3" />
-                            </Setter>
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>
-    </Style>
-
     <!-- Keyboard-Accessible Border Style -->
-    <Style x:Key="KeyboardAccessibleBorderStyle" TargetType="Border">
-        <Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="PointerOver">
-                        <VisualState.Setters>
-                            <Setter Property="Stroke" Value="{StaticResource Primary}" />
-                            <Setter Property="StrokeThickness" Value="1.5" />
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="Focused">
-                        <VisualState.Setters>
-                            <Setter Property="Stroke" Value="{StaticResource Primary}" />
-                            <Setter Property="StrokeThickness" Value="2" />
-                            <Setter Property="Shadow">
-                                <Shadow Brush="{StaticResource Primary}"
-                                        Offset="0,0"
-                                        Radius="8"
-                                        Opacity="0.2" />
-                            </Setter>
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="Pressed">
-                        <VisualState.Setters>
-                            <Setter Property="Scale" Value="0.98" />
-                            <Setter Property="Stroke" Value="{StaticResource PrimaryDark}" />
-                            <Setter Property="StrokeThickness" Value="2" />
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>
-    </Style>
-
     <!-- Transparent Button Base for Picker Buttons -->
-    <Style x:Key="TransparentPickerButtonStyle" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="BorderWidth" Value="0" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="Pressed">
-                        <VisualState.Setters>
-                            <Setter Property="Opacity" Value="0.7" />
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="Focused">
-                        <VisualState.Setters>
-                            <Setter Property="BorderColor" Value="{StaticResource Primary}" />
-                            <Setter Property="BorderWidth" Value="2" />
-                            <Setter Property="CornerRadius" Value="16" />
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>
-    </Style>
-
-
 </ResourceDictionary>
