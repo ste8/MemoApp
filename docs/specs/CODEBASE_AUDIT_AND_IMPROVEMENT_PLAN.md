@@ -5,7 +5,8 @@
 **Method:** Four parallel specialist reviews (architecture, clean code, MAUI runtime, UI/UX). Every load-bearing claim was independently re-verified against the source before being recorded here.
 **Baseline at audit time:** Build exits 0 with 294 unique warnings. 51 unit tests pass.
 
-> **Status: Phases 0–4 complete. Phase 5 partially done — see its log for what remains.** Tests 51 → 142, none skipped. `MVVMTK0039` warnings 3 → 0.
+> **Status: Phases 0–4 complete. Phase 5 substantially done — see its log for what remains.** Tests 51 → 145, none skipped. `MVVMTK0039` warnings 3 → 0.
+> **The app now runs on the iOS simulator under automation, and the fixes below are verified on a device rather than inferred.** See §10.
 > EN/IT translation parity is complete (669/669).
 > **The duplicate-number defect in §1 is fixed** — the shipped presets now present 100 distinct numbers.
 > CI now runs `dotnet test` before it can publish to TestFlight.
@@ -24,6 +25,7 @@
 7. [Verified sound — do not re-audit](#7-verified-sound--do-not-re-audit)
 8. [Limits of this audit](#8-limits-of-this-audit)
 9. [**Progress log**](#9-progress-log)
+10. [**Device verification**](#10-device-verification)
 
 ---
 
@@ -753,3 +755,87 @@ file rather than by trusting the compiler.
   text). Each needs visual confirmation on a small screen at a large font scale.
 - **The remaining ~26 `Debug.WriteLine` catches**, most of which live in the two files above and are
   best swept as part of that work.
+
+---
+
+## 10. Device verification
+
+The audit and Phases 0–5 were carried out without ever running the app: every runtime claim was
+inferred from reading code. That gap is now closed. The app builds, installs and runs on an iOS
+simulator under automation — screenshots are read back, and taps are driven through the UI.
+
+**How.** Build with `-f net10.0-ios -p:RuntimeIdentifier=iossimulator-arm64`, install and launch by
+**device UDID** (never `booted`), screenshot with `xcrun simctl io <udid> screenshot`, tap by
+activating the Simulator window and clicking through `cliclick` at coordinates mapped from a
+fraction of the device screen. On-device state is inspectable via
+`xcrun simctl get_app_container <udid> … data` and the app's preferences plist, and the clipboard
+via `xcrun simctl pbpaste`.
+
+Two rules learned the hard way, both worth keeping:
+
+- **Target a device by UDID.** With two simulators booted, `simctl install booted` installed to the
+  wrong one and several minutes were spent debugging a "bug" that was a build from October 2025.
+- **Check the installed bundle's date before trusting a result.** `ls -ld` on the app container.
+
+### The largest finding of the whole effort
+
+**33 resource keys were requested by code but defined nowhere**, each rendering as its raw key name.
+The share feature was the worst case: every shared, MemoRaise-branded result posted
+`Share_FlashNumbers_Title` and a body of literal placeholder names to whoever received it. Sixteen
+more covered the entire pack-download flow — titles, buttons, progress states, errors.
+
+Neither the four-expert audit nor any earlier pass caught this, because every scan ran
+**resx → code**, looking for orphaned keys. Nobody scanned **code → resx**. Orphans are harmless;
+missing keys are user-facing. All 33 added in both languages.
+
+A guard now runs in the test suite (`ResourceKeyIntegrityTests`), asserting that every key
+requested in source is defined, that English and Italian define the same keys, and that no entry is
+blank. Verified non-vacuous by deleting `Share_FlashNumbers_Title` and confirming it fails with a
+message naming the key and its file. Its third assertion found two blank orphaned entries on the
+first run.
+
+### Also found by running it
+
+- **§4.7 confirmed and fixed with real data.** The device held
+  `PackUpdateLastCheck = "2026-08-19T17:53:42.8749420Z"`, and a bare `TryParse` returned it as local
+  time before subtraction from `UtcNow`. At UTC+2 the 24-hour interval was off by exactly two hours.
+- **Three hardcoded English strings still live** in an otherwise Italian UI — the Flash Numbers
+  progress row (`Completed / Total / Remaining`), plus the Help, Statistics and Image Viewer page
+  titles and the shell title. All localized; `AppShell` now reads **MemoRaise**, fixing a branding
+  violation too. `ImageViewerViewModel` had no `ILocalizationService` at all.
+
+### Verified working on the device
+
+| Fix | Evidence on screen |
+|---|---|
+| §2.1 dot regression | 5 dots at "Tutorial: 5 di 5" — 4 complete + 1 current |
+| §2.2 progress format | "Tutorial: 5 di 5" |
+| Phase 1 phase labels | "Fase 1: Tutorial" / "Fase 2: Configurazione" |
+| §3.9 toggle | "Nascondi" |
+| §3.1 + Phase 4 settings store | `BigNumber_Settings` JSON including `FontSize`; value survived a force-quit |
+| §3.2 last-number race | 10/10 completed, process alive, results shown |
+| Phase 1 results title | "Risultati" |
+| §3.7 fabricated statistics | Shared message reads average `2,7s`, fastest `2,6s` — different values |
+| §3.11 contrast | "Vedi Dettagli" renders in `#B45309` |
+| Font-sizer extraction | Auto fits 23 digits; XL wraps to 10 digits per line, keeping pairs intact |
+| DI simplification | Big Number resolves and opens with settings intact |
+| Dead-style deletion | All five tabs render correctly |
+
+### CI
+
+The pipeline previously triggered only on `build/iOS`, so the Phase 0 test gate had never run
+against any of this work. It is now two stages: `tests` runs on `main`, `build/iOS` and `feat/*`;
+`ios_build` depends on it and is restricted to `build/iOS`, so widening the trigger cannot publish a
+feature branch to TestFlight.
+
+### Phase 5 progress since its log was written
+
+Done: the font-sizing extraction (`BigNumberViewModel` 2,476 → 2,288, `NumberDisplayFontSizer`);
+`BigNumberViewModel`'s DI registration replaced with plain constructor injection, removing an
+18-line positional factory; **40 of 63 styles deleted as unreachable** (`Styles.xaml` 2,094 → 1,393,
+−33%), established by transitive reachability across `StaticResource`, `DynamicResource` and C#
+`Resources["…"]` lookups rather than naive grep.
+
+Still open: the verification state machine and digit-comparison carousel extractions (the carousel
+has 6 XAML bindings but **29 code-behind touchpoints**, a worse risk/payoff ratio than the font
+sizer); the typography-scale consolidation; the accessibility sweep; and the layout fixes.
