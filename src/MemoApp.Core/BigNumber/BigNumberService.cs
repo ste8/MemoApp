@@ -5,6 +5,12 @@ namespace MemoApp.Core.BigNumber;
 public class BigNumberService : IBigNumberService
 {
     private readonly Random _random = new();
+    private readonly TimeProvider _timeProvider;
+
+    public BigNumberService(TimeProvider? timeProvider = null)
+    {
+        _timeProvider = timeProvider ?? TimeProvider.System;
+    }
 
     public BigNumberGame CreateNewGame(BigNumberSettings settings)
     {
@@ -56,7 +62,8 @@ public class BigNumberService : IBigNumberService
         game.Phase = GamePhase.Memorizing;
         game.IsTimerRunning = true;
         game.IsNumberVisible = true;
-        game.StartTime = DateTime.Now;
+        game.StartTime = _timeProvider.GetUtcNow().UtcDateTime;
+        game.StartTimestamp = _timeProvider.GetTimestamp();
         game.ElapsedTime = TimeSpan.Zero;
     }
 
@@ -68,7 +75,7 @@ public class BigNumberService : IBigNumberService
         
         if (game.StartTime.HasValue)
         {
-            game.ElapsedTime = DateTime.Now - game.StartTime.Value;
+            game.ElapsedTime = _timeProvider.GetElapsedTime(game.StartTimestamp);
         }
     }
 
@@ -79,6 +86,7 @@ public class BigNumberService : IBigNumberService
         game.IsNumberVisible = true;
         game.ElapsedTime = TimeSpan.Zero;
         game.StartTime = null;
+        game.StartTimestamp = 0;
         game.GeneratedNumber = string.Empty;
     }
 
@@ -126,8 +134,26 @@ public class BigNumberService : IBigNumberService
         return result.ToString();
     }
 
+    public TimeSpan GetElapsedTime(BigNumberGame game)
+    {
+        if (!game.IsTimerRunning || !game.StartTime.HasValue)
+        {
+            return game.ElapsedTime;
+        }
+
+        return _timeProvider.GetElapsedTime(game.StartTimestamp);
+    }
+
     public string FormatTime(TimeSpan timeSpan)
     {
-        return $"{(int)timeSpan.TotalMinutes:D2}:{timeSpan.Seconds:D2}";
+        // A negative span would otherwise put the sign on the seconds component ("00:-30").
+        if (timeSpan < TimeSpan.Zero)
+        {
+            timeSpan = TimeSpan.Zero;
+        }
+
+        return timeSpan.TotalHours >= 1
+            ? $"{(int)timeSpan.TotalHours}:{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}"
+            : $"{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}";
     }
 }

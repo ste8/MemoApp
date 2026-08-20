@@ -14,6 +14,9 @@ public class GameSession
     private MajorNumber? _currentNumber;
     private DateTime? _currentNumberPresentedAt;
     private DateTime _sessionStartTime;
+    private long _sessionStartTimestamp;
+    private TimeSpan? _completedElapsed;
+    private readonly TimeProvider _timeProvider;
 
     public string RangeStart { get; }
     public string RangeEnd { get; }
@@ -25,10 +28,22 @@ public class GameSession
     public IReadOnlyList<NumberPerformance> Performances => _performances.AsReadOnly();
 
     /// <summary>
+    /// Time spent in this session so far. Zero before it starts, frozen once it completes.
+    /// Measured monotonically, so it cannot be distorted by the device clock changing
+    /// mid-session. This is the session's own clock - callers should not keep a second one.
+    /// </summary>
+    public TimeSpan Elapsed => State switch
+    {
+        SessionState.NotStarted => TimeSpan.Zero,
+        SessionState.Completed => _completedElapsed ?? TimeSpan.Zero,
+        _ => _timeProvider.GetElapsedTime(_sessionStartTimestamp)
+    };
+
+    /// <summary>
     /// Creates a session over a range, resolved with the caller's number format.
     /// </summary>
-    public GameSession(string rangeStart, string rangeEnd, NumberFormat format)
-        : this(rangeStart, rangeEnd, NumberSequence.GenerateSequence(rangeStart, rangeEnd, format).ToList())
+    public GameSession(string rangeStart, string rangeEnd, NumberFormat format, TimeProvider? timeProvider = null)
+        : this(rangeStart, rangeEnd, NumberSequence.GenerateSequence(rangeStart, rangeEnd, format).ToList(), timeProvider)
     {
     }
 
@@ -37,8 +52,9 @@ public class GameSession
     /// has built the sequence itself: the session no longer decides what to present,
     /// only the order in which to present it, which makes it testable in isolation.
     /// </summary>
-    public GameSession(string rangeStart, string rangeEnd, IReadOnlyList<MajorNumber> sequence)
+    public GameSession(string rangeStart, string rangeEnd, IReadOnlyList<MajorNumber> sequence, TimeProvider? timeProvider = null)
     {
+        _timeProvider = timeProvider ?? TimeProvider.System;
         RangeStart = rangeStart ?? throw new ArgumentNullException(nameof(rangeStart));
         RangeEnd = rangeEnd ?? throw new ArgumentNullException(nameof(rangeEnd));
         ArgumentNullException.ThrowIfNull(sequence);
@@ -73,7 +89,8 @@ public class GameSession
         if (State != SessionState.NotStarted)
             throw new InvalidOperationException("Session has already been started");
         
-        _sessionStartTime = DateTime.UtcNow;
+        _sessionStartTime = _timeProvider.GetUtcNow().UtcDateTime;
+        _sessionStartTimestamp = _timeProvider.GetTimestamp();
         State = SessionState.InProgress;
         PresentNextNumber();
     }
@@ -87,7 +104,7 @@ public class GameSession
             throw new InvalidOperationException("No current number to advance from");
         
         // Record the performance for the current number
-        var responseTime = DateTime.UtcNow;
+        var responseTime = _timeProvider.GetUtcNow().UtcDateTime;
         var performance = new NumberPerformance(_currentNumber.Value, _currentNumberPresentedAt.Value, responseTime);
         _performances.Add(performance);
         
@@ -117,11 +134,12 @@ public class GameSession
             return;
         
         _currentNumber = _remainingNumbers.Dequeue();
-        _currentNumberPresentedAt = DateTime.UtcNow;
+        _currentNumberPresentedAt = _timeProvider.GetUtcNow().UtcDateTime;
     }
 
     private void CompleteSession()
     {
+        _completedElapsed = _timeProvider.GetElapsedTime(_sessionStartTimestamp);
         _currentNumber = null;
         _currentNumberPresentedAt = null;
         State = SessionState.Completed;

@@ -134,4 +134,79 @@ public class GameSessionTests
 
         Assert.Equal(sequence.OrderBy(n => n.Value), presented.OrderBy(n => n.Value));
     }
+
+    // ---------------------------------------------------------------
+    // Elapsed time
+    // ---------------------------------------------------------------
+
+    [Fact]
+    public void Elapsed_BeforeStarting_IsZero()
+    {
+        var session = new GameSession("00", "02", NumberFormat.Padded);
+
+        Assert.Equal(TimeSpan.Zero, session.Elapsed);
+    }
+
+    [Fact]
+    public void Elapsed_WhileInProgress_TracksRealTimePassing()
+    {
+        var clock = new TestTimeProvider(new DateTimeOffset(2026, 1, 1, 12, 0, 0, TimeSpan.Zero));
+        var session = new GameSession("00", "02", NumberFormat.Padded, clock);
+
+        session.StartSession();
+        clock.Advance(TimeSpan.FromSeconds(90));
+
+        Assert.Equal(TimeSpan.FromSeconds(90), session.Elapsed);
+    }
+
+    [Fact]
+    public void Elapsed_WhenTheDeviceClockJumps_IsUnaffected()
+    {
+        var clock = new TestTimeProvider(new DateTimeOffset(2026, 1, 1, 12, 0, 0, TimeSpan.Zero));
+        var session = new GameSession("00", "02", NumberFormat.Padded, clock);
+
+        session.StartSession();
+        clock.Advance(TimeSpan.FromSeconds(40));
+        clock.ShiftWallClock(TimeSpan.FromHours(-1));
+
+        Assert.Equal(TimeSpan.FromSeconds(40), session.Elapsed);
+    }
+
+    [Fact]
+    public void Elapsed_AfterCompletion_StopsAdvancing()
+    {
+        var clock = new TestTimeProvider(new DateTimeOffset(2026, 1, 1, 12, 0, 0, TimeSpan.Zero));
+        var session = new GameSession("00", "01", NumberFormat.Padded, clock);
+
+        session.StartSession();
+        clock.Advance(TimeSpan.FromSeconds(5));
+        session.AdvanceToNext();
+        clock.Advance(TimeSpan.FromSeconds(5));
+        session.AdvanceToNext();
+
+        var atCompletion = session.Elapsed;
+        clock.Advance(TimeSpan.FromMinutes(10));
+
+        Assert.Equal(SessionState.Completed, session.State);
+        Assert.Equal(TimeSpan.FromSeconds(10), atCompletion);
+        Assert.Equal(atCompletion, session.Elapsed);
+    }
+
+    [Fact]
+    public void GetStatistics_RecordsResponseTimeFromTheInjectedClock()
+    {
+        var clock = new TestTimeProvider(new DateTimeOffset(2026, 1, 1, 12, 0, 0, TimeSpan.Zero));
+        var session = new GameSession("00", "01", NumberFormat.Padded, clock);
+
+        session.StartSession();
+        clock.Advance(TimeSpan.FromSeconds(3));
+        session.AdvanceToNext();
+        clock.Advance(TimeSpan.FromSeconds(7));
+        session.AdvanceToNext();
+
+        var statistics = session.GetStatistics();
+
+        Assert.Equal(2, statistics.TotalNumbers);
+        Assert.Equal(TimeSpan.FromSeconds(3), statistics.FastestResponse.ResponseTime);
+    }
 }

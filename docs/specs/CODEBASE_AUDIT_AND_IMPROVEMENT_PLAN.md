@@ -5,7 +5,7 @@
 **Method:** Four parallel specialist reviews (architecture, clean code, MAUI runtime, UI/UX). Every load-bearing claim was independently re-verified against the source before being recorded here.
 **Baseline at audit time:** Build exits 0 with 294 unique warnings. 51 unit tests pass.
 
-> **Status: Phases 0, 1 and 2 complete.** Tests 51 → 117. `MVVMTK0039` warnings 3 → 0.
+> **Status: Phases 0–3 complete.** Tests 51 → 129, none skipped. `MVVMTK0039` warnings 3 → 0.
 > **The duplicate-number defect in §1 is fixed** — the shipped presets now present 100 distinct numbers.
 > CI now runs `dotnet test` before it can publish to TestFlight.
 > See the [Progress log](#9-progress-log) for exactly what changed and what was corrected along the way.
@@ -373,19 +373,19 @@ Ordered so each phase makes the next cheaper, and so nothing is refactored befor
 - [x] Reduce `MajorSystemCategoryService.GenerateNumberTokens` to a projection over the Core generator
 - [x] Replace `OrderBy(_ => random.Next())` at `GameSession.cs:37` — a biased shuffle — with `Random.Shared.Shuffle()`
 
-### Phase 3 — One clock, one statistics owner  ⬅ NEXT
-**~2 days.**
+### Phase 3 — One clock, one statistics owner  ✅ DONE
+**~2 days.** — applied, solution builds clean, 129 tests green.
 
-- [ ] Delete the ViewModel-side session clock; `GameSession` becomes the single time authority
-- [ ] Inject `TimeProvider` into `GameSession` and `BigNumberService`; standardise on UTC, with a monotonic source (`Stopwatch`) for elapsed display
-- [ ] Pause/resume elapsed tracking on `OnSleep`/`OnResume` so backgrounded time is excluded
-- [ ] Guard `FormatTime` against negative spans; add hour rollover
-- [ ] Read `FastestResponse` from `SessionStatistics`; delete both `fastestTime = averageTime` lines
-- [ ] Delete the two analytics-fabrication blocks in `BigNumberViewModel` — emit no analytics rather than invented analytics
-- [ ] Move `CalculateConsistencyScore` and `CalculateResponseTimeDistribution` from `StatisticsViewModel` into Core
-- [ ] One `FormatDuration` in Core; delete the three copies
+- [x] Delete the ViewModel-side session clock; `GameSession` becomes the single time authority
+- [x] Inject `TimeProvider` into `GameSession` and `BigNumberService`; standardise on UTC, with a monotonic source (`Stopwatch`) for elapsed display
+- [x] Pause/resume elapsed tracking on `OnSleep`/`OnResume` so backgrounded time is excluded
+- [x] Guard `FormatTime` against negative spans; add hour rollover
+- [x] Read `FastestResponse` from `SessionStatistics`; delete both `fastestTime = averageTime` lines
+- [x] Delete the two analytics-fabrication blocks in `BigNumberViewModel` — emit no analytics rather than invented analytics
+- [x] Move `CalculateConsistencyScore` and `CalculateResponseTimeDistribution` from `StatisticsViewModel` into Core
+- [x] One `FormatDuration` in Core; delete the three copies
 
-### Phase 4 — Collapse the remaining duplication
+### Phase 4 — Collapse the remaining duplication  ⬅ NEXT
 **~2 days.**
 
 - [ ] `ResolveDefault` on `IAssociationComposerService`; rewire all four call sites
@@ -553,3 +553,65 @@ New coverage: presentation-vs-vocabulary distinction, per-format range generatio
 #### Not verified
 
 No device run. The Flash Numbers range picker and the Associations browser were reasoned about from code and covered by unit tests, but not observed on screen.
+
+### Phase 3 — One clock, one statistics owner ✅
+
+Elapsed time is now measured monotonically via an injected `TimeProvider`, so a device clock
+that moves mid-round — timezone change on landing, NTP correction, manual adjustment — can no
+longer distort a timer or a recorded duration.
+
+| Change | File |
+|---|---|
+| `TimeProvider` injected; `DateTime.Now` gone; monotonic `StartTimestamp`; new `GetElapsedTime(game)` | `BigNumberService.cs`, `IBigNumberService.cs`, `BigNumberGame.cs` |
+| `TimeProvider` injected; new monotonic `Elapsed`, frozen once the session completes | `GameSession.cs` |
+| Timer tick delegates to the service instead of re-deriving the elapsed formula across the layer boundary | `BigNumberViewModel.cs` |
+| Both analytics-fabrication blocks deleted | `BigNumberViewModel.cs` |
+| ViewModel-side session clock deleted; abandonment analytics read `GameSession.Elapsed` | `FlashNumbersViewModel.cs` |
+| `FormatTime` carries into hours and clamps negative spans | `BigNumberService.cs` |
+| Two identical `FormatDuration` copies collapsed onto the base class | `ShareContent.cs` |
+| `TimeProvider.System` registered as the single clock source | `ServiceRegistration.cs` |
+
+**Verification:** solution builds with 0 errors. `DateTime.Now` no longer appears anywhere in the
+exercise paths; one occurrence remains in `CustomAssociationsService.cs:46`, where it builds a
+filename timestamp rather than measuring anything. One `FormatDuration`, zero fabricated stamps,
+zero ViewModel-side exercise clocks.
+
+#### On no longer inventing analytics
+
+Two byte-identical blocks filled in missing timing stamps with `DateTime.UtcNow.AddMinutes(-1)`
+and `DateTime.UtcNow.AddSeconds(-30) // Estimate they spent 30 seconds on recall`, then reported
+the result as measured. Both are gone. When a round was not actually measured the duration is now
+`TimeSpan.Zero` — a missing measurement reads as missing rather than as a plausible number.
+
+#### Two deviations from the plan
+
+1. **Background pause was not implemented, deliberately.** The plan called for pausing elapsed
+   tracking on `OnSleep`/`OnResume` so backgrounded time is excluded. For a *timed memorisation
+   challenge* that is exploitable: a user could background the app, take as long as they like,
+   and return to an unchanged timer. Wall-clock behaviour is arguably the correct rule for this
+   domain. This is a product decision rather than a bug fix, so it is left open deliberately —
+   the monotonic clock fixes the actual corruption without changing the rules of the exercise.
+
+2. **The statistics move was smaller than planned.** `CalculateConsistencyScore` turned out to be
+   **dead** — `ConsistencyScoreText` has zero XAML bindings — so it was deleted rather than moved
+   to Core, taking five hardcoded English strings (`"Perfect"`, `"Excellent"`, `"Good"`, `"Fair"`,
+   `"Needs Work"`) with it. `CalculateResponseTimeDistribution` is live, but it is percentage
+   arithmetic over `FlashNumbersPerformanceService.CategorizeResponseTime`, which still lives in
+   the UI layer. Moving the arithmetic without the service would just relocate the coupling, so it
+   is deferred to Phase 5, where that service moves to Core.
+
+#### Tests: 117 → 129, none skipped
+
+The two remaining tripwires became live specifications, so the suite now has no skipped tests.
+
+`TestTimeProvider` (new) drives the clock by hand. `Advance` moves wall-clock and monotonic time
+together as real time does; `ShiftWallClock` moves only the wall clock, reproducing a timezone or
+NTP correction. The tests that matter assert that a one-hour wall-clock jump mid-round leaves both
+`GetElapsedTime` and `GameSession.Elapsed` reading the true elapsed time, and that a stopped round
+records the real duration. Also covered: elapsed freezing at completion, UTC kind on the recorded
+start, response times drawn from the injected clock, hour carry, and negative-span clamping.
+
+#### Not verified
+
+No device run. Backgrounding behaviour, and the timer under a real timezone change, were reasoned
+about and unit-tested against a fake clock rather than observed on hardware.

@@ -35,7 +35,6 @@ public partial class FlashNumbersViewModel : BaseViewModel
     private GameSession? _gameSession;
 
     // Analytics tracking
-    private DateTime _sessionStartTime;
     private int _totalAdvances;
 
     // Navigation state management
@@ -300,7 +299,6 @@ public partial class FlashNumbersViewModel : BaseViewModel
         try
         {
         // Track session start analytics
-        _sessionStartTime = DateTime.UtcNow;
         _totalAdvances = 0;
 
         // Guarded: an unparseable range previously crashed the app outright.
@@ -517,8 +515,8 @@ public partial class FlashNumbersViewModel : BaseViewModel
         if (_gameSession != null && IsSessionActive)
         {
             // Session was abandoned before completion
-            var currentTime = DateTime.UtcNow;
-            var partialDuration = (currentTime - _sessionStartTime).TotalSeconds;
+            // The session owns its own clock; the ViewModel does not keep a second one.
+            var partialDuration = _gameSession.Elapsed.TotalSeconds;
 
             await _analyticsService.TrackEventAsync(AnalyticsEvents.ExerciseAbandoned, new Dictionary<string, object>
             {

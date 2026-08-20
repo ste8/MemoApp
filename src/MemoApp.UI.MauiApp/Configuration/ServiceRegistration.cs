@@ -180,6 +180,9 @@ public static class ServiceRegistration
         });
         
         // Big Number services
+        // Single clock source. Registering it explicitly keeps timing testable and
+        // stops services reaching for DateTime.Now directly.
+        services.AddSingleton(TimeProvider.System);
         services.AddSingleton<IBigNumberService, BigNumberService>();
         services.AddSingleton<IDigitComparisonService, DigitComparisonService>();
         

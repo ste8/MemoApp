@@ -167,7 +167,6 @@ public partial class StatisticsViewModel : BaseViewModel
         CalculateResponseTimeDistribution();
 
         // Calculate consistency score
-        CalculateConsistencyScore();
 
         // Load all performances for detailed view
         AllPerformances.Clear();
@@ -218,34 +217,4 @@ public partial class StatisticsViewModel : BaseViewModel
         SlowPercentageText = $"{slowPercentage}%";
     }
 
-    private void CalculateConsistencyScore()
-    {
-        if (Statistics == null || !Statistics.Value.AllPerformances.Any()) return;
-
-        var responseTimes = Statistics.Value.AllPerformances.Select(p => p.ResponseTime.TotalSeconds).ToArray();
-
-        if (responseTimes.Length < 2)
-        {
-            ConsistencyScoreText = "Perfect";
-            return;
-        }
-
-        // Calculate standard deviation
-        var mean = responseTimes.Average();
-        var variance = responseTimes.Sum(rt => Math.Pow(rt - mean, 2)) / responseTimes.Length;
-        var standardDeviation = Math.Sqrt(variance);
-
-        // Convert to consistency score (lower std dev = higher consistency)
-        string consistencyLevel;
-        if (standardDeviation < 0.5)
-            consistencyLevel = "Excellent";
-        else if (standardDeviation < 1.0)
-            consistencyLevel = "Good";
-        else if (standardDeviation < 2.0)
-            consistencyLevel = "Fair";
-        else
-            consistencyLevel = "Needs Work";
-
-        ConsistencyScoreText = $"{consistencyLevel} (±{standardDeviation:F1}s)";
-    }
 }

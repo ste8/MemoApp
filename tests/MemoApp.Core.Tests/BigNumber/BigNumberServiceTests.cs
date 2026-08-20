@@ -153,9 +153,8 @@ public class BigNumberServiceTests
     // ---------------------------------------------------------------
     // FormatTime
     //
-    // Renders minutes and seconds only. The two tests at the end of this section
-    // pin down what it does at the edges; the skipped pair above them states the
-    // behaviour that is wanted there instead.
+    // Renders mm:ss, carrying into h:mm:ss once the span reaches an hour.
+    // Negative spans clamp to zero.
     // ---------------------------------------------------------------
 
     [Theory]
@@ -167,31 +166,96 @@ public class BigNumberServiceTests
         Assert.Equal(expected, _sut.FormatTime(TimeSpan.FromSeconds(seconds)));
     }
 
-    [Fact]
-    public void FormatTime_SpanOverAnHour_KeepsCountingInMinutes()
+    [Theory]
+    [InlineData(2, "2:00:00")]
+    [InlineData(1.5, "1:30:00")]
+    [InlineData(25, "25:00:00")]
+    public void FormatTime_SpanOfAnHourOrMore_CarriesIntoAnHoursComponent(double hours, string expected)
     {
-        // Minutes accumulate past 60 rather than carrying into an hours field.
-        Assert.Equal("120:00", _sut.FormatTime(TimeSpan.FromHours(2)));
+        Assert.Equal(expected, _sut.FormatTime(TimeSpan.FromHours(hours)));
     }
+
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(-30)]
+    [InlineData(-4000)]
+    public void FormatTime_NegativeSpan_ClampsToZero(int seconds)
+    {
+        Assert.Equal("00:00", _sut.FormatTime(TimeSpan.FromSeconds(seconds)));
+    }
+
+    // ---------------------------------------------------------------
+    // Elapsed time
+    // ---------------------------------------------------------------
 
     [Fact]
-    public void FormatTime_NegativeSpan_PutsTheSignOnTheSeconds()
+    public void GetElapsedTime_WhileRunning_TracksRealTimePassing()
     {
-        // The sign lands on the seconds component only, so the output is not a
-        // readable duration. Negative spans arise when the device clock moves backwards
-        // while a round is in progress.
-        Assert.Equal("00:-30", _sut.FormatTime(TimeSpan.FromSeconds(-30)));
+        var clock = new TestTimeProvider(new DateTimeOffset(2026, 1, 1, 12, 0, 0, TimeSpan.Zero));
+        var service = new BigNumberService(clock);
+        var game = service.CreateNewGame(new BigNumberSettings());
+
+        service.StartGame(game);
+        clock.Advance(TimeSpan.FromSeconds(45));
+
+        Assert.Equal(TimeSpan.FromSeconds(45), service.GetElapsedTime(game));
     }
 
-    [Fact(Skip = "Not implemented: FormatTime has no hours component.")]
-    public void FormatTime_ShouldRollOverIntoHours()
+    [Fact]
+    public void GetElapsedTime_WhenTheDeviceClockJumps_IsUnaffected()
     {
-        Assert.Equal("2:00:00", _sut.FormatTime(TimeSpan.FromHours(2)));
+        var clock = new TestTimeProvider(new DateTimeOffset(2026, 1, 1, 12, 0, 0, TimeSpan.Zero));
+        var service = new BigNumberService(clock);
+        var game = service.CreateNewGame(new BigNumberSettings());
+
+        service.StartGame(game);
+        clock.Advance(TimeSpan.FromSeconds(30));
+        clock.ShiftWallClock(TimeSpan.FromHours(-1));
+
+        Assert.Equal(TimeSpan.FromSeconds(30), service.GetElapsedTime(game));
     }
 
-    [Fact(Skip = "Not implemented: FormatTime does not guard against negative spans.")]
-    public void FormatTime_ShouldClampNegativeSpansToZero()
+    [Fact]
+    public void StopGame_WhenTheDeviceClockJumps_RecordsTheRealDuration()
     {
-        Assert.Equal("00:00", _sut.FormatTime(TimeSpan.FromSeconds(-30)));
+        var clock = new TestTimeProvider(new DateTimeOffset(2026, 1, 1, 12, 0, 0, TimeSpan.Zero));
+        var service = new BigNumberService(clock);
+        var game = service.CreateNewGame(new BigNumberSettings());
+
+        service.StartGame(game);
+        clock.Advance(TimeSpan.FromSeconds(20));
+        clock.ShiftWallClock(TimeSpan.FromHours(1));
+        service.StopGame(game);
+
+        Assert.Equal(TimeSpan.FromSeconds(20), game.ElapsedTime);
+    }
+
+    [Fact]
+    public void GetElapsedTime_AfterStopping_ReturnsTheRecordedDuration()
+    {
+        var clock = new TestTimeProvider(new DateTimeOffset(2026, 1, 1, 12, 0, 0, TimeSpan.Zero));
+        var service = new BigNumberService(clock);
+        var game = service.CreateNewGame(new BigNumberSettings());
+
+        service.StartGame(game);
+        clock.Advance(TimeSpan.FromSeconds(10));
+        service.StopGame(game);
+        clock.Advance(TimeSpan.FromMinutes(5));
+
+        Assert.Equal(TimeSpan.FromSeconds(10), service.GetElapsedTime(game));
+    }
+
+    [Fact]
+    public void StartGame_RecordsTheWallClockStartInUtc()
+    {
+        var start = new DateTimeOffset(2026, 1, 1, 12, 0, 0, TimeSpan.Zero);
+        var clock = new TestTimeProvider(start);
+        var service = new BigNumberService(clock);
+        var game = service.CreateNewGame(new BigNumberSettings());
+
+        service.StartGame(game);
+
+        Assert.Equal(start.UtcDateTime, game.StartTime);
+        Assert.Equal(DateTimeKind.Utc, game.StartTime!.Value.Kind);
     }
 }

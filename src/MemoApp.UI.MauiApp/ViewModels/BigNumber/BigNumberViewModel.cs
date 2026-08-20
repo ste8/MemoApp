@@ -940,7 +940,7 @@ public partial class BigNumberViewModel : BaseViewModel
     {
         if (_currentGame.IsTimerRunning && _currentGame.StartTime.HasValue)
         {
-            _currentGame.ElapsedTime = DateTime.Now - _currentGame.StartTime.Value;
+            _currentGame.ElapsedTime = _gameService.GetElapsedTime(_currentGame);
             UpdateTimerDisplay();
         }
     }
@@ -1469,21 +1469,17 @@ public partial class BigNumberViewModel : BaseViewModel
                     _localizationService.GetString("Error_NoResultsToShare"));
                 return;
             }
-            
-            // For backward compatibility, also check the old timing conditions
-            if (_memorizationStartTime == default)
-            {
-                // If we don't have memorization start time, set it to exercise start time
-                _memorizationStartTime = _exerciseStartTime != default ? _exerciseStartTime : DateTime.UtcNow.AddMinutes(-1);
-            }
-            
-            // If we don't have recall start time, estimate it (verification results means they've completed recall)
-            if (_recallStartTime == default)
-            {
-                _recallStartTime = DateTime.UtcNow.AddSeconds(-30); // Estimate they spent 30 seconds on recall
-            }
 
-            var memorizationTime = _recallStartTime - _memorizationStartTime;
+            // Fall back to the exercise start when the memorization stamp is missing.
+            // No fabricated stamps: if a round was not actually measured, report zero
+            // rather than inventing a plausible-looking duration and recording it as real.
+            var memorizationStart = _memorizationStartTime != default
+                ? _memorizationStartTime
+                : _exerciseStartTime;
+
+            var memorizationTime = memorizationStart != default && _recallStartTime != default
+                ? _recallStartTime - memorizationStart
+                : TimeSpan.Zero;
 
             // Create shareable result
             var shareResult = new BigNumberShareResult
@@ -1556,20 +1552,16 @@ public partial class BigNumberViewModel : BaseViewModel
                 return;
             }
 
-            // For backward compatibility, also check the old timing conditions
-            if (_memorizationStartTime == default)
-            {
-                // If we don't have memorization start time, set it to exercise start time
-                _memorizationStartTime = _exerciseStartTime != default ? _exerciseStartTime : DateTime.UtcNow.AddMinutes(-1);
-            }
+            // Fall back to the exercise start when the memorization stamp is missing.
+            // No fabricated stamps: if a round was not actually measured, report zero
+            // rather than inventing a plausible-looking duration and recording it as real.
+            var memorizationStart = _memorizationStartTime != default
+                ? _memorizationStartTime
+                : _exerciseStartTime;
 
-            // If we don't have recall start time, estimate it (verification results means they've completed recall)
-            if (_recallStartTime == default)
-            {
-                _recallStartTime = DateTime.UtcNow.AddSeconds(-30); // Estimate they spent 30 seconds on recall
-            }
-
-            var memorizationTime = _recallStartTime - _memorizationStartTime;
+            var memorizationTime = memorizationStart != default && _recallStartTime != default
+                ? _recallStartTime - memorizationStart
+                : TimeSpan.Zero;
 
             // Create shareable result data
             ShareData = new BigNumberShareResult

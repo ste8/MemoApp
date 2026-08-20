@@ -52,6 +52,22 @@ public abstract class ShareableResult
     /// <param name="localizationService">Service for getting localized strings</param>
     /// <returns>ShareContent ready to be shared</returns>
     public abstract ShareContent GenerateShareContent(Func<string, string> getString);
+
+    /// <summary>
+    /// Renders a duration for display in share messages, choosing the unit that keeps
+    /// the number readable: milliseconds under a second, seconds under a minute,
+    /// minutes above that.
+    /// </summary>
+    protected static string FormatDuration(TimeSpan duration)
+    {
+        if (duration.TotalSeconds < 1)
+            return $"{duration.TotalMilliseconds:F0}ms";
+
+        if (duration.TotalMinutes < 1)
+            return $"{duration.TotalSeconds:F1}s";
+
+        return $"{duration.TotalMinutes:F1}m";
+    }
 }
 
 /// <summary>
@@ -97,16 +113,6 @@ public class FlashNumbersShareResult : ShareableResult
             AppUrl = "https://memoapp.com"
         };
     }
-
-    private static string FormatDuration(TimeSpan duration)
-    {
-        if (duration.TotalSeconds < 1)
-            return $"{duration.TotalMilliseconds:F0}ms";
-        else if (duration.TotalMinutes < 1)
-            return $"{duration.TotalSeconds:F1}s";
-        else
-            return $"{duration.TotalMinutes:F1}m";
-    }
 }
 
 /// <summary>
@@ -151,15 +157,5 @@ public class BigNumberShareResult : ShareableResult
             ExerciseType = ExerciseType,
             AppUrl = "https://memoapp.com"
         };
-    }
-
-    private static string FormatDuration(TimeSpan duration)
-    {
-        if (duration.TotalSeconds < 1)
-            return $"{duration.TotalMilliseconds:F0}ms";
-        else if (duration.TotalMinutes < 1)
-            return $"{duration.TotalSeconds:F1}s";
-        else
-            return $"{duration.TotalMinutes:F1}m";
     }
 }
