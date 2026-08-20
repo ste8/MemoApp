@@ -2632,14 +2632,6 @@ In any case, with MemoRaise you can enjoy exercises and games using any techniqu
     <value>💡 Take your time to recall your Major System word or image for this number, then advance to continue.</value>
     <comment>Primary instruction for Flash Numbers training</comment>
   </data>
-  <data name="FlashNumbers_MobileInteractions" xml:space="preserve">
-    <value></value>
-    <comment>Mobile navigation instructions for Flash Numbers (removed for cleaner interface)</comment>
-  </data>
-  <data name="FlashNumbers_DesktopInteractions" xml:space="preserve">
-    <value></value>
-    <comment>Desktop keyboard shortcuts for Flash Numbers (removed for cleaner interface)</comment>
-  </data>
   <data name="Share_IconOnlyDescription" xml:space="preserve">
     <value>Share your results</value>
     <comment>Accessibility description for icon-only share button</comment>
