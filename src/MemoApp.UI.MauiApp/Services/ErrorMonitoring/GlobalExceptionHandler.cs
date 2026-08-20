@@ -13,6 +13,7 @@ public class GlobalExceptionHandler
 {
     private readonly IErrorMonitoringService _errorService;
     private readonly ILogger<GlobalExceptionHandler> _logger;
+    private static readonly TimeSpan ReportFlushTimeout = TimeSpan.FromSeconds(2);
     private DateTime _sessionStartTime;
     private string? _currentPage;
 
@@ -47,27 +48,46 @@ public class GlobalExceptionHandler
         }
     }
 
-    private async void OnUnhandledException(object? sender, UnhandledExceptionEventArgs e)
+    private void OnUnhandledException(object? sender, UnhandledExceptionEventArgs e)
     {
         try
         {
-            if (e.ExceptionObject is Exception exception)
+            if (e.ExceptionObject is not Exception exception)
             {
-                var context = new Dictionary<string, object>
-                {
-                    ["is_terminating"] = e.IsTerminating,
-                    ["session_duration_minutes"] = (DateTime.UtcNow - _sessionStartTime).TotalMinutes,
-                    ["crash_location"] = _currentPage ?? "unknown",
-                    ["exception_type"] = exception.GetType().Name,
-                    ["platform"] = DeviceInfo.Platform.ToString()
-                };
+                return;
+            }
 
-                await _errorService.LogCriticalErrorAsync(
-                    CriticalErrorTypes.UnhandledException,
-                    exception,
-                    context);
-                
-                _logger.LogCritical(exception, "Unhandled exception captured. Terminating: {IsTerminating}", e.IsTerminating);
+            var context = new Dictionary<string, object>
+            {
+                ["is_terminating"] = e.IsTerminating,
+                ["session_duration_minutes"] = (DateTime.UtcNow - _sessionStartTime).TotalMinutes,
+                ["crash_location"] = _currentPage ?? "unknown",
+                ["exception_type"] = exception.GetType().Name,
+                ["platform"] = DeviceInfo.Platform.ToString()
+            };
+
+            var reporting = _errorService.LogCriticalErrorAsync(
+                CriticalErrorTypes.UnhandledException,
+                exception,
+                context);
+
+            _logger.LogCritical(exception, "Unhandled exception captured. Terminating: {IsTerminating}", e.IsTerminating);
+
+            if (e.IsTerminating)
+            {
+                // Deliberate sync-over-async, and the one place it is warranted: the process
+                // is about to exit, so awaiting would hand control back and the report would
+                // never leave the device. Bounded so a hung network cannot stall shutdown.
+                reporting.Wait(ReportFlushTimeout);
+            }
+            else
+            {
+                // Keep a fire-and-forget report from becoming an unobserved task exception.
+                _ = reporting.ContinueWith(
+                    t => _logger.LogError(t.Exception, "Failed to report unhandled exception"),
+                    CancellationToken.None,
+                    TaskContinuationOptions.OnlyOnFaulted,
+                    TaskScheduler.Default);
             }
         }
         catch (Exception ex)
@@ -118,60 +138,4 @@ public class GlobalExceptionHandler
         };
     }
 
-    /// <summary>
-    /// Helper method to track navigation failures
-    /// </summary>
-    public async void LogNavigationFailure(string fromPage, string toPage, Exception exception, string trigger = "user_tap")
-    {
-        try
-        {
-            var context = new Dictionary<string, object>
-            {
-                ["from_page"] = fromPage,
-                ["to_page"] = toPage,
-                ["navigation_trigger"] = trigger,
-                ["exception_type"] = exception.GetType().Name
-            };
-
-            await _errorService.LogCriticalErrorAsync(
-                CriticalErrorTypes.NavigationFailure,
-                exception,
-                context);
-            
-            _logger.LogError(exception, "Navigation failed from {FromPage} to {ToPage}", fromPage, toPage);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Failed to log navigation failure");
-        }
-    }
-
-    /// <summary>
-    /// Helper method to track app crashes with context
-    /// </summary>
-    public async void LogAppCrash(Exception exception, string crashLocation, string userAction)
-    {
-        try
-        {
-            var context = new Dictionary<string, object>
-            {
-                ["crash_location"] = crashLocation,
-                ["user_action"] = userAction,
-                ["session_duration_minutes"] = (DateTime.UtcNow - _sessionStartTime).TotalMinutes,
-                ["memory_usage_mb"] = GC.GetTotalMemory(false) / (1024 * 1024),
-                ["platform"] = DeviceInfo.Platform.ToString()
-            };
-
-            await _errorService.LogCriticalErrorAsync(
-                CriticalErrorTypes.AppCrash,
-                exception,
-                context);
-            
-            _logger.LogCritical(exception, "App crash at {CrashLocation} during {UserAction}", crashLocation, userAction);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Failed to log app crash");
-        }
-    }
 }

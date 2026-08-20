@@ -27,8 +27,10 @@ public class AppDelegate : MauiUIApplicationDelegate
 		}
 		catch (System.Exception ex)
 		{
-			// Firebase initialization failed, but app should continue.
-			// Analytics will use fallback behavior
+			// The app continues; analytics falls back to the local implementation.
+			// Debug.WriteLine is compiled out of Release, so record the failure for
+			// AppInitializationService to report once error monitoring is available.
+			MemoApp.UI.MauiApp.Services.Analytics.FirebaseInitializationStatus.RecordFailure(ex);
 			System.Diagnostics.Debug.WriteLine($"Failed to initialize Firebase: {ex.Message}");
 			System.Diagnostics.Debug.WriteLine($"Exception type: {ex.GetType().Name}");
 		}

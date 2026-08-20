@@ -18,4 +18,13 @@ public interface IAssociationComposerService
     /// <param name="numberFormat">The current number format setting for proper token normalization</param>
     /// <returns>A list of all associations (pack + custom) with proper default status applied</returns>
     Task<List<TokenAssociation>> GetCompleteTokenAssociationsAsync(string categoryKey, string token, NumberFormat numberFormat);
+
+    /// <summary>
+    /// Picks the association that represents a token: the one explicitly marked default,
+    /// otherwise the first available. Returns null only when there are none.
+    ///
+    /// This rule was previously written out at each call site, which is how it came to be
+    /// applied inconsistently. Callers should not re-derive it.
+    /// </summary>
+    TokenAssociation? ResolveDefault(IReadOnlyList<TokenAssociation> associations);
 }

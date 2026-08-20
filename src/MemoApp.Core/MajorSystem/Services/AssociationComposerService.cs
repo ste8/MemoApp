@@ -119,4 +119,6 @@ public class AssociationComposerService : IAssociationComposerService
         // For all other tokens (single digits, 10+), return as-is
         return token;
     }
+    public TokenAssociation? ResolveDefault(IReadOnlyList<TokenAssociation> associations)
+        => AssociationDefaults.Resolve(associations);
 }

@@ -50,6 +50,7 @@ public static class CriticalErrorTypes
     public const string NavigationFailure = "navigation_failure";
     public const string UnhandledException = "unhandled_exception";
     public const string MauiUnhandledException = "maui_unhandled_exception";
+    public const string InitializationFailure = "initialization_failure";
     
     // Pack Management
     public const string PackDownloadFailed = "pack_download_failed";

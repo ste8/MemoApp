@@ -195,6 +195,9 @@ public partial class TokenDetailViewModel : ObservableObject,
                     .ToList();
             }
 
+            // Deliberately has no first-available fallback: this asks whether an explicit
+            // default exists, purely to log it. Resolving one here would report a fallback
+            // as though the user had chosen it. The display order is set above.
             var defaultAssociation = sortedAssociations.FirstOrDefault(a => a.IsDefault);
             if (defaultAssociation != null)
             {

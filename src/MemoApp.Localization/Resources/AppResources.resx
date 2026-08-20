@@ -1581,14 +1581,6 @@
     <value>Start Flash Numbers!</value>
     <comment>Final button text to complete onboarding</comment>
   </data>
-  <data name="Onboarding_SkipTitle" xml:space="preserve">
-    <value>Skip Tutorial?</value>
-    <comment>Skip confirmation dialog title</comment>
-  </data>
-  <data name="Onboarding_SkipMessage" xml:space="preserve">
-    <value>You can always access the tutorial later from Settings. Are you sure you want to skip?</value>
-    <comment>Skip confirmation dialog message</comment>
-  </data>
   
   <!-- Welcome Screen -->
   <data name="Onboarding_Welcome_Title" xml:space="preserve">
@@ -1867,10 +1859,6 @@ In any case, with MemoRaise you can enjoy exercises and games using any techniqu
   <data name="Onboarding_Moon" xml:space="preserve">
     <value>Moon</value>
     <comment>Moon option</comment>
-  </data>
-  <data name="Onboarding_Money" xml:space="preserve">
-    <value>Money</value>
-    <comment>Money option</comment>
   </data>
   <data name="Onboarding_Man" xml:space="preserve">
     <value>Man</value>
@@ -2157,10 +2145,6 @@ In any case, with MemoRaise you can enjoy exercises and games using any techniqu
   </data>
   
   <!-- Settings Page Accessibility Strings -->  <!-- Flash Numbers Association Reveal Feature -->
-  <data name="FlashNumbers_RevealAssociation" xml:space="preserve">
-    <value>Show Association</value>
-    <comment>Button text to reveal the Major System association for the current number</comment>
-  </data>
   <data name="FlashNumbers_HideAssociation" xml:space="preserve">
     <value>Hide Association</value>
     <comment>Button text to hide the revealed Major System association</comment>

@@ -5,7 +5,8 @@
 **Method:** Four parallel specialist reviews (architecture, clean code, MAUI runtime, UI/UX). Every load-bearing claim was independently re-verified against the source before being recorded here.
 **Baseline at audit time:** Build exits 0 with 294 unique warnings. 51 unit tests pass.
 
-> **Status: Phases 0–3 complete.** Tests 51 → 129, none skipped. `MVVMTK0039` warnings 3 → 0.
+> **Status: Phases 0–4 complete.** Tests 51 → 142, none skipped. `MVVMTK0039` warnings 3 → 0.
+> EN/IT translation parity is complete (669/669).
 > **The duplicate-number defect in §1 is fixed** — the shipped presets now present 100 distinct numbers.
 > CI now runs `dotnet test` before it can publish to TestFlight.
 > See the [Progress log](#9-progress-log) for exactly what changed and what was corrected along the way.
@@ -385,17 +386,17 @@ Ordered so each phase makes the next cheaper, and so nothing is refactored befor
 - [x] Move `CalculateConsistencyScore` and `CalculateResponseTimeDistribution` from `StatisticsViewModel` into Core
 - [x] One `FormatDuration` in Core; delete the three copies
 
-### Phase 4 — Collapse the remaining duplication  ⬅ NEXT
-**~2 days.**
+### Phase 4 — Collapse the remaining duplication  ✅ DONE
+**~2 days.** — applied; all three mobile targets build clean, 138 tests green.
 
-- [ ] `ResolveDefault` on `IAssociationComposerService`; rewire all four call sites
-- [ ] Generic settings store over an injectable `IPreferences`; makes settings testable and fixes `FontSize` permanently
-- [ ] Delete the 188 dead lines in `PackAssociationsService`
-- [ ] Delete the ~1,400 dead lines catalogued in §5.4
-- [ ] Sweep `Debug.WriteLine` catches to `IExceptionHandler`, Firebase init sites first
-- [ ] Make `GlobalExceptionHandler.LogAppCrash` awaitable so crash reports actually flush
+- [x] `ResolveDefault` on `IAssociationComposerService`; rewire all four call sites
+- [x] Generic settings store over an injectable `IPreferences`; makes settings testable and fixes `FontSize` permanently
+- [x] Delete the 188 dead lines in `PackAssociationsService`
+- [x] Delete the ~1,400 dead lines catalogued in §5.4
+- [x] Sweep `Debug.WriteLine` catches to `IExceptionHandler`, Firebase init sites first
+- [x] Make `GlobalExceptionHandler.LogAppCrash` awaitable so crash reports actually flush
 
-### Phase 5 — Decompose and consolidate
+### Phase 5 — Decompose and consolidate  ⬅ NEXT
 **Ongoing. Only after Phases 0–3 provide tests and a single clock.**
 
 - [ ] Dead-code pass on `BigNumberViewModel` first (~15 members), then split by `GamePhase` behind the existing binding surface
@@ -615,3 +616,87 @@ start, response times drawn from the injected clock, hour carry, and negative-sp
 
 No device run. Backgrounding behaviour, and the timer under a real timezone change, were reasoned
 about and unit-tested against a fake clock rather than observed on hardware.
+
+### Phase 4 — Collapse the remaining duplication ✅
+
+| Change | Effect |
+|---|---|
+| Deleted the two unreachable reimplementations in `PackAssociationsService` | 868 → 680 lines |
+| `AssociationDefaults.Resolve` is now the only copy of the default-association rule; `IAssociationComposerService.ResolveDefault` exposes it; three call sites rewired | one rule, one implementation |
+| `OnUnhandledException` no longer `async void`; flushes the report before the process exits | crash reports survive termination |
+| Deleted dead public helpers `LogAppCrash` and `LogNavigationFailure` | `GlobalExceptionHandler` 177 → 141 lines |
+| Firebase init failure recorded at platform startup and reported once monitoring exists | analytics failure is no longer silent in Release |
+| Settings rewritten as a source-generated JSON store in Core behind `IPreferenceStore` | one implementation; adding a property persists it automatically |
+| Removed 4 orphaned keys that were also missing Italian | **EN/IT parity complete: 669/669** |
+| Deleted 10 verified-dead files | ~940 lines |
+
+**Verification:** all three mobile targets (`maccatalyst`, `android`, `ios`) build with 0 errors; 142 tests green.
+
+#### Crash reporting
+
+The audit pointed at `LogAppCrash`. That method had **no callers** — the live crash path is
+`OnUnhandledException`, wired up in `Initialize()`, and it had the same defect in a place that
+actually runs. It was `async void` and awaited the report, so when `IsTerminating` was true the
+handler returned at the `await` and the process exited before anything was sent.
+
+It now starts the report and, when terminating, waits on it with a bounded timeout. That is
+deliberate sync-over-async and the comment says why: the process is about to exit, so awaiting
+would hand back control and lose the report. Non-terminating reports stay asynchronous with a
+faulted-task continuation so they cannot become unobserved exceptions. The two dead helpers were
+deleted rather than fixed.
+
+#### Preventing another silently-unsaved setting
+
+Settings are now stored as a single JSON payload per model, replacing the property-by-property
+`Preferences.Get`/`Set` pairs. **Adding a property to a settings model now persists it with no
+service change at all** — the failure mode that lost `FontSize` is structurally impossible rather
+than merely test-caught. Verified by adding a property to `BigNumberSettings` and confirming the
+round-trip suite passed with the service untouched.
+
+Both services moved to Core behind `IPreferenceStore`; the MAUI implementation is a thin wrapper
+over the static `Preferences`, which cannot be substituted in a test. Serialization is
+source-generated through `SettingsJsonContext`, so it is safe under trimming and AOT on iOS —
+Core still reports **zero** `IL2026` warnings.
+
+An unreadable payload falls back to model defaults rather than throwing. That matters because a
+corrupt payload previously crashed the owning screen on every open, with no way back short of
+reinstalling.
+
+The reflection-driven round-trip tests remain: they assign a non-default value to every public
+property, save, reload, and require each value back. Verified non-vacuous against the original
+per-property implementation, where removing the `FontSize` line reproduced the bug and the test
+failed.
+
+*Note: an earlier draft of this section rejected the JSON rewrite because changing the stored keys
+would reset settings for existing users. The app has not shipped, so there are none — the
+objection did not apply and the rewrite went ahead.*
+
+#### Three corrections to the audit
+
+1. **The four-way `ResolveDefault` divergence was really three.** `TokenDetailViewModel:198` uses
+   its result **only for a log line** — it does not choose what is displayed. The audit's claim
+   that a user "sees nothing on the Token Detail screen" is wrong. Its missing `?? First()` is
+   correct there: it asks whether an *explicit* default exists, and resolving a fallback would log
+   it as though the user had chosen it. A comment now records that so it is not "fixed" later.
+2. **The `OnboardingPackDownload_*` keys are not a screen that never existed.**
+   `PackDownloadOnboardingView.xaml` is real; it simply uses differently-named keys. The keys are
+   genuinely orphaned, but the stated justification was wrong.
+3. **`LogAppCrash` was dead**, and the same defect lived in the handler that actually runs.
+
+#### Deliberately not done
+
+- **199 orphaned resource keys were left in place.** A wrong deletion fails silently at runtime in
+  a rarely-hit path, the upside is file size, and one justification the audit offered for the
+  "safe" cluster turned out to be wrong. Only the four keys that were *both* orphaned *and* absent
+  from Italian were removed, since those could not regress a working string. The rest wants a pass
+  with whoever owns the translations.
+- **The full `Debug.WriteLine` sweep.** The two highest-value sites (Firebase init on both
+  platforms) are done. Roughly 26 remain, mostly in `BigNumberViewModel` and `BigNumberPage`, and
+  they are better handled alongside the Phase 5 decomposition of those files.
+- **`MajorSystemImageGenerator`** (132 lines) is unreferenced but complete and working. It reads as
+  an unfinished feature rather than cruft, so it wants a product decision before deletion.
+
+#### Tests: 129 → 138
+
+`AssociationDefaults.Resolve` (explicit default, first-available fallback, multiple defaults,
+empty, null) and the settings round-trip suite (both models, plus defaults when nothing is stored).

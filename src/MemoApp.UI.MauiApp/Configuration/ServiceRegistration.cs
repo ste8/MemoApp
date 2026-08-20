@@ -211,6 +211,7 @@ public static class ServiceRegistration
         // UI measurement services
         services.AddSingleton<ITextMeasurementService, TextMeasurementService>();
         services.AddSingleton<IContainerSizeService, ContainerSizeService>();
+        services.AddSingleton<MemoApp.Core.Services.Settings.IPreferenceStore, MauiPreferenceStore>();
         services.AddSingleton<IBigNumberSettingsService, BigNumberSettingsService>();
         services.AddSingleton<IFlashNumbersSettingsService, FlashNumbersSettingsService>();
 
@@ -487,7 +488,6 @@ public static class ServiceRegistration
         services.AddSingleton<AppShell>();
         
         // Register pages
-        services.AddSingleton<Views.TestPage>();
         services.AddSingleton<Views.MainPage>();
         services.AddSingleton<FlashNumbersSetupPage>();
         services.AddTransient<FlashNumbersPage>();

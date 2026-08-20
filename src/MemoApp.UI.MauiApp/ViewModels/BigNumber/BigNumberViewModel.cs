@@ -1431,8 +1431,7 @@ public partial class BigNumberViewModel : BaseViewModel
 
                 if (associations.Any())
                 {
-                    // Get the default association or the first one
-                    return associations.FirstOrDefault(a => a.IsDefault) ?? associations.First();
+                    return _associationComposerService.ResolveDefault(associations);
                 }
                 return null;
             });

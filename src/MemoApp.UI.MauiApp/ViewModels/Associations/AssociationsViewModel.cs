@@ -703,8 +703,8 @@ public partial class AssociationsViewModel : ObservableObject,
 
             if (tokenAssociations.Count > 0)
             {
-                // Get the default association for this token (now includes custom associations)
-                var defaultAssociation = tokenAssociations.FirstOrDefault(a => a.IsDefault) ?? tokenAssociations.First();
+                // Includes custom associations.
+                var defaultAssociation = _associationComposerService.ResolveDefault(tokenAssociations)!;
 
                 await MainThread.InvokeOnMainThreadAsync(() =>
                 {

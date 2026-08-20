@@ -457,9 +457,8 @@ public partial class FlashNumbersViewModel : BaseViewModel
 
             if (associations?.Count > 0)
             {
-                // Prefer default association, but use first available if no default
-                // This now includes custom associations if user has set them
-                var association = associations.FirstOrDefault(a => a.IsDefault) ?? associations.First();
+                // Includes custom associations if the user has set them.
+                var association = _associationComposerService.ResolveDefault(associations)!;
                 
                 CurrentAssociation = association;
                 CurrentAssociationWord = association.Word;

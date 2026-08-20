@@ -91,6 +91,7 @@ public class AppInitializationService : IAppInitializationService
 
             // Step 3: Initialize global exception handler (depends on error monitoring)
             await InitializeGlobalExceptionHandlerAsync(timeoutCts.Token);
+            await ReportFirebaseInitializationFailureAsync();
             lock (_progressLock) { _initializationProgress = 0.75; }
 
             // Step 4: Initialize analytics service (optional, can fail without breaking app)
@@ -201,6 +202,34 @@ public class AppInitializationService : IAppInitializationService
 #else
             throw new InvalidOperationException("Error monitoring service initialization failed in production", ex);
 #endif
+        }
+    }
+
+    /// <summary>
+    /// Surfaces a Firebase initialisation failure from platform startup. Without this the
+    /// failure is invisible in Release and analytics is simply dead with no explanation.
+    /// </summary>
+    private async Task ReportFirebaseInitializationFailureAsync()
+    {
+        var failure = Services.Analytics.FirebaseInitializationStatus.Consume();
+
+        if (failure is null)
+        {
+            return;
+        }
+
+        _logger.LogError(failure, "Firebase initialization failed during platform startup; analytics will use the local fallback");
+
+        try
+        {
+            await _errorService.LogCriticalErrorAsync(
+                CriticalErrorTypes.InitializationFailure,
+                failure,
+                new Dictionary<string, object> { ["component"] = "firebase" });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to report Firebase initialization failure");
         }
     }
 
