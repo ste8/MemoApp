@@ -2849,4 +2849,146 @@ In ogni caso, con MemoRaise potrai divertirti con esercizi e giochi utilizzando 
     <value>Tocca due volte per mostrare l'associazione, scorri a sinistra per il numero successivo</value>
     <comment>Screen-reader hint describing the gestures available on the number card</comment>
   </data>
+  <data name="Common_Yes" xml:space="preserve">
+    <value>Sì</value>
+    <comment>Generic confirmation button</comment>
+  </data>
+  <data name="Common_No" xml:space="preserve">
+    <value>No</value>
+    <comment>Generic decline button</comment>
+  </data>
+  <data name="FlashNumbers_Complete" xml:space="preserve">
+    <value>Completato in {0}</value>
+    <comment>Flash Numbers completion headline. {0} = formatted duration</comment>
+  </data>
+  <data name="Statistics_UnknownIndicator" xml:space="preserve">
+    <value>—</value>
+    <comment>Shown when a performance indicator cannot be determined</comment>
+  </data>
+  <data name="Share_FlashNumbers_Title" xml:space="preserve">
+    <value>Il mio risultato Flash Numbers</value>
+    <comment>Share sheet title for a Flash Numbers result</comment>
+  </data>
+  <data name="Share_FlashNumbers_Template" xml:space="preserve">
+    <value>Ho appena allenato {TotalNumbers} numeri ({NumberRange}) su MemoRaise in {TotalDuration}!
+
+Media {AverageTime} per numero, il più veloce {FastestTime}.
+
+#FlashNumbers #MemoryTraining #MajorSystem
+{AppUrl}</value>
+    <comment>Flash Numbers share message. Placeholders are replaced by name, do not translate them</comment>
+  </data>
+  <data name="Share_BigNumber_Title" xml:space="preserve">
+    <value>Il mio risultato Numerone</value>
+    <comment>Share sheet title for a Big Number result</comment>
+  </data>
+  <data name="Share_BigNumber_Template" xml:space="preserve">
+    <value>Ho appena memorizzato un numero di {NumberOfDigits} cifre su MemoRaise in {MemorizationTime}!
+
+Difficoltà: {DifficultyLevel}
+
+#BigNumber #MemoryTraining #MajorSystem
+{AppUrl}</value>
+    <comment>Big Number share message. Placeholders are replaced by name, do not translate them</comment>
+  </data>
+  <data name="Share_Difficulty_Beginner" xml:space="preserve">
+    <value>Principiante</value>
+    <comment>Big Number difficulty label for up to 9 digits</comment>
+  </data>
+  <data name="Share_Difficulty_Intermediate" xml:space="preserve">
+    <value>Intermedio</value>
+    <comment>Big Number difficulty label for 10-99 digits</comment>
+  </data>
+  <data name="Share_Difficulty_Advanced" xml:space="preserve">
+    <value>Avanzato</value>
+    <comment>Big Number difficulty label for 100+ digits</comment>
+  </data>
+  <data name="Share_ButtonIcon" xml:space="preserve">
+    <value>📤</value>
+    <comment>Icon shown before the share button label</comment>
+  </data>
+  <data name="Share_NotAvailable" xml:space="preserve">
+    <value>Niente da condividere</value>
+    <comment>Accessibility description when there is no result to share</comment>
+  </data>
+  <data name="Share_AccessibilityDescription" xml:space="preserve">
+    <value>Condividi il tuo risultato {0} da {1}</value>
+    <comment>Share button accessibility description. {0} = exercise type, {1} = context</comment>
+  </data>
+  <data name="PackDownload_Title" xml:space="preserve">
+    <value>Pacchetti di contenuti</value>
+    <comment>Pack download page title</comment>
+  </data>
+  <data name="OnboardingPackDownload_Subtitle" xml:space="preserve">
+    <value>Scegli un pacchetto di associazioni numero-immagine per iniziare</value>
+    <comment>Subtitle on the onboarding pack selection step</comment>
+  </data>
+  <data name="PackDownload_SelectHint" xml:space="preserve">
+    <value>Tocca per selezionare</value>
+    <comment>Hint on a selectable pack card</comment>
+  </data>
+  <data name="PackDownload_Download" xml:space="preserve">
+    <value>Scarica</value>
+    <comment>Pack card action button</comment>
+  </data>
+  <data name="PackDownload_Update" xml:space="preserve">
+    <value>Aggiorna</value>
+    <comment>Pack card action button when an update is available</comment>
+  </data>
+  <data name="PackDownload_Delete" xml:space="preserve">
+    <value>Elimina</value>
+    <comment>Pack card action button for an installed pack</comment>
+  </data>
+  <data name="PackDownload_DeleteTitle" xml:space="preserve">
+    <value>Elimina pacchetto</value>
+    <comment>Title of the pack deletion confirmation dialog</comment>
+  </data>
+  <data name="PackDownload_DeleteConfirmation" xml:space="preserve">
+    <value>Il pacchetto e le sue immagini verranno rimossi dal dispositivo. Potrai scaricarlo di nuovo in seguito.</value>
+    <comment>Body of the pack deletion confirmation dialog</comment>
+  </data>
+  <data name="PackDownload_Starting" xml:space="preserve">
+    <value>Avvio del download…</value>
+    <comment>Pack download progress state</comment>
+  </data>
+  <data name="PackDownload_Processing" xml:space="preserve">
+    <value>Elaborazione del pacchetto…</value>
+    <comment>Pack download progress state</comment>
+  </data>
+  <data name="PackDownload_Extracting" xml:space="preserve">
+    <value>Estrazione dei file…</value>
+    <comment>Pack download progress state</comment>
+  </data>
+  <data name="PackDownload_GeneratingThumbnails" xml:space="preserve">
+    <value>Preparazione delle immagini…</value>
+    <comment>Pack download progress state</comment>
+  </data>
+  <data name="PackDownload_DownloadCompleted" xml:space="preserve">
+    <value>{0} scaricato</value>
+    <comment>Pack download success message. {0} = pack name</comment>
+  </data>
+  <data name="PackDownload_UpdateCompleted" xml:space="preserve">
+    <value>{0} aggiornato</value>
+    <comment>Pack update success message. {0} = pack name</comment>
+  </data>
+  <data name="PackDownload_DeleteCompleted" xml:space="preserve">
+    <value>{0} eliminato</value>
+    <comment>Pack deletion success message. {0} = pack name</comment>
+  </data>
+  <data name="PackDownload_DownloadError" xml:space="preserve">
+    <value>Impossibile scaricare il pacchetto. Verifica la connessione e riprova.</value>
+    <comment>Pack download failure message</comment>
+  </data>
+  <data name="PackDownload_UpdateError" xml:space="preserve">
+    <value>Impossibile aggiornare il pacchetto. Verifica la connessione e riprova.</value>
+    <comment>Pack update failure message</comment>
+  </data>
+  <data name="PackDownload_DeleteError" xml:space="preserve">
+    <value>Impossibile eliminare il pacchetto. Riprova.</value>
+    <comment>Pack deletion failure message</comment>
+  </data>
+  <data name="PackDownload_LoadError" xml:space="preserve">
+    <value>Impossibile caricare i pacchetti disponibili. Verifica la connessione e riprova.</value>
+    <comment>Pack list load failure message</comment>
+  </data>
 </root>
