@@ -186,7 +186,8 @@
                                      IsVisible="{OnPlatform iOS=False, Android=False, Default=True}"
                                      Margin="0,0,0,16">
                             <Label Text="{localization:Localize Associations_ContextualHeader}"
-                                   Style="{StaticResource ContextualHeaderStyle}"
+                                   SemanticProperties.HeadingLevel="Level1"
+                                       Style="{StaticResource ContextualHeaderStyle}"
                                    HorizontalOptions="Center"
                                    HorizontalTextAlignment="Center"
 />
@@ -237,7 +238,8 @@
                                             VerticalOptions="Center">
                                     <StackLayout Orientation="Horizontal" Spacing="12">
                                         <Label Text="{localization:Localize Associations_CategoriesLabel}"
-                                               Style="{StaticResource SectionHeaderStyle}"
+                                               SemanticProperties.HeadingLevel="Level2"
+                                       Style="{StaticResource SectionHeaderStyle}"
                                                VerticalOptions="Center"
                                                Margin="0,0,8,0" />
                                         <StackLayout Orientation="Horizontal" Spacing="8"

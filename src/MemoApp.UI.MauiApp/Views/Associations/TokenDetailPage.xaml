@@ -30,12 +30,15 @@
         </StackLayout>
 
         <!-- Main content -->
-        <ScrollView IsVisible="{Binding ShowMainContent}"
-                    Padding="16">
-            <StackLayout Spacing="16">
+        <!-- The CollectionView is the scroller. Nesting it inside a ScrollView measures it
+             against infinite height, which loses virtualization and collapsed the list. -->
+        <Grid IsVisible="{Binding ShowMainContent}"
+              Padding="16"
+              RowDefinitions="Auto,Auto,*"
+              RowSpacing="16">
 
                 <!-- Token header -->
-                <Grid Padding="16,24" BackgroundColor="{DynamicResource CardBackgroundColor}">
+                <Grid Grid.Row="0" Padding="16,24" BackgroundColor="{DynamicResource CardBackgroundColor}">
                     <Label Text="{Binding Token}"
                            FontSize="{OnPlatform iOS=48, Android=48, Default=40}"
                            FontAttributes="Bold"
@@ -45,7 +48,7 @@
                 </Grid>
 
                 <!-- Header with Add Custom button -->
-                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12" Margin="0,8,0,0">
+                <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="12" Margin="0,8,0,0">
                     <Label Grid.Column="0"
                            Text="{localization:Localize TokenDetail_AssociationsHeader}"
                            FontSize="18"
@@ -64,8 +67,9 @@
 
                 <!-- Associations list -->
 
-                <CollectionView ItemsSource="{Binding Associations}"
-                              SelectionMode="None">
+                <CollectionView Grid.Row="2"
+                                ItemsSource="{Binding Associations}"
+                                SelectionMode="None">
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
                     </CollectionView.ItemsLayout>
@@ -156,7 +160,6 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-            </StackLayout>
-        </ScrollView>
+        </Grid>
     </Grid>
 </ContentPage>

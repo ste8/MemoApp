@@ -92,7 +92,8 @@
                     <!-- Feedback Type -->
                     <StackLayout Spacing="8">
                         <Label Text="{localization:Localize Feedback_TypeLabel}"
-                               Style="{StaticResource SectionHeaderStyle}" />
+                               SemanticProperties.HeadingLevel="Level2"
+                                       Style="{StaticResource SectionHeaderStyle}" />
 
                         <Border Style="{StaticResource IconPickerContainerStyle}"
                                 >
@@ -131,7 +132,8 @@
                     <!-- Subject -->
                     <StackLayout Spacing="8" x:Name="SubjectContainer">
                         <Label Text="{localization:Localize Feedback_SubjectLabel}"
-                               Style="{StaticResource SectionHeaderStyle}" />
+                               SemanticProperties.HeadingLevel="Level2"
+                                       Style="{StaticResource SectionHeaderStyle}" />
 
                         <!-- Subject Input Container with Validation States -->
                         <Frame HasShadow="False"
@@ -205,7 +207,8 @@
                     <!-- Message -->
                     <StackLayout Spacing="8" x:Name="MessageContainer">
                         <Label Text="{localization:Localize Feedback_MessageLabel}"
-                               Style="{StaticResource SectionHeaderStyle}" />
+                               SemanticProperties.HeadingLevel="Level2"
+                                       Style="{StaticResource SectionHeaderStyle}" />
 
                         <!-- Message Input Container with Validation States -->
                         <Frame HasShadow="False"
@@ -281,7 +284,8 @@
                     <!-- Contact Information -->
                     <StackLayout Spacing="12">
                         <Label Text="{localization:Localize Settings_ContactInformation}"
-                               Style="{StaticResource SectionHeaderStyle}"
+                               SemanticProperties.HeadingLevel="Level2"
+                                       Style="{StaticResource SectionHeaderStyle}"
                                Margin="0,8,0,0" />
 
                         <!-- Email -->
@@ -384,7 +388,8 @@
                     <!-- Attach Images -->
                     <StackLayout Spacing="16">
                         <Label Text="{localization:Localize Feedback_AttachImages}"
-                               Style="{StaticResource SectionHeaderStyle}"
+                               SemanticProperties.HeadingLevel="Level2"
+                                       Style="{StaticResource SectionHeaderStyle}"
                                Margin="0,8,0,0" />
 
                         <!-- Image Attachments Section -->

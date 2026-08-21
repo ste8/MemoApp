@@ -25,7 +25,9 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
+                <!-- Auto, not *: inside a ScrollView a star row measures against infinite
+                     height and collapses, which hid the action buttons in this row. -->
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <!-- Summary Statistics Card -->

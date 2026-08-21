@@ -73,7 +73,8 @@
                 <!-- Word input section -->
                 <StackLayout Spacing="8" x:Name="WordContainer">
                     <Label Text="{localization:Localize AddCustomAssociation_WordLabel}"
-                           Style="{StaticResource SectionHeaderStyle}" />
+                           SemanticProperties.HeadingLevel="Level2"
+                                       Style="{StaticResource SectionHeaderStyle}" />
 
                     <!-- Word Input Container with Validation States -->
                     <Frame HasShadow="False"
@@ -150,7 +151,8 @@
                 <!-- Image selection section -->
                 <StackLayout Spacing="8" x:Name="ImageContainer">
                     <Label Text="{localization:Localize AddCustomAssociation_ImageLabel}"
-                           Style="{StaticResource SectionHeaderStyle}" />
+                           SemanticProperties.HeadingLevel="Level2"
+                                       Style="{StaticResource SectionHeaderStyle}" />
 
                     <!-- Image Selection Container with Validation State -->
                     <Frame HasShadow="False"
@@ -248,7 +250,7 @@
                                    IsVisible="{Binding HasSelectedImage}">
                                 <Image Source="{Binding SelectedImageSource}"
                                        Aspect="AspectFit"
-                                       HeightRequest="100"
+                                       MinimumHeightRequest="100"
                                        WidthRequest="100"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center" />

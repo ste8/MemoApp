@@ -275,4 +275,23 @@ public class ExceptionHandler : IExceptionHandler
     }
 
     #endregion
+    /// <inheritdoc />
+    public void HandleException(Exception exception, string context = null,
+        Dictionary<string, object>? extras = null, bool showUserMessage = false)
+    {
+        var reporting = HandleExceptionAsync(exception, context, extras, showUserMessage);
+
+        if (reporting.IsCompleted)
+        {
+            // Observe a synchronous fault so it cannot resurface as an unobserved task exception.
+            _ = reporting.Exception;
+            return;
+        }
+
+        _ = reporting.ContinueWith(
+            t => _logger.LogError(t.Exception, "Failed to report exception for context {Context}", context),
+            CancellationToken.None,
+            TaskContinuationOptions.OnlyOnFaulted,
+            TaskScheduler.Default);
+    }
 }

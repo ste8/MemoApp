@@ -20,7 +20,8 @@
                 <!-- Enhanced Contextual Header - Primary page identifier -->
                 <StackLayout Spacing="8" Margin="0,0,0,16">
                     <Label Text="{localization:Localize BigNumber_ContextualHeader}"
-                           Style="{StaticResource ContextualHeaderStyle}"
+                           SemanticProperties.HeadingLevel="Level1"
+                                       Style="{StaticResource ContextualHeaderStyle}"
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center" />
                 </StackLayout>
@@ -91,6 +92,8 @@
                             <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
                                 <!-- App Verification Tile -->
                                 <Border Grid.Column="0"
+                                        AutomationProperties.IsInAccessibleTree="True"
+                                        SemanticProperties.Hint="{localization:Localize BigNumber_VerificationModeHint}"
                                         BackgroundColor="{Binding AppVerificationBackgroundColor}"
                                         Stroke="{Binding AppVerificationBorderColor}"
                                         StrokeThickness="2"
@@ -120,6 +123,8 @@
 
                                 <!-- Manual Verification Tile -->
                                 <Border Grid.Column="1"
+                                        AutomationProperties.IsInAccessibleTree="True"
+                                        SemanticProperties.Hint="{localization:Localize BigNumber_VerificationModeHint}"
                                         BackgroundColor="{Binding ManualVerificationBackgroundColor}"
                                         Stroke="{Binding ManualVerificationBorderColor}"
                                         StrokeThickness="2"

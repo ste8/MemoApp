@@ -1259,8 +1259,7 @@ public partial class BigNumberViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            // Log error but don't crash the app
-            System.Diagnostics.Debug.WriteLine($"Error loading associations: {ex.Message}");
+            _exceptionHandler.HandleException(ex, "big_number_error_loading_associations");
         }
     }
 
@@ -1301,8 +1300,8 @@ public partial class BigNumberViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            // Log error but don't crash - sharing will just not work
-            System.Diagnostics.Debug.WriteLine($"Error updating share data: {ex.Message}");
+            // Sharing degrades rather than crashing, but the failure must still be visible.
+            _exceptionHandler.HandleException(ex, "big_number_update_share_data");
             ShareData = null;
         }
     }
@@ -1469,8 +1468,7 @@ public partial class BigNumberViewModel : BaseViewModel
         }
         catch (Exception analyticsEx)
         {
-            // Don't fail the entire verification if analytics fails
-            System.Diagnostics.Debug.WriteLine($"Analytics tracking failed: {analyticsEx.Message}");
+            _exceptionHandler.HandleException(analyticsEx, "big_number_analytics_tracking_failed");
         }
     }
 
@@ -1506,7 +1504,7 @@ public partial class BigNumberViewModel : BaseViewModel
         }
         catch (Exception analyticsEx)
         {
-            System.Diagnostics.Debug.WriteLine($"Error analytics tracking failed: {analyticsEx.Message}");
+            _exceptionHandler.HandleException(analyticsEx, "big_number_error_analytics_tracking_failed");
         }
     }
 
@@ -1873,7 +1871,7 @@ public partial class BigNumberViewModel : BaseViewModel
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Analytics error: {ex.Message}");
+                    _exceptionHandler.HandleException(ex, "big_number_analytics_error");
                 }
             });
 
@@ -1893,7 +1891,7 @@ public partial class BigNumberViewModel : BaseViewModel
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Analytics error: {ex.Message}");
+                    _exceptionHandler.HandleException(ex, "big_number_analytics_error");
                 }
             });
 
@@ -1901,8 +1899,8 @@ public partial class BigNumberViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            // Log error but don't block the flow - default to showing confirmation for safety
-            System.Diagnostics.Debug.WriteLine($"Error showing confirmation dialog: {ex.Message}");
+            // Do not block the flow; default to showing confirmation for safety.
+            _exceptionHandler.HandleException(ex, "big_number_confirmation_dialog");
             return true; // Safer default - show confirmation
         }
     }
@@ -1923,8 +1921,8 @@ public partial class BigNumberViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            // Fallback for any localization issues
-            System.Diagnostics.Debug.WriteLine($"Localization error: {ex.Message}");
+            // Localization itself failed, so the fallback below cannot be localized.
+            _exceptionHandler.HandleException(ex, "big_number_confirmation_localization");
             return "Are you sure you want to start a new challenge?";
         }
     }
@@ -2061,8 +2059,9 @@ public partial class BigNumberViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            // Handle any errors gracefully
-            System.Diagnostics.Debug.WriteLine($"Error generating digit comparison: {ex.Message}");
+            // The per-digit breakdown is the exercise's most valuable output; a silent failure
+            // here left users with only a percentage and no explanation.
+            _exceptionHandler.HandleException(ex, "big_number_generate_digit_comparison");
             ShowDigitComparison = false;
         }
     }

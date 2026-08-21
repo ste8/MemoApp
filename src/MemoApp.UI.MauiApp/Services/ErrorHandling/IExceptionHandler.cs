@@ -19,6 +19,17 @@ public interface IExceptionHandler
         Dictionary<string, object>? extras = null, bool showUserMessage = true);
 
     /// <summary>
+    /// Reports an exception from a synchronous context, such as a catch block in a method that
+    /// cannot be made async. Returns immediately; the report is dispatched in the background and
+    /// its own failures are observed rather than surfacing as unobserved task exceptions.
+    ///
+    /// Prefer <see cref="HandleExceptionAsync"/> wherever awaiting is possible - this exists so
+    /// that a synchronous catch reports something in Release instead of being silently dropped.
+    /// </summary>
+    void HandleException(Exception exception, string context = null,
+        Dictionary<string, object>? extras = null, bool showUserMessage = false);
+
+    /// <summary>
     /// Handle an exception and return a result indicating success/failure
     /// </summary>
     /// <param name="exception">The exception to handle</param>

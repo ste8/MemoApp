@@ -36,7 +36,8 @@
                     <!-- Enhanced Contextual Header - Primary page identifier -->
                     <StackLayout Spacing="8" Margin="0,0,0,16">
                         <Label Text="{localization:Localize FlashNumbers_ContextualHeader}" 
-                               Style="{StaticResource ContextualHeaderStyle}"
+                               SemanticProperties.HeadingLevel="Level1"
+                                       Style="{StaticResource ContextualHeaderStyle}"
                                HorizontalOptions="Center"
                                HorizontalTextAlignment="Center" />
                     </StackLayout>

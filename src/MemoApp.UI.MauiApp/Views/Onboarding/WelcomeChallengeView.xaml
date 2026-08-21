@@ -32,7 +32,7 @@
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
                         Stroke="{StaticResource Success}"
                         Padding="16"
-                        HeightRequest="220"
+                        MinimumHeightRequest="220"
                         IsVisible="True">
                     <VerticalStackLayout Spacing="20"
                                          VerticalOptions="Center">
@@ -70,7 +70,7 @@
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
                         Stroke="{StaticResource ElegantAmberDark}"
                         Padding="16"
-                        HeightRequest="220"
+                        MinimumHeightRequest="220"
                         IsVisible="False">
                     <VerticalStackLayout Spacing="20"
                                          VerticalOptions="Center">
@@ -108,7 +108,7 @@
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
                         Stroke="{StaticResource Danger}"
                         Padding="16"
-                        HeightRequest="220"
+                        MinimumHeightRequest="220"
                         IsVisible="False">
                     <VerticalStackLayout Spacing="20"
                                          VerticalOptions="Center">
@@ -147,7 +147,7 @@
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
                         StrokeThickness="0"
                         Padding="16"
-                        HeightRequest="220"
+                        MinimumHeightRequest="220"
                         IsVisible="False">
                     <Label Text="{Binding ConclusionMessage}"
                            FontSize="24"

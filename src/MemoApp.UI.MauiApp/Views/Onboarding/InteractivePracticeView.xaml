@@ -54,7 +54,7 @@
                         x:Name="Option0"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
                         StrokeShape="RoundRectangle 15"
-                        HeightRequest="100">
+                        MinimumHeightRequest="100">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnOption0Clicked" />
                     </Border.GestureRecognizers>
@@ -68,7 +68,7 @@
                         x:Name="Option1"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
                         StrokeShape="RoundRectangle 15"
-                        HeightRequest="100">
+                        MinimumHeightRequest="100">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnOption1Clicked" />
                     </Border.GestureRecognizers>
@@ -82,7 +82,7 @@
                         x:Name="Option2"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
                         StrokeShape="RoundRectangle 15"
-                        HeightRequest="100">
+                        MinimumHeightRequest="100">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnOption2Clicked" />
                     </Border.GestureRecognizers>

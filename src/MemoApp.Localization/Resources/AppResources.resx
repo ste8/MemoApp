@@ -3014,4 +3014,8 @@ Difficulty: {DifficultyLevel}
     <value>Stop</value>
     <comment>Big Number secondary action during a round</comment>
   </data>
+  <data name="BigNumber_VerificationModeHint" xml:space="preserve">
+    <value>Double tap to choose this verification mode</value>
+    <comment>Screen-reader hint on the verification mode tiles. The tile's own labels supply the name, so only a hint is set</comment>
+  </data>
 </root>
