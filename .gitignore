@@ -417,7 +417,11 @@ FodyWeavers.xsd
 *.msm
 *.msp
 .idea/.idea.MemoApp/.idea
-.claude
+# Local Claude Code state stays out of the repo, but the shared agent
+# definitions and the run-memoraise skill are versioned for the team.
+.claude/*
+!.claude/agents/
+!.claude/skills/
 project-context.md
 Thumbs.db
 src/Azure/MemoAppFeedback/.vscode/
