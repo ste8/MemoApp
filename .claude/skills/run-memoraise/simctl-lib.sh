@@ -61,15 +61,44 @@ print(f"{w/s:.0f} {h/s:.0f}")
 PY
 }
 
+# Window geometry as "<x> <y> <w> <h>", after making sure the Simulator is
+# rendering at 1:1.
+#
+# The Simulator scales large devices down to fit the display - an iPad Pro 11
+# (834x1210) renders at about 79% on a laptop. The point->screen mapping below
+# assumes 1:1, so a scaled window makes every tap land somewhere else, silently
+# and with no error. "Point Accurate" (Window menu) forces 1:1; if the device is
+# too large to fit even then, this fails loudly rather than mis-tapping.
+sim_window() {
+  local udid="$1" dw dh
+  read -r dw dh <<< "$(sim_logical_size "$udid")"
+  osascript -e 'tell application "Simulator" to activate' >/dev/null 2>&1
+  sleep 0.4
+  local win ww
+  win=$(osascript -e 'tell application "System Events" to tell process "Simulator" to get {position, size} of window 1' 2>/dev/null) || {
+    echo "Simulator has no window. Run: open -a Simulator --args -CurrentDeviceUDID $udid" >&2; return 1; }
+  ww=$(echo "$win"|cut -d, -f3|tr -d ' ')
+  if [ "$(python3 -c "print(1 if $ww < $dw else 0)")" = "1" ]; then
+    # scaled - try to force 1:1 and re-read
+    osascript -e 'tell application "System Events" to tell process "Simulator" to click menu item "Point Accurate" of menu 1 of menu bar item "Window" of menu bar 1' >/dev/null 2>&1
+    sleep 1.5
+    win=$(osascript -e 'tell application "System Events" to tell process "Simulator" to get {position, size} of window 1' 2>/dev/null)
+    ww=$(echo "$win"|cut -d, -f3|tr -d ' ')
+  fi
+  if [ "$(python3 -c "print(1 if $ww < $dw else 0)")" = "1" ]; then
+    echo "Simulator window (${ww}pt wide) is narrower than the device (${dw}pt): it is still" >&2
+    echo "being scaled, so taps would land in the wrong place. Use a smaller device, or" >&2
+    echo "enlarge the display. Screenshots (sim_shot) are unaffected." >&2
+    return 1
+  fi
+  echo "$win" | tr -d ' ' | tr ',' ' '
+}
+
 # Tap at a fraction (0-1) of the device screen.
 sim_tap() {
   local fx="$1" fy="$2" udid; udid=$(sim_udid)
-  osascript -e 'tell application "Simulator" to activate' >/dev/null 2>&1
-  sleep 0.4
-  local win; win=$(osascript -e 'tell application "System Events" to tell process "Simulator" to get {position, size} of window 1')
   local wx wy ww wh dw dh
-  wx=$(echo "$win"|cut -d, -f1|tr -d ' '); wy=$(echo "$win"|cut -d, -f2|tr -d ' ')
-  ww=$(echo "$win"|cut -d, -f3|tr -d ' '); wh=$(echo "$win"|cut -d, -f4|tr -d ' ')
+  read -r wx wy ww wh <<< "$(sim_window "$udid")" || return 1
   read -r dw dh <<< "$(sim_logical_size "$udid")"
   local x y
   x=$(python3 -c "print(int($wx+($ww-$dw)/2+$fx*$dw))")
@@ -80,12 +109,8 @@ sim_tap() {
 # Swipe between two vertical fractions at a given horizontal fraction.
 sim_swipe() {
   local fx="$1" f1="$2" f2="$3" udid; udid=$(sim_udid)
-  osascript -e 'tell application "Simulator" to activate' >/dev/null 2>&1
-  sleep 0.4
-  local win; win=$(osascript -e 'tell application "System Events" to tell process "Simulator" to get {position, size} of window 1')
   local wx wy ww wh dw dh
-  wx=$(echo "$win"|cut -d, -f1|tr -d ' '); wy=$(echo "$win"|cut -d, -f2|tr -d ' ')
-  ww=$(echo "$win"|cut -d, -f3|tr -d ' '); wh=$(echo "$win"|cut -d, -f4|tr -d ' ')
+  read -r wx wy ww wh <<< "$(sim_window "$udid")" || return 1
   read -r dw dh <<< "$(sim_logical_size "$udid")"
   local x y1 y2
   x=$(python3 -c "print(int($wx+($ww-$dw)/2+$fx*$dw))")
