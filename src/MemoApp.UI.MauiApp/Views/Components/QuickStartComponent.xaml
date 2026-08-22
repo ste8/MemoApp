@@ -21,7 +21,7 @@
                     BackgroundColor="White"
                     TextColor="{StaticResource Primary}"
                     CornerRadius="8"
-                    HeightRequest="{OnIdiom Phone=50, Tablet=55, Desktop=60}" />
+                    MinimumHeightRequest="{OnIdiom Phone=50, Tablet=55, Desktop=60}" />
 
             <!-- Major System Guide Button with proper localization -->
             <Button Text="{localization:Localize MainPage_MajorSystemGuide}"
@@ -31,7 +31,7 @@
                     BorderColor="White"
                     BorderWidth="2"
                     CornerRadius="8"
-                    HeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
+                    MinimumHeightRequest="{OnIdiom Phone=48, Tablet=52, Desktop=56}"
                     LineBreakMode="WordWrap"
                     Padding="10,8">
                 <Button.ImageSource>
