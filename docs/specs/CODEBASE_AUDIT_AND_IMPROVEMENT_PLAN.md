@@ -403,9 +403,18 @@ Ordered so each phase makes the next cheaper, and so nothing is refactored befor
 
 - [ ] Dead-code pass on `BigNumberViewModel` first (~15 members), then split by `GamePhase` behind the existing binding surface
 - [ ] Pick one card system and one typography scale; delete the other
-- [ ] DI cleanup: captive `HttpClient` in singleton `IPackDownloadService`; singleton `Page` registrations; never-assigned `_tooltipService` field; dead registrations
-- [ ] Fix `CollectionView`-in-`ScrollView` nesting; replace fixed `HeightRequest` with `MinimumHeightRequest`
-- [ ] Accessibility pass: `SemanticProperties` on the ~154 interactive elements that lack them, starting with `FlashNumbersPage` (currently zero); add `HeadingLevel`
+- [x] ~~DI cleanup~~ **Not needed — all four claims disproved on re-verification (2026-08-22):**
+      `PackDownloadService` injects `IHttpClientFactory` and calls `CreateClient()` per request, so there is no
+      captive dependency; there are zero `AddSingleton<...Page>` registrations (pages are all transient);
+      `_tooltipService` no longer exists anywhere in the tree; and all 93 registered types are referenced
+      outside `ServiceRegistration.cs`. The original finding was either wrong or has since been fixed.
+- [ ] ~~Fix `CollectionView`-in-`ScrollView` nesting~~ (done); **remaining:** replace fixed `HeightRequest` with
+      `MinimumHeightRequest`. Re-measured 2026-08-22: 62 `HeightRequest="{OnIdiom` occurrences across 13 files,
+      concentrated in `BigNumberPage` (22), `FlashNumbersPage` (10), `MainPage` (6), `FeedbackPage` (6).
+      Needs triage, not blind conversion — some fixed heights back deliberate overlay/swap effects.
+- [ ] Accessibility pass: `SemanticProperties` on the interactive elements that lack them; add `HeadingLevel`.
+      Re-measured 2026-08-22: 102 `<Button>` + 33 `<TapGestureRecognizer>` = 135 interactive elements, and only
+      12 of 53 XAML files reference `SemanticProperties` at all. (`FlashNumbersPage` has 2, not zero.)
 
 ---
 
