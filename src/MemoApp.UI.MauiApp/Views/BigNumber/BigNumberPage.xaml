@@ -315,7 +315,7 @@
                         <TapGestureRecognizer Command="{Binding ToggleAdvancedSettingsCommand}" />
                     </Border.GestureRecognizers>
                     
-                    <Grid ColumnDefinitions="*,Auto">
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
                         <Label Grid.Column="0"
                                Text="{localization:Localize BigNumber_ShowAdvancedSettings}" 
                                FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
@@ -433,27 +433,26 @@
                                IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}" />
                         
                         <!-- Font Size Buttons -->
-                        <StackLayout Orientation="Horizontal" Spacing="{OnIdiom Phone=4, Tablet=6, Desktop=8}" HorizontalOptions="Center">
+                        <!-- FlexLayout so the size buttons wrap onto a second row at large accessibility
+                             font sizes instead of overlapping each other. -->
+                        <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Center" AlignItems="Center">
                             <Button Text="{localization:Localize FontSize_Auto}"
                                     Command="{Binding SetFontSizeCommand}"
                                     CommandParameter="Auto"
                                     BackgroundColor="{StaticResource Primary}"
                                     TextColor="White"
-                                    WidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
-                                    HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                                     MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                                     MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                                     CornerRadius="{OnIdiom Phone=22, Tablet=24, Desktop=22}"
                                     FontSize="{OnIdiom Phone=8, Tablet=9, Desktop=10}"
-                                    Padding="0" />
+                                    Margin="2"
+                                    Padding="4,0" />
                             
                             <Button Text="{localization:Localize FontSize_Small}"
                                     Command="{Binding SetFontSizeCommand}"
                                     CommandParameter="Small"
                                     BackgroundColor="{StaticResource Primary}"
                                     TextColor="White"
-                                    WidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
-                                    HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                                     MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                                     MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                                     CornerRadius="{OnIdiom Phone=22, Tablet=24, Desktop=22}"
@@ -465,8 +464,6 @@
                                     CommandParameter="Medium"
                                     BackgroundColor="{StaticResource Primary}"
                                     TextColor="White"
-                                    WidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
-                                    HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                                     MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                                     MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                                     CornerRadius="{OnIdiom Phone=22, Tablet=24, Desktop=22}"
@@ -478,8 +475,6 @@
                                     CommandParameter="Large"
                                     BackgroundColor="{StaticResource Primary}"
                                     TextColor="White"
-                                    WidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
-                                    HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                                     MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                                     MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                                     CornerRadius="{OnIdiom Phone=22, Tablet=24, Desktop=22}"
@@ -491,14 +486,12 @@
                                     CommandParameter="ExtraLarge"
                                     BackgroundColor="{StaticResource Primary}"
                                     TextColor="White"
-                                    WidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
-                                    HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                                     MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                                     MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                                     CornerRadius="{OnIdiom Phone=22, Tablet=24, Desktop=22}"
                                     FontSize="{OnIdiom Phone=9, Tablet=10, Desktop=11}"
                                     Padding="0" />
-                        </StackLayout>
+                        </FlexLayout>
                     </StackLayout>
                 </Frame>
 
@@ -1204,7 +1197,6 @@
                                         FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=18}"
                                         Padding="8"
                                         WidthRequest="{OnIdiom Phone=80, Tablet=100, Desktop=120}"
-                                        HeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                                         MinimumHeightRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                                         MinimumWidthRequest="{OnIdiom Phone=44, Tablet=48, Desktop=44}"
                                         CornerRadius="{OnIdiom Phone=22, Tablet=24, Desktop=22}" />

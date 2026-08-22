@@ -91,6 +91,16 @@ sim_window() {
     echo "enlarge the display. Screenshots (sim_shot) are unaffected." >&2
     return 1
   fi
+  # A window at a negative position is off-screen: cliclick would click into empty
+  # space and every tap would silently do nothing. Pull it back into view.
+  local wx wy
+  wx=$(echo "$win"|cut -d, -f1|tr -d ' '); wy=$(echo "$win"|cut -d, -f2|tr -d ' ')
+  if [ "$(python3 -c "print(1 if $wx < 0 or $wy < 0 else 0)")" = "1" ]; then
+    osascript -e 'tell application "System Events" to tell process "Simulator" to set position of window 1 to {100, 60}' >/dev/null 2>&1
+    sleep 0.6
+    win=$(osascript -e 'tell application "System Events" to tell process "Simulator" to get {position, size} of window 1' 2>/dev/null)
+  fi
+
   echo "$win" | tr -d ' ' | tr ',' ' '
 }
 
