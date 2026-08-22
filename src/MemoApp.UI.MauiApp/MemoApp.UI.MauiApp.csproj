@@ -72,8 +72,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.11" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.11" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
 		<PackageReference Include="Plugin.AdMob" Version="2.3.1" />
 		<PackageReference Include="Plugin.Firebase.Core" Version="3.1.1" />
@@ -105,9 +105,13 @@
 	</ItemGroup>
 
 	<!-- Packages explicitly added to solve incompatibility issues between Plugin.AdMob and Plugin.Firebase.Analytics -->
-	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-android'">
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
 	  <PackageReference Include="Xamarin.AndroidX.Fragment.Ktx" Version="1.8.9" />
 	  <PackageReference Include="Xamarin.GooglePlayServices.Measurement" Version="123.0.0.1" />
+	  <!-- Pinned to match the rest of the AndroidX Lifecycle family (2.9.2.1). Plugin.AdMob pulls
+	       Work.Runtime, whose transitive Lifecycle.Service 2.8.5.1 constrains Lifecycle.Runtime to
+	       [2.8.5.1, 2.8.6) while everything else resolves 2.9.2.1 -> NU1608. -->
+	  <PackageReference Include="Xamarin.AndroidX.Lifecycle.Service" Version="2.9.2.1" />
 	</ItemGroup>
 
 	<!-- Required by Plugin.AdMob -->
