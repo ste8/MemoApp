@@ -95,6 +95,29 @@ xcrun simctl spawn <udid> defaults write com.stefanoottaviani.memoapp \
   OnboardingCompleted -string "true"
 ```
 
+## Checking accessibility font sizes and dark mode
+
+`simctl` can drive both, and doing so finds layout bugs that are invisible at the default
+settings — three overlapping-control bugs were found this way, none of which reproduce at
+normal text size.
+
+```bash
+xcrun simctl ui <udid> content_size accessibility-extra-extra-extra-large
+xcrun simctl ui <udid> appearance dark
+```
+
+Relaunch the app afterwards, then walk the screens with `sim_tap` / `sim_shot`. Reset with
+`content_size large` and `appearance light` when finished.
+
+Read results this way: **overlap is a bug** — controls rendering on top of each other,
+labels running into icons. **Truncation is usually acceptable** — a clipped button label at
+310% text scale is degraded but still usable, and the fix (`LineBreakMode="WordWrap"`)
+changes layout everywhere, so it is a separate decision.
+
+The pattern behind every one of those bugs: a fixed `HeightRequest` (or a fixed size pinned
+alongside an identical `MinimumHeightRequest`, where the fixed one wins) around text that
+scales. `MinimumHeightRequest` keeps the touch-target floor and lets the control grow.
+
 ## Test
 
 ```bash
@@ -120,6 +143,17 @@ OpenAI credentials — CI excludes it deliberately.
 - **`osascript … click at {x,y}` does not work** on the Simulator — it does not move the
   cursor and the click lands nowhere. Use `cliclick`, and activate the Simulator window
   first (`sim_tap` does both).
+- **Taps fail silently in two more ways, both handled by `sim_window`.** The Simulator
+  *scales* large devices to fit the display — an iPad Pro 11 (834×1210) renders at ~79%,
+  so a mapping that assumes 1:1 lands every tap about 21% off with no error at all.
+  `sim_window` forces **Point Accurate** (Window menu) and refuses outright if the device
+  still will not fit. Separately, the window can drift **off-screen** (it reached
+  `x = -884` here after a few `killall Simulator` cycles), where `cliclick` clicks into
+  empty space; `sim_window` detects a negative position and moves it back. If taps stop
+  landing, print `sim_window "$(sim_udid)"` before assuming the app is at fault.
+- **`sim_window` reads flakily when the Simulator is not frontmost** — a bare
+  `osascript … get window 1` intermittently returns `Invalid index (-1719)`. `sim_window`
+  activates the app first, which is why it succeeds where a direct call does not.
 - **Screenshot the whole screen scaled, not a guessed crop.** `sim_shot` writes a
   `-view.png` for this. Cropping blind twice produced confident wrong readings here — a
   loading state read as "no data", and an action sheet read as "a hung modal".
@@ -135,8 +169,9 @@ OpenAI credentials — CI excludes it deliberately.
   `net10.0-*`. Use `-f net10.0-ios`.
 - **`simctl install` succeeds but the app looks old**: it went to a different booted
   device. Set `SIM_UDID` and reinstall.
-- **Taps do nothing, no error**: either the terminal lacks Accessibility permission, or the
-  Simulator window is not frontmost.
+- **Taps do nothing, no error**: check `sim_window "$(sim_udid)"` first — a scaled or
+  off-screen window is the usual cause. Otherwise the terminal lacks Accessibility
+  permission, or the Simulator window is not frontmost.
 - **`Invalid index. (-1719)` from System Events**: the Simulator has no window. Run
   `open -a Simulator --args -CurrentDeviceUDID <udid>`.
 - **Screen dims and stops responding**: an action sheet or system dialog is open — the
