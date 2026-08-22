@@ -164,54 +164,6 @@
   </data>
   
   <!-- Training Options -->
-  <data name="TrainingOption_Beginner" xml:space="preserve">
-    <value>Beginner</value>
-    <comment>Beginner training option name</comment>
-  </data>
-  <data name="TrainingOption_BeginnerDesc" xml:space="preserve">
-    <value>Zero-prefixed numbers (00-09)</value>
-    <comment>Beginner training option description</comment>
-  </data>
-  <data name="TrainingOption_SingleDigits" xml:space="preserve">
-    <value>Single Digits</value>
-    <comment>Single digits training option name</comment>
-  </data>
-  <data name="TrainingOption_SingleDigitsDesc" xml:space="preserve">
-    <value>Basic single digits (0-9)</value>
-    <comment>Single digits training option description</comment>
-  </data>
-  <data name="TrainingOption_Teens" xml:space="preserve">
-    <value>Teens</value>
-    <comment>Teens training option name</comment>
-  </data>
-  <data name="TrainingOption_TeensDesc" xml:space="preserve">
-    <value>Teen numbers (10-19)</value>
-    <comment>Teens training option description</comment>
-  </data>
-  <data name="TrainingOption_Twenties" xml:space="preserve">
-    <value>Twenties</value>
-    <comment>Twenties training option name</comment>
-  </data>
-  <data name="TrainingOption_TwentiesDesc" xml:space="preserve">
-    <value>Twenty range (20-29)</value>
-    <comment>Twenties training option description</comment>
-  </data>
-  <data name="TrainingOption_First50" xml:space="preserve">
-    <value>First 50</value>
-    <comment>First 50 training option name</comment>
-  </data>
-  <data name="TrainingOption_First50Desc" xml:space="preserve">
-    <value>Extended practice (00-49)</value>
-    <comment>First 50 training option description</comment>
-  </data>
-  <data name="TrainingOption_FullRange" xml:space="preserve">
-    <value>Full Range</value>
-    <comment>Full range training option name</comment>
-  </data>
-  <data name="TrainingOption_FullRangeDesc" xml:space="preserve">
-    <value>Complete Major System (00-99)</value>
-    <comment>Full range training option description</comment>
-  </data>
   
   <!-- Training Session -->
   <!-- Flash Numbers (formerly Training Session) -->
@@ -3017,5 +2969,13 @@ Difficulty: {DifficultyLevel}
   <data name="BigNumber_VerificationModeHint" xml:space="preserve">
     <value>Double tap to choose this verification mode</value>
     <comment>Screen-reader hint on the verification mode tiles. The tile's own labels supply the name, so only a hint is set</comment>
+  </data>
+  <data name="FlashNumbers_PresetRangeDescription" xml:space="preserve">
+    <value>Numbers {0} to {1}</value>
+    <comment>Flash Numbers preset description. {0}=range start, {1}=range end</comment>
+  </data>
+  <data name="FlashNumbers_PresetCompleteDescription" xml:space="preserve">
+    <value>Complete Major System {0} to {1}</value>
+    <comment>Flash Numbers preset description for the full range. {0}=range start, {1}=range end</comment>
   </data>
 </root>

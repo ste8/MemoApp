@@ -327,28 +327,46 @@ public partial class FlashNumbersSetupViewModel : BaseViewModel
         if (numberFormat == NumberFormat.Padded)
         {
             // Preset ranges starting from 00
-            TrainingOptions.Add(new("00-19", "00", "19", "Numbers 00 to 19"));
-            TrainingOptions.Add(new("00-29", "00", "29", "Numbers 00 to 29"));
-            TrainingOptions.Add(new("00-39", "00", "39", "Numbers 00 to 39"));
-            TrainingOptions.Add(new("00-49", "00", "49", "Numbers 00 to 49"));
-            TrainingOptions.Add(new("00-59", "00", "59", "Numbers 00 to 59"));
-            TrainingOptions.Add(new("00-69", "00", "69", "Numbers 00 to 69"));
-            TrainingOptions.Add(new("00-79", "00", "79", "Numbers 00 to 79"));
-            TrainingOptions.Add(new("00-89", "00", "89", "Numbers 00 to 89"));
-            TrainingOptions.Add(new("00-99", "00", "99", "Complete Major System 00 to 99"));
+            TrainingOptions.Add(new("00-19", "00", "19",
+                string.Format(_localizationService.GetString("FlashNumbers_PresetRangeDescription"), "00", "19")));
+            TrainingOptions.Add(new("00-29", "00", "29",
+                string.Format(_localizationService.GetString("FlashNumbers_PresetRangeDescription"), "00", "29")));
+            TrainingOptions.Add(new("00-39", "00", "39",
+                string.Format(_localizationService.GetString("FlashNumbers_PresetRangeDescription"), "00", "39")));
+            TrainingOptions.Add(new("00-49", "00", "49",
+                string.Format(_localizationService.GetString("FlashNumbers_PresetRangeDescription"), "00", "49")));
+            TrainingOptions.Add(new("00-59", "00", "59",
+                string.Format(_localizationService.GetString("FlashNumbers_PresetRangeDescription"), "00", "59")));
+            TrainingOptions.Add(new("00-69", "00", "69",
+                string.Format(_localizationService.GetString("FlashNumbers_PresetRangeDescription"), "00", "69")));
+            TrainingOptions.Add(new("00-79", "00", "79",
+                string.Format(_localizationService.GetString("FlashNumbers_PresetRangeDescription"), "00", "79")));
+            TrainingOptions.Add(new("00-89", "00", "89",
+                string.Format(_localizationService.GetString("FlashNumbers_PresetRangeDescription"), "00", "89")));
+            TrainingOptions.Add(new("00-99", "00", "99",
+                string.Format(_localizationService.GetString("FlashNumbers_PresetCompleteDescription"), "00", "99")));
         }
         else // Natural format
         {
             // Preset ranges starting from 0
-            TrainingOptions.Add(new("0-19", "0", "19", "Numbers 0 to 19"));
-            TrainingOptions.Add(new("0-29", "0", "29", "Numbers 0 to 29"));
-            TrainingOptions.Add(new("0-39", "0", "39", "Numbers 0 to 39"));
-            TrainingOptions.Add(new("0-49", "0", "49", "Numbers 0 to 49"));
-            TrainingOptions.Add(new("0-59", "0", "59", "Numbers 0 to 59"));
-            TrainingOptions.Add(new("0-69", "0", "69", "Numbers 0 to 69"));
-            TrainingOptions.Add(new("0-79", "0", "79", "Numbers 0 to 79"));
-            TrainingOptions.Add(new("0-89", "0", "89", "Numbers 0 to 89"));
-            TrainingOptions.Add(new("0-99", "0", "99", "Complete Major System 0 to 99"));
+            TrainingOptions.Add(new("0-19", "0", "19",
+                string.Format(_localizationService.GetString("FlashNumbers_PresetRangeDescription"), "0", "19")));
+            TrainingOptions.Add(new("0-29", "0", "29",
+                string.Format(_localizationService.GetString("FlashNumbers_PresetRangeDescription"), "0", "29")));
+            TrainingOptions.Add(new("0-39", "0", "39",
+                string.Format(_localizationService.GetString("FlashNumbers_PresetRangeDescription"), "0", "39")));
+            TrainingOptions.Add(new("0-49", "0", "49",
+                string.Format(_localizationService.GetString("FlashNumbers_PresetRangeDescription"), "0", "49")));
+            TrainingOptions.Add(new("0-59", "0", "59",
+                string.Format(_localizationService.GetString("FlashNumbers_PresetRangeDescription"), "0", "59")));
+            TrainingOptions.Add(new("0-69", "0", "69",
+                string.Format(_localizationService.GetString("FlashNumbers_PresetRangeDescription"), "0", "69")));
+            TrainingOptions.Add(new("0-79", "0", "79",
+                string.Format(_localizationService.GetString("FlashNumbers_PresetRangeDescription"), "0", "79")));
+            TrainingOptions.Add(new("0-89", "0", "89",
+                string.Format(_localizationService.GetString("FlashNumbers_PresetRangeDescription"), "0", "89")));
+            TrainingOptions.Add(new("0-99", "0", "99",
+                string.Format(_localizationService.GetString("FlashNumbers_PresetCompleteDescription"), "0", "99")));
         }
     }
 
