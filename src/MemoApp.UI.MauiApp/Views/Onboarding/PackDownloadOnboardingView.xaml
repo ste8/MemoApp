@@ -91,20 +91,17 @@
                 </Frame>
 
                 <!-- Available Packs Collection -->
-                <CollectionView ItemsSource="{Binding AvailablePacks}"
-                                SelectionMode="None"
-                                BackgroundColor="Transparent"
-                                ItemSizingStrategy="MeasureAllItems"
-                                IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}">
-                    <CollectionView.ItemTemplate>
+                <!-- BindableLayout: a bounded list inside a ScrollView. See PackDownloadPage. -->
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding AvailablePacks}"
+                                     Spacing="4"
+                                     BackgroundColor="Transparent"
+                                     IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="vm:PackCardViewModel">
                             <components:PackCardView />
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="4"/>
-                    </CollectionView.ItemsLayout>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
 
                 <!-- Reassuring Skip Option -->
                 <Frame IsVisible="{Binding ShowSkipOption}"

@@ -87,20 +87,21 @@
                        FontSize="16"
                        TextColor="Gray"/>
                 <!-- Pack Items with Enhanced Spacing -->
-                <CollectionView ItemsSource="{Binding Packs}"
-                                SelectionMode="None"
-                                BackgroundColor="Transparent"
-                                ItemSizingStrategy="MeasureAllItems"
-                                IsVisible="{Binding IsInitialLoading, Converter={StaticResource InvertedBoolConverter}}">
-                    <CollectionView.ItemTemplate>
+                <!-- BindableLayout, not CollectionView: this list sits inside a ScrollView,
+                     where a CollectionView is measured against infinite height and loses
+                     virtualization anyway. ItemSizingStrategy="MeasureAllItems" was already
+                     disabling it explicitly. BindableLayout is the construct for a bounded
+                     list inside a scrolling page. -->
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Packs}"
+                                     Spacing="4"
+                                     BackgroundColor="Transparent"
+                                     IsVisible="{Binding IsInitialLoading, Converter={StaticResource InvertedBoolConverter}}">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="vm:PackCardViewModel">
                             <components:PackCardView />
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="4"/>
-                    </CollectionView.ItemsLayout>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
                 </StackLayout>
             </ScrollView>
         </RefreshView>
