@@ -90,7 +90,8 @@
                                     <!-- Large thumbnail/token display -->
                                     <Grid Grid.Column="0"
                                           BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray800}}"
-                                          VerticalOptions="Center">
+                                          VerticalOptions="Center"
+                                            SemanticProperties.Hint="{localization:Localize Accessibility_ViewFullImageHint}">
                                         <Grid.WidthRequest>80</Grid.WidthRequest>
                                         <Grid.HeightRequest>80</Grid.HeightRequest>
                                         <!-- Show image if thumbnail path exists -->

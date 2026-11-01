@@ -7,7 +7,9 @@
              x:DataType="viewmodels:MajorSystemExampleViewModel">
 
     <ScrollView Padding="30">
-        <VerticalStackLayout Spacing="25">
+        <VerticalStackLayout Spacing="25"
+                SemanticProperties.Description="{localization:Localize Onboarding_TapToSkipAnimation}"
+                SemanticProperties.Hint="{localization:Localize Onboarding_TapToSkipAnimationHint}">
             <!-- Full-area tap gesture for skipping animation -->
             <VerticalStackLayout.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding ContinueCommand}" />

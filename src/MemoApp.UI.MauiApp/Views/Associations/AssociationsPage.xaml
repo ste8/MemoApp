@@ -199,7 +199,9 @@
                                      Margin="0,0,0,12">
                             <Label Text="{localization:Localize Associations_CategoryLabel}"
                                    Style="{StaticResource PickerLabelStyle}" />
-                            <Border Style="{StaticResource IconPickerContainerStyle}">
+                            <Border Style="{StaticResource IconPickerContainerStyle}"
+                                    SemanticProperties.Description="{localization:Localize Associations_CategoryLabel}"
+                                    SemanticProperties.Hint="{localization:Localize Associations_CategoryPickerHint}">
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding SelectCategoryPickerCommand}" />
                                 </Border.GestureRecognizers>
@@ -293,7 +295,8 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:TokenAssociation">
-                        <Border Style="{StaticResource AssociationCardStyle}">
+                        <Border Style="{StaticResource AssociationCardStyle}"
+                                 SemanticProperties.Hint="{localization:Localize Accessibility_ViewTokenDetailHint}">
                             <Border.Shadow>
                                 <Shadow Brush="{AppThemeBinding Light={StaticResource Gray200}, Dark=Transparent}"
                                         Offset="0,2"

@@ -94,7 +94,9 @@
                     Stroke="{AppThemeBinding Light={StaticResource ElegantTealDark}, Dark={StaticResource ElegantTeal}}"
                     StrokeThickness="1"
                     Padding="20,16"
-                    Margin="0,8,0,0">
+                    Margin="0,8,0,0"
+                    SemanticProperties.Description="{localization:Localize MainPage_CustomFlashNumbers}"
+                    SemanticProperties.Hint="{localization:Localize MainPage_CustomFlashNumbersHint}">
 
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="14" />

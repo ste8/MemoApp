@@ -21,7 +21,9 @@
                CornerRadius="20"
                Padding="12,8"
                HasShadow="True"
-               ZIndex="1000">
+               ZIndex="1000"
+                SemanticProperties.Description="{localization:Localize Accessibility_ValidationErrorBanner}"
+                SemanticProperties.Hint="{localization:Localize Accessibility_ValidationErrorBannerHint}">
             <Frame.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding ScrollToFirstErrorCommand}" />
             </Frame.GestureRecognizers>

@@ -92,7 +92,9 @@
                             StrokeThickness="0"
                             StrokeShape="RoundRectangle 24"
                             Padding="{OnIdiom Phone=24, Tablet=32, Desktop=40}"
-                            Margin="0,8">
+                            Margin="0,8"
+                            SemanticProperties.Description="{localization:Localize FlashNumbers_RevealAssociationLabel}"
+                            SemanticProperties.Hint="{localization:Localize FlashNumbers_RevealAssociationHint}">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                 <GradientStop Color="{StaticResource PrimaryGradientStart}" Offset="0" />

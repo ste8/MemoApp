@@ -6,7 +6,8 @@
              xmlns:behaviors="clr-namespace:MemoApp.UI.MauiApp.Behaviors"
              x:Class="MemoApp.UI.MauiApp.Views.Components.GlobalDownloadProgressView"
              x:DataType="vm:PackCardViewModel"
-             x:Name="RootView">
+             x:Name="RootView"
+        SemanticProperties.Hint="{localization:Localize Accessibility_ScrollToPackHint}">
 
     <!-- Sticky Bottom Progress Bar with Enhanced Mobile UX -->
     <Border BackgroundColor="{AppThemeBinding Light='#FAFAFA', Dark='#1A1A1A'}"

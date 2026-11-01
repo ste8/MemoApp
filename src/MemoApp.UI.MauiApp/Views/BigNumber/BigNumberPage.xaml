@@ -98,7 +98,8 @@
                                         Stroke="{Binding AppVerificationBorderColor}"
                                         StrokeThickness="2"
                                         Padding="12,16"
-                                        StrokeShape="RoundRectangle 12">
+                                        StrokeShape="RoundRectangle 12"
+                                        SemanticProperties.Description="{localization:Localize BigNumber_AppVerification}">
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding SelectAppVerificationCommand}" />
                                     </Border.GestureRecognizers>
@@ -129,7 +130,8 @@
                                         Stroke="{Binding ManualVerificationBorderColor}"
                                         StrokeThickness="2"
                                         Padding="12,16"
-                                        StrokeShape="RoundRectangle 12">
+                                        StrokeShape="RoundRectangle 12"
+                                        SemanticProperties.Description="{localization:Localize BigNumber_ManualVerification}">
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding SelectManualVerificationCommand}" />
                                     </Border.GestureRecognizers>
@@ -267,7 +269,9 @@
 
                             <!-- Show Timer -->
                             <Grid ColumnDefinitions="Auto,*" 
-                                  Padding="{OnIdiom Phone='0,8', Tablet='0,10', Desktop='0,6'}">
+                                  Padding="{OnIdiom Phone='0,8', Tablet='0,10', Desktop='0,6'}"
+                                    SemanticProperties.Description="{localization:Localize BigNumber_ShowTimer}"
+                                    SemanticProperties.Hint="{localization:Localize BigNumber_ShowTimerHint}">
                                 
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding ToggleShowTimerCommand}" />
@@ -310,7 +314,9 @@
                         Stroke="{StaticResource Primary}"
                         StrokeThickness="1"
                         Padding="16"
-                        StrokeShape="RoundRectangle 12">
+                        StrokeShape="RoundRectangle 12"
+                        SemanticProperties.Description="{localization:Localize BigNumber_ShowAdvancedSettings}"
+                        SemanticProperties.Hint="{localization:Localize BigNumber_ShowAdvancedSettingsHint}">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ToggleAdvancedSettingsCommand}" />
                     </Border.GestureRecognizers>

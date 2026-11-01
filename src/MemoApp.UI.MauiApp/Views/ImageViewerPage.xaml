@@ -18,7 +18,8 @@
                    Source="{Binding ImagePath}"
                    Aspect="AspectFit"
                    HorizontalOptions="FillAndExpand"
-                   VerticalOptions="FillAndExpand">
+                   VerticalOptions="FillAndExpand"
+                    SemanticProperties.Hint="{localization:Localize Accessibility_ViewFullImageHint}">
                 <Image.GestureRecognizers>
                     <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
                     <TapGestureRecognizer NumberOfTapsRequired="2" 

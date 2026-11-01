@@ -57,7 +57,8 @@
                         <!-- Language Picker with Loading Overlay -->
                         <Grid>
                             <Border Style="{StaticResource IconPickerContainerStyle}"
-                                    IsEnabled="{Binding IsLanguageSwitchEnabled}">
+                                    IsEnabled="{Binding IsLanguageSwitchEnabled}"
+                                    SemanticProperties.Hint="{localization:Localize Settings_DisplayLanguageHint}">
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding SelectLanguageCommand}" />
                                 </Border.GestureRecognizers>
@@ -138,7 +139,8 @@
 
                     <!-- Number Format Selection with Description -->
                     <StackLayout Spacing="{OnIdiom Phone=8, Tablet=10, Desktop=12}">
-                        <Border Style="{StaticResource IconPickerContainerStyle}">
+                        <Border Style="{StaticResource IconPickerContainerStyle}"
+                                SemanticProperties.Hint="{localization:Localize Settings_MemorySystemHint}">
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectNumberFormatCommand}" />
                             </Border.GestureRecognizers>
@@ -259,7 +261,7 @@
                                AutomationProperties.IsInAccessibleTree="True" />
 
                         <Border Style="{StaticResource IconPickerContainerStyle}"
-                                >
+                                SemanticProperties.Hint="{localization:Localize Settings_CurrentPackHint}">
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectPackCommand}" />
                             </Border.GestureRecognizers>

@@ -54,7 +54,9 @@
                         x:Name="Option0"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
                         StrokeShape="RoundRectangle 15"
-                        MinimumHeightRequest="100">
+                        MinimumHeightRequest="100"
+                        SemanticProperties.Description="{Binding Option0Text}"
+                        SemanticProperties.Hint="{localization:Localize Onboarding_PracticeOptionHint}">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnOption0Clicked" />
                     </Border.GestureRecognizers>
@@ -68,7 +70,9 @@
                         x:Name="Option1"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
                         StrokeShape="RoundRectangle 15"
-                        MinimumHeightRequest="100">
+                        MinimumHeightRequest="100"
+                        SemanticProperties.Description="{Binding Option1Text}"
+                        SemanticProperties.Hint="{localization:Localize Onboarding_PracticeOptionHint}">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnOption1Clicked" />
                     </Border.GestureRecognizers>
@@ -82,7 +86,9 @@
                         x:Name="Option2"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
                         StrokeShape="RoundRectangle 15"
-                        MinimumHeightRequest="100">
+                        MinimumHeightRequest="100"
+                        SemanticProperties.Description="{Binding Option2Text}"
+                        SemanticProperties.Hint="{localization:Localize Onboarding_PracticeOptionHint}">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnOption2Clicked" />
                     </Border.GestureRecognizers>

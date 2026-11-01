@@ -282,7 +282,8 @@
 
                 <!-- Wikipedia link styled as a tappable text element -->
                 <Label HorizontalOptions="Center"
-                       HorizontalTextAlignment="Center">
+                       HorizontalTextAlignment="Center"
+                        SemanticProperties.Hint="{localization:Localize Help_LearnMoreOnWikipediaHint}">
                     <Label.FormattedText>
                         <FormattedString>
                             <Span Text="{localization:Localize Help_LearnMoreOnWikipedia}"

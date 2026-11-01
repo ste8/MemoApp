@@ -45,7 +45,9 @@
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="4" />
                 </Border.StrokeShape>
-                <Grid>
+                <Grid
+                        SemanticProperties.Description="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=AccessibilityName}"
+                        SemanticProperties.Hint="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=AccessibilityHelp}">
                     <Grid.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=ToggleDropdownCommand}" />
                     </Grid.GestureRecognizers>
@@ -84,7 +86,9 @@
                     <DataTemplate x:DataType="x:String">
                         <Border BackgroundColor="Transparent"
                                 Padding="0">
-                            <Grid Padding="12,14">
+                            <Grid Padding="12,14"
+                                    SemanticProperties.Description="{Binding .}"
+                                    SemanticProperties.Hint="{localization:Localize Accessibility_SelectNumberHint}">
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type components:NumberSelectorComponent}}, Path=SelectNumberOptionCommand}"
                                                           CommandParameter="{Binding .}" />
